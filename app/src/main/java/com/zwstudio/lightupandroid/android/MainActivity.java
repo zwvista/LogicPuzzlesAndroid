@@ -1,7 +1,9 @@
-package com.zwstudio.lightupandroid;
+package com.zwstudio.lightupandroid.android;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.zwstudio.lightupandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
