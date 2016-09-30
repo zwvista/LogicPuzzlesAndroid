@@ -9,4 +9,7 @@ public class LightbulbObject extends GameObject {
         Normal, Error
     }
     public LightbulbState state = LightbulbState.Normal;
+    public String objTypeAsString() {
+        return "lightbulb";
+    }
 }

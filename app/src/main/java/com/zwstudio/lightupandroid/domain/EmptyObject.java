@@ -5,4 +5,7 @@ package com.zwstudio.lightupandroid.domain;
  */
 
 public class EmptyObject extends GameObject {
+    public String objTypeAsString() {
+        return "empty";
+    }
 }

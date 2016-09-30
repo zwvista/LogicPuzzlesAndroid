@@ -5,4 +5,7 @@ package com.zwstudio.lightupandroid.domain;
  */
 
 public class MarkerObject extends GameObject {
+    public String objTypeAsString() {
+        return "marker";
+    }
 }

@@ -10,4 +10,7 @@ public class WallObject extends GameObject {
     }
     public WallState state = WallState.Normal;
     public int lightbulbs = 0;
+    public String objTypeAsString() {
+        return "wall";
+    }
 }
