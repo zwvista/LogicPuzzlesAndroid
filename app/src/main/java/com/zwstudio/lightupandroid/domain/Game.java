@@ -84,8 +84,8 @@ public class Game {
         levelUpdated(states.get(stateIndex - 1), state);
     }
 
-    public void switchObject(Position p) {
-        changeObject(p, (state, move) -> state.switchObject(p, move));
+    public void switchObject(Position p, MarkerOptions markerOption) {
+        changeObject(p, (state, move) -> state.switchObject(p, markerOption, move));
     }
 
     public void setObject(Position p, GameObject objNew) {

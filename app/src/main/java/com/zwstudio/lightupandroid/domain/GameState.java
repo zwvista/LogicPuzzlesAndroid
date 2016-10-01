@@ -1,11 +1,6 @@
 package com.zwstudio.lightupandroid.domain;
 
-import com.zwstudio.lightupandroid.data.GameProgress;
-
 import java.util.function.IntUnaryOperator;
-
-import static android.R.attr.x;
-import static android.R.attr.y;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -14,7 +9,6 @@ import static android.R.attr.y;
 public class GameState implements Cloneable {
     public Position size;
     public GameObject[] objArray;
-    // public GameProgress options;
     public boolean isSolved;
 
     public GameState(int rows, int cols) {
@@ -94,16 +88,12 @@ public class GameState implements Cloneable {
             IntUnaryOperator f = n -> tolighten ? n + 1 : n > 0 ? n - 1 : n;
             GameObject obj = get(p);
             obj.lightness = f.applyAsInt(obj.lightness);
-            for (Position os : Game.offset) {
-                Position p2 = p.add(os);
-                while (isValid(p2)) {
+            for (Position os : Game.offset)
+                for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
                     obj = get(p2);
-                    if (obj instanceof WallObject)
-                        break;
-                    obj.lightness = f.applyAsInt(obj.lightness);
+                    if (!(obj instanceof WallObject))
+                        obj.lightness = f.applyAsInt(obj.lightness);
                 }
-                p2.addBy(os);
-            }
             updateIsSolved();
         }
         return true;
@@ -117,22 +107,25 @@ public class GameState implements Cloneable {
         if (objOld instanceof EmptyObject && objNew instanceof LightbulbObject ||
                 objOld instanceof MarkerObject && objNew instanceof LightbulbObject)
             return objChanged(p, objNew, move, true, true);
-        if (objOld instanceof EmptyObject && objNew instanceof LightbulbObject ||
-                objOld instanceof MarkerObject && objNew instanceof LightbulbObject)
+        if (objOld instanceof LightbulbObject && objNew instanceof EmptyObject ||
+                objOld instanceof LightbulbObject && objNew instanceof MarkerObject)
             return objChanged(p, objNew, move, true, false);
         if (objNew instanceof WallObject)
             set(p, objNew);
         return false;
     }
 
-    public boolean switchObject(Position p, GameMove move) {
+    public boolean switchObject(Position p, Game.MarkerOptions markerOption, GameMove move) {
         GameObject objOld = get(p);
         if (objOld instanceof EmptyObject)
-            return setObject(p, new LightbulbObject(), move);
+            return setObject(p, markerOption == Game.MarkerOptions.MarkerBeforeLightbulb ?
+                    new MarkerObject() : new LightbulbObject(), move);
         if (objOld instanceof LightbulbObject)
-            return setObject(p, new LightbulbObject(), move);
+            return setObject(p, markerOption == Game.MarkerOptions.MarkerAfterLightbulb ?
+                    new MarkerObject() : new EmptyObject(), move);
         if (objOld instanceof MarkerObject)
-            return setObject(p, new LightbulbObject(), move);
+            return setObject(p, markerOption == Game.MarkerOptions.MarkerBeforeLightbulb ?
+                    new LightbulbObject() : new EmptyObject(), move);
         return false;
     }
 }
