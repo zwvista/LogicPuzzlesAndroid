@@ -1,30 +1,42 @@
 package com.zwstudio.lightupandroid.android;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.lightupandroid.data.GameDocument;
-import com.zwstudio.lightupandroid.data.GameProgress;
 
-import java.io.IOException;
-import java.io.InputStream;
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
-public class MainActivity extends AppCompatActivity {
+@ContentView(R.layout.activity_main)
+public class MainActivity extends RoboAppCompatActivity {
+
+    @InjectView(R.id.btnResumeGame)
+    Button btnResumeGame;
+    @InjectView(R.id.btnOptions)
+    Button btnOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        GameDocument doc = ((GameApplication)getApplicationContext()).getGameDocument();
-        InputStream in_s = null;
-        try {
-            in_s = getApplicationContext().getAssets().open("Levels.xml");
-            doc.loadXml(in_s);
-            GameProgress rec = doc.gameProgeress();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        btnResumeGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, OptionsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+//        GameDocument doc = ((GameApplication)getApplicationContext()).getGameDocument();
     }
 }

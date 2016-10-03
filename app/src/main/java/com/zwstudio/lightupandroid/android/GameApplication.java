@@ -5,16 +5,28 @@ import android.app.Application;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.lightupandroid.data.DBHelper;
 import com.zwstudio.lightupandroid.data.GameDocument;
+import com.zwstudio.lightupandroid.data.GameProgress;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GameApplication extends Application {
     private DBHelper dbHelper = null;
 
-    private GameDocument gameDocument;
+    private GameDocument doc;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        gameDocument = new GameDocument(getDBHelper());
+        doc = new GameDocument(getDBHelper());
+        InputStream in_s = null;
+        try {
+            in_s = getApplicationContext().getAssets().open("Levels.xml");
+            doc.loadXml(in_s);
+            GameProgress rec = doc.gameProgeress();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -33,6 +45,6 @@ public class GameApplication extends Application {
     }
 
     public GameDocument getGameDocument() {
-        return gameDocument;
+        return doc;
     }
 }

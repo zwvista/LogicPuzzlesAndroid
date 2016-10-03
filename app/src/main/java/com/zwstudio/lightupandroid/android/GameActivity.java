@@ -1,15 +1,16 @@
 package com.zwstudio.lightupandroid.android;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.zwstudio.lightupandroid.R;
 
-public class GameActivity extends AppCompatActivity {
+import roboguice.inject.ContentView;
+
+@ContentView(R.layout.activity_game)
+public class GameActivity extends RoboAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
     }
 }
