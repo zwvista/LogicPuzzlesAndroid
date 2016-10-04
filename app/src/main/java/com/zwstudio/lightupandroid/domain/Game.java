@@ -12,7 +12,7 @@ public class Game {
     public enum MarkerOptions {
         NoMarker, MarkerAfterLightbulb, MarkerBeforeLightbulb
     }
-    static Position offset[] = {
+    public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
             new Position(1, 0),
@@ -56,11 +56,13 @@ public class Game {
             String str = layout.get(r);
             for (int c = 0; c < state.size.col; c++) {
                 char ch = str.charAt(c);
-                if (!(ch == 'W' || ch >= '0' && ch <= '9')) continue;
-                WallObject o = new WallObject();
-                o.lightbulbs = ch == 'W' ? -1 : (ch - '0');
-                o.state = o.lightbulbs <= 0 ? WallObject.WallState.Complete : WallObject.WallState.Normal;
-                state.set(r, c, o);
+                if (ch == 'W' || ch >= '0' && ch <= '9') {
+                    WallObject o = new WallObject();
+                    o.lightbulbs = ch == 'W' ? -1 : (ch - '0');
+                    o.state = o.lightbulbs <= 0 ? WallObject.WallState.Complete : WallObject.WallState.Normal;
+                    state.set(r, c, o);
+                } else
+                    state.set(r, c, new EmptyObject());
             }
         }
         states.add(state);
@@ -90,6 +92,14 @@ public class Game {
 
     public void setObject(Position p, GameObject objNew) {
         changeObject(p, (state, move) -> state.setObject(p, objNew, move));
+    }
+
+    public GameObject getObject(Position p) {
+        return state().get(p);
+    }
+
+    public GameObject getObject(int row, int col) {
+        return state().get(row, col);
     }
 
     public void undo() {

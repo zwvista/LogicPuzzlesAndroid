@@ -37,18 +37,18 @@ public class GameActivity extends RoboAppCompatActivity implements GameInterface
 
     @Override
     public void moveAdded(Game game, GameMove move) {
-
+        if (levelInitilizing) return;
+        doc().moveAdded(game, move);
     }
 
     @Override
     public void levelInitilized(Game game, GameState state) {
-        gameView.setNumRows(game.size().row);
-        gameView.setNumColumns(game.size().col);
+        //gameView.invalidate();
     }
 
     @Override
     public void levelUpdated(Game game, GameState stateFrom, GameState stateTo) {
-
+        //gameView.invalidate();
     }
 
     @Override

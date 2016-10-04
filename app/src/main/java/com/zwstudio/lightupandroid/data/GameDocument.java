@@ -31,13 +31,14 @@ public class GameDocument {
         this.db = db;
     }
 
-    public GameProgress gameProgeress() {
+    public GameProgress gameProgress() {
         try {
             GameProgress rec = db.getDaoGameProgress().queryBuilder()
                     .queryForFirst();
             if (rec == null) {
                 rec = new GameProgress();
                 rec.levelID = "Level 1";
+                rec.markerOption = Game.MarkerOptions.NoMarker.ordinal();
                 db.getDaoGameProgress().create(rec);
             }
             return rec;
@@ -47,7 +48,7 @@ public class GameDocument {
         }
     }
 
-    public LevelProgress levelProgeress() {
+    public LevelProgress levelProgress() {
         try {
             LevelProgress rec = db.getDaoLevelProgress().queryBuilder()
                     .where().eq("levelID", selectedLevelID).queryForFirst();
@@ -63,7 +64,7 @@ public class GameDocument {
         }
     }
 
-    public List<MoveProgress> moveProgeress() {
+    public List<MoveProgress> moveProgress() {
         try {
             List<MoveProgress> rec = db.getDaoMoveProgress().queryBuilder()
                     .where().eq("levelID", selectedLevelID).query();
@@ -85,7 +86,7 @@ public class GameDocument {
 
             parseXML(parser);
 
-            selectedLevelID = gameProgeress().levelID;
+            selectedLevelID = gameProgress().levelID;
 
         } catch (XmlPullParserException e) {
 
@@ -111,7 +112,7 @@ public class GameDocument {
                         id = "Level " + parser.getAttributeValue(null,"id");
                         layout = Arrays.asList(parser.nextText().split("\n"));
                         layout = layout.subList(2, layout.size() - 2)
-                                .stream().map(s -> s.substring(0, s.length() - 2))
+                                .stream().map(s -> s.substring(0, s.length() - 1))
                                 .collect(Collectors.toList());
                         levels.put(id, layout);
                     }
@@ -126,7 +127,7 @@ public class GameDocument {
 
     public void levelUpdated(Game game) {
         try {
-            LevelProgress rec = levelProgeress();
+            LevelProgress rec = levelProgress();
             rec.moveIndex = game.moveIndex();
             db.getDaoLevelProgress().update(rec);
         } catch (SQLException e) {
@@ -154,7 +155,7 @@ public class GameDocument {
 
     public void resumeGame() {
         try {
-            GameProgress rec = gameProgeress();
+            GameProgress rec = gameProgress();
             rec.levelID = selectedLevelID;
             db.getDaoGameProgress().update(rec);
         } catch (SQLException e) {
@@ -167,7 +168,7 @@ public class GameDocument {
             DeleteBuilder<MoveProgress, Integer> deleteBuilder = db.getDaoMoveProgress().deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID);
             deleteBuilder.delete();
-            LevelProgress rec = levelProgeress();
+            LevelProgress rec = levelProgress();
             rec.moveIndex = 0;
             db.getDaoLevelProgress().update(rec);
         } catch (SQLException e) {
