@@ -1,9 +1,14 @@
 package com.zwstudio.lightupandroid.android;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -16,6 +21,9 @@ import com.zwstudio.lightupandroid.domain.LightbulbObject;
 import com.zwstudio.lightupandroid.domain.MarkerObject;
 import com.zwstudio.lightupandroid.domain.Position;
 import com.zwstudio.lightupandroid.domain.WallObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * TODO: document your custom view class.
@@ -32,6 +40,7 @@ public class GameView extends View {
     private Paint wallPaint = new Paint();
     private Paint lightPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Drawable dLightbulb;
 
     public GameView(Context context) {
         super(context);
@@ -57,6 +66,14 @@ public class GameView extends View {
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
+        try {
+            InputStream is = getContext().getApplicationContext().getAssets().open("lightbulb.png");
+            Bitmap bmpLightbulb = BitmapFactory.decodeStream(is);
+            dLightbulb = new BitmapDrawable(bmpLightbulb);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -111,6 +128,11 @@ public class GameView extends View {
                     }
                 } else if (o instanceof LightbulbObject) {
                     LightbulbObject o2 = (LightbulbObject) o;
+                    dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
+                            (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
+                    int alpaha = o2.state == LightbulbObject.LightbulbState.Error ? 50 : 0;
+                    dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dLightbulb.draw(canvas);
                 } else if (o instanceof MarkerObject) {
                     canvas.drawArc(c * cellWidth + cellWidth / 2 - 3, r * cellHeight + cellHeight / 2 - 3,
                             c * cellWidth + cellWidth / 2 + 5, r * cellHeight + cellHeight / 2 + 5,

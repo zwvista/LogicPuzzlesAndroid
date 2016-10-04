@@ -18,10 +18,11 @@ public class GameApplication extends Application {
     public void onCreate() {
         super.onCreate();
         doc = new GameDocument(getDBHelper());
-        InputStream in_s = null;
+        InputStream is = null;
         try {
-            in_s = getApplicationContext().getAssets().open("Levels.xml");
-            doc.loadXml(in_s);
+            is = getApplicationContext().getAssets().open("Levels.xml");
+            doc.loadXml(is);
+            is.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -91,8 +91,8 @@ public class GameState implements Cloneable {
             for (Position os : Game.offset)
                 for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
                     obj = get(p2);
-                    if (!(obj instanceof WallObject))
-                        obj.lightness = f.applyAsInt(obj.lightness);
+                    if (obj instanceof WallObject) break;
+                    obj.lightness = f.applyAsInt(obj.lightness);
                 }
             updateIsSolved();
         }
@@ -101,6 +101,7 @@ public class GameState implements Cloneable {
 
     public boolean setObject(Position p, GameObject objNew, GameMove move) {
         GameObject objOld = get(p);
+        objNew.lightness = objOld.lightness;
         if (objOld instanceof EmptyObject && objNew instanceof MarkerObject ||
                 objOld instanceof MarkerObject && objNew instanceof EmptyObject)
             return objChanged(p, objNew, move, false, false);
