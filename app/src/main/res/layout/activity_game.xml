@@ -12,6 +12,38 @@
     android:background="@color/colorBackground"
     tools:context="com.zwstudio.lightupandroid.android.GameActivity">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="Level 81"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLevel"
+            android:layout_weight="1"
+            tools:text="Level 81"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAlignment="viewStart"
+            android:gravity="start"
+            android:textColor="@color/colorText"/>
+        <TextView
+            android:text="Solved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvSolved"
+            android:layout_weight="1"
+            tools:text="Solved"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAlignment="viewEnd"
+            android:gravity="end"
+            android:textColor="@color/colorText"/>
+    </LinearLayout>
+
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,4 +51,55 @@
         android:id="@+id/gameView"
         android:background="@color/colorBackground"
         android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:text="Moves: 0(0)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvMoves"
+            android:layout_weight="1"
+            tools:text="Solved"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAlignment="viewStart"
+            android:gravity="start"
+            android:textColor="@color/colorText"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <Button
+            android:text="Undo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btnUndo"/>
+        <Button
+            android:text="Redo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btnRedo"/>
+        <Button
+            android:text="Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btnClear"/>
+    </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

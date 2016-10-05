@@ -1,13 +1,20 @@
 package com.zwstudio.lightupandroid.android;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.zwstudio.lightupandroid.R;
 import com.zwstudio.lightupandroid.data.GameDocument;
+import com.zwstudio.lightupandroid.data.MoveProgress;
 import com.zwstudio.lightupandroid.domain.Game;
 import com.zwstudio.lightupandroid.domain.GameInterface;
 import com.zwstudio.lightupandroid.domain.GameMove;
+import com.zwstudio.lightupandroid.domain.GameObject;
 import com.zwstudio.lightupandroid.domain.GameState;
+import com.zwstudio.lightupandroid.domain.Position;
 
 import java.util.List;
 
@@ -19,6 +26,18 @@ public class GameActivity extends RoboAppCompatActivity implements GameInterface
 
     @InjectView(R.id.gameView)
     GameView gameView;
+    @InjectView(R.id.tvLevel)
+    TextView tvLevel;
+    @InjectView(R.id.tvSolved)
+    TextView tvSolved;
+    @InjectView(R.id.tvMoves)
+    TextView tvMoves;
+    @InjectView(R.id.btnUndo)
+    Button btnUndo;
+    @InjectView(R.id.btnRedo)
+    Button btnRedo;
+    @InjectView(R.id.btnClear)
+    Button btnClear;
 
     Game game;
     GameDocument doc() {return ((GameApplication)getApplicationContext()).getGameDocument();}
@@ -27,12 +46,48 @@ public class GameActivity extends RoboAppCompatActivity implements GameInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        btnUndo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                game.undo();
+            }
+        });
+        btnRedo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                game.redo();
+            }
+        });
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doc().clearGame();
+                startGame();
+            }
+        });
+
         startGame();
     }
 
     private void startGame() {
-        List<String> layout = doc().levels.get(doc().selectedLevelID);
+        String selectedLevelID = doc().selectedLevelID;
+        List<String> layout = doc().levels.get(selectedLevelID);
+        tvLevel.setText(selectedLevelID);
+
+        levelInitilizing = true;
         game = new Game(layout, this);
+        try {
+            // restore game state
+            for (MoveProgress rec : doc().moveProgress())
+                game.setObject(new Position(rec.row, rec.col), GameObject.objTypeFromString(rec.objTypeAsString));
+            int moveIndex = doc().levelProgress().moveIndex;
+            if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;
+            while (moveIndex != game.moveIndex())
+                game.undo();
+        } finally {
+            levelInitilizing = false;
+        }
     }
 
     @Override
@@ -41,14 +96,22 @@ public class GameActivity extends RoboAppCompatActivity implements GameInterface
         doc().moveAdded(game, move);
     }
 
+    private void updateTextViews(Game game) {
+        tvMoves.setText(String.format("Moves: %d(%d)", game.moveIndex(), game.moveCount()));
+        tvSolved.setTextColor(game.isSolved() ? Color.WHITE : Color.BLACK);
+    }
+
     @Override
     public void levelInitilized(Game game, GameState state) {
         gameView.invalidate();
+        updateTextViews(game);
     }
 
     @Override
     public void levelUpdated(Game game, GameState stateFrom, GameState stateTo) {
         gameView.invalidate();
+        updateTextViews(game);
+        if (!levelInitilizing) doc().levelUpdated(game);
     }
 
     @Override

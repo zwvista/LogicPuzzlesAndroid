@@ -55,6 +55,7 @@ public class GameDocument {
             if (rec == null) {
                 rec = new LevelProgress();
                 rec.levelID = selectedLevelID;
+                rec.moveIndex = 0;
                 db.getDaoLevelProgress().create(rec);
             }
             return rec;

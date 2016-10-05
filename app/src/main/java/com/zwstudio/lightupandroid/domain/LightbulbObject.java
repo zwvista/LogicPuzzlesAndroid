@@ -12,4 +12,10 @@ public class LightbulbObject extends GameObject {
     public String objTypeAsString() {
         return "lightbulb";
     }
+    @Override
+    public LightbulbObject clone(){
+        LightbulbObject o = (LightbulbObject)super.clone();
+        o.state = state;
+        return o;
+    }
 }

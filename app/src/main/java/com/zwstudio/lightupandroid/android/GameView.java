@@ -143,7 +143,7 @@ public class GameView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             Integer markerOption = doc().gameProgress().markerOption;

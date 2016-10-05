@@ -13,4 +13,11 @@ public class WallObject extends GameObject {
     public String objTypeAsString() {
         return "wall";
     }
+    @Override
+    public WallObject clone(){
+        WallObject o = (WallObject)super.clone();
+        o.state = state;
+        o.lightbulbs = lightbulbs;
+        return o;
+    }
 }

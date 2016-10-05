@@ -1,5 +1,6 @@
 package com.zwstudio.lightupandroid.domain;
 
+import java.util.Arrays;
 import java.util.function.IntUnaryOperator;
 
 /**
@@ -23,7 +24,9 @@ public class GameState implements Cloneable {
         try {
             GameState o = (GameState)super.clone();
             o.size = size;
-            o.objArray = objArray.clone();
+            o.objArray = new GameObject[objArray.length];
+            for (int i = 0; i < objArray.length; i++)
+                o.objArray[i] = objArray[i].clone();
             o.isSolved = isSolved;
             return o;
         } catch(CloneNotSupportedException ex) {
