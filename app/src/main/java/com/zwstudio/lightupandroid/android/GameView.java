@@ -33,8 +33,8 @@ public class GameView extends View {
 
     private GameDocument doc() {return ((GameApplication)getContext().getApplicationContext()).getGameDocument();}
     private Game game() {return ((GameActivity)getContext()).game;}
-    private int rows() {return game().size().row;}
-    private int cols() {return game().size().col;}
+    private int rows() {return isInEditMode() ? 5 : game().size().row;}
+    private int cols() {return isInEditMode() ? 5 : game().size().col;}
     private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
@@ -106,6 +106,7 @@ public class GameView extends View {
                 canvas.drawRect(c * cellWidth + 1, r * cellHeight + 1,
                         (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
                         gridPaint);
+                if (isInEditMode()) continue;
                 GameObject o = game().getObject(r, c);
                 if (o.lightness > 0)
                     canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,

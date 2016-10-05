@@ -1,6 +1,7 @@
 package com.zwstudio.lightupandroid.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.lightupandroid.domain.Game;
 import com.zwstudio.lightupandroid.domain.GameMove;
 
@@ -25,7 +26,7 @@ public class GameDocument {
 
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
-    private DBHelper db;
+    public DBHelper db;
 
     public GameDocument(DBHelper db) {
         this.db = db;
@@ -39,6 +40,7 @@ public class GameDocument {
                 rec = new GameProgress();
                 rec.levelID = "Level 1";
                 rec.markerOption = Game.MarkerOptions.NoMarker.ordinal();
+                rec.normalLightbulbsOnly = false;
                 db.getDaoGameProgress().create(rec);
             }
             return rec;
@@ -67,8 +69,10 @@ public class GameDocument {
 
     public List<MoveProgress> moveProgress() {
         try {
-            List<MoveProgress> rec = db.getDaoMoveProgress().queryBuilder()
-                    .where().eq("levelID", selectedLevelID).query();
+            QueryBuilder<MoveProgress, Integer> qb = db.getDaoMoveProgress().queryBuilder();
+            qb.where().eq("levelID", selectedLevelID);
+            qb.orderBy("moveIndex", true);
+            List<MoveProgress> rec = qb.query();
             return rec;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,7 +117,7 @@ public class GameDocument {
                         id = "Level " + parser.getAttributeValue(null,"id");
                         layout = Arrays.asList(parser.nextText().split("\n"));
                         layout = layout.subList(2, layout.size() - 2)
-                                .stream().map(s -> s.substring(0, s.length() - 1))
+                                .stream().map(s -> s.substring(0, s.indexOf('\\')))
                                 .collect(Collectors.toList());
                         levels.put(id, layout);
                     }
@@ -140,7 +144,7 @@ public class GameDocument {
         try {
             DeleteBuilder<MoveProgress, Integer> deleteBuilder = db.getDaoMoveProgress().deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID)
-                    .and().gt("moveIndex", game.moveIndex());
+                    .and().ge("moveIndex", game.moveIndex());
             deleteBuilder.delete();
             MoveProgress rec = new MoveProgress();
             rec.levelID = selectedLevelID;
@@ -148,7 +152,7 @@ public class GameDocument {
             rec.row = move.p.row;
             rec.col = move.p.col;
             rec.objTypeAsString = move.obj.objTypeAsString();
-            db.getDaoMoveProgress().update(rec);
+            db.getDaoMoveProgress().create(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

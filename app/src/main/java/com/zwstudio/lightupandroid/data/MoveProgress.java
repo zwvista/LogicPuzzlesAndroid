@@ -1,26 +1,24 @@
 package com.zwstudio.lightupandroid.data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
-@Entity(name = "MoveProgress")
+@DatabaseTable
 public class MoveProgress implements java.io.Serializable {
-    @Id
-    @Column(name = "ID", nullable = false)
-    public int id;
-    @Column(name = "levelID")
+    @DatabaseField(generatedId = true)
+    private int ID;
+    @DatabaseField
     public String levelID;
-    @Column(name = "moveIndex")
+    @DatabaseField
     public Integer moveIndex;
-    @Column(name = "row")
+    @DatabaseField
     public Integer row;
-    @Column(name = "col")
+    @DatabaseField
     public Integer col;
-    @Column(name = "objTypeAsString")
+    @DatabaseField
     public String objTypeAsString;
 }
