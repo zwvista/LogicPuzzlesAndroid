@@ -2,6 +2,7 @@ package com.zwstudio.lightupandroid.domain;
 
 import java.util.Arrays;
 import java.util.function.IntUnaryOperator;
+import java.util.function.UnaryOperator;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -119,17 +120,25 @@ public class GameState implements Cloneable {
         return false;
     }
 
-    public boolean switchObject(Position p, Game.MarkerOptions markerOption, GameMove move) {
+    public boolean switchObject(Position p, Game.MarkerOptions markerOption, boolean normalLightbulbsOnly, GameMove move) {
+        UnaryOperator<GameObject> f = obj -> {
+            if (obj instanceof EmptyObject)
+                return markerOption == Game.MarkerOptions.MarkerBeforeLightbulb ?
+                        new MarkerObject() : new LightbulbObject();
+            if (obj instanceof LightbulbObject)
+                return markerOption == Game.MarkerOptions.MarkerAfterLightbulb ?
+                        new MarkerObject() : new EmptyObject();
+            if (obj instanceof MarkerObject)
+                return markerOption == Game.MarkerOptions.MarkerBeforeLightbulb ?
+                        new LightbulbObject() : new EmptyObject();
+            return obj;
+        };
         GameObject objOld = get(p);
-        if (objOld instanceof EmptyObject)
-            return setObject(p, markerOption == Game.MarkerOptions.MarkerBeforeLightbulb ?
-                    new MarkerObject() : new LightbulbObject(), move);
-        if (objOld instanceof LightbulbObject)
-            return setObject(p, markerOption == Game.MarkerOptions.MarkerAfterLightbulb ?
-                    new MarkerObject() : new EmptyObject(), move);
-        if (objOld instanceof MarkerObject)
-            return setObject(p, markerOption == Game.MarkerOptions.MarkerBeforeLightbulb ?
-                    new LightbulbObject() : new EmptyObject(), move);
+        GameObject objNew = f.apply(objOld);
+        if (objNew instanceof EmptyObject || objNew instanceof MarkerObject)
+            return setObject(p, objNew, move);
+        if (objNew instanceof LightbulbObject)
+            return setObject(p, normalLightbulbsOnly && objOld.lightness > 0 ? f.apply(objNew) : objNew, move);
         return false;
     }
 }

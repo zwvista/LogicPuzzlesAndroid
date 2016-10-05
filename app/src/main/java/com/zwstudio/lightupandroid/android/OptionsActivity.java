@@ -65,8 +65,8 @@ public class OptionsActivity extends RoboAppCompatActivity {
         spnMarker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                rec.markerOption = position;
                 try {
-                    rec.markerOption = position;
                     doc().db.getDaoGameProgress().update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -78,5 +78,17 @@ public class OptionsActivity extends RoboAppCompatActivity {
         });
 
         ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
+        ctvNormalLightbulbsOnly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
+                rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
+                try {
+                    doc().db.getDaoGameProgress().update(rec);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

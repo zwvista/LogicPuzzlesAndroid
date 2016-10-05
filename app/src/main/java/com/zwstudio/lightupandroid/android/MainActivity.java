@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.lightupandroid.R;
+import com.zwstudio.lightupandroid.data.GameDocument;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -18,6 +19,8 @@ public class MainActivity extends RoboAppCompatActivity {
     @InjectView(R.id.btnOptions)
     Button btnOptions;
 
+    GameDocument doc() {return ((GameApplication)getApplicationContext()).getGameDocument();}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +28,7 @@ public class MainActivity extends RoboAppCompatActivity {
         btnResumeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                startActivity(intent);
+                resumeGame();
             }
         });
         btnOptions.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +39,27 @@ public class MainActivity extends RoboAppCompatActivity {
             }
         });
 
-//        GameDocument doc = ((GameApplication)getApplicationContext()).getGameDocument();
+        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String levelID = ((Button)v).getText().toString();
+                doc().selectedLevelID = levelID;
+                resumeGame();
+            }
+        };
+        // http://stackoverflow.com/questions/25905086/multiple-buttons-onclicklistener-android
+        for(int n : levels) {
+            int resID = getResources().getIdentifier("btnLevel" + n, "id",
+                    "com.zwstudio.lightupandroid");
+            Button button = (Button)findViewById(resID);
+            button.setOnClickListener(onClickListener);
+        }
+    }
+
+    private void resumeGame() {
+        doc().resumeGame();
+        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        startActivity(intent);
     }
 }

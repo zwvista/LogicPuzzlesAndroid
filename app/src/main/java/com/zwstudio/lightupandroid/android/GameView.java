@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.zwstudio.lightupandroid.data.GameDocument;
+import com.zwstudio.lightupandroid.data.GameProgress;
 import com.zwstudio.lightupandroid.domain.Game;
 import com.zwstudio.lightupandroid.domain.GameObject;
 import com.zwstudio.lightupandroid.domain.LightbulbObject;
@@ -135,8 +136,8 @@ public class GameView extends View {
                     dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dLightbulb.draw(canvas);
                 } else if (o instanceof MarkerObject) {
-                    canvas.drawArc(c * cellWidth + cellWidth / 2 - 3, r * cellHeight + cellHeight / 2 - 3,
-                            c * cellWidth + cellWidth / 2 + 5, r * cellHeight + cellHeight / 2 + 5,
+                    canvas.drawArc(c * cellWidth + cellWidth / 2 - 19, r * cellHeight + cellHeight / 2 - 19,
+                            c * cellWidth + cellWidth / 2 + 21, r * cellHeight + cellHeight / 2 + 21,
                             0, 360, true, wallPaint);
                 }
             }
@@ -147,9 +148,10 @@ public class GameView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
-            Integer markerOption = doc().gameProgress().markerOption;
+            GameProgress rec = doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            game().switchObject(new Position(row, col), Game.MarkerOptions.values()[markerOption]);
+            game().switchObject(new Position(row, col), Game.MarkerOptions.values()[rec.markerOption],
+                    rec.normalLightbulbsOnly);
         }
 
         return true;
