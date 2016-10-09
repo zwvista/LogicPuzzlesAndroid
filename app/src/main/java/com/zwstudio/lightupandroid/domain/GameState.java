@@ -1,8 +1,6 @@
 package com.zwstudio.lightupandroid.domain;
 
-import java.util.Arrays;
-import java.util.function.IntUnaryOperator;
-import java.util.function.UnaryOperator;
+import fj.F;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -89,14 +87,14 @@ public class GameState implements Cloneable {
         move.obj = objNew;
         set(p, objNew);
         if (toajust) {
-            IntUnaryOperator f = n -> tolighten ? n + 1 : n > 0 ? n - 1 : n;
+            F<Integer, Integer> f = n -> tolighten ? n + 1 : n > 0 ? n - 1 : n;
             GameObject obj = get(p);
-            obj.lightness = f.applyAsInt(obj.lightness);
+            obj.lightness = f.f(obj.lightness);
             for (Position os : Game.offset)
                 for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
                     obj = get(p2);
                     if (obj instanceof WallObject) break;
-                    obj.lightness = f.applyAsInt(obj.lightness);
+                    obj.lightness = f.f(obj.lightness);
                 }
             updateIsSolved();
         }
@@ -121,7 +119,7 @@ public class GameState implements Cloneable {
     }
 
     public boolean switchObject(Position p, Game.MarkerOptions markerOption, boolean normalLightbulbsOnly, GameMove move) {
-        UnaryOperator<GameObject> f = obj -> {
+        F<GameObject, GameObject> f = obj -> {
             if (obj instanceof EmptyObject)
                 return markerOption == Game.MarkerOptions.MarkerBeforeLightbulb ?
                         new MarkerObject() : new LightbulbObject();
@@ -134,11 +132,11 @@ public class GameState implements Cloneable {
             return obj;
         };
         GameObject objOld = get(p);
-        GameObject objNew = f.apply(objOld);
+        GameObject objNew = f.f(objOld);
         if (objNew instanceof EmptyObject || objNew instanceof MarkerObject)
             return setObject(p, objNew, move);
         if (objNew instanceof LightbulbObject)
-            return setObject(p, normalLightbulbsOnly && objOld.lightness > 0 ? f.apply(objNew) : objNew, move);
+            return setObject(p, normalLightbulbsOnly && objOld.lightness > 0 ? f.f(objNew) : objNew, move);
         return false;
     }
 }

@@ -16,7 +16,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -115,10 +116,23 @@ public class GameDocument {
                     name = parser.getName();
                     if (name.equals("level")){
                         id = "Level " + parser.getAttributeValue(null,"id");
+//Conventional
+//                        String[] strs = parser.nextText().split("\n");
+//                        layout = new ArrayList<>();
+//                        for (int i = 2; i < strs.length - 2; i++) {
+//                            String s = strs[i];
+//                            layout.add(s.substring(0, s.indexOf('\\')));
+//                        }
+//Java 8
+//                        layout = Arrays.asList(parser.nextText().split("\n"));
+//                        layout = layout.subList(2, layout.size() - 2)
+//                                .stream().map(s -> s.substring(0, s.indexOf('\\')))
+//                                .collect(Collectors.toList());
+//Function Java
                         layout = Arrays.asList(parser.nextText().split("\n"));
-                        layout = layout.subList(2, layout.size() - 2)
-                                .stream().map(s -> s.substring(0, s.indexOf('\\')))
-                                .collect(Collectors.toList());
+                        layout = iterableList(layout.subList(2, layout.size() - 2))
+                                .map(s -> s.substring(0, s.indexOf('\\')))
+                                .toJavaList();
                         levels.put(id, layout);
                     }
                     break;

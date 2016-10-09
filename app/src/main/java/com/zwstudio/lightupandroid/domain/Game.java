@@ -2,7 +2,8 @@ package com.zwstudio.lightupandroid.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiPredicate;
+
+import fj.F2;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -69,14 +70,14 @@ public class Game {
         levelInitilized(state);
     }
 
-    private void changeObject(Position p, BiPredicate<GameState, GameMove> f) {
+    private void changeObject(Position p, F2<GameState, GameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
         GameState state = state().clone();
         GameMove move = new GameMove();
-        boolean changed = f.test(state, move);
+        boolean changed = f.f(state, move);
         if (!changed) return;
 
         states.add(state);
