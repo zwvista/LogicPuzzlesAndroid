@@ -113,9 +113,20 @@ public class GameApplication extends Application {
     }
 
     public void playOrPauseMusic() {
+        if (mServ == null) return;
         if (doc.gameProgress().playMusic)
             mServ.resumeMusic();
         else
+            mServ.pauseMusic();
+    }
+
+    public void playMusic() {
+        if (mServ != null && doc.gameProgress().playMusic)
+            mServ.resumeMusic();
+    }
+
+    public void pauseMusic() {
+        if (mServ != null && doc.gameProgress().playMusic)
             mServ.pauseMusic();
     }
 

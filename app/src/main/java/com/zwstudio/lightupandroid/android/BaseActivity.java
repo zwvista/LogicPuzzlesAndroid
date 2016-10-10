@@ -9,4 +9,16 @@ import com.zwstudio.lightupandroid.data.GameDocument;
 public class BaseActivity extends RoboAppCompatActivity {
     GameApplication app() {return (GameApplication)getApplicationContext();}
     GameDocument doc() {return app().getGameDocument();}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app().playMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        app().pauseMusic();
+    }
 }
