@@ -30,6 +30,10 @@ public class OptionsActivity extends RoboAppCompatActivity {
     Spinner spnMarker;
     @InjectView(R.id.ctvNormalLightbulbsOnly)
     CheckedTextView ctvNormalLightbulbsOnly;
+    @InjectView(R.id.ctvPlayMusic)
+    CheckedTextView ctvPlayMusic;
+    @InjectView(R.id.ctvPlaySound)
+    CheckedTextView ctvPlaySound;
     @InjectView(R.id.btnDone)
     Button btnDone;
     @InjectView(R.id.btnDefault)
@@ -90,6 +94,34 @@ public class OptionsActivity extends RoboAppCompatActivity {
             public void onClick(View v) {
                 ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
                 rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
+                try {
+                    doc().db.getDaoGameProgress().update(rec);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        ctvPlayMusic.setChecked(rec.playMusic);
+        ctvPlayMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctvPlayMusic.setChecked(!rec.playMusic);
+                rec.playMusic = !rec.playMusic;
+                try {
+                    doc().db.getDaoGameProgress().update(rec);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        ctvPlaySound.setChecked(rec.playSound);
+        ctvPlaySound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctvPlaySound.setChecked(!rec.playSound);
+                rec.playSound = !rec.playSound;
                 try {
                     doc().db.getDaoGameProgress().update(rec);
                 } catch (SQLException e) {

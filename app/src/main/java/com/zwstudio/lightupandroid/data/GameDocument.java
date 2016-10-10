@@ -39,9 +39,6 @@ public class GameDocument {
                     .queryForFirst();
             if (rec == null) {
                 rec = new GameProgress();
-                rec.levelID = "Level 1";
-                rec.markerOption = Game.MarkerOptions.NoMarker.ordinal();
-                rec.normalLightbulbsOnly = false;
                 db.getDaoGameProgress().create(rec);
             }
             return rec;
@@ -58,7 +55,6 @@ public class GameDocument {
             if (rec == null) {
                 rec = new LevelProgress();
                 rec.levelID = selectedLevelID;
-                rec.moveIndex = 0;
                 db.getDaoLevelProgress().create(rec);
             }
             return rec;

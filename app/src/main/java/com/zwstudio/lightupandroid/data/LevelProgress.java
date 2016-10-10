@@ -14,5 +14,5 @@ public class LevelProgress implements java.io.Serializable {
     @DatabaseField
     public String levelID;
     @DatabaseField
-    public Integer moveIndex;
+    public int moveIndex;
 }

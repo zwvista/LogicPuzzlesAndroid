@@ -14,11 +14,11 @@ public class MoveProgress implements java.io.Serializable {
     @DatabaseField
     public String levelID;
     @DatabaseField
-    public Integer moveIndex;
+    public int moveIndex;
     @DatabaseField
-    public Integer row;
+    public int row;
     @DatabaseField
-    public Integer col;
+    public int col;
     @DatabaseField
     public String objTypeAsString;
 }

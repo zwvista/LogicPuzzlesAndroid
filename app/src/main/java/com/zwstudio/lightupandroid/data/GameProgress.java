@@ -12,9 +12,13 @@ public class GameProgress implements java.io.Serializable {
     @DatabaseField(generatedId = true)
     private int ID;
     @DatabaseField
-    public String levelID;
+    public String levelID = "Level 1";
     @DatabaseField
-    public Integer markerOption;
+    public int markerOption;
     @DatabaseField
-    public Boolean normalLightbulbsOnly;
+    public boolean normalLightbulbsOnly;
+    @DatabaseField
+    public boolean playMusic = true;
+    @DatabaseField
+    public boolean playSound = true;
 }
