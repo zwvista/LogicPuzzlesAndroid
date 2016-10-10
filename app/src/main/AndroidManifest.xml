@@ -9,6 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".android.GameApplication">
+        <service android:name=".android.MusicService"
+                 android:enabled="true"/>
         <activity
             android:name=".android.MainActivity"
             android:screenOrientation="portrait">

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -63,6 +64,12 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPlayer.start();
+
+        // http://stackoverflow.com/questions/5301891/android-start-service-with-parameter
+        Bundle extras = intent.getExtras();
+        boolean playMusic = extras.getBoolean("playMusic");
+        if (!playMusic) pauseMusic();
+
         return START_STICKY;
     }
 
