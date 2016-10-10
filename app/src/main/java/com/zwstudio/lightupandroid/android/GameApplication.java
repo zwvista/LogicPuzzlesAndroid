@@ -5,9 +5,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.IBinder;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.zwstudio.lightupandroid.R;
 import com.zwstudio.lightupandroid.data.DBHelper;
 import com.zwstudio.lightupandroid.data.GameDocument;
 
@@ -33,6 +35,9 @@ public class GameApplication extends Application {
             mServ = null;
         }
     };
+
+    // http://stackoverflow.com/questions/18459122/play-sound-on-button-click-android
+    MediaPlayer mpTap, mpSolved;
 
     void doBindService(){
         bindService(new Intent(this,MusicService.class),
@@ -62,6 +67,9 @@ public class GameApplication extends Application {
             e.printStackTrace();
         }
 
+        mpTap = MediaPlayer.create(this, R.raw.tap);
+        mpSolved = MediaPlayer.create(this, R.raw.solved);
+
         doBindService();
         Intent music = new Intent();
         music.setClass(this,MusicService.class);
@@ -73,6 +81,7 @@ public class GameApplication extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
+        doUnbindService();
         if (dbHelper != null) {
             OpenHelperManager.releaseHelper();
             dbHelper = null;
@@ -87,5 +96,25 @@ public class GameApplication extends Application {
 
     public GameDocument getGameDocument() {
         return doc;
+    }
+
+    public void playOrPauseMusic() {
+        if (doc.gameProgress().playMusic)
+            mServ.resumeMusic();
+        else
+            mServ.pauseMusic();
+    }
+
+    private void playSound(MediaPlayer mp) {
+        if (doc.gameProgress().playSound)
+            mp.start();
+    }
+
+    public void playSoundTap() {
+        playSound(mpTap);
+    }
+
+    public void playSoundSolved() {
+        playSound(mpSolved);
     }
 }

@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.lightupandroid.data.GameDocument;
 import com.zwstudio.lightupandroid.data.MoveProgress;
 import com.zwstudio.lightupandroid.domain.Game;
 import com.zwstudio.lightupandroid.domain.GameInterface;
@@ -25,7 +24,7 @@ import roboguice.inject.InjectView;
 import static android.app.AlertDialog.Builder;
 
 @ContentView(R.layout.activity_game)
-public class GameActivity extends RoboAppCompatActivity implements GameInterface {
+public class GameActivity extends BaseActivity implements GameInterface {
 
     @InjectView(R.id.gameView)
     GameView gameView;
@@ -43,7 +42,6 @@ public class GameActivity extends RoboAppCompatActivity implements GameInterface
     Button btnClear;
 
     Game game;
-    GameDocument doc() {return ((GameApplication)getApplicationContext()).getGameDocument();}
     boolean levelInitilizing;
 
     @Override

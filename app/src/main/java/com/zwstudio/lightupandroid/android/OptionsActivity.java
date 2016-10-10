@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.lightupandroid.data.GameDocument;
 import com.zwstudio.lightupandroid.data.GameProgress;
 
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 @ContentView(R.layout.activity_options)
-public class OptionsActivity extends RoboAppCompatActivity {
+public class OptionsActivity extends BaseActivity {
 
     @InjectView(R.id.spnMarker)
     Spinner spnMarker;
@@ -38,10 +37,6 @@ public class OptionsActivity extends RoboAppCompatActivity {
     Button btnDone;
     @InjectView(R.id.btnDefault)
     Button btnDefault;
-
-
-    GameDocument doc() {return ((GameApplication)getApplicationContext()).getGameDocument();}
-    GameProgress options() {return doc().gameProgress();}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +65,7 @@ public class OptionsActivity extends RoboAppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnMarker.setAdapter(adapter);
 
-        GameProgress rec = options();
+        GameProgress rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
 
         spnMarker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,6 +108,7 @@ public class OptionsActivity extends RoboAppCompatActivity {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                app().playOrPauseMusic();
             }
         });
 
