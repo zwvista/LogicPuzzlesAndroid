@@ -1,6 +1,7 @@
 package com.zwstudio.lightupandroid.android;
 
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
+        // Set the hardware buttons to control the music
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         btnResumeGame.setOnClickListener(new View.OnClickListener() {
             @Override

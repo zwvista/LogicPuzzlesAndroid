@@ -148,13 +148,13 @@ public class GameView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
+            if (col >= cols() || row >= rows()) return true;
             GameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(new Position(row, col), Game.MarkerOptions.values()[rec.markerOption],
                     rec.normalLightbulbsOnly))
                 activity().app().playSoundTap();
         }
-
         return true;
     }
 

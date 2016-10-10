@@ -5,7 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.IBinder;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -36,9 +37,6 @@ public class GameApplication extends Application {
         }
     };
 
-    // http://stackoverflow.com/questions/18459122/play-sound-on-button-click-android
-    MediaPlayer mpTap, mpSolved;
-
     void doBindService(){
         bindService(new Intent(this,MusicService.class),
                 Scon, Context.BIND_AUTO_CREATE);
@@ -54,6 +52,12 @@ public class GameApplication extends Application {
         }
     }
 
+    // http://stackoverflow.com/questions/13001363/using-mediaplayer-to-play-the-same-file-multiple-times-with-overlap
+    // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
+    private SoundPool soundPool;
+    private int soundIDTap, soundIDSolved;
+    boolean loaded = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -67,15 +71,25 @@ public class GameApplication extends Application {
             e.printStackTrace();
         }
 
-        mpTap = MediaPlayer.create(this, R.raw.tap);
-        mpSolved = MediaPlayer.create(this, R.raw.solved);
-
         doBindService();
         Intent music = new Intent();
         music.setClass(this,MusicService.class);
         // http://stackoverflow.com/questions/5301891/android-start-service-with-parameter
         music.putExtra("playMusic", doc.gameProgress().playMusic);
         startService(music);
+
+        // Load the sound
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                loaded = true;
+            }
+        });
+        soundIDTap = soundPool.load(this, R.raw.tap, 1);
+        soundIDSolved = soundPool.load(this, R.raw.solved, 1);
+
     }
 
     @Override
@@ -105,16 +119,23 @@ public class GameApplication extends Application {
             mServ.pauseMusic();
     }
 
-    private void playSound(MediaPlayer mp) {
-        if (doc.gameProgress().playSound)
-            mp.start();
+    private void playSound(int soundID) {
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        float actualVolume = (float) audioManager
+                .getStreamVolume(AudioManager.STREAM_MUSIC);
+        float maxVolume = (float) audioManager
+                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        float volume = actualVolume / maxVolume;
+        // Is the sound loaded already?
+        if (loaded && doc.gameProgress().playSound)
+            soundPool.play(soundID, volume, volume, 1, 0, 1f);
     }
 
     public void playSoundTap() {
-        playSound(mpTap);
+        playSound(soundIDTap);
     }
 
     public void playSoundSolved() {
-        playSound(mpSolved);
+        playSound(soundIDSolved);
     }
 }
