@@ -135,6 +135,7 @@ public class GameActivity extends BaseActivity implements GameInterface {
 
     @Override
     public void gameSolved(Game game) {
-
+        if (!levelInitilizing)
+            app().playSoundSolved();
     }
 }

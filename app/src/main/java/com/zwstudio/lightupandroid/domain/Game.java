@@ -70,7 +70,7 @@ public class Game {
         levelInitilized(state);
     }
 
-    private void changeObject(Position p, F2<GameState, GameMove, Boolean> f) {
+    private boolean changeObject(Position p, F2<GameState, GameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
@@ -78,21 +78,22 @@ public class Game {
         GameState state = state().clone();
         GameMove move = new GameMove();
         boolean changed = f.f(state, move);
-        if (!changed) return;
+        if (changed) {
+            states.add(state);
+            stateIndex++;
+            moves.add(move);
+            moveAdded(move);
+            levelUpdated(states.get(stateIndex - 1), state);
+        }
+        return changed;
+   }
 
-        states.add(state);
-        stateIndex++;
-        moves.add(move);
-        moveAdded(move);
-        levelUpdated(states.get(stateIndex - 1), state);
+    public boolean switchObject(Position p, MarkerOptions markerOption, boolean normalLightbulbsOnly) {
+        return changeObject(p, (state, move) -> state.switchObject(p, markerOption, normalLightbulbsOnly, move));
     }
 
-    public void switchObject(Position p, MarkerOptions markerOption, boolean normalLightbulbsOnly) {
-        changeObject(p, (state, move) -> state.switchObject(p, markerOption, normalLightbulbsOnly, move));
-    }
-
-    public void setObject(Position p, GameObject objNew) {
-        changeObject(p, (state, move) -> state.setObject(p, objNew, move));
+    public boolean setObject(Position p, GameObject objNew) {
+        return changeObject(p, (state, move) -> state.setObject(p, objNew, move));
     }
 
     public GameObject getObject(Position p) {

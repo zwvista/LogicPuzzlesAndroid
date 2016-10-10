@@ -32,8 +32,8 @@ import java.io.InputStream;
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class GameView extends View {
 
-    private GameDocument doc() {return ((GameApplication)getContext().getApplicationContext()).getGameDocument();}
-    private Game game() {return ((GameActivity)getContext()).game;}
+    private GameActivity activity() {return (GameActivity)getContext();}
+    private Game game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().size().row;}
     private int cols() {return isInEditMode() ? 5 : game().size().col;}
     private int cellWidth, cellHeight;
@@ -148,10 +148,11 @@ public class GameView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
-            GameProgress rec = doc().gameProgress();
+            GameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            game().switchObject(new Position(row, col), Game.MarkerOptions.values()[rec.markerOption],
-                    rec.normalLightbulbsOnly);
+            if (game().switchObject(new Position(row, col), Game.MarkerOptions.values()[rec.markerOption],
+                    rec.normalLightbulbsOnly))
+                activity().app().playSoundTap();
         }
 
         return true;
