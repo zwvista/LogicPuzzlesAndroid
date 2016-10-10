@@ -145,6 +145,8 @@ public class OptionsActivity extends BaseActivity {
                                 //Yes button clicked
                                 rec.markerOption = 0;
                                 rec.normalLightbulbsOnly = false;
+                                rec.playMusic = true;
+                                rec.playSound = true;
                                 try {
                                     doc().db.getDaoGameProgress().update(rec);
                                 } catch (SQLException e) {
@@ -152,6 +154,9 @@ public class OptionsActivity extends BaseActivity {
                                 }
                                 spnMarker.setSelection(rec.markerOption);
                                 ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
+                                ctvPlayMusic.setChecked(rec.playMusic);
+                                app().playOrPauseMusic();
+                                ctvPlaySound.setChecked(rec.playSound);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
