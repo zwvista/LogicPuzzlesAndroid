@@ -11,16 +11,15 @@ import android.os.IBinder;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.logicgamesandroid.lightup.data.DBHelper;
-import com.zwstudio.logicgamesandroid.lightup.data.GameDocument;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpDBHelper;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class GameApplication extends Application {
-    private DBHelper dbHelper = null;
 
-    private GameDocument doc;
+    public LightUpDocument lightUpDocument;
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private boolean mIsBound = false;
@@ -61,11 +60,12 @@ public class GameApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        doc = new GameDocument(getDBHelper());
+
+        lightUpDocument = new LightUpDocument(OpenHelperManager.getHelper(this, LightUpDBHelper.class));
         InputStream is = null;
         try {
             is = getApplicationContext().getAssets().open("Levels.xml");
-            doc.loadXml(is);
+            lightUpDocument.loadXml(is);
             is.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class GameApplication extends Application {
         Intent music = new Intent();
         music.setClass(this,MusicService.class);
         // http://stackoverflow.com/questions/5301891/android-start-service-with-parameter
-        music.putExtra("playMusic", doc.gameProgress().playMusic);
+        music.putExtra("playMusic", lightUpDocument.gameProgress().playMusic);
         startService(music);
 
         // Load the sound
@@ -96,37 +96,24 @@ public class GameApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         doUnbindService();
-        if (dbHelper != null) {
-            OpenHelperManager.releaseHelper();
-            dbHelper = null;
-        }
-    }
-
-    public DBHelper getDBHelper() {
-        if (dbHelper == null)
-            dbHelper = OpenHelperManager.getHelper(this, DBHelper.class);
-        return dbHelper;
-    }
-
-    public GameDocument getGameDocument() {
-        return doc;
+        OpenHelperManager.releaseHelper();
     }
 
     public void playOrPauseMusic() {
         if (mServ == null) return;
-        if (doc.gameProgress().playMusic)
+        if (lightUpDocument.gameProgress().playMusic)
             mServ.resumeMusic();
         else
             mServ.pauseMusic();
     }
 
     public void playMusic() {
-        if (mServ != null && doc.gameProgress().playMusic)
+        if (mServ != null && lightUpDocument.gameProgress().playMusic)
             mServ.resumeMusic();
     }
 
     public void pauseMusic() {
-        if (mServ != null && doc.gameProgress().playMusic)
+        if (mServ != null && lightUpDocument.gameProgress().playMusic)
             mServ.pauseMusic();
     }
 
@@ -138,7 +125,7 @@ public class GameApplication extends Application {
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         float volume = actualVolume / maxVolume;
         // Is the sound loaded already?
-        if (loaded && doc.gameProgress().playSound)
+        if (loaded && lightUpDocument.gameProgress().playSound)
             soundPool.play(soundID, volume, volume, 1, 0, 1f);
     }
 

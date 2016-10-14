@@ -20,9 +20,9 @@ import java.sql.SQLException;
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
  * the DAOs used by the other classes.
  */
-public class DBHelper extends OrmLiteSqliteOpenHelper {
+public class LightUpDBHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "Game.db";
+    private static final String DATABASE_NAME = "LightUp.db";
     private static String databasePath;
 
     private static final int DATABASE_VERSION = 1;
@@ -31,7 +31,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<LevelProgress, Integer> daoLevelProgress;
     private Dao<MoveProgress, Integer> daoMoveProgress;
 
-    public DBHelper(Context context) throws IOException {
+    public LightUpDBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         databasePath = context.getDatabasePath(DATABASE_NAME).getParent() + "/";
         boolean dbexist = checkdatabase();
@@ -42,7 +42,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
                 dir.mkdirs();
                 InputStream myinput = context.getAssets().open(DATABASE_NAME);
                 String outfilename = databasePath + DATABASE_NAME;
-                Log.i(DBHelper.class.getName(), "DB Path : " + outfilename);
+                Log.i(LightUpDBHelper.class.getName(), "DB Path : " + outfilename);
                 OutputStream myoutput = new FileOutputStream(outfilename);
                 byte[] buffer = new byte[1024];
                 int length;
@@ -68,7 +68,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         File dbfile = new File(myPath);
         checkdb = dbfile.exists();
 
-        Log.i(DBHelper.class.getName(), "DB Exist : " + checkdb);
+        Log.i(LightUpDBHelper.class.getName(), "DB Exist : " + checkdb);
 
         return checkdb;
     }

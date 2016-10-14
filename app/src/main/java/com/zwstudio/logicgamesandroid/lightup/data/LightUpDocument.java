@@ -23,13 +23,13 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class GameDocument {
+public class LightUpDocument {
 
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
-    public DBHelper db;
+    public LightUpDBHelper db;
 
-    public GameDocument(DBHelper db) {
+    public LightUpDocument(LightUpDBHelper db) {
         this.db = db;
     }
 

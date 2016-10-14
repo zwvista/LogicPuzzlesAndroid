@@ -12,7 +12,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends LightUpActivity {
 
     @InjectView(R.id.btnResumeGame)
     Button btnResumeGame;

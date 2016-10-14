@@ -23,7 +23,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 @ContentView(R.layout.activity_options)
-public class OptionsActivity extends BaseActivity {
+public class OptionsActivity extends LightUpActivity {
 
     @InjectView(R.id.spnMarker)
     Spinner spnMarker;

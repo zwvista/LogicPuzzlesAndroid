@@ -24,7 +24,7 @@ import roboguice.inject.InjectView;
 import static android.app.AlertDialog.Builder;
 
 @ContentView(R.layout.activity_game)
-public class GameActivity extends BaseActivity implements GameInterface {
+public class GameActivity extends LightUpActivity implements GameInterface {
 
     @InjectView(R.id.gameView)
     GameView gameView;
