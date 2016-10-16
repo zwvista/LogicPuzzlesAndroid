@@ -4,24 +4,24 @@ package com.zwstudio.logicgamesandroid.lightup.domain;
  * Created by zwvista on 2016/09/29.
  */
 
-public abstract class GameObject implements Cloneable {
+public abstract class LightUpObject implements Cloneable {
     public int lightness = 0;
     public abstract String objTypeAsString();
-    public static GameObject objTypeFromString(String str) {
+    public static LightUpObject objTypeFromString(String str) {
         switch (str) {
             case "lightbulb":
-                return new LightbulbObject();
+                return new LightUpLightbulbObject();
             case "marker":
-                return new MarkerObject();
+                return new LightUpMarkerObject();
             default:
-                return new EmptyObject();
+                return new LightUpEmptyObject();
         }
     }
 
     @Override
-    public GameObject clone(){
+    public LightUpObject clone(){
         try {
-            GameObject o = (GameObject)super.clone();
+            LightUpObject o = (LightUpObject)super.clone();
             o.lightness = lightness;
             return o;
         } catch(CloneNotSupportedException ex) {

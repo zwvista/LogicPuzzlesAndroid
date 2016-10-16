@@ -4,7 +4,7 @@ package com.zwstudio.logicgamesandroid.lightup.domain;
  * Created by zwvista on 2016/09/29.
  */
 
-public class WallObject extends GameObject {
+public class LightUpWallObject extends LightUpObject {
     public enum WallState {
         Normal, Complete, Error
     }
@@ -14,8 +14,8 @@ public class WallObject extends GameObject {
         return "wall";
     }
     @Override
-    public WallObject clone(){
-        WallObject o = (WallObject)super.clone();
+    public LightUpWallObject clone(){
+        LightUpWallObject o = (LightUpWallObject)super.clone();
         o.state = state;
         o.lightbulbs = lightbulbs;
         return o;

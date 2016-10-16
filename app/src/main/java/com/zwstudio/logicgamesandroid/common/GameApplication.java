@@ -11,7 +11,6 @@ import android.os.IBinder;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.logicgamesandroid.lightup.data.LightUpDBHelper;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 
 import java.io.IOException;
@@ -61,10 +60,10 @@ public class GameApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        lightUpDocument = new LightUpDocument(OpenHelperManager.getHelper(this, LightUpDBHelper.class));
+        lightUpDocument = new LightUpDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         InputStream is = null;
         try {
-            is = getApplicationContext().getAssets().open("Levels.xml");
+            is = getApplicationContext().getAssets().open("LightUpLevels.xml");
             lightUpDocument.loadXml(is);
             is.close();
         } catch (IOException e) {

@@ -6,7 +6,7 @@ import com.zwstudio.logicgamesandroid.common.Position;
  * Created by TCC-2-9002 on 2016/09/30.
  */
 
-public class GameMove {
+public class LightUpGameMove {
     public Position p;
-    public GameObject obj;
+    public LightUpObject obj;
 }

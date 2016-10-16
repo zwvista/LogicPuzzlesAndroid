@@ -8,17 +8,17 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable
-public class MoveProgress implements java.io.Serializable {
+public class LightUpGameProgress implements java.io.Serializable {
     @DatabaseField(generatedId = true)
     private int ID;
     @DatabaseField
-    public String levelID;
+    public String levelID = "Level 1";
     @DatabaseField
-    public int moveIndex;
+    public int markerOption;
     @DatabaseField
-    public int row;
+    public boolean normalLightbulbsOnly;
     @DatabaseField
-    public int col;
+    public boolean playMusic = true;
     @DatabaseField
-    public String objTypeAsString;
+    public boolean playSound = true;
 }

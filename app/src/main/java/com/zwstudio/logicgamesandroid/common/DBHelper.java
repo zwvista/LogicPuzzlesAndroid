@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.lightup.data;
+package com.zwstudio.logicgamesandroid.common;
 
 
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpLevelProgress;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,18 +23,18 @@ import java.sql.SQLException;
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
  * the DAOs used by the other classes.
  */
-public class LightUpDBHelper extends OrmLiteSqliteOpenHelper {
+public class DBHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "LightUp.db";
+    private static final String DATABASE_NAME = "Game.db";
     private static String databasePath;
 
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<GameProgress, Integer> daoGameProgress;
-    private Dao<LevelProgress, Integer> daoLevelProgress;
-    private Dao<MoveProgress, Integer> daoMoveProgress;
+    private Dao<LightUpGameProgress, Integer> daoLightUpGameProgress;
+    private Dao<LightUpLevelProgress, Integer> daoLightUpLevelProgress;
+    private Dao<LightUpMoveProgress, Integer> daoLightUpMoveProgress;
 
-    public LightUpDBHelper(Context context) throws IOException {
+    public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         databasePath = context.getDatabasePath(DATABASE_NAME).getParent() + "/";
         boolean dbexist = checkdatabase();
@@ -42,7 +45,7 @@ public class LightUpDBHelper extends OrmLiteSqliteOpenHelper {
                 dir.mkdirs();
                 InputStream myinput = context.getAssets().open(DATABASE_NAME);
                 String outfilename = databasePath + DATABASE_NAME;
-                Log.i(LightUpDBHelper.class.getName(), "DB Path : " + outfilename);
+                Log.i(DBHelper.class.getName(), "DB Path : " + outfilename);
                 OutputStream myoutput = new FileOutputStream(outfilename);
                 byte[] buffer = new byte[1024];
                 int length;
@@ -68,7 +71,7 @@ public class LightUpDBHelper extends OrmLiteSqliteOpenHelper {
         File dbfile = new File(myPath);
         checkdb = dbfile.exists();
 
-        Log.i(LightUpDBHelper.class.getName(), "DB Exist : " + checkdb);
+        Log.i(DBHelper.class.getName(), "DB Exist : " + checkdb);
 
         return checkdb;
     }
@@ -95,27 +98,27 @@ public class LightUpDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
-        daoGameProgress = null;
-        daoMoveProgress = null;
-        daoLevelProgress = null;
+        daoLightUpGameProgress = null;
+        daoLightUpMoveProgress = null;
+        daoLightUpLevelProgress = null;
     }
 
-    public Dao<GameProgress, Integer> getDaoGameProgress() throws SQLException {
-        if (daoGameProgress == null)
-            daoGameProgress = getDao(GameProgress.class);
-        return daoGameProgress;
+    public Dao<LightUpGameProgress, Integer> getDaoLightUpGameProgress() throws SQLException {
+        if (daoLightUpGameProgress == null)
+            daoLightUpGameProgress = getDao(LightUpGameProgress.class);
+        return daoLightUpGameProgress;
     }
 
-    public Dao<LevelProgress, Integer> getDaoLevelProgress() throws SQLException {
-        if (daoLevelProgress == null)
-            daoLevelProgress = getDao(LevelProgress.class);
-        return daoLevelProgress;
+    public Dao<LightUpLevelProgress, Integer> getDaoLightUpLevelProgress() throws SQLException {
+        if (daoLightUpLevelProgress == null)
+            daoLightUpLevelProgress = getDao(LightUpLevelProgress.class);
+        return daoLightUpLevelProgress;
     }
 
-    public Dao<MoveProgress, Integer> getDaoMoveProgress() throws SQLException {
-        if (daoMoveProgress == null)
-            daoMoveProgress = getDao(MoveProgress.class);
-        return daoMoveProgress;
+    public Dao<LightUpMoveProgress, Integer> getDaoLightUpMoveProgress() throws SQLException {
+        if (daoLightUpMoveProgress == null)
+            daoLightUpMoveProgress = getDao(LightUpMoveProgress.class);
+        return daoLightUpMoveProgress;
     }
 
 }

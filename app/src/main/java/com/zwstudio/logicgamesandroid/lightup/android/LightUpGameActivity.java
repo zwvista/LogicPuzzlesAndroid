@@ -8,12 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.logicgamesandroid.lightup.data.MoveProgress;
-import com.zwstudio.logicgamesandroid.lightup.domain.Game;
-import com.zwstudio.logicgamesandroid.lightup.domain.GameInterface;
-import com.zwstudio.logicgamesandroid.lightup.domain.GameMove;
-import com.zwstudio.logicgamesandroid.lightup.domain.GameObject;
-import com.zwstudio.logicgamesandroid.lightup.domain.GameState;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameInterface;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
 import com.zwstudio.logicgamesandroid.common.Position;
 
 import java.util.List;
@@ -23,11 +23,11 @@ import roboguice.inject.InjectView;
 
 import static android.app.AlertDialog.Builder;
 
-@ContentView(R.layout.activity_game)
-public class GameActivity extends LightUpActivity implements GameInterface {
+@ContentView(R.layout.activity_lightup_game)
+public class LightUpGameActivity extends LightUpActivity implements LightUpGameInterface {
 
     @InjectView(R.id.gameView)
-    GameView gameView;
+    LightUpGameView gameView;
     @InjectView(R.id.tvLevel)
     TextView tvLevel;
     @InjectView(R.id.tvSolved)
@@ -41,7 +41,7 @@ public class GameActivity extends LightUpActivity implements GameInterface {
     @InjectView(R.id.btnClear)
     Button btnClear;
 
-    Game game;
+    LightUpGame game;
     boolean levelInitilizing;
 
     @Override
@@ -80,7 +80,7 @@ public class GameActivity extends LightUpActivity implements GameInterface {
                     }
                 };
 
-                Builder builder = new Builder(GameActivity.this);
+                Builder builder = new Builder(LightUpGameActivity.this);
                 builder.setMessage("Do you really want to reset the level?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
             }
@@ -95,11 +95,11 @@ public class GameActivity extends LightUpActivity implements GameInterface {
         tvLevel.setText(selectedLevelID);
 
         levelInitilizing = true;
-        game = new Game(layout, this);
+        game = new LightUpGame(layout, this);
         try {
             // restore game state
-            for (MoveProgress rec : doc().moveProgress())
-                game.setObject(new Position(rec.row, rec.col), GameObject.objTypeFromString(rec.objTypeAsString));
+            for (LightUpMoveProgress rec : doc().moveProgress())
+                game.setObject(new Position(rec.row, rec.col), LightUpObject.objTypeFromString(rec.objTypeAsString));
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;
             while (moveIndex != game.moveIndex())
@@ -110,31 +110,31 @@ public class GameActivity extends LightUpActivity implements GameInterface {
     }
 
     @Override
-    public void moveAdded(Game game, GameMove move) {
+    public void moveAdded(LightUpGame game, LightUpGameMove move) {
         if (levelInitilizing) return;
         doc().moveAdded(game, move);
     }
 
-    private void updateTextViews(Game game) {
+    private void updateTextViews(LightUpGame game) {
         tvMoves.setText(String.format("Moves: %d(%d)", game.moveIndex(), game.moveCount()));
         tvSolved.setTextColor(game.isSolved() ? Color.WHITE : Color.BLACK);
     }
 
     @Override
-    public void levelInitilized(Game game, GameState state) {
+    public void levelInitilized(LightUpGame game, LightUpGameState state) {
         gameView.invalidate();
         updateTextViews(game);
     }
 
     @Override
-    public void levelUpdated(Game game, GameState stateFrom, GameState stateTo) {
+    public void levelUpdated(LightUpGame game, LightUpGameState stateFrom, LightUpGameState stateTo) {
         gameView.invalidate();
         updateTextViews(game);
         if (!levelInitilizing) doc().levelUpdated(game);
     }
 
     @Override
-    public void gameSolved(Game game) {
+    public void gameSolved(LightUpGame game) {
         if (!levelInitilizing)
             app().playSoundSolved();
     }

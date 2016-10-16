@@ -14,13 +14,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.zwstudio.logicgamesandroid.lightup.data.GameProgress;
-import com.zwstudio.logicgamesandroid.lightup.domain.Game;
-import com.zwstudio.logicgamesandroid.lightup.domain.GameObject;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightbulbObject;
-import com.zwstudio.logicgamesandroid.lightup.domain.MarkerObject;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerObject;
 import com.zwstudio.logicgamesandroid.common.Position;
-import com.zwstudio.logicgamesandroid.lightup.domain.WallObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,10 +29,10 @@ import java.io.InputStream;
  * TODO: document your custom view class.
  */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
-public class GameView extends View {
+public class LightUpGameView extends View {
 
-    private GameActivity activity() {return (GameActivity)getContext();}
-    private Game game() {return activity().game;}
+    private LightUpGameActivity activity() {return (LightUpGameActivity)getContext();}
+    private LightUpGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().size().row;}
     private int cols() {return isInEditMode() ? 5 : game().size().col;}
     private int cellWidth, cellHeight;
@@ -42,17 +42,17 @@ public class GameView extends View {
     private TextPaint textPaint = new TextPaint();
     private Drawable dLightbulb;
 
-    public GameView(Context context) {
+    public LightUpGameView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public GameView(Context context, AttributeSet attrs) {
+    public LightUpGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public GameView(Context context, AttributeSet attrs, int defStyle) {
+    public LightUpGameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
@@ -107,34 +107,34 @@ public class GameView extends View {
                         (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
                         gridPaint);
                 if (isInEditMode()) continue;
-                GameObject o = game().getObject(r, c);
+                LightUpObject o = game().getObject(r, c);
                 if (o.lightness > 0)
                     canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
                             (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
                             lightPaint);
-                if (o instanceof WallObject) {
-                    WallObject o2 = (WallObject) o;
+                if (o instanceof LightUpWallObject) {
+                    LightUpWallObject o2 = (LightUpWallObject) o;
                     canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
                             (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
                             wallPaint);
                     if (o2.lightbulbs >= 0) {
                         textPaint.setColor(
-                                o2.state == WallObject.WallState.Complete ? Color.GREEN :
-                                o2.state == WallObject.WallState.Error ? Color.RED :
+                                o2.state == LightUpWallObject.WallState.Complete ? Color.GREEN :
+                                o2.state == LightUpWallObject.WallState.Error ? Color.RED :
                                 Color.BLACK
                         );
                         String text = String.valueOf(o2.lightbulbs);
                         textPaint.setTextSize(cellHeight);
                         drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
                     }
-                } else if (o instanceof LightbulbObject) {
-                    LightbulbObject o2 = (LightbulbObject) o;
+                } else if (o instanceof LightUpLightbulbObject) {
+                    LightUpLightbulbObject o2 = (LightUpLightbulbObject) o;
                     dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
                             (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
-                    int alpaha = o2.state == LightbulbObject.LightbulbState.Error ? 50 : 0;
+                    int alpaha = o2.state == LightUpLightbulbObject.LightbulbState.Error ? 50 : 0;
                     dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dLightbulb.draw(canvas);
-                } else if (o instanceof MarkerObject) {
+                } else if (o instanceof LightUpMarkerObject) {
                     canvas.drawArc(c * cellWidth + cellWidth / 2 - 19, r * cellHeight + cellHeight / 2 - 19,
                             c * cellWidth + cellWidth / 2 + 21, r * cellHeight + cellHeight / 2 + 21,
                             0, 360, true, wallPaint);
@@ -148,9 +148,9 @@ public class GameView extends View {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            GameProgress rec = activity().doc().gameProgress();
+            LightUpGameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(new Position(row, col), Game.MarkerOptions.values()[rec.markerOption],
+            if (game().switchObject(new Position(row, col), LightUpGame.MarkerOptions.values()[rec.markerOption],
                     rec.normalLightbulbsOnly))
                 activity().app().playSoundTap();
         }

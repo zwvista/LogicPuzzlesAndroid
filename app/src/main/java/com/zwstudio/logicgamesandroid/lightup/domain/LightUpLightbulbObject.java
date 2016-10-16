@@ -4,7 +4,7 @@ package com.zwstudio.logicgamesandroid.lightup.domain;
  * Created by zwvista on 2016/09/29.
  */
 
-public class LightbulbObject extends GameObject {
+public class LightUpLightbulbObject extends LightUpObject {
     public enum LightbulbState {
         Normal, Error
     }
@@ -13,8 +13,8 @@ public class LightbulbObject extends GameObject {
         return "lightbulb";
     }
     @Override
-    public LightbulbObject clone(){
-        LightbulbObject o = (LightbulbObject)super.clone();
+    public LightUpLightbulbObject clone(){
+        LightUpLightbulbObject o = (LightUpLightbulbObject)super.clone();
         o.state = state;
         return o;
     }

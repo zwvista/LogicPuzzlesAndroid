@@ -12,17 +12,17 @@
         <service android:name="com.zwstudio.logicgamesandroid.common.MusicService"
                  android:enabled="true"/>
         <activity
-            android:name="com.zwstudio.logicgamesandroid.lightup.android.MainActivity"
+            android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpMainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.GameActivity"
+        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpGameActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.OptionsActivity"
+        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
     </application>

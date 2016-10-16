@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.logicgamesandroid.lightup.data.GameProgress;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -22,8 +22,8 @@ import java.util.List;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
-@ContentView(R.layout.activity_options)
-public class OptionsActivity extends LightUpActivity {
+@ContentView(R.layout.activity_lightup_options)
+public class LightUpOptionsActivity extends LightUpActivity {
 
     @InjectView(R.id.spnMarker)
     Spinner spnMarker;
@@ -65,7 +65,7 @@ public class OptionsActivity extends LightUpActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnMarker.setAdapter(adapter);
 
-        GameProgress rec = doc().gameProgress();
+        LightUpGameProgress rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
 
         spnMarker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -73,7 +73,7 @@ public class OptionsActivity extends LightUpActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 rec.markerOption = position;
                 try {
-                    doc().db.getDaoGameProgress().update(rec);
+                    doc().db.getDaoLightUpGameProgress().update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -90,7 +90,7 @@ public class OptionsActivity extends LightUpActivity {
                 ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
                 rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
                 try {
-                    doc().db.getDaoGameProgress().update(rec);
+                    doc().db.getDaoLightUpGameProgress().update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -104,7 +104,7 @@ public class OptionsActivity extends LightUpActivity {
                 ctvPlayMusic.setChecked(!rec.playMusic);
                 rec.playMusic = !rec.playMusic;
                 try {
-                    doc().db.getDaoGameProgress().update(rec);
+                    doc().db.getDaoLightUpGameProgress().update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -119,7 +119,7 @@ public class OptionsActivity extends LightUpActivity {
                 ctvPlaySound.setChecked(!rec.playSound);
                 rec.playSound = !rec.playSound;
                 try {
-                    doc().db.getDaoGameProgress().update(rec);
+                    doc().db.getDaoLightUpGameProgress().update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -148,7 +148,7 @@ public class OptionsActivity extends LightUpActivity {
                                 rec.playMusic = true;
                                 rec.playSound = true;
                                 try {
-                                    doc().db.getDaoGameProgress().update(rec);
+                                    doc().db.getDaoLightUpGameProgress().update(rec);
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
@@ -165,7 +165,7 @@ public class OptionsActivity extends LightUpActivity {
                     }
                 };
 
-                Builder builder = new Builder(OptionsActivity.this);
+                Builder builder = new Builder(LightUpOptionsActivity.this);
                 builder.setMessage("Do you really want to reset the options?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
             }

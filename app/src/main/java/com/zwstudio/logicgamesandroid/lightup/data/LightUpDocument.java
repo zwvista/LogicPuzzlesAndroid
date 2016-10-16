@@ -2,8 +2,9 @@ package com.zwstudio.logicgamesandroid.lightup.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.zwstudio.logicgamesandroid.lightup.domain.Game;
-import com.zwstudio.logicgamesandroid.lightup.domain.GameMove;
+import com.zwstudio.logicgamesandroid.common.DBHelper;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -27,19 +28,19 @@ public class LightUpDocument {
 
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
-    public LightUpDBHelper db;
+    public DBHelper db;
 
-    public LightUpDocument(LightUpDBHelper db) {
+    public LightUpDocument(DBHelper db) {
         this.db = db;
     }
 
-    public GameProgress gameProgress() {
+    public LightUpGameProgress gameProgress() {
         try {
-            GameProgress rec = db.getDaoGameProgress().queryBuilder()
+            LightUpGameProgress rec = db.getDaoLightUpGameProgress().queryBuilder()
                     .queryForFirst();
             if (rec == null) {
-                rec = new GameProgress();
-                db.getDaoGameProgress().create(rec);
+                rec = new LightUpGameProgress();
+                db.getDaoLightUpGameProgress().create(rec);
             }
             return rec;
         } catch (SQLException e) {
@@ -48,14 +49,14 @@ public class LightUpDocument {
         }
     }
 
-    public LevelProgress levelProgress() {
+    public LightUpLevelProgress levelProgress() {
         try {
-            LevelProgress rec = db.getDaoLevelProgress().queryBuilder()
+            LightUpLevelProgress rec = db.getDaoLightUpLevelProgress().queryBuilder()
                     .where().eq("levelID", selectedLevelID).queryForFirst();
             if (rec == null) {
-                rec = new LevelProgress();
+                rec = new LightUpLevelProgress();
                 rec.levelID = selectedLevelID;
-                db.getDaoLevelProgress().create(rec);
+                db.getDaoLightUpLevelProgress().create(rec);
             }
             return rec;
         } catch (SQLException e) {
@@ -64,12 +65,12 @@ public class LightUpDocument {
         }
     }
 
-    public List<MoveProgress> moveProgress() {
+    public List<LightUpMoveProgress> moveProgress() {
         try {
-            QueryBuilder<MoveProgress, Integer> qb = db.getDaoMoveProgress().queryBuilder();
+            QueryBuilder<LightUpMoveProgress, Integer> qb = db.getDaoLightUpMoveProgress().queryBuilder();
             qb.where().eq("levelID", selectedLevelID);
             qb.orderBy("moveIndex", true);
-            List<MoveProgress> rec = qb.query();
+            List<LightUpMoveProgress> rec = qb.query();
             return rec;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,29 +141,29 @@ public class LightUpDocument {
 
     }
 
-    public void levelUpdated(Game game) {
+    public void levelUpdated(LightUpGame game) {
         try {
-            LevelProgress rec = levelProgress();
+            LightUpLevelProgress rec = levelProgress();
             rec.moveIndex = game.moveIndex();
-            db.getDaoLevelProgress().update(rec);
+            db.getDaoLightUpLevelProgress().update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void moveAdded(Game game, GameMove move) {
+    public void moveAdded(LightUpGame game, LightUpGameMove move) {
         try {
-            DeleteBuilder<MoveProgress, Integer> deleteBuilder = db.getDaoMoveProgress().deleteBuilder();
+            DeleteBuilder<LightUpMoveProgress, Integer> deleteBuilder = db.getDaoLightUpMoveProgress().deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID)
                     .and().ge("moveIndex", game.moveIndex());
             deleteBuilder.delete();
-            MoveProgress rec = new MoveProgress();
+            LightUpMoveProgress rec = new LightUpMoveProgress();
             rec.levelID = selectedLevelID;
             rec.moveIndex = game.moveIndex();
             rec.row = move.p.row;
             rec.col = move.p.col;
             rec.objTypeAsString = move.obj.objTypeAsString();
-            db.getDaoMoveProgress().create(rec);
+            db.getDaoLightUpMoveProgress().create(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -170,9 +171,9 @@ public class LightUpDocument {
 
     public void resumeGame() {
         try {
-            GameProgress rec = gameProgress();
+            LightUpGameProgress rec = gameProgress();
             rec.levelID = selectedLevelID;
-            db.getDaoGameProgress().update(rec);
+            db.getDaoLightUpGameProgress().update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -180,12 +181,12 @@ public class LightUpDocument {
 
     public void clearGame() {
         try {
-            DeleteBuilder<MoveProgress, Integer> deleteBuilder = db.getDaoMoveProgress().deleteBuilder();
+            DeleteBuilder<LightUpMoveProgress, Integer> deleteBuilder = db.getDaoLightUpMoveProgress().deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID);
             deleteBuilder.delete();
-            LevelProgress rec = levelProgress();
+            LightUpLevelProgress rec = levelProgress();
             rec.moveIndex = 0;
-            db.getDaoLevelProgress().update(rec);
+            db.getDaoLightUpLevelProgress().update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

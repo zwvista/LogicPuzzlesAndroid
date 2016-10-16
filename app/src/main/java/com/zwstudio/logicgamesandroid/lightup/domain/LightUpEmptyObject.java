@@ -4,8 +4,8 @@ package com.zwstudio.logicgamesandroid.lightup.domain;
  * Created by zwvista on 2016/09/29.
  */
 
-public class MarkerObject extends GameObject {
+public class LightUpEmptyObject extends LightUpObject {
     public String objTypeAsString() {
-        return "marker";
+        return "empty";
     }
 }

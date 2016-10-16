@@ -11,8 +11,8 @@ import com.zwstudio.lightupandroid.R;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
-@ContentView(R.layout.activity_main)
-public class MainActivity extends LightUpActivity {
+@ContentView(R.layout.activity_lightup_main)
+public class LightUpMainActivity extends LightUpActivity {
 
     @InjectView(R.id.btnResumeGame)
     Button btnResumeGame;
@@ -36,7 +36,7 @@ public class MainActivity extends LightUpActivity {
         btnOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, OptionsActivity.class);
+                Intent intent = new Intent(LightUpMainActivity.this, LightUpOptionsActivity.class);
                 startActivity(intent);
             }
         });
@@ -61,7 +61,7 @@ public class MainActivity extends LightUpActivity {
 
     private void resumeGame() {
         doc().resumeGame();
-        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        Intent intent = new Intent(LightUpMainActivity.this, LightUpGameActivity.class);
         startActivity(intent);
     }
 }
