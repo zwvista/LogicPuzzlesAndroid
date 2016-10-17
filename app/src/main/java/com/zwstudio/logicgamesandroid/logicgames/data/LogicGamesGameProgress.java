@@ -12,7 +12,7 @@ public class LogicGamesGameProgress implements java.io.Serializable {
     @DatabaseField(generatedId = true)
     private int ID;
     @DatabaseField
-    public String gameName = "Light Up";
+    public String gameName = "LightUp";
     @DatabaseField
     public boolean playMusic = true;
     @DatabaseField

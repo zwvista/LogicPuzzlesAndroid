@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 public class LogicGamesDocument {
 
-    public String selectedGameName;
     public DBHelper db;
 
     public LogicGamesDocument(DBHelper db) {
@@ -30,10 +29,15 @@ public class LogicGamesDocument {
         }
     }
 
-    public void resumeGame() {
+    public static String getGameName(Class<?> cls) {
+        String str = cls.getSimpleName();
+        return str.substring(0, str.length() - "MainActivity".length());
+    }
+
+    public void resumeGame(Class<?> cls) {
         try {
             LogicGamesGameProgress rec = gameProgress();
-            rec.gameName = selectedGameName;
+            rec.gameName = getGameName(cls);
             db.getDaoLogicGamesGameProgress().update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
