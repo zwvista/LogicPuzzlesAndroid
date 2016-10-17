@@ -9,13 +9,14 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.zwstudio.logicgamesandroid.bridges.data.BridgesGameProgress;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesIslandInfo;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesIslandObject;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.Map;
+
+import fj.function.Effect0;
 
 /**
  * TODO: document your custom view class.
@@ -29,8 +30,10 @@ public class BridgesGameView extends View {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private int cellWidth, cellHeight;
     private Paint islandPaint = new Paint();
-    private Paint lightPaint = new Paint();
+    private Paint bridgePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+
+    private Position pFrom, pTo;
 
     public BridgesGameView(Context context) {
         super(context);
@@ -50,8 +53,9 @@ public class BridgesGameView extends View {
     private void init(AttributeSet attrs, int defStyle) {
         islandPaint.setColor(Color.WHITE);
         islandPaint.setStyle(Paint.Style.STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        bridgePaint.setColor(Color.YELLOW);
+        bridgePaint.setStyle(Paint.Style.STROKE);
+        bridgePaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -78,6 +82,7 @@ public class BridgesGameView extends View {
         float yPos = y + (cellHeight - textPaint.descent() - textPaint.ascent()) / 2;
         canvas.drawText(text, xPos, yPos, textPaint);
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
@@ -98,16 +103,61 @@ public class BridgesGameView extends View {
             String text = String.valueOf(info.bridges);
             textPaint.setTextSize(cellHeight);
             drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
+            int[] dirs = {1, 2};
+            for (int dir : dirs) {
+                Position p2 = info.neighbors[dir];
+                if (p2 == null) continue;
+                int r2 = p2.row, c2 = p2.col;
+                int b = o.bridges[dir];
+                if (dir == 1 && b == 1)
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth, r * cellHeight + 1 + cellHeight / 2, c2 * cellWidth + 1, r2 * cellHeight + 1 + cellHeight / 2, bridgePaint);
+                else if (dir == 1 && b == 2) {
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth, r * cellHeight + 1 + cellHeight / 2 - 10, c2 * cellWidth + 1, r2 * cellHeight + 1 + cellHeight / 2 - 10, bridgePaint);
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth, r * cellHeight + 1 + cellHeight / 2 + 10, c2 * cellWidth + 1, r2 * cellHeight + 1 + cellHeight / 2 + 10, bridgePaint);
+                }
+                else if (dir == 2 && b == 1)
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2, r * cellHeight + 1 + cellHeight, c2 * cellWidth + 1 + cellWidth / 2, r2 * cellHeight + 1, bridgePaint);
+                else if (dir == 2 && b == 2) {
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - 10, r * cellHeight + 1 + cellHeight, c2 * cellWidth + 1 + cellWidth / 2 - 10, r2 * cellHeight + 1, bridgePaint);
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 + 10, r * cellHeight + 1 + cellHeight, c2 * cellWidth + 1 + cellWidth / 2 + 10, r2 * cellHeight + 1, bridgePaint);
+                }
+            }
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            int col = (int)(event.getX() / cellWidth);
-            int row = (int)(event.getY() / cellHeight);
-            if (col >= cols() || row >= rows()) return true;
-            BridgesGameProgress rec = activity().doc().gameProgress();
+        int col = (int)(event.getX() / cellWidth);
+        int row = (int)(event.getY() / cellHeight);
+        if (col >= cols() || row >= rows()) return true;
+        Position p = new Position(row, col);
+        boolean isI = game().isIsland(p);
+        Effect0 f = () -> activity().app().playSoundTap();
+        switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+            if (!isI) break;
+            pFrom = pTo = p; f.f();
+            break;
+        case MotionEvent.ACTION_MOVE:
+            if (pFrom == null) break;
+            if (isI) {
+                if (!p.equals(pTo)) {
+                    pTo = p; f.f();
+                }
+            } else
+                pTo = null;
+            break;
+        case MotionEvent.ACTION_UP:
+            if (pFrom == null) break;
+            try{
+                if (!isI || pFrom.equals(pTo)) break;
+                game().switchBridges(pFrom, pTo);
+            } finally {
+                pFrom = pTo = null;
+            }
+            break;
+        default:
+            return false;
         }
         return true;
     }

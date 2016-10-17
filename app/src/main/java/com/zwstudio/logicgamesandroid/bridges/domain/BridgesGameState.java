@@ -83,7 +83,7 @@ public class BridgesGameState implements Cloneable {
         int n1 = pFrom.row == pTo.row ? 1 : 2;
         int n2 = (n1 + 2) % 4;
         Position os = BridgesGame.offset[n1];
-        for (Position p = pFrom.add(os); p != pTo; p.addBy(os))
+        for (Position p = pFrom.add(os); !p.equals(pTo); p.addBy(os))
             switch (o1.bridges[n1]) {
             case 0:
                 {
