@@ -1,7 +1,7 @@
 package com.zwstudio.logicgamesandroid.lightup.android;
 
-import com.zwstudio.logicgamesandroid.common.BaseActivity;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
+import com.zwstudio.logicgamesandroid.logicgames.android.BaseActivity;
 
 /**
  * Created by zwvista on 2016/10/10.

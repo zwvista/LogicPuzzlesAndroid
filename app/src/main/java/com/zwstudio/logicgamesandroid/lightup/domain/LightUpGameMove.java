@@ -1,6 +1,6 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
-import com.zwstudio.logicgamesandroid.common.Position;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 /**
  * Created by TCC-2-9002 on 2016/09/30.

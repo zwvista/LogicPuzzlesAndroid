@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.common;
+package com.zwstudio.logicgamesandroid.logicgames.android;
 
 import android.app.Application;
 import android.content.ComponentName;
@@ -11,14 +11,19 @@ import android.os.IBinder;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
+import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
+import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class GameApplication extends Application {
 
+    public LogicGamesDocument logicGamesDocument;
     public LightUpDocument lightUpDocument;
+    public BridgesDocument bridgesDocument;
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private boolean mIsBound = false;
@@ -36,7 +41,7 @@ public class GameApplication extends Application {
     };
 
     void doBindService(){
-        bindService(new Intent(this,MusicService.class),
+        bindService(new Intent(this, MusicService.class),
                 Scon, Context.BIND_AUTO_CREATE);
         mIsBound = true;
     }
@@ -60,7 +65,10 @@ public class GameApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        logicGamesDocument = new LogicGamesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         lightUpDocument = new LightUpDocument(OpenHelperManager.getHelper(this, DBHelper.class));
+        bridgesDocument = new BridgesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
+
         InputStream is = null;
         try {
             is = getApplicationContext().getAssets().open("LightUpLevels.xml");
@@ -69,12 +77,19 @@ public class GameApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            is = getApplicationContext().getAssets().open("BridgesLevels.xml");
+            bridgesDocument.loadXml(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         doBindService();
         Intent music = new Intent();
-        music.setClass(this,MusicService.class);
+        music.setClass(this, MusicService.class);
         // http://stackoverflow.com/questions/5301891/android-start-service-with-parameter
-        music.putExtra("playMusic", lightUpDocument.gameProgress().playMusic);
+        music.putExtra("playMusic", logicGamesDocument.gameProgress().playMusic);
         startService(music);
 
         // Load the sound
@@ -100,19 +115,19 @@ public class GameApplication extends Application {
 
     public void playOrPauseMusic() {
         if (mServ == null) return;
-        if (lightUpDocument.gameProgress().playMusic)
+        if (logicGamesDocument.gameProgress().playMusic)
             mServ.resumeMusic();
         else
             mServ.pauseMusic();
     }
 
     public void playMusic() {
-        if (mServ != null && lightUpDocument.gameProgress().playMusic)
+        if (mServ != null && logicGamesDocument.gameProgress().playMusic)
             mServ.resumeMusic();
     }
 
     public void pauseMusic() {
-        if (mServ != null && lightUpDocument.gameProgress().playMusic)
+        if (mServ != null && logicGamesDocument.gameProgress().playMusic)
             mServ.pauseMusic();
     }
 
@@ -124,7 +139,7 @@ public class GameApplication extends Application {
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         float volume = actualVolume / maxVolume;
         // Is the sound loaded already?
-        if (loaded && lightUpDocument.gameProgress().playSound)
+        if (loaded && logicGamesDocument.gameProgress().playSound)
             soundPool.play(soundID, volume, volume, 1, 0, 1f);
     }
 

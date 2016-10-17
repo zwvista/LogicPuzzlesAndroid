@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.common;
+package com.zwstudio.logicgamesandroid.logicgames.android;
 
 import android.app.Service;
 import android.content.Intent;

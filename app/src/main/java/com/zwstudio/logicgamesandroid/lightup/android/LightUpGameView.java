@@ -16,11 +16,11 @@ import android.view.View;
 
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerObject;
-import com.zwstudio.logicgamesandroid.common.Position;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.io.IOException;
 import java.io.InputStream;

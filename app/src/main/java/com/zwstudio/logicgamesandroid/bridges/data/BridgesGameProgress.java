@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.lightup.data;
+package com.zwstudio.logicgamesandroid.bridges.data;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -8,13 +8,9 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable
-public class LightUpGameProgress implements java.io.Serializable {
+public class BridgesGameProgress implements java.io.Serializable {
     @DatabaseField(generatedId = true)
     private int ID;
     @DatabaseField
     public String levelID = "Level 1";
-    @DatabaseField
-    public int markerOption;
-    @DatabaseField
-    public boolean normalLightbulbsOnly;
 }

@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.lightup.android;
+package com.zwstudio.logicgamesandroid.bridges.android;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -8,12 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zwstudio.lightupandroid.R;
-import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameInterface;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
+import com.zwstudio.logicgamesandroid.bridges.data.BridgesMoveProgress;
+import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
+import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameInterface;
+import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameMove;
+import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.List;
@@ -23,11 +22,11 @@ import roboguice.inject.InjectView;
 
 import static android.app.AlertDialog.Builder;
 
-@ContentView(R.layout.activity_lightup_game)
-public class LightUpGameActivity extends LightUpActivity implements LightUpGameInterface {
+@ContentView(R.layout.activity_bridges_game)
+public class BridgesGameActivity extends BridgesActivity implements BridgesGameInterface {
 
     @InjectView(R.id.gameView)
-    LightUpGameView gameView;
+    BridgesGameView gameView;
     @InjectView(R.id.tvLevel)
     TextView tvLevel;
     @InjectView(R.id.tvSolved)
@@ -41,7 +40,7 @@ public class LightUpGameActivity extends LightUpActivity implements LightUpGameI
     @InjectView(R.id.btnClear)
     Button btnClear;
 
-    LightUpGame game;
+    BridgesGame game;
     boolean levelInitilizing;
 
     @Override
@@ -80,7 +79,7 @@ public class LightUpGameActivity extends LightUpActivity implements LightUpGameI
                     }
                 };
 
-                Builder builder = new Builder(LightUpGameActivity.this);
+                Builder builder = new Builder(BridgesGameActivity.this);
                 builder.setMessage("Do you really want to reset the level?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
             }
@@ -95,11 +94,11 @@ public class LightUpGameActivity extends LightUpActivity implements LightUpGameI
         tvLevel.setText(selectedLevelID);
 
         levelInitilizing = true;
-        game = new LightUpGame(layout, this);
+        game = new BridgesGame(layout, this);
         try {
             // restore game state
-            for (LightUpMoveProgress rec : doc().moveProgress())
-                game.setObject(new Position(rec.row, rec.col), LightUpObject.objTypeFromString(rec.objTypeAsString));
+            for (BridgesMoveProgress rec : doc().moveProgress())
+                game.switchBridges(new Position(rec.rowFrom, rec.colFrom), new Position(rec.rowTo, rec.colTo));
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;
             while (moveIndex != game.moveIndex())
@@ -110,31 +109,31 @@ public class LightUpGameActivity extends LightUpActivity implements LightUpGameI
     }
 
     @Override
-    public void moveAdded(LightUpGame game, LightUpGameMove move) {
+    public void moveAdded(BridgesGame game, BridgesGameMove move) {
         if (levelInitilizing) return;
         doc().moveAdded(game, move);
     }
 
-    private void updateTextViews(LightUpGame game) {
+    private void updateTextViews(BridgesGame game) {
         tvMoves.setText(String.format("Moves: %d(%d)", game.moveIndex(), game.moveCount()));
         tvSolved.setTextColor(game.isSolved() ? Color.WHITE : Color.BLACK);
     }
 
     @Override
-    public void levelInitilized(LightUpGame game, LightUpGameState state) {
+    public void levelInitilized(BridgesGame game, BridgesGameState state) {
         gameView.invalidate();
         updateTextViews(game);
     }
 
     @Override
-    public void levelUpdated(LightUpGame game, LightUpGameState stateFrom, LightUpGameState stateTo) {
+    public void levelUpdated(BridgesGame game, BridgesGameState stateFrom, BridgesGameState stateTo) {
         gameView.invalidate();
         updateTextViews(game);
         if (!levelInitilizing) doc().levelUpdated(game);
     }
 
     @Override
-    public void gameSolved(LightUpGame game) {
+    public void gameSolved(BridgesGame game) {
         if (!levelInitilizing)
             app().playSoundSolved();
     }

@@ -29,10 +29,6 @@ public class LightUpOptionsActivity extends LightUpActivity {
     Spinner spnMarker;
     @InjectView(R.id.ctvNormalLightbulbsOnly)
     CheckedTextView ctvNormalLightbulbsOnly;
-    @InjectView(R.id.ctvPlayMusic)
-    CheckedTextView ctvPlayMusic;
-    @InjectView(R.id.ctvPlaySound)
-    CheckedTextView ctvPlaySound;
     @InjectView(R.id.btnDone)
     Button btnDone;
     @InjectView(R.id.btnDefault)
@@ -97,35 +93,6 @@ public class LightUpOptionsActivity extends LightUpActivity {
             }
         });
 
-        ctvPlayMusic.setChecked(rec.playMusic);
-        ctvPlayMusic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ctvPlayMusic.setChecked(!rec.playMusic);
-                rec.playMusic = !rec.playMusic;
-                try {
-                    doc().db.getDaoLightUpGameProgress().update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                app().playOrPauseMusic();
-            }
-        });
-
-        ctvPlaySound.setChecked(rec.playSound);
-        ctvPlaySound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ctvPlaySound.setChecked(!rec.playSound);
-                rec.playSound = !rec.playSound;
-                try {
-                    doc().db.getDaoLightUpGameProgress().update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,8 +112,6 @@ public class LightUpOptionsActivity extends LightUpActivity {
                                 //Yes button clicked
                                 rec.markerOption = 0;
                                 rec.normalLightbulbsOnly = false;
-                                rec.playMusic = true;
-                                rec.playSound = true;
                                 try {
                                     doc().db.getDaoLightUpGameProgress().update(rec);
                                 } catch (SQLException e) {
@@ -154,9 +119,6 @@ public class LightUpOptionsActivity extends LightUpActivity {
                                 }
                                 spnMarker.setSelection(rec.markerOption);
                                 ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
-                                ctvPlayMusic.setChecked(rec.playMusic);
-                                app().playOrPauseMusic();
-                                ctvPlaySound.setChecked(rec.playSound);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked

@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.common;
+package com.zwstudio.logicgamesandroid.logicgames.data;
 
 
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
+import com.zwstudio.logicgamesandroid.bridges.data.BridgesGameProgress;
+import com.zwstudio.logicgamesandroid.bridges.data.BridgesLevelProgress;
+import com.zwstudio.logicgamesandroid.bridges.data.BridgesMoveProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
@@ -30,9 +33,15 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
+    private Dao<LogicGamesGameProgress, Integer> daoLogicGamesGameProgress;
+
     private Dao<LightUpGameProgress, Integer> daoLightUpGameProgress;
     private Dao<LightUpLevelProgress, Integer> daoLightUpLevelProgress;
     private Dao<LightUpMoveProgress, Integer> daoLightUpMoveProgress;
+
+    private Dao<BridgesGameProgress, Integer> daoBridgesGameProgress;
+    private Dao<BridgesLevelProgress, Integer> daoBridgesLevelProgress;
+    private Dao<BridgesMoveProgress, Integer> daoBridgesMoveProgress;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -98,9 +107,19 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
+        daoLogicGamesGameProgress = null;
         daoLightUpGameProgress = null;
         daoLightUpMoveProgress = null;
         daoLightUpLevelProgress = null;
+        daoBridgesGameProgress = null;
+        daoBridgesMoveProgress = null;
+        daoBridgesLevelProgress = null;
+    }
+
+    public Dao<LogicGamesGameProgress, Integer> getDaoLogicGamesGameProgress() throws SQLException {
+        if (daoLogicGamesGameProgress == null)
+            daoLogicGamesGameProgress = getDao(LogicGamesGameProgress.class);
+        return daoLogicGamesGameProgress;
     }
 
     public Dao<LightUpGameProgress, Integer> getDaoLightUpGameProgress() throws SQLException {
@@ -119,6 +138,24 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         if (daoLightUpMoveProgress == null)
             daoLightUpMoveProgress = getDao(LightUpMoveProgress.class);
         return daoLightUpMoveProgress;
+    }
+
+    public Dao<BridgesGameProgress, Integer> getDaoBridgesGameProgress() throws SQLException {
+        if (daoBridgesGameProgress == null)
+            daoBridgesGameProgress = getDao(BridgesGameProgress.class);
+        return daoBridgesGameProgress;
+    }
+
+    public Dao<BridgesLevelProgress, Integer> getDaoBridgesLevelProgress() throws SQLException {
+        if (daoBridgesLevelProgress == null)
+            daoBridgesLevelProgress = getDao(BridgesLevelProgress.class);
+        return daoBridgesLevelProgress;
+    }
+
+    public Dao<BridgesMoveProgress, Integer> getDaoBridgesMoveProgress() throws SQLException {
+        if (daoBridgesMoveProgress == null)
+            daoBridgesMoveProgress = getDao(BridgesMoveProgress.class);
+        return daoBridgesMoveProgress;
     }
 
 }

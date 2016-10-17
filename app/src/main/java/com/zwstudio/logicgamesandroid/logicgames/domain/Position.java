@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.common;
+package com.zwstudio.logicgamesandroid.logicgames.domain;
 
 /**
  * Created by zwvista on 2016/09/29.

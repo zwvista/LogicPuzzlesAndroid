@@ -8,22 +8,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.zwstudio.logicgamesandroid.common.GameApplication">
-        <service android:name="com.zwstudio.logicgamesandroid.common.MusicService"
+        android:name="com.zwstudio.logicgamesandroid.logicgames.android.GameApplication">
+        <service android:name="com.zwstudio.logicgamesandroid.logicgames.android.MusicService"
                  android:enabled="true"/>
         <activity
-            android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpMainActivity"
+            android:name="com.zwstudio.logicgamesandroid.logicgames.android.LogicGamesMainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.logicgames.android.LogicGamesOptionsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpMainActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpGameActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpOptionsActivity"
                   android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesMainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesGameActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesOptionsActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -1,6 +1,6 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
-import com.zwstudio.logicgamesandroid.common.Position;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import fj.F;
 
