@@ -61,6 +61,9 @@ public class GameApplication extends Application {
     private int soundIDTap, soundIDSolved;
     boolean loaded = false;
 
+    // http://stackoverflow.com/questions/3667022/checking-if-an-android-application-is-running-in-the-background/13809991#13809991
+    private int stateCounter;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -104,6 +107,7 @@ public class GameApplication extends Application {
         soundIDTap = soundPool.load(this, R.raw.tap, 1);
         soundIDSolved = soundPool.load(this, R.raw.solved, 1);
 
+        stateCounter = 0;
     }
 
     @Override
@@ -121,13 +125,15 @@ public class GameApplication extends Application {
             mServ.pauseMusic();
     }
 
-    public void playMusic() {
-        if (mServ != null && logicGamesDocument.gameProgress().playMusic)
+    public void activityStarted() {
+        stateCounter++;
+        if (stateCounter == 1 && mServ != null && logicGamesDocument.gameProgress().playMusic)
             mServ.resumeMusic();
     }
 
-    public void pauseMusic() {
-        if (mServ != null && logicGamesDocument.gameProgress().playMusic)
+    public void activityStopped() {
+        stateCounter--;
+        if (stateCounter == 0 && mServ != null && logicGamesDocument.gameProgress().playMusic)
             mServ.pauseMusic();
     }
 
