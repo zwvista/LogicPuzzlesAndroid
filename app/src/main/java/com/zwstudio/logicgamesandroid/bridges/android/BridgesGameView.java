@@ -127,6 +127,7 @@ public class BridgesGameView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (game().isSolved()) return true;
         int col = (int)(event.getX() / cellWidth);
         int row = (int)(event.getY() / cellHeight);
         if (col >= cols() || row >= rows()) return true;
@@ -157,7 +158,7 @@ public class BridgesGameView extends View {
             }
             break;
         default:
-            return false;
+            return true;
         }
         return true;
     }
