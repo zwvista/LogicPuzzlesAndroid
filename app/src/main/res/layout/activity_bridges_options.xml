@@ -13,50 +13,6 @@
     tools:context="com.zwstudio.logicgamesandroid.lightup.android.LightUpOptionsActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Marker:"
-            android:id="@+id/tvMarker"
-            />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnMarker"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dip" />
-
-        <CheckedTextView
-            android:text="Normal Lightbulbs Only"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:id="@+id/ctvNormalLightbulbsOnly" />
-
-        <CheckedTextView
-            android:text="Play Music"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:id="@+id/ctvPlayMusic" />
-
-        <CheckedTextView
-            android:text="Play Sound"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:id="@+id/ctvPlaySound" />
-    </LinearLayout>
-
-    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

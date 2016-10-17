@@ -1,13 +1,9 @@
 package com.zwstudio.logicgamesandroid.bridges.android;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -15,10 +11,11 @@ import android.view.View;
 
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesGameProgress;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
-import com.zwstudio.logicgamesandroid.bridges.domain.BridgesObject;
+import com.zwstudio.logicgamesandroid.bridges.domain.BridgesIslandInfo;
+import com.zwstudio.logicgamesandroid.bridges.domain.BridgesIslandObject;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Map;
 
 /**
  * TODO: document your custom view class.
@@ -31,11 +28,9 @@ public class BridgesGameView extends View {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private int cellWidth, cellHeight;
-    private Paint gridPaint = new Paint();
-    private Paint wallPaint = new Paint();
+    private Paint islandPaint = new Paint();
     private Paint lightPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
-    private Drawable dLightbulb;
 
     public BridgesGameView(Context context) {
         super(context);
@@ -53,22 +48,12 @@ public class BridgesGameView extends View {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        gridPaint.setColor(Color.WHITE);
-        gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
-        wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        islandPaint.setColor(Color.WHITE);
+        islandPaint.setStyle(Paint.Style.STROKE);
         lightPaint.setColor(Color.YELLOW);
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        try {
-            InputStream is = getContext().getApplicationContext().getAssets().open("lightbulb.png");
-            Bitmap bmpLightbulb = BitmapFactory.decodeStream(is);
-            dLightbulb = new BitmapDrawable(bmpLightbulb);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -96,11 +81,24 @@ public class BridgesGameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                if (isInEditMode()) continue;
-                BridgesObject o = game().getObject(r, c);
-            }
+        if (isInEditMode()) return;
+        for (Map.Entry<Position, BridgesIslandInfo> entry : game().islandsInfo.entrySet()) {
+            Position p = entry.getKey();
+            int r = p.row, c = p.col;
+            BridgesIslandInfo info = entry.getValue();
+            BridgesIslandObject o = (BridgesIslandObject) game().getObject(p);
+            canvas.drawArc(c * cellWidth + 1, r * cellHeight + 1,
+                    (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
+                    0, 360, true, islandPaint);
+            textPaint.setColor(
+                    o.state == BridgesIslandObject.IslandState.Complete ? Color.GREEN :
+                    o.state == BridgesIslandObject.IslandState.Error ? Color.RED :
+                    Color.WHITE
+            );
+            String text = String.valueOf(info.bridges);
+            textPaint.setTextSize(cellHeight);
+            drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
+        }
     }
 
     @Override

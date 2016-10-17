@@ -7,6 +7,6 @@ import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
  */
 
 public class BridgesIslandInfo {
-    int bridges;
+    public int bridges;
     Position[] neighbors = new Position[4];
 }
