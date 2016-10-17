@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesGameProgress;
 
 import java.sql.SQLException;

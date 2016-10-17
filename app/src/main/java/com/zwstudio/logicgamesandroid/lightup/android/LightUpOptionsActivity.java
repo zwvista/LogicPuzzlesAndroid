@@ -12,7 +12,7 @@ import android.widget.CheckedTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 
 import java.sql.SQLException;

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesMoveProgress;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameInterface;

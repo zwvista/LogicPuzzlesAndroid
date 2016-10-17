@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.zwstudio.lightupandroid", appContext.getPackageName());
+        assertEquals("com.zwstudio.logicgamesandroid", appContext.getPackageName());
     }
 }

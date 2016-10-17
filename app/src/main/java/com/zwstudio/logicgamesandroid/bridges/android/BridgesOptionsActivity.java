@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;

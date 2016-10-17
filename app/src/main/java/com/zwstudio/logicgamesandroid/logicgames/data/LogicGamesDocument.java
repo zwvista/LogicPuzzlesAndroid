@@ -29,15 +29,10 @@ public class LogicGamesDocument {
         }
     }
 
-    public static String getGameName(Class<?> cls) {
-        String str = cls.getSimpleName();
-        return str.substring(0, str.length() - "MainActivity".length());
-    }
-
-    public void resumeGame(Class<?> cls) {
+    public void resumeGame(String gameName) {
         try {
             LogicGamesGameProgress rec = gameProgress();
-            rec.gameName = getGameName(cls);
+            rec.gameName = gameName;
             db.getDaoLogicGamesGameProgress().update(rec);
         } catch (SQLException e) {
             e.printStackTrace();

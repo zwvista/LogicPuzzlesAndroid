@@ -10,7 +10,7 @@ import android.media.SoundPool;
 import android.os.IBinder;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;

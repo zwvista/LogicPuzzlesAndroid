@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 
 /**
  * Created by zwvista on 2016/10/09.

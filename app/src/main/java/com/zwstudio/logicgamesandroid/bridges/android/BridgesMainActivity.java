@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -52,8 +52,7 @@ public class BridgesMainActivity extends BridgesActivity {
         };
         // http://stackoverflow.com/questions/25905086/multiple-buttons-onclicklistener-android
         for(int n : levels) {
-            int resID = getResources().getIdentifier("btnLevel" + n, "id",
-                    "com.zwstudio.lightupandroid");
+            int resID = getResources().getIdentifier("btnLevel" + n, "id", "com.zwstudio.logicgamesandroid");
             Button button = (Button)findViewById(resID);
             button.setOnClickListener(onClickListener);
         }

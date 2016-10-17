@@ -33,11 +33,13 @@
             android:text="Light Up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="LightUp"
             android:id="@+id/btnLightUp"/>
         <Button
             android:text="Bridges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="Bridges"
             android:id="@+id/btnBridges"/>
         <Button
             android:text="Options"

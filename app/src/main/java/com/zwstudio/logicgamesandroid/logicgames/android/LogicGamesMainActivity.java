@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.zwstudio.lightupandroid.R;
-import com.zwstudio.logicgamesandroid.bridges.android.BridgesMainActivity;
-import com.zwstudio.logicgamesandroid.lightup.android.LightUpMainActivity;
-import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
+import com.zwstudio.logicgamesandroid.R;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -37,25 +34,18 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
         btnResumeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = doc().gameProgress().gameName;
-                if (name.equals(LogicGamesDocument.getGameName(BridgesMainActivity.class)))
-                    resumeGame(BridgesMainActivity.class);
-                else
-                    resumeGame(LightUpMainActivity.class);
+                String gameName = doc().gameProgress().gameName;
+                resumeGame(gameName);
             }
         });
-        btnLightUp.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resumeGame(LightUpMainActivity.class);
+                resumeGame((String) v.getTag());
             }
-        });
-        btnBridges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resumeGame(BridgesMainActivity.class);
-            }
-        });
+        };
+        btnLightUp.setOnClickListener(onClickListener);
+        btnBridges.setOnClickListener(onClickListener);
         btnOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,9 +55,16 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
         });
     }
 
-    private void resumeGame(Class<?> cls) {
-        doc().resumeGame(cls);
-        Intent intent = new Intent(this, cls);
-        startActivity(intent);
+    private void resumeGame(String gameName) {
+        doc().resumeGame(gameName);
+        Class<?> cls = null;
+        try {
+            cls = Class.forName(String.format("com.zwstudio.logicgamesandroid.%s.android.%sMainActivity",
+                    gameName.toLowerCase(), gameName));
+            Intent intent = new Intent(this, cls);
+            startActivity(intent);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

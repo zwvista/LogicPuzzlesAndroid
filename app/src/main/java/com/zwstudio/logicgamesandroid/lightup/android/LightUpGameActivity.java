@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.zwstudio.lightupandroid.R;
+import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameInterface;
