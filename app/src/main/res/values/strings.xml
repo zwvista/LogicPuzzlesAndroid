@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">LightUpAndroid</string>
+    <string name="app_name">LogicGamesAndroid</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="clear">Clear</string>
+    <string name="solved">Solved</string>
 </resources>

@@ -33,8 +33,8 @@ public class LightUpGameView extends View {
 
     private LightUpGameActivity activity() {return (LightUpGameActivity)getContext();}
     private LightUpGame game() {return activity().game;}
-    private int rows() {return isInEditMode() ? 5 : game().size().row;}
-    private int cols() {return isInEditMode() ? 5 : game().size().col;}
+    private int rows() {return isInEditMode() ? 5 : game().rows();}
+    private int cols() {return isInEditMode() ? 5 : game().cols();}
     private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();

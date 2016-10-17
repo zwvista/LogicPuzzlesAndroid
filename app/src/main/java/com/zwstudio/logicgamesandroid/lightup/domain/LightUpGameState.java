@@ -9,13 +9,21 @@ import fj.F;
  */
 
 public class LightUpGameState implements Cloneable {
-    public Position size;
+    public LightUpGame game;
     public LightUpObject[] objArray;
     public boolean isSolved;
 
-    public LightUpGameState(int rows, int cols) {
-        size = new Position(rows, cols);
-        objArray = new LightUpObject[rows * cols];
+    public Position size() {return game.size;}
+    public int rows() {return game.rows();}
+    public int cols() {return game.cols();}
+    public boolean isValid(int row, int col) { return game.isValid(row, col); }
+    public boolean isValid(Position p) {
+        return game.isValid(p);
+    }
+
+    public LightUpGameState(LightUpGame game) {
+        this.game = game;
+        objArray = new LightUpObject[rows() * cols()];
         for (LightUpObject obj: objArray)
             obj = new LightUpEmptyObject();
     }
@@ -24,7 +32,7 @@ public class LightUpGameState implements Cloneable {
     public LightUpGameState clone(){
         try {
             LightUpGameState o = (LightUpGameState)super.clone();
-            o.size = size;
+            o.game = game;
             o.objArray = new LightUpObject[objArray.length];
             for (int i = 0; i < objArray.length; i++)
                 o.objArray[i] = objArray[i].clone();
@@ -36,28 +44,22 @@ public class LightUpGameState implements Cloneable {
     }
 
     public LightUpObject get(int row, int col) {
-        return objArray[row * size.col + col];
+        return objArray[row * cols() + col];
     }
     public LightUpObject get(Position p) {
         return get(p.row, p.col);
     }
     public void set(int row, int col, LightUpObject obj) {
-        objArray[row * size.col + col] = obj;
+        objArray[row * cols() + col] = obj;
     }
     public void set(Position p, LightUpObject obj) {
         set(p.row, p.col, obj);
     }
-    public boolean isValid(int row, int col) {
-        return row >= 0 && col >= 0 && row < size.row && col < size.col;
-    }
-    public boolean isValid(Position p) {
-        return isValid(p.row, p.col);
-    }
 
     private void updateIsSolved() {
         isSolved = true;
-        for (int r = 0; r < size.row; r++)
-            for (int c = 0; c < size.col; c++) {
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 LightUpObject o = get(r, c);
                 if (o instanceof LightUpEmptyObject && o.lightness == 0 ||

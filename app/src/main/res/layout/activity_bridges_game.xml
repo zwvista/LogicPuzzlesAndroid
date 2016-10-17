@@ -29,7 +29,7 @@
             android:gravity="start"
             android:textColor="@color/colorText"/>
         <TextView
-            android:text="Solved"
+            android:text="@string/solved"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvSolved"
@@ -56,11 +56,10 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tvMoves"
             android:layout_weight="1"
@@ -73,22 +72,21 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
         <Button
-            android:text="Undo"
+            android:text="@string/undo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/btnUndo"/>
         <Button
-            android:text="Redo"
+            android:text="@string/redo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/btnRedo"/>
         <Button
-            android:text="Clear"
+            android:text="@string/clear"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -22,13 +22,23 @@ public class LightUpGame {
             new Position(0, -1),
     };
 
+    public Position size;
+    public int rows() {return size.row;}
+    public int cols() {return size.col;}
+    public boolean isValid(int row, int col) {
+        return row >= 0 && col >= 0 && row < size.row && col < size.col;
+    }
+    public boolean isValid(Position p) {
+        return isValid(p.row, p.col);
+    }
+
     private int stateIndex = 0;
     private List<LightUpGameState> states = new ArrayList<>();
     private LightUpGameState state() {return states.get(stateIndex);}
     private List<LightUpGameMove> moves = new ArrayList<>();
     private LightUpGameMove move() {return moves.get(stateIndex - 1);}
     public LightUpGameInterface gi;
-    public Position size() {return state().size;}
+
     public boolean isSolved() {return state().isSolved;}
     public boolean canUndo() {return stateIndex > 0;}
     public boolean canRedo() {return stateIndex < states.size() - 1;}
@@ -54,10 +64,11 @@ public class LightUpGame {
 
     public LightUpGame(List<String> layout, LightUpGameInterface gi) {
         this.gi = gi;
-        LightUpGameState state = new LightUpGameState(layout.size(), layout.get(0).length());
-        for (int r = 0; r < state.size.row; r++) {
+        size = new Position(layout.size(), layout.get(0).length());
+        LightUpGameState state = new LightUpGameState(this);
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < state.size.col; c++) {
+            for (int c = 0; c < cols(); c++) {
                 char ch = str.charAt(c);
                 if (ch == 'W' || ch >= '0' && ch <= '9') {
                     LightUpWallObject o = new LightUpWallObject();
