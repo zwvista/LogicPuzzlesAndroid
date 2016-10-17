@@ -56,6 +56,9 @@ public class BridgesMainActivity extends BridgesActivity {
             Button button = (Button)findViewById(resID);
             button.setOnClickListener(onClickListener);
         }
+
+        boolean toResume = getIntent().getBooleanExtra("toResume", false);
+        if (toResume) resumeGame();
     }
 
     private void resumeGame() {

@@ -35,13 +35,13 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
             @Override
             public void onClick(View v) {
                 String gameName = doc().gameProgress().gameName;
-                resumeGame(gameName);
+                resumeGame(gameName, true);
             }
         });
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resumeGame((String) v.getTag());
+                resumeGame((String) v.getTag(), false);
             }
         };
         btnLightUp.setOnClickListener(onClickListener);
@@ -55,13 +55,15 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
         });
     }
 
-    private void resumeGame(String gameName) {
-        doc().resumeGame(gameName);
+    private void resumeGame(String gameName, boolean toResume) {
+        if (!toResume)
+            doc().resumeGame(gameName);
         Class<?> cls = null;
         try {
             cls = Class.forName(String.format("com.zwstudio.logicgamesandroid.%s.android.%sMainActivity",
                     gameName.toLowerCase(), gameName));
             Intent intent = new Intent(this, cls);
+            intent.putExtra("toResume", toResume);
             startActivity(intent);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
