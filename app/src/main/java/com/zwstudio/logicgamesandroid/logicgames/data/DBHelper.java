@@ -14,6 +14,9 @@ import com.zwstudio.logicgamesandroid.bridges.data.BridgesMoveProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
+import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkGameProgress;
+import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkLevelProgress;
+import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkMoveProgress;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,6 +45,10 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<BridgesGameProgress, Integer> daoBridgesGameProgress;
     private Dao<BridgesLevelProgress, Integer> daoBridgesLevelProgress;
     private Dao<BridgesMoveProgress, Integer> daoBridgesMoveProgress;
+
+    private Dao<SlitherLinkGameProgress, Integer> daoSlitherLinkGameProgress;
+    private Dao<SlitherLinkLevelProgress, Integer> daoSlitherLinkLevelProgress;
+    private Dao<SlitherLinkMoveProgress, Integer> daoSlitherLinkMoveProgress;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -109,11 +116,14 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         super.close();
         daoLogicGamesGameProgress = null;
         daoLightUpGameProgress = null;
-        daoLightUpMoveProgress = null;
         daoLightUpLevelProgress = null;
+        daoLightUpMoveProgress = null;
         daoBridgesGameProgress = null;
-        daoBridgesMoveProgress = null;
         daoBridgesLevelProgress = null;
+        daoBridgesMoveProgress = null;
+        daoSlitherLinkGameProgress = null;
+        daoSlitherLinkLevelProgress = null;
+        daoSlitherLinkMoveProgress = null;
     }
 
     public Dao<LogicGamesGameProgress, Integer> getDaoLogicGamesGameProgress() throws SQLException {
@@ -156,6 +166,24 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         if (daoBridgesMoveProgress == null)
             daoBridgesMoveProgress = getDao(BridgesMoveProgress.class);
         return daoBridgesMoveProgress;
+    }
+
+    public Dao<SlitherLinkGameProgress, Integer> getDaoSlitherLinkGameProgress() throws SQLException {
+        if (daoSlitherLinkGameProgress == null)
+            daoSlitherLinkGameProgress = getDao(SlitherLinkGameProgress.class);
+        return daoSlitherLinkGameProgress;
+    }
+
+    public Dao<SlitherLinkLevelProgress, Integer> getDaoSlitherLinkLevelProgress() throws SQLException {
+        if (daoSlitherLinkLevelProgress == null)
+            daoSlitherLinkLevelProgress = getDao(SlitherLinkLevelProgress.class);
+        return daoSlitherLinkLevelProgress;
+    }
+
+    public Dao<SlitherLinkMoveProgress, Integer> getDaoSlitherLinkMoveProgress() throws SQLException {
+        if (daoSlitherLinkMoveProgress == null)
+            daoSlitherLinkMoveProgress = getDao(SlitherLinkMoveProgress.class);
+        return daoSlitherLinkMoveProgress;
     }
 
 }

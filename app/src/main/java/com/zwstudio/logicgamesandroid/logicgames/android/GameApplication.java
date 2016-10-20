@@ -15,6 +15,7 @@ import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
 import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
+import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkDocument;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ public class GameApplication extends Application {
     public LogicGamesDocument logicGamesDocument;
     public LightUpDocument lightUpDocument;
     public BridgesDocument bridgesDocument;
+    public SlitherLinkDocument slitherlinkDocument;
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private boolean mIsBound = false;
