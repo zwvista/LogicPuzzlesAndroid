@@ -5,8 +5,8 @@ package com.zwstudio.logicgamesandroid.slitherlink.domain;
  */
 
 public class SlitherLinkObject implements Cloneable {
-    SlitherLinkGame.ObjectType objTypeHorz = SlitherLinkGame.ObjectType.Empty;
-    SlitherLinkGame.ObjectType objTypeVert = SlitherLinkGame.ObjectType.Empty;
+    SlitherLinkObjectType objTypeHorz = SlitherLinkObjectType.Empty;
+    SlitherLinkObjectType objTypeVert = SlitherLinkObjectType.Empty;
 
     @Override
     public SlitherLinkObject clone(){

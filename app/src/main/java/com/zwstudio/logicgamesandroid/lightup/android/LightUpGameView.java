@@ -18,8 +18,10 @@ import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerOptions;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.io.IOException;
@@ -120,8 +122,8 @@ public class LightUpGameView extends View {
                     int n = game().pos2hint.get(new Position(r, c));
                     if (n >= 0) {
                         textPaint.setColor(
-                                o2.state == LightUpWallObject.WallState.Complete ? Color.GREEN :
-                                o2.state == LightUpWallObject.WallState.Error ? Color.RED :
+                                o2.state == LogicGamesHintState.Complete ? Color.GREEN :
+                                o2.state == LogicGamesHintState.Error ? Color.RED :
                                 Color.BLACK
                         );
                         String text = String.valueOf(n);
@@ -151,7 +153,7 @@ public class LightUpGameView extends View {
             if (col >= cols() || row >= rows()) return true;
             LightUpGameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(new Position(row, col), LightUpGame.MarkerOptions.values()[rec.markerOption],
+            if (game().switchObject(new Position(row, col), LightUpMarkerOptions.values()[rec.markerOption],
                     rec.normalLightbulbsOnly))
                 activity().app().playSoundTap();
         }

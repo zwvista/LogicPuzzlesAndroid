@@ -12,6 +12,7 @@ import android.view.View;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesIslandInfo;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesIslandObject;
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.Map;
@@ -96,8 +97,8 @@ public class BridgesGameView extends View {
                     (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
                     0, 360, true, islandPaint);
             textPaint.setColor(
-                    o.state == BridgesIslandObject.IslandState.Complete ? Color.GREEN :
-                    o.state == BridgesIslandObject.IslandState.Error ? Color.RED :
+                    o.state == LogicGamesHintState.Complete ? Color.GREEN :
+                    o.state == LogicGamesHintState.Error ? Color.RED :
                     Color.WHITE
             );
             String text = String.valueOf(info.bridges);

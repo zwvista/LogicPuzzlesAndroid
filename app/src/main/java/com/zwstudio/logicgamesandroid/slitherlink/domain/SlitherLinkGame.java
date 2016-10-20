@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
@@ -14,18 +15,6 @@ import fj.F2;
  */
 
 public class SlitherLinkGame {
-    public enum MarkerOptions {
-        NoMarker, MarkerAfterLine, MarkerBeforeLine
-    }
-    public enum HintState {
-        Normal, Complete, Error
-    }
-    public enum ObjectOrientation {
-        Horizontal, Vertical
-    }
-    public enum ObjectType {
-        Empty, Line, Marker
-    }
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
@@ -87,7 +76,7 @@ public class SlitherLinkGame {
                 if (ch >= '0' && ch <= '9') {
                     int n = ch - '0';
                     pos2hint.put(p, n);
-                    state.pos2state.put(p, n == 0 ? HintState.Complete : HintState.Normal);
+                    state.pos2state.put(p, n == 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal);
                 }
             }
         }
@@ -113,7 +102,7 @@ public class SlitherLinkGame {
         return changed;
    }
 
-    public boolean switchObject(Position p, MarkerOptions markerOption, boolean normalLightbulbsOnly) {
+    public boolean switchObject(Position p, SlitherLinkMarkerOptions markerOption, boolean normalLightbulbsOnly) {
         return changeObject(p, (state, move) -> state.switchObject(p, markerOption, normalLightbulbsOnly, move));
     }
 

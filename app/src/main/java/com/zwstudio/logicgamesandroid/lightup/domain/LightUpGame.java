@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
@@ -14,9 +15,6 @@ import fj.F2;
  */
 
 public class LightUpGame {
-    public enum MarkerOptions {
-        NoMarker, MarkerAfterLightbulb, MarkerBeforeLightbulb
-    }
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
@@ -79,7 +77,7 @@ public class LightUpGame {
                     int n = ch == 'W' ? -1 : (ch - '0');
                     pos2hint.put(p, n);
                     LightUpWallObject o = new LightUpWallObject();
-                    o.state = n <= 0 ? LightUpWallObject.WallState.Complete : LightUpWallObject.WallState.Normal;
+                    o.state = n <= 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal;
                     state.set(r, c, o);
                 } else
                     state.set(r, c, new LightUpEmptyObject());
@@ -107,7 +105,7 @@ public class LightUpGame {
         return changed;
    }
 
-    public boolean switchObject(Position p, MarkerOptions markerOption, boolean normalLightbulbsOnly) {
+    public boolean switchObject(Position p, LightUpMarkerOptions markerOption, boolean normalLightbulbsOnly) {
         return changeObject(p, (state, move) -> state.switchObject(p, markerOption, normalLightbulbsOnly, move));
     }
 

@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import fj.F;
@@ -79,9 +80,7 @@ public class LightUpGameState implements Cloneable {
                         if (!isValid(p2)) continue;
                         if (get(p2) instanceof LightUpLightbulbObject) n1++;
                     }
-                    o2.state = n1 < n2 ? LightUpWallObject.WallState.Normal :
-                            n1 == n2 ? LightUpWallObject.WallState.Complete :
-                            LightUpWallObject.WallState.Error;
+                    o2.state = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
                     if (n1 != n2) isSolved = false;
                 }
             }
@@ -123,16 +122,16 @@ public class LightUpGameState implements Cloneable {
         return false;
     }
 
-    public boolean switchObject(Position p, LightUpGame.MarkerOptions markerOption, boolean normalLightbulbsOnly, LightUpGameMove move) {
+    public boolean switchObject(Position p, LightUpMarkerOptions markerOption, boolean normalLightbulbsOnly, LightUpGameMove move) {
         F<LightUpObject, LightUpObject> f = obj -> {
             if (obj instanceof LightUpEmptyObject)
-                return markerOption == LightUpGame.MarkerOptions.MarkerBeforeLightbulb ?
+                return markerOption == LightUpMarkerOptions.MarkerBeforeLightbulb ?
                         new LightUpMarkerObject() : new LightUpLightbulbObject();
             if (obj instanceof LightUpLightbulbObject)
-                return markerOption == LightUpGame.MarkerOptions.MarkerAfterLightbulb ?
+                return markerOption == LightUpMarkerOptions.MarkerAfterLightbulb ?
                         new LightUpMarkerObject() : new LightUpEmptyObject();
             if (obj instanceof LightUpMarkerObject)
-                return markerOption == LightUpGame.MarkerOptions.MarkerBeforeLightbulb ?
+                return markerOption == LightUpMarkerOptions.MarkerBeforeLightbulb ?
                         new LightUpLightbulbObject() : new LightUpEmptyObject();
             return obj;
         };

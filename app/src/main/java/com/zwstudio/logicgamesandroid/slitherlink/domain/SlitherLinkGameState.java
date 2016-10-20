@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class SlitherLinkGameState implements Cloneable {
     public SlitherLinkGame game;
     public SlitherLinkObject[] objArray;
-    public Map<Position, SlitherLinkGame.HintState> pos2state = new HashMap<>();
+    public Map<Position, LogicGamesHintState> pos2state = new HashMap<>();
     public boolean isSolved;
 
     public Position size() {return game.size;}
@@ -98,7 +99,7 @@ public class SlitherLinkGameState implements Cloneable {
         return false;
     }
 
-    public boolean switchObject(Position p, SlitherLinkGame.MarkerOptions markerOption, boolean normalLightbulbsOnly, SlitherLinkGameMove move) {
+    public boolean switchObject(Position p, SlitherLinkMarkerOptions markerOption, boolean normalLightbulbsOnly, SlitherLinkGameMove move) {
 //        F<SlitherLinkObject, SlitherLinkObject> f = obj -> {
 //            if (obj instanceof SlitherLinkEmptyObject)
 //                return markerOption == SlitherLinkGame.MarkerOptions.MarkerBeforeLightbulb ?

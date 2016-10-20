@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.bridges.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.Map;
@@ -67,9 +68,7 @@ public class BridgesGameState implements Cloneable {
             BridgesIslandObject o = (BridgesIslandObject) get(p);
             int n1 = arrayArray(o.bridges).foldLeft(add, 0);
             int n2 = info.bridges;
-            o.state = n1 < n2 ? BridgesIslandObject.IslandState.Normal :
-                    n1 == n2 ? BridgesIslandObject.IslandState.Complete :
-                            BridgesIslandObject.IslandState.Error;
+            o.state = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
             if (n1 != n2) isSolved = false;
         }
     }
