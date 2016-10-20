@@ -43,7 +43,7 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resumeGame((String) v.getTag(), false);
+                resumeGame((String) v.getTag(), true);
             }
         };
         btnLightUp.setOnClickListener(onClickListener);

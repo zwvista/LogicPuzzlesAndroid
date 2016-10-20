@@ -68,7 +68,7 @@ public class LightUpGameState implements Cloneable {
                     isSolved = false;
                 else if (o instanceof LightUpLightbulbObject) {
                     LightUpLightbulbObject o2 = (LightUpLightbulbObject)o;
-                    o2.state = o.lightness == 1 ? LightUpLightbulbObject.LightbulbState.Normal : LightUpLightbulbObject.LightbulbState.Error;
+                    o2.state = o.lightness == 1 ? LightUpLightbulbState.Normal : LightUpLightbulbState.Error;
                     if (o.lightness > 1) isSolved = false;
                 } else if (o instanceof LightUpWallObject) {
                     LightUpWallObject o2 = (LightUpWallObject) o;

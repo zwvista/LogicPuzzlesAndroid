@@ -19,6 +19,7 @@ import com.zwstudio.logicgamesandroid.lightup.domain.LightUpEmptyObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbState;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerOptions;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
@@ -136,7 +137,7 @@ public class LightUpGameView extends View {
                     LightUpLightbulbObject o2 = (LightUpLightbulbObject) o;
                     dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
                             (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
-                    int alpaha = o2.state == LightUpLightbulbObject.LightbulbState.Error ? 50 : 0;
+                    int alpaha = o2.state == LightUpLightbulbState.Error ? 50 : 0;
                     dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dLightbulb.draw(canvas);
                 } else if (o instanceof LightUpMarkerObject) {

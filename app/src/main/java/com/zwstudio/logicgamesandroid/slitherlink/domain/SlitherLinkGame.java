@@ -84,13 +84,12 @@ public class SlitherLinkGame {
         levelInitilized(state);
     }
 
-    private boolean changeObject(Position p, F2<SlitherLinkGameState, SlitherLinkGameMove, Boolean> f) {
+    private boolean changeObject(SlitherLinkGameMove move, F2<SlitherLinkGameState, SlitherLinkGameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
         SlitherLinkGameState state = state().clone();
-        SlitherLinkGameMove move = new SlitherLinkGameMove();
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);
@@ -102,12 +101,12 @@ public class SlitherLinkGame {
         return changed;
    }
 
-    public boolean switchObject(Position p, SlitherLinkMarkerOptions markerOption, boolean normalLightbulbsOnly) {
-        return changeObject(p, (state, move) -> state.switchObject(p, markerOption, normalLightbulbsOnly, move));
+    public boolean switchObject(SlitherLinkGameMove move, SlitherLinkMarkerOptions markerOption) {
+        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 
-    public boolean setObject(Position p, SlitherLinkObject objNew) {
-        return changeObject(p, (state, move) -> state.setObject(p, objNew, move));
+    public boolean setObject(SlitherLinkGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public SlitherLinkObject getObject(Position p) {

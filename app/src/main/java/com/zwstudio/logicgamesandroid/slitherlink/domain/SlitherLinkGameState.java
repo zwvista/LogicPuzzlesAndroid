@@ -39,6 +39,8 @@ public class SlitherLinkGameState implements Cloneable {
             o.objArray = new SlitherLinkObject[objArray.length];
             for (int i = 0; i < objArray.length; i++)
                 o.objArray[i] = objArray[i].clone();
+            // http://stackoverflow.com/questions/11296490/assigning-hashmap-to-hashmap
+            o.pos2state = new HashMap<>(pos2state);
             o.isSolved = isSolved;
             return o;
         } catch(CloneNotSupportedException ex) {
@@ -63,43 +65,16 @@ public class SlitherLinkGameState implements Cloneable {
         isSolved = true;
     }
 
-    private boolean objChanged(Position p, SlitherLinkObject objNew, SlitherLinkGameMove move, boolean toajust, boolean tolighten) {
-//        move.p = p;
-//        move.obj = objNew;
-//        set(p, objNew);
-//        if (toajust) {
-//            F<Integer, Integer> f = n -> tolighten ? n + 1 : n > 0 ? n - 1 : n;
-//            SlitherLinkObject obj = get(p);
-//            obj.lightness = f.f(obj.lightness);
-//            for (Position os : SlitherLinkGame.offset)
-//                for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
-//                    obj = get(p2);
-//                    if (obj instanceof SlitherLinkIsHintObject) break;
-//                    obj.lightness = f.f(obj.lightness);
-//                }
-//            updateIsSolved();
-//        }
+    public boolean setObject(SlitherLinkGameMove move) {
+        Position p = move.p;
+        SlitherLinkObject obj = get(p);
+        SlitherLinkObjectType objType = move.objOrientation == SlitherLinkObjectOrientation.Horizontal ? obj.objTypeHorz : obj.objTypeVert;
+        if (objType.equals(move.objType)) return false;
+        objType = move.objType;
         return true;
     }
 
-    public boolean setObject(Position p, SlitherLinkObject objNew, SlitherLinkGameMove move) {
-//        SlitherLinkObject objOld = get(p);
-//        objNew.lightness = objOld.lightness;
-//        if (objOld instanceof SlitherLinkEmptyObject && objNew instanceof SlitherLinkMarkerObject ||
-//                objOld instanceof SlitherLinkMarkerObject && objNew instanceof SlitherLinkEmptyObject)
-//            return objChanged(p, objNew, move, false, false);
-//        if (objOld instanceof SlitherLinkEmptyObject && objNew instanceof SlitherLinkLightbulbObject ||
-//                objOld instanceof SlitherLinkMarkerObject && objNew instanceof SlitherLinkLightbulbObject)
-//            return objChanged(p, objNew, move, true, true);
-//        if (objOld instanceof SlitherLinkLightbulbObject && objNew instanceof SlitherLinkEmptyObject ||
-//                objOld instanceof SlitherLinkLightbulbObject && objNew instanceof SlitherLinkMarkerObject)
-//            return objChanged(p, objNew, move, true, false);
-//        if (objNew instanceof SlitherLinkIsHintObject)
-//            set(p, objNew);
-        return false;
-    }
-
-    public boolean switchObject(Position p, SlitherLinkMarkerOptions markerOption, boolean normalLightbulbsOnly, SlitherLinkGameMove move) {
+    public boolean switchObject(SlitherLinkMarkerOptions markerOption, SlitherLinkGameMove move) {
 //        F<SlitherLinkObject, SlitherLinkObject> f = obj -> {
 //            if (obj instanceof SlitherLinkEmptyObject)
 //                return markerOption == SlitherLinkGame.MarkerOptions.MarkerBeforeLightbulb ?

@@ -5,10 +5,7 @@ package com.zwstudio.logicgamesandroid.lightup.domain;
  */
 
 public class LightUpLightbulbObject extends LightUpObject {
-    public enum LightbulbState {
-        Normal, Error
-    }
-    public LightbulbState state = LightbulbState.Normal;
+    public LightUpLightbulbState state = LightUpLightbulbState.Normal;
     public String objTypeAsString() {
         return "lightbulb";
     }

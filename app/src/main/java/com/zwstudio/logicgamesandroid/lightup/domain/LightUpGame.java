@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
+import com.rits.cloning.Cloner;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
@@ -92,7 +93,7 @@ public class LightUpGame {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
-        LightUpGameState state = state().clone();
+        LightUpGameState state = new Cloner().deepClone(state());
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);
