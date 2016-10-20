@@ -3,7 +3,9 @@ package com.zwstudio.logicgamesandroid.lightup.domain;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fj.F2;
 
@@ -31,6 +33,8 @@ public class LightUpGame {
     public boolean isValid(Position p) {
         return isValid(p.row, p.col);
     }
+
+    public Map<Position, Integer> pos2hint = new HashMap<>();
 
     private int stateIndex = 0;
     private List<LightUpGameState> states = new ArrayList<>();
@@ -69,11 +73,13 @@ public class LightUpGame {
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
                 char ch = str.charAt(c);
                 if (ch == 'W' || ch >= '0' && ch <= '9') {
+                    int n = ch == 'W' ? -1 : (ch - '0');
+                    pos2hint.put(p, n);
                     LightUpWallObject o = new LightUpWallObject();
-                    o.lightbulbs = ch == 'W' ? -1 : (ch - '0');
-                    o.state = o.lightbulbs <= 0 ? LightUpWallObject.WallState.Complete : LightUpWallObject.WallState.Normal;
+                    o.state = n <= 0 ? LightUpWallObject.WallState.Complete : LightUpWallObject.WallState.Normal;
                     state.set(r, c, o);
                 } else
                     state.set(r, c, new LightUpEmptyObject());

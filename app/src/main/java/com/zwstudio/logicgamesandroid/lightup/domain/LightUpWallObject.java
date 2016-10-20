@@ -9,7 +9,6 @@ public class LightUpWallObject extends LightUpObject {
         Normal, Complete, Error
     }
     public WallState state = WallState.Normal;
-    public int lightbulbs = 0;
     public String objTypeAsString() {
         return "wall";
     }
@@ -17,7 +16,6 @@ public class LightUpWallObject extends LightUpObject {
     public LightUpWallObject clone(){
         LightUpWallObject o = (LightUpWallObject)super.clone();
         o.state = state;
-        o.lightbulbs = lightbulbs;
         return o;
     }
 }

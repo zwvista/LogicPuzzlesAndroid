@@ -117,13 +117,14 @@ public class LightUpGameView extends View {
                     canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
                             (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
                             wallPaint);
-                    if (o2.lightbulbs >= 0) {
+                    int n = game().pos2hint.get(new Position(r, c));
+                    if (n >= 0) {
                         textPaint.setColor(
                                 o2.state == LightUpWallObject.WallState.Complete ? Color.GREEN :
                                 o2.state == LightUpWallObject.WallState.Error ? Color.RED :
                                 Color.BLACK
                         );
-                        String text = String.valueOf(o2.lightbulbs);
+                        String text = String.valueOf(n);
                         textPaint.setTextSize(cellHeight);
                         drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
                     }

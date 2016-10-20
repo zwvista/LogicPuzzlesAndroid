@@ -15,6 +15,4 @@ public class SlitherLinkGameProgress implements java.io.Serializable {
     public String levelID = "Level 1";
     @DatabaseField
     public int markerOption;
-    @DatabaseField
-    public boolean normalLightbulbsOnly;
 }

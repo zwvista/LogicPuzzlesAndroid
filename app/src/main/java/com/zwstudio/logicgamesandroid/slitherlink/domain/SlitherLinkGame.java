@@ -3,7 +3,9 @@ package com.zwstudio.logicgamesandroid.slitherlink.domain;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fj.F2;
 
@@ -13,7 +15,16 @@ import fj.F2;
 
 public class SlitherLinkGame {
     public enum MarkerOptions {
-        NoMarker, MarkerAfterLightbulb, MarkerBeforeLightbulb
+        NoMarker, MarkerAfterLine, MarkerBeforeLine
+    }
+    public enum HintState {
+        Normal, Complete, Error
+    }
+    public enum ObjectOrientation {
+        Horizontal, Vertical
+    }
+    public enum ObjectType {
+        Empty, Line, Marker
     }
     public static Position offset[] = {
             new Position(-1, 0),
@@ -31,6 +42,8 @@ public class SlitherLinkGame {
     public boolean isValid(Position p) {
         return isValid(p.row, p.col);
     }
+
+    public Map<Position, Integer> pos2hint = new HashMap<>();
 
     private int stateIndex = 0;
     private List<SlitherLinkGameState> states = new ArrayList<>();
@@ -64,19 +77,18 @@ public class SlitherLinkGame {
 
     public SlitherLinkGame(List<String> layout, SlitherLinkGameInterface gi) {
         this.gi = gi;
-        size = new Position(layout.size(), layout.get(0).length());
+        size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         SlitherLinkGameState state = new SlitherLinkGameState(this);
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch == 'W' || ch >= '0' && ch <= '9') {
-                    SlitherLinkWallObject o = new SlitherLinkWallObject();
-                    o.lightbulbs = ch == 'W' ? -1 : (ch - '0');
-                    o.state = o.lightbulbs <= 0 ? SlitherLinkWallObject.WallState.Complete : SlitherLinkWallObject.WallState.Normal;
-                    state.set(r, c, o);
-                } else
-                    state.set(r, c, new SlitherLinkEmptyObject());
+                if (ch >= '0' && ch <= '9') {
+                    int n = ch - '0';
+                    pos2hint.put(p, n);
+                    state.pos2state.put(p, n == 0 ? HintState.Complete : HintState.Normal);
+                }
             }
         }
         states.add(state);

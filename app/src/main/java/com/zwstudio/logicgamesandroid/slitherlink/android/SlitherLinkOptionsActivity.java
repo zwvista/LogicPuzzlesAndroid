@@ -27,8 +27,6 @@ public class SlitherLinkOptionsActivity extends SlitherLinkActivity {
 
     @InjectView(R.id.spnMarker)
     Spinner spnMarker;
-    @InjectView(R.id.ctvNormalLightbulbsOnly)
-    CheckedTextView ctvNormalLightbulbsOnly;
     @InjectView(R.id.btnDone)
     Button btnDone;
     @InjectView(R.id.btnDefault)
@@ -38,7 +36,7 @@ public class SlitherLinkOptionsActivity extends SlitherLinkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        List<String> lst = Arrays.asList("No Marker", "Marker After Lightbulb", "Marker Before Lightbulb");
+        List<String> lst = Arrays.asList("No Marker", "Marker After Line", "Marker Before Line");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -79,20 +77,6 @@ public class SlitherLinkOptionsActivity extends SlitherLinkActivity {
             }
         });
 
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
-        ctvNormalLightbulbsOnly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
-                rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
-                try {
-                    doc().db.getDaoSlitherLinkGameProgress().update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,14 +95,12 @@ public class SlitherLinkOptionsActivity extends SlitherLinkActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 rec.markerOption = 0;
-                                rec.normalLightbulbsOnly = false;
                                 try {
                                     doc().db.getDaoSlitherLinkGameProgress().update(rec);
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
                                 spnMarker.setSelection(rec.markerOption);
-                                ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked

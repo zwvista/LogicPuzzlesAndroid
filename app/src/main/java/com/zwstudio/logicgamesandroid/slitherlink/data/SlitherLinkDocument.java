@@ -162,7 +162,8 @@ public class SlitherLinkDocument {
             rec.moveIndex = game.moveIndex();
             rec.row = move.p.row;
             rec.col = move.p.col;
-            rec.objTypeAsString = move.obj.objTypeAsString();
+            rec.objOrientation = move.objOrientation.ordinal();
+            rec.objType = move.objType.ordinal();
             db.getDaoSlitherLinkMoveProgress().create(rec);
         } catch (SQLException e) {
             e.printStackTrace();

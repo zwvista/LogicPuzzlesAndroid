@@ -20,6 +20,8 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
     Button btnLightUp;
     @InjectView(R.id.btnBridges)
     Button btnBridges;
+    @InjectView(R.id.btnSlitherLink)
+    Button btnSlitherLink;
     @InjectView(R.id.btnOptions)
     Button btnOptions;
 
@@ -46,6 +48,7 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
         };
         btnLightUp.setOnClickListener(onClickListener);
         btnBridges.setOnClickListener(onClickListener);
+        btnSlitherLink.setOnClickListener(onClickListener);
         btnOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

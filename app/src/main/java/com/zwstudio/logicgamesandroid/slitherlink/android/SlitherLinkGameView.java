@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
@@ -16,11 +15,7 @@ import android.view.View;
 
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;
-import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkLightbulbObject;
-import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkMarkerObject;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObject;
-import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkWallObject;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -108,37 +103,6 @@ public class SlitherLinkGameView extends View {
                         gridPaint);
                 if (isInEditMode()) continue;
                 SlitherLinkObject o = game().getObject(r, c);
-                if (o.lightness > 0)
-                    canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
-                            (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
-                            lightPaint);
-                if (o instanceof SlitherLinkWallObject) {
-                    SlitherLinkWallObject o2 = (SlitherLinkWallObject) o;
-                    canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
-                            (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
-                            wallPaint);
-                    if (o2.lightbulbs >= 0) {
-                        textPaint.setColor(
-                                o2.state == SlitherLinkWallObject.WallState.Complete ? Color.GREEN :
-                                o2.state == SlitherLinkWallObject.WallState.Error ? Color.RED :
-                                Color.BLACK
-                        );
-                        String text = String.valueOf(o2.lightbulbs);
-                        textPaint.setTextSize(cellHeight);
-                        drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
-                    }
-                } else if (o instanceof SlitherLinkLightbulbObject) {
-                    SlitherLinkLightbulbObject o2 = (SlitherLinkLightbulbObject) o;
-                    dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
-                            (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
-                    int alpaha = o2.state == SlitherLinkLightbulbObject.LightbulbState.Error ? 50 : 0;
-                    dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    dLightbulb.draw(canvas);
-                } else if (o instanceof SlitherLinkMarkerObject) {
-                    canvas.drawArc(c * cellWidth + cellWidth / 2 - 19, r * cellHeight + cellHeight / 2 - 19,
-                            c * cellWidth + cellWidth / 2 + 21, r * cellHeight + cellHeight / 2 + 21,
-                            0, 360, true, wallPaint);
-                }
             }
     }
 
@@ -150,9 +114,9 @@ public class SlitherLinkGameView extends View {
             if (col >= cols() || row >= rows()) return true;
             SlitherLinkGameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(new Position(row, col), SlitherLinkGame.MarkerOptions.values()[rec.markerOption],
-                    rec.normalLightbulbsOnly))
-                activity().app().playSoundTap();
+//            if (game().switchObject(new Position(row, col), SlitherLinkGame.MarkerOptions.values()[rec.markerOption],
+//                    rec.normalLightbulbsOnly))
+//                activity().app().playSoundTap();
         }
         return true;
     }

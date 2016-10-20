@@ -1,28 +1,19 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
 /**
- * Created by zwvista on 2016/09/29.
+ * Created by TCC-2-9002 on 2016/10/20.
  */
 
-public abstract class SlitherLinkObject implements Cloneable {
-    public int lightness = 0;
-    public abstract String objTypeAsString();
-    public static SlitherLinkObject objTypeFromString(String str) {
-        switch (str) {
-            case "lightbulb":
-                return new SlitherLinkLightbulbObject();
-            case "marker":
-                return new SlitherLinkMarkerObject();
-            default:
-                return new SlitherLinkEmptyObject();
-        }
-    }
+public class SlitherLinkObject implements Cloneable {
+    SlitherLinkGame.ObjectType objTypeHorz = SlitherLinkGame.ObjectType.Empty;
+    SlitherLinkGame.ObjectType objTypeVert = SlitherLinkGame.ObjectType.Empty;
 
     @Override
     public SlitherLinkObject clone(){
         try {
             SlitherLinkObject o = (SlitherLinkObject)super.clone();
-            o.lightness = lightness;
+            o.objTypeHorz = objTypeHorz;
+            o.objTypeVert = objTypeVert;
             return o;
         } catch(CloneNotSupportedException ex) {
             throw new AssertionError();

@@ -8,13 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zwstudio.logicgamesandroid.R;
-import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkMoveProgress;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameInterface;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameMove;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameState;
-import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObject;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.List;
 
@@ -98,8 +95,8 @@ public class SlitherLinkGameActivity extends SlitherLinkActivity implements Slit
         game = new SlitherLinkGame(layout, this);
         try {
             // restore game state
-            for (SlitherLinkMoveProgress rec : doc().moveProgress())
-                game.setObject(new Position(rec.row, rec.col), SlitherLinkObject.objTypeFromString(rec.objTypeAsString));
+//            for (SlitherLinkMoveProgress rec : doc().moveProgress())
+//                game.setObject(new Position(rec.row, rec.col), SlitherLinkObject.objTypeFromString(rec.objTypeAsString));
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;
             while (moveIndex != game.moveIndex())

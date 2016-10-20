@@ -70,18 +70,19 @@ public class LightUpGameState implements Cloneable {
                     o2.state = o.lightness == 1 ? LightUpLightbulbObject.LightbulbState.Normal : LightUpLightbulbObject.LightbulbState.Error;
                     if (o.lightness > 1) isSolved = false;
                 } else if (o instanceof LightUpWallObject) {
-                    LightUpWallObject o2 = (LightUpWallObject)o;
-                    if (o2.lightbulbs < 0) continue;
-                    int n = 0;
+                    LightUpWallObject o2 = (LightUpWallObject) o;
+                    int n2 = game.pos2hint.get(p);
+                    if (n2 < 0) continue;
+                    int n1 = 0;
                     for (Position os : LightUpGame.offset) {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) continue;
-                        if (get(p2) instanceof LightUpLightbulbObject) n++;
+                        if (get(p2) instanceof LightUpLightbulbObject) n1++;
                     }
-                    o2.state = n < o2.lightbulbs ? LightUpWallObject.WallState.Normal :
-                            n == o2.lightbulbs ? LightUpWallObject.WallState.Complete :
+                    o2.state = n1 < n2 ? LightUpWallObject.WallState.Normal :
+                            n1 == n2 ? LightUpWallObject.WallState.Complete :
                             LightUpWallObject.WallState.Error;
-                    if (n != o2.lightbulbs) isSolved = false;
+                    if (n1 != n2) isSolved = false;
                 }
             }
     }
