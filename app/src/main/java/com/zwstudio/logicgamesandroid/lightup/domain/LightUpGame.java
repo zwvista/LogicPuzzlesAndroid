@@ -87,13 +87,12 @@ public class LightUpGame {
         levelInitilized(state);
     }
 
-    private boolean changeObject(Position p, F2<LightUpGameState, LightUpGameMove, Boolean> f) {
+    private boolean changeObject(LightUpGameMove move, F2<LightUpGameState, LightUpGameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
         LightUpGameState state = state().clone();
-        LightUpGameMove move = new LightUpGameMove();
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);
@@ -105,12 +104,12 @@ public class LightUpGame {
         return changed;
    }
 
-    public boolean switchObject(Position p, LightUpMarkerOptions markerOption, boolean normalLightbulbsOnly) {
-        return changeObject(p, (state, move) -> state.switchObject(p, markerOption, normalLightbulbsOnly, move));
+    public boolean switchObject(LightUpGameMove move, LightUpMarkerOptions markerOption, boolean normalLightbulbsOnly) {
+        return changeObject(move, (state, move2) -> state.switchObject(markerOption, normalLightbulbsOnly, move2));
     }
 
-    public boolean setObject(Position p, LightUpObject objNew) {
-        return changeObject(p, (state, move) -> state.setObject(p, objNew, move));
+    public boolean setObject(LightUpGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public LightUpObject getObject(Position p) {

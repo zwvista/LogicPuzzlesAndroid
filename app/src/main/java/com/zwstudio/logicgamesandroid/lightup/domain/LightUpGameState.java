@@ -86,10 +86,9 @@ public class LightUpGameState implements Cloneable {
             }
     }
 
-    private boolean objChanged(Position p, LightUpObject objNew, LightUpGameMove move, boolean toajust, boolean tolighten) {
-        move.p = p;
-        move.obj = objNew;
-        set(p, objNew);
+    private boolean objChanged(LightUpGameMove move, boolean toajust, boolean tolighten) {
+        Position p = move.p;
+        set(p, move.obj);
         if (toajust) {
             F<Integer, Integer> f = n -> tolighten ? n + 1 : n > 0 ? n - 1 : n;
             LightUpObject obj = get(p);
@@ -105,24 +104,26 @@ public class LightUpGameState implements Cloneable {
         return true;
     }
 
-    public boolean setObject(Position p, LightUpObject objNew, LightUpGameMove move) {
+    public boolean setObject(LightUpGameMove move) {
+        Position p = move.p;
         LightUpObject objOld = get(p);
+        LightUpObject objNew = move.obj;
         objNew.lightness = objOld.lightness;
         if (objOld instanceof LightUpEmptyObject && objNew instanceof LightUpMarkerObject ||
                 objOld instanceof LightUpMarkerObject && objNew instanceof LightUpEmptyObject)
-            return objChanged(p, objNew, move, false, false);
+            return objChanged(move, false, false);
         if (objOld instanceof LightUpEmptyObject && objNew instanceof LightUpLightbulbObject ||
                 objOld instanceof LightUpMarkerObject && objNew instanceof LightUpLightbulbObject)
-            return objChanged(p, objNew, move, true, true);
+            return objChanged(move, true, true);
         if (objOld instanceof LightUpLightbulbObject && objNew instanceof LightUpEmptyObject ||
                 objOld instanceof LightUpLightbulbObject && objNew instanceof LightUpMarkerObject)
-            return objChanged(p, objNew, move, true, false);
+            return objChanged(move, true, false);
         if (objNew instanceof LightUpWallObject)
             set(p, objNew);
         return false;
     }
 
-    public boolean switchObject(Position p, LightUpMarkerOptions markerOption, boolean normalLightbulbsOnly, LightUpGameMove move) {
+    public boolean switchObject(LightUpMarkerOptions markerOption, boolean normalLightbulbsOnly, LightUpGameMove move) {
         F<LightUpObject, LightUpObject> f = obj -> {
             if (obj instanceof LightUpEmptyObject)
                 return markerOption == LightUpMarkerOptions.MarkerBeforeLightbulb ?
@@ -135,12 +136,16 @@ public class LightUpGameState implements Cloneable {
                         new LightUpLightbulbObject() : new LightUpEmptyObject();
             return obj;
         };
-        LightUpObject objOld = get(p);
+        LightUpObject objOld = get(move.p);
         LightUpObject objNew = f.f(objOld);
-        if (objNew instanceof LightUpEmptyObject || objNew instanceof LightUpMarkerObject)
-            return setObject(p, objNew, move);
-        if (objNew instanceof LightUpLightbulbObject)
-            return setObject(p, normalLightbulbsOnly && objOld.lightness > 0 ? f.f(objNew) : objNew, move);
+        if (objNew instanceof LightUpEmptyObject || objNew instanceof LightUpMarkerObject) {
+            move.obj = objNew;
+            return setObject(move);
+        }
+        if (objNew instanceof LightUpLightbulbObject) {
+            move.obj = normalLightbulbsOnly && objOld.lightness > 0 ? f.f(objNew) : objNew;
+            return setObject(move);
+        }
         return false;
     }
 }

@@ -98,8 +98,12 @@ public class LightUpGameActivity extends LightUpActivity implements LightUpGameI
         game = new LightUpGame(layout, this);
         try {
             // restore game state
-            for (LightUpMoveProgress rec : doc().moveProgress())
-                game.setObject(new Position(rec.row, rec.col), LightUpObject.objTypeFromString(rec.objTypeAsString));
+            for (LightUpMoveProgress rec : doc().moveProgress()) {
+                LightUpGameMove move = new LightUpGameMove();
+                move.p = new Position(rec.row, rec.col);
+                move.obj = LightUpObject.objTypeFromString(rec.objTypeAsString);
+                game.setObject(move);
+            }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;
             while (moveIndex != game.moveIndex())

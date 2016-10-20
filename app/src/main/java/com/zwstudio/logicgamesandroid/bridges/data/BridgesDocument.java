@@ -113,19 +113,6 @@ public class BridgesDocument {
                     name = parser.getName();
                     if (name.equals("level")){
                         id = "Level " + parser.getAttributeValue(null,"id");
-//Conventional Java
-//                        String[] strs = parser.nextText().split("\n");
-//                        layout = new ArrayList<>();
-//                        for (int i = 2; i < strs.length - 2; i++) {
-//                            String s = strs[i];
-//                            layout.add(s.substring(0, s.indexOf('\\')));
-//                        }
-//Java 8
-//                        layout = Arrays.asList(parser.nextText().split("\n"));
-//                        layout = layout.subList(2, layout.size() - 2)
-//                                .stream().map(s -> s.substring(0, s.indexOf('\\')))
-//                                .collect(Collectors.toList());
-//Functional Java
                         layout = Arrays.asList(parser.nextText().split("\n"));
                         layout = iterableList(layout.subList(2, layout.size() - 2))
                                 .map(s -> s.substring(0, s.indexOf('\\')))
