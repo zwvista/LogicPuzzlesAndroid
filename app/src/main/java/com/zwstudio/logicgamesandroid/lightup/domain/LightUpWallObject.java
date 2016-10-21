@@ -11,10 +11,4 @@ public class LightUpWallObject extends LightUpObject {
     public String objTypeAsString() {
         return "wall";
     }
-    @Override
-    public LightUpWallObject clone(){
-        LightUpWallObject o = (LightUpWallObject)super.clone();
-        o.state = state;
-        return o;
-    }
 }

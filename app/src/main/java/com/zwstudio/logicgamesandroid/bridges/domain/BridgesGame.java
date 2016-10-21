@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.bridges.domain;
 
+import com.rits.cloning.Cloner;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class BridgesGame {
             new Position(1, 0),
             new Position(0, -1),
     };
+    private Cloner cloner = new Cloner();
 
     public Position size;
     public int rows() {return size.row;}
@@ -62,6 +64,7 @@ public class BridgesGame {
     }
 
     public BridgesGame(List<String> layout, BridgesGameInterface gi) {
+        cloner.dontClone(this.getClass());
         this.gi = gi;
         size = new Position(layout.size(), layout.get(0).length());
         BridgesGameState state = new BridgesGameState(this);
@@ -100,7 +103,7 @@ public class BridgesGame {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
-        BridgesGameState state = state().clone();
+        BridgesGameState state = cloner.deepClone(state());
         if (pTo.compareTo(pFrom) < 0) {
             Position t = pFrom;
             pFrom = pTo;

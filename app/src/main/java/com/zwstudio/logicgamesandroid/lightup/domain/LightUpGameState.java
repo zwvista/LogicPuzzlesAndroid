@@ -3,13 +3,15 @@ package com.zwstudio.logicgamesandroid.lightup.domain;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
+import java.util.Arrays;
+
 import fj.F;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
-public class LightUpGameState implements Cloneable {
+public class LightUpGameState {
     public LightUpGame game;
     public LightUpObject[] objArray;
     public boolean isSolved;
@@ -25,23 +27,7 @@ public class LightUpGameState implements Cloneable {
     public LightUpGameState(LightUpGame game) {
         this.game = game;
         objArray = new LightUpObject[rows() * cols()];
-        for (LightUpObject obj: objArray)
-            obj = new LightUpEmptyObject();
-    }
-
-    @Override
-    public LightUpGameState clone(){
-        try {
-            LightUpGameState o = (LightUpGameState)super.clone();
-            o.game = game;
-            o.objArray = new LightUpObject[objArray.length];
-            for (int i = 0; i < objArray.length; i++)
-                o.objArray[i] = objArray[i].clone();
-            o.isSolved = isSolved;
-            return o;
-        } catch(CloneNotSupportedException ex) {
-            throw new AssertionError();
-        }
+        Arrays.fill(objArray, new LightUpEmptyObject());
     }
 
     public LightUpObject get(int row, int col) {

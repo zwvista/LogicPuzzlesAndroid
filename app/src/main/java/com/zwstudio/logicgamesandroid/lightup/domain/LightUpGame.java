@@ -22,6 +22,7 @@ public class LightUpGame {
             new Position(1, 0),
             new Position(0, -1),
     };
+    private Cloner cloner = new Cloner();
 
     public Position size;
     public int rows() {return size.row;}
@@ -66,6 +67,7 @@ public class LightUpGame {
     }
 
     public LightUpGame(List<String> layout, LightUpGameInterface gi) {
+        cloner.dontClone(this.getClass());
         this.gi = gi;
         size = new Position(layout.size(), layout.get(0).length());
         LightUpGameState state = new LightUpGameState(this);
@@ -93,7 +95,7 @@ public class LightUpGame {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
-        LightUpGameState state = new Cloner().deepClone(state());
+        LightUpGameState state = cloner.deepClone(state());
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);

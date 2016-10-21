@@ -3,6 +3,7 @@ package com.zwstudio.logicgamesandroid.bridges.domain;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import static fj.data.Array.arrayArray;
@@ -12,7 +13,7 @@ import static fj.function.Integers.add;
  * Created by zwvista on 2016/09/29.
  */
 
-public class BridgesGameState implements Cloneable {
+public class BridgesGameState {
     public BridgesGame game;
     public BridgesObject[] objArray;
     public boolean isSolved;
@@ -28,23 +29,7 @@ public class BridgesGameState implements Cloneable {
     public BridgesGameState(BridgesGame game) {
         this.game = game;
         objArray = new BridgesObject[rows() * cols()];
-        for (BridgesObject obj: objArray)
-            obj = new BridgesEmptyObject();
-    }
-
-    @Override
-    public BridgesGameState clone(){
-        try {
-            BridgesGameState o = (BridgesGameState)super.clone();
-            o.game = game;
-            o.objArray = new BridgesObject[objArray.length];
-            for (int i = 0; i < objArray.length; i++)
-                o.objArray[i] = objArray[i].clone();
-            o.isSolved = isSolved;
-            return o;
-        } catch(CloneNotSupportedException ex) {
-            throw new AssertionError();
-        }
+        Arrays.fill(objArray, new BridgesEmptyObject());
     }
 
     public BridgesObject get(int row, int col) {

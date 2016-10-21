@@ -9,10 +9,4 @@ public class LightUpLightbulbObject extends LightUpObject {
     public String objTypeAsString() {
         return "lightbulb";
     }
-    @Override
-    public LightUpLightbulbObject clone(){
-        LightUpLightbulbObject o = (LightUpLightbulbObject)super.clone();
-        o.state = state;
-        return o;
-    }
 }
