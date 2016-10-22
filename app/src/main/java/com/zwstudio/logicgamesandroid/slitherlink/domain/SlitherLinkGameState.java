@@ -56,7 +56,7 @@ public class SlitherLinkGameState {
     }
 
     private void updateIsSolved() {
-        isSolved = false;
+        isSolved = true;
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();

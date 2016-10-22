@@ -102,6 +102,9 @@ public class SlitherLinkGameView extends View {
                     textPaint.setTextSize(cellHeight);
                     drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
                 }
+            }
+        for (int r = 0; r < rows() + 1; r++)
+            for (int c = 0; c < cols() + 1; c++) {
                 SlitherLinkObject[] dotObj = game().getObject(r, c);
                 switch (dotObj[1]){
                 case Line:
@@ -132,9 +135,7 @@ public class SlitherLinkGameView extends View {
             int row = (int)((event.getY() + offset) / cellHeight);
             int xOffset = (int)event.getX() - col * cellWidth - 1;
             int yOffset = (int)event.getY() - row * cellHeight - 1;
-            if (col >= cols() || row >= rows() ||
-                    !(xOffset >= -offset && xOffset <= offset ||
-                    yOffset >= -offset && yOffset <= offset)) return true;
+            if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true;
             SlitherLinkGameMove move = new SlitherLinkGameMove();
             move.p = new Position(row, col);
             move.obj = SlitherLinkObject.Empty;
