@@ -59,8 +59,7 @@ public class LogicGamesMainActivity extends LogicGamesActivity {
     }
 
     private void resumeGame(String gameName, boolean toResume) {
-        if (!toResume)
-            doc().resumeGame(gameName);
+        doc().resumeGame(gameName);
         Class<?> cls = null;
         try {
             cls = Class.forName(String.format("com.zwstudio.logicgamesandroid.%s.android.%sMainActivity",

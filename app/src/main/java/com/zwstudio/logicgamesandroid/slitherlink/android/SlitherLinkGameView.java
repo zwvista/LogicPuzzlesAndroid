@@ -95,8 +95,8 @@ public class SlitherLinkGameView extends View {
                     LogicGamesHintState state = game().getHintState(p);
                     textPaint.setColor(
                             state == LogicGamesHintState.Complete ? Color.GREEN :
-                                    state == LogicGamesHintState.Error ? Color.RED :
-                                            Color.WHITE
+                            state == LogicGamesHintState.Error ? Color.RED :
+                            Color.WHITE
                     );
                     String text = String.valueOf(n);
                     textPaint.setTextSize(cellHeight);

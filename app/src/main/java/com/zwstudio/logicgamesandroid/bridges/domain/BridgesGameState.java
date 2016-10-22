@@ -1,12 +1,17 @@
 package com.zwstudio.logicgamesandroid.bridges.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static fj.data.Array.arrayArray;
+import static fj.data.List.iterableList;
 import static fj.function.Integers.add;
 
 /**
@@ -47,6 +52,8 @@ public class BridgesGameState {
 
     private void updateIsSolved() {
         isSolved = true;
+        Graph g = new Graph();
+        Map<Position, Node> pos2Node = new HashMap<>();
         for (Map.Entry<Position, BridgesIslandInfo> entry : game.islandsInfo.entrySet()) {
             Position p = entry.getKey();
             BridgesIslandInfo info = entry.getValue();
@@ -55,7 +62,25 @@ public class BridgesGameState {
             int n2 = info.bridges;
             o.state = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
             if (n1 != n2) isSolved = false;
+            if (!isSolved) continue;
+            Node node = new Node(p.toString());
+            pos2Node.put(p, node);
+            g.addNode(node);
         }
+        if (!isSolved) return;
+        for (Map.Entry<Position, BridgesIslandInfo> entry : game.islandsInfo.entrySet()) {
+            Position p = entry.getKey();
+            BridgesIslandInfo info = entry.getValue();
+            for (Position p2 : info.neighbors) {
+                if (p2 == null) continue;
+                g.connectNode(pos2Node.get(p), pos2Node.get(p2));
+            }
+        }
+        g.setRootNode(iterableList(pos2Node.values()).head());
+        List<Node> nodeList = g.bfs();
+        int n1 = nodeList.size();
+        int n2 = pos2Node.values().size();
+        if (n1 != n2) isSolved = false;
     }
 
     public boolean switchBridges(BridgesGameMove move) {

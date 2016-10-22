@@ -1,13 +1,19 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fj.F;
+
+import static fj.data.Array.arrayArray;
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -51,6 +57,53 @@ public class SlitherLinkGameState {
 
     private void updateIsSolved() {
         isSolved = false;
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue();
+            int n1 = 0;
+            if (get(p)[1] == SlitherLinkObject.Line) n1++;
+            if (get(p)[2] == SlitherLinkObject.Line) n1++;
+            if (get(p.add(new Position(1, 1)))[0] == SlitherLinkObject.Line) n1++;
+            if (get(p.add(new Position(1, 1)))[3] == SlitherLinkObject.Line) n1++;
+            pos2state.put(p, n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error);
+            if (n1 != n2) isSolved = false;
+        }
+        if (!isSolved) return;
+        Graph g = new Graph();
+        Map<Position, Node> pos2Node = new HashMap<>();
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                int n = arrayArray(get(p)).filter(o -> o == SlitherLinkObject.Line).length();
+                switch (n) {
+                case 0:
+                    continue;
+                case 2:
+                    {
+                        Node node = new Node(p.toString());
+                        g.addNode(node);
+                        pos2Node.put(p, node);
+                    }
+                    break;
+                default:
+                    isSolved = false;
+                    return;
+                }
+            }
+
+        for (Position p : pos2Node.keySet()) {
+            SlitherLinkObject[] dotObj = get(p);
+            for (int i = 0; i < 4; i++) {
+                if (dotObj[i] != SlitherLinkObject.Line) continue;
+                Position p2 = p.add(SlitherLinkGame.offset[i]);
+                g.connectNode(pos2Node.get(p), pos2Node.get(p2));
+            }
+        }
+        g.setRootNode(iterableList(pos2Node.values()).head());
+        List<Node> nodeList = g.bfs();
+        int n1 = nodeList.size();
+        int n2 = pos2Node.values().size();
+        if (n1 != n2) isSolved = false;
     }
 
     public boolean setObject(SlitherLinkGameMove move) {
