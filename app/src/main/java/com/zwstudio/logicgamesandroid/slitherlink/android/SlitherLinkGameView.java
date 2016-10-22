@@ -31,6 +31,7 @@ public class SlitherLinkGameView extends View {
     private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
+    private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public SlitherLinkGameView(Context context) {
@@ -54,6 +55,9 @@ public class SlitherLinkGameView extends View {
         linePaint.setColor(Color.YELLOW);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
+        markerPaint.setColor(Color.YELLOW);
+        markerPaint.setStyle(Paint.Style.STROKE);
+        markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -103,6 +107,7 @@ public class SlitherLinkGameView extends View {
                     drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
                 }
             }
+        int markerOffset = 20;
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++) {
                 SlitherLinkObject[] dotObj = game().getObject(r, c);
@@ -111,8 +116,8 @@ public class SlitherLinkGameView extends View {
                     canvas.drawLine(c * cellWidth + 1, r * cellHeight + 1, (c + 1) * cellWidth + 1, r * cellHeight + 1, linePaint);
                     break;
                 case Marker:
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - 10, r * cellHeight + 1 - 10, c * cellWidth + 1 + cellWidth / 2 + 10, r * cellHeight + 1 + 10, linePaint);
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - 10, r * cellHeight + 1 + 10, c * cellWidth + 1 + cellWidth / 2 + 10, r * cellHeight + 1 - 10, linePaint);
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - markerOffset, r * cellHeight + 1 - markerOffset, c * cellWidth + 1 + cellWidth / 2 + markerOffset, r * cellHeight + 1 + markerOffset, markerPaint);
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - markerOffset, r * cellHeight + 1 + markerOffset, c * cellWidth + 1 + cellWidth / 2 + markerOffset, r * cellHeight + 1 - markerOffset, markerPaint);
                     break;
                 }
                 switch (dotObj[2]){
@@ -120,8 +125,8 @@ public class SlitherLinkGameView extends View {
                     canvas.drawLine(c * cellWidth + 1, r * cellHeight + 1, c * cellWidth + 1, (r + 1) * cellHeight + 1, linePaint);
                     break;
                 case Marker:
-                    canvas.drawLine(c * cellWidth + 1 - 10, r * cellHeight + 1 + cellHeight / 2 - 10, c * cellWidth + 1 + 10, r * cellHeight + 1 + cellHeight / 2 + 10, linePaint);
-                    canvas.drawLine(c * cellWidth + 1 - 10, r * cellHeight + 1 + cellHeight / 2 + 10, c * cellWidth + 1 + 10, r * cellHeight + 1 + cellHeight / 2 - 10, linePaint);
+                    canvas.drawLine(c * cellWidth + 1 - markerOffset, r * cellHeight + 1 + cellHeight / 2 - markerOffset, c * cellWidth + 1 + markerOffset, r * cellHeight + 1 + cellHeight / 2 + markerOffset, markerPaint);
+                    canvas.drawLine(c * cellWidth + 1 - markerOffset, r * cellHeight + 1 + cellHeight / 2 + markerOffset, c * cellWidth + 1 + markerOffset, r * cellHeight + 1 + cellHeight / 2 - markerOffset, markerPaint);
                     break;
                 }
             }
