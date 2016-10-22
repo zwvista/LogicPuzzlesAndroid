@@ -150,7 +150,7 @@ public class SlitherLinkDocument {
             rec.row = move.p.row;
             rec.col = move.p.col;
             rec.objOrientation = move.objOrientation.ordinal();
-            rec.objType = move.objType.ordinal();
+            rec.obj = move.obj.ordinal();
             db.getDaoSlitherLinkMoveProgress().create(rec);
         } catch (SQLException e) {
             e.printStackTrace();

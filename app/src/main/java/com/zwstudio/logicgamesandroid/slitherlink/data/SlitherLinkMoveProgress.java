@@ -22,5 +22,5 @@ public class SlitherLinkMoveProgress implements java.io.Serializable {
     @DatabaseField
     public int objOrientation;
     @DatabaseField
-    public int objType;
+    public int obj;
 }

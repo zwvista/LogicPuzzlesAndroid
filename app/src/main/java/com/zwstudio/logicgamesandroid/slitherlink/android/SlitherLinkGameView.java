@@ -1,24 +1,22 @@
 package com.zwstudio.logicgamesandroid.slitherlink.android;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;
+import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameMove;
+import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkMarkerOptions;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObject;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObjectOrientation;
 
 /**
  * TODO: document your custom view class.
@@ -28,14 +26,12 @@ public class SlitherLinkGameView extends View {
 
     private SlitherLinkGameActivity activity() {return (SlitherLinkGameActivity)getContext();}
     private SlitherLinkGame game() {return activity().game;}
-    private int rows() {return isInEditMode() ? 5 : game().rows();}
-    private int cols() {return isInEditMode() ? 5 : game().cols();}
+    private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
+    private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
     private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
-    private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
+    private Paint linePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
-    private Drawable dLightbulb;
 
     public SlitherLinkGameView(Context context) {
         super(context);
@@ -53,22 +49,13 @@ public class SlitherLinkGameView extends View {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        gridPaint.setColor(Color.WHITE);
+        gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
-        wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        linePaint.setColor(Color.YELLOW);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setStrokeWidth(20);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        try {
-            InputStream is = getContext().getApplicationContext().getAssets().open("lightbulb.png");
-            Bitmap bmpLightbulb = BitmapFactory.decodeStream(is);
-            dLightbulb = new BitmapDrawable(bmpLightbulb);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -102,21 +89,61 @@ public class SlitherLinkGameView extends View {
                         (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
                         gridPaint);
                 if (isInEditMode()) continue;
-                SlitherLinkObject o = game().getObject(r, c);
+                Position p = new Position(r, c);
+                Integer n = game().pos2hint.get(p);
+                if (n != null) {
+                    LogicGamesHintState state = game().getHintState(p);
+                    textPaint.setColor(
+                            state == LogicGamesHintState.Complete ? Color.GREEN :
+                                    state == LogicGamesHintState.Error ? Color.RED :
+                                            Color.WHITE
+                    );
+                    String text = String.valueOf(n);
+                    textPaint.setTextSize(cellHeight);
+                    drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
+                }
+                SlitherLinkObject[] dotObj = game().getObject(r, c);
+                switch (dotObj[1]){
+                case Line:
+                    canvas.drawLine(c * cellWidth + 1, r * cellHeight + 1, (c + 1) * cellWidth + 1, r * cellHeight + 1, linePaint);
+                    break;
+                case Marker:
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - 10, r * cellHeight + 1 - 10, c * cellWidth + 1 + cellWidth / 2 + 10, r * cellHeight + 1 + 10, linePaint);
+                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - 10, r * cellHeight + 1 + 10, c * cellWidth + 1 + cellWidth / 2 + 10, r * cellHeight + 1 - 10, linePaint);
+                    break;
+                }
+                switch (dotObj[2]){
+                case Line:
+                    canvas.drawLine(c * cellWidth + 1, r * cellHeight + 1, c * cellWidth + 1, (r + 1) * cellHeight + 1, linePaint);
+                    break;
+                case Marker:
+                    canvas.drawLine(c * cellWidth + 1 - 10, r * cellHeight + 1 + cellHeight / 2 - 10, c * cellWidth + 1 + 10, r * cellHeight + 1 + cellHeight / 2 + 10, linePaint);
+                    canvas.drawLine(c * cellWidth + 1 - 10, r * cellHeight + 1 + cellHeight / 2 + 10, c * cellWidth + 1 + 10, r * cellHeight + 1 + cellHeight / 2 - 10, linePaint);
+                    break;
+                }
             }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            int col = (int)(event.getX() / cellWidth);
-            int row = (int)(event.getY() / cellHeight);
-            if (col >= cols() || row >= rows()) return true;
+            int offset = 20;
+            int col = (int)((event.getX() + offset) / cellWidth);
+            int row = (int)((event.getY() + offset) / cellHeight);
+            int xOffset = (int)event.getX() - col * cellWidth - 1;
+            int yOffset = (int)event.getY() - row * cellHeight - 1;
+            if (col >= cols() || row >= rows() ||
+                    !(xOffset >= -offset && xOffset <= offset ||
+                    yOffset >= -offset && yOffset <= offset)) return true;
+            SlitherLinkGameMove move = new SlitherLinkGameMove();
+            move.p = new Position(row, col);
+            move.obj = SlitherLinkObject.Empty;
+            move.objOrientation = yOffset >= -offset && yOffset <= offset ?
+                    SlitherLinkObjectOrientation.Horizontal : SlitherLinkObjectOrientation.Vertical;
             SlitherLinkGameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-//            if (game().switchObject(new Position(row, col), SlitherLinkGame.MarkerOptions.values()[rec.markerOption],
-//                    rec.normalLightbulbsOnly))
-//                activity().app().playSoundTap();
+            if (game().switchObject(move, SlitherLinkMarkerOptions.values()[rec.markerOption]))
+                activity().app().playSoundTap();
         }
         return true;
     }

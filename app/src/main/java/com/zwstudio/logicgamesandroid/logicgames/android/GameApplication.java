@@ -73,6 +73,7 @@ public class GameApplication extends Application {
         logicGamesDocument = new LogicGamesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         lightUpDocument = new LightUpDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         bridgesDocument = new BridgesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
+        slitherlinkDocument = new SlitherLinkDocument(OpenHelperManager.getHelper(this, DBHelper.class));
 
         InputStream is = null;
         try {
@@ -85,6 +86,13 @@ public class GameApplication extends Application {
         try {
             is = getApplicationContext().getAssets().open("BridgesLevels.xml");
             bridgesDocument.loadXml(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            is = getApplicationContext().getAssets().open("SlitherLinkLevels.xml");
+            slitherlinkDocument.loadXml(is);
             is.close();
         } catch (IOException e) {
             e.printStackTrace();

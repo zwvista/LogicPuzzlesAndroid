@@ -3,16 +3,19 @@ package com.zwstudio.logicgamesandroid.slitherlink.domain;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import fj.F;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
-public class SlitherLinkGameState implements Cloneable {
+public class SlitherLinkGameState {
     public SlitherLinkGame game;
-    public SlitherLinkObject[] objArray;
+    public SlitherLinkObject[][] objArray;
     public Map<Position, LogicGamesHintState> pos2state = new HashMap<>();
     public boolean isSolved;
 
@@ -26,73 +29,60 @@ public class SlitherLinkGameState implements Cloneable {
 
     public SlitherLinkGameState(SlitherLinkGame game) {
         this.game = game;
-        objArray = new SlitherLinkObject[rows() * cols()];
-        for (SlitherLinkObject obj: objArray)
-            obj = new SlitherLinkObject();
-    }
-
-    @Override
-    public SlitherLinkGameState clone(){
-        try {
-            SlitherLinkGameState o = (SlitherLinkGameState)super.clone();
-            o.game = game;
-            o.objArray = new SlitherLinkObject[objArray.length];
-            for (int i = 0; i < objArray.length; i++)
-                o.objArray[i] = objArray[i].clone();
-            // http://stackoverflow.com/questions/11296490/assigning-hashmap-to-hashmap
-            o.pos2state = new HashMap<>(pos2state);
-            o.isSolved = isSolved;
-            return o;
-        } catch(CloneNotSupportedException ex) {
-            throw new AssertionError();
+        objArray = new SlitherLinkObject[rows() * cols()][];
+        for (int i = 0; i < objArray.length; i++) {
+            objArray[i] = new SlitherLinkObject[4];
+            Arrays.fill(objArray[i], SlitherLinkObject.Empty);
         }
     }
 
-    public SlitherLinkObject get(int row, int col) {
+    public SlitherLinkObject[] get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public SlitherLinkObject get(Position p) {
+    public SlitherLinkObject[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, SlitherLinkObject obj) {
-        objArray[row * cols() + col] = obj;
+    public void set(int row, int col, SlitherLinkObject[] dotObj) {
+        objArray[row * cols() + col] = dotObj;
     }
-    public void set(Position p, SlitherLinkObject obj) {
+    public void set(Position p, SlitherLinkObject[] obj) {
         set(p.row, p.col, obj);
     }
 
     private void updateIsSolved() {
-        isSolved = true;
+        isSolved = false;
     }
 
     public boolean setObject(SlitherLinkGameMove move) {
-        Position p = move.p;
-        SlitherLinkObject obj = get(p);
-        SlitherLinkObjectType objType = move.objOrientation == SlitherLinkObjectOrientation.Horizontal ? obj.objTypeHorz : obj.objTypeVert;
-        if (objType.equals(move.objType)) return false;
-        objType = move.objType;
+        Position p1 = move.p;
+        boolean isH = move.objOrientation == SlitherLinkObjectOrientation.Horizontal;
+        int i1 = isH ? 1 : 2;
+        SlitherLinkObject o = get(p1)[i1];
+        if (o.equals(move.obj)) return false;
+        Position p2 = p1.add(SlitherLinkGame.offset[isH ? 1 : 2]);
+        int i2 = isH ? 3 : 0;
+        get(p2)[i2] = get(p1)[i1] = move.obj;
+        updateIsSolved();
         return true;
     }
 
     public boolean switchObject(SlitherLinkMarkerOptions markerOption, SlitherLinkGameMove move) {
-//        F<SlitherLinkObject, SlitherLinkObject> f = obj -> {
-//            if (obj instanceof SlitherLinkEmptyObject)
-//                return markerOption == SlitherLinkGame.MarkerOptions.MarkerBeforeLightbulb ?
-//                        new SlitherLinkMarkerObject() : new SlitherLinkLightbulbObject();
-//            if (obj instanceof SlitherLinkLightbulbObject)
-//                return markerOption == SlitherLinkGame.MarkerOptions.MarkerAfterLightbulb ?
-//                        new SlitherLinkMarkerObject() : new SlitherLinkEmptyObject();
-//            if (obj instanceof SlitherLinkMarkerObject)
-//                return markerOption == SlitherLinkGame.MarkerOptions.MarkerBeforeLightbulb ?
-//                        new SlitherLinkLightbulbObject() : new SlitherLinkEmptyObject();
-//            return obj;
-//        };
-//        SlitherLinkObject objOld = get(p);
-//        SlitherLinkObject objNew = f.f(objOld);
-//        if (objNew instanceof SlitherLinkEmptyObject || objNew instanceof SlitherLinkMarkerObject)
-//            return setObject(p, objNew, move);
-//        if (objNew instanceof SlitherLinkLightbulbObject)
-//            return setObject(p, normalLightbulbsOnly && objOld.lightness > 0 ? f.f(objNew) : objNew, move);
-        return false;
+        F<SlitherLinkObject, SlitherLinkObject> f = obj -> {
+            switch (obj) {
+            case Empty:
+                return markerOption == SlitherLinkMarkerOptions.MarkerBeforeLine ?
+                        SlitherLinkObject.Marker : SlitherLinkObject.Line;
+            case Line:
+                return markerOption == SlitherLinkMarkerOptions.MarkerAfterLine ?
+                        SlitherLinkObject.Marker : SlitherLinkObject.Empty;
+            case Marker:
+                return markerOption == SlitherLinkMarkerOptions.MarkerBeforeLine ?
+                        SlitherLinkObject.Line : SlitherLinkObject.Empty;
+            }
+            return obj;
+        };
+        SlitherLinkObject[] dotObj = get(move.p);
+        move.obj = f.f(dotObj[move.objOrientation == SlitherLinkObjectOrientation.Horizontal ? 1 : 2]);
+        return setObject(move);
     }
 }

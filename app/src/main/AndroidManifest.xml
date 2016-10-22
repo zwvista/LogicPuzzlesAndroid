@@ -32,13 +32,22 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesMainActivity"
-            android:screenOrientation="portrait">
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesGameActivity"
-            android:screenOrientation="portrait">
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesOptionsActivity"
-            android:screenOrientation="portrait">
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.slitherlink.android.SlitherLinkMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.slitherlink.android.SlitherLinkGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.slitherlink.android.SlitherLinkOptionsActivity"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 
