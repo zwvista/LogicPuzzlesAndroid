@@ -135,7 +135,7 @@ public class SlitherLinkGameView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            int offset = 20;
+            int offset = 30;
             int col = (int)((event.getX() + offset) / cellWidth);
             int row = (int)((event.getY() + offset) / cellHeight);
             int xOffset = (int)event.getX() - col * cellWidth - 1;
