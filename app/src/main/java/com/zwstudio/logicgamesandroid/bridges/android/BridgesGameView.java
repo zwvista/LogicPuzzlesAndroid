@@ -34,7 +34,7 @@ public class BridgesGameView extends View {
     private Paint bridgePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
-    private Position pFrom, pTo;
+    private Position pLast;
 
     public BridgesGameView(Context context) {
         super(context);
@@ -138,24 +138,15 @@ public class BridgesGameView extends View {
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             if (!isI) break;
-            pFrom = pTo = p; f.f();
+            pLast = p; f.f();
             break;
         case MotionEvent.ACTION_MOVE:
-            if (pFrom == null) break;
+            if (pLast == null) break;
             if (isI) {
-                if (!p.equals(pTo)) {
-                    pTo = p; f.f();
+                if (!p.equals(pLast)) {
+                    game().switchBridges(pLast, p);
+                    pLast = p; f.f();
                 }
-            } else
-                pTo = null;
-            break;
-        case MotionEvent.ACTION_UP:
-            if (pFrom == null) break;
-            try{
-                if (!isI || pFrom.equals(pTo)) break;
-                game().switchBridges(pFrom, pTo);
-            } finally {
-                pFrom = pTo = null;
             }
             break;
         default:
