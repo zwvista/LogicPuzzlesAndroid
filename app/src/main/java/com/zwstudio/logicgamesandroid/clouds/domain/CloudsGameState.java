@@ -1,6 +1,5 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.Arrays;
@@ -27,7 +26,7 @@ public class CloudsGameState {
     public CloudsGameState(CloudsGame game) {
         this.game = game;
         objArray = new CloudsObject[rows() * cols()];
-        Arrays.fill(objArray, new CloudsEmptyObject());
+        Arrays.fill(objArray, CloudsObject.Empty);
     }
 
     public CloudsObject get(int row, int col) {
@@ -45,93 +44,33 @@ public class CloudsGameState {
 
     private void updateIsSolved() {
         isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                CloudsObject o = get(r, c);
-                if (o instanceof CloudsEmptyObject && o.lightness == 0 ||
-                        o instanceof CloudsMarkerObject && o.lightness == 0)
-                    isSolved = false;
-                else if (o instanceof CloudsLightbulbObject) {
-                    CloudsLightbulbObject o2 = (CloudsLightbulbObject)o;
-                    o2.state = o.lightness == 1 ? CloudsLightbulbState.Normal : CloudsLightbulbState.Error;
-                    if (o.lightness > 1) isSolved = false;
-                } else if (o instanceof CloudsWallObject) {
-                    CloudsWallObject o2 = (CloudsWallObject) o;
-                    int n2 = game.pos2hint.get(p);
-                    if (n2 < 0) continue;
-                    int n1 = 0;
-                    for (Position os : CloudsGame.offset) {
-                        Position p2 = p.add(os);
-                        if (!isValid(p2)) continue;
-                        if (get(p2) instanceof CloudsLightbulbObject) n1++;
-                    }
-                    o2.state = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
-                    if (n1 != n2) isSolved = false;
-                }
-            }
-    }
-
-    private boolean objChanged(CloudsGameMove move, boolean toajust, boolean tolighten) {
-        Position p = move.p;
-        set(p, move.obj);
-        if (toajust) {
-            F<Integer, Integer> f = n -> tolighten ? n + 1 : n > 0 ? n - 1 : n;
-            CloudsObject obj = get(p);
-            obj.lightness = f.f(obj.lightness);
-            for (Position os : CloudsGame.offset)
-                for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
-                    obj = get(p2);
-                    if (obj instanceof CloudsWallObject) break;
-                    obj.lightness = f.f(obj.lightness);
-                }
-            updateIsSolved();
-        }
-        return true;
     }
 
     public boolean setObject(CloudsGameMove move) {
         Position p = move.p;
         CloudsObject objOld = get(p);
         CloudsObject objNew = move.obj;
-        objNew.lightness = objOld.lightness;
-        if (objOld instanceof CloudsEmptyObject && objNew instanceof CloudsMarkerObject ||
-                objOld instanceof CloudsMarkerObject && objNew instanceof CloudsEmptyObject)
-            return objChanged(move, false, false);
-        if (objOld instanceof CloudsEmptyObject && objNew instanceof CloudsLightbulbObject ||
-                objOld instanceof CloudsMarkerObject && objNew instanceof CloudsLightbulbObject)
-            return objChanged(move, true, true);
-        if (objOld instanceof CloudsLightbulbObject && objNew instanceof CloudsEmptyObject ||
-                objOld instanceof CloudsLightbulbObject && objNew instanceof CloudsMarkerObject)
-            return objChanged(move, true, false);
-        if (objNew instanceof CloudsWallObject)
-            set(p, objNew);
-        return false;
+        set(p, move.obj);
+        return true;
     }
 
-    public boolean switchObject(CloudsMarkerOptions markerOption, boolean normalLightbulbsOnly, CloudsGameMove move) {
+    public boolean switchObject(CloudsMarkerOptions markerOption, CloudsGameMove move) {
         F<CloudsObject, CloudsObject> f = obj -> {
-            if (obj instanceof CloudsEmptyObject)
-                return markerOption == CloudsMarkerOptions.MarkerBeforeLightbulb ?
-                        new CloudsMarkerObject() : new CloudsLightbulbObject();
-            if (obj instanceof CloudsLightbulbObject)
-                return markerOption == CloudsMarkerOptions.MarkerAfterLightbulb ?
-                        new CloudsMarkerObject() : new CloudsEmptyObject();
-            if (obj instanceof CloudsMarkerObject)
-                return markerOption == CloudsMarkerOptions.MarkerBeforeLightbulb ?
-                        new CloudsLightbulbObject() : new CloudsEmptyObject();
+            switch (obj) {
+            case Empty:
+                return markerOption == CloudsMarkerOptions.MarkerBeforeCloud ?
+                        CloudsObject.Marker : CloudsObject.Cloud;
+            case Cloud:
+                return markerOption == CloudsMarkerOptions.MarkerAfterCloud ?
+                        CloudsObject.Marker : CloudsObject.Empty;
+            case Marker:
+                return markerOption == CloudsMarkerOptions.MarkerBeforeCloud ?
+                        CloudsObject.Cloud : CloudsObject.Empty;
+            }
             return obj;
         };
         CloudsObject objOld = get(move.p);
-        CloudsObject objNew = f.f(objOld);
-        if (objNew instanceof CloudsEmptyObject || objNew instanceof CloudsMarkerObject) {
-            move.obj = objNew;
-            return setObject(move);
-        }
-        if (objNew instanceof CloudsLightbulbObject) {
-            move.obj = normalLightbulbsOnly && objOld.lightness > 0 ? f.f(objNew) : objNew;
-            return setObject(move);
-        }
-        return false;
+        move.obj = f.f(objOld);
+        return setObject(move);
     }
 }

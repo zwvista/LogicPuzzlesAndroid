@@ -5,5 +5,5 @@ package com.zwstudio.logicgamesandroid.clouds.domain;
  */
 
 public enum CloudsMarkerOptions {
-    NoMarker, MarkerAfterLightbulb, MarkerBeforeLightbulb
+    NoMarker, MarkerAfterCloud, MarkerBeforeCloud
 }

@@ -101,7 +101,7 @@ public class CloudsGameActivity extends CloudsActivity implements CloudsGameInte
             for (CloudsMoveProgress rec : doc().moveProgress()) {
                 CloudsGameMove move = new CloudsGameMove();
                 move.p = new Position(rec.row, rec.col);
-                move.obj = CloudsObject.objTypeFromString(rec.objTypeAsString);
+                move.obj = CloudsObject.values()[rec.obj];
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

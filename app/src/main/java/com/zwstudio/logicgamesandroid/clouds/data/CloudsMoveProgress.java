@@ -20,5 +20,5 @@ public class CloudsMoveProgress implements java.io.Serializable {
     @DatabaseField
     public int col;
     @DatabaseField
-    public String objTypeAsString;
+    public int obj;
 }

@@ -1,34 +1,20 @@
 package com.zwstudio.logicgamesandroid.clouds.android;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsGameProgress;
-import com.zwstudio.logicgamesandroid.clouds.domain.CloudsEmptyObject;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameMove;
-import com.zwstudio.logicgamesandroid.clouds.domain.CloudsLightbulbObject;
-import com.zwstudio.logicgamesandroid.clouds.domain.CloudsLightbulbState;
-import com.zwstudio.logicgamesandroid.clouds.domain.CloudsMarkerObject;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsMarkerOptions;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsObject;
-import com.zwstudio.logicgamesandroid.clouds.domain.CloudsWallObject;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * TODO: document your custom view class.
@@ -45,7 +31,6 @@ public class CloudsGameView extends View {
     private Paint wallPaint = new Paint();
     private Paint lightPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
-    private Drawable dLightbulb;
 
     public CloudsGameView(Context context) {
         super(context);
@@ -71,14 +56,6 @@ public class CloudsGameView extends View {
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        try {
-            InputStream is = getContext().getApplicationContext().getAssets().open("lightbulb.png");
-            Bitmap bmpLightbulb = BitmapFactory.decodeStream(is);
-            dLightbulb = new BitmapDrawable(bmpLightbulb);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -113,38 +90,6 @@ public class CloudsGameView extends View {
                         gridPaint);
                 if (isInEditMode()) continue;
                 CloudsObject o = game().getObject(r, c);
-                if (o.lightness > 0)
-                    canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
-                            (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
-                            lightPaint);
-                if (o instanceof CloudsWallObject) {
-                    CloudsWallObject o2 = (CloudsWallObject) o;
-                    canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
-                            (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
-                            wallPaint);
-                    int n = game().pos2hint.get(new Position(r, c));
-                    if (n >= 0) {
-                        textPaint.setColor(
-                                o2.state == LogicGamesHintState.Complete ? Color.GREEN :
-                                o2.state == LogicGamesHintState.Error ? Color.RED :
-                                Color.BLACK
-                        );
-                        String text = String.valueOf(n);
-                        textPaint.setTextSize(cellHeight);
-                        drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
-                    }
-                } else if (o instanceof CloudsLightbulbObject) {
-                    CloudsLightbulbObject o2 = (CloudsLightbulbObject) o;
-                    dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
-                            (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
-                    int alpaha = o2.state == CloudsLightbulbState.Error ? 50 : 0;
-                    dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    dLightbulb.draw(canvas);
-                } else if (o instanceof CloudsMarkerObject) {
-                    canvas.drawArc(c * cellWidth + cellWidth / 2 - 19, r * cellHeight + cellHeight / 2 - 19,
-                            c * cellWidth + cellWidth / 2 + 21, r * cellHeight + cellHeight / 2 + 21,
-                            0, 360, true, wallPaint);
-                }
             }
     }
 
@@ -157,10 +102,9 @@ public class CloudsGameView extends View {
             CloudsGameProgress rec = activity().doc().gameProgress();
             CloudsGameMove move = new CloudsGameMove();
             move.p = new Position(row, col);
-            move.obj = new CloudsEmptyObject();
+            move.obj = CloudsObject.Empty;
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, CloudsMarkerOptions.values()[rec.markerOption],
-                    rec.normalLightbulbsOnly))
+            if (game().switchObject(move, CloudsMarkerOptions.values()[rec.markerOption]))
                 activity().app().playSoundTap();
         }
         return true;

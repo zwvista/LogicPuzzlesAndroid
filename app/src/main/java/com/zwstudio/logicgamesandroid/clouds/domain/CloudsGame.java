@@ -1,7 +1,6 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
 import com.rits.cloning.Cloner;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
@@ -76,14 +75,12 @@ public class CloudsGame {
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch == 'W' || ch >= '0' && ch <= '9') {
+                if (ch == 'C') {
                     int n = ch == 'W' ? -1 : (ch - '0');
                     pos2hint.put(p, n);
-                    CloudsWallObject o = new CloudsWallObject();
-                    o.state = n <= 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal;
-                    state.set(r, c, o);
-                } else
-                    state.set(r, c, new CloudsEmptyObject());
+                } else if (ch >= '0' && ch <= '9') {
+
+                }
             }
         }
         states.add(state);
@@ -107,8 +104,8 @@ public class CloudsGame {
         return changed;
    }
 
-    public boolean switchObject(CloudsGameMove move, CloudsMarkerOptions markerOption, boolean normalLightbulbsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, normalLightbulbsOnly, move2));
+    public boolean switchObject(CloudsGameMove move, CloudsMarkerOptions markerOption) {
+        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 
     public boolean setObject(CloudsGameMove move) {
