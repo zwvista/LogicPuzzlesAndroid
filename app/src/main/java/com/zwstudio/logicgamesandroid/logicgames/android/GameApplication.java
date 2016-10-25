@@ -12,6 +12,7 @@ import android.os.IBinder;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
+import com.zwstudio.logicgamesandroid.clouds.data.CloudsDocument;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
 import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
@@ -26,6 +27,7 @@ public class GameApplication extends Application {
     public LightUpDocument lightUpDocument;
     public BridgesDocument bridgesDocument;
     public SlitherLinkDocument slitherlinkDocument;
+    public CloudsDocument cloudsDocument;
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private boolean mIsBound = false;
@@ -74,6 +76,7 @@ public class GameApplication extends Application {
         lightUpDocument = new LightUpDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         bridgesDocument = new BridgesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         slitherlinkDocument = new SlitherLinkDocument(OpenHelperManager.getHelper(this, DBHelper.class));
+        cloudsDocument = new CloudsDocument(OpenHelperManager.getHelper(this, DBHelper.class));
 
         InputStream is = null;
         try {

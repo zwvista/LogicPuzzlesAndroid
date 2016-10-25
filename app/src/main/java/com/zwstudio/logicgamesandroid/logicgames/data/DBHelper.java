@@ -11,6 +11,9 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesGameProgress;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesLevelProgress;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesMoveProgress;
+import com.zwstudio.logicgamesandroid.clouds.data.CloudsGameProgress;
+import com.zwstudio.logicgamesandroid.clouds.data.CloudsLevelProgress;
+import com.zwstudio.logicgamesandroid.clouds.data.CloudsMoveProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
@@ -49,6 +52,10 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<SlitherLinkGameProgress, Integer> daoSlitherLinkGameProgress;
     private Dao<SlitherLinkLevelProgress, Integer> daoSlitherLinkLevelProgress;
     private Dao<SlitherLinkMoveProgress, Integer> daoSlitherLinkMoveProgress;
+
+    private Dao<CloudsGameProgress, Integer> daoCloudsGameProgress;
+    private Dao<CloudsLevelProgress, Integer> daoCloudsLevelProgress;
+    private Dao<CloudsMoveProgress, Integer> daoCloudsMoveProgress;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -124,6 +131,9 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         daoSlitherLinkGameProgress = null;
         daoSlitherLinkLevelProgress = null;
         daoSlitherLinkMoveProgress = null;
+        daoCloudsGameProgress = null;
+        daoCloudsLevelProgress = null;
+        daoCloudsMoveProgress = null;
     }
 
     public Dao<LogicGamesGameProgress, Integer> getDaoLogicGamesGameProgress() throws SQLException {
@@ -184,6 +194,24 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         if (daoSlitherLinkMoveProgress == null)
             daoSlitherLinkMoveProgress = getDao(SlitherLinkMoveProgress.class);
         return daoSlitherLinkMoveProgress;
+    }
+
+    public Dao<CloudsGameProgress, Integer> getDaoCloudsGameProgress() throws SQLException {
+        if (daoCloudsGameProgress == null)
+            daoCloudsGameProgress = getDao(CloudsGameProgress.class);
+        return daoCloudsGameProgress;
+    }
+
+    public Dao<CloudsLevelProgress, Integer> getDaoCloudsLevelProgress() throws SQLException {
+        if (daoCloudsLevelProgress == null)
+            daoCloudsLevelProgress = getDao(CloudsLevelProgress.class);
+        return daoCloudsLevelProgress;
+    }
+
+    public Dao<CloudsMoveProgress, Integer> getDaoCloudsMoveProgress() throws SQLException {
+        if (daoCloudsMoveProgress == null)
+            daoCloudsMoveProgress = getDao(CloudsMoveProgress.class);
+        return daoCloudsMoveProgress;
     }
 
 }
