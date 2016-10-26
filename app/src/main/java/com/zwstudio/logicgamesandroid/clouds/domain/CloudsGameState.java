@@ -68,8 +68,7 @@ public class CloudsGameState {
 
     public boolean setObject(CloudsGameMove move) {
         Position p = move.p;
-        CloudsObject objOld = get(p);
-        CloudsObject objNew = move.obj;
+        if (!isValid(p) || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
@@ -90,8 +89,9 @@ public class CloudsGameState {
             }
             return obj;
         };
-        CloudsObject objOld = get(move.p);
-        move.obj = f.f(objOld);
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        move.obj = f.f(get(p));
         return setObject(move);
     }
 }
