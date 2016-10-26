@@ -57,7 +57,7 @@
             android:text="Hitori"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="Clouds"
+            android:tag="Hitori"
             android:id="@+id/btnHitori"/>
         <Button
             android:text="Options"

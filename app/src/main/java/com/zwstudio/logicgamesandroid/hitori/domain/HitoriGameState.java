@@ -1,18 +1,19 @@
 package com.zwstudio.logicgamesandroid.hitori.domain;
 
 import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fj.F;
 
-import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
 /**
@@ -22,8 +23,6 @@ import static fj.data.List.iterableList;
 public class HitoriGameState {
     public HitoriGame game;
     public HitoriObject[] objArray;
-    public LogicGamesHintState[] row2state;
-    public LogicGamesHintState[] col2state;
     public boolean isSolved;
 
     public Position size() {return game.size;}
@@ -37,7 +36,7 @@ public class HitoriGameState {
     public HitoriGameState(HitoriGame game) {
         this.game = game;
         objArray = new HitoriObject[rows() * cols()];
-        Arrays.fill(objArray, HitoriObject.Empty);
+        Arrays.fill(objArray, HitoriObject.Normal);
     }
 
     public HitoriObject get(int row, int col) {
@@ -55,57 +54,61 @@ public class HitoriGameState {
 
     private void updateIsSolved() {
         isSolved = true;
+        Set<Character> chars = new HashSet<>();
         for (int r = 0; r < rows(); r++) {
-            int n1 = 0, n2 = game.row2hint[r];
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == HitoriObject.Cloud)
-                    n1++;
-            row2state[r] = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
-            if (n1 != n2) isSolved = false;
+            chars.clear();
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                if (get(p) == HitoriObject.Darken) continue;
+                char ch = game.get(r, c);
+                if (chars.contains(ch)) { isSolved = false; return; }
+                chars.add(ch);
+            }
         }
         for (int c = 0; c < cols(); c++) {
-            int n1 = 0, n2 = game.col2hint[c];
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) == HitoriObject.Cloud)
-                    n1++;
-            col2state[c] = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
-            if (n1 != n2) isSolved = false;
+            chars.clear();
+            for (int r = 0; r < rows(); r++) {
+                Position p = new Position(r, c);
+                if (get(p) == HitoriObject.Darken) continue;
+                char ch = game.get(r, c);
+                if (chars.contains(ch)) { isSolved = false; return; }
+                chars.add(ch);
+            }
         }
-        if (!isSolved) return;
         Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
+        Map<Position, Node> pos2Node = new HashMap<>();
+        List<Position> rngDarken = new ArrayList<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                if (get(p) != HitoriObject.Cloud) continue;
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
+                if (get(p) == HitoriObject.Darken)
+                    rngDarken.add(p);
+                else{
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2Node.put(p, node);
+                }
             }
-        for (Position p : pos2node.keySet())
+        for (Position p : rngDarken)
             for (Position os : HitoriGame.offset) {
                 Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+                if (rngDarken.contains(p2)) {
+                    isSolved = false;
+                    return;
+                }
             }
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(iterableList(pos2node.values()).head());
-            List<Node> nodeList = g.bfs();
-            int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
-            for (Node node : nodeList) {
-                Position p = fromMap(pos2node).toStream().find(e -> e._2().equals(node)).some()._1();
-                pos2node.remove(p);
-                if (r2 < p.row) r2 = p.row;
-                if (r1 > p.row) r1 = p.row;
-                if (c2 < p.col) c2 = p.col;
-                if (c1 > p.col) c1 = p.col;
-            }
-            int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
-            if (!(rs >= 2 && cs >= 2 && rs * cs == nodeList.size())) {
-                isSolved = false;
-                return;
+        for (Position p : pos2Node.keySet()) {
+            for (Position os : HitoriGame.offset) {
+                Position p2 = p.add(os);
+                if (pos2Node.containsKey(p2))
+                    g.connectNode(pos2Node.get(p), pos2Node.get(p2));
             }
         }
+        g.setRootNode(iterableList(pos2Node.values()).head());
+        List<Node> nodeList = g.bfs();
+        int n1 = nodeList.size();
+        int n2 = pos2Node.values().size();
+        if (n1 != n2) isSolved = false;
     }
 
     public boolean setObject(HitoriGameMove move) {
@@ -119,15 +122,15 @@ public class HitoriGameState {
     public boolean switchObject(HitoriMarkerOptions markerOption, HitoriGameMove move) {
         F<HitoriObject, HitoriObject> f = obj -> {
             switch (obj) {
-            case Empty:
-                return markerOption == HitoriMarkerOptions.MarkerBeforeCloud ?
-                        HitoriObject.Marker : HitoriObject.Cloud;
-            case Cloud:
-                return markerOption == HitoriMarkerOptions.MarkerAfterCloud ?
-                        HitoriObject.Marker : HitoriObject.Empty;
+            case Normal:
+                return markerOption == HitoriMarkerOptions.MarkerBeforeDarken ?
+                        HitoriObject.Marker : HitoriObject.Darken;
+            case Darken:
+                return markerOption == HitoriMarkerOptions.MarkerAfterDarken ?
+                        HitoriObject.Marker : HitoriObject.Normal;
             case Marker:
-                return markerOption == HitoriMarkerOptions.MarkerBeforeCloud ?
-                        HitoriObject.Cloud : HitoriObject.Empty;
+                return markerOption == HitoriMarkerOptions.MarkerBeforeDarken ?
+                        HitoriObject.Darken : HitoriObject.Normal;
             }
             return obj;
         };

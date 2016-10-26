@@ -5,5 +5,5 @@ package com.zwstudio.logicgamesandroid.hitori.domain;
  */
 
 public enum HitoriObject {
-    Empty, Cloud, Marker
+    Normal, Darken, Marker
 }

@@ -1,7 +1,6 @@
 package com.zwstudio.logicgamesandroid.hitori.domain;
 
 import com.rits.cloning.Cloner;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
@@ -32,9 +31,19 @@ public class HitoriGame {
         return isValid(p.row, p.col);
     }
 
-    public int[] row2hint;
-    public int[] col2hint;
-    public List<Position> pos2cloud = new ArrayList<>();
+    public char[] objArray;
+    public char get(int row, int col) {
+        return objArray[row * cols() + col];
+    }
+    public char get(Position p) {
+        return get(p.row, p.col);
+    }
+    public void set(int row, int col, char obj) {
+        objArray[row * cols() + col] = obj;
+    }
+    public void set(Position p, char obj) {
+        set(p.row, p.col, obj);
+    }
 
     private int stateIndex = 0;
     private List<HitoriGameState> states = new ArrayList<>();
@@ -69,32 +78,17 @@ public class HitoriGame {
     public HitoriGame(List<String> layout, HitoriGameInterface gi) {
         cloner.dontClone(this.getClass());
         this.gi = gi;
-        size = new Position(layout.size() - 1, layout.get(0).length() - 1);
-        row2hint = new int[rows()];
-        col2hint = new int[cols()];
+        size = new Position(layout.size(), layout.get(0).length());
+        objArray = new char[rows() * cols()];
 
         HitoriGameState state = new HitoriGameState(this);
-        state.row2state = new LogicGamesHintState[rows()];
-        state.col2state = new LogicGamesHintState[cols()];
 
-        for (int r = 0; r < rows() + 1; r++) {
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() + 1; c++) {
-                Position p = new Position(r, c);
+            for (int c = 0; c < cols(); c++) {
                 char ch = str.charAt(c);
-                if (ch == 'C')
-                    pos2cloud.add(p);
-                else if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    LogicGamesHintState s = n == 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal;
-                    if (r == rows()) {
-                        col2hint[c] = n;
-                        state.col2state[c] = s;
-                    } else if (c == cols()) {
-                        row2hint[r] = n;
-                        state.row2state[r] = s;
-                    }
-                }
+                if (ch >= '0' && ch <= '9')
+                    set(r, c, ch);
             }
         }
         states.add(state);
@@ -132,14 +126,6 @@ public class HitoriGame {
 
     public HitoriObject getObject(int row, int col) {
         return state().get(row, col);
-    }
-
-    public LogicGamesHintState getRowState(int row) {
-        return state().row2state[row];
-    }
-
-    public LogicGamesHintState getColState(int col) {
-        return state().col2state[col];
     }
 
     public void undo() {

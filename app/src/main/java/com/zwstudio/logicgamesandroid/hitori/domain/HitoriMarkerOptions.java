@@ -5,5 +5,5 @@ package com.zwstudio.logicgamesandroid.hitori.domain;
  */
 
 public enum HitoriMarkerOptions {
-    NoMarker, MarkerAfterCloud, MarkerBeforeCloud
+    NoMarker, MarkerAfterDarken, MarkerBeforeDarken
 }

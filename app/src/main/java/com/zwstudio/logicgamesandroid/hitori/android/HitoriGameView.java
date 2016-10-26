@@ -19,6 +19,8 @@ import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
+import static com.zwstudio.logicgamesandroid.clouds.domain.CloudsObject.Cloud;
+
 /**
  * TODO: document your custom view class.
  */
@@ -31,8 +33,8 @@ public class HitoriGameView extends View {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
-    private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
+    private Paint darkenPaint = new Paint();
+    private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public HitoriGameView(Context context) {
@@ -53,10 +55,10 @@ public class HitoriGameView extends View {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
-        wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        darkenPaint.setColor(Color.LTGRAY);
+        darkenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setColor(Color.WHITE);
+        markerPaint.setStyle(Paint.Style.STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -65,8 +67,8 @@ public class HitoriGameView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / cols() - 1;
+        cellHeight = getHeight() / rows() - 1;
         invalidate();
     }
 
@@ -94,42 +96,22 @@ public class HitoriGameView extends View {
                 if (isInEditMode()) continue;
                 HitoriObject o = game().getObject(r, c);
                 switch (o) {
-                case Cloud:
+                case Darken:
                     canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
                             (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
-                            wallPaint);
+                            darkenPaint);
                     break;
                 case Marker:
-                    canvas.drawArc(c * cellWidth + cellWidth / 2 - 19, r * cellHeight + cellHeight / 2 - 19,
-                            c * cellWidth + cellWidth / 2 + 21, r * cellHeight + cellHeight / 2 + 21,
-                            0, 360, true, wallPaint);
-                    break;
+                    canvas.drawArc(c * cellWidth + 1, r * cellHeight + 1,
+                            (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
+                            0, 360, true, markerPaint);
+                   break;
                 }
+                textPaint.setColor(Color.WHITE);
+                String text = String.valueOf(game().get(r, c));
+                textPaint.setTextSize(cellHeight);
+                drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
             }
-        for (int r = 0; r < rows(); r++) {
-            LogicGamesHintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == LogicGamesHintState.Complete ? Color.GREEN :
-                    s == LogicGamesHintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
-            textPaint.setTextSize(cellHeight);
-            drawTextCentered(text, cols() * cellWidth + 1, r * cellHeight + 1, canvas);
-        }
-        for (int c = 0; c < cols(); c++) {
-            LogicGamesHintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == LogicGamesHintState.Complete ? Color.GREEN :
-                    s == LogicGamesHintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
-            textPaint.setTextSize(cellHeight);
-            drawTextCentered(text, c * cellWidth + 1, rows() * cellHeight + 1, canvas);
-        }
     }
 
     @Override
@@ -141,7 +123,7 @@ public class HitoriGameView extends View {
             HitoriGameProgress rec = activity().doc().gameProgress();
             HitoriGameMove move = new HitoriGameMove();
             move.p = new Position(row, col);
-            move.obj = HitoriObject.Empty;
+            move.obj = HitoriObject.Normal;
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, HitoriMarkerOptions.values()[rec.markerOption]))
                 activity().app().playSoundTap();
