@@ -13,6 +13,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsDocument;
+import com.zwstudio.logicgamesandroid.hitori.data.HitoriDocument;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
 import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
@@ -28,6 +29,7 @@ public class GameApplication extends Application {
     public BridgesDocument bridgesDocument;
     public SlitherLinkDocument slitherlinkDocument;
     public CloudsDocument cloudsDocument;
+    public HitoriDocument hitoriDocument;
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private boolean mIsBound = false;
@@ -77,6 +79,7 @@ public class GameApplication extends Application {
         bridgesDocument = new BridgesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         slitherlinkDocument = new SlitherLinkDocument(OpenHelperManager.getHelper(this, DBHelper.class));
         cloudsDocument = new CloudsDocument(OpenHelperManager.getHelper(this, DBHelper.class));
+        hitoriDocument = new HitoriDocument(OpenHelperManager.getHelper(this, DBHelper.class));
 
         InputStream is = null;
         try {
@@ -103,6 +106,13 @@ public class GameApplication extends Application {
         try {
             is = getApplicationContext().getAssets().open("CloudsLevels.xml");
             cloudsDocument.loadXml(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            is = getApplicationContext().getAssets().open("HitoriLevels.xml");
+            hitoriDocument.loadXml(is);
             is.close();
         } catch (IOException e) {
             e.printStackTrace();

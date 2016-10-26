@@ -14,6 +14,9 @@ import com.zwstudio.logicgamesandroid.bridges.data.BridgesMoveProgress;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsGameProgress;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsLevelProgress;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsMoveProgress;
+import com.zwstudio.logicgamesandroid.hitori.data.HitoriGameProgress;
+import com.zwstudio.logicgamesandroid.hitori.data.HitoriLevelProgress;
+import com.zwstudio.logicgamesandroid.hitori.data.HitoriMoveProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
@@ -56,6 +59,10 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<CloudsGameProgress, Integer> daoCloudsGameProgress;
     private Dao<CloudsLevelProgress, Integer> daoCloudsLevelProgress;
     private Dao<CloudsMoveProgress, Integer> daoCloudsMoveProgress;
+
+    private Dao<HitoriGameProgress, Integer> daoHitoriGameProgress;
+    private Dao<HitoriLevelProgress, Integer> daoHitoriLevelProgress;
+    private Dao<HitoriMoveProgress, Integer> daoHitoriMoveProgress;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -134,6 +141,9 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         daoCloudsGameProgress = null;
         daoCloudsLevelProgress = null;
         daoCloudsMoveProgress = null;
+        daoHitoriGameProgress = null;
+        daoHitoriLevelProgress = null;
+        daoHitoriMoveProgress = null;
     }
 
     public Dao<LogicGamesGameProgress, Integer> getDaoLogicGamesGameProgress() throws SQLException {
@@ -212,6 +222,24 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         if (daoCloudsMoveProgress == null)
             daoCloudsMoveProgress = getDao(CloudsMoveProgress.class);
         return daoCloudsMoveProgress;
+    }
+
+    public Dao<HitoriGameProgress, Integer> getDaoHitoriGameProgress() throws SQLException {
+        if (daoHitoriGameProgress == null)
+            daoHitoriGameProgress = getDao(HitoriGameProgress.class);
+        return daoHitoriGameProgress;
+    }
+
+    public Dao<HitoriLevelProgress, Integer> getDaoHitoriLevelProgress() throws SQLException {
+        if (daoHitoriLevelProgress == null)
+            daoHitoriLevelProgress = getDao(HitoriLevelProgress.class);
+        return daoHitoriLevelProgress;
+    }
+
+    public Dao<HitoriMoveProgress, Integer> getDaoHitoriMoveProgress() throws SQLException {
+        if (daoHitoriMoveProgress == null)
+            daoHitoriMoveProgress = getDao(HitoriMoveProgress.class);
+        return daoHitoriMoveProgress;
     }
 
 }

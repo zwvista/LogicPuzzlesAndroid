@@ -58,6 +58,15 @@
         <activity android:name="com.zwstudio.logicgamesandroid.clouds.android.CloudsOptionsActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.hitori.android.HitoriMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.hitori.android.HitoriGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.hitori.android.HitoriOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
