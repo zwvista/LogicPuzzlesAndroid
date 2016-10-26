@@ -49,6 +49,15 @@
         <activity android:name="com.zwstudio.logicgamesandroid.slitherlink.android.SlitherLinkOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.clouds.android.CloudsMainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.clouds.android.CloudsGameActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.zwstudio.logicgamesandroid.clouds.android.CloudsOptionsActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

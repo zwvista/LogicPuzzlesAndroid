@@ -100,6 +100,13 @@ public class GameApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            is = getApplicationContext().getAssets().open("CloudsLevels.xml");
+            cloudsDocument.loadXml(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         doBindService();
         Intent music = new Intent();

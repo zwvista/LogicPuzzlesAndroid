@@ -48,6 +48,12 @@
             android:tag="SlitherLink"
             android:id="@+id/btnSlitherLink"/>
         <Button
+            android:text="Clouds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Clouds"
+            android:id="@+id/btnClouds"/>
+        <Button
             android:text="Options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

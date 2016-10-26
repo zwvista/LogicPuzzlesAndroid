@@ -1,12 +1,11 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
 import com.rits.cloning.Cloner;
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import fj.F2;
 
@@ -33,7 +32,9 @@ public class CloudsGame {
         return isValid(p.row, p.col);
     }
 
-    public Map<Position, Integer> pos2hint = new HashMap<>();
+    public int[] row2hint;
+    public int[] col2hint;
+    public List<Position> pos2cloud = new ArrayList<>();
 
     private int stateIndex = 0;
     private List<CloudsGameState> states = new ArrayList<>();
@@ -68,18 +69,31 @@ public class CloudsGame {
     public CloudsGame(List<String> layout, CloudsGameInterface gi) {
         cloner.dontClone(this.getClass());
         this.gi = gi;
-        size = new Position(layout.size(), layout.get(0).length());
+        size = new Position(layout.size() - 1, layout.get(0).length() - 1);
+        row2hint = new int[rows()];
+        col2hint = new int[cols()];
+
         CloudsGameState state = new CloudsGameState(this);
-        for (int r = 0; r < rows(); r++) {
+        state.row2state = new LogicGamesHintState[rows()];
+        state.col2state = new LogicGamesHintState[cols()];
+
+        for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols(); c++) {
+            for (int c = 0; c < cols() + 1; c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch == 'C') {
-                    int n = ch == 'W' ? -1 : (ch - '0');
-                    pos2hint.put(p, n);
-                } else if (ch >= '0' && ch <= '9') {
-
+                if (ch == 'C')
+                    pos2cloud.add(p);
+                else if (ch >= '0' && ch <= '9') {
+                    int n = ch - '0';
+                    LogicGamesHintState s = n == 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal;
+                    if (r == rows()) {
+                        col2hint[c] = n;
+                        state.col2state[c] = s;
+                    } else if (c == cols()) {
+                        row2hint[r] = n;
+                        state.row2state[r] = s;
+                    }
                 }
             }
         }
@@ -118,6 +132,14 @@ public class CloudsGame {
 
     public CloudsObject getObject(int row, int col) {
         return state().get(row, col);
+    }
+
+    public LogicGamesHintState getRowState(int row) {
+        return state().row2state[row];
+    }
+
+    public LogicGamesHintState getColState(int col) {
+        return state().col2state[col];
     }
 
     public void undo() {

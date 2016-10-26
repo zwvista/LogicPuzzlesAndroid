@@ -14,6 +14,9 @@ import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsMarkerOptions;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbObject;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
+import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 /**
@@ -62,8 +65,8 @@ public class CloudsGameView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
+        cellWidth = getWidth() / (cols() + 1) - 1;
+        cellHeight = getHeight() / (rows() + 1) - 1;
         invalidate();
     }
 
@@ -90,7 +93,43 @@ public class CloudsGameView extends View {
                         gridPaint);
                 if (isInEditMode()) continue;
                 CloudsObject o = game().getObject(r, c);
+                switch (o) {
+                case Cloud:
+                    canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
+                            (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
+                            wallPaint);
+                    break;
+                case Marker:
+                    canvas.drawArc(c * cellWidth + cellWidth / 2 - 19, r * cellHeight + cellHeight / 2 - 19,
+                            c * cellWidth + cellWidth / 2 + 21, r * cellHeight + cellHeight / 2 + 21,
+                            0, 360, true, wallPaint);
+                    break;
+                }
             }
+        for (int r = 0; r < rows(); r++) {
+            LogicGamesHintState s = game().getRowState(r);
+            textPaint.setColor(
+                    s == LogicGamesHintState.Complete ? Color.GREEN :
+                    s == LogicGamesHintState.Error ? Color.RED :
+                    Color.WHITE
+            );
+            int n = game().row2hint[r];
+            String text = String.valueOf(n);
+            textPaint.setTextSize(cellHeight);
+            drawTextCentered(text, cols() * cellWidth + 1, r * cellHeight + 1, canvas);
+        }
+        for (int c = 0; c < cols(); c++) {
+            LogicGamesHintState s = game().getColState(c);
+            textPaint.setColor(
+                    s == LogicGamesHintState.Complete ? Color.GREEN :
+                    s == LogicGamesHintState.Error ? Color.RED :
+                    Color.WHITE
+            );
+            int n = game().col2hint[c];
+            String text = String.valueOf(n);
+            textPaint.setTextSize(cellHeight);
+            drawTextCentered(text, c * cellWidth + 1, rows() * cellHeight + 1, canvas);
+        }
     }
 
     @Override

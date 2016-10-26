@@ -27,8 +27,6 @@ public class CloudsOptionsActivity extends CloudsActivity {
 
     @InjectView(R.id.spnMarker)
     Spinner spnMarker;
-    @InjectView(R.id.ctvNormalLightbulbsOnly)
-    CheckedTextView ctvNormalLightbulbsOnly;
     @InjectView(R.id.btnDone)
     Button btnDone;
     @InjectView(R.id.btnDefault)
@@ -79,20 +77,6 @@ public class CloudsOptionsActivity extends CloudsActivity {
             }
         });
 
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
-        ctvNormalLightbulbsOnly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
-                rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
-                try {
-                    doc().db.getDaoCloudsGameProgress().update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,14 +95,12 @@ public class CloudsOptionsActivity extends CloudsActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 rec.markerOption = 0;
-                                rec.normalLightbulbsOnly = false;
                                 try {
                                     doc().db.getDaoCloudsGameProgress().update(rec);
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
                                 spnMarker.setSelection(rec.markerOption);
-                                ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
