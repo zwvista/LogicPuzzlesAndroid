@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.hitori.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
@@ -20,21 +21,11 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class HitoriGameState {
-    public HitoriGame game;
+public class HitoriGameState extends CellsGameState<HitoriGame> {
     public HitoriObject[] objArray;
-    public boolean isSolved;
-
-    public Position size() {return game.size;}
-    public int rows() {return game.rows();}
-    public int cols() {return game.cols();}
-    public boolean isValid(int row, int col) { return game.isValid(row, col); }
-    public boolean isValid(Position p) {
-        return game.isValid(p);
-    }
 
     public HitoriGameState(HitoriGame game) {
-        this.game = game;
+        super(game);
         objArray = new HitoriObject[rows() * cols()];
         Arrays.fill(objArray, HitoriObject.Normal);
     }

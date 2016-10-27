@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
@@ -11,21 +12,11 @@ import fj.F;
  * Created by zwvista on 2016/09/29.
  */
 
-public class LightUpGameState {
-    public LightUpGame game;
+public class LightUpGameState extends CellsGameState<LightUpGame> {
     public LightUpObject[] objArray;
-    public boolean isSolved;
-
-    public Position size() {return game.size;}
-    public int rows() {return game.rows();}
-    public int cols() {return game.cols();}
-    public boolean isValid(int row, int col) { return game.isValid(row, col); }
-    public boolean isValid(Position p) {
-        return game.isValid(p);
-    }
 
     public LightUpGameState(LightUpGame game) {
-        this.game = game;
+        super(game);
         objArray = new LightUpObject[rows() * cols()];
         Arrays.fill(objArray, new LightUpEmptyObject());
     }

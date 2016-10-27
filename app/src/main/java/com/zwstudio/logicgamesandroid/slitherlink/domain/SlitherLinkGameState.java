@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
@@ -19,22 +20,12 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class SlitherLinkGameState {
-    public SlitherLinkGame game;
+public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame> {
     public SlitherLinkObject[][] objArray;
     public Map<Position, LogicGamesHintState> pos2state = new HashMap<>();
-    public boolean isSolved;
-
-    public Position size() {return game.size;}
-    public int rows() {return game.rows();}
-    public int cols() {return game.cols();}
-    public boolean isValid(int row, int col) { return game.isValid(row, col); }
-    public boolean isValid(Position p) {
-        return game.isValid(p);
-    }
 
     public SlitherLinkGameState(SlitherLinkGame game) {
-        this.game = game;
+        super(game);
         objArray = new SlitherLinkObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
             objArray[i] = new SlitherLinkObject[4];

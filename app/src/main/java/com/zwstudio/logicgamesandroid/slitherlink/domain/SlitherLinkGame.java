@@ -1,6 +1,10 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
 import com.rits.cloning.Cloner;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
+import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.logicgames.domain.Game;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
@@ -15,60 +19,18 @@ import fj.F2;
  * Created by zwvista on 2016/09/29.
  */
 
-public class SlitherLinkGame {
+public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
             new Position(1, 0),
             new Position(0, -1),
     };
-    private Cloner cloner = new Cloner();
-
-    public Position size;
-    public int rows() {return size.row;}
-    public int cols() {return size.col;}
-    public boolean isValid(int row, int col) {
-        return row >= 0 && col >= 0 && row < size.row && col < size.col;
-    }
-    public boolean isValid(Position p) {
-        return isValid(p.row, p.col);
-    }
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    private int stateIndex = 0;
-    private List<SlitherLinkGameState> states = new ArrayList<>();
-    private SlitherLinkGameState state() {return states.get(stateIndex);}
-    private List<SlitherLinkGameMove> moves = new ArrayList<>();
-    private SlitherLinkGameMove move() {return moves.get(stateIndex - 1);}
-    public SlitherLinkGameInterface gi;
-
-    public boolean isSolved() {return state().isSolved;}
-    public boolean canUndo() {return stateIndex > 0;}
-    public boolean canRedo() {return stateIndex < states.size() - 1;}
-    public int moveIndex() {return stateIndex;}
-    public int moveCount() {return states.size() - 1;}
-
-    private void moveAdded(SlitherLinkGameMove move) {
-        if (gi == null) return;
-        gi.moveAdded(this, move);
-    }
-
-    private void levelInitilized(SlitherLinkGameState state) {
-        if (gi == null) return;
-        gi.levelInitilized(this, state);
-        if (isSolved()) gi.gameSolved(this);
-    }
-
-    private void levelUpdated(SlitherLinkGameState stateFrom, SlitherLinkGameState stateTo) {
-        if (gi == null) return;
-        gi.levelUpdated(this, stateFrom, stateTo);
-        if (isSolved()) gi.gameSolved(this);
-    }
-
     public SlitherLinkGame(List<String> layout, SlitherLinkGameInterface gi) {
-        cloner.dontClone(this.getClass());
-        this.gi = gi;
+        super(gi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         SlitherLinkGameState state = new SlitherLinkGameState(this);
         for (int r = 0; r < rows() - 1; r++) {
