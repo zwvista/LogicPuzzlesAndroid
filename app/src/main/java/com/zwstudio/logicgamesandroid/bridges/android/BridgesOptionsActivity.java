@@ -2,12 +2,12 @@ package com.zwstudio.logicgamesandroid.bridges.android;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -19,9 +19,8 @@ public class BridgesOptionsActivity extends BridgesActivity {
     @ViewById
     Button btnDefault;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterViews
+    protected void init() {
 
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override

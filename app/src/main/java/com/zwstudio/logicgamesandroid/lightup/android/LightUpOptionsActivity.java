@@ -2,7 +2,6 @@ package com.zwstudio.logicgamesandroid.lightup.android;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -34,9 +34,8 @@ public class LightUpOptionsActivity extends LightUpActivity {
     @ViewById
     Button btnDefault;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterViews
+    protected void init() {
 
         List<String> lst = Arrays.asList("No Marker", "Marker After Lightbulb", "Marker Before Lightbulb");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,

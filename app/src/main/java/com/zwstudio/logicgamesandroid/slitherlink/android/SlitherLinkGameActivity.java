@@ -2,7 +2,6 @@ package com.zwstudio.logicgamesandroid.slitherlink.android;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +16,7 @@ import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameState;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObject;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObjectOrientation;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -45,9 +45,8 @@ public class SlitherLinkGameActivity extends SlitherLinkActivity implements Slit
     SlitherLinkGame game;
     boolean levelInitilizing;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterViews
+    protected void init() {
 
         btnUndo.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,12 +2,12 @@ package com.zwstudio.logicgamesandroid.slitherlink.android;
 
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -19,9 +19,8 @@ public class SlitherLinkMainActivity extends SlitherLinkActivity {
     @ViewById
     Button btnOptions;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterViews
+    protected void init() {
 
         // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
         // Set the hardware buttons to control the music

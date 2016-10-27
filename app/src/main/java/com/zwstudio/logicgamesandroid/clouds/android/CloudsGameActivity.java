@@ -2,7 +2,6 @@ package com.zwstudio.logicgamesandroid.clouds.android;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameState;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsObject;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -44,9 +44,8 @@ public class CloudsGameActivity extends CloudsActivity implements CloudsGameInte
     CloudsGame game;
     boolean levelInitilizing;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterViews
+    protected void init() {
 
         btnUndo.setOnClickListener(new View.OnClickListener() {
             @Override

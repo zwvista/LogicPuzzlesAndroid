@@ -2,7 +2,6 @@ package com.zwstudio.logicgamesandroid.logicgames.android;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.view.View;
 import android.widget.CheckedTextView;
 
 import com.zwstudio.logicgamesandroid.R;
@@ -33,7 +32,7 @@ public class LogicGamesOptionsActivity extends LogicGamesActivity {
     }
 
     @Click
-    protected void ctvPlayMusic(View v) {
+    protected void ctvPlayMusic() {
         ctvPlayMusic.setChecked(!rec.playMusic);
         rec.playMusic = !rec.playMusic;
         try {
@@ -45,7 +44,7 @@ public class LogicGamesOptionsActivity extends LogicGamesActivity {
     }
 
     @Click
-    protected void ctvPlaySound(View v) {
+    protected void ctvPlaySound() {
         ctvPlaySound.setChecked(!rec.playSound);
         rec.playSound = !rec.playSound;
         try {
@@ -56,12 +55,12 @@ public class LogicGamesOptionsActivity extends LogicGamesActivity {
     }
 
     @Click
-    protected void btnDone(View v) {
+    protected void btnDone() {
         finish();
     }
 
     @Click
-    protected void btnDefault(View v) {
+    protected void btnDefault() {
         // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
