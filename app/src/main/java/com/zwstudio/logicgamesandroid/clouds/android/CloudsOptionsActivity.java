@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsGameProgress;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -27,10 +27,8 @@ public class CloudsOptionsActivity extends CloudsActivity {
 
     @ViewById
     Spinner spnMarker;
-    @ViewById
-    Button btnDone;
-    @ViewById
-    Button btnDefault;
+
+    CloudsGameProgress rec;
 
     @AfterViews
     protected void init() {
@@ -58,7 +56,7 @@ public class CloudsOptionsActivity extends CloudsActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnMarker.setAdapter(adapter);
 
-        CloudsGameProgress rec = doc().gameProgress();
+        rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
 
         spnMarker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -75,43 +73,39 @@ public class CloudsOptionsActivity extends CloudsActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
 
-        btnDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @Click
+    public void btnDone() {
+        finish();
+    }
 
-        btnDefault.setOnClickListener(new View.OnClickListener() {
+    @Click
+    public void btnDefault() {
+        // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                rec.markerOption = 0;
-                                try {
-                                    doc().db.getDaoCloudsGameProgress().update(rec);
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                                spnMarker.setSelection(rec.markerOption);
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        rec.markerOption = 0;
+                        try {
+                            doc().db.getDaoCloudsGameProgress().update(rec);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
-                    }
-                };
-
-                Builder builder = new Builder(CloudsOptionsActivity.this);
-                builder.setMessage("Do you really want to reset the options?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
+                        spnMarker.setSelection(rec.markerOption);
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
             }
-        });
+        };
+
+        Builder builder = new Builder(this);
+        builder.setMessage("Do you really want to reset the options?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 }

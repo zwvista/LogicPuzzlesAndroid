@@ -2,8 +2,6 @@ package com.zwstudio.logicgamesandroid.slitherlink.android;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.zwstudio.logicgamesandroid.R;
@@ -17,6 +15,7 @@ import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObject;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkObjectOrientation;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -35,58 +34,47 @@ public class SlitherLinkGameActivity extends SlitherLinkActivity implements Slit
     TextView tvSolved;
     @ViewById
     TextView tvMoves;
-    @ViewById
-    Button btnUndo;
-    @ViewById
-    Button btnRedo;
-    @ViewById
-    Button btnClear;
 
     SlitherLinkGame game;
     boolean levelInitilizing;
 
     @AfterViews
-    protected void init() {
-
-        btnUndo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game.undo();
-            }
-        });
-        btnRedo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game.redo();
-            }
-        });
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                doc().clearGame();
-                                startGame();
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-
-                Builder builder = new Builder(SlitherLinkGameActivity.this);
-                builder.setMessage("Do you really want to reset the level?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
-            }
-        });
-
+    void init() {
         startGame();
+    }
+
+    @Click
+    void btnUndo() {
+        game.undo();
+    }
+
+    @Click
+    void btnRedo() {
+        game.redo();
+    }
+
+    @Click
+    void btnClear() {
+        // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        doc().clearGame();
+                        startGame();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        Builder builder = new Builder(this);
+        builder.setMessage("Do you really want to reset the level?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     private void startGame() {

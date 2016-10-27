@@ -1,45 +1,21 @@
 package com.zwstudio.logicgamesandroid.slitherlink.android;
 
-import android.content.Intent;
-import android.media.AudioManager;
 import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.lightup.android.LightUpGameActivity_;
+import com.zwstudio.logicgamesandroid.lightup.android.LightUpOptionsActivity_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_slitherlink_main)
 public class SlitherLinkMainActivity extends SlitherLinkActivity {
 
-    @ViewById
-    Button btnResumeGame;
-    @ViewById
-    Button btnOptions;
-
     @AfterViews
-    protected void init() {
-
-        // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
-        // Set the hardware buttons to control the music
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        btnResumeGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resumeGame();
-            }
-        });
-        btnOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SlitherLinkMainActivity.this, SlitherLinkOptionsActivity.class);
-                startActivity(intent);
-            }
-        });
-
+    void init() {
         int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -60,9 +36,18 @@ public class SlitherLinkMainActivity extends SlitherLinkActivity {
         if (toResume) resumeGame();
     }
 
-    private void resumeGame() {
+    @Click
+    void btnResumeGame() {
+        resumeGame();
+    }
+
+    @Click
+    void btnOptions() {
+        SlitherLinkOptionsActivity_.intent(this).start();
+    }
+
+    void resumeGame() {
         doc().resumeGame();
-        Intent intent = new Intent(SlitherLinkMainActivity.this, SlitherLinkGameActivity.class);
-        startActivity(intent);
+        SlitherLinkGameActivity_.intent(this).start();
     }
 }
