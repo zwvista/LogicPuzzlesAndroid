@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
@@ -19,23 +20,13 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class CloudsGameState {
-    public CloudsGame game;
+public class CloudsGameState extends CellsGameState<CloudsGame> {
     public CloudsObject[] objArray;
     public LogicGamesHintState[] row2state;
     public LogicGamesHintState[] col2state;
-    public boolean isSolved;
-
-    public Position size() {return game.size;}
-    public int rows() {return game.rows();}
-    public int cols() {return game.cols();}
-    public boolean isValid(int row, int col) { return game.isValid(row, col); }
-    public boolean isValid(Position p) {
-        return game.isValid(p);
-    }
 
     public CloudsGameState(CloudsGame game) {
-        this.game = game;
+        super(game);
         objArray = new CloudsObject[rows() * cols()];
         Arrays.fill(objArray, CloudsObject.Empty);
     }

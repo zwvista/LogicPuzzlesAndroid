@@ -1,12 +1,10 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
+
 /**
  * Created by TCC-2-9002 on 2016/09/30.
  */
 
-public interface CloudsGameInterface {
-    void moveAdded(CloudsGame game, CloudsGameMove move);
-    void levelInitilized(CloudsGame game, CloudsGameState state);
-    void levelUpdated(CloudsGame game, CloudsGameState stateFrom, CloudsGameState stateTo);
-    void gameSolved(CloudsGame game);
+public interface CloudsGameInterface extends GameInterface<CloudsGame, CloudsGameMove, CloudsGameState> {
 }

@@ -1,5 +1,6 @@
 package com.zwstudio.logicgamesandroid.bridges.domain;
 
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
@@ -18,21 +19,11 @@ import static fj.function.Integers.add;
  * Created by zwvista on 2016/09/29.
  */
 
-public class BridgesGameState {
-    public BridgesGame game;
+public class BridgesGameState extends CellsGameState<BridgesGame> {
     public BridgesObject[] objArray;
-    public boolean isSolved;
-
-    public Position size() {return game.size;}
-    public int rows() {return game.rows();}
-    public int cols() {return game.cols();}
-    public boolean isValid(int row, int col) { return game.isValid(row, col); }
-    public boolean isValid(Position p) {
-        return game.isValid(p);
-    }
 
     public BridgesGameState(BridgesGame game) {
-        this.game = game;
+        super(game);
         objArray = new BridgesObject[rows() * cols()];
         Arrays.fill(objArray, new BridgesEmptyObject());
     }

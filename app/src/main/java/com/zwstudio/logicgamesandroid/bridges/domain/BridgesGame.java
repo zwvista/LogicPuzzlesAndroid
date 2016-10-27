@@ -1,9 +1,8 @@
 package com.zwstudio.logicgamesandroid.bridges.domain;
 
-import com.rits.cloning.Cloner;
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,60 +11,19 @@ import java.util.Map;
  * Created by zwvista on 2016/09/29.
  */
 
-public class BridgesGame {
+public class BridgesGame extends CellsGame<BridgesGame, BridgesGameMove, BridgesGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
             new Position(1, 0),
             new Position(0, -1),
     };
-    private Cloner cloner = new Cloner();
-
-    public Position size;
-    public int rows() {return size.row;}
-    public int cols() {return size.col;}
-    public boolean isValid(int row, int col) {
-        return row >= 0 && col >= 0 && row < size.row && col < size.col;
-    }
-    public boolean isValid(Position p) {
-        return isValid(p.row, p.col);
-    }
 
     public Map<Position, BridgesIslandInfo> islandsInfo = new HashMap<>();
     public boolean isIsland(Position p) {return islandsInfo.containsKey(p);}
 
-    private int stateIndex = 0;
-    private List<BridgesGameState> states = new ArrayList<>();
-    private BridgesGameState state() {return states.get(stateIndex);}
-    private List<BridgesGameMove> moves = new ArrayList<>();
-    private BridgesGameMove move() {return moves.get(stateIndex - 1);}
-    public BridgesGameInterface gi;
-    public boolean isSolved() {return state().isSolved;}
-    public boolean canUndo() {return stateIndex > 0;}
-    public boolean canRedo() {return stateIndex < states.size() - 1;}
-    public int moveIndex() {return stateIndex;}
-    public int moveCount() {return states.size() - 1;}
-
-    private void moveAdded(BridgesGameMove move) {
-        if (gi == null) return;
-        gi.moveAdded(this, move);
-    }
-
-    private void levelInitilized(BridgesGameState state) {
-        if (gi == null) return;
-        gi.levelInitilized(this, state);
-        if (isSolved()) gi.gameSolved(this);
-    }
-
-    private void levelUpdated(BridgesGameState stateFrom, BridgesGameState stateTo) {
-        if (gi == null) return;
-        gi.levelUpdated(this, stateFrom, stateTo);
-        if (isSolved()) gi.gameSolved(this);
-    }
-
     public BridgesGame(List<String> layout, BridgesGameInterface gi) {
-        cloner.dontClone(this.getClass());
-        this.gi = gi;
+        super(gi);
         size = new Position(layout.size(), layout.get(0).length());
         BridgesGameState state = new BridgesGameState(this);
         for (int r = 0; r < rows(); r++) {
@@ -126,17 +84,5 @@ public class BridgesGame {
 
     public BridgesObject getObject(int row, int col) {
         return state().get(row, col);
-    }
-
-    public void undo() {
-        if (!canUndo()) return;
-        stateIndex--;
-        levelUpdated(states.get(stateIndex + 1), state());
-    }
-
-    public void redo() {
-        if (!canRedo()) return;
-        stateIndex++;
-        levelUpdated(states.get(stateIndex - 1), state());
     }
 }

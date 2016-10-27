@@ -1,6 +1,6 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
-import com.rits.cloning.Cloner;
+import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
@@ -13,62 +13,20 @@ import fj.F2;
  * Created by zwvista on 2016/09/29.
  */
 
-public class CloudsGame {
+public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
             new Position(1, 0),
             new Position(0, -1),
     };
-    private Cloner cloner = new Cloner();
-
-    public Position size;
-    public int rows() {return size.row;}
-    public int cols() {return size.col;}
-    public boolean isValid(int row, int col) {
-        return row >= 0 && col >= 0 && row < size.row && col < size.col;
-    }
-    public boolean isValid(Position p) {
-        return isValid(p.row, p.col);
-    }
 
     public int[] row2hint;
     public int[] col2hint;
     public List<Position> pos2cloud = new ArrayList<>();
 
-    private int stateIndex = 0;
-    private List<CloudsGameState> states = new ArrayList<>();
-    private CloudsGameState state() {return states.get(stateIndex);}
-    private List<CloudsGameMove> moves = new ArrayList<>();
-    private CloudsGameMove move() {return moves.get(stateIndex - 1);}
-    public CloudsGameInterface gi;
-
-    public boolean isSolved() {return state().isSolved;}
-    public boolean canUndo() {return stateIndex > 0;}
-    public boolean canRedo() {return stateIndex < states.size() - 1;}
-    public int moveIndex() {return stateIndex;}
-    public int moveCount() {return states.size() - 1;}
-
-    private void moveAdded(CloudsGameMove move) {
-        if (gi == null) return;
-        gi.moveAdded(this, move);
-    }
-
-    private void levelInitilized(CloudsGameState state) {
-        if (gi == null) return;
-        gi.levelInitilized(this, state);
-        if (isSolved()) gi.gameSolved(this);
-    }
-
-    private void levelUpdated(CloudsGameState stateFrom, CloudsGameState stateTo) {
-        if (gi == null) return;
-        gi.levelUpdated(this, stateFrom, stateTo);
-        if (isSolved()) gi.gameSolved(this);
-    }
-
     public CloudsGame(List<String> layout, CloudsGameInterface gi) {
-        cloner.dontClone(this.getClass());
-        this.gi = gi;
+        super(gi);
         size = new Position(layout.size() - 1, layout.get(0).length() - 1);
         row2hint = new int[rows()];
         col2hint = new int[cols()];
@@ -140,17 +98,5 @@ public class CloudsGame {
 
     public LogicGamesHintState getColState(int col) {
         return state().col2state[col];
-    }
-
-    public void undo() {
-        if (!canUndo()) return;
-        stateIndex--;
-        levelUpdated(states.get(stateIndex + 1), state());
-    }
-
-    public void redo() {
-        if (!canRedo()) return;
-        stateIndex++;
-        levelUpdated(states.get(stateIndex - 1), state());
     }
 }
