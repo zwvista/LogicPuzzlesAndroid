@@ -5,10 +5,24 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    dependencies {
+        // replace with the current version of the android-apt plugin
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
 }
 
 repositories {
     mavenCentral()
+    mavenLocal()
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+def AAVersion = '4.1.0'
+
+dependencies {
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
 }
 
 android {
@@ -56,8 +70,6 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'javax.persistence:persistence-api:1.0.2'
-    compile 'org.roboguice:roboguice:3.0.1'
-    provided 'org.roboguice:roboblender:3.0.1'
     compile "org.functionaljava:functionaljava:4.6"
     compile 'uk.com.robust-it:cloning:1.9.3'
 }

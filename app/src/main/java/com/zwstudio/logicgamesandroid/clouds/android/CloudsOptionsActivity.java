@@ -15,21 +15,21 @@ import android.widget.TextView;
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsGameProgress;
 
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
-
-@ContentView(R.layout.activity_clouds_options)
+@EActivity(R.layout.activity_clouds_options)
 public class CloudsOptionsActivity extends CloudsActivity {
 
-    @InjectView(R.id.spnMarker)
+    @ViewById
     Spinner spnMarker;
-    @InjectView(R.id.btnDone)
+    @ViewById
     Button btnDone;
-    @InjectView(R.id.btnDefault)
+    @ViewById
     Button btnDefault;
 
     @Override

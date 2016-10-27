@@ -74,12 +74,13 @@ public class GameApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        logicGamesDocument = new LogicGamesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
-        lightUpDocument = new LightUpDocument(OpenHelperManager.getHelper(this, DBHelper.class));
-        bridgesDocument = new BridgesDocument(OpenHelperManager.getHelper(this, DBHelper.class));
-        slitherlinkDocument = new SlitherLinkDocument(OpenHelperManager.getHelper(this, DBHelper.class));
-        cloudsDocument = new CloudsDocument(OpenHelperManager.getHelper(this, DBHelper.class));
-        hitoriDocument = new HitoriDocument(OpenHelperManager.getHelper(this, DBHelper.class));
+        DBHelper dbHelper = OpenHelperManager.getHelper(this, DBHelper.class);
+        logicGamesDocument = new LogicGamesDocument(dbHelper);
+        lightUpDocument = new LightUpDocument(dbHelper);
+        bridgesDocument = new BridgesDocument(dbHelper);
+        slitherlinkDocument = new SlitherLinkDocument(dbHelper);
+        cloudsDocument = new CloudsDocument(dbHelper);
+        hitoriDocument = new HitoriDocument(dbHelper);
 
         InputStream is = null;
         try {

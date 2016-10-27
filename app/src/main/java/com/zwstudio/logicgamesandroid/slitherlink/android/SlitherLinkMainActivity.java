@@ -8,15 +8,15 @@ import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
 
-import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
-@ContentView(R.layout.activity_slitherlink_main)
+@EActivity(R.layout.activity_slitherlink_main)
 public class SlitherLinkMainActivity extends SlitherLinkActivity {
 
-    @InjectView(R.id.btnResumeGame)
+    @ViewById
     Button btnResumeGame;
-    @InjectView(R.id.btnOptions)
+    @ViewById
     Button btnOptions;
 
     @Override

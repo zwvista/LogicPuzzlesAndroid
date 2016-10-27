@@ -2,73 +2,45 @@ package com.zwstudio.logicgamesandroid.logicgames.android;
 
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
 
-import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
 
-@ContentView(R.layout.activity_logicgames_main)
+@EActivity(R.layout.activity_logicgames_main)
 public class LogicGamesMainActivity extends LogicGamesActivity {
 
-    @InjectView(R.id.btnResumeGame)
-    Button btnResumeGame;
-    @InjectView(R.id.btnLightUp)
-    Button btnLightUp;
-    @InjectView(R.id.btnBridges)
-    Button btnBridges;
-    @InjectView(R.id.btnSlitherLink)
-    Button btnSlitherLink;
-    @InjectView(R.id.btnClouds)
-    Button btnClouds;
-    @InjectView(R.id.btnHitori)
-    Button btnHitori;
-    @InjectView(R.id.btnOptions)
-    Button btnOptions;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    @AfterViews
+    protected void init() {
         // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
         // Set the hardware buttons to control the music
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    }
 
-        btnResumeGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String gameName = doc().gameProgress().gameName;
-                resumeGame(gameName, true);
-            }
-        });
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resumeGame((String) v.getTag(), true);
-            }
-        };
-        btnLightUp.setOnClickListener(onClickListener);
-        btnBridges.setOnClickListener(onClickListener);
-        btnSlitherLink.setOnClickListener(onClickListener);
-        btnClouds.setOnClickListener(onClickListener);
-        btnHitori.setOnClickListener(onClickListener);
-        btnOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LogicGamesMainActivity.this, LogicGamesOptionsActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Click
+    protected void btnResumeGame() {
+        String gameName = doc().gameProgress().gameName;
+        resumeGame(gameName, true);
+    }
+
+    @Click({R.id.btnLightUp, R.id.btnBridges, R.id.btnSlitherLink, R.id.btnClouds, R.id.btnHitori})
+    protected void btnStartGame(View v) {
+        resumeGame((String) v.getTag(), true);
+    }
+
+    @Click
+    protected void btnOptions() {
+        LogicGamesOptionsActivity_.intent(this).start();
     }
 
     private void resumeGame(String gameName, boolean toResume) {
         doc().resumeGame(gameName);
         Class<?> cls = null;
         try {
-            cls = Class.forName(String.format("com.zwstudio.logicgamesandroid.%s.android.%sMainActivity",
+            cls = Class.forName(String.format("com.zwstudio.logicgamesandroid.%s.android.%sMainActivity_",
                     gameName.toLowerCase(), gameName));
             Intent intent = new Intent(this, cls);
             intent.putExtra("toResume", toResume);

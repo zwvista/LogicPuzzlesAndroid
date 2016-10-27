@@ -15,29 +15,29 @@ import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
-import java.util.List;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
-import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
+import java.util.List;
 
 import static android.app.AlertDialog.Builder;
 
-@ContentView(R.layout.activity_bridges_game)
+@EActivity(R.layout.activity_bridges_game)
 public class BridgesGameActivity extends BridgesActivity implements BridgesGameInterface {
 
-    @InjectView(R.id.gameView)
+    @ViewById
     BridgesGameView gameView;
-    @InjectView(R.id.tvLevel)
+    @ViewById
     TextView tvLevel;
-    @InjectView(R.id.tvSolved)
+    @ViewById
     TextView tvSolved;
-    @InjectView(R.id.tvMoves)
+    @ViewById
     TextView tvMoves;
-    @InjectView(R.id.btnUndo)
+    @ViewById
     Button btnUndo;
-    @InjectView(R.id.btnRedo)
+    @ViewById
     Button btnRedo;
-    @InjectView(R.id.btnClear)
+    @ViewById
     Button btnClear;
 
     BridgesGame game;

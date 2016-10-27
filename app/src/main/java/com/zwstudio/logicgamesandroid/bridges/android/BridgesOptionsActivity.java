@@ -8,15 +8,15 @@ import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
 
-import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
-@ContentView(R.layout.activity_bridges_options)
+@EActivity(R.layout.activity_bridges_options)
 public class BridgesOptionsActivity extends BridgesActivity {
 
-    @InjectView(R.id.btnDone)
+    @ViewById
     Button btnDone;
-    @InjectView(R.id.btnDefault)
+    @ViewById
     Button btnDefault;
 
     @Override
