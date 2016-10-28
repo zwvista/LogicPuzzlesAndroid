@@ -4,7 +4,7 @@ package com.zwstudio.logicgamesandroid.common.domain;
  * Created by TCC-2-9002 on 2016/10/27.
  */
 
-public class CellsGameState<G extends CellsGame> extends GameState {
+public class CellsGameState<G extends CellsGame<G, GM, GS>, GM, GS extends GameState> extends GameState {
     public G game;
 
     public Position size() {return game.size;}

@@ -18,7 +18,7 @@ import org.androidannotations.annotations.ViewById;
 import static android.app.AlertDialog.Builder;
 
 @EActivity
-public abstract class GameActivity<G extends Game, GD extends GameDocument<G, GM, GS>, GM, GS extends GameState>
+public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDocument<G, GM, GS>, GM, GS extends GameState>
         extends BaseActivity implements GameInterface<G, GM, GS> {
     public abstract GD doc();
 

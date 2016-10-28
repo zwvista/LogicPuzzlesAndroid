@@ -20,7 +20,7 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame> {
+public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> {
     public SlitherLinkObject[][] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 

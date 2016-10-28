@@ -12,7 +12,7 @@ import fj.F;
  * Created by zwvista on 2016/09/29.
  */
 
-public class LightUpGameState extends CellsGameState<LightUpGame> {
+public class LightUpGameState extends CellsGameState<LightUpGame, LightUpGameMove, LightUpGameState> {
     public LightUpObject[] objArray;
 
     public LightUpGameState(LightUpGame game) {

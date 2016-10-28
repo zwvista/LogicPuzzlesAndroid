@@ -2,9 +2,9 @@ package com.zwstudio.logicgamesandroid.clouds.domain;
 
 import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicgamesandroid.common.domain.Graph;
-import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
 import com.zwstudio.logicgamesandroid.common.domain.Node;
 import com.zwstudio.logicgamesandroid.common.domain.Position;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class CloudsGameState extends CellsGameState<CloudsGame> {
+public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, CloudsGameState> {
     public CloudsObject[] objArray;
     public HintState[] row2state;
     public HintState[] col2state;
