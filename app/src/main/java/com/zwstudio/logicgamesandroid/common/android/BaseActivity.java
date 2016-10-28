@@ -2,7 +2,7 @@ package com.zwstudio.logicgamesandroid.common.android;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
+import com.zwstudio.logicgamesandroid.logicgames.android.GamesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EActivity;
@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EActivity;
 @EActivity
 public abstract class BaseActivity extends AppCompatActivity {
     @App
-    public GameApplication app;
+    public GamesApplication app;
 
     @Override
     protected void onStart() {

@@ -1,8 +1,8 @@
 package com.zwstudio.logicgamesandroid.common.data;
 
-import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 import com.zwstudio.logicgamesandroid.common.domain.Game;
 import com.zwstudio.logicgamesandroid.common.domain.GameState;
+import com.zwstudio.logicgamesandroid.logicgames.android.GamesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
@@ -29,7 +29,7 @@ public abstract class GameDocument<G extends Game, GM, GS extends GameState> {
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
     @App
-    public GameApplication app;
+    public GamesApplication app;
 
     public void init(String filename) {
         try {

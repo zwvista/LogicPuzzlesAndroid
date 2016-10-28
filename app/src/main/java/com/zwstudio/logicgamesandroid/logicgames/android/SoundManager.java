@@ -22,7 +22,7 @@ import static android.content.Context.AUDIO_SERVICE;
 @EBean
 public class SoundManager {
     @App
-    GameApplication app;
+    GamesApplication app;
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private boolean mIsBound = false;

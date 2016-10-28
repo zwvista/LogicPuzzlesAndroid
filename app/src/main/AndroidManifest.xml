@@ -8,18 +8,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.zwstudio.logicgamesandroid.logicgames.android.GameApplication_">
+        android:name="com.zwstudio.logicgamesandroid.logicgames.android.GamesApplication_">
         <service android:name="com.zwstudio.logicgamesandroid.logicgames.android.MusicService"
                  android:enabled="true"/>
         <activity
-            android:name="com.zwstudio.logicgamesandroid.logicgames.android.LogicGamesMainActivity_"
+            android:name="com.zwstudio.logicgamesandroid.logicgames.android.GamesMainActivity_"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.logicgames.android.LogicGamesOptionsActivity_"
+        <activity android:name="com.zwstudio.logicgamesandroid.logicgames.android.GamesOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpMainActivity_"

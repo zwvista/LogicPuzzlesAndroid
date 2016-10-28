@@ -17,7 +17,7 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 
 @EActivity(R.layout.activity_logicgames_options)
-public class LogicGamesOptionsActivity extends BaseActivity {
+public class GamesOptionsActivity extends BaseActivity {
     public LogicGamesDocument doc() {return app.logicGamesDocument;}
 
     @ViewById
@@ -89,7 +89,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
             }
         };
 
-        Builder builder = new Builder(LogicGamesOptionsActivity.this);
+        Builder builder = new Builder(GamesOptionsActivity.this);
         builder.setMessage("Do you really want to reset the options?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }

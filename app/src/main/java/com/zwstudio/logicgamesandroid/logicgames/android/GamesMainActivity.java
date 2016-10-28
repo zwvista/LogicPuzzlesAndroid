@@ -13,7 +13,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_logicgames_main)
-public class LogicGamesMainActivity extends BaseActivity {
+public class GamesMainActivity extends BaseActivity {
     public LogicGamesDocument doc() {return app.logicGamesDocument;}
 
     @AfterViews
@@ -36,7 +36,7 @@ public class LogicGamesMainActivity extends BaseActivity {
 
     @Click
     protected void btnOptions() {
-        LogicGamesOptionsActivity_.intent(this).start();
+        GamesOptionsActivity_.intent(this).start();
     }
 
     private void resumeGame(String gameName, boolean toResume) {

@@ -33,7 +33,7 @@ import org.androidannotations.annotations.EApplication;
 import org.androidannotations.ormlite.annotations.OrmLiteDao;
 
 @EApplication
-public class GameApplication extends Application {
+public class GamesApplication extends Application {
 
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<LogicGamesGameProgress, Integer> daoLogicGamesGameProgress;

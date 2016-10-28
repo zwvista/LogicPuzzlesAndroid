@@ -1,6 +1,6 @@
 package com.zwstudio.logicgamesandroid.logicgames.data;
 
-import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
+import com.zwstudio.logicgamesandroid.logicgames.android.GamesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 @EBean
 public class LogicGamesDocument {
     @App
-    public GameApplication app;
+    public GamesApplication app;
 
     public LogicGamesGameProgress gameProgress() {
         try {
