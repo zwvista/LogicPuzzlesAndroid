@@ -38,7 +38,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
         ctvPlayMusic.setChecked(!rec.playMusic);
         rec.playMusic = !rec.playMusic;
         try {
-            doc().db.getDaoLogicGamesGameProgress().update(rec);
+            doc().app.daoLogicGamesGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
         ctvPlaySound.setChecked(!rec.playSound);
         rec.playSound = !rec.playSound;
         try {
-            doc().db.getDaoLogicGamesGameProgress().update(rec);
+            doc().app.daoLogicGamesGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
                         rec.playMusic = true;
                         rec.playSound = true;
                         try {
-                            doc().db.getDaoLogicGamesGameProgress().update(rec);
+                            doc().app.daoLogicGamesGameProgress.update(rec);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

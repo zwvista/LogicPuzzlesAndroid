@@ -64,7 +64,7 @@ public class HitoriOptionsActivity extends OptionsActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 rec.markerOption = position;
                 try {
-                    doc().db.getDaoHitoriGameProgress().update(rec);
+                    doc().app.daoHitoriGameProgress.update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -78,7 +78,7 @@ public class HitoriOptionsActivity extends OptionsActivity {
     protected void onDefault() {
         rec.markerOption = 0;
         try {
-            doc().db.getDaoHitoriGameProgress().update(rec);
+            doc().app.daoHitoriGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

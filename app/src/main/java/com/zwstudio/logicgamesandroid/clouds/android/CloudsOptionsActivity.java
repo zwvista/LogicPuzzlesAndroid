@@ -64,7 +64,7 @@ public class CloudsOptionsActivity extends OptionsActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 rec.markerOption = position;
                 try {
-                    doc().db.getDaoCloudsGameProgress().update(rec);
+                    doc().app.daoCloudsGameProgress.update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -78,7 +78,7 @@ public class CloudsOptionsActivity extends OptionsActivity {
     protected void onDefault() {
         rec.markerOption = 0;
         try {
-            doc().db.getDaoCloudsGameProgress().update(rec);
+            doc().app.daoCloudsGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

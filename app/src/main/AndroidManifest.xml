@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.zwstudio.logicgamesandroid.logicgames.android.GameApplication">
+        android:name="com.zwstudio.logicgamesandroid.logicgames.android.GameApplication_">
         <service android:name="com.zwstudio.logicgamesandroid.logicgames.android.MusicService"
                  android:enabled="true"/>
         <activity

@@ -1,24 +1,15 @@
 package com.zwstudio.logicgamesandroid.clouds.data;
 
-import android.content.Context;
-
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameState;
-import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
+import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
-
-import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -26,18 +17,18 @@ import static fj.data.List.iterableList;
 
 public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, CloudsGameState> {
 
-    public CloudsDocument(DBHelper db, Context context, String filename) {
-        super(db, context, filename);
+    public CloudsDocument(GameApplication app, String filename) {
+        super(app, filename);
         selectedLevelID = gameProgress().levelID;
     }
 
     public CloudsGameProgress gameProgress() {
         try {
-            CloudsGameProgress rec = db.getDaoCloudsGameProgress().queryBuilder()
+            CloudsGameProgress rec = app.daoCloudsGameProgress.queryBuilder()
                     .queryForFirst();
             if (rec == null) {
                 rec = new CloudsGameProgress();
-                db.getDaoCloudsGameProgress().create(rec);
+                app.daoCloudsGameProgress.create(rec);
             }
             return rec;
         } catch (SQLException e) {
@@ -48,12 +39,12 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, Clo
 
     public CloudsLevelProgress levelProgress() {
         try {
-            CloudsLevelProgress rec = db.getDaoCloudsLevelProgress().queryBuilder()
+            CloudsLevelProgress rec = app.daoCloudsLevelProgress.queryBuilder()
                     .where().eq("levelID", selectedLevelID).queryForFirst();
             if (rec == null) {
                 rec = new CloudsLevelProgress();
                 rec.levelID = selectedLevelID;
-                db.getDaoCloudsLevelProgress().create(rec);
+                app.daoCloudsLevelProgress.create(rec);
             }
             return rec;
         } catch (SQLException e) {
@@ -64,7 +55,7 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, Clo
 
     public List<CloudsMoveProgress> moveProgress() {
         try {
-            QueryBuilder<CloudsMoveProgress, Integer> qb = db.getDaoCloudsMoveProgress().queryBuilder();
+            QueryBuilder<CloudsMoveProgress, Integer> qb = app.daoCloudsMoveProgress.queryBuilder();
             qb.where().eq("levelID", selectedLevelID);
             qb.orderBy("moveIndex", true);
             List<CloudsMoveProgress> rec = qb.query();
@@ -75,41 +66,11 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, Clo
         }
     }
 
-    protected void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
-    {
-        int eventType = parser.getEventType();
-
-        while (eventType != XmlPullParser.END_DOCUMENT){
-            String name = null;
-            String id = null;
-            List<String> layout = null;
-            switch (eventType){
-                case XmlPullParser.START_DOCUMENT:
-                    break;
-                case XmlPullParser.START_TAG:
-                    name = parser.getName();
-                    if (name.equals("level")){
-                        id = "Level " + parser.getAttributeValue(null,"id");
-                        layout = Arrays.asList(parser.nextText().split("\n"));
-                        layout = iterableList(layout.subList(2, layout.size() - 2))
-                                .map(s -> s.substring(0, s.indexOf('\\')))
-                                .toJavaList();
-                        levels.put(id, layout);
-                    }
-                    break;
-                case XmlPullParser.END_TAG:
-                    break;
-            }
-            eventType = parser.next();
-        }
-
-    }
-
     public void levelUpdated(CloudsGame game) {
         try {
             CloudsLevelProgress rec = levelProgress();
             rec.moveIndex = game.moveIndex();
-            db.getDaoCloudsLevelProgress().update(rec);
+            app.daoCloudsLevelProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -117,7 +78,7 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, Clo
 
     public void moveAdded(CloudsGame game, CloudsGameMove move) {
         try {
-            DeleteBuilder<CloudsMoveProgress, Integer> deleteBuilder = db.getDaoCloudsMoveProgress().deleteBuilder();
+            DeleteBuilder<CloudsMoveProgress, Integer> deleteBuilder = app.daoCloudsMoveProgress.deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID)
                     .and().ge("moveIndex", game.moveIndex());
             deleteBuilder.delete();
@@ -127,7 +88,7 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, Clo
             rec.row = move.p.row;
             rec.col = move.p.col;
             rec.obj = move.obj.ordinal();
-            db.getDaoCloudsMoveProgress().create(rec);
+            app.daoCloudsMoveProgress.create(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,7 +98,7 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, Clo
         try {
             CloudsGameProgress rec = gameProgress();
             rec.levelID = selectedLevelID;
-            db.getDaoCloudsGameProgress().update(rec);
+            app.daoCloudsGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -145,12 +106,12 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, Clo
 
     public void clearGame() {
         try {
-            DeleteBuilder<CloudsMoveProgress, Integer> deleteBuilder = db.getDaoCloudsMoveProgress().deleteBuilder();
+            DeleteBuilder<CloudsMoveProgress, Integer> deleteBuilder = app.daoCloudsMoveProgress.deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID);
             deleteBuilder.delete();
             CloudsLevelProgress rec = levelProgress();
             rec.moveIndex = 0;
-            db.getDaoCloudsLevelProgress().update(rec);
+            app.daoCloudsLevelProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

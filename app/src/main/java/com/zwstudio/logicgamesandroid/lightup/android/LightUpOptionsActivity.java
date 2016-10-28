@@ -66,7 +66,7 @@ public class LightUpOptionsActivity extends OptionsActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 rec.markerOption = position;
                 try {
-                    doc().db.getDaoLightUpGameProgress().update(rec);
+                    doc().app.daoLightUpGameProgress.update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -83,7 +83,7 @@ public class LightUpOptionsActivity extends OptionsActivity {
                 ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
                 rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
                 try {
-                    doc().db.getDaoLightUpGameProgress().update(rec);
+                    doc().app.daoLightUpGameProgress.update(rec);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -95,7 +95,7 @@ public class LightUpOptionsActivity extends OptionsActivity {
         rec.markerOption = 0;
         rec.normalLightbulbsOnly = false;
         try {
-            doc().db.getDaoLightUpGameProgress().update(rec);
+            doc().app.daoLightUpGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
