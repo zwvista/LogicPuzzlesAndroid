@@ -8,63 +8,63 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.zwstudio.logicgamesandroid.logicgames.android.GamesApplication_">
-        <service android:name="com.zwstudio.logicgamesandroid.logicgames.android.MusicService"
+        android:name=".main.android.GamesApplication_">
+        <service android:name=".main.android.MusicService"
                  android:enabled="true"/>
         <activity
-            android:name="com.zwstudio.logicgamesandroid.logicgames.android.GamesMainActivity_"
+            android:name=".main.android.GamesMainActivity_"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.logicgames.android.GamesOptionsActivity_"
+        <activity android:name=".main.android.GamesOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpMainActivity_"
+        <activity android:name=".games.lightup.android.LightUpMainActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpGameActivity_"
+        <activity android:name=".games.lightup.android.LightUpGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.lightup.android.LightUpOptionsActivity_"
+        <activity android:name=".games.lightup.android.LightUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesMainActivity_"
+        <activity android:name=".games.bridges.android.BridgesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesGameActivity_"
+        <activity android:name=".games.bridges.android.BridgesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.bridges.android.BridgesOptionsActivity_"
+        <activity android:name=".games.bridges.android.BridgesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.slitherlink.android.SlitherLinkMainActivity_"
+        <activity android:name=".games.slitherlink.android.SlitherLinkMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.slitherlink.android.SlitherLinkGameActivity_"
+        <activity android:name=".games.slitherlink.android.SlitherLinkGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.slitherlink.android.SlitherLinkOptionsActivity_"
+        <activity android:name=".games.slitherlink.android.SlitherLinkOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.clouds.android.CloudsMainActivity_"
+        <activity android:name=".games.clouds.android.CloudsMainActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.clouds.android.CloudsGameActivity_"
+        <activity android:name=".games.clouds.android.CloudsGameActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.clouds.android.CloudsOptionsActivity_"
+        <activity android:name=".games.clouds.android.CloudsOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.hitori.android.HitoriMainActivity_"
+        <activity android:name=".games.hitori.android.HitoriMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.hitori.android.HitoriGameActivity_"
+        <activity android:name=".games.hitori.android.HitoriGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.zwstudio.logicgamesandroid.hitori.android.HitoriOptionsActivity_"
+        <activity android:name=".games.hitori.android.HitoriOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
     </application>

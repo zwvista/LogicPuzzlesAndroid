@@ -2,7 +2,7 @@ package com.zwstudio.logicgamesandroid.common.android;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.zwstudio.logicgamesandroid.logicgames.android.GamesApplication;
+import com.zwstudio.logicgamesandroid.main.android.GamesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EActivity;
