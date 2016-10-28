@@ -5,7 +5,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameState;
-import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+import com.zwstudio.logicgamesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 

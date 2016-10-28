@@ -7,8 +7,8 @@ import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameState;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsObject;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameActivity;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.android.GameActivity;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 

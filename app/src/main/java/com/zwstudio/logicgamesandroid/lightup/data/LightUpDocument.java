@@ -5,7 +5,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
-import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+import com.zwstudio.logicgamesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 

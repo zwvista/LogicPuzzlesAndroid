@@ -1,8 +1,8 @@
 package com.zwstudio.logicgamesandroid.hitori.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
-import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.common.domain.GameInterface;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.List;
 

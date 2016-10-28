@@ -1,9 +1,9 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
-import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.common.domain.GameInterface;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,8 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
         col2hint = new int[cols()];
 
         CloudsGameState state = new CloudsGameState(this);
-        state.row2state = new LogicGamesHintState[rows()];
-        state.col2state = new LogicGamesHintState[cols()];
+        state.row2state = new HintState[rows()];
+        state.col2state = new HintState[cols()];
 
         for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r);
@@ -45,7 +45,7 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
                     pos2cloud.add(p);
                 else if (ch >= '0' && ch <= '9') {
                     int n = ch - '0';
-                    LogicGamesHintState s = n == 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal;
+                    HintState s = n == 0 ? HintState.Complete : HintState.Normal;
                     if (r == rows()) {
                         col2hint[c] = n;
                         state.col2state[c] = s;
@@ -93,11 +93,11 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
         return state().get(row, col);
     }
 
-    public LogicGamesHintState getRowState(int row) {
+    public HintState getRowState(int row) {
         return state().row2state[row];
     }
 
-    public LogicGamesHintState getColState(int col) {
+    public HintState getColState(int col) {
         return state().col2state[col];
     }
 }

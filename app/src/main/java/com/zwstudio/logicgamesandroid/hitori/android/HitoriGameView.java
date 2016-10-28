@@ -14,12 +14,7 @@ import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGame;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriMarkerOptions;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriObject;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbObject;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
-
-import static com.zwstudio.logicgamesandroid.clouds.domain.CloudsObject.Cloud;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 /**
  * TODO: document your custom view class.

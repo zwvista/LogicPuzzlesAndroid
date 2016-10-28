@@ -1,10 +1,10 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicgamesandroid.common.domain.Graph;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Node;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import static fj.data.List.iterableList;
 
 public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame> {
     public SlitherLinkObject[][] objArray;
-    public Map<Position, LogicGamesHintState> pos2state = new HashMap<>();
+    public Map<Position, HintState> pos2state = new HashMap<>();
 
     public SlitherLinkGameState(SlitherLinkGame game) {
         super(game);
@@ -56,7 +56,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame> {
             if (get(p)[2] == SlitherLinkObject.Line) n1++;
             if (get(p.add(new Position(1, 1)))[0] == SlitherLinkObject.Line) n1++;
             if (get(p.add(new Position(1, 1)))[3] == SlitherLinkObject.Line) n1++;
-            pos2state.put(p, n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error);
+            pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;
         }
         if (!isSolved) return;

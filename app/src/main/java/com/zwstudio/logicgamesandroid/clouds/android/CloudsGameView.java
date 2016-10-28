@@ -14,10 +14,8 @@ import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsMarkerOptions;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsObject;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpLightbulbObject;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 /**
  * TODO: document your custom view class.
@@ -107,10 +105,10 @@ public class CloudsGameView extends View {
                 }
             }
         for (int r = 0; r < rows(); r++) {
-            LogicGamesHintState s = game().getRowState(r);
+            HintState s = game().getRowState(r);
             textPaint.setColor(
-                    s == LogicGamesHintState.Complete ? Color.GREEN :
-                    s == LogicGamesHintState.Error ? Color.RED :
+                    s == HintState.Complete ? Color.GREEN :
+                    s == HintState.Error ? Color.RED :
                     Color.WHITE
             );
             int n = game().row2hint[r];
@@ -119,10 +117,10 @@ public class CloudsGameView extends View {
             drawTextCentered(text, cols() * cellWidth + 1, r * cellHeight + 1, canvas);
         }
         for (int c = 0; c < cols(); c++) {
-            LogicGamesHintState s = game().getColState(c);
+            HintState s = game().getColState(c);
             textPaint.setColor(
-                    s == LogicGamesHintState.Complete ? Color.GREEN :
-                    s == LogicGamesHintState.Error ? Color.RED :
+                    s == HintState.Complete ? Color.GREEN :
+                    s == HintState.Error ? Color.RED :
                     Color.WHITE
             );
             int n = game().col2hint[c];

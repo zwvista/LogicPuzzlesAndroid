@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsDocument;
 import com.zwstudio.logicgamesandroid.clouds.data.CloudsGameProgress;
-import com.zwstudio.logicgamesandroid.logicgames.android.OptionsActivity;
+import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

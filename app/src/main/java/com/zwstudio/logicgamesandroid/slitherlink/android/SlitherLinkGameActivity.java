@@ -1,8 +1,8 @@
 package com.zwstudio.logicgamesandroid.slitherlink.android;
 
 import com.zwstudio.logicgamesandroid.R;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameActivity;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.android.GameActivity;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkMoveProgress;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;

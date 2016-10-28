@@ -7,8 +7,8 @@ import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGame;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameState;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriObject;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameActivity;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.android.GameActivity;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 

@@ -5,7 +5,7 @@ import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
-import com.zwstudio.logicgamesandroid.logicgames.android.BaseActivity;
+import com.zwstudio.logicgamesandroid.common.android.BaseActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

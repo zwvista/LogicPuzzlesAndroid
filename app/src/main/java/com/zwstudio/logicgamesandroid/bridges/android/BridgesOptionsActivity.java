@@ -2,7 +2,7 @@ package com.zwstudio.logicgamesandroid.bridges.android;
 
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
-import com.zwstudio.logicgamesandroid.logicgames.android.OptionsActivity;
+import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 
 import org.androidannotations.annotations.EActivity;
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.hitori.data.HitoriDocument;
 import com.zwstudio.logicgamesandroid.hitori.data.HitoriGameProgress;
-import com.zwstudio.logicgamesandroid.logicgames.android.OptionsActivity;
+import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

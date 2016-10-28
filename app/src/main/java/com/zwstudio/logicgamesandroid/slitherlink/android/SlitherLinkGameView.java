@@ -9,8 +9,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameMove;
@@ -96,10 +96,10 @@ public class SlitherLinkGameView extends View {
                 Position p = new Position(r, c);
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
-                    LogicGamesHintState state = game().getHintState(p);
+                    HintState state = game().getHintState(p);
                     textPaint.setColor(
-                            state == LogicGamesHintState.Complete ? Color.GREEN :
-                            state == LogicGamesHintState.Error ? Color.RED :
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
                             Color.WHITE
                     );
                     String text = String.valueOf(n);

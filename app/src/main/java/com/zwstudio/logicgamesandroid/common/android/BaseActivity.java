@@ -1,6 +1,8 @@
-package com.zwstudio.logicgamesandroid.logicgames.android;
+package com.zwstudio.logicgamesandroid.common.android;
 
 import android.support.v7.app.AppCompatActivity;
+
+import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EActivity;

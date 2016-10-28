@@ -2,7 +2,7 @@ package com.zwstudio.logicgamesandroid.slitherlink.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+import com.zwstudio.logicgamesandroid.common.data.GameDocument;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameMove;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameState;

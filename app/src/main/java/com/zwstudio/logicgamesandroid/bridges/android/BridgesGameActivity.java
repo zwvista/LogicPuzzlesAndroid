@@ -6,8 +6,8 @@ import com.zwstudio.logicgamesandroid.bridges.data.BridgesMoveProgress;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameState;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameActivity;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.android.GameActivity;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 

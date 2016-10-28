@@ -7,8 +7,8 @@ import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameActivity;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.android.GameActivity;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 

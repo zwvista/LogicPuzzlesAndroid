@@ -1,9 +1,9 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
-import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.common.domain.GameInterface;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +38,7 @@ public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUp
                     int n = ch == 'W' ? -1 : (ch - '0');
                     pos2hint.put(p, n);
                     LightUpWallObject o = new LightUpWallObject();
-                    o.state = n <= 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal;
+                    o.state = n <= 0 ? HintState.Complete : HintState.Normal;
                     state.set(r, c, o);
                 } else
                     state.set(r, c, new LightUpEmptyObject());

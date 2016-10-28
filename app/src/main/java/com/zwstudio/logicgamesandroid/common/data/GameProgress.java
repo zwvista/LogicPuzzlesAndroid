@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.logicgames.data;
+package com.zwstudio.logicgamesandroid.common.data;
 
 import com.j256.ormlite.field.DatabaseField;
 

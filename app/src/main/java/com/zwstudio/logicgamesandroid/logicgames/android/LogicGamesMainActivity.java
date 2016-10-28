@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.view.View;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.common.android.BaseActivity;
 import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
 
 import org.androidannotations.annotations.AfterViews;

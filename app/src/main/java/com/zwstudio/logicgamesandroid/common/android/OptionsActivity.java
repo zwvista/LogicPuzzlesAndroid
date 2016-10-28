@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.logicgames.android;
+package com.zwstudio.logicgamesandroid.common.android;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;

@@ -5,7 +5,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGame;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameState;
-import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+import com.zwstudio.logicgamesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 

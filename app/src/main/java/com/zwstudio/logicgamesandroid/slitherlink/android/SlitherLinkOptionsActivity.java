@@ -9,7 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.logicgamesandroid.R;
-import com.zwstudio.logicgamesandroid.logicgames.android.OptionsActivity;
+import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkGameProgress;
 

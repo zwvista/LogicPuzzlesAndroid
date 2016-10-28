@@ -1,9 +1,9 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
-import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.common.domain.GameInterface;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +37,7 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
                 if (ch >= '0' && ch <= '9') {
                     int n = ch - '0';
                     pos2hint.put(p, n);
-                    state.pos2state.put(p, n == 0 ? LogicGamesHintState.Complete : LogicGamesHintState.Normal);
+                    state.pos2state.put(p, n == 0 ? HintState.Complete : HintState.Normal);
                 }
             }
         }
@@ -78,7 +78,7 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
         return state().get(row, col);
     }
 
-    public LogicGamesHintState getHintState(Position p) {
+    public HintState getHintState(Position p) {
         return state().pos2state.get(p);
     }
 }

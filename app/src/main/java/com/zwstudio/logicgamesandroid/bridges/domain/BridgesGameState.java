@@ -1,10 +1,10 @@
 package com.zwstudio.logicgamesandroid.bridges.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicgamesandroid.common.domain.Graph;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Node;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class BridgesGameState extends CellsGameState<BridgesGame> {
             BridgesIslandObject o = (BridgesIslandObject) get(p);
             int n1 = arrayArray(o.bridges).foldLeft(add, 0);
             int n2 = info.bridges;
-            o.state = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
+            o.state = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
             if (!isSolved) continue;
             Node node = new Node(p.toString());

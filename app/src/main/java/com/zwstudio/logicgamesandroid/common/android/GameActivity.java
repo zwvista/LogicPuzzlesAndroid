@@ -1,14 +1,14 @@
-package com.zwstudio.logicgamesandroid.logicgames.android;
+package com.zwstudio.logicgamesandroid.common.android;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Game;
-import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
-import com.zwstudio.logicgamesandroid.logicgames.domain.GameState;
+import com.zwstudio.logicgamesandroid.common.data.GameDocument;
+import com.zwstudio.logicgamesandroid.common.domain.Game;
+import com.zwstudio.logicgamesandroid.common.domain.GameInterface;
+import com.zwstudio.logicgamesandroid.common.domain.GameState;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

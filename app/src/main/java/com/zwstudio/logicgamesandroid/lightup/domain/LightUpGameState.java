@@ -1,8 +1,8 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.Arrays;
 
@@ -57,7 +57,7 @@ public class LightUpGameState extends CellsGameState<LightUpGame> {
                         if (!isValid(p2)) continue;
                         if (get(p2) instanceof LightUpLightbulbObject) n1++;
                     }
-                    o2.state = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
+                    o2.state = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
                     if (n1 != n2) isSolved = false;
                 }
             }

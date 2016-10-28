@@ -24,8 +24,8 @@ import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpMarkerOptions;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpWallObject;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,8 +125,8 @@ public class LightUpGameView extends View {
                     int n = game().pos2hint.get(new Position(r, c));
                     if (n >= 0) {
                         textPaint.setColor(
-                                o2.state == LogicGamesHintState.Complete ? Color.GREEN :
-                                o2.state == LogicGamesHintState.Error ? Color.RED :
+                                o2.state == HintState.Complete ? Color.GREEN :
+                                o2.state == HintState.Error ? Color.RED :
                                 Color.BLACK
                         );
                         String text = String.valueOf(n);

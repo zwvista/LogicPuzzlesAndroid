@@ -5,7 +5,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicgamesandroid.clouds.domain.CloudsGameState;
-import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+import com.zwstudio.logicgamesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 

@@ -1,10 +1,10 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
-import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicgamesandroid.common.domain.Graph;
+import com.zwstudio.logicgamesandroid.logicgames.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.domain.Node;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,8 +22,8 @@ import static fj.data.List.iterableList;
 
 public class CloudsGameState extends CellsGameState<CloudsGame> {
     public CloudsObject[] objArray;
-    public LogicGamesHintState[] row2state;
-    public LogicGamesHintState[] col2state;
+    public HintState[] row2state;
+    public HintState[] col2state;
 
     public CloudsGameState(CloudsGame game) {
         super(game);
@@ -51,7 +51,7 @@ public class CloudsGameState extends CellsGameState<CloudsGame> {
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == CloudsObject.Cloud)
                     n1++;
-            row2state[r] = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
+            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
         for (int c = 0; c < cols(); c++) {
@@ -59,7 +59,7 @@ public class CloudsGameState extends CellsGameState<CloudsGame> {
             for (int r = 0; r < rows(); r++)
                 if (get(r, c) == CloudsObject.Cloud)
                     n1++;
-            col2state[c] = n1 < n2 ? LogicGamesHintState.Normal : n1 == n2 ? LogicGamesHintState.Complete : LogicGamesHintState.Error;
+            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
         if (!isSolved) return;

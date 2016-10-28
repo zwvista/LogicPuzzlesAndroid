@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.logicgames.domain;
+package com.zwstudio.logicgamesandroid.common.domain;
 
 public class Node
 {

@@ -1,9 +1,9 @@
 package com.zwstudio.logicgamesandroid.hitori.domain;
 
-import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGameState;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Graph;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Node;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
+import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicgamesandroid.common.domain.Graph;
+import com.zwstudio.logicgamesandroid.common.domain.Node;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.ArrayList;
 import java.util.Arrays;

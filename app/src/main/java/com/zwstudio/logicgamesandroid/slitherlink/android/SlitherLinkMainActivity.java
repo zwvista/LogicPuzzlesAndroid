@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
-import com.zwstudio.logicgamesandroid.logicgames.android.BaseActivity;
+import com.zwstudio.logicgamesandroid.common.android.BaseActivity;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkDocument;
 
 import org.androidannotations.annotations.AfterViews;
