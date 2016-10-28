@@ -134,7 +134,7 @@ public class BridgesGameView extends View {
         if (col >= cols() || row >= rows()) return true;
         Position p = new Position(row, col);
         boolean isI = game().isIsland(p);
-        Effect0 f = () -> activity().app.playSoundTap();
+        Effect0 f = () -> activity().app.soundManager.playSoundTap();
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             if (!isI) break;

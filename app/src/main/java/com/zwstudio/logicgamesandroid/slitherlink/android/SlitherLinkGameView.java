@@ -149,7 +149,7 @@ public class SlitherLinkGameView extends View {
             SlitherLinkGameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, SlitherLinkMarkerOptions.values()[rec.markerOption]))
-                activity().app.playSoundTap();
+                activity().app.soundManager.playSoundTap();
         }
         return true;
     }

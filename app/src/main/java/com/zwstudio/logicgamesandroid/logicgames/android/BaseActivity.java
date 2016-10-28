@@ -18,12 +18,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        app.activityStarted();
+        app.soundManager.activityStarted();
     }
 
     @Override
     protected void onStop() {
-        app.activityStopped();
+        app.soundManager.activityStopped();
         super.onStop();
     }
 }

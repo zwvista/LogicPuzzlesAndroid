@@ -42,7 +42,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        app.playOrPauseMusic();
+        app.soundManager.playOrPauseMusic();
     }
 
     @Click
@@ -78,7 +78,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                         ctvPlayMusic.setChecked(rec.playMusic);
-                        app.playOrPauseMusic();
+                        app.soundManager.playOrPauseMusic();
                         ctvPlaySound.setChecked(rec.playSound);
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
