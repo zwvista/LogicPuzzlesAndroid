@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -30,6 +31,7 @@ public class BridgesGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint islandPaint = new Paint();
     private Paint bridgePaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
 
     private Position pLast;
 
@@ -49,13 +51,13 @@ public class BridgesGameView extends CellsGameView {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
         islandPaint.setColor(Color.WHITE);
         islandPaint.setStyle(Paint.Style.STROKE);
         bridgePaint.setColor(Color.YELLOW);
         bridgePaint.setStyle(Paint.Style.STROKE);
         bridgePaint.setStrokeWidth(5);
+        textPaint.setAntiAlias(true);
+        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class BridgesGameView extends CellsGameView {
                     Color.WHITE
             );
             String text = String.valueOf(info.bridges);
-            drawTextCentered(text, cwc(c), chr(r), canvas);
+            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             int[] dirs = {1, 2};
             for (int dir : dirs) {
                 Position p2 = info.neighbors[dir];

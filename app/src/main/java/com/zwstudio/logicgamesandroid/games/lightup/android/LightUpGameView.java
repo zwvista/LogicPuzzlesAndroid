@@ -44,6 +44,7 @@ public class LightUpGameView extends CellsGameView {
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
     private Paint lightPaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
     private Drawable dLightbulb;
 
     public LightUpGameView(Context context) {
@@ -110,7 +111,7 @@ public class LightUpGameView extends CellsGameView {
                                 Color.BLACK
                         );
                         String text = String.valueOf(n);
-                        drawTextCentered(text, cwc(c), chr(r), canvas);
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                     }
                 } else if (o instanceof LightUpLightbulbObject) {
                     LightUpLightbulbObject o2 = (LightUpLightbulbObject) o;

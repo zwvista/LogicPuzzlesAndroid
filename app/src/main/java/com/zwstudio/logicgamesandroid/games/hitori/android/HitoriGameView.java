@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -28,6 +29,7 @@ public class HitoriGameView extends CellsGameView {
     private Paint gridPaint = new Paint();
     private Paint darkenPaint = new Paint();
     private Paint markerPaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
 
     public HitoriGameView(Context context) {
         super(context);
@@ -82,7 +84,7 @@ public class HitoriGameView extends CellsGameView {
                 }
                 textPaint.setColor(Color.WHITE);
                 String text = String.valueOf(game().get(r, c));
-                drawTextCentered(text, cwc(c), chr(r), canvas);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
     }
 

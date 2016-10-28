@@ -31,6 +31,7 @@ public class CloudsGameView extends CellsGameView {
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
     private Paint lightPaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
 
     public CloudsGameView(Context context) {
         super(context);
@@ -93,7 +94,7 @@ public class CloudsGameView extends CellsGameView {
             );
             int n = game().row2hint[r];
             String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas);
+            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
         }
         for (int c = 0; c < cols(); c++) {
             HintState s = game().getColState(c);
@@ -104,7 +105,7 @@ public class CloudsGameView extends CellsGameView {
             );
             int n = game().col2hint[c];
             String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas);
+            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
         }
     }
 

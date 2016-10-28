@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -30,6 +31,7 @@ public class SlitherLinkGameView extends CellsGameView {
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
     private Paint markerPaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
 
     public SlitherLinkGameView(Context context) {
         super(context);
@@ -85,7 +87,7 @@ public class SlitherLinkGameView extends CellsGameView {
                             Color.WHITE
                     );
                     String text = String.valueOf(n);
-                    drawTextCentered(text, cwc(c), chr(r), canvas);
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
         int markerOffset = 20;
