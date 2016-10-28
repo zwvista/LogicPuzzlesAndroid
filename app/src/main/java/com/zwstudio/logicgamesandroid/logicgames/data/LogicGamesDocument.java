@@ -2,18 +2,19 @@ package com.zwstudio.logicgamesandroid.logicgames.data;
 
 import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.EBean;
+
 import java.sql.SQLException;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
+@EBean
 public class LogicGamesDocument {
+    @App
     public GameApplication app;
-
-    public LogicGamesDocument(GameApplication app) {
-        this.app = app;
-    }
 
     public LogicGamesGameProgress gameProgress() {
         try {

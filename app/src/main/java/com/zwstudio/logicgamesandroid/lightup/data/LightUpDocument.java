@@ -5,8 +5,9 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+
+import org.androidannotations.annotations.EBean;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +16,11 @@ import java.util.List;
  * Created by zwvista on 2016/09/29.
  */
 
+@EBean
 public class LightUpDocument extends GameDocument<LightUpGame, LightUpGameMove, LightUpGameState> {
 
-    public LightUpDocument(GameApplication app, String filename) {
-        super(app, filename);
+    public void init() {
+        super.init("LightUpLevels.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

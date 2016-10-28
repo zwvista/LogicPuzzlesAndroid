@@ -2,11 +2,12 @@ package com.zwstudio.logicgamesandroid.slitherlink.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameMove;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameState;
+
+import org.androidannotations.annotations.EBean;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +16,11 @@ import java.util.List;
  * Created by zwvista on 2016/09/29.
  */
 
+@EBean
 public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> {
 
-    public SlitherLinkDocument(GameApplication app, String filename) {
-        super(app, filename);
+    public void init() {
+        super.init("SlitherLinkLevels.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

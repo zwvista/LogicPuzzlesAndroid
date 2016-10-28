@@ -5,8 +5,9 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGame;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameState;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+
+import org.androidannotations.annotations.EBean;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +16,11 @@ import java.util.List;
  * Created by zwvista on 2016/09/29.
  */
 
+@EBean
 public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove, HitoriGameState> {
 
-    public HitoriDocument(GameApplication app, String filename) {
-        super(app, filename);
+    public void init() {
+        super.init("HitoriLevels.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

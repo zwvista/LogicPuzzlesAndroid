@@ -36,6 +36,7 @@ import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkLevelProgress;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkMoveProgress;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 import org.androidannotations.ormlite.annotations.OrmLiteDao;
 
@@ -80,11 +81,17 @@ public class GameApplication extends Application {
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<HitoriMoveProgress, Integer> daoHitoriMoveProgress;
 
+    @Bean
     public LogicGamesDocument logicGamesDocument;
+    @Bean
     public LightUpDocument lightUpDocument;
+    @Bean
     public BridgesDocument bridgesDocument;
+    @Bean
     public SlitherLinkDocument slitherlinkDocument;
+    @Bean
     public CloudsDocument cloudsDocument;
+    @Bean
     public HitoriDocument hitoriDocument;
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
@@ -130,12 +137,11 @@ public class GameApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        logicGamesDocument = new LogicGamesDocument(this);
-        lightUpDocument = new LightUpDocument(this, "LightUpLevels.xml");
-        bridgesDocument = new BridgesDocument(this, "BridgesLevels.xml");
-        slitherlinkDocument = new SlitherLinkDocument(this, "SlitherLinkLevels.xml");
-        cloudsDocument = new CloudsDocument(this, "CloudsLevels.xml");
-        hitoriDocument = new HitoriDocument(this, "HitoriLevels.xml");
+        lightUpDocument.init();
+        bridgesDocument.init();
+        slitherlinkDocument.init();
+        cloudsDocument.init();
+        hitoriDocument.init();
 
         doBindService();
         Intent music = new Intent();

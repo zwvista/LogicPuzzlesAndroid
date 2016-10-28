@@ -4,6 +4,8 @@ import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Game;
 import com.zwstudio.logicgamesandroid.logicgames.domain.GameState;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.EBean;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -21,14 +23,15 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
+@EBean
 public abstract class GameDocument<G extends Game, GM, GS extends GameState> {
 
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
+    @App
     public GameApplication app;
 
-    public GameDocument(GameApplication app, String filename) {
-        this.app = app;
+    public void init(String filename) {
         try {
             InputStream in_s = app.getApplicationContext().getAssets().open(filename);
             loadXml(in_s);

@@ -5,8 +5,9 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameState;
-import com.zwstudio.logicgamesandroid.logicgames.android.GameApplication;
 import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
+
+import org.androidannotations.annotations.EBean;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +16,11 @@ import java.util.List;
  * Created by zwvista on 2016/09/29.
  */
 
+@EBean
 public class BridgesDocument extends GameDocument<BridgesGame, BridgesGameMove, BridgesGameState> {
 
-    public BridgesDocument(GameApplication app, String filename) {
-        super(app, filename);
+    public void init() {
+        super.init("BridgesLevels.xml");
         selectedLevelID = gameProgress().levelID;
     }
 
