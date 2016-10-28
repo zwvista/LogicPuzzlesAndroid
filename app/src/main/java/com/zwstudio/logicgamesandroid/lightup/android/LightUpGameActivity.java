@@ -1,82 +1,24 @@
 package com.zwstudio.logicgamesandroid.lightup.android;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.widget.TextView;
-
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpMoveProgress;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameInterface;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpObject;
+import com.zwstudio.logicgamesandroid.logicgames.android.GameActivity;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import static android.app.AlertDialog.Builder;
-
 @EActivity(R.layout.activity_lightup_game)
-public class LightUpGameActivity extends LightUpActivity implements LightUpGameInterface {
+public class LightUpGameActivity extends GameActivity<LightUpGame, LightUpDocument, LightUpGameMove, LightUpGameState> {
+    public LightUpDocument doc() {return app().lightUpDocument;}
 
-    @ViewById
-    LightUpGameView gameView;
-    @ViewById
-    TextView tvLevel;
-    @ViewById
-    TextView tvSolved;
-    @ViewById
-    TextView tvMoves;
-
-    LightUpGame game;
-    boolean levelInitilizing;
-
-    @AfterViews
-    void init() {
-        startGame();
-    }
-
-    @Click
-    void btnUndo() {
-        game.undo();
-    }
-
-    @Click
-    void btnRedo() {
-        game.redo();
-    }
-
-    @Click
-    void btnClear() {
-        // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        doc().clearGame();
-                        startGame();
-                        break;
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
-                }
-            }
-        };
-
-        Builder builder = new Builder(this);
-        builder.setMessage("Do you really want to reset the level?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
-    }
-
-    private void startGame() {
+    protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
@@ -98,35 +40,5 @@ public class LightUpGameActivity extends LightUpActivity implements LightUpGameI
         } finally {
             levelInitilizing = false;
         }
-    }
-
-    @Override
-    public void moveAdded(LightUpGame game, LightUpGameMove move) {
-        if (levelInitilizing) return;
-        doc().moveAdded(game, move);
-    }
-
-    private void updateTextViews(LightUpGame game) {
-        tvMoves.setText(String.format("Moves: %d(%d)", game.moveIndex(), game.moveCount()));
-        tvSolved.setTextColor(game.isSolved() ? Color.WHITE : Color.BLACK);
-    }
-
-    @Override
-    public void levelInitilized(LightUpGame game, LightUpGameState state) {
-        gameView.invalidate();
-        updateTextViews(game);
-    }
-
-    @Override
-    public void levelUpdated(LightUpGame game, LightUpGameState stateFrom, LightUpGameState stateTo) {
-        gameView.invalidate();
-        updateTextViews(game);
-        if (!levelInitilizing) doc().levelUpdated(game);
-    }
-
-    @Override
-    public void gameSolved(LightUpGame game) {
-        if (!levelInitilizing)
-            app().playSoundSolved();
     }
 }

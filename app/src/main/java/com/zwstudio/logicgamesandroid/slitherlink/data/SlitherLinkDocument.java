@@ -2,9 +2,11 @@ package com.zwstudio.logicgamesandroid.slitherlink.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
+import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameMove;
-import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
+import com.zwstudio.logicgamesandroid.slitherlink.domain.SlitherLinkGameState;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -14,9 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static fj.data.List.iterableList;
 
@@ -24,14 +24,10 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class SlitherLinkDocument {
-
-    public Map<String, List<String>> levels = new HashMap<>();
-    public String selectedLevelID;
-    public DBHelper db;
+public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> {
 
     public SlitherLinkDocument(DBHelper db) {
-        this.db = db;
+        super(db);
     }
 
     public SlitherLinkGameProgress gameProgress() {

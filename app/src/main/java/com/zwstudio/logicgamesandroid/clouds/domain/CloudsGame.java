@@ -1,6 +1,7 @@
 package com.zwstudio.logicgamesandroid.clouds.domain;
 
 import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
@@ -25,7 +26,7 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
     public int[] col2hint;
     public List<Position> pos2cloud = new ArrayList<>();
 
-    public CloudsGame(List<String> layout, CloudsGameInterface gi) {
+    public CloudsGame(List<String> layout, GameInterface<CloudsGame, CloudsGameMove, CloudsGameState> gi) {
         super(gi);
         size = new Position(layout.size() - 1, layout.get(0).length() - 1);
         row2hint = new int[rows()];

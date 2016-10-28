@@ -4,15 +4,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
-import com.zwstudio.logicgamesandroid.hitori.android.HitoriGameActivity_;
-import com.zwstudio.logicgamesandroid.hitori.android.HitoriOptionsActivity_;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
+import com.zwstudio.logicgamesandroid.logicgames.android.BaseActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_lightup_main)
-public class LightUpMainActivity extends LightUpActivity {
+public class LightUpMainActivity extends BaseActivity {
+    public LightUpDocument doc() {return app().lightUpDocument;}
 
     @AfterViews
     void init() {

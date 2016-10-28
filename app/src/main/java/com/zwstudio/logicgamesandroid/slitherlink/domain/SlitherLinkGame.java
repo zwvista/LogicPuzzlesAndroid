@@ -1,14 +1,10 @@
 package com.zwstudio.logicgamesandroid.slitherlink.domain;
 
-import com.rits.cloning.Cloner;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameMove;
-import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGameState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
-import com.zwstudio.logicgamesandroid.logicgames.domain.Game;
+import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +25,7 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public SlitherLinkGame(List<String> layout, SlitherLinkGameInterface gi) {
+    public SlitherLinkGame(List<String> layout, GameInterface<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> gi) {
         super(gi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         SlitherLinkGameState state = new SlitherLinkGameState(this);

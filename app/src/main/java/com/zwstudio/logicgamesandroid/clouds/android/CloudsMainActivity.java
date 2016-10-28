@@ -4,13 +4,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.clouds.data.CloudsDocument;
+import com.zwstudio.logicgamesandroid.logicgames.android.BaseActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_clouds_main)
-public class CloudsMainActivity extends CloudsActivity {
+public class CloudsMainActivity extends BaseActivity {
+    public CloudsDocument doc() {return app().cloudsDocument;}
 
     @AfterViews
     void init() {

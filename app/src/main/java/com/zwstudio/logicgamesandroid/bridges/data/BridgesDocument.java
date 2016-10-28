@@ -4,7 +4,9 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameMove;
+import com.zwstudio.logicgamesandroid.bridges.domain.BridgesGameState;
 import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
+import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -14,9 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static fj.data.List.iterableList;
 
@@ -24,14 +24,10 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class BridgesDocument {
-
-    public Map<String, List<String>> levels = new HashMap<>();
-    public String selectedLevelID;
-    public DBHelper db;
+public class BridgesDocument extends GameDocument<BridgesGame, BridgesGameMove, BridgesGameState> {
 
     public BridgesDocument(DBHelper db) {
-        this.db = db;
+        super(db);
     }
 
     public BridgesGameProgress gameProgress() {

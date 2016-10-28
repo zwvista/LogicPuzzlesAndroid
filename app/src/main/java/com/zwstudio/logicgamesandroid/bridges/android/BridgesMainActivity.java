@@ -4,13 +4,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.bridges.data.BridgesDocument;
+import com.zwstudio.logicgamesandroid.logicgames.android.BaseActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_bridges_main)
-public class BridgesMainActivity extends BridgesActivity {
+public class BridgesMainActivity extends BaseActivity {
+    public BridgesDocument doc() {return app().bridgesDocument;}
 
     @AfterViews
     void init() {

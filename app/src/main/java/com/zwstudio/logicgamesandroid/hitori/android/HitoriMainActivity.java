@@ -4,13 +4,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.hitori.data.HitoriDocument;
+import com.zwstudio.logicgamesandroid.logicgames.android.BaseActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_hitori_main)
-public class HitoriMainActivity extends HitoriActivity {
+public class HitoriMainActivity extends BaseActivity {
+    public HitoriDocument doc() {return app().hitoriDocument;}
 
     @AfterViews
     void init() {

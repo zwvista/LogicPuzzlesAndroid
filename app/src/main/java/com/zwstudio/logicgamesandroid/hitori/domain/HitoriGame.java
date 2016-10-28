@@ -1,6 +1,7 @@
 package com.zwstudio.logicgamesandroid.hitori.domain;
 
 import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
         set(p.row, p.col, obj);
     }
 
-    public HitoriGame(List<String> layout, HitoriGameInterface gi) {
+    public HitoriGame(List<String> layout, GameInterface<HitoriGame, HitoriGameMove, HitoriGameState> gi) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new char[rows() * cols()];

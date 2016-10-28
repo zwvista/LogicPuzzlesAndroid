@@ -1,6 +1,7 @@
 package com.zwstudio.logicgamesandroid.lightup.domain;
 
 import com.zwstudio.logicgamesandroid.logicgames.domain.CellsGame;
+import com.zwstudio.logicgamesandroid.logicgames.domain.GameInterface;
 import com.zwstudio.logicgamesandroid.logicgames.domain.LogicGamesHintState;
 import com.zwstudio.logicgamesandroid.logicgames.domain.Position;
 
@@ -24,7 +25,7 @@ public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUp
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public LightUpGame(List<String> layout, LightUpGameInterface gi) {
+    public LightUpGame(List<String> layout, GameInterface<LightUpGame, LightUpGameMove, LightUpGameState> gi) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
         LightUpGameState state = new LightUpGameState(this);

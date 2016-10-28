@@ -1,7 +1,5 @@
 package com.zwstudio.logicgamesandroid.lightup.android;
 
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,10 +9,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.lightup.data.LightUpGameProgress;
+import com.zwstudio.logicgamesandroid.logicgames.android.OptionsActivity;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -23,7 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_lightup_options)
-public class LightUpOptionsActivity extends LightUpActivity {
+public class LightUpOptionsActivity extends OptionsActivity {
+    public LightUpDocument doc() {return app().lightUpDocument;}
 
     @ViewById
     Spinner spnMarker;
@@ -91,39 +91,15 @@ public class LightUpOptionsActivity extends LightUpActivity {
         });
     }
 
-    @Click
-    public void btnDone() {
-        finish();
-    }
-
-    @Click
-    public void btnDefault() {
-        // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        rec.markerOption = 0;
-                        rec.normalLightbulbsOnly = false;
-                        try {
-                            doc().db.getDaoLightUpGameProgress().update(rec);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                        spnMarker.setSelection(rec.markerOption);
-                        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
-                        break;
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
-                }
-            }
-        };
-
-        Builder builder = new Builder(this);
-        builder.setMessage("Do you really want to reset the options?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+    protected void onDefault() {
+        rec.markerOption = 0;
+        rec.normalLightbulbsOnly = false;
+        try {
+            doc().db.getDaoLightUpGameProgress().update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        spnMarker.setSelection(rec.markerOption);
+        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
     }
 }

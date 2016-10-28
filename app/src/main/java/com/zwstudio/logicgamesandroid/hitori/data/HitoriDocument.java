@@ -4,7 +4,9 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGame;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameMove;
+import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGameState;
 import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
+import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -14,9 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static fj.data.List.iterableList;
 
@@ -24,14 +24,10 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class HitoriDocument {
-
-    public Map<String, List<String>> levels = new HashMap<>();
-    public String selectedLevelID;
-    public DBHelper db;
+public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove, HitoriGameState> {
 
     public HitoriDocument(DBHelper db) {
-        this.db = db;
+        super(db);
     }
 
     public HitoriGameProgress gameProgress() {
