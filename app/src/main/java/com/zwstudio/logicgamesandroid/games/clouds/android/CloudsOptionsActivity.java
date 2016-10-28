@@ -2,19 +2,19 @@ package com.zwstudio.logicgamesandroid.games.clouds.android;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 import com.zwstudio.logicgamesandroid.games.clouds.data.CloudsDocument;
 import com.zwstudio.logicgamesandroid.games.clouds.data.CloudsGameProgress;
-import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
@@ -58,27 +58,22 @@ public class CloudsOptionsActivity extends OptionsActivity {
 
         rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
+    }
 
-        spnMarker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                rec.markerOption = position;
-                try {
-                    doc().app.daoCloudsGameProgress.update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
+    @ItemSelect
+    protected void spnMarkerItemSelected(boolean selected, int position) {
+        rec.markerOption = position;
+        try {
+            app.daoCloudsGameProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void onDefault() {
         rec.markerOption = 0;
         try {
-            doc().app.daoCloudsGameProgress.update(rec);
+            app.daoCloudsGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

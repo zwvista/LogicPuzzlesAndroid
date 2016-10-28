@@ -2,19 +2,20 @@ package com.zwstudio.logicgamesandroid.games.lightup.android;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 import com.zwstudio.logicgamesandroid.games.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.games.lightup.data.LightUpGameProgress;
-import com.zwstudio.logicgamesandroid.common.android.OptionsActivity;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
@@ -34,7 +35,6 @@ public class LightUpOptionsActivity extends OptionsActivity {
 
     @AfterViews
     protected void init() {
-
         List<String> lst = Arrays.asList("No Marker", "Marker After Lightbulb", "Marker Before Lightbulb");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
@@ -60,42 +60,35 @@ public class LightUpOptionsActivity extends OptionsActivity {
 
         rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
-
-        spnMarker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                rec.markerOption = position;
-                try {
-                    doc().app.daoLightUpGameProgress.update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
         ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
-        ctvNormalLightbulbsOnly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
-                rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
-                try {
-                    doc().app.daoLightUpGameProgress.update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    }
+
+    @ItemSelect
+    protected void spnMarkerItemSelected(boolean selected, int position) {
+        rec.markerOption = position;
+        try {
+            app.daoLightUpGameProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Click
+    protected void ctvNormalLightbulbsOnly() {
+        ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
+        rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
+        try {
+            app.daoLightUpGameProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void onDefault() {
         rec.markerOption = 0;
         rec.normalLightbulbsOnly = false;
         try {
-            doc().app.daoLightUpGameProgress.update(rec);
+            app.daoLightUpGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

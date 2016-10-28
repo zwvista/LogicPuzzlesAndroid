@@ -2,7 +2,6 @@ package com.zwstudio.logicgamesandroid.games.slitherlink.android;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
@@ -15,6 +14,7 @@ import com.zwstudio.logicgamesandroid.games.slitherlink.data.SlitherLinkGameProg
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
@@ -58,27 +58,22 @@ public class SlitherLinkOptionsActivity extends OptionsActivity {
 
         rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
+    }
 
-        spnMarker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                rec.markerOption = position;
-                try {
-                    doc().app.daoSlitherLinkGameProgress.update(rec);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
+    @ItemSelect
+    protected void spnMarkerItemSelected(boolean selected, int position) {
+        rec.markerOption = position;
+        try {
+            app.daoSlitherLinkGameProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void onDefault() {
         rec.markerOption = 0;
         try {
-            doc().app.daoSlitherLinkGameProgress.update(rec);
+            app.daoSlitherLinkGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
