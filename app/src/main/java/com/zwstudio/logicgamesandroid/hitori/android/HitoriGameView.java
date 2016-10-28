@@ -126,7 +126,7 @@ public class HitoriGameView extends View {
             move.obj = HitoriObject.Normal;
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, HitoriMarkerOptions.values()[rec.markerOption]))
-                activity().app().playSoundTap();
+                activity().app.playSoundTap();
         }
         return true;
     }

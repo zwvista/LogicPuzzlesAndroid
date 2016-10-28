@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_logicgames_main)
 public class LogicGamesMainActivity extends BaseActivity {
-    public LogicGamesDocument doc() {return app().logicGamesDocument;}
+    public LogicGamesDocument doc() {return app.logicGamesDocument;}
 
     @AfterViews
     protected void init() {

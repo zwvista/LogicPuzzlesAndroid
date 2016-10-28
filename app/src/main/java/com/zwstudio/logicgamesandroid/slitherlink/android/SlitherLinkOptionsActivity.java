@@ -23,7 +23,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_slitherlink_options)
 public class SlitherLinkOptionsActivity extends OptionsActivity {
-    public SlitherLinkDocument doc() {return app().slitherlinkDocument;}
+    public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
 
     @ViewById
     Spinner spnMarker;

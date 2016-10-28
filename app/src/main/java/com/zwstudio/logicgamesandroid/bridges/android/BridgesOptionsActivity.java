@@ -8,7 +8,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_bridges_options)
 public class BridgesOptionsActivity extends OptionsActivity {
-    public BridgesDocument doc() {return app().bridgesDocument;}
+    public BridgesDocument doc() {return app.bridgesDocument;}
 
     protected void onDefault() {}
 }

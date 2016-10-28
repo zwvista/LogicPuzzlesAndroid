@@ -107,5 +107,7 @@ public abstract class GameDocument<G extends Game, GM, GS extends GameState> {
 
     public abstract void moveAdded(G game, GM move);
 
+    public abstract void resumeGame();
+
     public abstract void clearGame();
 }

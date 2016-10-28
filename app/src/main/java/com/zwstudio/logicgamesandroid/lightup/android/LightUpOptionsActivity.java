@@ -23,7 +23,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_lightup_options)
 public class LightUpOptionsActivity extends OptionsActivity {
-    public LightUpDocument doc() {return app().lightUpDocument;}
+    public LightUpDocument doc() {return app.lightUpDocument;}
 
     @ViewById
     Spinner spnMarker;

@@ -23,7 +23,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_hitori_options)
 public class HitoriOptionsActivity extends OptionsActivity {
-    public HitoriDocument doc() {return app().hitoriDocument;}
+    public HitoriDocument doc() {return app.hitoriDocument;}
 
     @ViewById
     Spinner spnMarker;

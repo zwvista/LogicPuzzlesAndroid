@@ -17,7 +17,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_slitherlink_game)
 public class SlitherLinkGameActivity extends GameActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState> {
-    public SlitherLinkDocument doc() {return app().slitherlinkDocument;}
+    public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

@@ -15,7 +15,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_bridges_game)
 public class BridgesGameActivity extends GameActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState> {
-    public BridgesDocument doc() {return app().bridgesDocument;}
+    public BridgesDocument doc() {return app.bridgesDocument;}
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

@@ -23,7 +23,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_clouds_options)
 public class CloudsOptionsActivity extends OptionsActivity {
-    public CloudsDocument doc() {return app().cloudsDocument;}
+    public CloudsDocument doc() {return app.cloudsDocument;}
 
     @ViewById
     Spinner spnMarker;

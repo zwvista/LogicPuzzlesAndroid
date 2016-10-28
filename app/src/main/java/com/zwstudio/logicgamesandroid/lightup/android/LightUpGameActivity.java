@@ -16,7 +16,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_lightup_game)
 public class LightUpGameActivity extends GameActivity<LightUpGame, LightUpDocument, LightUpGameMove, LightUpGameState> {
-    public LightUpDocument doc() {return app().lightUpDocument;}
+    public LightUpDocument doc() {return app.lightUpDocument;}
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

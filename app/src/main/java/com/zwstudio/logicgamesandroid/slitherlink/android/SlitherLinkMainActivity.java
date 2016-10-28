@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_slitherlink_main)
 public class SlitherLinkMainActivity extends BaseActivity {
-    public SlitherLinkDocument doc() {return app().slitherlinkDocument;}
+    public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
 
     @AfterViews
     void init() {

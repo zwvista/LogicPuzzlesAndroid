@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_bridges_main)
 public class BridgesMainActivity extends BaseActivity {
-    public BridgesDocument doc() {return app().bridgesDocument;}
+    public BridgesDocument doc() {return app.bridgesDocument;}
 
     @AfterViews
     void init() {

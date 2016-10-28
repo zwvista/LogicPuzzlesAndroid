@@ -16,7 +16,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_clouds_game)
 public class CloudsGameActivity extends GameActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState> {
-    public CloudsDocument doc() {return app().cloudsDocument;}
+    public CloudsDocument doc() {return app.cloudsDocument;}
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

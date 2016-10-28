@@ -16,7 +16,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_hitori_game)
 public class HitoriGameActivity extends GameActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
-    public HitoriDocument doc() {return app().hitoriDocument;}
+    public HitoriDocument doc() {return app.hitoriDocument;}
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

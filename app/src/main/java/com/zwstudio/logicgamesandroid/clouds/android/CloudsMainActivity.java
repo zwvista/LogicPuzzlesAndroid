@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_clouds_main)
 public class CloudsMainActivity extends BaseActivity {
-    public CloudsDocument doc() {return app().cloudsDocument;}
+    public CloudsDocument doc() {return app.cloudsDocument;}
 
     @AfterViews
     void init() {

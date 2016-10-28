@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_hitori_main)
 public class HitoriMainActivity extends BaseActivity {
-    public HitoriDocument doc() {return app().hitoriDocument;}
+    public HitoriDocument doc() {return app.hitoriDocument;}
 
     @AfterViews
     void init() {

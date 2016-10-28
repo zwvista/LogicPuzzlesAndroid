@@ -161,7 +161,7 @@ public class LightUpGameView extends View {
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, LightUpMarkerOptions.values()[rec.markerOption],
                     rec.normalLightbulbsOnly))
-                activity().app().playSoundTap();
+                activity().app.playSoundTap();
         }
         return true;
     }

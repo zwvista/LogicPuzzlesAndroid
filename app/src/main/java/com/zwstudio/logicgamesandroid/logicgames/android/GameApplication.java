@@ -94,6 +94,16 @@ public class GameApplication extends Application {
     @Bean
     public HitoriDocument hitoriDocument;
 
+    public <T> T doc(Class<T> clazz) {
+        if (clazz == LogicGamesDocument.class) return (T)logicGamesDocument;
+        if (clazz == LightUpDocument.class) return (T)lightUpDocument;
+        if (clazz == BridgesDocument.class) return (T)bridgesDocument;
+        if (clazz == SlitherLinkDocument.class) return (T)slitherlinkDocument;
+        if (clazz == CloudsDocument.class) return (T)cloudsDocument;
+        if (clazz == HitoriDocument.class) return (T)hitoriDocument;
+        return null;
+    }
+
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private boolean mIsBound = false;
     private MusicService mServ;

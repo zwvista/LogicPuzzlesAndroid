@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 @EActivity(R.layout.activity_logicgames_options)
 public class LogicGamesOptionsActivity extends BaseActivity {
-    public LogicGamesDocument doc() {return app().logicGamesDocument;}
+    public LogicGamesDocument doc() {return app.logicGamesDocument;}
 
     @ViewById
     CheckedTextView ctvPlayMusic;
@@ -42,7 +42,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        app().playOrPauseMusic();
+        app.playOrPauseMusic();
     }
 
     @Click
@@ -78,7 +78,7 @@ public class LogicGamesOptionsActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                         ctvPlayMusic.setChecked(rec.playMusic);
-                        app().playOrPauseMusic();
+                        app.playOrPauseMusic();
                         ctvPlaySound.setChecked(rec.playSound);
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
