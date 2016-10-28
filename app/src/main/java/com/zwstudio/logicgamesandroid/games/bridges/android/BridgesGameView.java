@@ -13,7 +13,7 @@ import com.zwstudio.logicgamesandroid.common.domain.Position;
 import com.zwstudio.logicgamesandroid.games.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.games.bridges.domain.BridgesIslandInfo;
 import com.zwstudio.logicgamesandroid.games.bridges.domain.BridgesIslandObject;
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.home.domain.HintState;
 
 import java.util.Map;
 

@@ -16,7 +16,7 @@ import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkGameMo
 import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkMarkerOptions;
 import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkObject;
 import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkObjectOrientation;
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.home.domain.HintState;
 
 /**
  * TODO: document your custom view class.

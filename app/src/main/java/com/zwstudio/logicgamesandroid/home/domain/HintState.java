@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.main.domain;
+package com.zwstudio.logicgamesandroid.home.domain;
 
 /**
  * Created by TCC-2-9002 on 2016/10/20.

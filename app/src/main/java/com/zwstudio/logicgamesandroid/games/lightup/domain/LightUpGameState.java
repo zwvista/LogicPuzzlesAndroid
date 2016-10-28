@@ -1,7 +1,7 @@
 package com.zwstudio.logicgamesandroid.games.lightup.domain;
 
 import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.home.domain.HintState;
 import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.Arrays;

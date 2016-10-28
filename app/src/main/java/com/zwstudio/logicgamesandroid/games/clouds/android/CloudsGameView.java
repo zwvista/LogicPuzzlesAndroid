@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.zwstudio.logicgamesandroid.common.android.CellsGameView;
 import com.zwstudio.logicgamesandroid.games.clouds.data.CloudsGameProgress;
@@ -15,7 +14,7 @@ import com.zwstudio.logicgamesandroid.games.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.games.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicgamesandroid.games.clouds.domain.CloudsMarkerOptions;
 import com.zwstudio.logicgamesandroid.games.clouds.domain.CloudsObject;
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.home.domain.HintState;
 import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 /**

@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.zwstudio.logicgamesandroid.common.android.CellsGameView;
 import com.zwstudio.logicgamesandroid.games.lightup.data.LightUpGameProgress;
@@ -25,7 +24,7 @@ import com.zwstudio.logicgamesandroid.games.lightup.domain.LightUpMarkerObject;
 import com.zwstudio.logicgamesandroid.games.lightup.domain.LightUpMarkerOptions;
 import com.zwstudio.logicgamesandroid.games.lightup.domain.LightUpObject;
 import com.zwstudio.logicgamesandroid.games.lightup.domain.LightUpWallObject;
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.home.domain.HintState;
 import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.io.IOException;

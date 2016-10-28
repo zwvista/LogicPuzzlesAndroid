@@ -8,18 +8,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".main.android.GamesApplication_">
-        <service android:name=".main.android.MusicService"
+        android:name=".home.android.GamesApplication_">
+        <service android:name=".home.android.MusicService"
                  android:enabled="true"/>
         <activity
-            android:name=".main.android.GamesMainActivity_"
+            android:name=".home.android.GamesMainActivity_"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".main.android.GamesOptionsActivity_"
+        <activity android:name=".home.android.GamesOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".games.lightup.android.LightUpMainActivity_"

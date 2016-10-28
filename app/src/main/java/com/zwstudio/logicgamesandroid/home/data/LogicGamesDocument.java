@@ -1,6 +1,6 @@
-package com.zwstudio.logicgamesandroid.main.data;
+package com.zwstudio.logicgamesandroid.home.data;
 
-import com.zwstudio.logicgamesandroid.main.android.GamesApplication;
+import com.zwstudio.logicgamesandroid.home.android.GamesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;

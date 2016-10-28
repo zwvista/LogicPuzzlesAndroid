@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.main.android;
+package com.zwstudio.logicgamesandroid.home.android;
 
 import android.app.Application;
 
@@ -20,9 +20,9 @@ import com.zwstudio.logicgamesandroid.games.lightup.data.LightUpDocument;
 import com.zwstudio.logicgamesandroid.games.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicgamesandroid.games.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicgamesandroid.games.lightup.data.LightUpMoveProgress;
-import com.zwstudio.logicgamesandroid.main.data.DBHelper;
-import com.zwstudio.logicgamesandroid.main.data.LogicGamesDocument;
-import com.zwstudio.logicgamesandroid.main.data.LogicGamesGameProgress;
+import com.zwstudio.logicgamesandroid.home.data.DBHelper;
+import com.zwstudio.logicgamesandroid.home.data.LogicGamesDocument;
+import com.zwstudio.logicgamesandroid.home.data.LogicGamesGameProgress;
 import com.zwstudio.logicgamesandroid.games.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicgamesandroid.games.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicgamesandroid.games.slitherlink.data.SlitherLinkLevelProgress;

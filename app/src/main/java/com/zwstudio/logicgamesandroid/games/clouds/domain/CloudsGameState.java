@@ -4,7 +4,7 @@ import com.zwstudio.logicgamesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicgamesandroid.common.domain.Graph;
 import com.zwstudio.logicgamesandroid.common.domain.Node;
 import com.zwstudio.logicgamesandroid.common.domain.Position;
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.home.domain.HintState;
 
 import java.util.Arrays;
 import java.util.HashMap;

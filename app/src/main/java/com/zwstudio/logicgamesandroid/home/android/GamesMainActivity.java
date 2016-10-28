@@ -1,4 +1,4 @@
-package com.zwstudio.logicgamesandroid.main.android;
+package com.zwstudio.logicgamesandroid.home.android;
 
 import android.content.Intent;
 import android.media.AudioManager;
@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.zwstudio.logicgamesandroid.R;
 import com.zwstudio.logicgamesandroid.common.android.BaseActivity;
-import com.zwstudio.logicgamesandroid.main.data.LogicGamesDocument;
+import com.zwstudio.logicgamesandroid.home.data.LogicGamesDocument;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

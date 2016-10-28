@@ -2,7 +2,7 @@ package com.zwstudio.logicgamesandroid.games.slitherlink.domain;
 
 import com.zwstudio.logicgamesandroid.common.domain.CellsGame;
 import com.zwstudio.logicgamesandroid.common.domain.GameInterface;
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.home.domain.HintState;
 import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.HashMap;

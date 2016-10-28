@@ -2,7 +2,7 @@ package com.zwstudio.logicgamesandroid.common.data;
 
 import com.zwstudio.logicgamesandroid.common.domain.Game;
 import com.zwstudio.logicgamesandroid.common.domain.GameState;
-import com.zwstudio.logicgamesandroid.main.android.GamesApplication;
+import com.zwstudio.logicgamesandroid.home.android.GamesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
