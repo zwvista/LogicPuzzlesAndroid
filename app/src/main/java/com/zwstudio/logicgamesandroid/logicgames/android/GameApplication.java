@@ -19,9 +19,6 @@ import com.zwstudio.logicgamesandroid.logicgames.data.DBHelper;
 import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
 import com.zwstudio.logicgamesandroid.slitherlink.data.SlitherLinkDocument;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 public class GameApplication extends Application {
 
     public LogicGamesDocument logicGamesDocument;
@@ -74,50 +71,13 @@ public class GameApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        DBHelper dbHelper = OpenHelperManager.getHelper(this, DBHelper.class);
-        logicGamesDocument = new LogicGamesDocument(dbHelper);
-        lightUpDocument = new LightUpDocument(dbHelper);
-        bridgesDocument = new BridgesDocument(dbHelper);
-        slitherlinkDocument = new SlitherLinkDocument(dbHelper);
-        cloudsDocument = new CloudsDocument(dbHelper);
-        hitoriDocument = new HitoriDocument(dbHelper);
-
-        InputStream is = null;
-        try {
-            is = getApplicationContext().getAssets().open("LightUpLevels.xml");
-            lightUpDocument.loadXml(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            is = getApplicationContext().getAssets().open("BridgesLevels.xml");
-            bridgesDocument.loadXml(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            is = getApplicationContext().getAssets().open("SlitherLinkLevels.xml");
-            slitherlinkDocument.loadXml(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            is = getApplicationContext().getAssets().open("CloudsLevels.xml");
-            cloudsDocument.loadXml(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            is = getApplicationContext().getAssets().open("HitoriLevels.xml");
-            hitoriDocument.loadXml(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DBHelper db = OpenHelperManager.getHelper(this, DBHelper.class);
+        logicGamesDocument = new LogicGamesDocument(db);
+        lightUpDocument = new LightUpDocument(db, getApplicationContext(), "LightUpLevels.xml");
+        bridgesDocument = new BridgesDocument(db, getApplicationContext(), "BridgesLevels.xml");
+        slitherlinkDocument = new SlitherLinkDocument(db, getApplicationContext(), "SlitherLinkLevels.xml");
+        cloudsDocument = new CloudsDocument(db, getApplicationContext(), "CloudsLevels.xml");
+        hitoriDocument = new HitoriDocument(db, getApplicationContext(), "HitoriLevels.xml");
 
         doBindService();
         Intent music = new Intent();

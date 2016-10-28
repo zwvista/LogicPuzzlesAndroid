@@ -81,16 +81,4 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
     public LogicGamesHintState getHintState(Position p) {
         return state().pos2state.get(p);
     }
-
-    public void undo() {
-        if (!canUndo()) return;
-        stateIndex--;
-        levelUpdated(states.get(stateIndex + 1), state());
-    }
-
-    public void redo() {
-        if (!canRedo()) return;
-        stateIndex++;
-        levelUpdated(states.get(stateIndex - 1), state());
-    }
 }

@@ -1,5 +1,7 @@
 package com.zwstudio.logicgamesandroid.lightup.data;
 
+import android.content.Context;
+
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.lightup.domain.LightUpGame;
@@ -10,15 +12,11 @@ import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static fj.data.List.iterableList;
 
@@ -28,8 +26,9 @@ import static fj.data.List.iterableList;
 
 public class LightUpDocument extends GameDocument<LightUpGame, LightUpGameMove, LightUpGameState> {
 
-    public LightUpDocument(DBHelper db) {
-        super(db);
+    public LightUpDocument(DBHelper db, Context context, String filename) {
+        super(db, context, filename);
+        selectedLevelID = gameProgress().levelID;
     }
 
     public LightUpGameProgress gameProgress() {
@@ -76,27 +75,7 @@ public class LightUpDocument extends GameDocument<LightUpGame, LightUpGameMove, 
         }
     }
 
-    public void loadXml(InputStream in_s) {
-        XmlPullParserFactory pullParserFactory;
-        try {
-            pullParserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = pullParserFactory.newPullParser();
-
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(in_s, null);
-
-            parseXML(parser);
-
-            selectedLevelID = gameProgress().levelID;
-
-        } catch (XmlPullParserException e) {
-
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
+    protected void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
         int eventType = parser.getEventType();
 

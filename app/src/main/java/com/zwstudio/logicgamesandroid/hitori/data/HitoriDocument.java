@@ -1,5 +1,7 @@
 package com.zwstudio.logicgamesandroid.hitori.data;
 
+import android.content.Context;
+
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicgamesandroid.hitori.domain.HitoriGame;
@@ -10,10 +12,8 @@ import com.zwstudio.logicgamesandroid.logicgames.data.GameDocument;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -26,8 +26,9 @@ import static fj.data.List.iterableList;
 
 public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove, HitoriGameState> {
 
-    public HitoriDocument(DBHelper db) {
-        super(db);
+    public HitoriDocument(DBHelper db, Context context, String filename) {
+        super(db, context, filename);
+        selectedLevelID = gameProgress().levelID;
     }
 
     public HitoriGameProgress gameProgress() {
@@ -74,27 +75,7 @@ public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove, Hit
         }
     }
 
-    public void loadXml(InputStream in_s) {
-        XmlPullParserFactory pullParserFactory;
-        try {
-            pullParserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = pullParserFactory.newPullParser();
-
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(in_s, null);
-
-            parseXML(parser);
-
-            selectedLevelID = gameProgress().levelID;
-
-        } catch (XmlPullParserException e) {
-
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
+    protected void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
         int eventType = parser.getEventType();
 

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.widget.CheckedTextView;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
 import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesGameProgress;
 
 import org.androidannotations.annotations.AfterViews;
@@ -15,7 +16,8 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 
 @EActivity(R.layout.activity_logicgames_options)
-public class LogicGamesOptionsActivity extends LogicGamesActivity {
+public class LogicGamesOptionsActivity extends BaseActivity {
+    public LogicGamesDocument doc() {return app().logicGamesDocument;}
 
     @ViewById
     CheckedTextView ctvPlayMusic;

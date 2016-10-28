@@ -5,13 +5,15 @@ import android.media.AudioManager;
 import android.view.View;
 
 import com.zwstudio.logicgamesandroid.R;
+import com.zwstudio.logicgamesandroid.logicgames.data.LogicGamesDocument;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_logicgames_main)
-public class LogicGamesMainActivity extends LogicGamesActivity {
+public class LogicGamesMainActivity extends BaseActivity {
+    public LogicGamesDocument doc() {return app().logicGamesDocument;}
 
     @AfterViews
     protected void init() {
