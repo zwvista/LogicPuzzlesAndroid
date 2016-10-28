@@ -4,12 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
-import com.zwstudio.logicgamesandroid.main.domain.HintState;
+import com.zwstudio.logicgamesandroid.common.android.CellsGameView;
 import com.zwstudio.logicgamesandroid.common.domain.Position;
 import com.zwstudio.logicgamesandroid.games.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkGame;
@@ -17,22 +15,21 @@ import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkGameMo
 import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkMarkerOptions;
 import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkObject;
 import com.zwstudio.logicgamesandroid.games.slitherlink.domain.SlitherLinkObjectOrientation;
+import com.zwstudio.logicgamesandroid.main.domain.HintState;
 
 /**
  * TODO: document your custom view class.
  */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
-public class SlitherLinkGameView extends View {
+public class SlitherLinkGameView extends CellsGameView {
 
     private SlitherLinkGameActivity activity() {return (SlitherLinkGameActivity)getContext();}
     private SlitherLinkGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
     private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
-    private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
     private Paint markerPaint = new Paint();
-    private TextPaint textPaint = new TextPaint();
 
     public SlitherLinkGameView(Context context) {
         super(context);
@@ -72,26 +69,11 @@ public class SlitherLinkGameView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = Math.min(getMeasuredWidth(), getMeasuredHeight());
-        setMeasuredDimension(size, size);
-    }
-
-    // http://stackoverflow.com/questions/11120392/android-center-text-on-canvas
-    private void drawTextCentered(String text, int x, int y, Canvas canvas) {
-        float xPos = x + (cellWidth - textPaint.measureText(text)) / 2;
-        float yPos = y + (cellHeight - textPaint.descent() - textPaint.ascent()) / 2;
-        canvas.drawText(text, xPos, yPos, textPaint);
-    }
-    @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                canvas.drawRect(c * cellWidth + 1, r * cellHeight + 1,
-                        (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
-                        gridPaint);
+                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
                 Integer n = game().pos2hint.get(p);
@@ -103,8 +85,7 @@ public class SlitherLinkGameView extends View {
                             Color.WHITE
                     );
                     String text = String.valueOf(n);
-                    textPaint.setTextSize(cellHeight);
-                    drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
+                    drawTextCentered(text, cwc(c), chr(r), canvas);
                 }
             }
         int markerOffset = 20;
@@ -113,20 +94,20 @@ public class SlitherLinkGameView extends View {
                 SlitherLinkObject[] dotObj = game().getObject(r, c);
                 switch (dotObj[1]){
                 case Line:
-                    canvas.drawLine(c * cellWidth + 1, r * cellHeight + 1, (c + 1) * cellWidth + 1, r * cellHeight + 1, linePaint);
+                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
                     break;
                 case Marker:
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - markerOffset, r * cellHeight + 1 - markerOffset, c * cellWidth + 1 + cellWidth / 2 + markerOffset, r * cellHeight + 1 + markerOffset, markerPaint);
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - markerOffset, r * cellHeight + 1 + markerOffset, c * cellWidth + 1 + cellWidth / 2 + markerOffset, r * cellHeight + 1 - markerOffset, markerPaint);
+                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) - markerOffset, cwc2(c) + markerOffset, chr(r) + markerOffset, markerPaint);
+                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) + markerOffset, cwc2(c) + markerOffset, chr(r) - markerOffset, markerPaint);
                     break;
                 }
                 switch (dotObj[2]){
                 case Line:
-                    canvas.drawLine(c * cellWidth + 1, r * cellHeight + 1, c * cellWidth + 1, (r + 1) * cellHeight + 1, linePaint);
+                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
                     break;
                 case Marker:
-                    canvas.drawLine(c * cellWidth + 1 - markerOffset, r * cellHeight + 1 + cellHeight / 2 - markerOffset, c * cellWidth + 1 + markerOffset, r * cellHeight + 1 + cellHeight / 2 + markerOffset, markerPaint);
-                    canvas.drawLine(c * cellWidth + 1 - markerOffset, r * cellHeight + 1 + cellHeight / 2 + markerOffset, c * cellWidth + 1 + markerOffset, r * cellHeight + 1 + cellHeight / 2 - markerOffset, markerPaint);
+                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) - markerOffset, cwc(c) + markerOffset, chr2(r) + markerOffset, markerPaint);
+                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) + markerOffset, cwc(c) + markerOffset, chr2(r) - markerOffset, markerPaint);
                     break;
                 }
             }

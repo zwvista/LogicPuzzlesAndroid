@@ -4,33 +4,30 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
+import com.zwstudio.logicgamesandroid.common.android.CellsGameView;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 import com.zwstudio.logicgamesandroid.games.hitori.data.HitoriGameProgress;
 import com.zwstudio.logicgamesandroid.games.hitori.domain.HitoriGame;
 import com.zwstudio.logicgamesandroid.games.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicgamesandroid.games.hitori.domain.HitoriMarkerOptions;
 import com.zwstudio.logicgamesandroid.games.hitori.domain.HitoriObject;
-import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 /**
  * TODO: document your custom view class.
  */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
-public class HitoriGameView extends View {
+public class HitoriGameView extends CellsGameView {
 
     private HitoriGameActivity activity() {return (HitoriGameActivity)getContext();}
     private HitoriGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
-    private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
     private Paint darkenPaint = new Paint();
     private Paint markerPaint = new Paint();
-    private TextPaint textPaint = new TextPaint();
 
     public HitoriGameView(Context context) {
         super(context);
@@ -68,44 +65,24 @@ public class HitoriGameView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = Math.min(getMeasuredWidth(), getMeasuredHeight());
-        setMeasuredDimension(size, size);
-    }
-
-    // http://stackoverflow.com/questions/11120392/android-center-text-on-canvas
-    private void drawTextCentered(String text, int x, int y, Canvas canvas) {
-        float xPos = x + (cellWidth - textPaint.measureText(text)) / 2;
-        float yPos = y + (cellHeight - textPaint.descent() - textPaint.ascent()) / 2;
-        canvas.drawText(text, xPos, yPos, textPaint);
-    }
-    @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                canvas.drawRect(c * cellWidth + 1, r * cellHeight + 1,
-                        (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
-                        gridPaint);
+                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 HitoriObject o = game().getObject(r, c);
                 switch (o) {
                 case Darken:
-                    canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
-                            (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
-                            darkenPaint);
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, darkenPaint);
                     break;
                 case Marker:
-                    canvas.drawArc(c * cellWidth + 1, r * cellHeight + 1,
-                            (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
-                            0, 360, true, markerPaint);
+                    canvas.drawArc(cwc(c), chr(r), cwc(c + 1), chr(r + 1), 0, 360, true, markerPaint);
                    break;
                 }
                 textPaint.setColor(Color.WHITE);
                 String text = String.valueOf(game().get(r, c));
-                textPaint.setTextSize(cellHeight);
-                drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
+                drawTextCentered(text, cwc(c), chr(r), canvas);
             }
     }
 

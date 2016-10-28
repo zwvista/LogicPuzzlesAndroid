@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.zwstudio.logicgamesandroid.common.android.CellsGameView;
 import com.zwstudio.logicgamesandroid.games.clouds.data.CloudsGameProgress;
 import com.zwstudio.logicgamesandroid.games.clouds.domain.CloudsGame;
 import com.zwstudio.logicgamesandroid.games.clouds.domain.CloudsGameMove;
@@ -21,17 +22,15 @@ import com.zwstudio.logicgamesandroid.common.domain.Position;
  * TODO: document your custom view class.
  */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
-public class CloudsGameView extends View {
+public class CloudsGameView extends CellsGameView {
 
     private CloudsGameActivity activity() {return (CloudsGameActivity)getContext();}
     private CloudsGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
-    private int cellWidth, cellHeight;
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
     private Paint lightPaint = new Paint();
-    private TextPaint textPaint = new TextPaint();
 
     public CloudsGameView(Context context) {
         super(context);
@@ -69,38 +68,19 @@ public class CloudsGameView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = Math.min(getMeasuredWidth(), getMeasuredHeight());
-        setMeasuredDimension(size, size);
-    }
-
-    // http://stackoverflow.com/questions/11120392/android-center-text-on-canvas
-    private void drawTextCentered(String text, int x, int y, Canvas canvas) {
-        float xPos = x + (cellWidth - textPaint.measureText(text)) / 2;
-        float yPos = y + (cellHeight - textPaint.descent() - textPaint.ascent()) / 2;
-        canvas.drawText(text, xPos, yPos, textPaint);
-    }
-    @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                canvas.drawRect(c * cellWidth + 1, r * cellHeight + 1,
-                        (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
-                        gridPaint);
+                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 CloudsObject o = game().getObject(r, c);
                 switch (o) {
                 case Cloud:
-                    canvas.drawRect(c * cellWidth + 5, r * cellHeight + 5,
-                            (c + 1) * cellWidth - 3, (r + 1) * cellHeight - 3,
-                            wallPaint);
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
                     break;
                 case Marker:
-                    canvas.drawArc(c * cellWidth + cellWidth / 2 - 19, r * cellHeight + cellHeight / 2 - 19,
-                            c * cellWidth + cellWidth / 2 + 21, r * cellHeight + cellHeight / 2 + 21,
-                            0, 360, true, wallPaint);
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
                     break;
                 }
             }
@@ -113,8 +93,7 @@ public class CloudsGameView extends View {
             );
             int n = game().row2hint[r];
             String text = String.valueOf(n);
-            textPaint.setTextSize(cellHeight);
-            drawTextCentered(text, cols() * cellWidth + 1, r * cellHeight + 1, canvas);
+            drawTextCentered(text, cwc(cols()), chr(r), canvas);
         }
         for (int c = 0; c < cols(); c++) {
             HintState s = game().getColState(c);
@@ -125,8 +104,7 @@ public class CloudsGameView extends View {
             );
             int n = game().col2hint[c];
             String text = String.valueOf(n);
-            textPaint.setTextSize(cellHeight);
-            drawTextCentered(text, c * cellWidth + 1, rows() * cellHeight + 1, canvas);
+            drawTextCentered(text, cwc(c), chr(rows()), canvas);
         }
     }
 

@@ -4,16 +4,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
+import com.zwstudio.logicgamesandroid.common.android.CellsGameView;
+import com.zwstudio.logicgamesandroid.common.domain.Position;
 import com.zwstudio.logicgamesandroid.games.bridges.domain.BridgesGame;
 import com.zwstudio.logicgamesandroid.games.bridges.domain.BridgesIslandInfo;
 import com.zwstudio.logicgamesandroid.games.bridges.domain.BridgesIslandObject;
 import com.zwstudio.logicgamesandroid.main.domain.HintState;
-import com.zwstudio.logicgamesandroid.common.domain.Position;
 
 import java.util.Map;
 
@@ -23,16 +22,14 @@ import fj.function.Effect0;
  * TODO: document your custom view class.
  */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
-public class BridgesGameView extends View {
+public class BridgesGameView extends CellsGameView {
 
     private BridgesGameActivity activity() {return (BridgesGameActivity)getContext();}
     private BridgesGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
-    private int cellWidth, cellHeight;
     private Paint islandPaint = new Paint();
     private Paint bridgePaint = new Paint();
-    private TextPaint textPaint = new TextPaint();
 
     private Position pLast;
 
@@ -52,13 +49,13 @@ public class BridgesGameView extends View {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
+        textPaint.setAntiAlias(true);
+        textPaint.setStyle(Paint.Style.FILL);
         islandPaint.setColor(Color.WHITE);
         islandPaint.setStyle(Paint.Style.STROKE);
         bridgePaint.setColor(Color.YELLOW);
         bridgePaint.setStyle(Paint.Style.STROKE);
         bridgePaint.setStrokeWidth(5);
-        textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -71,20 +68,6 @@ public class BridgesGameView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = Math.min(getMeasuredWidth(), getMeasuredHeight());
-        setMeasuredDimension(size, size);
-    }
-
-    // http://stackoverflow.com/questions/11120392/android-center-text-on-canvas
-    private void drawTextCentered(String text, int x, int y, Canvas canvas) {
-        float xPos = x + (cellWidth - textPaint.measureText(text)) / 2;
-        float yPos = y + (cellHeight - textPaint.descent() - textPaint.ascent()) / 2;
-        canvas.drawText(text, xPos, yPos, textPaint);
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
         if (isInEditMode()) return;
@@ -93,17 +76,14 @@ public class BridgesGameView extends View {
             int r = p.row, c = p.col;
             BridgesIslandInfo info = entry.getValue();
             BridgesIslandObject o = (BridgesIslandObject) game().getObject(p);
-            canvas.drawArc(c * cellWidth + 1, r * cellHeight + 1,
-                    (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1,
-                    0, 360, true, islandPaint);
+            canvas.drawArc(cwc(c), chr(r), cwc(c + 1), chr(r + 1), 0, 360, true, islandPaint);
             textPaint.setColor(
                     o.state == HintState.Complete ? Color.GREEN :
                     o.state == HintState.Error ? Color.RED :
                     Color.WHITE
             );
             String text = String.valueOf(info.bridges);
-            textPaint.setTextSize(cellHeight);
-            drawTextCentered(text, c * cellWidth + 1, r * cellHeight + 1, canvas);
+            drawTextCentered(text, cwc(c), chr(r), canvas);
             int[] dirs = {1, 2};
             for (int dir : dirs) {
                 Position p2 = info.neighbors[dir];
@@ -111,16 +91,16 @@ public class BridgesGameView extends View {
                 int r2 = p2.row, c2 = p2.col;
                 int b = o.bridges[dir];
                 if (dir == 1 && b == 1)
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth, r * cellHeight + 1 + cellHeight / 2, c2 * cellWidth + 1, r2 * cellHeight + 1 + cellHeight / 2, bridgePaint);
+                    canvas.drawLine(cwc(c + 1), chr2(r), cwc(c2), chr2(r2), bridgePaint);
                 else if (dir == 1 && b == 2) {
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth, r * cellHeight + 1 + cellHeight / 2 - 10, c2 * cellWidth + 1, r2 * cellHeight + 1 + cellHeight / 2 - 10, bridgePaint);
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth, r * cellHeight + 1 + cellHeight / 2 + 10, c2 * cellWidth + 1, r2 * cellHeight + 1 + cellHeight / 2 + 10, bridgePaint);
+                    canvas.drawLine(cwc(c + 1), chr2(r) - 10, cwc(c2), chr2(r2) - 10, bridgePaint);
+                    canvas.drawLine(cwc(c + 1), chr2(r) + 10, cwc(c2), chr2(r2) + 10, bridgePaint);
                 }
                 else if (dir == 2 && b == 1)
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2, r * cellHeight + 1 + cellHeight, c2 * cellWidth + 1 + cellWidth / 2, r2 * cellHeight + 1, bridgePaint);
+                    canvas.drawLine(cwc2(c), chr(r + 1), cwc2(c2), chr(r2), bridgePaint);
                 else if (dir == 2 && b == 2) {
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 - 10, r * cellHeight + 1 + cellHeight, c2 * cellWidth + 1 + cellWidth / 2 - 10, r2 * cellHeight + 1, bridgePaint);
-                    canvas.drawLine(c * cellWidth + 1 + cellWidth / 2 + 10, r * cellHeight + 1 + cellHeight, c2 * cellWidth + 1 + cellWidth / 2 + 10, r2 * cellHeight + 1, bridgePaint);
+                    canvas.drawLine(cwc2(c) - 10, chr(r + 1), cwc2(c2) - 10, chr(r2), bridgePaint);
+                    canvas.drawLine(cwc2(c) + 10, chr(r + 1), cwc2(c2) + 10, chr(r2), bridgePaint);
                 }
             }
         }
