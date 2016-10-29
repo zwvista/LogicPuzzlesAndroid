@@ -43,7 +43,7 @@
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="com.zwstudio.logicgamesandroid.games.lightup.android.LightUpGameView"
+        class="com.zwstudio.logicpuzzlesandroid.games.lightup.android.LightUpGameView"
         android:id="@+id/gameView"
         android:background="@color/colorBackground"
         android:layout_centerInParent="true"/>
