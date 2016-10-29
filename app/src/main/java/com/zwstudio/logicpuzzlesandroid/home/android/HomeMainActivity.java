@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity;
-import com.zwstudio.logicpuzzlesandroid.home.data.LogicGamesDocument;
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -14,7 +14,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_home_main)
 public class HomeMainActivity extends BaseActivity {
-    public LogicGamesDocument doc() {return app.logicGamesDocument;}
+    public HomeDocument doc() {return app.logicGamesDocument;}
 
     @AfterViews
     protected void init() {

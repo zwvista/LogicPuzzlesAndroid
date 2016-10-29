@@ -4,8 +4,8 @@ import android.widget.CheckedTextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
-import com.zwstudio.logicpuzzlesandroid.home.data.LogicGamesDocument;
-import com.zwstudio.logicpuzzlesandroid.home.data.LogicGamesGameProgress;
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -16,14 +16,14 @@ import java.sql.SQLException;
 
 @EActivity(R.layout.activity_home_options)
 public class HomeOptionsActivity extends OptionsActivity {
-    public LogicGamesDocument doc() {return app.logicGamesDocument;}
+    public HomeDocument doc() {return app.logicGamesDocument;}
 
     @ViewById
     CheckedTextView ctvPlayMusic;
     @ViewById
     CheckedTextView ctvPlaySound;
 
-    LogicGamesGameProgress rec;
+    HomeGameProgress rec;
 
     @AfterViews
     protected void init() {

@@ -21,8 +21,8 @@ import com.zwstudio.logicpuzzlesandroid.games.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicpuzzlesandroid.games.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicpuzzlesandroid.games.lightup.data.LightUpMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.home.data.DBHelper;
-import com.zwstudio.logicpuzzlesandroid.home.data.LogicGamesDocument;
-import com.zwstudio.logicpuzzlesandroid.home.data.LogicGamesGameProgress;
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
 import com.zwstudio.logicpuzzlesandroid.games.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicpuzzlesandroid.games.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicpuzzlesandroid.games.slitherlink.data.SlitherLinkLevelProgress;
@@ -36,7 +36,7 @@ import org.androidannotations.ormlite.annotations.OrmLiteDao;
 public class GamesApplication extends Application {
 
     @OrmLiteDao(helper = DBHelper.class)
-    public Dao<LogicGamesGameProgress, Integer> daoLogicGamesGameProgress;
+    public Dao<HomeGameProgress, Integer> daoLogicGamesGameProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<LightUpGameProgress, Integer> daoLightUpGameProgress;
@@ -74,7 +74,7 @@ public class GamesApplication extends Application {
     public Dao<HitoriMoveProgress, Integer> daoHitoriMoveProgress;
 
     @Bean
-    public LogicGamesDocument logicGamesDocument;
+    public HomeDocument logicGamesDocument;
     @Bean
     public LightUpDocument lightUpDocument;
     @Bean

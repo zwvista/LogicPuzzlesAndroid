@@ -12,16 +12,16 @@ import java.sql.SQLException;
  */
 
 @EBean
-public class LogicGamesDocument {
+public class HomeDocument {
     @App
     public GamesApplication app;
 
-    public LogicGamesGameProgress gameProgress() {
+    public HomeGameProgress gameProgress() {
         try {
-            LogicGamesGameProgress rec = app.daoLogicGamesGameProgress.queryBuilder()
+            HomeGameProgress rec = app.daoLogicGamesGameProgress.queryBuilder()
                     .queryForFirst();
             if (rec == null) {
-                rec = new LogicGamesGameProgress();
+                rec = new HomeGameProgress();
                 app.daoLogicGamesGameProgress.create(rec);
             }
             return rec;
@@ -33,7 +33,7 @@ public class LogicGamesDocument {
 
     public void resumeGame(String gameName) {
         try {
-            LogicGamesGameProgress rec = gameProgress();
+            HomeGameProgress rec = gameProgress();
             rec.gameName = gameName;
             app.daoLogicGamesGameProgress.update(rec);
         } catch (SQLException e) {
