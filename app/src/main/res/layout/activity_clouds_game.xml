@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context=".games.clouds.android.CloudsGameActivity">
+    tools:context=".puzzles.clouds.android.CloudsGameActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -43,7 +43,7 @@
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="com.zwstudio.logicpuzzlesandroid.games.clouds.android.CloudsGameView"
+        class="com.zwstudio.logicpuzzlesandroid.puzzles.clouds.android.CloudsGameView"
         android:id="@+id/gameView"
         android:background="@color/colorBackground"
         android:layout_centerInParent="true"/>

@@ -1,6 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.home.data;
 
-import com.zwstudio.logicpuzzlesandroid.home.android.GamesApplication;
+import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 @EBean
 public class HomeDocument {
     @App
-    public GamesApplication app;
+    public LogicPuzzlesApplication app;
 
     public HomeGameProgress gameProgress() {
         try {

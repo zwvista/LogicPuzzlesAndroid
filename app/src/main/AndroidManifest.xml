@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".home.android.GamesApplication_">
+        android:name=".home.android.LogicPuzzlesApplication_">
         <service android:name=".home.android.MusicService"
                  android:enabled="true"/>
         <activity
@@ -22,49 +22,49 @@
         <activity android:name=".home.android.HomeOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.lightup.android.LightUpMainActivity_"
+        <activity android:name=".puzzles.lightup.android.LightUpMainActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.lightup.android.LightUpGameActivity_"
+        <activity android:name=".puzzles.lightup.android.LightUpGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.lightup.android.LightUpOptionsActivity_"
+        <activity android:name=".puzzles.lightup.android.LightUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.bridges.android.BridgesMainActivity_"
+        <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.bridges.android.BridgesGameActivity_"
+        <activity android:name=".puzzles.bridges.android.BridgesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.bridges.android.BridgesOptionsActivity_"
+        <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.slitherlink.android.SlitherLinkMainActivity_"
+        <activity android:name=".puzzles.slitherlink.android.SlitherLinkMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.slitherlink.android.SlitherLinkGameActivity_"
+        <activity android:name=".puzzles.slitherlink.android.SlitherLinkGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.slitherlink.android.SlitherLinkOptionsActivity_"
+        <activity android:name=".puzzles.slitherlink.android.SlitherLinkOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.clouds.android.CloudsMainActivity_"
+        <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.clouds.android.CloudsGameActivity_"
+        <activity android:name=".puzzles.clouds.android.CloudsGameActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.clouds.android.CloudsOptionsActivity_"
+        <activity android:name=".puzzles.clouds.android.CloudsOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.hitori.android.HitoriMainActivity_"
+        <activity android:name=".puzzles.hitori.android.HitoriMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.hitori.android.HitoriGameActivity_"
+        <activity android:name=".puzzles.hitori.android.HitoriGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".games.hitori.android.HitoriOptionsActivity_"
+        <activity android:name=".puzzles.hitori.android.HitoriOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
     </application>

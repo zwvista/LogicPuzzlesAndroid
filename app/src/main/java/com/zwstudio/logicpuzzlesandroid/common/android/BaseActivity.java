@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.common.android;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.zwstudio.logicpuzzlesandroid.home.android.GamesApplication;
+import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EActivity;
@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EActivity;
 @EActivity
 public abstract class BaseActivity extends AppCompatActivity {
     @App
-    public GamesApplication app;
+    public LogicPuzzlesApplication app;
 
     @Override
     protected void onStart() {

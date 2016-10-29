@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.common.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState;
-import com.zwstudio.logicpuzzlesandroid.home.android.GamesApplication;
+import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
@@ -29,7 +29,7 @@ public abstract class GameDocument<G extends Game, GM, GS extends GameState> {
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
     @App
-    public GamesApplication app;
+    public LogicPuzzlesApplication app;
 
     public void init(String filename) {
         try {
