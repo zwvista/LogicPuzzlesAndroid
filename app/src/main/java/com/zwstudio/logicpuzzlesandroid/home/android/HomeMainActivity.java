@@ -14,7 +14,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_home_main)
 public class HomeMainActivity extends BaseActivity {
-    public HomeDocument doc() {return app.logicGamesDocument;}
+    public HomeDocument doc() {return app.homeDocument;}
 
     @AfterViews
     protected void init() {

@@ -68,7 +68,7 @@ public class SoundManager {
         Intent music = new Intent();
         music.setClass(app, MusicService.class);
         // http://stackoverflow.com/questions/5301891/android-start-service-with-parameter
-        music.putExtra("playMusic", app.logicGamesDocument.gameProgress().playMusic);
+        music.putExtra("playMusic", app.homeDocument.gameProgress().playMusic);
         app.startService(music);
 
         // Load the sound
@@ -88,7 +88,7 @@ public class SoundManager {
 
     public void playOrPauseMusic() {
         if (mServ == null) return;
-        if (app.logicGamesDocument.gameProgress().playMusic)
+        if (app.homeDocument.gameProgress().playMusic)
             mServ.resumeMusic();
         else
             mServ.pauseMusic();
@@ -96,13 +96,13 @@ public class SoundManager {
 
     public void activityStarted() {
         stateCounter++;
-        if (stateCounter == 1 && mServ != null && app.logicGamesDocument.gameProgress().playMusic)
+        if (stateCounter == 1 && mServ != null && app.homeDocument.gameProgress().playMusic)
             mServ.resumeMusic();
     }
 
     public void activityStopped() {
         stateCounter--;
-        if (stateCounter == 0 && mServ != null && app.logicGamesDocument.gameProgress().playMusic)
+        if (stateCounter == 0 && mServ != null && app.homeDocument.gameProgress().playMusic)
             mServ.pauseMusic();
     }
 
@@ -114,7 +114,7 @@ public class SoundManager {
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         float volume = actualVolume / maxVolume;
         // Is the sound loaded already?
-        if (loaded && app.logicGamesDocument.gameProgress().playSound)
+        if (loaded && app.homeDocument.gameProgress().playSound)
             soundPool.play(soundID, volume, volume, 1, 0, 1f);
     }
 

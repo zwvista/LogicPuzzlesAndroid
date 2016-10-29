@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 @EActivity(R.layout.activity_home_options)
 public class HomeOptionsActivity extends OptionsActivity {
-    public HomeDocument doc() {return app.logicGamesDocument;}
+    public HomeDocument doc() {return app.homeDocument;}
 
     @ViewById
     CheckedTextView ctvPlayMusic;

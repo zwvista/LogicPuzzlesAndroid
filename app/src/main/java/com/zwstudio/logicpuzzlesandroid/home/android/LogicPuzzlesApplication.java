@@ -74,7 +74,7 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<HitoriMoveProgress, Integer> daoHitoriMoveProgress;
 
     @Bean
-    public HomeDocument logicGamesDocument;
+    public HomeDocument homeDocument;
     @Bean
     public LightUpDocument lightUpDocument;
     @Bean
