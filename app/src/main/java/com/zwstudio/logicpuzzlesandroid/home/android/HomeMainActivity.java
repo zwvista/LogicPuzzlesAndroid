@@ -43,7 +43,7 @@ public class HomeMainActivity extends BaseActivity {
         doc().resumeGame(gameName);
         Class<?> cls = null;
         try {
-            cls = Class.forName(String.format("com.zwstudio.logicpuzzlesandroid.games.%s.android.%sMainActivity_",
+            cls = Class.forName(String.format("com.zwstudio.logicpuzzlesandroid.puzzles.%s.android.%sMainActivity_",
                     gameName.toLowerCase(), gameName));
             Intent intent = new Intent(this, cls);
             intent.putExtra("toResume", toResume);
