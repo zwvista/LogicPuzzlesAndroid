@@ -2,10 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpGameState;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 @EBean
-public class LightUpDocument extends GameDocument<LightUpGame, LightUpGameMove, LightUpGameState> {
+public class LightUpDocument extends GameDocument<LightUpGame, LightUpGameMove> {
 
     public void init() {
         super.init("LightUpLevels.xml");

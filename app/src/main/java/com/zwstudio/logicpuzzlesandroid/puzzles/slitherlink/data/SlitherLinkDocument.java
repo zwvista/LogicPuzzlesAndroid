@@ -5,7 +5,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameState;
 
 import org.androidannotations.annotations.EBean;
 
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 @EBean
-public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> {
+public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLinkGameMove> {
 
     public void init() {
         super.init("SlitherLinkLevels.xml");

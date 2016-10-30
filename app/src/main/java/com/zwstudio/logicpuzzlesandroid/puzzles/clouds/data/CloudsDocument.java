@@ -2,10 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 @EBean
-public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove, CloudsGameState> {
+public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
 
     public void init() {
         super.init("CloudsLevels.xml");

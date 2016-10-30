@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity
-public abstract class MainActivity<G extends Game<G, GM, GS>, GD extends GameDocument<G, GM, GS>, GM, GS extends GameState>
+public abstract class MainActivity<G extends Game<G, GM, GS>, GD extends GameDocument<G, GM>, GM, GS extends GameState>
         extends BaseActivity {
     public abstract GD doc();
 

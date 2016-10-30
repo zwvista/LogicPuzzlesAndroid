@@ -2,10 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameState;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 @EBean
-public class BridgesDocument extends GameDocument<BridgesGame, BridgesGameMove, BridgesGameState> {
+public class BridgesDocument extends GameDocument<BridgesGame, BridgesGameMove> {
 
     public void init() {
         super.init("BridgesLevels.xml");

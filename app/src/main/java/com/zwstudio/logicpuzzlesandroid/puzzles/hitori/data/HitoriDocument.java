@@ -2,10 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameState;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 
 import org.androidannotations.annotations.EBean;
 
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 @EBean
-public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove, HitoriGameState> {
+public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove> {
 
     public void init() {
         super.init("HitoriLevels.xml");

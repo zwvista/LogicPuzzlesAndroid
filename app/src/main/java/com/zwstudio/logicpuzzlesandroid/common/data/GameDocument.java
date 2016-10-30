@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.common.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameState;
 import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
 import org.androidannotations.annotations.App;
@@ -24,7 +23,7 @@ import static fj.data.List.iterableList;
  */
 
 @EBean
-public abstract class GameDocument<G extends Game, GM, GS extends GameState> {
+public abstract class GameDocument<G extends Game, GM> {
 
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
