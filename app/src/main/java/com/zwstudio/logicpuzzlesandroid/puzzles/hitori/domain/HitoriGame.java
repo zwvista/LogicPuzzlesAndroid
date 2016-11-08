@@ -39,8 +39,6 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new char[rows() * cols()];
 
-        HitoriGameState state = new HitoriGameState(this);
-
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
@@ -49,6 +47,8 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
                     set(r, c, ch);
             }
         }
+
+        HitoriGameState state = new HitoriGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -84,5 +84,13 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
 
     public HitoriObject getObject(int row, int col) {
         return state().get(row, col);
+    }
+
+    public String getRowHint(int row) {
+        return state().row2hint[row];
+    }
+
+    public String getColHint(int col) {
+        return state().col2hint[col];
     }
 }

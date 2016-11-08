@@ -29,6 +29,9 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
         super(game);
         objArray = new CloudsObject[rows() * cols()];
         Arrays.fill(objArray, CloudsObject.Empty);
+        row2state = new HintState[rows()];
+        col2state = new HintState[cols()];
+        updateIsSolved();
     }
 
     public CloudsObject get(int row, int col) {

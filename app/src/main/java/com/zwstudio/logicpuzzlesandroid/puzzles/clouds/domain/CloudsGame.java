@@ -32,10 +32,6 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
         row2hint = new int[rows()];
         col2hint = new int[cols()];
 
-        CloudsGameState state = new CloudsGameState(this);
-        state.row2state = new HintState[rows()];
-        state.col2state = new HintState[cols()];
-
         for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols() + 1; c++) {
@@ -45,17 +41,15 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
                     pos2cloud.add(p);
                 else if (ch >= '0' && ch <= '9') {
                     int n = ch - '0';
-                    HintState s = n == 0 ? HintState.Complete : HintState.Normal;
-                    if (r == rows()) {
+                    if (r == rows())
                         col2hint[c] = n;
-                        state.col2state[c] = s;
-                    } else if (c == cols()) {
+                    else if (c == cols())
                         row2hint[r] = n;
-                        state.row2state[r] = s;
-                    }
                 }
             }
         }
+
+        CloudsGameState state = new CloudsGameState(this);
         states.add(state);
         levelInitilized(state);
     }

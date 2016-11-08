@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
@@ -61,8 +62,8 @@ public class HitoriGameView extends CellsGameView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
+        cellWidth = getWidth() / (cols() + 1) - 1;
+        cellHeight = getHeight() / (rows() + 1) - 1;
         invalidate();
     }
 
@@ -86,6 +87,15 @@ public class HitoriGameView extends CellsGameView {
                 String text = String.valueOf(game().get(r, c));
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
+        textPaint.setColor(Color.RED);
+        for (int r = 0; r < rows(); r++) {
+            String text = game().getRowHint(r);
+            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
+        }
+        for (int c = 0; c < cols(); c++) {
+            String text = game().getColHint(c);
+            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
+        }
     }
 
     @Override

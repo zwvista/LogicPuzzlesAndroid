@@ -8,10 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import fj.F;
 
@@ -22,12 +20,17 @@ import static fj.data.List.iterableList;
  */
 
 public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, HitoriGameState> {
-    public HitoriObject[] objArray;
+    private HitoriObject[] objArray;
+    public String[] row2hint;
+    public String[] col2hint;
 
     public HitoriGameState(HitoriGame game) {
         super(game);
         objArray = new HitoriObject[rows() * cols()];
         Arrays.fill(objArray, HitoriObject.Normal);
+        row2hint = new String[rows()];
+        col2hint = new String[cols()];
+        updateIsSolved();
     }
 
     public HitoriObject get(int row, int col) {
@@ -45,27 +48,34 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
 
     private void updateIsSolved() {
         isSolved = true;
-        Set<Character> chars = new HashSet<>();
+        String chars;
         for (int r = 0; r < rows(); r++) {
-            chars.clear();
+            chars = row2hint[r] = "";
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 if (get(p) == HitoriObject.Darken) continue;
                 char ch = game.get(r, c);
-                if (chars.contains(ch)) { isSolved = false; return; }
-                chars.add(ch);
+                if (chars.contains(String.valueOf(ch))) {
+                    isSolved = false;
+                    row2hint[r] += ch;
+                } else
+                    chars += ch;
             }
         }
         for (int c = 0; c < cols(); c++) {
-            chars.clear();
+            chars = col2hint[c] = "";
             for (int r = 0; r < rows(); r++) {
                 Position p = new Position(r, c);
                 if (get(p) == HitoriObject.Darken) continue;
                 char ch = game.get(r, c);
-                if (chars.contains(ch)) { isSolved = false; return; }
-                chars.add(ch);
+                if (chars.contains(String.valueOf(ch))) {
+                    isSolved = false;
+                    col2hint[c] += ch;
+                } else
+                    chars += ch;
             }
         }
+        if (!isSolved) return;
         Graph g = new Graph();
         Map<Position, Node> pos2Node = new HashMap<>();
         List<Position> rngDarken = new ArrayList<>();
