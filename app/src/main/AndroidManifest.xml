@@ -67,6 +67,15 @@
         <activity android:name=".puzzles.hitori.android.HitoriOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.nurikabe.android.NurikabeMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.nurikabe.android.NurikabeGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
