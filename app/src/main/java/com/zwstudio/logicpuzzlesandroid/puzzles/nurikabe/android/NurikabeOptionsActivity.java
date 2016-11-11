@@ -35,7 +35,7 @@ public class NurikabeOptionsActivity extends OptionsActivity {
 
     @AfterViews
     protected void init() {
-        List<String> lst = Arrays.asList("No Marker", "Marker After Lightbulb", "Marker Before Lightbulb");
+        List<String> lst = Arrays.asList("No Marker", "Marker After Wall", "Marker Before Wall");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -60,7 +60,6 @@ public class NurikabeOptionsActivity extends OptionsActivity {
 
         rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
     }
 
     @ItemSelect
@@ -73,26 +72,13 @@ public class NurikabeOptionsActivity extends OptionsActivity {
         }
     }
 
-    @Click
-    protected void ctvNormalLightbulbsOnly() {
-        ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
-        rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
-        try {
-            app.daoNurikabeGameProgress.update(rec);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     protected void onDefault() {
         rec.markerOption = 0;
-        rec.normalLightbulbsOnly = false;
         try {
             app.daoNurikabeGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         spnMarker.setSelection(rec.markerOption);
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
     }
 }

@@ -30,23 +30,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnResumeGame"/>
         <Button
-            android:text="Light Up"
+            android:text="Abc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="LightUp"
-            android:id="@+id/btnLightUp"/>
+            android:tag="Abc"
+            android:id="@+id/btnAbc"/>
         <Button
             android:text="Bridges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="Bridges"
             android:id="@+id/btnBridges"/>
-        <Button
-            android:text="SlitherLink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="SlitherLink"
-            android:id="@+id/btnSlitherLink"/>
         <Button
             android:text="Clouds"
             android:layout_width="match_parent"
@@ -59,6 +53,24 @@
             android:layout_height="wrap_content"
             android:tag="Hitori"
             android:id="@+id/btnHitori"/>
+        <Button
+            android:text="Light Up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="LightUp"
+            android:id="@+id/btnLightUp"/>
+        <Button
+            android:text="Nurikabe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Nurikabe"
+            android:id="@+id/btnNurikabe"/>
+        <Button
+            android:text="SlitherLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="SlitherLink"
+            android:id="@+id/btnSlitherLink"/>
         <Button
             android:text="Options"
             android:layout_width="match_parent"

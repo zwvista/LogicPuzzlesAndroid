@@ -29,7 +29,8 @@ public class HomeMainActivity extends BaseActivity {
         resumeGame(gameName, true);
     }
 
-    @Click({R.id.btnLightUp, R.id.btnBridges, R.id.btnSlitherLink, R.id.btnClouds, R.id.btnHitori})
+    @Click({R.id.btnAbc, R.id.btnBridges, R.id.btnClouds, R.id.btnHitori, R.id.btnLightUp,
+            R.id.btnNurikabe, R.id.btnSlitherLink})
     protected void btnStartGame(View v) {
         resumeGame((String) v.getTag(), true);
     }

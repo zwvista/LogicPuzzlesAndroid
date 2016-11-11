@@ -41,7 +41,6 @@ public class NurikabeGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public NurikabeGameView(Context context) {
@@ -64,8 +63,6 @@ public class NurikabeGameView extends CellsGameView {
         gridPaint.setStyle(Paint.Style.STROKE);
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -101,6 +98,7 @@ public class NurikabeGameView extends CellsGameView {
                     }
                 } else if (o instanceof NurikabeWallObject) {
                     NurikabeWallObject o2 = (NurikabeWallObject) o;
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
                 } else if (o instanceof NurikabeMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
             }
