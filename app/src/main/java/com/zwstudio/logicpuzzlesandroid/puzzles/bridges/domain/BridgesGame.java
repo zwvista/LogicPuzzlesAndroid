@@ -26,7 +26,6 @@ public class BridgesGame extends CellsGame<BridgesGame, BridgesGameMove, Bridges
     public BridgesGame(List<String> layout, GameInterface<BridgesGame, BridgesGameMove, BridgesGameState> gi) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
-        BridgesGameState state = new BridgesGameState(this);
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
@@ -36,9 +35,7 @@ public class BridgesGame extends CellsGame<BridgesGame, BridgesGameMove, Bridges
                     BridgesIslandInfo info = new BridgesIslandInfo();
                     info.bridges = ch - '0';
                     islandsInfo.put(p, info);
-                    state.set(r, c, new BridgesIslandObject());
-                } else
-                    state.set(r, c, new BridgesEmptyObject());
+                }
             }
         }
         for (Map.Entry<Position, BridgesIslandInfo> entry : islandsInfo.entrySet()) {
@@ -53,6 +50,7 @@ public class BridgesGame extends CellsGame<BridgesGame, BridgesGameMove, Bridges
                     }
             }
         }
+        BridgesGameState state = new BridgesGameState(this);
         states.add(state);
         levelInitilized(state);
     }

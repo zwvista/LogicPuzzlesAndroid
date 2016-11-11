@@ -26,6 +26,8 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
         super(game);
         objArray = new BridgesObject[rows() * cols()];
         Arrays.fill(objArray, new BridgesEmptyObject());
+        for (Position p: game.islandsInfo.keySet())
+            set(p, new BridgesIslandObject());
     }
 
     public BridgesObject get(int row, int col) {

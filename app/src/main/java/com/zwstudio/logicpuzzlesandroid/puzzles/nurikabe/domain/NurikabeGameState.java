@@ -5,6 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import fj.F;
 
@@ -19,6 +20,13 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
         super(game);
         objArray = new NurikabeObject[rows() * cols()];
         Arrays.fill(objArray, new NurikabeEmptyObject());
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n = entry.getValue();
+            NurikabeWallObject o = new NurikabeWallObject();
+            o.state = n <= 0 ? HintState.Complete : HintState.Normal;
+            set(p, o);
+        }
     }
 
     public NurikabeObject get(int row, int col) {

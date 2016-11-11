@@ -3,8 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandInfo;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import fj.F;
 
@@ -19,6 +21,13 @@ public class LightUpGameState extends CellsGameState<LightUpGame, LightUpGameMov
         super(game);
         objArray = new LightUpObject[rows() * cols()];
         Arrays.fill(objArray, new LightUpEmptyObject());
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n = entry.getValue();
+            LightUpWallObject o = new LightUpWallObject();
+            o.state = n <= 0 ? HintState.Complete : HintState.Normal;
+            set(p, o);
+        }
     }
 
     public LightUpObject get(int row, int col) {

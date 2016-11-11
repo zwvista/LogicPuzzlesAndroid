@@ -28,7 +28,6 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
     public SlitherLinkGame(List<String> layout, GameInterface<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> gi) {
         super(gi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
-        SlitherLinkGameState state = new SlitherLinkGameState(this);
         for (int r = 0; r < rows() - 1; r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols() - 1; c++) {
@@ -37,10 +36,10 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
                 if (ch >= '0' && ch <= '9') {
                     int n = ch - '0';
                     pos2hint.put(p, n);
-                    state.pos2state.put(p, n == 0 ? HintState.Complete : HintState.Normal);
                 }
             }
         }
+        SlitherLinkGameState state = new SlitherLinkGameState(this);
         states.add(state);
         levelInitilized(state);
     }

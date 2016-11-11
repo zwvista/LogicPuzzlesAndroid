@@ -31,6 +31,11 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
             objArray[i] = new SlitherLinkObject[4];
             Arrays.fill(objArray[i], SlitherLinkObject.Empty);
         }
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n = entry.getValue();
+            pos2state.put(p, n == 0 ? HintState.Complete : HintState.Normal);
+        }
     }
 
     public SlitherLinkObject[] get(int row, int col) {

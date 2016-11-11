@@ -28,7 +28,6 @@ public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUp
     public LightUpGame(List<String> layout, GameInterface<LightUpGame, LightUpGameMove, LightUpGameState> gi) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
-        LightUpGameState state = new LightUpGameState(this);
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
@@ -37,13 +36,10 @@ public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUp
                 if (ch == 'W' || ch >= '0' && ch <= '9') {
                     int n = ch == 'W' ? -1 : (ch - '0');
                     pos2hint.put(p, n);
-                    LightUpWallObject o = new LightUpWallObject();
-                    o.state = n <= 0 ? HintState.Complete : HintState.Normal;
-                    state.set(r, c, o);
-                } else
-                    state.set(r, c, new LightUpEmptyObject());
+                }
             }
         }
+        LightUpGameState state = new LightUpGameState(this);
         states.add(state);
         levelInitilized(state);
     }
