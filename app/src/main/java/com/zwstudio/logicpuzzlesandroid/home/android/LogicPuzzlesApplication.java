@@ -7,6 +7,10 @@ import com.j256.ormlite.dao.Dao;
 import com.zwstudio.logicpuzzlesandroid.home.data.DBHelper;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcLevelProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesLevelProgress;
@@ -43,11 +47,11 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<HomeGameProgress, Integer> daoLogicGamesGameProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
-    public Dao<LightUpGameProgress, Integer> daoLightUpGameProgress;
+    public Dao<AbcGameProgress, Integer> daoAbcGameProgress;
     @OrmLiteDao(helper = DBHelper.class)
-    public Dao<LightUpLevelProgress, Integer> daoLightUpLevelProgress;
+    public Dao<AbcLevelProgress, Integer> daoAbcLevelProgress;
     @OrmLiteDao(helper = DBHelper.class)
-    public Dao<LightUpMoveProgress, Integer> daoLightUpMoveProgress;
+    public Dao<AbcMoveProgress, Integer> daoAbcMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<BridgesGameProgress, Integer> daoBridgesGameProgress;
@@ -55,13 +59,6 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<BridgesLevelProgress, Integer> daoBridgesLevelProgress;
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<BridgesMoveProgress, Integer> daoBridgesMoveProgress;
-
-    @OrmLiteDao(helper = DBHelper.class)
-    public Dao<SlitherLinkGameProgress, Integer> daoSlitherLinkGameProgress;
-    @OrmLiteDao(helper = DBHelper.class)
-    public Dao<SlitherLinkLevelProgress, Integer> daoSlitherLinkLevelProgress;
-    @OrmLiteDao(helper = DBHelper.class)
-    public Dao<SlitherLinkMoveProgress, Integer> daoSlitherLinkMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<CloudsGameProgress, Integer> daoCloudsGameProgress;
@@ -78,26 +75,42 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<HitoriMoveProgress, Integer> daoHitoriMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
+    public Dao<LightUpGameProgress, Integer> daoLightUpGameProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<LightUpLevelProgress, Integer> daoLightUpLevelProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<LightUpMoveProgress, Integer> daoLightUpMoveProgress;
+
+    @OrmLiteDao(helper = DBHelper.class)
     public Dao<NurikabeGameProgress, Integer> daoNurikabeGameProgress;
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<NurikabeLevelProgress, Integer> daoNurikabeLevelProgress;
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<NurikabeMoveProgress, Integer> daoNurikabeMoveProgress;
 
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<SlitherLinkGameProgress, Integer> daoSlitherLinkGameProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<SlitherLinkLevelProgress, Integer> daoSlitherLinkLevelProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<SlitherLinkMoveProgress, Integer> daoSlitherLinkMoveProgress;
+
     @Bean
     public HomeDocument homeDocument;
     @Bean
-    public LightUpDocument lightUpDocument;
-    @Bean
     public BridgesDocument bridgesDocument;
     @Bean
-    public SlitherLinkDocument slitherlinkDocument;
+    public AbcDocument abcDocument;
     @Bean
     public CloudsDocument cloudsDocument;
     @Bean
     public HitoriDocument hitoriDocument;
     @Bean
+    public LightUpDocument lightUpDocument;
+    @Bean
     public NurikabeDocument nurikabeDocument;
+    @Bean
+    public SlitherLinkDocument slitherlinkDocument;
 
     @Bean
     public SoundManager soundManager;
@@ -106,12 +119,13 @@ public class LogicPuzzlesApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        lightUpDocument.init();
+        abcDocument.init();
         bridgesDocument.init();
-        slitherlinkDocument.init();
         cloudsDocument.init();
         hitoriDocument.init();
+        lightUpDocument.init();
         nurikabeDocument.init();
+        slitherlinkDocument.init();
 
         soundManager.init();
     }

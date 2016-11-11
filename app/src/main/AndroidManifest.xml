@@ -22,15 +22,6 @@
         <activity android:name=".home.android.HomeOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightup.android.LightUpMainActivity_"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".puzzles.lightup.android.LightUpGameActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".puzzles.lightup.android.LightUpOptionsActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
         <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -40,23 +31,23 @@
         <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.slitherlink.android.SlitherLinkMainActivity_"
+        <activity android:name=".puzzles.abc.android.AbcMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.slitherlink.android.SlitherLinkGameActivity_"
+        <activity android:name=".puzzles.abc.android.AbcGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.slitherlink.android.SlitherLinkOptionsActivity_"
+        <activity android:name=".puzzles.abc.android.AbcOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
-            android:screenOrientation="portrait">
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.clouds.android.CloudsGameActivity_"
-            android:screenOrientation="portrait">
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.clouds.android.CloudsOptionsActivity_"
-            android:screenOrientation="portrait">
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.hitori.android.HitoriMainActivity_"
                   android:screenOrientation="portrait">
@@ -67,6 +58,15 @@
         <activity android:name=".puzzles.hitori.android.HitoriOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.lightup.android.LightUpMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lightup.android.LightUpGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lightup.android.LightUpOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.nurikabe.android.NurikabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -74,6 +74,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slitherlink.android.SlitherLinkMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slitherlink.android.SlitherLinkGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slitherlink.android.SlitherLinkOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
     </application>
