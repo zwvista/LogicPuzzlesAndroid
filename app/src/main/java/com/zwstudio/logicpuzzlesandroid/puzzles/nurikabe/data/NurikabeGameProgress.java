@@ -12,6 +12,4 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 public class NurikabeGameProgress extends GameProgress {
     @DatabaseField
     public int markerOption;
-    @DatabaseField
-    public boolean normalLightbulbsOnly;
 }

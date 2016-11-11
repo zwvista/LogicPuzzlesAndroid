@@ -22,6 +22,12 @@ public class NurikabeGame extends CellsGame<NurikabeGame, NurikabeGameMove, Nuri
             new Position(1, 0),
             new Position(0, -1),
     };
+    public static Position offset2[] = {
+            new Position(0, 0),
+            new Position(0, 1),
+            new Position(1, 0),
+            new Position(1, 1),
+    };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
@@ -61,8 +67,8 @@ public class NurikabeGame extends CellsGame<NurikabeGame, NurikabeGameMove, Nuri
         return changed;
    }
 
-    public boolean switchObject(NurikabeGameMove move, NurikabeMarkerOptions markerOption, boolean normalLightbulbsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, normalLightbulbsOnly, move2));
+    public boolean switchObject(NurikabeGameMove move, NurikabeMarkerOptions markerOption) {
+        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 
     public boolean setObject(NurikabeGameMove move) {

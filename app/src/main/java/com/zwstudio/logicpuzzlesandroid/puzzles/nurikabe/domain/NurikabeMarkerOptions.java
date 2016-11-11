@@ -5,5 +5,5 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain;
  */
 
 public enum NurikabeMarkerOptions {
-    NoMarker, MarkerAfterLightbulb, MarkerBeforeLightbulb
+    NoMarker, MarkerAfterWall, MarkerBeforeWall
 }

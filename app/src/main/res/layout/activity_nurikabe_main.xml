@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context=".puzzles.lightup.android.LightUpMainActivity">
+    tools:context=".puzzles.nurikabe.android.NurikabeMainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
         <TextView
-            android:text="Light Up"
+            android:text="Nurikabe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"

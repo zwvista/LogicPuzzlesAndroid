@@ -18,12 +18,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeGameProgre
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeEmptyObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeLightbulbObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeLightbulbState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeHintObject;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
@@ -44,7 +43,6 @@ public class NurikabeGameView extends CellsGameView {
     private Paint wallPaint = new Paint();
     private Paint lightPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
-    private Drawable dLightbulb;
 
     public NurikabeGameView(Context context) {
         super(context);
@@ -70,14 +68,6 @@ public class NurikabeGameView extends CellsGameView {
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        try {
-            InputStream is = getContext().getApplicationContext().getAssets().open("lightbulb.png");
-            Bitmap bmpLightbulb = BitmapFactory.decodeStream(is);
-            dLightbulb = new BitmapDrawable(bmpLightbulb);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -97,28 +87,20 @@ public class NurikabeGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 NurikabeObject o = game().getObject(r, c);
-                if (o.lightness > 0)
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, lightPaint);
-                if (o instanceof NurikabeWallObject) {
-                    NurikabeWallObject o2 = (NurikabeWallObject) o;
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
+                if (o instanceof NurikabeHintObject) {
+                    NurikabeHintObject o2 = (NurikabeHintObject) o;
                     int n = game().pos2hint.get(new Position(r, c));
                     if (n >= 0) {
                         textPaint.setColor(
                                 o2.state == HintState.Complete ? Color.GREEN :
                                 o2.state == HintState.Error ? Color.RED :
-                                Color.BLACK
+                                Color.WHITE
                         );
                         String text = String.valueOf(n);
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                     }
-                } else if (o instanceof NurikabeLightbulbObject) {
-                    NurikabeLightbulbObject o2 = (NurikabeLightbulbObject) o;
-                    dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
-                            (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
-                    int alpaha = o2.state == NurikabeLightbulbState.Error ? 50 : 0;
-                    dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    dLightbulb.draw(canvas);
+                } else if (o instanceof NurikabeWallObject) {
+                    NurikabeWallObject o2 = (NurikabeWallObject) o;
                 } else if (o instanceof NurikabeMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
             }
@@ -135,8 +117,7 @@ public class NurikabeGameView extends CellsGameView {
             move.p = new Position(row, col);
             move.obj = new NurikabeEmptyObject();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, NurikabeMarkerOptions.values()[rec.markerOption],
-                    rec.normalLightbulbsOnly))
+            if (game().switchObject(move, NurikabeMarkerOptions.values()[rec.markerOption]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

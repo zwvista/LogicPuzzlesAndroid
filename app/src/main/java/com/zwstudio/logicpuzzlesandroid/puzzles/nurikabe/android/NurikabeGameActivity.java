@@ -30,7 +30,7 @@ public class NurikabeGameActivity extends GameActivity<NurikabeGame, NurikabeDoc
             for (NurikabeMoveProgress rec : doc().moveProgress()) {
                 NurikabeGameMove move = new NurikabeGameMove();
                 move.p = new Position(rec.row, rec.col);
-                move.obj = NurikabeObject.objTypeFromString(rec.objTypeAsString);
+                move.obj = NurikabeObject.objTypeFromString(rec.objAsString);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

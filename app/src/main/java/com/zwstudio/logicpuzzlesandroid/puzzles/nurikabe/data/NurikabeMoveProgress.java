@@ -15,5 +15,5 @@ public class NurikabeMoveProgress extends MoveProgress {
     @DatabaseField
     public int col;
     @DatabaseField
-    public String objTypeAsString;
+    public String objAsString;
 }

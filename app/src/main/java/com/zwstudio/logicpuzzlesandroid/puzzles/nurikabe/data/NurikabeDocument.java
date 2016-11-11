@@ -88,7 +88,7 @@ public class NurikabeDocument extends GameDocument<NurikabeGame, NurikabeGameMov
             rec.moveIndex = game.moveIndex();
             rec.row = move.p.row;
             rec.col = move.p.col;
-            rec.objTypeAsString = move.obj.objTypeAsString();
+            rec.objAsString = move.obj.objAsString();
             app.daoNurikabeMoveProgress.create(rec);
         } catch (SQLException e) {
             e.printStackTrace();
