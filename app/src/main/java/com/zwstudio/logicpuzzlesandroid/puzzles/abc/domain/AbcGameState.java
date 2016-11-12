@@ -47,31 +47,46 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
 
     private void updateIsSolved() {
         isSolved = true;
+        String chars;
         for (int r = 1; r < rows() - 1; r++) {
             char h1 = get(r, 0), h2 = get(r, cols() - 1);
             char ch11 = ' ', ch21 = ' ';
+            chars = "";
             for (int c = 1; c < cols() - 1; c++) {
                 char ch12 = get(r, c), ch22 = get(r, cols() - 1 - c);
-                if (ch11 == ' ' && ch11 != ch12) ch11 = ch12;
-                if (ch21 == ' ' && ch21 != ch22) ch21 = ch22;
+                if (ch11 == ' ' && ch12 != ' ') ch11 = ch12;
+                if (ch21 == ' ' && ch22 != ' ') ch21 = ch22;
+                if (ch12 == ' ') continue;
+                if (chars.contains(String.valueOf(ch12)))
+                    isSolved = false;
+                else
+                    chars += ch12;
             }
             HintState s1 = ch11 == ' ' ? HintState.Normal : ch11 == h1 ? HintState.Complete : HintState.Error;
             HintState s2 = ch21 == ' ' ? HintState.Normal : ch21 == h2 ? HintState.Complete : HintState.Error;
             row2state[r * 2] = s1; row2state[r * 2 + 1] = s2;
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
+            if (chars.length() != game.chMax - 'A' + 1) isSolved = false;
         }
         for (int c = 1; c < cols() - 1; c++) {
             char h1 = get(0, c), h2 = get(rows() - 1, c);
             char ch11 = ' ', ch21 = ' ';
+            chars = "";
             for (int r = 1; r < rows() - 1; r++) {
                 char ch12 = get(r, c), ch22 = get(rows() - 1 - r, c);
-                if (ch11 == ' ' && ch11 != ch12) ch11 = ch12;
-                if (ch21 == ' ' && ch21 != ch22) ch21 = ch22;
+                if (ch11 == ' ' && ch12 != ' ') ch11 = ch12;
+                if (ch21 == ' ' && ch22 != ' ') ch21 = ch22;
+                if (ch12 == ' ') continue;
+                if (chars.contains(String.valueOf(ch12)))
+                    isSolved = false;
+                else
+                    chars += ch12;
             }
             HintState s1 = ch11 == ' ' ? HintState.Normal : ch11 == h1 ? HintState.Complete : HintState.Error;
             HintState s2 = ch21 == ' ' ? HintState.Normal : ch21 == h2 ? HintState.Complete : HintState.Error;
             col2state[c * 2] = s1; col2state[c * 2 + 1] = s2;
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
+            if (chars.length() != game.chMax - 'A' + 1) isSolved = false;
         }
     }
 

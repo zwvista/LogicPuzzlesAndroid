@@ -56,6 +56,7 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
                 for (Position os : NurikabeGame.offset2)
                     if (!(get(p.add(os)) instanceof NurikabeWallObject))
                         continue rule2x2;
+                isSolved = false;
             }
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
