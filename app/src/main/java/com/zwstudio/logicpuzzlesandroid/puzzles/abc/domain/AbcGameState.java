@@ -1,115 +1,78 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import fj.F;
-
-import static fj.data.List.iterableList;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameState> {
-    private AbcObject[] objArray;
-    public String[] row2hint;
-    public String[] col2hint;
+    private char[] objArray;
+    public HintState[] row2state;
+    public HintState[] col2state;
 
     public AbcGameState(AbcGame game) {
         super(game);
-        objArray = new AbcObject[rows() * cols()];
-        Arrays.fill(objArray, AbcObject.Normal);
-        row2hint = new String[rows()];
-        col2hint = new String[cols()];
+        objArray = new char[rows() * cols()];
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++)
+                set(r, c, game.get(r, c));
+        row2state = new HintState[rows() * 2];
+        col2state = new HintState[cols() * 2];
         updateIsSolved();
     }
 
-    public AbcObject get(int row, int col) {
+    public char get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public AbcObject get(Position p) {
+    public char get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, AbcObject obj) {
+    public void set(int row, int col, char obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, AbcObject obj) {
+    public void set(Position p, char obj) {
         set(p.row, p.col, obj);
+    }
+
+    public HintState getState(int row, int col) {
+        return row == 0 && col >= 1 && col < cols() - 1 ? col2state[col * 2] :
+                row == rows() - 1 && col >= 1 && col < cols() - 1 ? col2state[col * 2 + 1] :
+                col == 0 && row >= 1 && row < rows() - 1 ? row2state[row * 2] :
+                col == cols() - 1 && row >= 1 && row < rows() - 1 ? row2state[row * 2 + 1] :
+                HintState.Normal;
     }
 
     private void updateIsSolved() {
         isSolved = true;
-        String chars;
-        for (int r = 0; r < rows(); r++) {
-            chars = row2hint[r] = "";
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) == AbcObject.Darken) continue;
-                char ch = game.get(r, c);
-                if (chars.contains(String.valueOf(ch))) {
-                    isSolved = false;
-                    row2hint[r] += ch;
-                } else
-                    chars += ch;
+        for (int r = 1; r < rows() - 1; r++) {
+            char h1 = get(r, 0), h2 = get(r, cols() - 1);
+            char ch11 = ' ', ch21 = ' ';
+            for (int c = 1; c < cols() - 1; c++) {
+                char ch12 = get(r, c), ch22 = get(r, cols() - 1 - c);
+                if (ch11 == ' ' && ch11 != ch12) ch11 = ch12;
+                if (ch21 == ' ' && ch21 != ch22) ch21 = ch22;
             }
+            HintState s1 = ch11 == ' ' ? HintState.Normal : ch11 == h1 ? HintState.Complete : HintState.Error;
+            HintState s2 = ch21 == ' ' ? HintState.Normal : ch21 == h2 ? HintState.Complete : HintState.Error;
+            row2state[r * 2] = s1; row2state[r * 2 + 1] = s2;
+            if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
         }
-        for (int c = 0; c < cols(); c++) {
-            chars = col2hint[c] = "";
-            for (int r = 0; r < rows(); r++) {
-                Position p = new Position(r, c);
-                if (get(p) == AbcObject.Darken) continue;
-                char ch = game.get(r, c);
-                if (chars.contains(String.valueOf(ch))) {
-                    isSolved = false;
-                    col2hint[c] += ch;
-                } else
-                    chars += ch;
+        for (int c = 1; c < cols() - 1; c++) {
+            char h1 = get(0, c), h2 = get(rows() - 1, c);
+            char ch11 = ' ', ch21 = ' ';
+            for (int r = 1; r < rows() - 1; r++) {
+                char ch12 = get(r, c), ch22 = get(rows() - 1 - r, c);
+                if (ch11 == ' ' && ch11 != ch12) ch11 = ch12;
+                if (ch21 == ' ' && ch21 != ch22) ch21 = ch22;
             }
+            HintState s1 = ch11 == ' ' ? HintState.Normal : ch11 == h1 ? HintState.Complete : HintState.Error;
+            HintState s2 = ch21 == ' ' ? HintState.Normal : ch21 == h2 ? HintState.Complete : HintState.Error;
+            col2state[c * 2] = s1; col2state[c * 2 + 1] = s2;
+            if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
         }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2Node = new HashMap<>();
-        List<Position> rngDarken = new ArrayList<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) == AbcObject.Darken)
-                    rngDarken.add(p);
-                else{
-                    Node node = new Node(p.toString());
-                    g.addNode(node);
-                    pos2Node.put(p, node);
-                }
-            }
-        for (Position p : rngDarken)
-            for (Position os : AbcGame.offset) {
-                Position p2 = p.add(os);
-                if (rngDarken.contains(p2)) {
-                    isSolved = false;
-                    return;
-                }
-            }
-        for (Position p : pos2Node.keySet()) {
-            for (Position os : AbcGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2Node.containsKey(p2))
-                    g.connectNode(pos2Node.get(p), pos2Node.get(p2));
-            }
-        }
-        g.setRootNode(iterableList(pos2Node.values()).head());
-        List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2Node.values().size();
-        if (n1 != n2) isSolved = false;
     }
 
     public boolean setObject(AbcGameMove move) {
@@ -120,24 +83,11 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
         return true;
     }
 
-    public boolean switchObject(AbcMarkerOptions markerOption, AbcGameMove move) {
-        F<AbcObject, AbcObject> f = obj -> {
-            switch (obj) {
-            case Normal:
-                return markerOption == AbcMarkerOptions.MarkerBeforeDarken ?
-                        AbcObject.Marker : AbcObject.Darken;
-            case Darken:
-                return markerOption == AbcMarkerOptions.MarkerAfterDarken ?
-                        AbcObject.Marker : AbcObject.Normal;
-            case Marker:
-                return markerOption == AbcMarkerOptions.MarkerBeforeDarken ?
-                        AbcObject.Darken : AbcObject.Normal;
-            }
-            return obj;
-        };
+    public boolean switchObject(AbcGameMove move) {
         Position p = move.p;
         if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
+        char o = get(p);
+        move.obj = o == ' ' ? 'A' : o == game.chMax ? ' ' : (char)(o + 1);
         return setObject(move);
     }
 }

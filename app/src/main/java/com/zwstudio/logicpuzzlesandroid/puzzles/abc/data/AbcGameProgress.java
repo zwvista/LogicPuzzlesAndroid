@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc.data;
 
-import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 
@@ -10,6 +9,4 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 
 @DatabaseTable
 public class AbcGameProgress extends GameProgress {
-    @DatabaseField
-    public int markerOption;
 }

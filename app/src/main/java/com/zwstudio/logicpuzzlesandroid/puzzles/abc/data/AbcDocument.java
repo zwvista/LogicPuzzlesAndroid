@@ -88,7 +88,7 @@ public class AbcDocument extends GameDocument<AbcGame, AbcGameMove> {
             rec.moveIndex = game.moveIndex();
             rec.row = move.p.row;
             rec.col = move.p.col;
-            rec.obj = move.obj.ordinal();
+            rec.obj = String.valueOf(move.obj);
             app.daoAbcMoveProgress.create(rec);
         } catch (SQLException e) {
             e.printStackTrace();

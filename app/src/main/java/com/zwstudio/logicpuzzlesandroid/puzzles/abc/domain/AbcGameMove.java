@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class AbcGameMove {
     public Position p;
-    public AbcObject obj;
+    public char obj;
 }

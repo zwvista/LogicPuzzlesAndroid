@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcObject;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
@@ -30,7 +29,7 @@ public class AbcGameActivity extends GameActivity<AbcGame, AbcDocument, AbcGameM
             for (AbcMoveProgress rec : doc().moveProgress()) {
                 AbcGameMove move = new AbcGameMove();
                 move.p = new Position(rec.row, rec.col);
-                move.obj = AbcObject.values()[rec.obj];
+                move.obj = rec.obj.charAt(0);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

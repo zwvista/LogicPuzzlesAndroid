@@ -3,6 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
     };
 
     public char[] objArray;
+    public char chMax = 'A';
     public char get(int row, int col) {
         return objArray[row * cols() + col];
     }
@@ -43,8 +45,8 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
                 char ch = str.charAt(c);
-                if (ch >= '0' && ch <= '9')
-                    set(r, c, ch);
+                set(r, c, ch);
+                if (chMax < ch) chMax = ch;
             }
         }
 
@@ -70,27 +72,23 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
         return changed;
    }
 
-    public boolean switchObject(AbcGameMove move, AbcMarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+    public boolean switchObject(AbcGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(AbcGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public AbcObject getObject(Position p) {
+    public char getObject(Position p) {
         return state().get(p);
     }
 
-    public AbcObject getObject(int row, int col) {
+    public char getObject(int row, int col) {
         return state().get(row, col);
     }
 
-    public String getRowHint(int row) {
-        return state().row2hint[row];
-    }
-
-    public String getColHint(int col) {
-        return state().col2hint[col];
+    public HintState getState(int row, int col) {
+        return state().getState(row, col);
     }
 }

@@ -15,5 +15,5 @@ public class AbcMoveProgress extends MoveProgress {
     @DatabaseField
     public int col;
     @DatabaseField
-    public int obj;
+    public String obj;
 }
