@@ -21,6 +21,10 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
             new Position(0, -1),
     };
 
+    public boolean isValid(int row, int col) {
+        return row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1;
+    }
+
     public int[] objArray;
     public int intMax = 1;
     public int get(int row, int col) {

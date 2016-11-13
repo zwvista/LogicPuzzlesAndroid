@@ -21,6 +21,10 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
             new Position(0, -1),
     };
 
+    public boolean isValid(int row, int col) {
+        return row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1;
+    }
+
     public char[] objArray;
     public char chMax = 'A';
     public char get(int row, int col) {
