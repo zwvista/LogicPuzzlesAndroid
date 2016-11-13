@@ -72,13 +72,15 @@ public class AbcGameView extends CellsGameView {
         if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
+                char ch = game().getObject(r, c);
+                if (ch == ' ') continue;
                 HintState s = game().getState(r, c);
                 textPaint.setColor(
                         s == HintState.Complete ? Color.GREEN :
                         s == HintState.Error ? Color.RED :
                         Color.WHITE
                 );
-                String text = String.valueOf(game().getObject(r, c));
+                String text = String.valueOf(ch);
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
     }

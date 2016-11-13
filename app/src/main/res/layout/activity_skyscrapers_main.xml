@@ -17,7 +17,7 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
         <TextView
-            android:text="Abc"
+            android:text="Skyscrapers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"

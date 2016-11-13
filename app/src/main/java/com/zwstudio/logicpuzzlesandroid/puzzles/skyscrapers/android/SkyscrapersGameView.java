@@ -72,13 +72,15 @@ public class SkyscrapersGameView extends CellsGameView {
         if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
+                int n = game().getObject(r, c);
+                if (n == 0) continue;
                 HintState s = game().getState(r, c);
                 textPaint.setColor(
                         s == HintState.Complete ? Color.GREEN :
                         s == HintState.Error ? Color.RED :
                         Color.WHITE
                 );
-                String text = String.valueOf(game().getObject(r, c));
+                String text = String.valueOf(n);
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
     }

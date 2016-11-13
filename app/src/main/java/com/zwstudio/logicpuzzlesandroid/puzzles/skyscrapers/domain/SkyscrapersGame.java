@@ -21,32 +21,33 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
             new Position(0, -1),
     };
 
-    public char[] objArray;
-    public char chMax = 'A';
-    public char get(int row, int col) {
+    public int[] objArray;
+    public int intMax = 1;
+    public int get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public char get(Position p) {
+    public int get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, char obj) {
+    public void set(int row, int col, int obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, char obj) {
+    public void set(Position p, int obj) {
         set(p.row, p.col, obj);
     }
 
     public SkyscrapersGame(List<String> layout, GameInterface<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> gi) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
-        objArray = new char[rows() * cols()];
+        objArray = new int[rows() * cols()];
 
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
                 char ch = str.charAt(c);
-                set(r, c, ch);
-                if (chMax < ch) chMax = ch;
+                int n = ch == ' ' ? 0 : ch - '0';
+                set(r, c, n);
+                if (intMax < n) intMax = n;
             }
         }
 
@@ -80,11 +81,11 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public char getObject(Position p) {
+    public int getObject(Position p) {
         return state().get(p);
     }
 
-    public char getObject(int row, int col) {
+    public int getObject(int row, int col) {
         return state().get(row, col);
     }
 

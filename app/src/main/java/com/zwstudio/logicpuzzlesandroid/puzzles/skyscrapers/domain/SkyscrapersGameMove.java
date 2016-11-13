@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class SkyscrapersGameMove {
     public Position p;
-    public char obj;
+    public int obj;
 }
