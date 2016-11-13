@@ -30,7 +30,7 @@ public class HomeMainActivity extends BaseActivity {
     }
 
     @Click({R.id.btnAbc, R.id.btnBridges, R.id.btnClouds, R.id.btnHitori, R.id.btnLightUp,
-            R.id.btnNurikabe, R.id.btnSlitherLink})
+            R.id.btnNurikabe, R.id.btnSkyscrapers, R.id.btnSlitherLink})
     protected void btnStartGame(View v) {
         resumeGame((String) v.getTag(), true);
     }

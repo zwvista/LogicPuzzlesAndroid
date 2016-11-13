@@ -23,7 +23,7 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/colorText"
-            android:layout_marginBottom="100dip"/>
+            android:layout_marginBottom="30dip"/>
         <Button
             android:text="Resume Game"
             android:layout_width="match_parent"
@@ -65,6 +65,12 @@
             android:layout_height="wrap_content"
             android:tag="Nurikabe"
             android:id="@+id/btnNurikabe"/>
+        <Button
+            android:text="Skyscrapers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Skyscrapers"
+            android:id="@+id/btnSkyscrapers"/>
         <Button
             android:text="SlitherLink"
             android:layout_width="match_parent"

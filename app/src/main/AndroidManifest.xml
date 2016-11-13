@@ -22,15 +22,6 @@
         <activity android:name=".home.android.HomeOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesGameActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
         <activity android:name=".puzzles.abc.android.AbcMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -38,6 +29,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.abc.android.AbcOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bridges.android.BridgesGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
@@ -74,6 +74,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.skyscrapers.android.SkyscrapersMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.skyscrapers.android.SkyscrapersGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.skyscrapers.android.SkyscrapersOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.slitherlink.android.SlitherLinkMainActivity_"

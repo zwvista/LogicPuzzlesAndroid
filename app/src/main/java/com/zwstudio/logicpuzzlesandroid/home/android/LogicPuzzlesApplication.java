@@ -31,6 +31,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeLevelProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeMoveProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersLevelProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkLevelProgress;
@@ -89,6 +93,13 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<NurikabeMoveProgress, Integer> daoNurikabeMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
+    public Dao<SkyscrapersGameProgress, Integer> daoSkyscrapersGameProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<SkyscrapersLevelProgress, Integer> daoSkyscrapersLevelProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<SkyscrapersMoveProgress, Integer> daoSkyscrapersMoveProgress;
+
+    @OrmLiteDao(helper = DBHelper.class)
     public Dao<SlitherLinkGameProgress, Integer> daoSlitherLinkGameProgress;
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<SlitherLinkLevelProgress, Integer> daoSlitherLinkLevelProgress;
@@ -110,6 +121,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public NurikabeDocument nurikabeDocument;
     @Bean
+    public SkyscrapersDocument skyscrapersDocument;
+    @Bean
     public SlitherLinkDocument slitherlinkDocument;
 
     @Bean
@@ -125,6 +138,7 @@ public class LogicPuzzlesApplication extends Application {
         hitoriDocument.init();
         lightUpDocument.init();
         nurikabeDocument.init();
+        skyscrapersDocument.init();
         slitherlinkDocument.init();
 
         soundManager.init();
