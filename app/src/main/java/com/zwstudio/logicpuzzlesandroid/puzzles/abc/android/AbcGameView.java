@@ -78,7 +78,7 @@ public class AbcGameView extends CellsGameView {
                 textPaint.setColor(
                         s == HintState.Complete ? Color.GREEN :
                         s == HintState.Error ? Color.RED :
-                        Color.WHITE
+                        !game().isValid(r, c) ? Color.GRAY : Color.WHITE
                 );
                 String text = String.valueOf(ch);
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);

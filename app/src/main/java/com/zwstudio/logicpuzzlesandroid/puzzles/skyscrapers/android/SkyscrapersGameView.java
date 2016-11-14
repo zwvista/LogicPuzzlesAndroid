@@ -78,7 +78,7 @@ public class SkyscrapersGameView extends CellsGameView {
                 textPaint.setColor(
                         s == HintState.Complete ? Color.GREEN :
                         s == HintState.Error ? Color.RED :
-                        Color.WHITE
+                        !game().isValid(r, c) ? Color.GRAY : Color.WHITE
                 );
                 String text = String.valueOf(n);
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
