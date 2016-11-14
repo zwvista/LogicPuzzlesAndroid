@@ -19,7 +19,7 @@ import java.util.List;
 public class AbcDocument extends GameDocument<AbcGame, AbcGameMove> {
 
     public void init() {
-        super.init("AbcLevels.xml");
+        super.init("Abc.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

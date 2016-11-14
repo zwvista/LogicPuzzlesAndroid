@@ -19,7 +19,7 @@ import java.util.List;
 public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLinkGameMove> {
 
     public void init() {
-        super.init("SlitherLinkLevels.xml");
+        super.init("SlitherLink.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

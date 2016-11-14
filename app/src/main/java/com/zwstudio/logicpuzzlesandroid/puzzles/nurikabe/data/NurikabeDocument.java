@@ -19,7 +19,7 @@ import java.util.List;
 public class NurikabeDocument extends GameDocument<NurikabeGame, NurikabeGameMove> {
 
     public void init() {
-        super.init("NurikabeLevels.xml");
+        super.init("Nurikabe.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

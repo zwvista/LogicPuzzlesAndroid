@@ -19,7 +19,7 @@ import java.util.List;
 public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove> {
 
     public void init() {
-        super.init("HitoriLevels.xml");
+        super.init("Hitori.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

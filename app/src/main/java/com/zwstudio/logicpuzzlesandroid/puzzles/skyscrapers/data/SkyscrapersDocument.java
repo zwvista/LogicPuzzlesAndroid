@@ -19,7 +19,7 @@ import java.util.List;
 public class SkyscrapersDocument extends GameDocument<SkyscrapersGame, SkyscrapersGameMove> {
 
     public void init() {
-        super.init("SkyscrapersLevels.xml");
+        super.init("Skyscrapers.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

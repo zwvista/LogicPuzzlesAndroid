@@ -19,7 +19,7 @@ import java.util.List;
 public class LightUpDocument extends GameDocument<LightUpGame, LightUpGameMove> {
 
     public void init() {
-        super.init("LightUpLevels.xml");
+        super.init("LightUp.xml");
         selectedLevelID = gameProgress().levelID;
     }
 

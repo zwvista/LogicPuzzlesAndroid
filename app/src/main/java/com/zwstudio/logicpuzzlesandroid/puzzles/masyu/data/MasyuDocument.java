@@ -1,10 +1,10 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data;
+package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGame;
-import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
 
 import org.androidannotations.annotations.EBean;
 
@@ -16,20 +16,20 @@ import java.util.List;
  */
 
 @EBean
-public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
+public class MasyuDocument extends GameDocument<MasyuGame, MasyuGameMove> {
 
     public void init() {
-        super.init("Clouds.xml");
+        super.init("MasyuLevels.xml");
         selectedLevelID = gameProgress().levelID;
     }
 
-    public CloudsGameProgress gameProgress() {
+    public MasyuGameProgress gameProgress() {
         try {
-            CloudsGameProgress rec = app.daoCloudsGameProgress.queryBuilder()
+            MasyuGameProgress rec = app.daoMasyuGameProgress.queryBuilder()
                     .queryForFirst();
             if (rec == null) {
-                rec = new CloudsGameProgress();
-                app.daoCloudsGameProgress.create(rec);
+                rec = new MasyuGameProgress();
+                app.daoMasyuGameProgress.create(rec);
             }
             return rec;
         } catch (SQLException e) {
@@ -38,14 +38,14 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
         }
     }
 
-    public CloudsLevelProgress levelProgress() {
+    public MasyuLevelProgress levelProgress() {
         try {
-            CloudsLevelProgress rec = app.daoCloudsLevelProgress.queryBuilder()
+            MasyuLevelProgress rec = app.daoMasyuLevelProgress.queryBuilder()
                     .where().eq("levelID", selectedLevelID).queryForFirst();
             if (rec == null) {
-                rec = new CloudsLevelProgress();
+                rec = new MasyuLevelProgress();
                 rec.levelID = selectedLevelID;
-                app.daoCloudsLevelProgress.create(rec);
+                app.daoMasyuLevelProgress.create(rec);
             }
             return rec;
         } catch (SQLException e) {
@@ -54,12 +54,12 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
         }
     }
 
-    public List<CloudsMoveProgress> moveProgress() {
+    public List<MasyuMoveProgress> moveProgress() {
         try {
-            QueryBuilder<CloudsMoveProgress, Integer> qb = app.daoCloudsMoveProgress.queryBuilder();
+            QueryBuilder<MasyuMoveProgress, Integer> qb = app.daoMasyuMoveProgress.queryBuilder();
             qb.where().eq("levelID", selectedLevelID);
             qb.orderBy("moveIndex", true);
-            List<CloudsMoveProgress> rec = qb.query();
+            List<MasyuMoveProgress> rec = qb.query();
             return rec;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,29 +67,30 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
         }
     }
 
-    public void levelUpdated(CloudsGame game) {
+    public void levelUpdated(MasyuGame game) {
         try {
-            CloudsLevelProgress rec = levelProgress();
+            MasyuLevelProgress rec = levelProgress();
             rec.moveIndex = game.moveIndex();
-            app.daoCloudsLevelProgress.update(rec);
+            app.daoMasyuLevelProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void moveAdded(CloudsGame game, CloudsGameMove move) {
+    public void moveAdded(MasyuGame game, MasyuGameMove move) {
         try {
-            DeleteBuilder<CloudsMoveProgress, Integer> deleteBuilder = app.daoCloudsMoveProgress.deleteBuilder();
+            DeleteBuilder<MasyuMoveProgress, Integer> deleteBuilder = app.daoMasyuMoveProgress.deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID)
                     .and().ge("moveIndex", game.moveIndex());
             deleteBuilder.delete();
-            CloudsMoveProgress rec = new CloudsMoveProgress();
+            MasyuMoveProgress rec = new MasyuMoveProgress();
             rec.levelID = selectedLevelID;
             rec.moveIndex = game.moveIndex();
             rec.row = move.p.row;
             rec.col = move.p.col;
+            rec.objOrientation = move.objOrientation.ordinal();
             rec.obj = move.obj.ordinal();
-            app.daoCloudsMoveProgress.create(rec);
+            app.daoMasyuMoveProgress.create(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -97,9 +98,9 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
 
     public void resumeGame() {
         try {
-            CloudsGameProgress rec = gameProgress();
+            MasyuGameProgress rec = gameProgress();
             rec.levelID = selectedLevelID;
-            app.daoCloudsGameProgress.update(rec);
+            app.daoMasyuGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,12 +108,12 @@ public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
 
     public void clearGame() {
         try {
-            DeleteBuilder<CloudsMoveProgress, Integer> deleteBuilder = app.daoCloudsMoveProgress.deleteBuilder();
+            DeleteBuilder<MasyuMoveProgress, Integer> deleteBuilder = app.daoMasyuMoveProgress.deleteBuilder();
             deleteBuilder.where().eq("levelID", selectedLevelID);
             deleteBuilder.delete();
-            CloudsLevelProgress rec = levelProgress();
+            MasyuLevelProgress rec = levelProgress();
             rec.moveIndex = 0;
-            app.daoCloudsLevelProgress.update(rec);
+            app.daoMasyuLevelProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

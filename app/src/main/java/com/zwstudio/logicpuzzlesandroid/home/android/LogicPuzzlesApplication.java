@@ -27,6 +27,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpMoveProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuLevelProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeLevelProgress;
@@ -86,6 +90,13 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<LightUpMoveProgress, Integer> daoLightUpMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
+    public Dao<MasyuGameProgress, Integer> daoMasyuGameProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<MasyuLevelProgress, Integer> daoMasyuLevelProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<MasyuMoveProgress, Integer> daoMasyuMoveProgress;
+
+    @OrmLiteDao(helper = DBHelper.class)
     public Dao<NurikabeGameProgress, Integer> daoNurikabeGameProgress;
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<NurikabeLevelProgress, Integer> daoNurikabeLevelProgress;
@@ -109,15 +120,17 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public HomeDocument homeDocument;
     @Bean
-    public BridgesDocument bridgesDocument;
-    @Bean
     public AbcDocument abcDocument;
+    @Bean
+    public BridgesDocument bridgesDocument;
     @Bean
     public CloudsDocument cloudsDocument;
     @Bean
     public HitoriDocument hitoriDocument;
     @Bean
     public LightUpDocument lightUpDocument;
+    @Bean
+    public MasyuDocument masyuDocument;
     @Bean
     public NurikabeDocument nurikabeDocument;
     @Bean
@@ -137,6 +150,7 @@ public class LogicPuzzlesApplication extends Application {
         cloudsDocument.init();
         hitoriDocument.init();
         lightUpDocument.init();
+        masyuDocument.init();
         nurikabeDocument.init();
         skyscrapersDocument.init();
         slitherlinkDocument.init();

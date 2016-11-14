@@ -19,7 +19,7 @@ import java.util.List;
 public class BridgesDocument extends GameDocument<BridgesGame, BridgesGameMove> {
 
     public void init() {
-        super.init("BridgesLevels.xml");
+        super.init("Bridges.xml");
         selectedLevelID = gameProgress().levelID;
     }
 
