@@ -30,53 +30,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnResumeGame"/>
         <Button
-            android:text="Abc"
+            android:text="Choose Game"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="Abc"
-            android:id="@+id/btnAbc"/>
-        <Button
-            android:text="Bridges"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="Bridges"
-            android:id="@+id/btnBridges"/>
-        <Button
-            android:text="Clouds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="Clouds"
-            android:id="@+id/btnClouds"/>
-        <Button
-            android:text="Hitori"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="Hitori"
-            android:id="@+id/btnHitori"/>
-        <Button
-            android:text="Light Up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="LightUp"
-            android:id="@+id/btnLightUp"/>
-        <Button
-            android:text="Nurikabe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="Nurikabe"
-            android:id="@+id/btnNurikabe"/>
-        <Button
-            android:text="Skyscrapers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="Skyscrapers"
-            android:id="@+id/btnSkyscrapers"/>
-        <Button
-            android:text="SlitherLink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="SlitherLink"
-            android:id="@+id/btnSlitherLink"/>
+            android:id="@+id/btnChooseGame"/>
         <Button
             android:text="Options"
             android:layout_width="match_parent"

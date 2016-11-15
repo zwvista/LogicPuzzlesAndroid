@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.home.android;
 
 import android.content.Intent;
 import android.media.AudioManager;
-import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity;
@@ -29,10 +28,9 @@ public class HomeMainActivity extends BaseActivity {
         resumeGame(gameName, true);
     }
 
-    @Click({R.id.btnAbc, R.id.btnBridges, R.id.btnClouds, R.id.btnHitori, R.id.btnLightUp,
-            R.id.btnNurikabe, R.id.btnSkyscrapers, R.id.btnSlitherLink})
-    protected void btnStartGame(View v) {
-        resumeGame((String) v.getTag(), true);
+    @Click
+    protected void btnChooseGame() {
+        HomeChooseGameActivity_.intent(this).start();
     }
 
     @Click
