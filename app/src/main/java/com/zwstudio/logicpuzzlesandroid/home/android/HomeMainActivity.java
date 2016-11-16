@@ -10,10 +10,12 @@ import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 
 @EActivity(R.layout.activity_home_main)
 public class HomeMainActivity extends BaseActivity {
     public HomeDocument doc() {return app.homeDocument;}
+    static final int CHOOSE_GAME_REQUEST = 123;
 
     @AfterViews
     protected void init() {
@@ -30,7 +32,7 @@ public class HomeMainActivity extends BaseActivity {
 
     @Click
     protected void btnChooseGame() {
-        HomeChooseGameActivity_.intent(this).start();
+        HomeChooseGameActivity_.intent(this).startForResult(CHOOSE_GAME_REQUEST);
     }
 
     @Click
@@ -50,5 +52,11 @@ public class HomeMainActivity extends BaseActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @OnActivityResult(CHOOSE_GAME_REQUEST)
+    void onResult(int resultCode, @OnActivityResult.Extra(value = "gameName") String gameName) {
+        if (resultCode == RESULT_OK)
+            resumeGame(gameName, true);
     }
 }

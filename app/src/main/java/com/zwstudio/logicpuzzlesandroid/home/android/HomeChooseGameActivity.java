@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.home.android;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,6 +14,7 @@ import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -44,10 +47,21 @@ public class HomeChooseGameActivity extends BaseActivity {
         lvGames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                doc().resumeGame(lst.get(i));
+                String gameName = lst.get(i);
+                doc().resumeGame(gameName);
+                Intent data = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString("gameName", gameName);
+                data.putExtras(bundle);
+                setResult(RESULT_OK, data);
                 finish();
             }
         });
+    }
+
+    @Click
+    protected void btnCancel() {
+        finish();
     }
 
 }
