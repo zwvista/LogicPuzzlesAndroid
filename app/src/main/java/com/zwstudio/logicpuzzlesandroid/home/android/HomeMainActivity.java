@@ -55,8 +55,8 @@ public class HomeMainActivity extends BaseActivity {
     }
 
     @OnActivityResult(CHOOSE_GAME_REQUEST)
-    void onResult(int resultCode, @OnActivityResult.Extra(value = "gameName") String gameName) {
+    void onResult(int resultCode) {
         if (resultCode == RESULT_OK)
-            resumeGame(gameName, true);
+            btnResumeGame();
     }
 }
