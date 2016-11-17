@@ -19,7 +19,7 @@ import java.util.List;
 public class MasyuDocument extends GameDocument<MasyuGame, MasyuGameMove> {
 
     public void init() {
-        super.init("MasyuLevels.xml");
+        super.init("Masyu.xml");
         selectedLevelID = gameProgress().levelID;
     }
 
@@ -88,8 +88,7 @@ public class MasyuDocument extends GameDocument<MasyuGame, MasyuGameMove> {
             rec.moveIndex = game.moveIndex();
             rec.row = move.p.row;
             rec.col = move.p.col;
-            rec.objOrientation = move.objOrientation.ordinal();
-            rec.obj = move.obj.ordinal();
+            rec.dir = move.dir;
             app.daoMasyuMoveProgress.create(rec);
         } catch (SQLException e) {
             e.printStackTrace();

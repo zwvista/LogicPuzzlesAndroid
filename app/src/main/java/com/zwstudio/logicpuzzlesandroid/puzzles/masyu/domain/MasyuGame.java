@@ -2,12 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import fj.F2;
 
@@ -23,20 +20,30 @@ public class MasyuGame extends CellsGame<MasyuGame, MasyuGameMove, MasyuGameStat
             new Position(0, -1),
     };
 
-    public Map<Position, Integer> pos2hint = new HashMap<>();
+    public char[] objArray;
+    public char get(int row, int col) {
+        return objArray[row * cols() + col];
+    }
+    public char get(Position p) {
+        return get(p.row, p.col);
+    }
+    public void set(int row, int col, char obj) {
+        objArray[row * cols() + col] = obj;
+    }
+    public void set(Position p, char obj) {
+        set(p.row, p.col, obj);
+    }
 
     public MasyuGame(List<String> layout, GameInterface<MasyuGame, MasyuGameMove, MasyuGameState> gi) {
         super(gi);
-        size = new Position(layout.size() + 1, layout.get(0).length() + 1);
-        for (int r = 0; r < rows() - 1; r++) {
+        size = new Position(layout.size(), layout.get(0).length());
+        objArray = new char[rows() * cols()];
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() - 1; c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    pos2hint.put(p, n);
-                }
+                set(r, c, ch);
             }
         }
         MasyuGameState state = new MasyuGameState(this);
@@ -61,23 +68,15 @@ public class MasyuGame extends CellsGame<MasyuGame, MasyuGameMove, MasyuGameStat
         return changed;
    }
 
-    public boolean switchObject(MasyuGameMove move, MasyuMarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
-    }
-
     public boolean setObject(MasyuGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public MasyuObject[] getObject(Position p) {
+    public Boolean[] getObject(Position p) {
         return state().get(p);
     }
 
-    public MasyuObject[] getObject(int row, int col) {
+    public Boolean[] getObject(int row, int col) {
         return state().get(row, col);
-    }
-
-    public HintState getHintState(Position p) {
-        return state().pos2state.get(p);
     }
 }

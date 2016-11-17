@@ -8,8 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuObjectOrientation;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -31,8 +29,7 @@ public class MasyuGameActivity extends GameActivity<MasyuGame, MasyuDocument, Ma
             for (MasyuMoveProgress rec : doc().moveProgress()) {
                 MasyuGameMove move = new MasyuGameMove();
                 move.p = new Position(rec.row, rec.col);
-                move.objOrientation = MasyuObjectOrientation.values()[rec.objOrientation];
-                move.obj = MasyuObject.values()[rec.obj];
+                move.dir = rec.dir;
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

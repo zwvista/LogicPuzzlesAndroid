@@ -8,6 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class MasyuGameMove {
     public Position p;
-    public MasyuObjectOrientation objOrientation;
-    public MasyuObject obj;
+    public int dir;
 }

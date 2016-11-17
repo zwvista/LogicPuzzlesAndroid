@@ -18,6 +18,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuObjectOrientation;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
+import static android.R.transition.move;
+import static android.os.Build.VERSION_CODES.M;
+import static java.lang.Math.abs;
+
 /**
  * TODO: document your custom view class.
  */
@@ -26,11 +30,12 @@ public class MasyuGameView extends CellsGameView {
 
     private MasyuGameActivity activity() {return (MasyuGameActivity)getContext();}
     private MasyuGame game() {return activity().game;}
-    private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
-    private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
+    private int rows() {return isInEditMode() ? 5 : game().rows();}
+    private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
-    private Paint markerPaint = new Paint();
+    private Paint pearlBlackPaint = new Paint();
+    private Paint pearlWhitePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public MasyuGameView(Context context) {
@@ -51,12 +56,14 @@ public class MasyuGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        linePaint.setColor(Color.YELLOW);
+        linePaint.setColor(Color.GREEN);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
-        markerPaint.setColor(Color.YELLOW);
-        markerPaint.setStyle(Paint.Style.STROKE);
-        markerPaint.setStrokeWidth(5);
+        pearlBlackPaint.setColor(Color.WHITE);
+        pearlBlackPaint.setStyle(Paint.Style.STROKE);
+        pearlBlackPaint.setStrokeWidth(5);
+        pearlWhitePaint.setColor(Color.WHITE);
+        pearlWhitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -77,40 +84,22 @@ public class MasyuGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                Position p = new Position(r, c);
-                Integer n = game().pos2hint.get(p);
-                if (n != null) {
-                    HintState state = game().getHintState(p);
-                    textPaint.setColor(
-                            state == HintState.Complete ? Color.GREEN :
-                            state == HintState.Error ? Color.RED :
-                            Color.WHITE
-                    );
-                    String text = String.valueOf(n);
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
-                }
+                char ch = game().get(r, c);
+                if (ch != ' ')
+                    canvas.drawArc(cwc(c), chr(r), cwc(c + 1), chr(r + 1), 0, 360, true,
+                            ch == 'B' ? pearlBlackPaint : pearlWhitePaint);
             }
-        int markerOffset = 20;
-        for (int r = 0; r < rows() + 1; r++)
-            for (int c = 0; c < cols() + 1; c++) {
-                MasyuObject[] dotObj = game().getObject(r, c);
-                switch (dotObj[1]){
-                case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
-                    break;
-                case Marker:
-                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) - markerOffset, cwc2(c) + markerOffset, chr(r) + markerOffset, markerPaint);
-                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) + markerOffset, cwc2(c) + markerOffset, chr(r) - markerOffset, markerPaint);
-                    break;
-                }
-                switch (dotObj[2]){
-                case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
-                    break;
-                case Marker:
-                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) - markerOffset, cwc(c) + markerOffset, chr2(r) + markerOffset, markerPaint);
-                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) + markerOffset, cwc(c) + markerOffset, chr2(r) - markerOffset, markerPaint);
-                    break;
+        if (isInEditMode()) return;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                int[] dirs = {1, 2};
+                for (int dir : dirs) {
+                    boolean b = game().getObject(r, c)[dir];
+                    if (!b) continue;
+                    if (dir == 1)
+                        canvas.drawLine(cwc2(c), chr2(r), cwc2(c + 1), chr2(r), linePaint);
+                    else
+                        canvas.drawLine(cwc2(c), chr2(r), cwc2(c), chr2(r + 1), linePaint);
                 }
             }
     }
@@ -118,20 +107,18 @@ public class MasyuGameView extends CellsGameView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            int offset = 30;
-            int col = (int)((event.getX() + offset) / cellWidth);
-            int row = (int)((event.getY() + offset) / cellHeight);
-            int xOffset = (int)event.getX() - col * cellWidth - 1;
-            int yOffset = (int)event.getY() - row * cellHeight - 1;
-            if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true;
+            int col = (int)(event.getX() / cellWidth);
+            int row = (int)(event.getY() / cellHeight);
+            if (col >= cols() || row >= rows()) return true;
+            double dx = event.getX() - (col + 0.5) * cellWidth;
+            double dy = event.getY() - (row + 0.5) * cellHeight;
+            double dx2 = abs(dx), dy2 = abs(dy);
             MasyuGameMove move = new MasyuGameMove();
             move.p = new Position(row, col);
-            move.obj = MasyuObject.Empty;
-            move.objOrientation = yOffset >= -offset && yOffset <= offset ?
-                    MasyuObjectOrientation.Horizontal : MasyuObjectOrientation.Vertical;
+            move.dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
+                -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
             MasyuGameProgress rec = activity().doc().gameProgress();
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, MasyuMarkerOptions.values()[rec.markerOption]))
+            if (game().setObject(move))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

@@ -15,7 +15,5 @@ public class MasyuMoveProgress extends MoveProgress {
     @DatabaseField
     public int col;
     @DatabaseField
-    public int objOrientation;
-    @DatabaseField
-    public int obj;
+    public int dir;
 }
