@@ -117,7 +117,6 @@ public class MasyuGameView extends CellsGameView {
             move.p = new Position(row, col);
             move.dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
                 -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
-            MasyuGameProgress rec = activity().doc().gameProgress();
             if (game().setObject(move))
                 activity().app.soundManager.playSoundTap();
         }
