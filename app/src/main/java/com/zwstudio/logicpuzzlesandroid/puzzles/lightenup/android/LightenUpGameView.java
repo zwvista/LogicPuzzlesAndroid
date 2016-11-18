@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.android;
+package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.android;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,16 +14,16 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpGameProgress;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpEmptyObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpGame;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpLightbulbObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpLightbulbState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpMarkerObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpMarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain.LightUpWallObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpEmptyObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarkerObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpWallObject;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
@@ -34,10 +34,10 @@ import java.io.InputStream;
  * TODO: document your custom view class.
  */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
-public class LightUpGameView extends CellsGameView {
+public class LightenUpGameView extends CellsGameView {
 
-    private LightUpGameActivity activity() {return (LightUpGameActivity)getContext();}
-    private LightUpGame game() {return activity().game;}
+    private LightenUpGameActivity activity() {return (LightenUpGameActivity)getContext();}
+    private LightenUpGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
@@ -46,17 +46,17 @@ public class LightUpGameView extends CellsGameView {
     private TextPaint textPaint = new TextPaint();
     private Drawable dLightbulb;
 
-    public LightUpGameView(Context context) {
+    public LightenUpGameView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public LightUpGameView(Context context, AttributeSet attrs) {
+    public LightenUpGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public LightUpGameView(Context context, AttributeSet attrs, int defStyle) {
+    public LightenUpGameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
@@ -96,11 +96,11 @@ public class LightUpGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                LightUpObject o = game().getObject(r, c);
+                LightenUpObject o = game().getObject(r, c);
                 if (o.lightness > 0)
                     canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, lightPaint);
-                if (o instanceof LightUpWallObject) {
-                    LightUpWallObject o2 = (LightUpWallObject) o;
+                if (o instanceof LightenUpWallObject) {
+                    LightenUpWallObject o2 = (LightenUpWallObject) o;
                     canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
                     int n = game().pos2hint.get(new Position(r, c));
                     if (n >= 0) {
@@ -112,14 +112,14 @@ public class LightUpGameView extends CellsGameView {
                         String text = String.valueOf(n);
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                     }
-                } else if (o instanceof LightUpLightbulbObject) {
-                    LightUpLightbulbObject o2 = (LightUpLightbulbObject) o;
+                } else if (o instanceof LightenUpLightbulbObject) {
+                    LightenUpLightbulbObject o2 = (LightenUpLightbulbObject) o;
                     dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
                             (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
-                    int alpaha = o2.state == LightUpLightbulbState.Error ? 50 : 0;
+                    int alpaha = o2.state == LightenUpLightbulbState.Error ? 50 : 0;
                     dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dLightbulb.draw(canvas);
-                } else if (o instanceof LightUpMarkerObject)
+                } else if (o instanceof LightenUpMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
             }
     }
@@ -130,12 +130,12 @@ public class LightUpGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            LightUpGameProgress rec = activity().doc().gameProgress();
-            LightUpGameMove move = new LightUpGameMove();
+            LightenUpGameProgress rec = activity().doc().gameProgress();
+            LightenUpGameMove move = new LightenUpGameMove();
             move.p = new Position(row, col);
-            move.obj = new LightUpEmptyObject();
+            move.obj = new LightenUpEmptyObject();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, LightUpMarkerOptions.values()[rec.markerOption],
+            if (game().switchObject(move, LightenUpMarkerOptions.values()[rec.markerOption],
                     rec.normalLightbulbsOnly))
                 activity().app.soundManager.playSoundTap();
         }

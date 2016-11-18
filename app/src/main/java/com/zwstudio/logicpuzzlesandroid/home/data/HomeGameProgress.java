@@ -12,7 +12,7 @@ public class HomeGameProgress implements java.io.Serializable {
     @DatabaseField(generatedId = true)
     private int ID;
     @DatabaseField
-    public String gameName = "LightUp";
+    public String gameName = "LightenUp";
     @DatabaseField
     public boolean playMusic = true;
     @DatabaseField

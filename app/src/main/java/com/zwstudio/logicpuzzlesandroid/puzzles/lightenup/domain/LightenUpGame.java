@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
@@ -15,7 +15,7 @@ import fj.F2;
  * Created by zwvista on 2016/09/29.
  */
 
-public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUpGameState> {
+public class LightenUpGame extends CellsGame<LightenUpGame, LightenUpGameMove, LightenUpGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
@@ -25,7 +25,7 @@ public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUp
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public LightUpGame(List<String> layout, GameInterface<LightUpGame, LightUpGameMove, LightUpGameState> gi) {
+    public LightenUpGame(List<String> layout, GameInterface<LightenUpGame, LightenUpGameMove, LightenUpGameState> gi) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
@@ -39,17 +39,17 @@ public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUp
                 }
             }
         }
-        LightUpGameState state = new LightUpGameState(this);
+        LightenUpGameState state = new LightenUpGameState(this);
         states.add(state);
         levelInitilized(state);
     }
 
-    private boolean changeObject(LightUpGameMove move, F2<LightUpGameState, LightUpGameMove, Boolean> f) {
+    private boolean changeObject(LightenUpGameMove move, F2<LightenUpGameState, LightenUpGameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
-        LightUpGameState state = cloner.deepClone(state());
+        LightenUpGameState state = cloner.deepClone(state());
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);
@@ -61,19 +61,19 @@ public class LightUpGame extends CellsGame<LightUpGame, LightUpGameMove, LightUp
         return changed;
    }
 
-    public boolean switchObject(LightUpGameMove move, LightUpMarkerOptions markerOption, boolean normalLightbulbsOnly) {
+    public boolean switchObject(LightenUpGameMove move, LightenUpMarkerOptions markerOption, boolean normalLightbulbsOnly) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, normalLightbulbsOnly, move2));
     }
 
-    public boolean setObject(LightUpGameMove move) {
+    public boolean setObject(LightenUpGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public LightUpObject getObject(Position p) {
+    public LightenUpObject getObject(Position p) {
         return state().get(p);
     }
 
-    public LightUpObject getObject(int row, int col) {
+    public LightenUpObject getObject(int row, int col) {
         return state().get(row, col);
     }
 }

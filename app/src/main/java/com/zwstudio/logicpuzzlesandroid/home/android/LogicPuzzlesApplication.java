@@ -7,6 +7,9 @@ import com.j256.ormlite.dao.Dao;
 import com.zwstudio.logicpuzzlesandroid.home.data.DBHelper;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpLevelProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcLevelProgress;
@@ -23,10 +26,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriLevelProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriMoveProgress;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpGameProgress;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpLevelProgress;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpMoveProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperLevelProgress;
@@ -51,6 +51,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkMove
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 import org.androidannotations.ormlite.annotations.OrmLiteDao;
+
 
 @EApplication
 public class LogicPuzzlesApplication extends Application {
@@ -87,11 +88,11 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<HitoriMoveProgress, Integer> daoHitoriMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
-    public Dao<LightUpGameProgress, Integer> daoLightUpGameProgress;
+    public Dao<LightenUpGameProgress, Integer> daoLightenUpGameProgress;
     @OrmLiteDao(helper = DBHelper.class)
-    public Dao<LightUpLevelProgress, Integer> daoLightUpLevelProgress;
+    public Dao<LightenUpLevelProgress, Integer> daoLightenUpLevelProgress;
     @OrmLiteDao(helper = DBHelper.class)
-    public Dao<LightUpMoveProgress, Integer> daoLightUpMoveProgress;
+    public Dao<LightenUpMoveProgress, Integer> daoLightenUpMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<LineSweeperGameProgress, Integer> daoLineSweeperGameProgress;
@@ -139,7 +140,7 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public HitoriDocument hitoriDocument;
     @Bean
-    public LightUpDocument lightupDocument;
+    public LightenUpDocument lightenupDocument;
     @Bean
     public LineSweeperDocument linesweeperDocument;
     @Bean
@@ -162,7 +163,7 @@ public class LogicPuzzlesApplication extends Application {
         bridgesDocument.init();
         cloudsDocument.init();
         hitoriDocument.init();
-        lightupDocument.init();
+        lightenupDocument.init();
         linesweeperDocument.init();
         masyuDocument.init();
         nurikabeDocument.init();

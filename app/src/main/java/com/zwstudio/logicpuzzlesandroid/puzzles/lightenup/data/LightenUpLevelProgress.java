@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data;
+package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data;
 
 import com.j256.ormlite.table.DatabaseTable;
 import com.zwstudio.logicpuzzlesandroid.common.data.LevelProgress;
@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.data.LevelProgress;
  */
 
 @DatabaseTable
-public class LightUpLevelProgress extends LevelProgress {
+public class LightenUpLevelProgress extends LevelProgress {
 }

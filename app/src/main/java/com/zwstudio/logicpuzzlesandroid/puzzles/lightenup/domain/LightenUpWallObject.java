@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain;
 
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
  * Created by zwvista on 2016/09/29.
  */
 
-public class LightUpWallObject extends LightUpObject {
+public class LightenUpWallObject extends LightenUpObject {
     public HintState state = HintState.Normal;
     public String objTypeAsString() {
         return "wall";

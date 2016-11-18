@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data;
+package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
  */
 
 @DatabaseTable
-public class LightUpGameProgress extends GameProgress {
+public class LightenUpGameProgress extends GameProgress {
     @DatabaseField
     public int markerOption;
     @DatabaseField

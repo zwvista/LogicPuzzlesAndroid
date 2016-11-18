@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/activity_lightup_game"
+    android:id="@+id/activity_lightenup_game"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context=".puzzles.lightup.android.LightUpGameActivity">
+    tools:context=".puzzles.lightenup.android.LightenUpGameActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -43,7 +43,7 @@
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="com.zwstudio.logicpuzzlesandroid.puzzles.lightup.android.LightUpGameView"
+        class="com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.android.LightenUpGameView"
         android:id="@+id/gameView"
         android:background="@color/colorBackground"
         android:layout_centerInParent="true"/>

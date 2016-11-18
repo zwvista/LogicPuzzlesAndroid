@@ -61,13 +61,13 @@
         <activity android:name=".puzzles.hitori.android.HitoriOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightup.android.LightUpMainActivity_"
+        <activity android:name=".puzzles.lightenup.android.LightenUpMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightup.android.LightUpGameActivity_"
+        <activity android:name=".puzzles.lightenup.android.LightenUpGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightup.android.LightUpOptionsActivity_"
+        <activity android:name=".puzzles.lightenup.android.LightenUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.linesweeper.android.LineSweeperMainActivity_"
