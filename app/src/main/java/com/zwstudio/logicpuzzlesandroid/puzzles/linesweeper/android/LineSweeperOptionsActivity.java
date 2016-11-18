@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.lightup.android;
+package com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.android;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +9,10 @@ import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperGameProgress;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
@@ -22,20 +21,19 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-@EActivity(R.layout.activity_lightup_options)
-public class LightUpOptionsActivity extends OptionsActivity {
-    public LightUpDocument doc() {return app.lightupDocument;}
+@EActivity(R.layout.activity_linesweeper_options)
+public class LineSweeperOptionsActivity extends OptionsActivity {
+    public LineSweeperDocument doc() {return app.linesweeperDocument;}
 
     @ViewById
     Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvNormalLightbulbsOnly;
 
-    LightUpGameProgress rec;
+    LineSweeperGameProgress rec;
 
     @AfterViews
     protected void init() {
-        List<String> lst = Arrays.asList("No Marker", "Marker After Lightbulb", "Marker Before Lightbulb");
+
+        List<String> lst = Arrays.asList("No Marker", "Marker After Line", "Marker Before Line");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -60,25 +58,13 @@ public class LightUpOptionsActivity extends OptionsActivity {
 
         rec = doc().gameProgress();
         spnMarker.setSelection(rec.markerOption);
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
     }
 
     @ItemSelect
     protected void spnMarkerItemSelected(boolean selected, int position) {
         rec.markerOption = position;
         try {
-            app.daoLightUpGameProgress.update(rec);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Click
-    protected void ctvNormalLightbulbsOnly() {
-        ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
-        rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
-        try {
-            app.daoLightUpGameProgress.update(rec);
+            app.daoLineSweeperGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,13 +72,11 @@ public class LightUpOptionsActivity extends OptionsActivity {
 
     protected void onDefault() {
         rec.markerOption = 0;
-        rec.normalLightbulbsOnly = false;
         try {
-            app.daoLightUpGameProgress.update(rec);
+            app.daoLineSweeperGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         spnMarker.setSelection(rec.markerOption);
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
     }
 }

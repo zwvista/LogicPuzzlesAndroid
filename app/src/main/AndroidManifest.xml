@@ -70,6 +70,15 @@
         <activity android:name=".puzzles.lightup.android.LightUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.linesweeper.android.LineSweeperMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.linesweeper.android.LineSweeperGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.linesweeper.android.LineSweeperOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.masyu.android.MasyuMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

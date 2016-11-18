@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_lightup_main)
 public class LightUpMainActivity extends MainActivity<LightUpGame, LightUpDocument, LightUpGameMove, LightUpGameState> {
-    public LightUpDocument doc() {return app.lightUpDocument;}
+    public LightUpDocument doc() {return app.lightupDocument;}
 
     @AfterViews
     void init() {

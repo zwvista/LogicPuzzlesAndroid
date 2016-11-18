@@ -27,6 +27,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpLevelProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightup.data.LightUpMoveProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperGameProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperLevelProgress;
+import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuLevelProgress;
@@ -90,6 +94,13 @@ public class LogicPuzzlesApplication extends Application {
     public Dao<LightUpMoveProgress, Integer> daoLightUpMoveProgress;
 
     @OrmLiteDao(helper = DBHelper.class)
+    public Dao<LineSweeperGameProgress, Integer> daoLineSweeperGameProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<LineSweeperLevelProgress, Integer> daoLineSweeperLevelProgress;
+    @OrmLiteDao(helper = DBHelper.class)
+    public Dao<LineSweeperMoveProgress, Integer> daoLineSweeperMoveProgress;
+
+    @OrmLiteDao(helper = DBHelper.class)
     public Dao<MasyuGameProgress, Integer> daoMasyuGameProgress;
     @OrmLiteDao(helper = DBHelper.class)
     public Dao<MasyuLevelProgress, Integer> daoMasyuLevelProgress;
@@ -128,7 +139,9 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public HitoriDocument hitoriDocument;
     @Bean
-    public LightUpDocument lightUpDocument;
+    public LightUpDocument lightupDocument;
+    @Bean
+    public LineSweeperDocument linesweeperDocument;
     @Bean
     public MasyuDocument masyuDocument;
     @Bean
@@ -149,7 +162,8 @@ public class LogicPuzzlesApplication extends Application {
         bridgesDocument.init();
         cloudsDocument.init();
         hitoriDocument.init();
-        lightUpDocument.init();
+        lightupDocument.init();
+        linesweeperDocument.init();
         masyuDocument.init();
         nurikabeDocument.init();
         skyscrapersDocument.init();
