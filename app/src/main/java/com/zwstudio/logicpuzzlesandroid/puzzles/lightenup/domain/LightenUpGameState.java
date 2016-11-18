@@ -1,11 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandInfo;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import fj.F;
@@ -20,7 +18,8 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
     public LightenUpGameState(LightenUpGame game) {
         super(game);
         objArray = new LightenUpObject[rows() * cols()];
-        Arrays.fill(objArray, new LightenUpEmptyObject());
+        for (int i = 0; i < objArray.length; i++)
+            objArray[i] = new LightenUpEmptyObject();
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n = entry.getValue();
