@@ -1,14 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -27,10 +25,8 @@ public class HitoriGameActivity extends GameActivity<HitoriGame, HitoriDocument,
         game = new HitoriGame(layout, this);
         try {
             // restore game state
-            for (HitoriMoveProgress rec : doc().moveProgress()) {
-                HitoriGameMove move = new HitoriGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.obj = HitoriObject.values()[rec.obj];
+            for (MoveProgress rec : doc().moveProgress()) {
+                HitoriGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

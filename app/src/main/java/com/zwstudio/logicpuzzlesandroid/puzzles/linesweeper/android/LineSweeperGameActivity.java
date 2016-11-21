@@ -2,14 +2,11 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperObjectOrientation;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -28,11 +25,8 @@ public class LineSweeperGameActivity extends GameActivity<LineSweeperGame, LineS
         game = new LineSweeperGame(layout, this);
         try {
             // restore game state
-            for (LineSweeperMoveProgress rec : doc().moveProgress()) {
-                LineSweeperGameMove move = new LineSweeperGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.objOrientation = LineSweeperObjectOrientation.values()[rec.objOrientation];
-                move.obj = LineSweeperObject.values()[rec.obj];
+            for (MoveProgress rec : doc().moveProgress()) {
+                LineSweeperGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

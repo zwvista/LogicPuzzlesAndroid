@@ -1,13 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameState;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -26,10 +25,8 @@ public class SkyscrapersGameActivity extends GameActivity<SkyscrapersGame, Skysc
         game = new SkyscrapersGame(layout, this);
         try {
             // restore game state
-            for (SkyscrapersMoveProgress rec : doc().moveProgress()) {
-                SkyscrapersGameMove move = new SkyscrapersGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.obj = rec.obj.charAt(0);
+            for (MoveProgress rec : doc().moveProgress()) {
+                SkyscrapersGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuGameProgress;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -27,8 +26,6 @@ public class MasyuOptionsActivity extends OptionsActivity {
 
     @ViewById
     Spinner spnMarker;
-
-    MasyuGameProgress rec;
 
     @AfterViews
     protected void init() {
@@ -56,27 +53,26 @@ public class MasyuOptionsActivity extends OptionsActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnMarker.setAdapter(adapter);
 
-        rec = doc().gameProgress();
-        spnMarker.setSelection(rec.markerOption);
+        spnMarker.setSelection(doc().getMarkerOption());
     }
 
     @ItemSelect
     protected void spnMarkerItemSelected(boolean selected, int position) {
-        rec.markerOption = position;
+        doc().setMarkerOption(position);
         try {
-            app.daoMasyuGameProgress.update(rec);
+            app.daoGameProgress.update(doc().gameProgress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     protected void onDefault() {
-        rec.markerOption = 0;
+        doc().setMarkerOption(0);
         try {
-            app.daoMasyuGameProgress.update(rec);
+            app.daoGameProgress.update(doc().gameProgress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        spnMarker.setSelection(rec.markerOption);
+        spnMarker.setSelection(doc().getMarkerOption());
     }
 }

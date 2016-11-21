@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.common.data;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
 import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
@@ -11,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +27,18 @@ import static fj.data.List.iterableList;
 
 @EBean
 public abstract class GameDocument<G extends Game, GM> {
+    public String gameID() {
+        String name = getClass().getSimpleName();
+        return name.substring(0, name.indexOf("Document"));
+    }
 
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
     @App
     public LogicPuzzlesApplication app;
 
-    public void init(String filename) {
+    public void init() {
+        String filename = gameID() + ".xml";
         try {
             InputStream in_s = app.getApplicationContext().getAssets().open(filename);
             loadXml(in_s);
@@ -38,6 +46,7 @@ public abstract class GameDocument<G extends Game, GM> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        selectedLevelID = gameProgress().levelID;
     }
 
     private void loadXml(InputStream in_s) {
@@ -102,11 +111,107 @@ public abstract class GameDocument<G extends Game, GM> {
 
     }
 
-    public abstract void levelUpdated(G game);
+    public GameProgress gameProgress() {
+        try {
+            GameProgress rec = app.daoGameProgress.queryBuilder()
+                    .where().eq("gameID", gameID())
+                    .queryForFirst();
+            if (rec == null) {
+                rec = new GameProgress();
+                rec.gameID = gameID();
+                app.daoGameProgress.create(rec);
+            }
+            return rec;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-    public abstract void moveAdded(G game, GM move);
+    public LevelProgress levelProgress() {
+        try {
+            LevelProgress rec = app.daoLevelProgress.queryBuilder()
+                    .where().eq("gameID", gameID())
+                    .and().eq("levelID", selectedLevelID).queryForFirst();
+            if (rec == null) {
+                rec = new LevelProgress();
+                rec.gameID = gameID();
+                rec.levelID = selectedLevelID;
+                app.daoLevelProgress.create(rec);
+            }
+            return rec;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-    public abstract void resumeGame();
+    public List<MoveProgress> moveProgress() {
+        try {
+            QueryBuilder<MoveProgress, Integer> builder = app.daoMoveProgress.queryBuilder();
+            builder.where().eq("gameID", gameID())
+                    .and().eq("levelID", selectedLevelID);
+            builder.orderBy("moveIndex", true);
+            List<MoveProgress> rec = builder.query();
+            return rec;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-    public abstract void clearGame();
+    public void levelUpdated(Game game) {
+        try {
+            LevelProgress rec = levelProgress();
+            rec.moveIndex = game.moveIndex();
+            app.daoLevelProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void moveAdded(Game game, GM move) {
+        try {
+            DeleteBuilder<MoveProgress, Integer> builder = app.daoMoveProgress.deleteBuilder();
+            builder.where().eq("gameID", gameID())
+                    .and().eq("levelID", selectedLevelID)
+                    .and().ge("moveIndex", game.moveIndex());
+            builder.delete();
+            MoveProgress rec = new MoveProgress();
+            rec.gameID = gameID();
+            rec.levelID = selectedLevelID;
+            rec.moveIndex = game.moveIndex();
+            saveMove(move, rec);
+            app.daoMoveProgress.create(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected abstract void saveMove(GM move, MoveProgress rec);
+    public abstract GM loadMove(MoveProgress rec);
+
+    public void resumeGame() {
+        try {
+            GameProgress rec = gameProgress();
+            rec.levelID = selectedLevelID;
+            app.daoGameProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearGame() {
+        try {
+            DeleteBuilder<MoveProgress, Integer> builder = app.daoMoveProgress.deleteBuilder();
+            builder.where().eq("gameID", gameID())
+                    .and().eq("levelID", selectedLevelID);
+            builder.delete();
+            LevelProgress rec = levelProgress();
+            rec.moveIndex = 0;
+            app.daoLevelProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

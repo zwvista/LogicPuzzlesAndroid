@@ -37,7 +37,7 @@ public class HomeOptionsActivity extends OptionsActivity {
         ctvPlayMusic.setChecked(!rec.playMusic);
         rec.playMusic = !rec.playMusic;
         try {
-            app.daoLogicGamesGameProgress.update(rec);
+            app.daoHomeGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class HomeOptionsActivity extends OptionsActivity {
         ctvPlaySound.setChecked(!rec.playSound);
         rec.playSound = !rec.playSound;
         try {
-            app.daoLogicGamesGameProgress.update(rec);
+            app.daoHomeGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class HomeOptionsActivity extends OptionsActivity {
         rec.playMusic = true;
         rec.playSound = true;
         try {
-            app.daoLogicGamesGameProgress.update(rec);
+            app.daoHomeGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

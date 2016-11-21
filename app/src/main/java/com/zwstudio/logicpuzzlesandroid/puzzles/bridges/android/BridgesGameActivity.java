@@ -1,13 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bridges.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameState;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -26,8 +25,10 @@ public class BridgesGameActivity extends GameActivity<BridgesGame, BridgesDocume
         game = new BridgesGame(layout, this);
         try {
             // restore game state
-            for (BridgesMoveProgress rec : doc().moveProgress())
-                game.switchBridges(new Position(rec.rowFrom, rec.colFrom), new Position(rec.rowTo, rec.colTo));
+            for (MoveProgress rec : doc().moveProgress()) {
+                BridgesGameMove move = doc().loadMove(rec);
+                game.switchBridges(move);
+            }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;
             while (moveIndex != game.moveIndex())

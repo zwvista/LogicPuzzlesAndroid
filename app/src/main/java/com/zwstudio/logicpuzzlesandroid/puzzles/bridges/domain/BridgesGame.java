@@ -55,19 +55,17 @@ public class BridgesGame extends CellsGame<BridgesGame, BridgesGameMove, Bridges
         levelInitilized(state);
     }
 
-    public boolean switchBridges(Position pFrom, Position pTo) {
+    public boolean switchBridges(BridgesGameMove move) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
         BridgesGameState state = cloner.deepClone(state());
-        if (pTo.compareTo(pFrom) < 0) {
-            Position t = pFrom;
-            pFrom = pTo;
-            pTo = t;
+        if (move.pTo.compareTo(move.pFrom) < 0) {
+            Position t = move.pFrom;
+            move.pFrom = move.pTo;
+            move.pTo = t;
         }
-        BridgesGameMove move = new BridgesGameMove();
-        move.pFrom = pFrom; move.pTo = pTo;
         if (!state.switchBridges(move)) return false;
         states.add(state);
         stateIndex++;

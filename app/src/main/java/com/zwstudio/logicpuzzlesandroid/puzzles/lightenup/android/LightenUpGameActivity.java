@@ -1,14 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -27,10 +25,8 @@ public class LightenUpGameActivity extends GameActivity<LightenUpGame, LightenUp
         game = new LightenUpGame(layout, this);
         try {
             // restore game state
-            for (LightenUpMoveProgress rec : doc().moveProgress()) {
-                LightenUpGameMove move = new LightenUpGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.obj = LightenUpObject.objTypeFromString(rec.objTypeAsString);
+            for (MoveProgress rec : doc().moveProgress()) {
+                LightenUpGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

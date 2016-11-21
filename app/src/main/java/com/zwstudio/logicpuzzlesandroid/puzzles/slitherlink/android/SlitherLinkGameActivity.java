@@ -2,14 +2,11 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkObjectOrientation;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -28,11 +25,8 @@ public class SlitherLinkGameActivity extends GameActivity<SlitherLinkGame, Slith
         game = new SlitherLinkGame(layout, this);
         try {
             // restore game state
-            for (SlitherLinkMoveProgress rec : doc().moveProgress()) {
-                SlitherLinkGameMove move = new SlitherLinkGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.objOrientation = SlitherLinkObjectOrientation.values()[rec.objOrientation];
-                move.obj = SlitherLinkObject.values()[rec.obj];
+            for (MoveProgress rec : doc().moveProgress()) {
+                SlitherLinkGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

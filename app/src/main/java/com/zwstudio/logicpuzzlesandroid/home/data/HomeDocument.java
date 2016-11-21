@@ -18,11 +18,11 @@ public class HomeDocument {
 
     public HomeGameProgress gameProgress() {
         try {
-            HomeGameProgress rec = app.daoLogicGamesGameProgress.queryBuilder()
+            HomeGameProgress rec = app.daoHomeGameProgress.queryBuilder()
                     .queryForFirst();
             if (rec == null) {
                 rec = new HomeGameProgress();
-                app.daoLogicGamesGameProgress.create(rec);
+                app.daoHomeGameProgress.create(rec);
             }
             return rec;
         } catch (SQLException e) {
@@ -35,7 +35,7 @@ public class HomeDocument {
         try {
             HomeGameProgress rec = gameProgress();
             rec.gameName = gameName;
-            app.daoLogicGamesGameProgress.update(rec);
+            app.daoHomeGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

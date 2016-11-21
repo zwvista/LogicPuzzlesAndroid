@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameMove;
 
@@ -90,7 +89,6 @@ public class SkyscrapersGameView extends CellsGameView {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
-            SkyscrapersGameProgress rec = activity().doc().gameProgress();
             SkyscrapersGameMove move = new SkyscrapersGameMove();
             move.p = new Position(row, col);
             move.obj = ' ';

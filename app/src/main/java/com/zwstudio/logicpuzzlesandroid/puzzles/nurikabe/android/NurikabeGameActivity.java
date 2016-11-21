@@ -1,14 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeObject;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -27,10 +25,8 @@ public class NurikabeGameActivity extends GameActivity<NurikabeGame, NurikabeDoc
         game = new NurikabeGame(layout, this);
         try {
             // restore game state
-            for (NurikabeMoveProgress rec : doc().moveProgress()) {
-                NurikabeGameMove move = new NurikabeGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.obj = NurikabeObject.objTypeFromString(rec.objAsString);
+            for (MoveProgress rec : doc().moveProgress()) {
+                NurikabeGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

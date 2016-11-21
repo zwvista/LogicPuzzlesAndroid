@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpGameProgress;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -30,8 +29,6 @@ public class LightenUpOptionsActivity extends OptionsActivity {
     Spinner spnMarker;
     @ViewById
     CheckedTextView ctvNormalLightbulbsOnly;
-
-    LightenUpGameProgress rec;
 
     @AfterViews
     protected void init() {
@@ -58,16 +55,15 @@ public class LightenUpOptionsActivity extends OptionsActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnMarker.setAdapter(adapter);
 
-        rec = doc().gameProgress();
-        spnMarker.setSelection(rec.markerOption);
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
+        spnMarker.setSelection(doc().getMarkerOption());
+        ctvNormalLightbulbsOnly.setChecked(doc().isNormalLightbulbsOnly());
     }
 
     @ItemSelect
     protected void spnMarkerItemSelected(boolean selected, int position) {
-        rec.markerOption = position;
+        doc().setMarkerOption(position);
         try {
-            app.daoLightenUpGameProgress.update(rec);
+            app.daoGameProgress.update(doc().gameProgress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,24 +71,24 @@ public class LightenUpOptionsActivity extends OptionsActivity {
 
     @Click
     protected void ctvNormalLightbulbsOnly() {
-        ctvNormalLightbulbsOnly.setChecked(!rec.normalLightbulbsOnly);
-        rec.normalLightbulbsOnly = !rec.normalLightbulbsOnly;
+        ctvNormalLightbulbsOnly.setChecked(!doc().isNormalLightbulbsOnly());
+        doc().setNormalLightbulbsOnly(!doc().isNormalLightbulbsOnly());
         try {
-            app.daoLightenUpGameProgress.update(rec);
+            app.daoGameProgress.update(doc().gameProgress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     protected void onDefault() {
-        rec.markerOption = 0;
-        rec.normalLightbulbsOnly = false;
+        doc().setMarkerOption(0);
+        doc().setNormalLightbulbsOnly(false);
         try {
-            app.daoLightenUpGameProgress.update(rec);
+            app.daoGameProgress.update(doc().gameProgress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        spnMarker.setSelection(rec.markerOption);
-        ctvNormalLightbulbsOnly.setChecked(rec.normalLightbulbsOnly);
+        spnMarker.setSelection(doc().getMarkerOption());
+        ctvNormalLightbulbsOnly.setChecked(doc().isNormalLightbulbsOnly());
     }
 }

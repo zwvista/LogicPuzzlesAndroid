@@ -9,13 +9,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data.CloudsGameProgress;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsMarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsObject;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 /**
  * TODO: document your custom view class.
@@ -114,12 +114,11 @@ public class CloudsGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            CloudsGameProgress rec = activity().doc().gameProgress();
             CloudsGameMove move = new CloudsGameMove();
             move.p = new Position(row, col);
             move.obj = CloudsObject.Empty;
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, CloudsMarkerOptions.values()[rec.markerOption]))
+            if (game().switchObject(move, CloudsMarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

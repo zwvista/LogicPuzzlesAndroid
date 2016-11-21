@@ -10,13 +10,12 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperGameProgress;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperMarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperObjectOrientation;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 /**
  * TODO: document your custom view class.
@@ -129,9 +128,8 @@ public class LineSweeperGameView extends CellsGameView {
             move.obj = LineSweeperObject.Empty;
             move.objOrientation = yOffset >= -offset && yOffset <= offset ?
                     LineSweeperObjectOrientation.Horizontal : LineSweeperObjectOrientation.Vertical;
-            LineSweeperGameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, LineSweeperMarkerOptions.values()[rec.markerOption]))
+            if (game().switchObject(move, LineSweeperMarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

@@ -10,10 +10,8 @@ import android.widget.TextView;
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeGameProgress;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
@@ -28,10 +26,6 @@ public class NurikabeOptionsActivity extends OptionsActivity {
 
     @ViewById
     Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvNormalLightbulbsOnly;
-
-    NurikabeGameProgress rec;
 
     @AfterViews
     protected void init() {
@@ -58,27 +52,26 @@ public class NurikabeOptionsActivity extends OptionsActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnMarker.setAdapter(adapter);
 
-        rec = doc().gameProgress();
-        spnMarker.setSelection(rec.markerOption);
+        spnMarker.setSelection(doc().getMarkerOption());
     }
 
     @ItemSelect
     protected void spnMarkerItemSelected(boolean selected, int position) {
-        rec.markerOption = position;
+        doc().setMarkerOption(position);
         try {
-            app.daoNurikabeGameProgress.update(rec);
+            app.daoGameProgress.update(doc().gameProgress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     protected void onDefault() {
-        rec.markerOption = 0;
+        doc().setMarkerOption(0);
         try {
-            app.daoNurikabeGameProgress.update(rec);
+            app.daoGameProgress.update(doc().gameProgress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        spnMarker.setSelection(rec.markerOption);
+        spnMarker.setSelection(doc().getMarkerOption());
     }
 }

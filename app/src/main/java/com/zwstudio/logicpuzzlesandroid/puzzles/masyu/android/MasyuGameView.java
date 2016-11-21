@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuMarkerOptions;

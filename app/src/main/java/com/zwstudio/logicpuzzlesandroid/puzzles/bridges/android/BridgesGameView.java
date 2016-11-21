@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandInfo;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandObject;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
@@ -126,7 +127,10 @@ public class BridgesGameView extends CellsGameView {
             if (pLast == null) break;
             if (isI) {
                 if (!p.equals(pLast)) {
-                    game().switchBridges(pLast, p);
+                    BridgesGameMove move = new BridgesGameMove() {{
+                        pFrom = pLast; pTo = p;
+                    }};
+                    game().switchBridges(move);
                     pLast = p; f.f();
                 }
             }

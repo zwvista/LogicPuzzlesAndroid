@@ -2,9 +2,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameState;
@@ -26,10 +25,8 @@ public class MasyuGameActivity extends GameActivity<MasyuGame, MasyuDocument, Ma
         game = new MasyuGame(layout, this);
         try {
             // restore game state
-            for (MasyuMoveProgress rec : doc().moveProgress()) {
-                MasyuGameMove move = new MasyuGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.dir = rec.dir;
+            for (MoveProgress rec : doc().moveProgress()) {
+                MasyuGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;

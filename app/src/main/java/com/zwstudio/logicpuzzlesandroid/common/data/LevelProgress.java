@@ -10,6 +10,8 @@ public class LevelProgress implements java.io.Serializable {
     @DatabaseField(generatedId = true)
     private int ID;
     @DatabaseField
+    public String gameID;
+    @DatabaseField
     public String levelID;
     @DatabaseField
     public int moveIndex;

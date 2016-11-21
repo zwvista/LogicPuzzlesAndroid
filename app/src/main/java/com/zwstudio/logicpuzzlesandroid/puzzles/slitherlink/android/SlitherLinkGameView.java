@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkMarkerOptions;
@@ -129,9 +128,8 @@ public class SlitherLinkGameView extends CellsGameView {
             move.obj = SlitherLinkObject.Empty;
             move.objOrientation = yOffset >= -offset && yOffset <= offset ?
                     SlitherLinkObjectOrientation.Horizontal : SlitherLinkObjectOrientation.Vertical;
-            SlitherLinkGameProgress rec = activity().doc().gameProgress();
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, SlitherLinkMarkerOptions.values()[rec.markerOption]))
+            if (game().switchObject(move, SlitherLinkMarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

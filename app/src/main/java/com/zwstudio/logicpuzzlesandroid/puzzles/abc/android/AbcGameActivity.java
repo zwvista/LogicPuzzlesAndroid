@@ -1,13 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcDocument;
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcMoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameState;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -26,10 +25,8 @@ public class AbcGameActivity extends GameActivity<AbcGame, AbcDocument, AbcGameM
         game = new AbcGame(layout, this);
         try {
             // restore game state
-            for (AbcMoveProgress rec : doc().moveProgress()) {
-                AbcGameMove move = new AbcGameMove();
-                move.p = new Position(rec.row, rec.col);
-                move.obj = rec.obj.charAt(0);
+            for (MoveProgress rec : doc().moveProgress()) {
+                AbcGameMove move = doc().loadMove(rec);
                 game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
