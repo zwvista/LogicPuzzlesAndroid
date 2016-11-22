@@ -10,15 +10,16 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuMarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuObjectOrientation;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+
+import fj.function.Effect0;
 
 import static android.R.transition.move;
-import static android.os.Build.VERSION_CODES.M;
+import static fj.data.Array.arrayArray;
+import static fj.data.Array.iterableArray;
+import static fj.data.Stream.range;
 import static java.lang.Math.abs;
 
 /**
@@ -36,6 +37,8 @@ public class MasyuGameView extends CellsGameView {
     private Paint pearlBlackPaint = new Paint();
     private Paint pearlWhitePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+
+    private Position pLast;
 
     public MasyuGameView(Context context) {
         super(context);
@@ -105,21 +108,47 @@ public class MasyuGameView extends CellsGameView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            int col = (int)(event.getX() / cellWidth);
-            int row = (int)(event.getY() / cellHeight);
-            if (col >= cols() || row >= rows()) return true;
-            double dx = event.getX() - (col + 0.5) * cellWidth;
-            double dy = event.getY() - (row + 0.5) * cellHeight;
-            double dx2 = abs(dx), dy2 = abs(dy);
-            MasyuGameMove move = new MasyuGameMove();
-            move.p = new Position(row, col);
-            move.dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
-                -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
-            if (game().setObject(move))
-                activity().app.soundManager.playSoundTap();
+        if (game().isSolved()) return true;
+        int col = (int)(event.getX() / cellWidth);
+        int row = (int)(event.getY() / cellHeight);
+        if (col >= cols() || row >= rows()) return true;
+        Position p = new Position(row, col);
+        Effect0 f = () -> activity().app.soundManager.playSoundTap();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                pLast = p; f.f();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (!p.equals(pLast)) {
+                    int n = range(0, MasyuGame.offset.length)
+                            .filter(i -> MasyuGame.offset[i].equals(p.subtract(pLast)))
+                            .orHead(() -> -1);
+                    if (n == -1) break;
+                    MasyuGameMove move = new MasyuGameMove() {{
+                        p = pLast; dir = n;
+                    }};
+                    if (game().setObject(move))
+                        f.f();
+                    pLast = p;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (p.equals(pLast)) {
+                    double dx = event.getX() - (col + 0.5) * cellWidth;
+                    double dy = event.getY() - (row + 0.5) * cellHeight;
+                    double dx2 = abs(dx), dy2 = abs(dy);
+                    MasyuGameMove move = new MasyuGameMove() {{
+                        p = new Position(row, col);
+                        dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
+                                -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
+                    }};
+                    if (game().setObject(move))
+                        activity().app.soundManager.playSoundTap();
+                }
+                break;
         }
         return true;
+
     }
 
 }

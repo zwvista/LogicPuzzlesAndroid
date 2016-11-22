@@ -123,11 +123,12 @@ public class LineSweeperGameView extends CellsGameView {
             int xOffset = (int)event.getX() - col * cellWidth - 1;
             int yOffset = (int)event.getY() - row * cellHeight - 1;
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true;
-            LineSweeperGameMove move = new LineSweeperGameMove();
-            move.p = new Position(row, col);
-            move.obj = LineSweeperObject.Empty;
-            move.objOrientation = yOffset >= -offset && yOffset <= offset ?
-                    LineSweeperObjectOrientation.Horizontal : LineSweeperObjectOrientation.Vertical;
+            LineSweeperGameMove move = new LineSweeperGameMove() {{
+                p = new Position(row, col);
+                obj = LineSweeperObject.Empty;
+                objOrientation = yOffset >= -offset && yOffset <= offset ?
+                        LineSweeperObjectOrientation.Horizontal : LineSweeperObjectOrientation.Vertical;
+            }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, LineSweeperMarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();

@@ -123,11 +123,12 @@ public class SlitherLinkGameView extends CellsGameView {
             int xOffset = (int)event.getX() - col * cellWidth - 1;
             int yOffset = (int)event.getY() - row * cellHeight - 1;
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true;
-            SlitherLinkGameMove move = new SlitherLinkGameMove();
-            move.p = new Position(row, col);
-            move.obj = SlitherLinkObject.Empty;
-            move.objOrientation = yOffset >= -offset && yOffset <= offset ?
-                    SlitherLinkObjectOrientation.Horizontal : SlitherLinkObjectOrientation.Vertical;
+            SlitherLinkGameMove move = new SlitherLinkGameMove() {{
+                p = new Position(row, col);
+                obj = SlitherLinkObject.Empty;
+                objOrientation = yOffset >= -offset && yOffset <= offset ?
+                        SlitherLinkObjectOrientation.Horizontal : SlitherLinkObjectOrientation.Vertical;
+            }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, SlitherLinkMarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();

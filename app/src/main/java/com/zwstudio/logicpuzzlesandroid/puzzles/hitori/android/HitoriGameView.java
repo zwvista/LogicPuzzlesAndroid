@@ -9,9 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriMarkerOptions;
@@ -104,9 +102,10 @@ public class HitoriGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            HitoriGameMove move = new HitoriGameMove();
-            move.p = new Position(row, col);
-            move.obj = HitoriObject.Normal;
+            HitoriGameMove move = new HitoriGameMove() {{
+                p = new Position(row, col);
+                obj = HitoriObject.Normal;
+            }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, HitoriMarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();

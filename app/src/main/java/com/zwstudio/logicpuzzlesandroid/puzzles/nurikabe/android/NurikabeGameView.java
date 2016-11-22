@@ -1,32 +1,24 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeEmptyObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeHintObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeHintObject;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObject;
 
 /**
  * TODO: document your custom view class.
@@ -109,9 +101,10 @@ public class NurikabeGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            NurikabeGameMove move = new NurikabeGameMove();
-            move.p = new Position(row, col);
-            move.obj = new NurikabeEmptyObject();
+            NurikabeGameMove move = new NurikabeGameMove() {{
+                p = new Position(row, col);
+                obj = new NurikabeEmptyObject();
+            }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, NurikabeMarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();

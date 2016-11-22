@@ -129,9 +129,10 @@ public class LightenUpGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            LightenUpGameMove move = new LightenUpGameMove();
-            move.p = new Position(row, col);
-            move.obj = new LightenUpEmptyObject();
+            LightenUpGameMove move = new LightenUpGameMove() {{
+                p = new Position(row, col);
+                obj = new LightenUpEmptyObject();
+            }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, LightenUpMarkerOptions.values()[activity().doc().getMarkerOption()],
                     activity().doc().isNormalLightbulbsOnly()))

@@ -89,9 +89,10 @@ public class SkyscrapersGameView extends CellsGameView {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
-            SkyscrapersGameMove move = new SkyscrapersGameMove();
-            move.p = new Position(row, col);
-            move.obj = ' ';
+            SkyscrapersGameMove move = new SkyscrapersGameMove() {{
+                p = new Position(row, col);
+                obj = ' ';
+            }};
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

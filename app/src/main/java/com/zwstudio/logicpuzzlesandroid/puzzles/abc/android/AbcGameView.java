@@ -91,9 +91,10 @@ public class AbcGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             GameProgress rec = activity().doc().gameProgress();
-            AbcGameMove move = new AbcGameMove();
-            move.p = new Position(row, col);
-            move.obj = ' ';
+            AbcGameMove move = new AbcGameMove() {{
+                p = new Position(row, col);
+                obj = ' ';
+            }};
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }
