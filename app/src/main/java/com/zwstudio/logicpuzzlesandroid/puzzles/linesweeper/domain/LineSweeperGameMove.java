@@ -8,6 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class LineSweeperGameMove {
     public Position p;
-    public LineSweeperObjectOrientation objOrientation;
-    public LineSweeperObject obj;
+    public int dir;
 }

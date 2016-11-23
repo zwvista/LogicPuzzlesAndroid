@@ -10,15 +10,11 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
 
 import fj.function.Effect0;
 
-import static android.R.transition.move;
-import static fj.data.Array.arrayArray;
-import static fj.data.Array.iterableArray;
 import static fj.data.Stream.range;
 import static java.lang.Math.abs;
 
@@ -38,7 +34,7 @@ public class MasyuGameView extends CellsGameView {
     private Paint pearlWhitePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
-    private Position pLast;
+    private Position pLastDown, pLastMove;
 
     public MasyuGameView(Context context) {
         super(context);
@@ -115,37 +111,37 @@ public class MasyuGameView extends CellsGameView {
         Position p = new Position(row, col);
         Effect0 f = () -> activity().app.soundManager.playSoundTap();
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                pLast = p; f.f();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (!p.equals(pLast)) {
-                    int n = range(0, MasyuGame.offset.length)
-                            .filter(i -> MasyuGame.offset[i].equals(p.subtract(pLast)))
-                            .orHead(() -> -1);
-                    if (n == -1) break;
+        case MotionEvent.ACTION_DOWN:
+            pLastDown = pLastMove = p; f.f();
+            break;
+        case MotionEvent.ACTION_MOVE:
+            if (!p.equals(pLastMove)) {
+                int n = range(0, MasyuGame.offset.length)
+                        .filter(i -> MasyuGame.offset[i].equals(p.subtract(pLastMove)))
+                        .orHead(() -> -1);
+                if (n != -1) {
                     MasyuGameMove move = new MasyuGameMove() {{
-                        p = pLast; dir = n;
+                        p = pLastMove; dir = n;
                     }};
-                    if (game().setObject(move))
-                        f.f();
-                    pLast = p;
+                    if (game().setObject(move)) f.f();
                 }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (p.equals(pLast)) {
-                    double dx = event.getX() - (col + 0.5) * cellWidth;
-                    double dy = event.getY() - (row + 0.5) * cellHeight;
-                    double dx2 = abs(dx), dy2 = abs(dy);
-                    MasyuGameMove move = new MasyuGameMove() {{
-                        p = new Position(row, col);
-                        dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
-                                -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
-                    }};
-                    if (game().setObject(move))
-                        activity().app.soundManager.playSoundTap();
-                }
-                break;
+                pLastMove = p;
+            }
+            break;
+        case MotionEvent.ACTION_UP:
+            if (p.equals(pLastDown)) {
+                double dx = event.getX() - (col + 0.5) * cellWidth;
+                double dy = event.getY() - (row + 0.5) * cellHeight;
+                double dx2 = abs(dx), dy2 = abs(dy);
+                MasyuGameMove move = new MasyuGameMove() {{
+                    p = new Position(row, col);
+                    dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
+                            -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
+                }};
+                if (game().setObject(move)) f.f();
+            }
+            pLastDown = pLastMove = null;
+            break;
         }
         return true;
 

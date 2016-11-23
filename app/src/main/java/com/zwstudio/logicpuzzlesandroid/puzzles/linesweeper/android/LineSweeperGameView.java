@@ -13,9 +13,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperMarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperObjectOrientation;
+
+import fj.function.Effect0;
+
+import static fj.data.Stream.range;
+import static java.lang.Math.abs;
 
 /**
  * TODO: document your custom view class.
@@ -29,8 +31,9 @@ public class LineSweeperGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
-    private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+
+    private Position pLastDown, pLastMove;
 
     public LineSweeperGameView(Context context) {
         super(context);
@@ -53,9 +56,6 @@ public class LineSweeperGameView extends CellsGameView {
         linePaint.setColor(Color.YELLOW);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
-        markerPaint.setColor(Color.YELLOW);
-        markerPaint.setStyle(Paint.Style.STROKE);
-        markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -89,49 +89,64 @@ public class LineSweeperGameView extends CellsGameView {
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
-        int markerOffset = 20;
-        for (int r = 0; r < rows() + 1; r++)
-            for (int c = 0; c < cols() + 1; c++) {
-                LineSweeperObject[] dotObj = game().getObject(r, c);
-                switch (dotObj[1]){
-                case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
-                    break;
-                case Marker:
-                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) - markerOffset, cwc2(c) + markerOffset, chr(r) + markerOffset, markerPaint);
-                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) + markerOffset, cwc2(c) + markerOffset, chr(r) - markerOffset, markerPaint);
-                    break;
-                }
-                switch (dotObj[2]){
-                case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
-                    break;
-                case Marker:
-                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) - markerOffset, cwc(c) + markerOffset, chr2(r) + markerOffset, markerPaint);
-                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) + markerOffset, cwc(c) + markerOffset, chr2(r) - markerOffset, markerPaint);
-                    break;
+        if (isInEditMode()) return;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                int[] dirs = {1, 2};
+                for (int dir : dirs) {
+                    boolean b = game().getObject(r, c)[dir];
+                    if (!b) continue;
+                    if (dir == 1)
+                        canvas.drawLine(cwc2(c), chr2(r), cwc2(c + 1), chr2(r), linePaint);
+                    else
+                        canvas.drawLine(cwc2(c), chr2(r), cwc2(c), chr2(r + 1), linePaint);
                 }
             }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            int offset = 30;
-            int col = (int)((event.getX() + offset) / cellWidth);
-            int row = (int)((event.getY() + offset) / cellHeight);
-            int xOffset = (int)event.getX() - col * cellWidth - 1;
-            int yOffset = (int)event.getY() - row * cellHeight - 1;
-            if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true;
-            LineSweeperGameMove move = new LineSweeperGameMove() {{
-                p = new Position(row, col);
-                obj = LineSweeperObject.Empty;
-                objOrientation = yOffset >= -offset && yOffset <= offset ?
-                        LineSweeperObjectOrientation.Horizontal : LineSweeperObjectOrientation.Vertical;
-            }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, LineSweeperMarkerOptions.values()[activity().doc().getMarkerOption()]))
-                activity().app.soundManager.playSoundTap();
+        if (game().isSolved()) return true;
+        int col = (int)(event.getX() / cellWidth);
+        int row = (int)(event.getY() / cellHeight);
+        if (col >= cols() || row >= rows()) return true;
+        Position p = new Position(row, col);
+        boolean isH = game().isHint(p);
+        Effect0 f = () -> activity().app.soundManager.playSoundTap();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!isH) {
+                    pLastDown = pLastMove = p; f.f();
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (!isH && pLastMove != null && !p.equals(pLastMove)) {
+                    int n = range(0, LineSweeperGame.offset.length)
+                            .filter(i -> LineSweeperGame.offset[i].equals(p.subtract(pLastMove)))
+                            .orHead(() -> -1);
+                    if (n != -1) {
+                        LineSweeperGameMove move = new LineSweeperGameMove() {{
+                            p = pLastMove; dir = n / 2;
+                        }};
+                        if (game().setObject(move)) f.f();
+                    }
+                    pLastMove = p;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (p.equals(pLastDown)) {
+                    double dx = event.getX() - (col + 0.5) * cellWidth;
+                    double dy = event.getY() - (row + 0.5) * cellHeight;
+                    double dx2 = abs(dx), dy2 = abs(dy);
+                    LineSweeperGameMove move = new LineSweeperGameMove() {{
+                        p = new Position(row, col);
+                        dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
+                                -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
+                    }};
+                    if (game().setObject(move)) f.f();
+                }
+                pLastDown = pLastMove = null;
+                break;
         }
         return true;
     }

@@ -18,12 +18,17 @@ import fj.F2;
 public class LineSweeperGame extends CellsGame<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
+            new Position(-1, 1),
             new Position(0, 1),
+            new Position(1, 1),
             new Position(1, 0),
+            new Position(1, -1),
             new Position(0, -1),
+            new Position(-1, -1),
     };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
+    public boolean isHint(Position p) {return pos2hint.containsKey(p);}
 
     public LineSweeperGame(List<String> layout, GameInterface<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState> gi) {
         super(gi);
@@ -61,19 +66,15 @@ public class LineSweeperGame extends CellsGame<LineSweeperGame, LineSweeperGameM
         return changed;
    }
 
-    public boolean switchObject(LineSweeperGameMove move, LineSweeperMarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
-    }
-
     public boolean setObject(LineSweeperGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public LineSweeperObject[] getObject(Position p) {
+    public Boolean[] getObject(Position p) {
         return state().get(p);
     }
 
-    public LineSweeperObject[] getObject(int row, int col) {
+    public Boolean[] getObject(int row, int col) {
         return state().get(row, col);
     }
 

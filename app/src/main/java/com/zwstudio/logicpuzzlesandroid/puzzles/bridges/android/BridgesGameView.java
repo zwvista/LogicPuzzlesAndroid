@@ -120,23 +120,22 @@ public class BridgesGameView extends CellsGameView {
         Effect0 f = () -> activity().app.soundManager.playSoundTap();
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
-            if (!isI) break;
-            pLast = p; f.f();
-            break;
-        case MotionEvent.ACTION_MOVE:
-            if (pLast == null) break;
             if (isI) {
-                if (!p.equals(pLast)) {
-                    BridgesGameMove move = new BridgesGameMove() {{
-                        pFrom = pLast; pTo = p;
-                    }};
-                    game().switchBridges(move);
-                    pLast = p; f.f();
-                }
+                pLast = p; f.f();
             }
             break;
-        default:
-            return true;
+        case MotionEvent.ACTION_MOVE:
+            if (isI && pLast != null && !p.equals(pLast)) {
+                BridgesGameMove move = new BridgesGameMove() {{
+                    pFrom = pLast; pTo = p;
+                }};
+                game().switchBridges(move);
+                pLast = p; f.f();
+            }
+            break;
+        case MotionEvent.ACTION_UP:
+            pLast = null;
+            break;
         }
         return true;
     }

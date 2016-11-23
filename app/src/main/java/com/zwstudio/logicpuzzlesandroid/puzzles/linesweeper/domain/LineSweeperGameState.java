@@ -2,16 +2,14 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import fj.F;
 
 import static fj.data.Array.arrayArray;
 import static fj.data.List.iterableList;
@@ -21,15 +19,15 @@ import static fj.data.List.iterableList;
  */
 
 public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState> {
-    public LineSweeperObject[][] objArray;
+    public Boolean[][] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
     public LineSweeperGameState(LineSweeperGame game) {
         super(game);
-        objArray = new LineSweeperObject[rows() * cols()][];
+        objArray = new Boolean[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
-            objArray[i] = new LineSweeperObject[4];
-            Arrays.fill(objArray[i], LineSweeperObject.Empty);
+            objArray[i] = new Boolean[4];
+            Arrays.fill(objArray[i], false);
         }
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
@@ -38,16 +36,16 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
         }
     }
 
-    public LineSweeperObject[] get(int row, int col) {
+    public Boolean[] get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public LineSweeperObject[] get(Position p) {
+    public Boolean[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, LineSweeperObject[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
+    public void set(int row, int col, Boolean[] obj) {
+        objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, LineSweeperObject[] obj) {
+    public void set(Position p, Boolean[] obj) {
         set(p.row, p.col, obj);
     }
 
@@ -57,10 +55,14 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
             Position p = entry.getKey();
             int n2 = entry.getValue();
             int n1 = 0;
-            if (get(p)[1] == LineSweeperObject.Line) n1++;
-            if (get(p)[2] == LineSweeperObject.Line) n1++;
-            if (get(p.add(new Position(1, 1)))[0] == LineSweeperObject.Line) n1++;
-            if (get(p.add(new Position(1, 1)))[3] == LineSweeperObject.Line) n1++;
+            for (Position os : LineSweeperGame.offset) {
+                Position p2 = p.add(os);
+                if (!isValid(p2)) continue;
+                boolean hasLine = false;
+                for (boolean b : get(p2))
+                    if (b) hasLine = true;
+                if (hasLine) n1++;
+            }
             pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;
         }
@@ -70,7 +72,7 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                int n = arrayArray(get(p)).filter(o -> o == LineSweeperObject.Line).length();
+                int n = arrayArray(get(p)).filter(o -> o).length();
                 switch (n) {
                 case 0:
                     continue;
@@ -88,10 +90,10 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
             }
 
         for (Position p : pos2Node.keySet()) {
-            LineSweeperObject[] dotObj = get(p);
+            Boolean[] o = get(p);
             for (int i = 0; i < 4; i++) {
-                if (dotObj[i] != LineSweeperObject.Line) continue;
-                Position p2 = p.add(LineSweeperGame.offset[i]);
+                if (!o[i]) continue;
+                Position p2 = p.add(LineSweeperGame.offset[i * 2]);
                 g.connectNode(pos2Node.get(p), pos2Node.get(p2));
             }
         }
@@ -103,35 +105,13 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
     }
 
     public boolean setObject(LineSweeperGameMove move) {
-        Position p1 = move.p;
-        boolean isH = move.objOrientation == LineSweeperObjectOrientation.Horizontal;
-        int i1 = isH ? 1 : 2;
-        LineSweeperObject o = get(p1)[i1];
-        if (o.equals(move.obj)) return false;
-        Position p2 = p1.add(LineSweeperGame.offset[isH ? 1 : 2]);
-        int i2 = isH ? 3 : 0;
-        get(p2)[i2] = get(p1)[i1] = move.obj;
+        Position p = move.p;
+        int dir = move.dir;
+        Position p2 = p.add(LineSweeperGame.offset[dir * 2]);
+        int dir2 = (dir + 2) % 4;
+        get(p)[dir] = !get(p)[dir];
+        get(p2)[dir2] = !get(p2)[dir2];
         updateIsSolved();
         return true;
-    }
-
-    public boolean switchObject(LineSweeperMarkerOptions markerOption, LineSweeperGameMove move) {
-        F<LineSweeperObject, LineSweeperObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == LineSweeperMarkerOptions.MarkerBeforeLine ?
-                        LineSweeperObject.Marker : LineSweeperObject.Line;
-            case Line:
-                return markerOption == LineSweeperMarkerOptions.MarkerAfterLine ?
-                        LineSweeperObject.Marker : LineSweeperObject.Empty;
-            case Marker:
-                return markerOption == LineSweeperMarkerOptions.MarkerBeforeLine ?
-                        LineSweeperObject.Line : LineSweeperObject.Empty;
-            }
-            return obj;
-        };
-        LineSweeperObject[] dotObj = get(move.p);
-        move.obj = f.f(dotObj[move.objOrientation == LineSweeperObjectOrientation.Horizontal ? 1 : 2]);
-        return setObject(move);
     }
 }
