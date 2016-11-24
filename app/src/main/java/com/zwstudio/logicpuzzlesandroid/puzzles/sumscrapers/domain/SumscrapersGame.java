@@ -42,14 +42,14 @@ public class SumscrapersGame extends CellsGame<SumscrapersGame, SumscrapersGameM
 
     public SumscrapersGame(List<String> layout, GameInterface<SumscrapersGame, SumscrapersGameMove, SumscrapersGameState> gi) {
         super(gi);
-        size = new Position(layout.size(), layout.get(0).length());
+        size = new Position(layout.size(), layout.get(0).length() / 2);
         objArray = new int[rows() * cols()];
 
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
-                char ch = str.charAt(c);
-                int n = ch == ' ' ? 0 : ch - '0';
+                String s = str.substring(c * 2, c * 2 + 2).trim();
+                int n = s.equals("") ? 0 : Integer.parseInt(s);
                 set(r, c, n);
             }
         }
