@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -11,12 +11,12 @@ import java.util.List;
  * Created by zwvista on 2016/09/29.
  */
 
-public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> {
+public class SumscrapersGameState extends CellsGameState<SumscrapersGame, SumscrapersGameMove, SumscrapersGameState> {
     private int[] objArray;
     public HintState[] row2state;
     public HintState[] col2state;
 
-    public SkyscrapersGameState(SkyscrapersGame game) {
+    public SumscrapersGameState(SumscrapersGame game) {
         super(game);
         objArray = new int[rows() * cols()];
         for (int r = 0; r < rows(); r++)
@@ -58,8 +58,8 @@ public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, Skyscr
             nums.clear();
             for (int c = 1; c < cols() - 1; c++) {
                 int n12 = get(r, c), n22 = get(r, cols() - 1 - c);
-                if (n11 < n12) {n11 = n12; n1++;}
-                if (n21 < n22) {n21 = n22; n2++;}
+                if (n11 < n12) {n11 = n12; n1 += n12;}
+                if (n21 < n22) {n21 = n22; n2 += n22;}
                 if (n12 == 0) continue;
                 if (nums.contains(n12))
                     isSolved = false;
@@ -79,8 +79,8 @@ public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, Skyscr
             nums.clear();
             for (int r = 1; r < rows() - 1; r++) {
                 int n12 = get(r, c), n22 = get(rows() - 1 - r, c);
-                if (n11 < n12) {n11 = n12; n1++;}
-                if (n21 < n22) {n21 = n22; n2++;}
+                if (n11 < n12) {n11 = n12; n1 += n12;}
+                if (n21 < n22) {n21 = n22; n2 += n22;}
                 if (n12 == 0) continue;
                 if (nums.contains(n12))
                     isSolved = false;
@@ -95,7 +95,7 @@ public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, Skyscr
         }
     }
 
-    public boolean setObject(SkyscrapersGameMove move) {
+    public boolean setObject(SumscrapersGameMove move) {
         Position p = move.p;
         if (!isValid(p) || get(p) == move.obj) return false;
         set(p, move.obj);
@@ -103,7 +103,7 @@ public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, Skyscr
         return true;
     }
 
-    public boolean switchObject(SkyscrapersGameMove move) {
+    public boolean switchObject(SumscrapersGameMove move) {
         Position p = move.p;
         if (!isValid(p)) return false;
         int o = get(p);

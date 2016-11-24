@@ -20,6 +20,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.data.SumscrapersDocument;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
@@ -62,6 +63,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public SlitherLinkDocument slitherlinkDocument;
     @Bean
+    public SumscrapersDocument sumscrapersDocument;
+    @Bean
     public SoundManager soundManager;
 
     @Override
@@ -78,6 +81,7 @@ public class LogicPuzzlesApplication extends Application {
         nurikabeDocument.init();
         skyscrapersDocument.init();
         slitherlinkDocument.init();
+        sumscrapersDocument.init();
 
         soundManager.init();
     }

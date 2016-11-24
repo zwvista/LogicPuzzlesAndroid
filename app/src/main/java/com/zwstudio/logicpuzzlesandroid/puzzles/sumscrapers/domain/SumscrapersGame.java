@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
@@ -13,7 +13,7 @@ import fj.F2;
  * Created by zwvista on 2016/09/29.
  */
 
-public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> {
+public class SumscrapersGame extends CellsGame<SumscrapersGame, SumscrapersGameMove, SumscrapersGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
@@ -40,7 +40,7 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
         set(p.row, p.col, obj);
     }
 
-    public SkyscrapersGame(List<String> layout, GameInterface<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> gi) {
+    public SumscrapersGame(List<String> layout, GameInterface<SumscrapersGame, SumscrapersGameMove, SumscrapersGameState> gi) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new int[rows() * cols()];
@@ -54,17 +54,17 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
             }
         }
 
-        SkyscrapersGameState state = new SkyscrapersGameState(this);
+        SumscrapersGameState state = new SumscrapersGameState(this);
         states.add(state);
         levelInitilized(state);
     }
 
-    private boolean changeObject(SkyscrapersGameMove move, F2<SkyscrapersGameState, SkyscrapersGameMove, Boolean> f) {
+    private boolean changeObject(SumscrapersGameMove move, F2<SumscrapersGameState, SumscrapersGameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
-        SkyscrapersGameState state = cloner.deepClone(state());
+        SumscrapersGameState state = cloner.deepClone(state());
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);
@@ -76,11 +76,11 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
         return changed;
    }
 
-    public boolean switchObject(SkyscrapersGameMove move) {
+    public boolean switchObject(SumscrapersGameMove move) {
         return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(SkyscrapersGameMove move) {
+    public boolean setObject(SumscrapersGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 

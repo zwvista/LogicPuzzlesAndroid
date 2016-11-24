@@ -115,6 +115,15 @@
         <activity android:name=".puzzles.slitherlink.android.SlitherLinkOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.sumscrapers.android.SumscrapersMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sumscrapers.android.SumscrapersGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sumscrapers.android.SumscrapersOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

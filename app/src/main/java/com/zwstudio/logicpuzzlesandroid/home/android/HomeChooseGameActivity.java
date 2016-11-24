@@ -24,7 +24,7 @@ public class HomeChooseGameActivity extends BaseActivity {
     ListView lvGames;
 
     List<String> lstGames = Arrays.asList("Abc", "Bridges", "Clouds", "Hitori", "LightenUp",
-            "LineSweeper", "Masyu", "Nurikabe", "Skyscrapers", "SlitherLink");
+            "LineSweeper", "Masyu", "Nurikabe", "Skyscrapers", "SlitherLink", "Sumscrapers");
 
     @AfterViews
     protected void init() {
