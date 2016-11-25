@@ -14,6 +14,8 @@ import java.util.Map;
 
 import fj.F;
 
+import static fj.data.List.iterableList;
+
 /**
  * Created by zwvista on 2016/09/29.
  */
@@ -25,13 +27,8 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
         super(game);
         objArray = new NurikabeObject[rows() * cols()];
         Arrays.fill(objArray, new NurikabeEmptyObject());
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n = entry.getValue();
-            NurikabeHintObject o = new NurikabeHintObject();
-            o.state = n <= 0 ? HintState.Complete : HintState.Normal;
-            set(p, o);
-        }
+        for (Position p : game.pos2hint.keySet())
+            set(p, new NurikabeHintObject());
     }
 
     public NurikabeObject get(int row, int col) {
@@ -92,30 +89,36 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
             List<Node> nodeList = g.bfs();
             if (rngWalls.size() != nodeList.size()) isSolved = false;
         }
-        int m = 0;
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n1 = entry.getValue();
-            Node node = pos2node.get(p);
-            if (node.visited) continue;
+        while (!rngEmpty.isEmpty()) {
+            Node node = pos2node.get(rngEmpty.get(0));
             g.setRootNode(node);
             List<Node> nodeList = g.bfs();
+            rngEmpty = iterableList(rngEmpty).removeAll(p -> nodeList.contains(pos2node.get(p))).toJavaList();
             int n2 = nodeList.size();
             List<Position> rng = new ArrayList<>();
-            for (Position p2 : game.pos2hint.keySet())
-                if (nodeList.contains(pos2node.get(p2)))
-                    rng.add(p2);
-            if (rng.size() > 1)
-                for (Position p2 : rng)
-                    ((NurikabeHintObject) get(p2)).state = HintState.Normal;
-            else {
-                HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
-                ((NurikabeHintObject) get(p)).state = HintState.Normal;
-                if (s != HintState.Complete) isSolved = false;
+            for (Position p : game.pos2hint.keySet())
+                if (nodeList.contains(pos2node.get(p)))
+                    rng.add(p);
+            switch (rng.size()) {
+            case 0:
+                isSolved = false;
+                break;
+            case 1:
+                {
+                    Position p = rng.get(0);
+                    int n1 = game.pos2hint.get(p);
+                    HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
+                    ((NurikabeHintObject) get(p)).state = s;
+                    if (s != HintState.Complete) isSolved = false;
+                }
+                break;
+            default:
+                for (Position p : rng)
+                    ((NurikabeHintObject) get(p)).state = HintState.Normal;
+                isSolved = false;
+                break;
             }
-            m += rng.size();
         }
-        if (m != rngEmpty.size()) isSolved = false;
     }
 
     public boolean setObject(NurikabeGameMove move) {
