@@ -4,16 +4,12 @@ apply plugin: 'me.tatarka.retrolambda'
 buildscript {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         // replace with the current version of the android-apt plugin
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
 }
 
 apply plugin: 'com.android.application'
@@ -25,6 +21,18 @@ dependencies {
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     apt "org.androidannotations:ormlite:$AAVersion"
     compile "org.androidannotations:ormlite-api:$AAVersion"
+}
+
+// http://stackoverflow.com/questions/4930398/can-the-android-layout-folder-contain-subfolders
+def getLayoutList(path) {
+    File file = new File(path)
+    def throwAway = file.path.split("/")[0]
+    def newPath = file.path.substring(throwAway.length() + 1)
+    def array = file.list().collect {
+        "${newPath}/${it}"
+    }
+    array.push("src/main/res");
+    return array
 }
 
 android {
@@ -61,22 +69,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
     sourceSets {
-        main.res.srcDirs =
-        [
-            'src/main/res/layouts/abc',
-            'src/main/res/layouts/bridges',
-            'src/main/res/layouts/clouds',
-            'src/main/res/layouts/hitori',
-            'src/main/res/layouts/home',
-            'src/main/res/layouts/lightenup',
-            'src/main/res/layouts/linesweeper',
-            'src/main/res/layouts/masyu',
-            'src/main/res/layouts/nurikabe',
-            'src/main/res/layouts/skyscrapers',
-            'src/main/res/layouts/slitherlink',
-            'src/main/res/layouts/sumscrapers',
-            'src/main/res'
-        ]
+        main.res.srcDirs = getLayoutList("app/src/main/res/layouts/")
     }
 }
 
