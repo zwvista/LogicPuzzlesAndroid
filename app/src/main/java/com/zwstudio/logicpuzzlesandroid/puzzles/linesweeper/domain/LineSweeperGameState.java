@@ -106,8 +106,10 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
 
     public boolean setObject(LineSweeperGameMove move) {
         Position p = move.p;
+        if (!isValid(p) || game.isHint(p)) return false;
         int dir = move.dir;
         Position p2 = p.add(LineSweeperGame.offset[dir * 2]);
+        if (!isValid(p2) || game.isHint(p2)) return false;
         int dir2 = (dir + 2) % 4;
         get(p)[dir] = !get(p)[dir];
         get(p2)[dir2] = !get(p2)[dir2];

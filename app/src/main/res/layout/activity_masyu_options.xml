@@ -16,20 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Marker:"
-            android:id="@+id/tvMarker"
-            />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnMarker"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dip" />
     </LinearLayout>
 
     <LinearLayout

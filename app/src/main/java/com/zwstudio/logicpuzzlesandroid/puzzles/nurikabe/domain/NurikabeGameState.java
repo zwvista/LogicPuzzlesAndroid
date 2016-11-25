@@ -85,31 +85,37 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
-        if (rngEmpty.isEmpty())
+        if (rngWalls.isEmpty())
             isSolved = false;
         else {
             g.setRootNode(pos2node.get(rngWalls.get(0)));
             List<Node> nodeList = g.bfs();
-            if (rngWalls.size() != nodeList.size())
-                isSolved = false;
+            if (rngWalls.size() != nodeList.size()) isSolved = false;
         }
+        int m = 0;
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n1 = entry.getValue();
-            g.setRootNode(pos2node.get(p));
+            Node node = pos2node.get(p);
+            if (node.visited) continue;
+            g.setRootNode(node);
             List<Node> nodeList = g.bfs();
             int n2 = nodeList.size();
-            int m = 0;
+            List<Position> rng = new ArrayList<>();
             for (Position p2 : game.pos2hint.keySet())
                 if (nodeList.contains(pos2node.get(p2)))
-                    m++;
-            HintState s = m > 1 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            NurikabeHintObject o2 = new NurikabeHintObject();
-            o2.state = s;
-            set(p, o2);
-            if (s != HintState.Complete)
-                isSolved = false;
+                    rng.add(p2);
+            if (rng.size() > 1)
+                for (Position p2 : rng)
+                    ((NurikabeHintObject) get(p2)).state = HintState.Normal;
+            else {
+                HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
+                ((NurikabeHintObject) get(p)).state = HintState.Normal;
+                if (s != HintState.Complete) isSolved = false;
+            }
+            m += rng.size();
         }
+        if (m != rngEmpty.size()) isSolved = false;
     }
 
     public boolean setObject(NurikabeGameMove move) {
