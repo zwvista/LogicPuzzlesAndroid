@@ -104,13 +104,11 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
 
     public boolean setObject(SlitherLinkGameMove move) {
         Position p1 = move.p;
-        boolean isH = move.objOrientation == SlitherLinkObjectOrientation.Horizontal;
-        int i1 = isH ? 1 : 2;
-        SlitherLinkObject o = get(p1)[i1];
+        int dir = move.dir, dir2 = (dir + 2) % 4;
+        SlitherLinkObject o = get(p1)[dir];
         if (o.equals(move.obj)) return false;
-        Position p2 = p1.add(SlitherLinkGame.offset[isH ? 1 : 2]);
-        int i2 = isH ? 3 : 0;
-        get(p2)[i2] = get(p1)[i1] = move.obj;
+        Position p2 = p1.add(SlitherLinkGame.offset[dir]);
+        get(p2)[dir2] = get(p1)[dir] = move.obj;
         updateIsSolved();
         return true;
     }
@@ -131,7 +129,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
             return obj;
         };
         SlitherLinkObject[] dotObj = get(move.p);
-        move.obj = f.f(dotObj[move.objOrientation == SlitherLinkObjectOrientation.Horizontal ? 1 : 2]);
+        move.obj = f.f(dotObj[move.dir]);
         return setObject(move);
     }
 }

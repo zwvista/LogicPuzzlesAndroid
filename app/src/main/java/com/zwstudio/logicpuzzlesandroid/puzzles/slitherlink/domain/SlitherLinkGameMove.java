@@ -8,6 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class SlitherLinkGameMove {
     public Position p;
-    public SlitherLinkObjectOrientation objOrientation;
+    public int dir;
     public SlitherLinkObject obj;
 }

@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkObjectOrientation;
 
 import org.androidannotations.annotations.EBean;
 
@@ -19,13 +18,13 @@ public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLi
     protected void saveMove(SlitherLinkGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.objOrientation.ordinal();
+        rec.intValue1 = move.dir;
         rec.intValue2 = move.obj.ordinal();
     }
     public SlitherLinkGameMove loadMove(MoveProgress rec) {
         return new SlitherLinkGameMove() {{
             p = new Position(rec.row, rec.col);
-            objOrientation = SlitherLinkObjectOrientation.values()[rec.intValue1];
+            dir = rec.intValue1;
             obj = SlitherLinkObject.values()[rec.intValue2];
         }};
     }
