@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context=".puzzles.lightup.android.LightUpMainActivity">
+    tools:context=".home.android.HomeMainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,22 +23,25 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/colorText"
-            android:layout_marginBottom="30dip"/>
+            android:layout_marginBottom="100dip"/>
         <Button
             android:text="Resume Game"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnResumeGame"/>
+            android:id="@+id/btnResumeGame"
+            android:layout_marginBottom="20dip"/>
         <Button
             android:text="Choose Game"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="Abc"
-            android:id="@+id/btnChooseGame"/>
+            android:id="@+id/btnChooseGame"
+            android:layout_marginBottom="20dip"/>
         <Button
             android:text="Options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnOptions"/>
+            android:id="@+id/btnOptions"
+            android:layout_marginBottom="20dip"/>
     </LinearLayout>
 </RelativeLayout>

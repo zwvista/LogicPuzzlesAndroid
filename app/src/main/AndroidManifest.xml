@@ -79,6 +79,15 @@
         <activity android:name=".puzzles.linesweeper.android.LineSweeperOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.loopy.android.LoopyMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.loopy.android.LoopyGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.loopy.android.LoopyOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.masyu.android.MasyuMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

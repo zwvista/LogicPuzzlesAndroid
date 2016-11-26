@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/activity_home_options"
+    android:id="@+id/activity_loopy_options"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,28 +10,26 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context=".home.android.HomeOptionsActivity">
+    tools:context=".puzzles.loopy.android.LoopyOptionsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <CheckedTextView
-            android:text="Play Music"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:id="@+id/ctvPlayMusic" />
+            android:text="Marker:"
+            android:id="@+id/tvMarker"
+            />
 
-        <CheckedTextView
-            android:text="Play Sound"
+        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:id="@+id/ctvPlaySound" />
+            android:id="@+id/spnMarker"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dip" />
     </LinearLayout>
 
     <LinearLayout
