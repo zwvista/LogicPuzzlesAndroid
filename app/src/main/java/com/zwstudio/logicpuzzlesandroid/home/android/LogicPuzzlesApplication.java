@@ -18,6 +18,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
@@ -60,6 +61,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public MasyuDocument masyuDocument;
     @Bean
+    public MosaikDocument mosaikDocument;
+    @Bean
     public NurikabeDocument nurikabeDocument;
     @Bean
     public SkyscrapersDocument skyscrapersDocument;
@@ -82,6 +85,7 @@ public class LogicPuzzlesApplication extends Application {
         linesweeperDocument.init();
         loopyDocument.init();
         masyuDocument.init();
+        mosaikDocument.init();
         nurikabeDocument.init();
         skyscrapersDocument.init();
         slitherlinkDocument.init();

@@ -97,6 +97,15 @@
         <activity android:name=".puzzles.masyu.android.MasyuOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.mosaik.android.MosaikMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mosaik.android.MosaikGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mosaik.android.MosaikOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.nurikabe.android.NurikabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
