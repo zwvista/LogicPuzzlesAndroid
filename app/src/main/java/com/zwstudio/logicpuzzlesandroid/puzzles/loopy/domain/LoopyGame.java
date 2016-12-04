@@ -2,12 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import fj.F2;
 
@@ -23,20 +21,40 @@ public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameStat
             new Position(0, -1),
     };
 
-    public Map<Position, Integer> pos2hint = new HashMap<>();
+    public Boolean[][] objArray;
+
+    public Boolean[] get(int row, int col) {
+        return objArray[row * cols() + col];
+    }
+    public Boolean[] get(Position p) {
+        return get(p.row, p.col);
+    }
+    public void set(int row, int col, Boolean[] dotObj) {
+        objArray[row * cols() + col] = dotObj;
+    }
+    public void set(Position p, Boolean[] obj) {
+        set(p.row, p.col, obj);
+    }
 
     public LoopyGame(List<String> layout, GameInterface<LoopyGame, LoopyGameMove, LoopyGameState> gi) {
         super(gi);
-        size = new Position(layout.size() + 1, layout.get(0).length() + 1);
-        for (int r = 0; r < rows() - 1; r++) {
-            String str = layout.get(r);
+        size = new Position(layout.size() / 2 + 1, layout.get(0).length() / 2 + 1);
+        objArray = new Boolean[rows() * cols()][];
+        for (int i = 0; i < objArray.length; i++) {
+            objArray[i] = new Boolean[4];
+            Arrays.fill(objArray[i], false);
+        }
+        for (int r = 0; r < rows(); r++) {
+            String str = layout.get(2 * r);
             for (int c = 0; c < cols() - 1; c++) {
-                Position p = new Position(r, c);
-                char ch = str.charAt(c);
-                if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    pos2hint.put(p, n);
-                }
+                char ch = str.charAt(2 * c + 1);
+                if (ch == '-') get(r, c)[1] = true;
+            }
+            if (r == rows() - 1) break;
+            str = layout.get(2 * r + 1);
+            for (int c = 0; c < cols(); c++) {
+                char ch = str.charAt(2 * c);
+                if (ch == '|') get(r, c)[2] = true;
             }
         }
         LoopyGameState state = new LoopyGameState(this);
@@ -61,23 +79,15 @@ public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameStat
         return changed;
    }
 
-    public boolean switchObject(LoopyGameMove move, LoopyMarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
-    }
-
     public boolean setObject(LoopyGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public LoopyObject[] getObject(Position p) {
+    public Boolean[] getObject(Position p) {
         return state().get(p);
     }
 
-    public LoopyObject[] getObject(int row, int col) {
+    public Boolean[] getObject(int row, int col) {
         return state().get(row, col);
-    }
-
-    public HintState getHintState(Position p) {
-        return state().pos2state.get(p);
     }
 }

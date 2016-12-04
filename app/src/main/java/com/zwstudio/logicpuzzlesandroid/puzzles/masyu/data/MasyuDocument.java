@@ -25,11 +25,4 @@ public class MasyuDocument extends GameDocument<MasyuGame, MasyuGameMove> {
             dir = rec.intValue1;
         }};
     }
-    public int getMarkerOption() {
-        String o = gameProgress().option1;
-        return o == null ? 0 : Integer.parseInt(o);
-    }
-    public void setMarkerOption(int o) {
-        gameProgress().option1 = String.valueOf(o);
-    }
 }
