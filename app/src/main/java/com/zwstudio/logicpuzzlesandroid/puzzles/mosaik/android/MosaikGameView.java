@@ -10,11 +10,11 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikMarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikObject;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 /**
  * TODO: document your custom view class.
@@ -24,10 +24,10 @@ public class MosaikGameView extends CellsGameView {
 
     private MosaikGameActivity activity() {return (MosaikGameActivity)getContext();}
     private MosaikGame game() {return activity().game;}
-    private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
-    private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
+    private int rows() {return isInEditMode() ? 5 : game().rows();}
+    private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
-    private Paint linePaint = new Paint();
+    private Paint filledPaint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -49,11 +49,10 @@ public class MosaikGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        linePaint.setColor(Color.YELLOW);
-        linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setStrokeWidth(20);
-        markerPaint.setColor(Color.YELLOW);
-        markerPaint.setStyle(Paint.Style.STROKE);
+        filledPaint.setColor(Color.rgb(128, 0, 128));
+        filledPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setColor(Color.WHITE);
+        markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
@@ -76,6 +75,15 @@ public class MosaikGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
+                MosaikObject o = game().getObject(p);
+                switch (o) {
+                case Filled:
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, filledPaint);
+                    break;
+                case Marker:
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
+                    break;
+                }
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
                     HintState state = game().getHintState(p);
@@ -88,44 +96,17 @@ public class MosaikGameView extends CellsGameView {
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
-        int markerOffset = 20;
-        for (int r = 0; r < rows() + 1; r++)
-            for (int c = 0; c < cols() + 1; c++) {
-                MosaikObject[] dotObj = game().getObject(r, c);
-                switch (dotObj[1]){
-                case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
-                    break;
-                case Marker:
-                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) - markerOffset, cwc2(c) + markerOffset, chr(r) + markerOffset, markerPaint);
-                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) + markerOffset, cwc2(c) + markerOffset, chr(r) - markerOffset, markerPaint);
-                    break;
-                }
-                switch (dotObj[2]){
-                case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
-                    break;
-                case Marker:
-                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) - markerOffset, cwc(c) + markerOffset, chr2(r) + markerOffset, markerPaint);
-                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) + markerOffset, cwc(c) + markerOffset, chr2(r) - markerOffset, markerPaint);
-                    break;
-                }
-            }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            int offset = 30;
-            int col = (int)((event.getX() + offset) / cellWidth);
-            int row = (int)((event.getY() + offset) / cellHeight);
-            int xOffset = (int)event.getX() - col * cellWidth - 1;
-            int yOffset = (int)event.getY() - row * cellHeight - 1;
-            if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true;
+            int col = (int)(event.getX() / cellWidth);
+            int row = (int)(event.getY() / cellHeight);
+            if (col >= cols() || row >= rows()) return true;
             MosaikGameMove move = new MosaikGameMove() {{
                 p = new Position(row, col);
                 obj = MosaikObject.Empty;
-                dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, MosaikMarkerOptions.values()[activity().doc().getMarkerOption()]))

@@ -5,5 +5,5 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain;
  */
 
 public enum MosaikObject {
-    Empty, Line, Marker
+    Empty, Filled, Marker
 }

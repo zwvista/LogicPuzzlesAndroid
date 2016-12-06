@@ -18,14 +18,12 @@ public class MosaikDocument extends GameDocument<MosaikGame, MosaikGameMove> {
     protected void saveMove(MosaikGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.dir;
-        rec.intValue2 = move.obj.ordinal();
+        rec.intValue1 = move.obj.ordinal();
     }
     public MosaikGameMove loadMove(MoveProgress rec) {
         return new MosaikGameMove() {{
             p = new Position(rec.row, rec.col);
-            dir = rec.intValue1;
-            obj = MosaikObject.values()[rec.intValue2];
+            obj = MosaikObject.values()[rec.intValue1];
         }};
     }
     public int getMarkerOption() {

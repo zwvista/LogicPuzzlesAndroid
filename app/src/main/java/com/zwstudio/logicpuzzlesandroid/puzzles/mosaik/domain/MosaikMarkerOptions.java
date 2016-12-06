@@ -5,5 +5,5 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain;
  */
 
 public enum MosaikMarkerOptions {
-    NoMarker, MarkerAfterLine, MarkerBeforeLine
+    NoMarker, MarkerAfterFilled, MarkerBeforeFilled
 }

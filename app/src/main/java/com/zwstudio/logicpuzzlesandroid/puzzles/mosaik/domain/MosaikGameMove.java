@@ -8,6 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class MosaikGameMove {
     public Position p;
-    public int dir;
     public MosaikObject obj;
 }

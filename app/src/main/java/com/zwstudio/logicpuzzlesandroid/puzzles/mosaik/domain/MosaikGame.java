@@ -18,19 +18,24 @@ import fj.F2;
 public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
+            new Position(-1, 1),
             new Position(0, 1),
+            new Position(1, 1),
             new Position(1, 0),
+            new Position(1, -1),
             new Position(0, -1),
+            new Position(-1, -1),
+            new Position(0, 0),
     };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
     public MosaikGame(List<String> layout, GameInterface<MosaikGame, MosaikGameMove, MosaikGameState> gi) {
         super(gi);
-        size = new Position(layout.size() + 1, layout.get(0).length() + 1);
-        for (int r = 0; r < rows() - 1; r++) {
+        size = new Position(layout.size(), layout.get(0).length());
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() - 1; c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
                 if (ch >= '0' && ch <= '9') {
@@ -69,11 +74,11 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public MosaikObject[] getObject(Position p) {
+    public MosaikObject getObject(Position p) {
         return state().get(p);
     }
 
-    public MosaikObject[] getObject(int row, int col) {
+    public MosaikObject getObject(int row, int col) {
         return state().get(row, col);
     }
 
