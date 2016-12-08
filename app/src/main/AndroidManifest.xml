@@ -97,6 +97,15 @@
         <activity android:name=".puzzles.masyu.android.MasyuOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.magnets.android.MagnetsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.magnets.android.MagnetsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.magnets.android.MagnetsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.mosaik.android.MosaikMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -113,6 +122,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rooms.android.RoomsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rooms.android.RoomsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rooms.android.RoomsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.skyscrapers.android.SkyscrapersMainActivity_"

@@ -17,9 +17,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.data.MagnetsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.data.RoomsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.data.SumscrapersDocument;
@@ -59,11 +61,15 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public LoopyDocument loopyDocument;
     @Bean
+    public MagnetsDocument magnetsDocument;
+    @Bean
     public MasyuDocument masyuDocument;
     @Bean
     public MosaikDocument mosaikDocument;
     @Bean
     public NurikabeDocument nurikabeDocument;
+    @Bean
+    public RoomsDocument roomsDocument;
     @Bean
     public SkyscrapersDocument skyscrapersDocument;
     @Bean
@@ -84,9 +90,11 @@ public class LogicPuzzlesApplication extends Application {
         lightenupDocument.init();
         linesweeperDocument.init();
         loopyDocument.init();
+        magnetsDocument.init();
         masyuDocument.init();
         mosaikDocument.init();
         nurikabeDocument.init();
+        roomsDocument.init();
         skyscrapersDocument.init();
         slitherlinkDocument.init();
         sumscrapersDocument.init();
