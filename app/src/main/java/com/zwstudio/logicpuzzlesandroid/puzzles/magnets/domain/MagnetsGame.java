@@ -26,6 +26,7 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
     public int[] row2hint;
     public int[] col2hint;
     public List<MagnetsArea> areas = new ArrayList<>();
+    public List<Position> singles = new ArrayList<>();
 
     public MagnetsGame(List<String> layout, GameInterface<MagnetsGame, MagnetsGameMove, MagnetsGameState> gi) {
         super(gi);
@@ -38,11 +39,12 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
             for (int c = 0; c < cols() + 2; c++) {
                 Position p2 = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch == '.')
+                if (ch == '.') {
                     areas.add(new MagnetsArea() {{
                         p = p2; type = MagnetsAreaType.Single;
                     }});
-                else if (ch == 'H')
+                    singles.add(p2);
+                } else if (ch == 'H')
                     areas.add(new MagnetsArea() {{
                         p = p2; type = MagnetsAreaType.Horizontal;
                     }});

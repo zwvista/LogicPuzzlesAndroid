@@ -73,6 +73,7 @@ public class MagnetsGameView extends CellsGameView {
             switch (a.type) {
             case Single:
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
+                canvas.drawLine(cwc(c + 1), chr(r), cwc(c), chr(r + 1), gridPaint);
                 break;
             case Horizontal:
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 2), chr(r + 1), gridPaint);
@@ -99,6 +100,10 @@ public class MagnetsGameView extends CellsGameView {
                     break;
                 }
             }
+        textPaint.setColor(Color.RED);
+        drawTextCentered("+", cwc(cols()), chr(rows()), canvas, textPaint);
+        textPaint.setColor(Color.BLUE);
+        drawTextCentered("-", cwc(cols() + 1), chr(rows() + 1), canvas, textPaint);
         for (int r = 0; r < rows(); r++) {
             for (int c = 0; c < 2; c++) {
                 int id = r * 2 + c;

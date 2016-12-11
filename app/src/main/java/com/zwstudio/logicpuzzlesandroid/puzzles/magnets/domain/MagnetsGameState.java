@@ -74,7 +74,7 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
 
     public boolean setObject(MagnetsGameMove move) {
         Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
+        if (!isValid(p) || game.singles.contains(p) || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
