@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,6 +13,7 @@ import android.view.MotionEvent;
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsArea;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove;
@@ -30,6 +33,7 @@ public class MagnetsGameView extends CellsGameView {
     private Paint gridPaint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Drawable dPositive, dNegative;
 
     public MagnetsGameView(Context context) {
         super(context);
@@ -53,6 +57,8 @@ public class MagnetsGameView extends CellsGameView {
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
+        dPositive = fromImageToDrawable("positive.png");
+        dNegative = fromImageToDrawable("negative.png");
     }
 
     @Override
@@ -88,22 +94,24 @@ public class MagnetsGameView extends CellsGameView {
                 MagnetsObject o = game().getObject(r, c);
                 switch (o) {
                 case Positive:
-                    textPaint.setColor(Color.RED);
-                    drawTextCentered("+", cwc(c), chr(r), canvas, textPaint);
+                    dPositive.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                    dPositive.draw(canvas);
                     break;
                 case Negative:
-                    textPaint.setColor(Color.BLUE);
-                    drawTextCentered("-", cwc(c), chr(r), canvas, textPaint);
+                    dNegative.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                    dNegative.draw(canvas);
                     break;
                 case Marker:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
                     break;
                 }
             }
-        textPaint.setColor(Color.RED);
-        drawTextCentered("+", cwc(cols()), chr(rows()), canvas, textPaint);
-        textPaint.setColor(Color.BLUE);
-        drawTextCentered("-", cwc(cols() + 1), chr(rows() + 1), canvas, textPaint);
+        dPositive.setBounds(cwc(cols()), chr(rows()), cwc(cols() + 1), chr(rows() + 1));
+        dPositive.setColorFilter(Color.argb(75, 0, 0, 0), PorterDuff.Mode.SRC_ATOP);
+        dPositive.draw(canvas);
+        dNegative.setBounds(cwc(cols() + 1), chr(rows() + 1), cwc(cols() + 2), chr(rows() + 2));
+        dNegative.setColorFilter(Color.argb(75, 0, 0, 0), PorterDuff.Mode.SRC_ATOP);
+        dNegative.draw(canvas);
         for (int r = 0; r < rows(); r++) {
             for (int c = 0; c < 2; c++) {
                 int id = r * 2 + c;

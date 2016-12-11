@@ -69,14 +69,7 @@ public class LightenUpGameView extends CellsGameView {
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        try {
-            InputStream is = getContext().getApplicationContext().getAssets().open("lightbulb.png");
-            Bitmap bmpLightbulb = BitmapFactory.decodeStream(is);
-            dLightbulb = new BitmapDrawable(bmpLightbulb);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dLightbulb = fromImageToDrawable("lightbulb.png");
     }
 
     @Override
@@ -113,8 +106,7 @@ public class LightenUpGameView extends CellsGameView {
                     }
                 } else if (o instanceof LightenUpLightbulbObject) {
                     LightenUpLightbulbObject o2 = (LightenUpLightbulbObject) o;
-                    dLightbulb.setBounds(c * cellWidth + 1, r * cellHeight + 1,
-                            (c + 1) * cellWidth + 1, (r + 1) * cellHeight + 1);
+                    dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                     int alpaha = o2.state == LightenUpLightbulbState.Error ? 50 : 0;
                     dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dLightbulb.draw(canvas);
