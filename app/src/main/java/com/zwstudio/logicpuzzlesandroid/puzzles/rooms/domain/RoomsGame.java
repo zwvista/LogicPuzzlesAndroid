@@ -23,6 +23,17 @@ public class RoomsGame extends CellsGame<RoomsGame, RoomsGameMove, RoomsGameStat
             new Position(1, 0),
             new Position(0, -1),
     };
+    public static Position offset2[] = {
+            new Position(0, 0),
+            new Position(1, 1),
+            new Position(1, 1),
+            new Position(0, 0),
+    };
+    public static int dirs[] = { 1, 0, 3, 2 };
+
+    public boolean isValid(int row, int col) {
+        return row >= 0 && col >= 0 && row < size.row - 1 && col < size.col - 1;
+    }
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 

@@ -39,12 +39,12 @@ public class Position implements Comparable {
         return new Position(row - x.row, col - x.col);
     }
 
-    public Position plus(Position x) {
-        return new Position(+x.row, +x.col);
+    public Position plus() {
+        return new Position(+row, +col);
     }
 
-    public Position minus(Position x) {
-        return new Position(-x.row, -x.col);
+    public Position minus() {
+        return new Position(-row, -col);
     }
 
     public void addBy(Position x) {
