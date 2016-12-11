@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -108,16 +109,16 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
         return false;
     }
 
-    public boolean switchObject(LightenUpMarkerOptions markerOption, boolean normalLightbulbsOnly, LightenUpGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, boolean normalLightbulbsOnly, LightenUpGameMove move) {
         F<LightenUpObject, LightenUpObject> f = obj -> {
             if (obj instanceof LightenUpEmptyObject)
-                return markerOption == LightenUpMarkerOptions.MarkerBeforeLightbulb ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         new LightenUpMarkerObject() : new LightenUpLightbulbObject();
             if (obj instanceof LightenUpLightbulbObject)
-                return markerOption == LightenUpMarkerOptions.MarkerAfterLightbulb ?
+                return markerOption == MarkerOptions.MarkerLast ?
                         new LightenUpMarkerObject() : new LightenUpEmptyObject();
             if (obj instanceof LightenUpMarkerObject)
-                return markerOption == LightenUpMarkerOptions.MarkerBeforeLightbulb ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         new LightenUpLightbulbObject() : new LightenUpEmptyObject();
             return obj;
         };

@@ -2,8 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,7 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
         return changed;
    }
 
-    public boolean switchObject(SlitherLinkGameMove move, SlitherLinkMarkerOptions markerOption) {
+    public boolean switchObject(SlitherLinkGameMove move, MarkerOptions markerOption) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 

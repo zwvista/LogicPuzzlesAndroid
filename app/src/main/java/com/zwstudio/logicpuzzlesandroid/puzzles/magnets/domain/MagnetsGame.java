@@ -2,8 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,27 +25,37 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
 
     public int[] row2hint;
     public int[] col2hint;
-    public List<Position> pos2cloud = new ArrayList<>();
+    public List<MagnetsArea> areas = new ArrayList<>();
 
     public MagnetsGame(List<String> layout, GameInterface<MagnetsGame, MagnetsGameMove, MagnetsGameState> gi) {
         super(gi);
-        size = new Position(layout.size() - 1, layout.get(0).length() - 1);
-        row2hint = new int[rows()];
-        col2hint = new int[cols()];
+        size = new Position(layout.size() - 2, layout.get(0).length() - 2);
+        row2hint = new int[rows() * 2];
+        col2hint = new int[cols() * 2];
 
-        for (int r = 0; r < rows() + 1; r++) {
+        for (int r = 0; r < rows() + 2; r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() + 1; c++) {
-                Position p = new Position(r, c);
+            for (int c = 0; c < cols() + 2; c++) {
+                Position p2 = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch == 'C')
-                    pos2cloud.add(p);
+                if (ch == '.')
+                    areas.add(new MagnetsArea() {{
+                        p = p2; type = MagnetsAreaType.Single;
+                    }});
+                else if (ch == 'H')
+                    areas.add(new MagnetsArea() {{
+                        p = p2; type = MagnetsAreaType.Horizontal;
+                    }});
+                else if (ch == 'V')
+                    areas.add(new MagnetsArea() {{
+                        p = p2; type = MagnetsAreaType.Vertical;
+                    }});
                 else if (ch >= '0' && ch <= '9') {
                     int n = ch - '0';
-                    if (r == rows())
-                        col2hint[c] = n;
-                    else if (c == cols())
-                        row2hint[r] = n;
+                    if (r >= rows())
+                        col2hint[c * 2 + r - rows()] = n;
+                    else if (c >= cols())
+                        row2hint[r * 2 + c - cols()] = n;
                 }
             }
         }
@@ -71,7 +82,7 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
         return changed;
    }
 
-    public boolean switchObject(MagnetsGameMove move, MagnetsMarkerOptions markerOption) {
+    public boolean switchObject(MagnetsGameMove move, MarkerOptions markerOption) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 
@@ -87,11 +98,11 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
         return state().get(row, col);
     }
 
-    public HintState getRowState(int row) {
-        return state().row2state[row];
+    public HintState getRowState(int id) {
+        return state().row2state[id];
     }
 
-    public HintState getColState(int col) {
-        return state().col2state[col];
+    public HintState getColState(int id) {
+        return state().col2state[id];
     }
 }

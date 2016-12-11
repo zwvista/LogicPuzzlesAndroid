@@ -2,9 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -113,17 +114,17 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
         return true;
     }
 
-    public boolean switchObject(RoomsMarkerOptions markerOption, RoomsGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, RoomsGameMove move) {
         F<RoomsObject, RoomsObject> f = obj -> {
             switch (obj) {
             case Empty:
-                return markerOption == RoomsMarkerOptions.MarkerBeforeLine ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         RoomsObject.Marker : RoomsObject.Line;
             case Line:
-                return markerOption == RoomsMarkerOptions.MarkerAfterLine ?
+                return markerOption == MarkerOptions.MarkerLast ?
                         RoomsObject.Marker : RoomsObject.Empty;
             case Marker:
-                return markerOption == RoomsMarkerOptions.MarkerBeforeLine ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         RoomsObject.Line : RoomsObject.Empty;
             }
             return obj;

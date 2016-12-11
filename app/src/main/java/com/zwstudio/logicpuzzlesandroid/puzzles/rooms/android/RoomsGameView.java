@@ -12,7 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsMarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsObject;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -128,7 +128,7 @@ public class RoomsGameView extends CellsGameView {
                 dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, RoomsMarkerOptions.values()[activity().doc().getMarkerOption()]))
+            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

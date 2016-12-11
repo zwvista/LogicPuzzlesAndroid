@@ -11,9 +11,10 @@ import android.view.MotionEvent;
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsArea;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsMarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsObject;
 
 /**
@@ -27,8 +28,7 @@ public class MagnetsGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
-    private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
+    private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public MagnetsGameView(Context context) {
@@ -49,10 +49,8 @@ public class MagnetsGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
-        wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setColor(Color.WHITE);
+        markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -61,49 +59,73 @@ public class MagnetsGameView extends CellsGameView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / (cols() + 2) - 1;
+        cellHeight = getHeight() / (rows() + 2) - 1;
         invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
+        if (isInEditMode()) return;
+        for (MagnetsArea a : game().areas) {
+            int r = a.p.row, c = a.p.col;
+            switch (a.type) {
+            case Single:
+                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
+                break;
+            case Horizontal:
+                canvas.drawRect(cwc(c), chr(r), cwc(c + 2), chr(r + 1), gridPaint);
+                break;
+            case Vertical:
+                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 2), gridPaint);
+                break;
+            }
+        }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
-                if (isInEditMode()) continue;
                 MagnetsObject o = game().getObject(r, c);
                 switch (o) {
-                case Cloud:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
+                case Positive:
+                    textPaint.setColor(Color.RED);
+                    drawTextCentered("+", cwc(c), chr(r), canvas, textPaint);
+                    break;
+                case Negative:
+                    textPaint.setColor(Color.BLUE);
+                    drawTextCentered("-", cwc(c), chr(r), canvas, textPaint);
                     break;
                 case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
                     break;
                 }
             }
         for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
+            for (int c = 0; c < 2; c++) {
+                int id = r * 2 + c;
+                HintState s = game().getRowState(id);
+                textPaint.setColor(
+                        s == HintState.Complete ? Color.GREEN :
+                        s == HintState.Error ? Color.RED :
+                        Color.WHITE
+                );
+                int n = game().row2hint[id];
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(cols() + c), chr(r), canvas, textPaint);
+            }
         }
         for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
+            for (int r = 0; r < 2; r++) {
+                int id = c * 2 + r;
+                HintState s = game().getColState(id);
+                textPaint.setColor(
+                        s == HintState.Complete ? Color.GREEN :
+                        s == HintState.Error ? Color.RED :
+                        Color.WHITE
+                );
+                int n = game().col2hint[id];
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(rows() + r), canvas, textPaint);
+            }
         }
     }
 
@@ -118,7 +140,7 @@ public class MagnetsGameView extends CellsGameView {
                 obj = MagnetsObject.Empty;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, MagnetsMarkerOptions.values()[activity().doc().getMarkerOption()]))
+            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

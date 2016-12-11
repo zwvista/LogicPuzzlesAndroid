@@ -2,9 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -113,17 +114,17 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         return true;
     }
 
-    public boolean switchObject(SlitherLinkMarkerOptions markerOption, SlitherLinkGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, SlitherLinkGameMove move) {
         F<SlitherLinkObject, SlitherLinkObject> f = obj -> {
             switch (obj) {
             case Empty:
-                return markerOption == SlitherLinkMarkerOptions.MarkerBeforeLine ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         SlitherLinkObject.Marker : SlitherLinkObject.Line;
             case Line:
-                return markerOption == SlitherLinkMarkerOptions.MarkerAfterLine ?
+                return markerOption == MarkerOptions.MarkerLast ?
                         SlitherLinkObject.Marker : SlitherLinkObject.Empty;
             case Marker:
-                return markerOption == SlitherLinkMarkerOptions.MarkerBeforeLine ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         SlitherLinkObject.Line : SlitherLinkObject.Empty;
             }
             return obj;

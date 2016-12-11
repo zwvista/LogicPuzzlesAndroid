@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
@@ -131,16 +132,16 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
         return true;
     }
 
-    public boolean switchObject(NurikabeMarkerOptions markerOption, NurikabeGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, NurikabeGameMove move) {
         F<NurikabeObject, NurikabeObject> f = obj -> {
             if (obj instanceof NurikabeEmptyObject)
-                return markerOption == NurikabeMarkerOptions.MarkerBeforeWall ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         new NurikabeMarkerObject() : new NurikabeWallObject();
             if (obj instanceof NurikabeWallObject)
-                return markerOption == NurikabeMarkerOptions.MarkerAfterWall ?
+                return markerOption == MarkerOptions.MarkerLast ?
                         new NurikabeMarkerObject() : new NurikabeEmptyObject();
             if (obj instanceof NurikabeMarkerObject)
-                return markerOption == NurikabeMarkerOptions.MarkerBeforeWall ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         new NurikabeWallObject() : new NurikabeEmptyObject();
             return obj;
         };

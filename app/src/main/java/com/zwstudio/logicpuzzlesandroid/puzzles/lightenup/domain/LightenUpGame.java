@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import java.util.HashMap;
@@ -61,7 +61,7 @@ public class LightenUpGame extends CellsGame<LightenUpGame, LightenUpGameMove, L
         return changed;
    }
 
-    public boolean switchObject(LightenUpGameMove move, LightenUpMarkerOptions markerOption, boolean normalLightbulbsOnly) {
+    public boolean switchObject(LightenUpGameMove move, MarkerOptions markerOption, boolean normalLightbulbsOnly) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, normalLightbulbsOnly, move2));
     }
 

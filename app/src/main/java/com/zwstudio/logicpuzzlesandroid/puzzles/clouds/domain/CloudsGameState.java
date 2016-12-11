@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
@@ -110,17 +111,17 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
         return true;
     }
 
-    public boolean switchObject(CloudsMarkerOptions markerOption, CloudsGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, CloudsGameMove move) {
         F<CloudsObject, CloudsObject> f = obj -> {
             switch (obj) {
             case Empty:
-                return markerOption == CloudsMarkerOptions.MarkerBeforeCloud ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         CloudsObject.Marker : CloudsObject.Cloud;
             case Cloud:
-                return markerOption == CloudsMarkerOptions.MarkerAfterCloud ?
+                return markerOption == MarkerOptions.MarkerLast ?
                         CloudsObject.Marker : CloudsObject.Empty;
             case Marker:
-                return markerOption == CloudsMarkerOptions.MarkerBeforeCloud ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         CloudsObject.Cloud : CloudsObject.Empty;
             }
             return obj;

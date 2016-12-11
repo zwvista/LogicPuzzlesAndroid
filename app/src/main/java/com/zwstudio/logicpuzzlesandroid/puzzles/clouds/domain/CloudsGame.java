@@ -2,8 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
         return changed;
    }
 
-    public boolean switchObject(CloudsGameMove move, CloudsMarkerOptions markerOption) {
+    public boolean switchObject(CloudsGameMove move, MarkerOptions markerOption) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 

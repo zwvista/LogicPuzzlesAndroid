@@ -20,7 +20,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarkerObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpWallObject;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
@@ -134,7 +134,7 @@ public class LightenUpGameView extends CellsGameView {
                 obj = new LightenUpEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, LightenUpMarkerOptions.values()[activity().doc().getMarkerOption()],
+            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()],
                     activity().doc().isNormalLightbulbsOnly()))
                 activity().app.soundManager.playSoundTap();
         }

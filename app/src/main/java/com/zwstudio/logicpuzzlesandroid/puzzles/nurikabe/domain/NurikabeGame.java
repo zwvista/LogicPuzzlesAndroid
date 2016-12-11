@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import java.util.HashMap;
@@ -67,7 +67,7 @@ public class NurikabeGame extends CellsGame<NurikabeGame, NurikabeGameMove, Nuri
         return changed;
    }
 
-    public boolean switchObject(NurikabeGameMove move, NurikabeMarkerOptions markerOption) {
+    public boolean switchObject(NurikabeGameMove move, MarkerOptions markerOption) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 

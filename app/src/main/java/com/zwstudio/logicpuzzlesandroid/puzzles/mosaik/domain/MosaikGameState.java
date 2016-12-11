@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -65,17 +66,17 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
         return true;
     }
 
-    public boolean switchObject(MosaikMarkerOptions markerOption, MosaikGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, MosaikGameMove move) {
         F<MosaikObject, MosaikObject> f = obj -> {
             switch (obj) {
             case Empty:
-                return markerOption == MosaikMarkerOptions.MarkerBeforeFilled ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         MosaikObject.Marker : MosaikObject.Filled;
             case Filled:
-                return markerOption == MosaikMarkerOptions.MarkerAfterFilled ?
+                return markerOption == MarkerOptions.MarkerLast ?
                         MosaikObject.Marker : MosaikObject.Empty;
             case Marker:
-                return markerOption == MosaikMarkerOptions.MarkerBeforeFilled ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         MosaikObject.Filled : MosaikObject.Empty;
             }
             return obj;

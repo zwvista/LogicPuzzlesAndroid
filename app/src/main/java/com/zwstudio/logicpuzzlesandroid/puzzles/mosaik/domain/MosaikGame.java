@@ -2,8 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +67,7 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
         return changed;
    }
 
-    public boolean switchObject(MosaikGameMove move, MosaikMarkerOptions markerOption) {
+    public boolean switchObject(MosaikGameMove move, MarkerOptions markerOption) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 

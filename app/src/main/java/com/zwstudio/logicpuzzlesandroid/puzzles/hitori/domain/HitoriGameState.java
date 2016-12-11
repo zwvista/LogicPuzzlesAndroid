@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
@@ -120,17 +121,17 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
         return true;
     }
 
-    public boolean switchObject(HitoriMarkerOptions markerOption, HitoriGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, HitoriGameMove move) {
         F<HitoriObject, HitoriObject> f = obj -> {
             switch (obj) {
             case Normal:
-                return markerOption == HitoriMarkerOptions.MarkerBeforeDarken ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         HitoriObject.Marker : HitoriObject.Darken;
             case Darken:
-                return markerOption == HitoriMarkerOptions.MarkerAfterDarken ?
+                return markerOption == MarkerOptions.MarkerLast ?
                         HitoriObject.Marker : HitoriObject.Normal;
             case Marker:
-                return markerOption == HitoriMarkerOptions.MarkerBeforeDarken ?
+                return markerOption == MarkerOptions.MarkerFirst ?
                         HitoriObject.Darken : HitoriObject.Normal;
             }
             return obj;

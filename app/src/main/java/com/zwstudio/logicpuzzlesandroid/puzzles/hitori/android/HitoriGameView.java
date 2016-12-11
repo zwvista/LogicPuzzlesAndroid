@@ -12,7 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriMarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject;
 
 /**
@@ -107,7 +107,7 @@ public class HitoriGameView extends CellsGameView {
                 obj = HitoriObject.Normal;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, HitoriMarkerOptions.values()[activity().doc().getMarkerOption()]))
+            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

@@ -2,8 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,7 @@ public class RoomsGame extends CellsGame<RoomsGame, RoomsGameMove, RoomsGameStat
         return changed;
    }
 
-    public boolean switchObject(RoomsGameMove move, RoomsMarkerOptions markerOption) {
+    public boolean switchObject(RoomsGameMove move, MarkerOptions markerOption) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 

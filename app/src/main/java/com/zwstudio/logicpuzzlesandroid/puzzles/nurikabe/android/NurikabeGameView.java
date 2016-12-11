@@ -16,7 +16,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeHintObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObject;
 
@@ -106,7 +106,7 @@ public class NurikabeGameView extends CellsGameView {
                 obj = new NurikabeEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, NurikabeMarkerOptions.values()[activity().doc().getMarkerOption()]))
+            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()]))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

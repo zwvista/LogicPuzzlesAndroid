@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
         return changed;
    }
 
-    public boolean switchObject(HitoriGameMove move, HitoriMarkerOptions markerOption) {
+    public boolean switchObject(HitoriGameMove move, MarkerOptions markerOption) {
         return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 
