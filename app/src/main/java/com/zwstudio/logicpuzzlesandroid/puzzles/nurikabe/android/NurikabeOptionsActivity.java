@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 
 import org.androidannotations.annotations.AfterViews;
@@ -56,18 +57,20 @@ public class NurikabeOptionsActivity extends OptionsActivity {
 
     @ItemSelect
     protected void spnMarkerItemSelected(boolean selected, int position) {
-        doc().setMarkerOption(position);
+        GameProgress rec = doc().gameProgress();
+        doc().setMarkerOption(rec, position);
         try {
-            app.daoGameProgress.update(doc().gameProgress());
+            app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     protected void onDefault() {
-        doc().setMarkerOption(0);
+        GameProgress rec = doc().gameProgress();
+        doc().setMarkerOption(rec, 0);
         try {
-            app.daoGameProgress.update(doc().gameProgress());
+            app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

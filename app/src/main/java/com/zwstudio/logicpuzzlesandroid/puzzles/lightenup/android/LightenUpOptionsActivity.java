@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
 
 import org.androidannotations.annotations.AfterViews;
@@ -60,9 +61,10 @@ public class LightenUpOptionsActivity extends OptionsActivity {
 
     @ItemSelect
     protected void spnMarkerItemSelected(boolean selected, int position) {
-        doc().setMarkerOption(position);
+        GameProgress rec = doc().gameProgress();
+        doc().setMarkerOption(rec, position);
         try {
-            app.daoGameProgress.update(doc().gameProgress());
+            app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,20 +72,22 @@ public class LightenUpOptionsActivity extends OptionsActivity {
 
     @Click
     protected void ctvNormalLightbulbsOnly() {
+        GameProgress rec = doc().gameProgress();
         ctvNormalLightbulbsOnly.setChecked(!doc().isNormalLightbulbsOnly());
-        doc().setNormalLightbulbsOnly(!doc().isNormalLightbulbsOnly());
+        doc().setNormalLightbulbsOnly(rec, !doc().isNormalLightbulbsOnly());
         try {
-            app.daoGameProgress.update(doc().gameProgress());
+            app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     protected void onDefault() {
-        doc().setMarkerOption(0);
-        doc().setNormalLightbulbsOnly(false);
+        GameProgress rec = doc().gameProgress();
+        doc().setMarkerOption(rec, 0);
+        doc().setNormalLightbulbsOnly(rec, false);
         try {
-            app.daoGameProgress.update(doc().gameProgress());
+            app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }

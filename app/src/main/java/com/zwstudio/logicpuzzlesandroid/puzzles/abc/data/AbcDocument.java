@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
@@ -29,7 +30,7 @@ public class AbcDocument extends GameDocument<AbcGame, AbcGameMove> {
         String o = gameProgress().option1;
         return o == null ? 0 : Integer.parseInt(o);
     }
-    public void setMarkerOption(int o) {
-        gameProgress().option1 = String.valueOf(o);
+    public void setMarkerOption(GameProgress rec, int o) {
+        rec.option1 = String.valueOf(o);
     }
 }
