@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -101,11 +102,15 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
         return true;
     }
 
-    public boolean switchObject(AbcGameMove move) {
+    public boolean switchObject(MarkerOptions markerOption, AbcGameMove move) {
         Position p = move.p;
         if (!isValid(p)) return false;
         char o = get(p);
-        move.obj = o == ' ' ? 'A' : o == game.chMax ? ' ' : (char)(o + 1);
+        move.obj =
+                o == ' ' ? markerOption == MarkerOptions.MarkerFirst ? '.' : 'A' :
+                o == '.' ? markerOption == MarkerOptions.MarkerFirst ? 'A' : ' ' :
+                o == game.chMax ? markerOption == MarkerOptions.MarkerLast ? '.' : ' ' :
+                (char)(o + 1);
         return setObject(move);
     }
 }

@@ -6,8 +6,13 @@ import android.content.DialogInterface;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
+import java.util.Arrays;
+import java.util.List;
+
 @EActivity
 public abstract class OptionsActivity extends BaseActivity {
+
+    public static List<String> lstMarkers = Arrays.asList("No Marker", "Marker First", "Marker Last");
 
     @Click
     protected void btnDone() {

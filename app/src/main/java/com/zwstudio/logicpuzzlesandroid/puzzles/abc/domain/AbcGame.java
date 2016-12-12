@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -76,8 +77,8 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
         return changed;
    }
 
-    public boolean switchObject(AbcGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+    public boolean switchObject(AbcGameMove move, MarkerOptions markerOption) {
+        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
     }
 
     public boolean setObject(AbcGameMove move) {

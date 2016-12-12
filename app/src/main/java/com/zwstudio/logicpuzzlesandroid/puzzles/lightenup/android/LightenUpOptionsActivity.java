@@ -18,7 +18,6 @@ import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_lightenup_options)
@@ -32,7 +31,7 @@ public class LightenUpOptionsActivity extends OptionsActivity {
 
     @AfterViews
     protected void init() {
-        List<String> lst = Arrays.asList("No Marker", "Marker After Lightbulb", "Marker Before Lightbulb");
+        List<String> lst = OptionsActivity.lstMarkers;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override

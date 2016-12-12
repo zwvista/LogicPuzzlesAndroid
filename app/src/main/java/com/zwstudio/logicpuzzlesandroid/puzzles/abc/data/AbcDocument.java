@@ -25,4 +25,11 @@ public class AbcDocument extends GameDocument<AbcGame, AbcGameMove> {
             obj = rec.strValue1.charAt(0);
         }};
     }
+    public int getMarkerOption() {
+        String o = gameProgress().option1;
+        return o == null ? 0 : Integer.parseInt(o);
+    }
+    public void setMarkerOption(int o) {
+        gameProgress().option1 = String.valueOf(o);
+    }
 }

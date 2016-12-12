@@ -17,7 +17,6 @@ import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_nurikabe_options)
@@ -29,7 +28,7 @@ public class NurikabeOptionsActivity extends OptionsActivity {
 
     @AfterViews
     protected void init() {
-        List<String> lst = Arrays.asList("No Marker", "Marker After Wall", "Marker Before Wall");
+        List<String> lst = OptionsActivity.lstMarkers;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override

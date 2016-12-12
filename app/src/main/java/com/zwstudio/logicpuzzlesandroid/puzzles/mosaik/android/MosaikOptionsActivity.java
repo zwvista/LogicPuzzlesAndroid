@@ -17,7 +17,6 @@ import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_mosaik_options)
@@ -29,8 +28,7 @@ public class MosaikOptionsActivity extends OptionsActivity {
 
     @AfterViews
     protected void init() {
-
-        List<String> lst = Arrays.asList("No Marker", "Marker After Line", "Marker Before Line");
+        List<String> lst = OptionsActivity.lstMarkers;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
