@@ -34,6 +34,15 @@
         <activity android:name=".puzzles.abc.android.AbcOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.battleships.android.BattleShipsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.battleships.android.BattleShipsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.battleships.android.BattleShipsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -124,6 +133,15 @@
         <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.parks.android.ParksMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parks.android.ParksGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parks.android.ParksOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.rooms.android.RoomsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -158,6 +176,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.sumscrapers.android.SumscrapersOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tents.android.TentsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tents.android.TentsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tents.android.TentsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
     </application>

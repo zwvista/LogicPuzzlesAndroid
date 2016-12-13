@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.home.data.DBHelper;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.data.BattleShipsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data.CloudsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
@@ -21,10 +22,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.data.MagnetsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.parks.data.ParksDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.data.RoomsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.data.SumscrapersDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tents.data.TentsDocument;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
@@ -49,6 +52,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public AbcDocument abcDocument;
     @Bean
+    public BattleShipsDocument battleshipsDocument;
+    @Bean
     public BridgesDocument bridgesDocument;
     @Bean
     public CloudsDocument cloudsDocument;
@@ -69,6 +74,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public NurikabeDocument nurikabeDocument;
     @Bean
+    public ParksDocument parksDocument;
+    @Bean
     public RoomsDocument roomsDocument;
     @Bean
     public SkyscrapersDocument skyscrapersDocument;
@@ -77,6 +84,9 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public SumscrapersDocument sumscrapersDocument;
     @Bean
+    public TentsDocument tentsDocument;
+
+    @Bean
     public SoundManager soundManager;
 
     @Override
@@ -84,6 +94,7 @@ public class LogicPuzzlesApplication extends Application {
         super.onCreate();
 
         abcDocument.init();
+        battleshipsDocument.init();
         bridgesDocument.init();
         cloudsDocument.init();
         hitoriDocument.init();
@@ -94,10 +105,12 @@ public class LogicPuzzlesApplication extends Application {
         masyuDocument.init();
         mosaikDocument.init();
         nurikabeDocument.init();
+        parksDocument.init();
         roomsDocument.init();
         skyscrapersDocument.init();
         slitherlinkDocument.init();
         sumscrapersDocument.init();
+        tentsDocument.init();
 
         soundManager.init();
     }
