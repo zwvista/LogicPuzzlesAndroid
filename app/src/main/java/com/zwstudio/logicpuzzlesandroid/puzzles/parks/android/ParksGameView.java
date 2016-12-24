@@ -4,17 +4,23 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksEmptyObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGameMove;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksTreeObject;
 
 /**
  * TODO: document your custom view class.
@@ -27,9 +33,11 @@ public class ParksGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
-    private Paint filledPaint = new Paint();
+    private Paint linePaint = new Paint();
     private Paint markerPaint = new Paint();
+    private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Drawable dTree;
 
     public ParksGameView(Context context) {
         super(context);
@@ -49,13 +57,17 @@ public class ParksGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        filledPaint.setColor(Color.rgb(128, 0, 128));
-        filledPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        linePaint.setColor(Color.YELLOW);
+        linePaint.setStyle(Paint.Style.STROKE);
         markerPaint.setColor(Color.WHITE);
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
+        forbiddenPaint.setColor(Color.RED);
+        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
+        dTree = fromImageToDrawable("tree.png");
     }
 
     @Override
@@ -75,26 +87,21 @@ public class ParksGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
+                if (game().dots.get(r, c, 1))
+                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
+                if (game().dots.get(r, c, 2))
+                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
                 ParksObject o = game().getObject(p);
-                switch (o) {
-                case Filled:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, filledPaint);
-                    break;
-                case Marker:
+                if (o instanceof ParksTreeObject) {
+                    ParksTreeObject o2 = (ParksTreeObject) o;
+                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                    int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
+                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dTree.draw(canvas);
+                } else if (o instanceof ParksMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
-                    break;
-                }
-                Integer n = game().pos2hint.get(p);
-                if (n != null) {
-                    HintState state = game().getHintState(p);
-                    textPaint.setColor(
-                            state == HintState.Complete ? Color.GREEN :
-                            state == HintState.Error ? Color.RED :
-                            Color.WHITE
-                    );
-                    String text = String.valueOf(n);
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
-                }
+                else if (o instanceof ParksForbiddenObject)
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
             }
     }
 
@@ -106,10 +113,11 @@ public class ParksGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             ParksGameMove move = new ParksGameMove() {{
                 p = new Position(row, col);
-                obj = ParksObject.Empty;
+                obj = new ParksEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()]))
+            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()],
+                    activity().doc().isAllowedObjectsOnly()))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

@@ -110,7 +110,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, SlitherLinkGameMove move) {
+    public boolean switchObject(SlitherLinkGameMove move, MarkerOptions markerOption) {
         F<SlitherLinkObject, SlitherLinkObject> f = obj -> {
             switch (obj) {
             case Empty:

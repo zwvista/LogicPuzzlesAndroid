@@ -13,6 +13,7 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.data.ParksDocument;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
@@ -26,6 +27,8 @@ public class ParksOptionsActivity extends OptionsActivity {
 
     @ViewById
     Spinner spnMarker;
+    @ViewById
+    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {
@@ -53,6 +56,7 @@ public class ParksOptionsActivity extends OptionsActivity {
         spnMarker.setAdapter(adapter);
 
         spnMarker.setSelection(doc().getMarkerOption());
+        ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
     }
 
     @ItemSelect
@@ -66,14 +70,28 @@ public class ParksOptionsActivity extends OptionsActivity {
         }
     }
 
+    @Click
+    protected void ctvAllowedObjectsOnly() {
+        GameProgress rec = doc().gameProgress();
+        ctvAllowedObjectsOnly.setChecked(!doc().isAllowedObjectsOnly());
+        doc().setAllowedObjectsOnly(rec, !doc().isAllowedObjectsOnly());
+        try {
+            app.daoGameProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected void onDefault() {
         GameProgress rec = doc().gameProgress();
         doc().setMarkerOption(rec, 0);
+        doc().setAllowedObjectsOnly(rec, false);
         try {
             app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         spnMarker.setSelection(doc().getMarkerOption());
+        ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
     }
 }

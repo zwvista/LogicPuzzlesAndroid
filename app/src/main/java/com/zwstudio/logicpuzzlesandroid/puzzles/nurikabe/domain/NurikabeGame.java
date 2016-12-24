@@ -68,7 +68,7 @@ public class NurikabeGame extends CellsGame<NurikabeGame, NurikabeGameMove, Nuri
    }
 
     public boolean switchObject(NurikabeGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(NurikabeGameMove move) {

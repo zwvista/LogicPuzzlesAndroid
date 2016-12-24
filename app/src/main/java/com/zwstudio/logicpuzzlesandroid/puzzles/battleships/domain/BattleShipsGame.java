@@ -73,7 +73,7 @@ public class BattleShipsGame extends CellsGame<BattleShipsGame, BattleShipsGameM
    }
 
     public boolean switchObject(BattleShipsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(BattleShipsGameMove move) {

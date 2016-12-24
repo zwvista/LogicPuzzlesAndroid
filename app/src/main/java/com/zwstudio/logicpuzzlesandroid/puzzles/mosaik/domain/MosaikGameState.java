@@ -66,7 +66,7 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, MosaikGameMove move) {
+    public boolean switchObject(MosaikGameMove move, MarkerOptions markerOption) {
         F<MosaikObject, MosaikObject> f = obj -> {
             switch (obj) {
             case Empty:

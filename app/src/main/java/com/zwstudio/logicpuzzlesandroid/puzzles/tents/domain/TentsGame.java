@@ -73,7 +73,7 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
    }
 
     public boolean switchObject(TentsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(TentsGameMove move) {

@@ -63,7 +63,7 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
    }
 
     public boolean switchObject(SlitherLinkGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(SlitherLinkGameMove move) {

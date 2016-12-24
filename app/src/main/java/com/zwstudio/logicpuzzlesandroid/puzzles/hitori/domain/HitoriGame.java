@@ -70,7 +70,7 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
    }
 
     public boolean switchObject(HitoriGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(HitoriGameMove move) {

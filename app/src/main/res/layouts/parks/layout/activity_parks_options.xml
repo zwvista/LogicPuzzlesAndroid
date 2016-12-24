@@ -30,6 +30,14 @@
             android:id="@+id/spnMarker"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dip" />
+
+        <CheckedTextView
+            android:text="Allowed Objects Only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:id="@+id/ctvAllowedObjectsOnly" />
     </LinearLayout>
 
     <LinearLayout

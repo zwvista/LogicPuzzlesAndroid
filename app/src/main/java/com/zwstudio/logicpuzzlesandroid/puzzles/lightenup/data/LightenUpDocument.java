@@ -34,11 +34,11 @@ public class LightenUpDocument extends GameDocument<LightenUpGame, LightenUpGame
     public void setMarkerOption(GameProgress rec, int o) {
         rec.option1 = String.valueOf(o);
     }
-    public boolean isNormalLightbulbsOnly() {
+    public boolean isAllowedObjectsOnly() {
         String o = gameProgress().option2;
         return o != null;
     }
-    public void setNormalLightbulbsOnly(GameProgress rec, boolean o) {
+    public void setAllowedObjectsOnly(GameProgress rec, boolean o) {
         rec.option2 = String.valueOf(o);
     }
 }

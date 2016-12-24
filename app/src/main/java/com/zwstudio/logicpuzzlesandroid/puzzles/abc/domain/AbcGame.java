@@ -78,7 +78,7 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
    }
 
     public boolean switchObject(AbcGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(AbcGameMove move) {

@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -54,7 +55,7 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
                     isSolved = false;
                 else if (o instanceof LightenUpLightbulbObject) {
                     LightenUpLightbulbObject o2 = (LightenUpLightbulbObject)o;
-                    o2.state = o.lightness == 1 ? LightenUpLightbulbState.Normal : LightenUpLightbulbState.Error;
+                    o2.state = o.lightness == 1 ? AllowedObjectState.Normal : AllowedObjectState.Error;
                     if (o.lightness > 1) isSolved = false;
                 } else if (o instanceof LightenUpWallObject) {
                     LightenUpWallObject o2 = (LightenUpWallObject) o;
@@ -109,7 +110,7 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
         return false;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, boolean normalLightbulbsOnly, LightenUpGameMove move) {
+    public boolean switchObject(LightenUpGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
         F<LightenUpObject, LightenUpObject> f = obj -> {
             if (obj instanceof LightenUpEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -129,7 +130,7 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
             return setObject(move);
         }
         if (objNew instanceof LightenUpLightbulbObject) {
-            move.obj = normalLightbulbsOnly && objOld.lightness > 0 ? f.f(objNew) : objNew;
+            move.obj = allowedObjectsOnly && objOld.lightness > 0 ? f.f(objNew) : objNew;
             return setObject(move);
         }
         return false;

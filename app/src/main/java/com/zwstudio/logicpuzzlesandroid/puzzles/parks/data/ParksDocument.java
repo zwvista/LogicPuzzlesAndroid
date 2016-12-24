@@ -19,12 +19,12 @@ public class ParksDocument extends GameDocument<ParksGame, ParksGameMove> {
     protected void saveMove(ParksGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.obj.ordinal();
+        rec.strValue1 = move.obj.objAsString();
     }
     public ParksGameMove loadMove(MoveProgress rec) {
         return new ParksGameMove() {{
             p = new Position(rec.row, rec.col);
-            obj = ParksObject.values()[rec.intValue1];
+            obj = ParksObject.objFromString(rec.strValue1);
         }};
     }
     public int getMarkerOption() {
@@ -33,5 +33,12 @@ public class ParksDocument extends GameDocument<ParksGame, ParksGameMove> {
     }
     public void setMarkerOption(GameProgress rec, int o) {
         rec.option1 = String.valueOf(o);
+    }
+    public boolean isAllowedObjectsOnly() {
+        String o = gameProgress().option2;
+        return o != null;
+    }
+    public void setAllowedObjectsOnly(GameProgress rec, boolean o) {
+        rec.option2 = String.valueOf(o);
     }
 }

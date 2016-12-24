@@ -1,13 +1,10 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.android;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -18,16 +15,13 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpEmptyO
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpWallObject;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * TODO: document your custom view class.
@@ -107,7 +101,7 @@ public class LightenUpGameView extends CellsGameView {
                 } else if (o instanceof LightenUpLightbulbObject) {
                     LightenUpLightbulbObject o2 = (LightenUpLightbulbObject) o;
                     dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
-                    int alpaha = o2.state == LightenUpLightbulbState.Error ? 50 : 0;
+                    int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
                     dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dLightbulb.draw(canvas);
                 } else if (o instanceof LightenUpMarkerObject)
@@ -127,7 +121,7 @@ public class LightenUpGameView extends CellsGameView {
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()],
-                    activity().doc().isNormalLightbulbsOnly()))
+                    activity().doc().isAllowedObjectsOnly()))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

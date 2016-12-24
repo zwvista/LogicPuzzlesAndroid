@@ -111,7 +111,7 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, BattleShipsGameMove move) {
+    public boolean switchObject(BattleShipsGameMove move, MarkerOptions markerOption) {
         F<BattleShipsObject, BattleShipsObject> f = obj -> {
             switch (obj) {
             case Empty:

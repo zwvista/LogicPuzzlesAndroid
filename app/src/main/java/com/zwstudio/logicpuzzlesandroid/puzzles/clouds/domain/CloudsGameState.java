@@ -111,7 +111,7 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, CloudsGameMove move) {
+    public boolean switchObject(CloudsGameMove move, MarkerOptions markerOption) {
         F<CloudsObject, CloudsObject> f = obj -> {
             switch (obj) {
             case Empty:

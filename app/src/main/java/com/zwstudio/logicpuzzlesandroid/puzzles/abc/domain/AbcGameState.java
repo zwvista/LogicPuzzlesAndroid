@@ -102,7 +102,7 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, AbcGameMove move) {
+    public boolean switchObject(AbcGameMove move, MarkerOptions markerOption) {
         Position p = move.p;
         if (!isValid(p)) return false;
         char o = get(p);

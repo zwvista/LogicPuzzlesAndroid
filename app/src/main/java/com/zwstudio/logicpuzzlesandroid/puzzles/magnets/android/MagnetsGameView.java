@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsArea;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove;

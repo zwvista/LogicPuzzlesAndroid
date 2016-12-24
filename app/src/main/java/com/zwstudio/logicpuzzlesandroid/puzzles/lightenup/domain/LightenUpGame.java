@@ -61,8 +61,8 @@ public class LightenUpGame extends CellsGame<LightenUpGame, LightenUpGameMove, L
         return changed;
    }
 
-    public boolean switchObject(LightenUpGameMove move, MarkerOptions markerOption, boolean normalLightbulbsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, normalLightbulbsOnly, move2));
+    public boolean switchObject(LightenUpGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
     }
 
     public boolean setObject(LightenUpGameMove move) {

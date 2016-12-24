@@ -121,7 +121,7 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, HitoriGameMove move) {
+    public boolean switchObject(HitoriGameMove move, MarkerOptions markerOption) {
         F<HitoriObject, HitoriObject> f = obj -> {
             switch (obj) {
             case Normal:

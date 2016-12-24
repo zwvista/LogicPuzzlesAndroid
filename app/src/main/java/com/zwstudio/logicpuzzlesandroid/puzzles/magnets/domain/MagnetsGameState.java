@@ -115,7 +115,7 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, MagnetsGameMove move) {
+    public boolean switchObject(MagnetsGameMove move, MarkerOptions markerOption) {
         F<MagnetsObject, MagnetsObject> f = obj -> {
             switch (obj) {
             case Empty:

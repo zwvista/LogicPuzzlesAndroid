@@ -68,7 +68,7 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
    }
 
     public boolean switchObject(MosaikGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(MosaikGameMove move) {

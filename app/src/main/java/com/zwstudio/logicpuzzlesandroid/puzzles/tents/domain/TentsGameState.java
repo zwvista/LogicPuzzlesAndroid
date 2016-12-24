@@ -111,7 +111,7 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, TentsGameMove move) {
+    public boolean switchObject(TentsGameMove move, MarkerOptions markerOption) {
         F<TentsObject, TentsObject> f = obj -> {
             switch (obj) {
             case Empty:

@@ -70,7 +70,7 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, RoomsGameMove move) {
+    public boolean switchObject(RoomsGameMove move, MarkerOptions markerOption) {
         F<RoomsObject, RoomsObject> f = obj -> {
             switch (obj) {
             case Empty:

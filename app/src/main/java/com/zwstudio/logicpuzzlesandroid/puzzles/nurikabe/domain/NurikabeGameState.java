@@ -132,7 +132,7 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
         return true;
     }
 
-    public boolean switchObject(MarkerOptions markerOption, NurikabeGameMove move) {
+    public boolean switchObject(NurikabeGameMove move, MarkerOptions markerOption) {
         F<NurikabeObject, NurikabeObject> f = obj -> {
             if (obj instanceof NurikabeEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?

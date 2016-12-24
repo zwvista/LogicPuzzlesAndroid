@@ -28,7 +28,7 @@ public class LightenUpOptionsActivity extends OptionsActivity {
     @ViewById
     Spinner spnMarker;
     @ViewById
-    CheckedTextView ctvNormalLightbulbsOnly;
+    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {
@@ -56,7 +56,7 @@ public class LightenUpOptionsActivity extends OptionsActivity {
         spnMarker.setAdapter(adapter);
 
         spnMarker.setSelection(doc().getMarkerOption());
-        ctvNormalLightbulbsOnly.setChecked(doc().isNormalLightbulbsOnly());
+        ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
     }
 
     @ItemSelect
@@ -71,10 +71,10 @@ public class LightenUpOptionsActivity extends OptionsActivity {
     }
 
     @Click
-    protected void ctvNormalLightbulbsOnly() {
+    protected void ctvAllowedObjectsOnly() {
         GameProgress rec = doc().gameProgress();
-        ctvNormalLightbulbsOnly.setChecked(!doc().isNormalLightbulbsOnly());
-        doc().setNormalLightbulbsOnly(rec, !doc().isNormalLightbulbsOnly());
+        ctvAllowedObjectsOnly.setChecked(!doc().isAllowedObjectsOnly());
+        doc().setAllowedObjectsOnly(rec, !doc().isAllowedObjectsOnly());
         try {
             app.daoGameProgress.update(rec);
         } catch (SQLException e) {
@@ -85,13 +85,13 @@ public class LightenUpOptionsActivity extends OptionsActivity {
     protected void onDefault() {
         GameProgress rec = doc().gameProgress();
         doc().setMarkerOption(rec, 0);
-        doc().setNormalLightbulbsOnly(rec, false);
+        doc().setAllowedObjectsOnly(rec, false);
         try {
             app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         spnMarker.setSelection(doc().getMarkerOption());
-        ctvNormalLightbulbsOnly.setChecked(doc().isNormalLightbulbsOnly());
+        ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
     }
 }

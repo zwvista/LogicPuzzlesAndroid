@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:id="@+id/ctvNormalLightbulbsOnly" />
+            android:id="@+id/ctvAllowedObjectsOnly" />
     </LinearLayout>
 
     <LinearLayout

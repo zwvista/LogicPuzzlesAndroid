@@ -85,7 +85,7 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
    }
 
     public boolean switchObject(MagnetsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(MagnetsGameMove move) {

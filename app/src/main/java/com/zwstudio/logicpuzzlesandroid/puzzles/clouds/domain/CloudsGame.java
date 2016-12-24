@@ -73,7 +73,7 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
    }
 
     public boolean switchObject(CloudsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(markerOption, move2));
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
     }
 
     public boolean setObject(CloudsGameMove move) {
