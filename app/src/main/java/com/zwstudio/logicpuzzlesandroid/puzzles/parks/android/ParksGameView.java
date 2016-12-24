@@ -36,7 +36,6 @@ public class ParksGameView extends CellsGameView {
     private Paint linePaint = new Paint();
     private Paint markerPaint = new Paint();
     private Paint forbiddenPaint = new Paint();
-    private TextPaint textPaint = new TextPaint();
     private Drawable dTree;
 
     public ParksGameView(Context context) {
@@ -65,8 +64,6 @@ public class ParksGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
         dTree = fromImageToDrawable("tree.png");
     }
 

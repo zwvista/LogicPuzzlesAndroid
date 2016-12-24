@@ -22,12 +22,12 @@ public class TentsGameActivity extends GameActivity<TentsGame, TentsDocument, Te
         tvLevel.setText(selectedLevelID);
 
         levelInitilizing = true;
-        game = new TentsGame(layout, this);
+        game = new TentsGame(layout, this, doc().isAllowedObjectsOnly());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
                 TentsGameMove move = doc().loadMove(rec);
-                game.setObject(move);
+                game.setObject(move, doc().isAllowedObjectsOnly());
             }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;

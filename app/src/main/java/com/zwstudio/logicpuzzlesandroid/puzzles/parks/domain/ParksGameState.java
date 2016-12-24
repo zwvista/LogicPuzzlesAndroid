@@ -48,8 +48,6 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
                 ParksObject o = get(r, c);
                 if (o instanceof ParksForbiddenObject)
                     set(r, c, new ParksEmptyObject());
-                else if (o instanceof ParksTreeObject)
-                    ((ParksTreeObject) o).state = AllowedObjectState.Normal;
             }
         for (int r = 0; r < rows(); r++)
             for (int c = 0 ; c < cols(); c++) {
@@ -119,7 +117,7 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
     }
 
     public boolean setObject(ParksGameMove move, boolean allowedObjectsOnly) {
-        if (get(move.p).equals(move.obj)) return false;
+        if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
         updateIsSolved(allowedObjectsOnly);
         return true;

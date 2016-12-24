@@ -22,12 +22,22 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
             new Position(1, 0),
             new Position(0, -1),
     };
+    public static Position offset2[] = {
+            new Position(-1, 0),
+            new Position(-1, 1),
+            new Position(0, 1),
+            new Position(1, 1),
+            new Position(1, 0),
+            new Position(1, -1),
+            new Position(0, -1),
+            new Position(-1, -1),
+    };
 
     public int[] row2hint;
     public int[] col2hint;
-    public List<Position> pos2cloud = new ArrayList<>();
+    public List<Position> pos2tree = new ArrayList<>();
 
-    public TentsGame(List<String> layout, GameInterface<TentsGame, TentsGameMove, TentsGameState> gi) {
+    public TentsGame(List<String> layout, GameInterface<TentsGame, TentsGameMove, TentsGameState> gi, boolean allowedObjectsOnly) {
         super(gi);
         size = new Position(layout.size() - 1, layout.get(0).length() - 1);
         row2hint = new int[rows()];
@@ -38,8 +48,8 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
             for (int c = 0; c < cols() + 1; c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch == 'C')
-                    pos2cloud.add(p);
+                if (ch == 'T')
+                    pos2tree.add(p);
                 else if (ch >= '0' && ch <= '9') {
                     int n = ch - '0';
                     if (r == rows())
@@ -50,7 +60,7 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
             }
         }
 
-        TentsGameState state = new TentsGameState(this);
+        TentsGameState state = new TentsGameState(this, allowedObjectsOnly);
         states.add(state);
         levelInitilized(state);
     }
@@ -72,12 +82,12 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
         return changed;
    }
 
-    public boolean switchObject(TentsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(TentsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
     }
 
-    public boolean setObject(TentsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+    public boolean setObject(TentsGameMove move, boolean allowedObjectsOnly) {
+        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
     }
 
     public TentsObject getObject(Position p) {

@@ -19,12 +19,12 @@ public class TentsDocument extends GameDocument<TentsGame, TentsGameMove> {
     protected void saveMove(TentsGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.obj.ordinal();
+        rec.strValue1 = move.obj.objAsString();
     }
     public TentsGameMove loadMove(MoveProgress rec) {
         return new TentsGameMove() {{
             p = new Position(rec.row, rec.col);
-            obj = TentsObject.values()[rec.intValue1];
+            obj = TentsObject.objFromString(rec.strValue1);
         }};
     }
     public int getMarkerOption() {
@@ -33,5 +33,12 @@ public class TentsDocument extends GameDocument<TentsGame, TentsGameMove> {
     }
     public void setMarkerOption(GameProgress rec, int o) {
         rec.option1 = String.valueOf(o);
+    }
+    public boolean isAllowedObjectsOnly() {
+        String o = gameProgress().option2;
+        return Boolean.parseBoolean(o);
+    }
+    public void setAllowedObjectsOnly(GameProgress rec, boolean o) {
+        rec.option2 = String.valueOf(o);
     }
 }

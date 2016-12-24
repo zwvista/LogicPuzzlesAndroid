@@ -4,17 +4,25 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsEmptyObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsTentObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsTreeObject;
 
 /**
  * TODO: document your custom view class.
@@ -27,9 +35,11 @@ public class TentsGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
-    private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
+    private Paint markerPaint = new Paint();
+    private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Drawable dTree;
+    private Drawable dTent;
 
     public TentsGameView(Context context) {
         super(context);
@@ -49,12 +59,16 @@ public class TentsGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
-        wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setColor(Color.WHITE);
+        markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setStrokeWidth(5);
+        forbiddenPaint.setColor(Color.RED);
+        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
+        dTree = fromImageToDrawable("tree.png");
+        dTent = fromImageToDrawable("tent.png");
     }
 
     @Override
@@ -74,14 +88,20 @@ public class TentsGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 TentsObject o = game().getObject(r, c);
-                switch (o) {
-                case Cloud:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
-                    break;
-                }
+                if (o instanceof TentsTreeObject) {
+                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                    dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dTree.draw(canvas);
+                } else if (o instanceof TentsTentObject) {
+                    TentsTentObject o2 = (TentsTentObject) o;
+                    dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                    int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
+                    dTent.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dTent.draw(canvas);
+                } else if (o instanceof TentsMarkerObject)
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
+                else if (o instanceof TentsForbiddenObject)
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
             }
         for (int r = 0; r < rows(); r++) {
             HintState s = game().getRowState(r);
@@ -115,10 +135,11 @@ public class TentsGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             TentsGameMove move = new TentsGameMove() {{
                 p = new Position(row, col);
-                obj = TentsObject.Empty;
+                obj = new TentsEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()]))
+            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()],
+                    activity().doc().isAllowedObjectsOnly()))
                 activity().app.soundManager.playSoundTap();
         }
         return true;
