@@ -36,7 +36,7 @@ public class ParksDocument extends GameDocument<ParksGame, ParksGameMove> {
     }
     public boolean isAllowedObjectsOnly() {
         String o = gameProgress().option2;
-        return o != null;
+        return Boolean.parseBoolean(o);
     }
     public void setAllowedObjectsOnly(GameProgress rec, boolean o) {
         rec.option2 = String.valueOf(o);
