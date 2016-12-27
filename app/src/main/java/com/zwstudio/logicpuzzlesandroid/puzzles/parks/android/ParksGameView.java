@@ -58,6 +58,7 @@ public class ParksGameView extends CellsGameView {
         gridPaint.setStyle(Paint.Style.STROKE);
         linePaint.setColor(Color.YELLOW);
         linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setStrokeWidth(20);
         markerPaint.setColor(Color.WHITE);
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
@@ -80,14 +81,19 @@ public class ParksGameView extends CellsGameView {
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++)
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
-                if (isInEditMode()) continue;
-                Position p = new Position(r, c);
+        if (isInEditMode()) return;
+        for (int r = 0; r < rows() + 1; r++)
+            for (int c = 0; c < cols() + 1; c++) {
                 if (game().dots.get(r, c, 1))
                     canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
                 if (game().dots.get(r, c, 2))
                     canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
+            }
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
                 ParksObject o = game().getObject(p);
                 if (o instanceof ParksTreeObject) {
                     ParksTreeObject o2 = (ParksTreeObject) o;
