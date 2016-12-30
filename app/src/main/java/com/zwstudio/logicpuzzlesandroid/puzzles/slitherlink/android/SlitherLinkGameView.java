@@ -9,12 +9,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkObject;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 /**
  * TODO: document your custom view class.
@@ -91,7 +91,7 @@ public class SlitherLinkGameView extends CellsGameView {
         int markerOffset = 20;
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++) {
-                SlitherLinkObject[] dotObj = game().getObject(r, c);
+                GridLineObject[] dotObj = game().getObject(r, c);
                 switch (dotObj[1]){
                 case Line:
                     canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
@@ -124,7 +124,7 @@ public class SlitherLinkGameView extends CellsGameView {
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true;
             SlitherLinkGameMove move = new SlitherLinkGameMove() {{
                 p = new Position(row, col);
-                obj = SlitherLinkObject.Empty;
+                obj = GridLineObject.Empty;
                 dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java

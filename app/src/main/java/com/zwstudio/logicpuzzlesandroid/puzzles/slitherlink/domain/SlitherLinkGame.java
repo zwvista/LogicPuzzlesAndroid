@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
@@ -23,6 +24,13 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
             new Position(1, 0),
             new Position(0, -1),
     };
+    public static Position offset2[] = {
+            new Position(0, 0),
+            new Position(1, 1),
+            new Position(1, 1),
+            new Position(0, 0),
+    };
+    public static int dirs[] = { 1, 0, 3, 2 };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
@@ -70,11 +78,11 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public SlitherLinkObject[] getObject(Position p) {
+    public GridLineObject[] getObject(Position p) {
         return state().get(p);
     }
 
-    public SlitherLinkObject[] getObject(int row, int col) {
+    public GridLineObject[] getObject(int row, int col) {
         return state().get(row, col);
     }
 

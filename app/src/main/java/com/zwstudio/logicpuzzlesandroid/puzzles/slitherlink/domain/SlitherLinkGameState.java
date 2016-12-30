@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -22,29 +23,29 @@ import static fj.data.List.iterableList;
  */
 
 public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> {
-    public SlitherLinkObject[][] objArray;
+    public GridLineObject[][] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
     public SlitherLinkGameState(SlitherLinkGame game) {
         super(game);
-        objArray = new SlitherLinkObject[rows() * cols()][];
+        objArray = new GridLineObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
-            objArray[i] = new SlitherLinkObject[4];
-            Arrays.fill(objArray[i], SlitherLinkObject.Empty);
+            objArray[i] = new GridLineObject[4];
+            Arrays.fill(objArray[i], GridLineObject.Empty);
         }
         updateIsSolved();
     }
 
-    public SlitherLinkObject[] get(int row, int col) {
+    public GridLineObject[] get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public SlitherLinkObject[] get(Position p) {
+    public GridLineObject[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, SlitherLinkObject[] dotObj) {
+    public void set(int row, int col, GridLineObject[] dotObj) {
         objArray[row * cols() + col] = dotObj;
     }
-    public void set(Position p, SlitherLinkObject[] obj) {
+    public void set(Position p, GridLineObject[] obj) {
         set(p.row, p.col, obj);
     }
 
@@ -54,10 +55,10 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
             Position p = entry.getKey();
             int n2 = entry.getValue();
             int n1 = 0;
-            if (get(p)[1] == SlitherLinkObject.Line) n1++;
-            if (get(p)[2] == SlitherLinkObject.Line) n1++;
-            if (get(p.add(new Position(1, 1)))[0] == SlitherLinkObject.Line) n1++;
-            if (get(p.add(new Position(1, 1)))[3] == SlitherLinkObject.Line) n1++;
+            if (get(p)[1] == GridLineObject.Line) n1++;
+            if (get(p)[2] == GridLineObject.Line) n1++;
+            if (get(p.add(new Position(1, 1)))[0] == GridLineObject.Line) n1++;
+            if (get(p.add(new Position(1, 1)))[3] == GridLineObject.Line) n1++;
             pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;
         }
@@ -67,7 +68,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                int n = arrayArray(get(p)).filter(o -> o == SlitherLinkObject.Line).length();
+                int n = arrayArray(get(p)).filter(o -> o == GridLineObject.Line).length();
                 switch (n) {
                 case 0:
                     continue;
@@ -85,9 +86,9 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
             }
 
         for (Position p : pos2Node.keySet()) {
-            SlitherLinkObject[] dotObj = get(p);
+            GridLineObject[] dotObj = get(p);
             for (int i = 0; i < 4; i++) {
-                if (dotObj[i] != SlitherLinkObject.Line) continue;
+                if (dotObj[i] != GridLineObject.Line) continue;
                 Position p2 = p.add(SlitherLinkGame.offset[i]);
                 g.connectNode(pos2Node.get(p), pos2Node.get(p2));
             }
@@ -102,7 +103,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
     public boolean setObject(SlitherLinkGameMove move) {
         Position p1 = move.p;
         int dir = move.dir, dir2 = (dir + 2) % 4;
-        SlitherLinkObject o = get(p1)[dir];
+        GridLineObject o = get(p1)[dir];
         if (o.equals(move.obj)) return false;
         Position p2 = p1.add(SlitherLinkGame.offset[dir]);
         get(p2)[dir2] = get(p1)[dir] = move.obj;
@@ -111,21 +112,21 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
     }
 
     public boolean switchObject(SlitherLinkGameMove move, MarkerOptions markerOption) {
-        F<SlitherLinkObject, SlitherLinkObject> f = obj -> {
+        F<GridLineObject, GridLineObject> f = obj -> {
             switch (obj) {
             case Empty:
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        SlitherLinkObject.Marker : SlitherLinkObject.Line;
+                        GridLineObject.Marker : GridLineObject.Line;
             case Line:
                 return markerOption == MarkerOptions.MarkerLast ?
-                        SlitherLinkObject.Marker : SlitherLinkObject.Empty;
+                        GridLineObject.Marker : GridLineObject.Empty;
             case Marker:
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        SlitherLinkObject.Line : SlitherLinkObject.Empty;
+                        GridLineObject.Line : GridLineObject.Empty;
             }
             return obj;
         };
-        SlitherLinkObject[] dotObj = get(move.p);
+        GridLineObject[] dotObj = get(move.p);
         move.obj = f.f(dotObj[move.dir]);
         return setObject(move);
     }

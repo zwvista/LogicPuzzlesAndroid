@@ -3,10 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkObject;
 
 import org.androidannotations.annotations.EBean;
 
@@ -26,7 +26,7 @@ public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLi
         return new SlitherLinkGameMove() {{
             p = new Position(rec.row, rec.col);
             dir = rec.intValue1;
-            obj = SlitherLinkObject.values()[rec.intValue2];
+            obj = GridLineObject.values()[rec.intValue2];
         }};
     }
     public int getMarkerOption() {

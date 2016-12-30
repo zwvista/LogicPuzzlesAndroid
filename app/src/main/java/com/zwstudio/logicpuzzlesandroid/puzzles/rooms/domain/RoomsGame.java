@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
@@ -81,11 +82,11 @@ public class RoomsGame extends CellsGame<RoomsGame, RoomsGameMove, RoomsGameStat
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public RoomsObject[] getObject(Position p) {
+    public GridLineObject[] getObject(Position p) {
         return state().get(p);
     }
 
-    public RoomsObject[] getObject(int row, int col) {
+    public GridLineObject[] getObject(int row, int col) {
         return state().get(row, col);
     }
 
