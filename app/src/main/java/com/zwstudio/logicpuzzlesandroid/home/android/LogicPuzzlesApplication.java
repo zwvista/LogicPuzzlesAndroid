@@ -12,6 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.data.BattleShipsDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.data.BoxItUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data.CloudsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
@@ -56,6 +57,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public BridgesDocument bridgesDocument;
     @Bean
+    public BoxItUpDocument boxitupDocument;
+    @Bean
     public CloudsDocument cloudsDocument;
     @Bean
     public HitoriDocument hitoriDocument;
@@ -96,6 +99,7 @@ public class LogicPuzzlesApplication extends Application {
         abcDocument.init();
         battleshipsDocument.init();
         bridgesDocument.init();
+        boxitupDocument.init();
         cloudsDocument.init();
         hitoriDocument.init();
         lightenupDocument.init();

@@ -52,6 +52,15 @@
         <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.boxitup.android.BoxItUpMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.boxitup.android.BoxItUpGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.boxitup.android.BoxItUpOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
