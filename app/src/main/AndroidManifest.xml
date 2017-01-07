@@ -52,6 +52,24 @@
         <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.boxitagain.android.BoxItAgainMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.boxitagain.android.BoxItAgainGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.boxitagain.android.BoxItAgainOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.boxitaround.android.BoxItAroundMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.boxitaround.android.BoxItAroundGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.boxitaround.android.BoxItAroundOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.boxitup.android.BoxItUpMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -68,6 +86,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.clouds.android.CloudsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fenceitup.android.FenceItUpMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fenceitup.android.FenceItUpGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fenceitup.android.FenceItUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.hitori.android.HitoriMainActivity_"
