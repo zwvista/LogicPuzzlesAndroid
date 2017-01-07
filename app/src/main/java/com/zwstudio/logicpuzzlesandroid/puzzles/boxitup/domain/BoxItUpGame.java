@@ -51,7 +51,7 @@ public class BoxItUpGame extends CellsGame<BoxItUpGame, BoxItUpGameMove, BoxItUp
 
     public BoxItUpGame(List<String> layout, GameInterface<BoxItUpGame, BoxItUpGameMove, BoxItUpGameState> gi) {
         super(gi);
-        size = new Position(layout.size() + 1, layout.get(0).length() + 1);
+        size = new Position(layout.size() + 1, layout.get(0).length() / 2 + 1);
         objArray = new GridLineObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
             objArray[i] = new GridLineObject[4];
@@ -63,7 +63,7 @@ public class BoxItUpGame extends CellsGame<BoxItUpGame, BoxItUpGameMove, BoxItUp
                 Position p = new Position(r, c);
                 String s = str.substring(c * 2, c * 2 + 2);
                 if (s.equals("  ")) continue;
-                int n = Integer.parseInt(s);
+                int n = Integer.parseInt(s.trim());
                 pos2hint.put(p, n);
             }
         }
