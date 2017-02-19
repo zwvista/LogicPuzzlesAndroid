@@ -20,6 +20,7 @@ public class MasyuGameActivity extends GameActivity<MasyuGame, MasyuDocument, Ma
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new MasyuGame(layout, this);

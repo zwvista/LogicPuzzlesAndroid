@@ -20,6 +20,7 @@ public class RoomsGameActivity extends GameActivity<RoomsGame, RoomsDocument, Ro
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new RoomsGame(layout, this);

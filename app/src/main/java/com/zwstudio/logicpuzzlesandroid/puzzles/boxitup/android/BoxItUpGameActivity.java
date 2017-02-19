@@ -20,6 +20,7 @@ public class BoxItUpGameActivity extends GameActivity<BoxItUpGame, BoxItUpDocume
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new BoxItUpGame(layout, this);

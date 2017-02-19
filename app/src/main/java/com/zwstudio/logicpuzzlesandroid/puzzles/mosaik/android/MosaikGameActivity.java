@@ -20,6 +20,7 @@ public class MosaikGameActivity extends GameActivity<MosaikGame, MosaikDocument,
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new MosaikGame(layout, this);

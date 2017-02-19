@@ -20,6 +20,7 @@ public class LineSweeperGameActivity extends GameActivity<LineSweeperGame, LineS
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new LineSweeperGame(layout, this);

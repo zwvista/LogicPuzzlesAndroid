@@ -20,6 +20,7 @@ public class BattleShipsGameActivity extends GameActivity<BattleShipsGame, Battl
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new BattleShipsGame(layout, this);

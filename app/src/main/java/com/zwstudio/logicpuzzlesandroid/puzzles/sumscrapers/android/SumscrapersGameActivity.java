@@ -20,6 +20,7 @@ public class SumscrapersGameActivity extends GameActivity<SumscrapersGame, Sumsc
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new SumscrapersGame(layout, this);

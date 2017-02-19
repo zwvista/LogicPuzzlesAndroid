@@ -20,6 +20,7 @@ public class SkyscrapersGameActivity extends GameActivity<SkyscrapersGame, Skysc
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new SkyscrapersGame(layout, this);

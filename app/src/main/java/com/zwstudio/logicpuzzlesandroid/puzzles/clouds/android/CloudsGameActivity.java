@@ -20,6 +20,7 @@ public class CloudsGameActivity extends GameActivity<CloudsGame, CloudsDocument,
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new CloudsGame(layout, this);

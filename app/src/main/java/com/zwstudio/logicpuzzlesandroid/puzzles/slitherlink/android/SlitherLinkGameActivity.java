@@ -20,6 +20,7 @@ public class SlitherLinkGameActivity extends GameActivity<SlitherLinkGame, Slith
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new SlitherLinkGame(layout, this);

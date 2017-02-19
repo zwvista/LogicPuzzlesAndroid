@@ -20,6 +20,7 @@ public class TentsGameActivity extends GameActivity<TentsGame, TentsDocument, Te
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new TentsGame(layout, this, doc().isAllowedObjectsOnly());

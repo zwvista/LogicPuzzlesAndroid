@@ -20,6 +20,7 @@ public class ParksGameActivity extends GameActivity<ParksGame, ParksDocument, Pa
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new ParksGame(layout, this);

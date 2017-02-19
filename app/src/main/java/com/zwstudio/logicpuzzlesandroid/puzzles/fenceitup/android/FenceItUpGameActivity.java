@@ -20,6 +20,7 @@ public class FenceItUpGameActivity extends GameActivity<FenceItUpGame, FenceItUp
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new FenceItUpGame(layout, this);

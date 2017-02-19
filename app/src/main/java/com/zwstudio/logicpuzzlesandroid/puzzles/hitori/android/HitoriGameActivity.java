@@ -20,6 +20,7 @@ public class HitoriGameActivity extends GameActivity<HitoriGame, HitoriDocument,
         String selectedLevelID = doc().selectedLevelID;
         List<String> layout = doc().levels.get(selectedLevelID);
         tvLevel.setText(selectedLevelID);
+        updateSolutionUI();
 
         levelInitilizing = true;
         game = new HitoriGame(layout, this);
