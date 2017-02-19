@@ -101,7 +101,8 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
 
     @Override
     public void gameSolved(G game) {
-        if (!levelInitilizing)
-            app.soundManager.playSoundSolved();
+        if (levelInitilizing) return;
+        app.soundManager.playSoundSolved();
+        doc().gameSolved(game);
     }
 }

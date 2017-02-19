@@ -4,4 +4,7 @@
     <string name="redo">Redo</string>
     <string name="clear">Clear</string>
     <string name="solved">Solved</string>
+    <string name="save">Save</string>
+    <string name="load">Load</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -34,6 +34,7 @@ public abstract class GameDocument<G extends Game, GM> {
 
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
+    public String selectedLevelIDSolution() {return selectedLevelID + " Solution";}
     @App
     public LogicPuzzlesApplication app;
 
@@ -128,15 +129,15 @@ public abstract class GameDocument<G extends Game, GM> {
         }
     }
 
-    public LevelProgress levelProgress() {
+    private LevelProgress levelProgress(String levelID) {
         try {
             LevelProgress rec = app.daoLevelProgress.queryBuilder()
                     .where().eq("gameID", gameID())
-                    .and().eq("levelID", selectedLevelID).queryForFirst();
+                    .and().eq("levelID", levelID).queryForFirst();
             if (rec == null) {
                 rec = new LevelProgress();
                 rec.gameID = gameID();
-                rec.levelID = selectedLevelID;
+                rec.levelID = levelID;
                 app.daoLevelProgress.create(rec);
             }
             return rec;
@@ -145,12 +146,18 @@ public abstract class GameDocument<G extends Game, GM> {
             return null;
         }
     }
+    public LevelProgress levelProgress() {
+        return levelProgress(selectedLevelID);
+    }
+    public LevelProgress levelProgressSolution() {
+        return levelProgress(selectedLevelIDSolution());
+    }
 
-    public List<MoveProgress> moveProgress() {
+    private List<MoveProgress> moveProgress(String levelID) {
         try {
             QueryBuilder<MoveProgress, Integer> builder = app.daoMoveProgress.queryBuilder();
             builder.where().eq("gameID", gameID())
-                    .and().eq("levelID", selectedLevelID);
+                    .and().eq("levelID", levelID);
             builder.orderBy("moveIndex", true);
             List<MoveProgress> rec = builder.query();
             return rec;
@@ -158,6 +165,12 @@ public abstract class GameDocument<G extends Game, GM> {
             e.printStackTrace();
             return null;
         }
+    }
+    public List<MoveProgress> moveProgress() {
+        return moveProgress(selectedLevelID);
+    }
+    public List<MoveProgress> moveProgressSolution() {
+        return moveProgress(selectedLevelIDSolution());
     }
 
     public void levelUpdated(Game game) {
@@ -168,6 +181,12 @@ public abstract class GameDocument<G extends Game, GM> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void gameSolved(Game game) {
+        LevelProgress recLP = levelProgress(), recLPS = levelProgressSolution();
+        if (recLPS.moveIndex == 0 || recLPS.moveIndex > recLP.moveIndex)
+            saveSolution(game);
     }
 
     public void moveAdded(Game game, GM move) {
@@ -208,6 +227,63 @@ public abstract class GameDocument<G extends Game, GM> {
                     .and().eq("levelID", selectedLevelID);
             builder.delete();
             LevelProgress rec = levelProgress();
+            rec.moveIndex = 0;
+            app.daoLevelProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void copyMoves(List<MoveProgress> moveProgressFrom, String levelIDTo) {
+        try {
+            DeleteBuilder<MoveProgress, Integer> builder = app.daoMoveProgress.deleteBuilder();
+            builder.where().eq("gameID", gameID())
+                    .and().eq("levelID", levelIDTo);
+            builder.delete();
+            for (MoveProgress recMP : moveProgressFrom) {
+                GM move = loadMove(recMP);
+                MoveProgress recMPS = new MoveProgress();
+                recMPS.gameID = gameID();
+                recMPS.levelID = levelIDTo;
+                recMPS.moveIndex = recMP.moveIndex;
+                saveMove(move, recMPS);
+                app.daoMoveProgress.update(recMPS);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveSolution(Game game) {
+        copyMoves(moveProgress(), selectedLevelIDSolution());
+        try {
+            LevelProgress rec = levelProgressSolution();
+            rec.moveIndex = game.moveIndex();
+            app.daoLevelProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadSolution() {
+        List<MoveProgress> mps = moveProgressSolution();
+        copyMoves(mps, selectedLevelID);
+        try {
+            LevelProgress rec = levelProgress();
+            rec.moveIndex = mps.size();
+            app.daoLevelProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSolution() {
+        try {
+            DeleteBuilder<MoveProgress, Integer> builder = app.daoMoveProgress.deleteBuilder();
+            builder.where().eq("gameID", gameID())
+                    .and().eq("levelID", selectedLevelIDSolution());
+            builder.delete();
+            LevelProgress rec = levelProgressSolution();
             rec.moveIndex = 0;
             app.daoLevelProgress.update(rec);
         } catch (SQLException e) {
