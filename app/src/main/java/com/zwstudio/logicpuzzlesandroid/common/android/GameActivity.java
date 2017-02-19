@@ -3,9 +3,11 @@ package com.zwstudio.logicpuzzlesandroid.common.android;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
+import com.zwstudio.logicpuzzlesandroid.common.data.LevelProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState;
@@ -30,6 +32,14 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
     protected TextView tvSolved;
     @ViewById
     protected TextView tvMoves;
+    @ViewById
+    protected TextView tvSolution;
+    @ViewById
+    protected Button btnSaveSolution;
+    @ViewById
+    protected Button btnLoadSolution;
+    @ViewById
+    protected Button btnDeleteSolution;
 
     public G game;
     protected boolean levelInitilizing;
@@ -81,21 +91,22 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
         doc().moveAdded(game, move);
     }
 
-    private void updateTextViews(G game) {
+    private void updateMovesUI(G game) {
         tvMoves.setText(String.format("Moves: %d(%d)", game.moveIndex(), game.moveCount()));
         tvSolved.setTextColor(game.isSolved() ? Color.WHITE : Color.BLACK);
+        btnSaveSolution.setEnabled(game.isSolved());
     }
 
     @Override
     public void levelInitilized(G game, GS state) {
         gameView.invalidate();
-        updateTextViews(game);
+        updateMovesUI(game);
     }
 
     @Override
     public void levelUpdated(G game, GS stateFrom, GS stateTo) {
         gameView.invalidate();
-        updateTextViews(game);
+        updateMovesUI(game);
         if (!levelInitilizing) doc().levelUpdated(game);
     }
 
@@ -104,5 +115,33 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
         if (levelInitilizing) return;
         app.soundManager.playSoundSolved();
         doc().gameSolved(game);
+        updateSolutionUI();
     }
+
+    protected void updateSolutionUI() {
+        LevelProgress rec = doc().levelProgressSolution();
+        boolean hasSolution = rec.moveIndex != 0;
+        tvSolution.setText("Solution: " + (!hasSolution ? "None" : String.valueOf(rec.moveIndex)));
+        btnLoadSolution.setEnabled(hasSolution);
+        btnDeleteSolution.setEnabled(hasSolution);
+    }
+
+    @Click
+    protected void btnSaveSolution() {
+        doc().saveSolution(game);
+        updateSolutionUI();
+    }
+
+    @Click
+    protected void btnLoadSolution() {
+        doc().loadSolution();
+        startGame();
+    }
+
+    @Click
+    protected void btnDeleteSolution() {
+        doc().deleteSolution();
+        updateSolutionUI();
+    }
+
 }

@@ -127,19 +127,19 @@
                     android:text="@string/save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnSave"
+                    android:id="@+id/btnSaveSolution"
                     style="?android:attr/buttonBarButtonStyle"/>
                 <Button
                     android:text="@string/load"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnLoad"
+                    android:id="@+id/btnLoadSolution"
                     style="?android:attr/buttonBarButtonStyle"/>
                 <Button
                     android:text="@string/delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnDelete"
+                    android:id="@+id/btnDeleteSolution"
                     style="?android:attr/buttonBarButtonStyle"/>
             </LinearLayout>
         </LinearLayout>

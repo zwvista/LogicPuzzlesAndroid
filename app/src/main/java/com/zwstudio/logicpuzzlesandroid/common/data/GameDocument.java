@@ -247,7 +247,7 @@ public abstract class GameDocument<G extends Game, GM> {
                 recMPS.levelID = levelIDTo;
                 recMPS.moveIndex = recMP.moveIndex;
                 saveMove(move, recMPS);
-                app.daoMoveProgress.update(recMPS);
+                app.daoMoveProgress.create(recMPS);
             }
         } catch (SQLException e) {
             e.printStackTrace();
