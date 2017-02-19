@@ -85,6 +85,7 @@ public class HitoriGameView extends CellsGameView {
                 String text = String.valueOf(game().get(r, c));
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
+        if (isInEditMode()) return;
         textPaint.setColor(Color.RED);
         for (int r = 0; r < rows(); r++) {
             String text = game().getRowHint(r);

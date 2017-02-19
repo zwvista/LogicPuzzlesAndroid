@@ -92,6 +92,7 @@ public class FenceItUpGameView extends CellsGameView {
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
+        if (isInEditMode()) return;
         int markerOffset = 20;
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++) {

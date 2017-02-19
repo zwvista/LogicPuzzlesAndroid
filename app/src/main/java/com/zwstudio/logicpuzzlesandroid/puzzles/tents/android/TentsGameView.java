@@ -103,6 +103,7 @@ public class TentsGameView extends CellsGameView {
                 else if (o instanceof TentsForbiddenObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
             }
+        if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++) {
             HintState s = game().getRowState(r);
             textPaint.setColor(

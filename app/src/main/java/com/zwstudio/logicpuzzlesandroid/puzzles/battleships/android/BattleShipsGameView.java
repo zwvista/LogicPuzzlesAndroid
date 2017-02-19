@@ -83,6 +83,7 @@ public class BattleShipsGameView extends CellsGameView {
                     break;
                 }
             }
+        if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++) {
             HintState s = game().getRowState(r);
             textPaint.setColor(
