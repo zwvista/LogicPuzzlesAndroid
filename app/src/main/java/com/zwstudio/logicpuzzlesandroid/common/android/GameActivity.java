@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.common.android;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +15,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
-import static android.app.AlertDialog.Builder;
 
 @EActivity
 public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDocument<G, GM>, GM, GS extends GameState>
@@ -61,26 +58,10 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
 
     @Click
     protected void btnClear() {
-        // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        doc().clearGame();
-                        startGame();
-                        break;
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
-                }
-            }
-        };
-
-        Builder builder = new Builder(this);
-        builder.setMessage("Do you really want to reset the level?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        yesNoDialog("Do you really want to reset the level?", () -> {
+            doc().clearGame();
+            startGame();
+        });
     }
 
     abstract protected void startGame();
@@ -140,8 +121,10 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
 
     @Click
     protected void btnDeleteSolution() {
-        doc().deleteSolution();
-        updateSolutionUI();
+        yesNoDialog("Do you really want to reset the level?", () -> {
+            doc().deleteSolution();
+            updateSolutionUI();
+        });
     }
 
 }
