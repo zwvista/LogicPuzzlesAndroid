@@ -25,6 +25,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.data.MagnetsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.data.ParksDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.data.RoomsDocument;
@@ -84,6 +85,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public MosaikDocument mosaikDocument;
     @Bean
+    public NeighboursDocument neighboursDocument;
+    @Bean
     public NurikabeDocument nurikabeDocument;
     @Bean
     public ParksDocument parksDocument;
@@ -120,6 +123,7 @@ public class LogicPuzzlesApplication extends Application {
         magnetsDocument.init();
         masyuDocument.init();
         mosaikDocument.init();
+        neighboursDocument.init();
         nurikabeDocument.init();
         parksDocument.init();
         roomsDocument.init();

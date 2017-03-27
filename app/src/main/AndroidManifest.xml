@@ -160,6 +160,15 @@
         <activity android:name=".puzzles.mosaik.android.MosaikOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.neighbours.android.NeighboursMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.neighbours.android.NeighboursGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.neighbours.android.NeighboursOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.nurikabe.android.NurikabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
