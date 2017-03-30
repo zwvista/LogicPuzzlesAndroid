@@ -29,6 +29,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocume
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.data.ParksDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.data.RoomsDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.data.SentinelsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.data.SumscrapersDocument;
@@ -95,6 +96,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public SkyscrapersDocument skyscrapersDocument;
     @Bean
+    public SentinelsDocument sentinelsDocument;
+    @Bean
     public SlitherLinkDocument slitherlinkDocument;
     @Bean
     public SumscrapersDocument sumscrapersDocument;
@@ -127,6 +130,7 @@ public class LogicPuzzlesApplication extends Application {
         nurikabeDocument.init();
         parksDocument.init();
         roomsDocument.init();
+        sentinelsDocument.init();
         skyscrapersDocument.init();
         slitherlinkDocument.init();
         sumscrapersDocument.init();
