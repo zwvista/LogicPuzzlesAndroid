@@ -31,6 +31,8 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
         super(game);
         objArray = new SentinelsObject[rows() * cols()];
         Arrays.fill(objArray, new SentinelsEmptyObject());
+        for (Position p : game.pos2hint.keySet())
+            set(p, new SentinelsHintObject());
         updateIsSolved(allowedObjectsOnly);
     }
 
@@ -112,7 +114,7 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
                 isSolved = false;
             else
                 for (Position p2 : rng)
-                    set(p2, new SentinelsHintObject());
+                    set(p2, new SentinelsForbiddenObject());
         }
         if (!isSolved) return;
         g.setRootNode(iterableList(pos2node.values()).head());

@@ -36,8 +36,8 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
     public MosaikObject get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, MosaikObject dotObj) {
-        objArray[row * cols() + col] = dotObj;
+    public void set(int row, int col, MosaikObject obj) {
+        objArray[row * cols() + col] = obj;
     }
     public void set(Position p, MosaikObject obj) {
         set(p.row, p.col, obj);
