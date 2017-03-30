@@ -74,26 +74,26 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
         }
         Set<Position> rng = new HashSet<>();
         Graph g = new Graph();
-        Map<Position, Node> pos2Node = new HashMap<>();
+        Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 rng.add(p);
                 Node node = new Node(p.toString());
                 g.addNode(node);
-                pos2Node.put(p, node);
+                pos2node.put(p, node);
             }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 for (int i = 0; i < 4; i++)
                     if (!dots.get(p.add(ParksGame.offset2[i]), ParksGame.dirs[i]))
-                        g.connectNode(pos2Node.get(p), pos2Node.get(p.add(ParksGame.offset[i * 2])));
+                        g.connectNode(pos2node.get(p), pos2node.get(p.add(ParksGame.offset[i * 2])));
             }
         while (!rng.isEmpty()) {
-            g.setRootNode(pos2Node.get(iterableList(rng).head()));
+            g.setRootNode(pos2node.get(iterableList(rng).head()));
             List<Node> nodeList = g.bfs();
-            List<Position> area = iterableList(rng).filter(p -> nodeList.contains(pos2Node.get(p))).toJavaList();
+            List<Position> area = iterableList(rng).filter(p -> nodeList.contains(pos2node.get(p))).toJavaList();
             int n = areas.size();
             for(Position p : area)
                 pos2area.put(p, n);

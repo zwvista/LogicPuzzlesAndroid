@@ -196,6 +196,15 @@
         <activity android:name=".puzzles.rooms.android.RoomsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.sentinels.android.SentinelsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sentinels.android.SentinelsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sentinels.android.SentinelsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.skyscrapers.android.SkyscrapersMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

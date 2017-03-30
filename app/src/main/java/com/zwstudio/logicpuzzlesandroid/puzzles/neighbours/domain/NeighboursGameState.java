@@ -56,31 +56,31 @@ public class NeighboursGameState extends CellsGameState<NeighboursGame, Neighbou
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();
-        Map<Position, Node> pos2Node = new HashMap<>();
+        Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
                 Node node = new Node(p.toString());
                 g.addNode(node);
-                pos2Node.put(p, node);
+                pos2node.put(p, node);
             }
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
                 for (int i = 0; i < 4; i++)
                     if (get(p.add(NeighboursGame.offset2[i]))[NeighboursGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2Node.get(p), pos2Node.get(p.add(NeighboursGame.offset[i])));
+                        g.connectNode(pos2node.get(p), pos2node.get(p.add(NeighboursGame.offset[i])));
             }
         List<List<Position>> areas = new ArrayList<>();
         Map<Position, Integer> pos2area = new HashMap<>();
-        while (!pos2Node.isEmpty()) {
-            g.setRootNode(iterableList(pos2Node.values()).head());
+        while (!pos2node.isEmpty()) {
+            g.setRootNode(iterableList(pos2node.values()).head());
             List<Node> nodeList = g.bfs();
-            List<Position> area = fromMap(pos2Node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
+            List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             areas.add(area);
             for (Position p : area) {
                 pos2area.put(p, areas.size());
-                pos2Node.remove(p);
+                pos2node.remove(p);
             }
         }
         int n2 = game.areaSize;

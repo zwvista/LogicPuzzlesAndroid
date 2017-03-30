@@ -46,7 +46,7 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();
-        Map<Position, Node> pos2Node = new HashMap<>();
+        Map<Position, Node> pos2node = new HashMap<>();
         for (Map.Entry<Position, BridgesIslandInfo> entry : game.islandsInfo.entrySet()) {
             Position p = entry.getKey();
             BridgesIslandInfo info = entry.getValue();
@@ -57,7 +57,7 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
             if (n1 != n2) isSolved = false;
             if (!isSolved) continue;
             Node node = new Node(p.toString());
-            pos2Node.put(p, node);
+            pos2node.put(p, node);
             g.addNode(node);
         }
         if (!isSolved) return;
@@ -66,13 +66,13 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
             BridgesIslandInfo info = entry.getValue();
             for (Position p2 : info.neighbors) {
                 if (p2 == null) continue;
-                g.connectNode(pos2Node.get(p), pos2Node.get(p2));
+                g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
-        g.setRootNode(iterableList(pos2Node.values()).head());
+        g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();
-        int n2 = pos2Node.values().size();
+        int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
     }
 

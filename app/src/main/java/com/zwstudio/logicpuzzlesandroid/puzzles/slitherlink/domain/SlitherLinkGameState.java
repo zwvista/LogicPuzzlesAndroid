@@ -64,7 +64,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         }
         if (!isSolved) return;
         Graph g = new Graph();
-        Map<Position, Node> pos2Node = new HashMap<>();
+        Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
@@ -76,7 +76,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
                     {
                         Node node = new Node(p.toString());
                         g.addNode(node);
-                        pos2Node.put(p, node);
+                        pos2node.put(p, node);
                     }
                     break;
                 default:
@@ -85,18 +85,18 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
                 }
             }
 
-        for (Position p : pos2Node.keySet()) {
+        for (Position p : pos2node.keySet()) {
             GridLineObject[] dotObj = get(p);
             for (int i = 0; i < 4; i++) {
                 if (dotObj[i] != GridLineObject.Line) continue;
                 Position p2 = p.add(SlitherLinkGame.offset[i]);
-                g.connectNode(pos2Node.get(p), pos2Node.get(p2));
+                g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
-        g.setRootNode(iterableList(pos2Node.values()).head());
+        g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();
-        int n2 = pos2Node.values().size();
+        int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
     }
 

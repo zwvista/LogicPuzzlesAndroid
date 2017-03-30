@@ -45,7 +45,7 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();
-        Map<Position, Node> pos2Node = new HashMap<>();
+        Map<Position, Node> pos2node = new HashMap<>();
         Map<Position, List<Integer>> pos2Dirs = new HashMap<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
@@ -64,7 +64,7 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                     {
                         Node node = new Node(p.toString());
                         g.addNode(node);
-                        pos2Node.put(p, node);
+                        pos2node.put(p, node);
                         pos2Dirs.put(p, dirs);
                         switch (ch) {
                         case 'B':
@@ -81,7 +81,7 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                 }
             }
 
-        for (Map.Entry<Position, Node> entry : pos2Node.entrySet()) {
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
             Position p = entry.getKey();
             Node node = entry.getValue();
             List<Integer> dirs = pos2Dirs.get(p);
@@ -89,7 +89,7 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
             boolean bW = ch != 'W';
             for (int i : dirs) {
                 Position p2 = p.add(MasyuGame.offset[i]);
-                Node node2 = pos2Node.get(p2);
+                Node node2 = pos2node.get(p2);
                 if (node2 == null) {isSolved = false; return;}
                 List<Integer> dirs2 = pos2Dirs.get(p2);
                 switch (ch) {
@@ -105,14 +105,14 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                     if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
                     break;
                 }
-                g.connectNode(pos2Node.get(p), pos2Node.get(p2));
+                g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
             if (!bW ) {isSolved = false; return;}
         }
-        g.setRootNode(iterableList(pos2Node.values()).head());
+        g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();
-        int n2 = pos2Node.values().size();
+        int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
     }
 

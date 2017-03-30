@@ -19,19 +19,14 @@ import fj.F2;
 public class SentinelsGame extends CellsGame<SentinelsGame, SentinelsGameMove, SentinelsGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
-            new Position(-1, 1),
             new Position(0, 1),
-            new Position(1, 1),
             new Position(1, 0),
-            new Position(1, -1),
             new Position(0, -1),
-            new Position(-1, -1),
-            new Position(0, 0),
     };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public SentinelsGame(List<String> layout, GameInterface<SentinelsGame, SentinelsGameMove, SentinelsGameState> gi) {
+    public SentinelsGame(List<String> layout, GameInterface<SentinelsGame, SentinelsGameMove, SentinelsGameState> gi, boolean allowedObjectsOnly) {
         super(gi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
@@ -45,7 +40,7 @@ public class SentinelsGame extends CellsGame<SentinelsGame, SentinelsGameMove, S
                 }
             }
         }
-        SentinelsGameState state = new SentinelsGameState(this);
+        SentinelsGameState state = new SentinelsGameState(this, allowedObjectsOnly);
         states.add(state);
         levelInitilized(state);
     }
@@ -67,12 +62,12 @@ public class SentinelsGame extends CellsGame<SentinelsGame, SentinelsGameMove, S
         return changed;
    }
 
-    public boolean switchObject(SentinelsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(SentinelsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
     }
 
-    public boolean setObject(SentinelsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+    public boolean setObject(SentinelsGameMove move, boolean allowedObjectsOnly) {
+        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
     }
 
     public SentinelsObject getObject(Position p) {

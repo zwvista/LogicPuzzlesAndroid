@@ -19,12 +19,12 @@ public class SentinelsDocument extends GameDocument<SentinelsGame, SentinelsGame
     protected void saveMove(SentinelsGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.obj.ordinal();
+        rec.strValue1 = move.obj.objAsString();
     }
     public SentinelsGameMove loadMove(MoveProgress rec) {
         return new SentinelsGameMove() {{
             p = new Position(rec.row, rec.col);
-            obj = SentinelsObject.values()[rec.intValue1];
+            obj = SentinelsObject.objFromString(rec.strValue1);
         }};
     }
     public int getMarkerOption() {
@@ -33,5 +33,12 @@ public class SentinelsDocument extends GameDocument<SentinelsGame, SentinelsGame
     }
     public void setMarkerOption(GameProgress rec, int o) {
         rec.option1 = String.valueOf(o);
+    }
+    public boolean isAllowedObjectsOnly() {
+        String o = gameProgress().option2;
+        return Boolean.parseBoolean(o);
+    }
+    public void setAllowedObjectsOnly(GameProgress rec, boolean o) {
+        rec.option2 = String.valueOf(o);
     }
 }
