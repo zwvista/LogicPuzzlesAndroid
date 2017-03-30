@@ -28,6 +28,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.data.ParksDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.data.ProductSentinelsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.data.RoomsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.data.SentinelsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument;
@@ -92,6 +93,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public ParksDocument parksDocument;
     @Bean
+    public ProductSentinelsDocument productsentinelsDocument;
+    @Bean
     public RoomsDocument roomsDocument;
     @Bean
     public SkyscrapersDocument skyscrapersDocument;
@@ -129,6 +132,7 @@ public class LogicPuzzlesApplication extends Application {
         neighboursDocument.init();
         nurikabeDocument.init();
         parksDocument.init();
+        productsentinelsDocument.init();
         roomsDocument.init();
         sentinelsDocument.init();
         skyscrapersDocument.init();

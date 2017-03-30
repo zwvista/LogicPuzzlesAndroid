@@ -187,6 +187,15 @@
         <activity android:name=".puzzles.parks.android.ParksOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.productsentinels.android.ProductSentinelsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.productsentinels.android.ProductSentinelsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.productsentinels.android.ProductSentinelsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.rooms.android.RoomsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
