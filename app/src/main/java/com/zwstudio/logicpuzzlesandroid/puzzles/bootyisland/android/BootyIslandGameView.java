@@ -21,7 +21,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandTowerObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandTreasureObject;
 
 /**
  * TODO: document your custom view class.
@@ -37,7 +37,7 @@ public class BootyIslandGameView extends CellsGameView {
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
     private Paint forbiddenPaint = new Paint();
-    private Drawable dTree;
+    private Drawable dTreasure;
 
     public BootyIslandGameView(Context context) {
         super(context);
@@ -65,7 +65,7 @@ public class BootyIslandGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        dTree = fromImageToDrawable("tree.png");
+        dTreasure = fromImageToDrawable("tree.png");
     }
 
     @Override
@@ -86,12 +86,12 @@ public class BootyIslandGameView extends CellsGameView {
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
                 BootyIslandObject o = game().getObject(p);
-                if (o instanceof BootyIslandTowerObject) {
-                    BootyIslandTowerObject o2 = (BootyIslandTowerObject) o;
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                if (o instanceof BootyIslandTreasureObject) {
+                    BootyIslandTreasureObject o2 = (BootyIslandTreasureObject) o;
+                    dTreasure.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                     int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
-                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    dTree.draw(canvas);
+                    dTreasure.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dTreasure.draw(canvas);
                 } else if (o instanceof BootyIslandMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
                 else if (o instanceof BootyIslandForbiddenObject)

@@ -19,9 +19,13 @@ import fj.F2;
 public class BootyIslandGame extends CellsGame<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
+            new Position(-1, 1),
             new Position(0, 1),
+            new Position(1, 1),
             new Position(1, 0),
+            new Position(1, -1),
             new Position(0, -1),
+            new Position(-1, -1),
     };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();

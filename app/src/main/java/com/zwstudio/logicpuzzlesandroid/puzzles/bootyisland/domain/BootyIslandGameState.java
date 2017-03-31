@@ -2,22 +2,16 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import fj.F;
 import fj.F0;
-
-import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -51,77 +45,97 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
 
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 BootyIslandObject o = get(r, c);
-                if (o instanceof BootyIslandTowerObject)
-                    ((BootyIslandTowerObject) o).state = AllowedObjectState.Normal;
-                else {
-                    if (o instanceof BootyIslandForbiddenObject)
-                        set(r, c, new BootyIslandEmptyObject());
-                    Position p = new Position(r, c);
-                    Node node = new Node(p.toString());
-                    g.addNode(node);
-                    pos2node.put(p, node);
-                }
-            }
-        for (Position p : pos2node.keySet())
-            for (Position os : BootyIslandGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+                if (o instanceof BootyIslandForbiddenObject)
+                    set(r, c, new BootyIslandEmptyObject());
+                else if (o instanceof BootyIslandTreasureObject)
+                    ((BootyIslandTreasureObject) o).state = AllowedObjectState.Normal;
             }
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                F0<Boolean> hasTowerNeighbor = () -> {
+                F0<Boolean> hasNeighbor = () -> {
                     for (Position os : BootyIslandGame.offset) {
                         Position p2 = p.add(os);
-                        if (isValid(p2) && get(p2) instanceof BootyIslandTowerObject)
+                        if (isValid(p2) && get(p2) instanceof BootyIslandTreasureObject)
                             return true;
                     }
                     return false;
                 };
                 BootyIslandObject o = get(r, c);
-                if (o instanceof BootyIslandTowerObject) {
-                    BootyIslandTowerObject o2 = (BootyIslandTowerObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && !hasTowerNeighbor.f() ?
+                if (o instanceof BootyIslandTreasureObject) {
+                    BootyIslandTreasureObject o2 = (BootyIslandTreasureObject)o;
+                    o2.state = o2.state == AllowedObjectState.Normal && !hasNeighbor.f() ?
                             AllowedObjectState.Normal : AllowedObjectState.Error;
                 } else if ((o instanceof BootyIslandEmptyObject || o instanceof BootyIslandMarkerObject) &&
-                        allowedObjectsOnly && hasTowerNeighbor.f())
+                        allowedObjectsOnly && hasNeighbor.f())
                     set(r, c, new BootyIslandForbiddenObject());
             }
+        for (int r = 0; r < rows(); r++) {
+            int n1 = 0, n2 = 1;
+            for (int c = 0; c < cols(); c++) {
+                if (get(r, c) instanceof BootyIslandTreasureObject) n1++;
+            }
+            if (n1 != n2) isSolved = false;
+            for (int c = 0; c < cols(); c++) {
+                BootyIslandObject o = get(r, c);
+                if (o instanceof BootyIslandTreasureObject) {
+                    BootyIslandTreasureObject o2 = (BootyIslandTreasureObject)o;
+                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
+                            AllowedObjectState.Normal : AllowedObjectState.Error;
+                } else if ((o instanceof BootyIslandEmptyObject || o instanceof BootyIslandMarkerObject) &&
+                        n1 == n2 && allowedObjectsOnly)
+                    set(r, c, new BootyIslandForbiddenObject());
+            }
+        }
+        for (int c = 0; c < cols(); c++) {
+            int n1 = 0, n2 = 1;
+            for (int r = 0; r < rows(); r++) {
+                if (get(r, c) instanceof BootyIslandTreasureObject) n1++;
+            }
+            if (n1 != n2) isSolved = false;
+            for (int r = 0; r < rows(); r++) {
+                BootyIslandObject o = get(r, c);
+                if (o instanceof BootyIslandTreasureObject) {
+                    BootyIslandTreasureObject o2 = (BootyIslandTreasureObject)o;
+                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
+                            AllowedObjectState.Normal : AllowedObjectState.Error;
+                } else if ((o instanceof BootyIslandEmptyObject || o instanceof BootyIslandMarkerObject) &&
+                        n1 == n2 && allowedObjectsOnly)
+                    set(r, c, new BootyIslandForbiddenObject());
+            }
+        }
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
-            int[] nums = {0, 0, 0, 0};
-            List<Position> rng = new ArrayList<>();
-            next: for (int i = 0; i < 4; i++) {
-                Position os = BootyIslandGame.offset[i];
-                for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
-                    BootyIslandObject o2 = get(p2);
-                    if (o2 instanceof BootyIslandTowerObject) continue next;
-                    if (o2 instanceof BootyIslandEmptyObject)
-                        rng.add(p2.plus());
-                    nums[i]++;
+            F0<HintState> f = () -> {
+                boolean possible = false;
+                next: for (int i = 0; i < 4; i++) {
+                    Position os = BootyIslandGame.offset[i * 2];
+                    int n1 = 1;
+                    boolean possible2 = false;
+                    for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
+                        BootyIslandObject o2 = get(p2);
+                        if (o2 instanceof BootyIslandTreasureObject) {
+                            if (n1 == n2) return HintState.Complete;
+                            continue next;
+                        }
+                        if (o2 instanceof BootyIslandEmptyObject) {
+                            if (n1 == n2) possible2 = true;
+                        } else if (n1 == n2)
+                            continue next;
+                        n1++;
+                    }
+                    if (possible2) possible = true;
                 }
-            }
-            int n1 = nums[0] + nums[1] + nums[2] + nums[3] + 1;
-            pos2state.put(p, n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2)
-                isSolved = false;
-            else
-                for (Position p2 : rng)
-                    set(p2, new BootyIslandForbiddenObject());
+                return possible ? HintState.Normal : HintState.Error;
+            };
+            HintState s = f.f();
+            pos2state.put(p, s);
+            if (s != HintState.Complete) isSolved = false;
         }
-        if (!isSolved) return;
-        g.setRootNode(iterableList(pos2node.values()).head());
-        List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
     }
 
     public boolean setObject(BootyIslandGameMove move, boolean allowedObjectsOnly) {
@@ -135,13 +149,13 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
         F<BootyIslandObject, BootyIslandObject> f = obj -> {
             if (obj instanceof BootyIslandEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new BootyIslandMarkerObject() : new BootyIslandTowerObject();
-            if (obj instanceof BootyIslandTowerObject)
+                        new BootyIslandMarkerObject() : new BootyIslandTreasureObject();
+            if (obj instanceof BootyIslandTreasureObject)
                 return markerOption == MarkerOptions.MarkerLast ?
                         new BootyIslandMarkerObject() : new BootyIslandEmptyObject();
             if (obj instanceof BootyIslandMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new BootyIslandTowerObject() : new BootyIslandEmptyObject();
+                        new BootyIslandTreasureObject() : new BootyIslandEmptyObject();
             return obj;
         };
         BootyIslandObject o = get(move.p);

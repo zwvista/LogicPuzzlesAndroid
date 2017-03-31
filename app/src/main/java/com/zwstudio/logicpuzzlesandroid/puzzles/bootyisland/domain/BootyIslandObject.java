@@ -11,8 +11,8 @@ public abstract class BootyIslandObject {
         switch (str) {
             case "marker":
                 return new BootyIslandMarkerObject();
-            case "tower":
-                return new BootyIslandTowerObject();
+            case "treasure":
+                return new BootyIslandTreasureObject();
             default:
                 return new BootyIslandMarkerObject();
         }

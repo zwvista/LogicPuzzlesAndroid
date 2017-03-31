@@ -37,7 +37,7 @@ public class ProductSentinelsGameView extends CellsGameView {
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
     private Paint forbiddenPaint = new Paint();
-    private Drawable dTree;
+    private Drawable dTower;
 
     public ProductSentinelsGameView(Context context) {
         super(context);
@@ -65,7 +65,7 @@ public class ProductSentinelsGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        dTree = fromImageToDrawable("tree.png");
+        dTower = fromImageToDrawable("tree.png");
     }
 
     @Override
@@ -88,10 +88,10 @@ public class ProductSentinelsGameView extends CellsGameView {
                 ProductSentinelsObject o = game().getObject(p);
                 if (o instanceof ProductSentinelsTowerObject) {
                     ProductSentinelsTowerObject o2 = (ProductSentinelsTowerObject) o;
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                    dTower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                     int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
-                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    dTree.draw(canvas);
+                    dTower.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dTower.draw(canvas);
                 } else if (o instanceof ProductSentinelsMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
                 else if (o instanceof ProductSentinelsForbiddenObject)

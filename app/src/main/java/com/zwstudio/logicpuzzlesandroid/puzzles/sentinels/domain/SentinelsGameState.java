@@ -76,7 +76,7 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
         for (int r = 0; r < rows(); r++)
             for (int c = 0 ; c < cols(); c++) {
                 Position p = new Position(r, c);
-                F0<Boolean> hasTowerNeighbor = () -> {
+                F0<Boolean> hasNeighbor = () -> {
                     for (Position os : SentinelsGame.offset) {
                         Position p2 = p.add(os);
                         if (isValid(p2) && get(p2) instanceof SentinelsTowerObject)
@@ -87,10 +87,10 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
                 SentinelsObject o = get(r, c);
                 if (o instanceof SentinelsTowerObject) {
                     SentinelsTowerObject o2 = (SentinelsTowerObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && !hasTowerNeighbor.f() ?
+                    o2.state = o2.state == AllowedObjectState.Normal && !hasNeighbor.f() ?
                             AllowedObjectState.Normal : AllowedObjectState.Error;
                 } else if ((o instanceof SentinelsEmptyObject || o instanceof SentinelsMarkerObject) &&
-                        allowedObjectsOnly && hasTowerNeighbor.f())
+                        allowedObjectsOnly && hasNeighbor.f())
                     set(r, c, new SentinelsForbiddenObject());
             }
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
