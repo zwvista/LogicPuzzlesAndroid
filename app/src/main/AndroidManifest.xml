@@ -43,13 +43,13 @@
         <activity android:name=".puzzles.battleships.android.BattleShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
+        <activity android:name=".puzzles.bootyisland.android.BootyIslandMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesGameActivity_"
+        <activity android:name=".puzzles.bootyisland.android.BootyIslandGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
+        <activity android:name=".puzzles.bootyisland.android.BootyIslandOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.boxitagain.android.BoxItAgainMainActivity_"
@@ -77,6 +77,24 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.boxitup.android.BoxItUpOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bridges.android.BridgesGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.busyseas.android.BusySeasMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.busyseas.android.BusySeasGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.busyseas.android.BusySeasOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
@@ -113,6 +131,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.lightenup.android.LightenUpOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lighthouses.android.LighthousesMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lighthouses.android.LighthousesGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lighthouses.android.LighthousesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.linesweeper.android.LineSweeperMainActivity_"
@@ -185,6 +212,15 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.parks.android.ParksOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.powergrid.android.PowerGridMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.powergrid.android.PowerGridGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.powergrid.android.PowerGridOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.productsentinels.android.ProductSentinelsMainActivity_"

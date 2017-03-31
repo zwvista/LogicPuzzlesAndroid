@@ -12,14 +12,17 @@ import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.data.BattleShipsDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.data.BootyIslandDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.data.BoxItAgainDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.data.BoxItAroundDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.data.BoxItUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.data.BusySeasDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data.CloudsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.data.FenceItUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.data.LighthousesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.data.MagnetsDocument;
@@ -28,6 +31,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.data.ParksDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.data.PowerGridDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.data.ProductSentinelsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.data.RoomsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.data.SentinelsDocument;
@@ -61,13 +65,17 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public BattleShipsDocument battleshipsDocument;
     @Bean
-    public BridgesDocument bridgesDocument;
+    public BootyIslandDocument bootyislandDocument;
     @Bean
     public BoxItAgainDocument boxitagainDocument;
     @Bean
     public BoxItAroundDocument boxitaroundDocument;
     @Bean
     public BoxItUpDocument boxitupDocument;
+    @Bean
+    public BridgesDocument bridgesDocument;
+    @Bean
+    public BusySeasDocument busyseasDocument;
     @Bean
     public CloudsDocument cloudsDocument;
     @Bean
@@ -76,6 +84,8 @@ public class LogicPuzzlesApplication extends Application {
     public HitoriDocument hitoriDocument;
     @Bean
     public LightenUpDocument lightenupDocument;
+    @Bean
+    public LighthousesDocument lighthousesDocument;
     @Bean
     public LineSweeperDocument linesweeperDocument;
     @Bean
@@ -92,6 +102,8 @@ public class LogicPuzzlesApplication extends Application {
     public NurikabeDocument nurikabeDocument;
     @Bean
     public ParksDocument parksDocument;
+    @Bean
+    public PowerGridDocument powergridDocument;
     @Bean
     public ProductSentinelsDocument productsentinelsDocument;
     @Bean
@@ -116,14 +128,17 @@ public class LogicPuzzlesApplication extends Application {
 
         abcDocument.init();
         battleshipsDocument.init();
-        bridgesDocument.init();
+        bootyislandDocument.init();
         boxitagainDocument.init();
         boxitaroundDocument.init();
         boxitupDocument.init();
+        bridgesDocument.init();
+        busyseasDocument.init();
         cloudsDocument.init();
         fenceitupDocument.init();
         hitoriDocument.init();
         lightenupDocument.init();
+        lighthousesDocument.init();
         linesweeperDocument.init();
         loopyDocument.init();
         magnetsDocument.init();
@@ -132,6 +147,7 @@ public class LogicPuzzlesApplication extends Application {
         neighboursDocument.init();
         nurikabeDocument.init();
         parksDocument.init();
+        powergridDocument.init();
         productsentinelsDocument.init();
         roomsDocument.init();
         sentinelsDocument.init();
