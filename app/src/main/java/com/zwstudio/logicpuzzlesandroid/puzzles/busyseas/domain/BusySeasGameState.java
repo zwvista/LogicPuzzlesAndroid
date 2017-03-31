@@ -54,7 +54,7 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 BusySeasObject o = get(r, c);
                 if (o instanceof BusySeasTowerObject)
                     ((BusySeasTowerObject) o).state = AllowedObjectState.Normal;
@@ -74,7 +74,7 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 F0<Boolean> hasTowerNeighbor = () -> {
                     for (Position os : BusySeasGame.offset) {

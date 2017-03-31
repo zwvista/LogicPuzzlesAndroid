@@ -54,7 +54,7 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 ProductSentinelsObject o = get(r, c);
                 if (o instanceof ProductSentinelsTowerObject)
                     ((ProductSentinelsTowerObject) o).state = AllowedObjectState.Normal;
@@ -74,7 +74,7 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 F0<Boolean> hasNeighbor = () -> {
                     for (Position os : ProductSentinelsGame.offset) {

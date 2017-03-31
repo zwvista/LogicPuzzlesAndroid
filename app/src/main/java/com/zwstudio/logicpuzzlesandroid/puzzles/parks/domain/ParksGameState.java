@@ -44,13 +44,13 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 ParksObject o = get(r, c);
                 if (o instanceof ParksForbiddenObject)
                     set(r, c, new ParksEmptyObject());
             }
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 F0<Boolean> hasTreeNeighbor = () -> {
                     for (Position os : ParksGame.offset) {
@@ -71,10 +71,10 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
         int n2 = game.treesInEachArea;
         for (int r = 0; r < rows(); r++) {
             int n1 = 0;
-            for (int c = 0 ; c < cols(); c++)
+            for (int c = 0; c < cols(); c++)
                 if (get(r, c) instanceof ParksTreeObject) n1++;
             if (n1 != n2) isSolved = false;
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 ParksObject o = get(r, c);
                 if (o instanceof ParksTreeObject) {
                     ParksTreeObject o2 = (ParksTreeObject)o;
@@ -84,7 +84,7 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
                     set(r, c, new ParksForbiddenObject());
             }
         }
-        for (int c = 0 ; c < cols(); c++) {
+        for (int c = 0; c < cols(); c++) {
             int n1 = 0;
             for (int r = 0; r < rows(); r++)
                 if (get(r, c) instanceof ParksTreeObject) n1++;

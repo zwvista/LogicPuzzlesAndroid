@@ -54,7 +54,7 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 LighthousesObject o = get(r, c);
                 if (o instanceof LighthousesTowerObject)
                     ((LighthousesTowerObject) o).state = AllowedObjectState.Normal;
@@ -74,7 +74,7 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 F0<Boolean> hasTowerNeighbor = () -> {
                     for (Position os : LighthousesGame.offset) {

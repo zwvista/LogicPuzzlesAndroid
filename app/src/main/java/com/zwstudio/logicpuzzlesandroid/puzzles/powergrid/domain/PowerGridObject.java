@@ -12,7 +12,7 @@ public abstract class PowerGridObject {
             case "marker":
                 return new PowerGridMarkerObject();
             case "tower":
-                return new PowerGridTowerObject();
+                return new PowerGridPostObject();
             default:
                 return new PowerGridMarkerObject();
         }

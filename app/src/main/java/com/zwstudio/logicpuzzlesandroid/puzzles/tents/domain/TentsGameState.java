@@ -61,13 +61,13 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
             if (n1 != n2) isSolved = false;
         }
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 TentsObject o = get(r, c);
                 if (o instanceof TentsForbiddenObject)
                     set(r, c, new TentsEmptyObject());
             }
         for (int r = 0; r < rows(); r++)
-            for (int c = 0 ; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 TentsObject o = get(r, c);
                 if (o instanceof TentsTreeObject) continue;

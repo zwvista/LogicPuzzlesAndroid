@@ -21,7 +21,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridTowerObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridPostObject;
 
 /**
  * TODO: document your custom view class.
@@ -37,7 +37,7 @@ public class PowerGridGameView extends CellsGameView {
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
     private Paint forbiddenPaint = new Paint();
-    private Drawable dTree;
+    private Drawable dPost;
 
     public PowerGridGameView(Context context) {
         super(context);
@@ -65,15 +65,15 @@ public class PowerGridGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        dTree = fromImageToDrawable("tree.png");
+        dPost = fromImageToDrawable("tree.png");
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
+        cellWidth = getWidth() / (cols() + 1) - 1;
+        cellHeight = getHeight() / (rows() + 1) - 1;
         invalidate();
     }
 
@@ -86,28 +86,40 @@ public class PowerGridGameView extends CellsGameView {
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
                 PowerGridObject o = game().getObject(p);
-                if (o instanceof PowerGridTowerObject) {
-                    PowerGridTowerObject o2 = (PowerGridTowerObject) o;
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                if (o instanceof PowerGridPostObject) {
+                    PowerGridPostObject o2 = (PowerGridPostObject) o;
+                    dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                     int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
-                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    dTree.draw(canvas);
+                    dPost.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dPost.draw(canvas);
                 } else if (o instanceof PowerGridMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
                 else if (o instanceof PowerGridForbiddenObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                Integer n = game().pos2hint.get(p);
-                if (n != null) {
-                    HintState state = game().getHintState(p);
-                    textPaint.setColor(
-                            state == HintState.Complete ? Color.GREEN :
-                            state == HintState.Error ? Color.RED :
-                            Color.WHITE
-                    );
-                    String text = String.valueOf(n);
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
-                }
             }
+        if (isInEditMode()) return;
+        for (int r = 0; r < rows(); r++) {
+            HintState s = game().getRowState(r);
+            textPaint.setColor(
+                    s == HintState.Complete ? Color.GREEN :
+                    s == HintState.Error ? Color.RED :
+                    Color.WHITE
+            );
+            int n = game().row2hint[r];
+            String text = String.valueOf(n);
+            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
+        }
+        for (int c = 0; c < cols(); c++) {
+            HintState s = game().getColState(c);
+            textPaint.setColor(
+                    s == HintState.Complete ? Color.GREEN :
+                    s == HintState.Error ? Color.RED :
+                    Color.WHITE
+            );
+            int n = game().col2hint[c];
+            String text = String.valueOf(n);
+            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
+        }
     }
 
     @Override
