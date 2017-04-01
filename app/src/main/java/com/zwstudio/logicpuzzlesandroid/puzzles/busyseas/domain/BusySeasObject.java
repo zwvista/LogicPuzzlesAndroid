@@ -11,8 +11,8 @@ public abstract class BusySeasObject {
         switch (str) {
             case "marker":
                 return new BusySeasMarkerObject();
-            case "tower":
-                return new BusySeasTowerObject();
+            case "lighthouse":
+                return new BusySeasLighthouseObject();
             default:
                 return new BusySeasMarkerObject();
         }

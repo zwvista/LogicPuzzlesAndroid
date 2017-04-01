@@ -2,9 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -16,8 +14,6 @@ import java.util.Map;
 
 import fj.F;
 import fj.F0;
-
-import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -51,47 +47,30 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
 
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 BusySeasObject o = get(r, c);
-                if (o instanceof BusySeasTowerObject)
-                    ((BusySeasTowerObject) o).state = AllowedObjectState.Normal;
-                else {
-                    if (o instanceof BusySeasForbiddenObject)
-                        set(r, c, new BusySeasEmptyObject());
-                    Position p = new Position(r, c);
-                    Node node = new Node(p.toString());
-                    g.addNode(node);
-                    pos2node.put(p, node);
-                }
-            }
-        for (Position p : pos2node.keySet())
-            for (Position os : BusySeasGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+                if (o instanceof BusySeasLighthouseObject)
+                    ((BusySeasLighthouseObject) o).state = AllowedObjectState.Normal;
+                else if (o instanceof BusySeasForbiddenObject)
+                    set(r, c, new BusySeasEmptyObject());
             }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                F0<Boolean> hasTowerNeighbor = () -> {
-                    for (Position os : BusySeasGame.offset) {
-                        Position p2 = p.add(os);
-                        if (isValid(p2) && get(p2) instanceof BusySeasTowerObject)
-                            return true;
-                    }
+                F0<Boolean> hasLightedBoat = () -> {
+                    for (Position os : BusySeasGame.offset)
+                        for (Position p2 = p.add(os); isValid(p2); p2.addBy(os))
+                            if (isValid(p2) && get(p2) instanceof BusySeasHintObject)
+                                return true;
                     return false;
                 };
                 BusySeasObject o = get(r, c);
-                if (o instanceof BusySeasTowerObject) {
-                    BusySeasTowerObject o2 = (BusySeasTowerObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && !hasTowerNeighbor.f() ?
+                if (o instanceof BusySeasLighthouseObject) {
+                    BusySeasLighthouseObject o2 = (BusySeasLighthouseObject)o;
+                    o2.state = o2.state == AllowedObjectState.Normal && hasLightedBoat.f() ?
                             AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof BusySeasEmptyObject || o instanceof BusySeasMarkerObject) &&
-                        allowedObjectsOnly && hasTowerNeighbor.f())
-                    set(r, c, new BusySeasForbiddenObject());
+                }
             }
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
@@ -102,26 +81,22 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
                 Position os = BusySeasGame.offset[i];
                 for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
                     BusySeasObject o2 = get(p2);
-                    if (o2 instanceof BusySeasTowerObject) continue next;
+                    if (o2 instanceof BusySeasHintObject) continue next;
                     if (o2 instanceof BusySeasEmptyObject)
                         rng.add(p2.plus());
-                    nums[i]++;
+                    else if (o2 instanceof BusySeasLighthouseObject)
+                        nums[i]++;
                 }
             }
-            int n1 = nums[0] + nums[1] + nums[2] + nums[3] + 1;
-            pos2state.put(p, n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2)
+            int n1 = nums[0] + nums[1] + nums[2] + nums[3];
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            pos2state.put(p, s);
+            if (s != HintState.Complete)
                 isSolved = false;
             else
                 for (Position p2 : rng)
                     set(p2, new BusySeasForbiddenObject());
         }
-        if (!isSolved) return;
-        g.setRootNode(iterableList(pos2node.values()).head());
-        List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
     }
 
     public boolean setObject(BusySeasGameMove move, boolean allowedObjectsOnly) {
@@ -135,13 +110,13 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
         F<BusySeasObject, BusySeasObject> f = obj -> {
             if (obj instanceof BusySeasEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new BusySeasMarkerObject() : new BusySeasTowerObject();
-            if (obj instanceof BusySeasTowerObject)
+                        new BusySeasMarkerObject() : new BusySeasLighthouseObject();
+            if (obj instanceof BusySeasLighthouseObject)
                 return markerOption == MarkerOptions.MarkerLast ?
                         new BusySeasMarkerObject() : new BusySeasEmptyObject();
             if (obj instanceof BusySeasMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new BusySeasTowerObject() : new BusySeasEmptyObject();
+                        new BusySeasLighthouseObject() : new BusySeasEmptyObject();
             return obj;
         };
         BusySeasObject o = get(move.p);

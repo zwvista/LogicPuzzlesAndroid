@@ -21,7 +21,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesTowerObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesLighthouseObject;
 
 /**
  * TODO: document your custom view class.
@@ -86,8 +86,8 @@ public class LighthousesGameView extends CellsGameView {
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
                 LighthousesObject o = game().getObject(p);
-                if (o instanceof LighthousesTowerObject) {
-                    LighthousesTowerObject o2 = (LighthousesTowerObject) o;
+                if (o instanceof LighthousesLighthouseObject) {
+                    LighthousesLighthouseObject o2 = (LighthousesLighthouseObject) o;
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                     int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
                     dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);

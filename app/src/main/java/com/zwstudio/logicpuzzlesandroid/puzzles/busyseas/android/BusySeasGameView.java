@@ -21,7 +21,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasTowerObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasLighthouseObject;
 
 /**
  * TODO: document your custom view class.
@@ -86,8 +86,8 @@ public class BusySeasGameView extends CellsGameView {
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
                 BusySeasObject o = game().getObject(p);
-                if (o instanceof BusySeasTowerObject) {
-                    BusySeasTowerObject o2 = (BusySeasTowerObject) o;
+                if (o instanceof BusySeasLighthouseObject) {
+                    BusySeasLighthouseObject o2 = (BusySeasLighthouseObject) o;
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                     int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
                     dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);

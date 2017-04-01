@@ -11,8 +11,8 @@ public abstract class LighthousesObject {
         switch (str) {
             case "marker":
                 return new LighthousesMarkerObject();
-            case "tower":
-                return new LighthousesTowerObject();
+            case "lighthouse":
+                return new LighthousesLighthouseObject();
             default:
                 return new LighthousesMarkerObject();
         }
