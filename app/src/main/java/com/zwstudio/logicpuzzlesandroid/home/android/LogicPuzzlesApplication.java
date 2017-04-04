@@ -30,6 +30,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.data.PairakabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.data.ParksDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.data.PowerGridDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.data.ProductSentinelsDocument;
@@ -101,6 +102,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public NurikabeDocument nurikabeDocument;
     @Bean
+    public PairakabeDocument pairakabeDocument;
+    @Bean
     public ParksDocument parksDocument;
     @Bean
     public PowerGridDocument powergridDocument;
@@ -146,6 +149,7 @@ public class LogicPuzzlesApplication extends Application {
         mosaikDocument.init();
         neighboursDocument.init();
         nurikabeDocument.init();
+        pairakabeDocument.init();
         parksDocument.init();
         powergridDocument.init();
         productsentinelsDocument.init();

@@ -205,6 +205,15 @@
         <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pairakabe.android.PairakabeMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pairakabe.android.PairakabeGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pairakabe.android.PairakabeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.parks.android.ParksMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
