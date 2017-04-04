@@ -105,11 +105,15 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
                 isSolved = false;
                 break;
             case 1:
+                ((PairakabeHintObject) get(rng.get(0))).state = HintState.Error;
+                break;
+            case 2:
                 {
-                    Position p = rng.get(0);
-                    int n1 = game.pos2hint.get(p);
+                    Position p1 = rng.get(0), p2 = rng.get(1);
+                    int n1 = game.pos2hint.get(p1) + game.pos2hint.get(p2);
                     HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
-                    ((PairakabeHintObject) get(p)).state = s;
+                    ((PairakabeHintObject) get(p1)).state = s;
+                    ((PairakabeHintObject) get(p2)).state = s;
                     if (s != HintState.Complete) isSolved = false;
                 }
                 break;
