@@ -106,6 +106,15 @@
         <activity android:name=".puzzles.clouds.android.CloudsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.domino.android.DominoMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.domino.android.DominoGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.domino.android.DominoOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fenceitup.android.FenceItUpMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

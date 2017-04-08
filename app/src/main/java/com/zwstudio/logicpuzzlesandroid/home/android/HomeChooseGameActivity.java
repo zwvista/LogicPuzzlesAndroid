@@ -24,7 +24,7 @@ public class HomeChooseGameActivity extends BaseActivity {
     ListView lvGames;
 
     List<String> lstGames = Arrays.asList("Abc", "BattleShips", "BootyIsland", "BoxItAgain", "BoxItAround",
-            "BoxItUp", "Bridges", "BusySeas", "Clouds", "FenceItUp", "Hitori", "LightenUp", "Lighthouses",
+            "BoxItUp", "Bridges", "BusySeas", "Clouds", "Domino", "FenceItUp", "Hitori", "LightenUp", "Lighthouses",
             "LineSweeper", "Loopy", "Magnets", "Masyu", "Mosaik", "Neighbours", "Nurikabe", "Pairakabe", "Parks",
             "PowerGrid", "ProductSentinels", "Rooms", "Sentinels", "Skyscrapers", "SlitherLink",
             "Sumscrapers", "Tents");
