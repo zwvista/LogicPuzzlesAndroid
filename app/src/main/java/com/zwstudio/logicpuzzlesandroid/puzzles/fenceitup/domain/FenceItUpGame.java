@@ -42,12 +42,6 @@ public class FenceItUpGame extends CellsGame<FenceItUpGame, FenceItUpGameMove, F
     public GridLineObject[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, GridLineObject[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
-    }
-    public void set(Position p, GridLineObject[] obj) {
-        set(p.row, p.col, obj);
-    }
 
     public FenceItUpGame(List<String> layout, GameInterface<FenceItUpGame, FenceItUpGameMove, FenceItUpGameState> gi) {
         super(gi);

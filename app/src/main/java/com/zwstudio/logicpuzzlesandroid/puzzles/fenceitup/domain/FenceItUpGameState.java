@@ -27,12 +27,7 @@ public class FenceItUpGameState extends CellsGameState<FenceItUpGame, FenceItUpG
 
     public FenceItUpGameState(FenceItUpGame game) {
         super(game);
-        objArray = new GridLineObject[rows() * cols()][];
-        for (int i = 0; i < objArray.length; i++) {
-            objArray[i] = new GridLineObject[4];
-            for (int j = 0; j < 4; j++)
-                objArray[i][j] = game.objArray[i][j];
-        }
+        objArray = game.objArray.clone();
         updateIsSolved();
     }
 

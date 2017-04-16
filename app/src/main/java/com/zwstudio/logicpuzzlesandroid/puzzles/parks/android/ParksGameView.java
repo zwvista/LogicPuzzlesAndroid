@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksEmptyObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksForbiddenObject;
@@ -86,9 +87,9 @@ public class ParksGameView extends CellsGameView {
         if (isInEditMode()) return;
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++) {
-                if (game().dots.get(r, c, 1))
+                if (game().dots.get(r, c, 1) == GridLineObject.Line)
                     canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
-                if (game().dots.get(r, c, 2))
+                if (game().dots.get(r, c, 2) == GridLineObject.Line)
                     canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
             }
         for (int r = 0; r < rows(); r++)

@@ -27,7 +27,8 @@ public class DominoGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
     private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
     private Paint gridPaint = new Paint();
-    private Paint linePaint = new Paint();
+    private Paint line1Paint = new Paint();
+    private Paint line2Paint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -49,9 +50,12 @@ public class DominoGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        linePaint.setColor(Color.YELLOW);
-        linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setStrokeWidth(20);
+        line1Paint.setColor(Color.WHITE);
+        line1Paint.setStyle(Paint.Style.STROKE);
+        line1Paint.setStrokeWidth(20);
+        line2Paint.setColor(Color.YELLOW);
+        line2Paint.setStyle(Paint.Style.STROKE);
+        line2Paint.setStrokeWidth(20);
         markerPaint.setColor(Color.YELLOW);
         markerPaint.setStyle(Paint.Style.STROKE);
         markerPaint.setStrokeWidth(5);
@@ -95,7 +99,8 @@ public class DominoGameView extends CellsGameView {
                 GridLineObject[] dotObj = game().getObject(r, c);
                 switch (dotObj[1]){
                 case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
+                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r),
+                            game().get(r, c)[1] == GridLineObject.Line ? line1Paint : line2Paint);
                     break;
                 case Marker:
                     canvas.drawLine(cwc2(c) - markerOffset, chr(r) - markerOffset, cwc2(c) + markerOffset, chr(r) + markerOffset, markerPaint);
@@ -104,7 +109,8 @@ public class DominoGameView extends CellsGameView {
                 }
                 switch (dotObj[2]){
                 case Line:
-                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
+                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1),
+                            game().get(r, c)[2] == GridLineObject.Line ? line1Paint :  line2Paint);
                     break;
                 case Marker:
                     canvas.drawLine(cwc(c) - markerOffset, chr2(r) - markerOffset, cwc(c) + markerOffset, chr2(r) + markerOffset, markerPaint);

@@ -1,16 +1,23 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fj.F;
+import fj.Ord;
+
+import static fj.data.HashMap.fromMap;
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -22,11 +29,7 @@ public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, 
 
     public DominoGameState(DominoGame game) {
         super(game);
-        objArray = new GridLineObject[rows() * cols()][];
-        for (int i = 0; i < objArray.length; i++) {
-            objArray[i] = new GridLineObject[4];
-            Arrays.fill(objArray[i], GridLineObject.Empty);
-        }
+        objArray = game.objArray.clone();
         updateIsSolved();
     }
 
@@ -36,27 +39,37 @@ public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, 
     public GridLineObject[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, GridLineObject[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
-    }
-    public void set(Position p, GridLineObject[] obj) {
-        set(p.row, p.col, obj);
-    }
 
     private void updateIsSolved() {
         isSolved = true;
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n2 = entry.getValue();
-            int n1 = 0;
-            for (int i = 0; i < 4; i++) {
-                Position os1 = DominoGame.offset[i], os2 = DominoGame.offset2[i];
-                int dir = DominoGame.dirs[i];
-                for (Position p2 = p.plus(); isValid(p2.add(os1)) && get(p2.add(os2))[dir] != GridLineObject.Line; p2.addBy(os1))
-                    n1++;
+        Graph g = new Graph();
+        Map<Position, Node> pos2node = new HashMap<>();
+        for (int r = 0; r < rows() - 1; r++)
+            for (int c = 0; c < cols() - 1; c++) {
+                Position p = new Position(r, c);
+                Node node = new Node(p.toString());
+                g.addNode(node);
+                pos2node.put(p, node);
             }
-            pos2state.put(p, n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2) isSolved = false;
+        for (int r = 0; r < rows() - 1; r++)
+            for (int c = 0; c < cols() - 1; c++) {
+                Position p = new Position(r, c);
+                for (int i = 0; i < 4; i++)
+                    if (get(p.add(DominoGame.offset2[i]))[DominoGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node.get(p), pos2node.get(p.add(DominoGame.offset[i])));
+            }
+        List<List<Integer>> dominoes = new ArrayList<>();
+        while (!pos2node.isEmpty()) {
+            g.setRootNode(fromMap(pos2node).values().head());
+            List<Node> nodeList = g.bfs();
+            List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
+            if (area.size() != 2) {isSolved = false; return;}
+            List<Integer> domino = iterableList(area).map(p -> game.pos2hint.get(p)).sort(Ord.intOrd).toJavaList();
+            if (dominoes.contains(domino)) {isSolved = false; return;}
+            dominoes.add(domino);
+            for (Position p : area)
+                pos2node.remove(p);
+
         }
     }
 

@@ -3,6 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -44,21 +46,21 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
 
     public List<List<Position>> areas = new ArrayList<>();
     public Map<Position, Integer> pos2area = new HashMap<>();
-    public ParksDots dots;
+    public GridDots dots;
     public int treesInEachArea = 1;
 
     public ParksGame(List<String> layout, GameInterface<ParksGame, ParksGameMove, ParksGameState> gi) {
         super(gi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
-        dots = new ParksDots(rows() + 1, cols() + 1);
+        dots = new GridDots(rows() + 1, cols() + 1);
         for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r * 2);
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c * 2 + 1);
                 if (ch == '-') {
-                    dots.set(r, c, 1, true);
-                    dots.set(r, c + 1, 3, true);
+                    dots.set(r, c, 1, GridLineObject.Line);
+                    dots.set(r, c + 1, 3, GridLineObject.Line);
                 }
             }
             if (r == rows()) break;
@@ -67,8 +69,8 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
                 Position p = new Position(r, c);
                 char ch = str.charAt(c * 2);
                 if (ch == '|') {
-                    dots.set(r, c, 2, true);
-                    dots.set(r + 1, c, 0, true);
+                    dots.set(r, c, 2, GridLineObject.Line);
+                    dots.set(r + 1, c, 0, GridLineObject.Line);
                 }
             }
         }
@@ -87,7 +89,7 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 for (int i = 0; i < 4; i++)
-                    if (!dots.get(p.add(ParksGame.offset2[i]), ParksGame.dirs[i]))
+                    if (dots.get(p.add(ParksGame.offset2[i]), ParksGame.dirs[i]) != GridLineObject.Line)
                         g.connectNode(pos2node.get(p), pos2node.get(p.add(ParksGame.offset[i * 2])));
             }
         while (!rng.isEmpty()) {

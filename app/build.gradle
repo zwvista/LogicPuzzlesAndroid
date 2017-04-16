@@ -97,6 +97,6 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'javax.persistence:persistence-api:1.0.2'
-    compile "org.functionaljava:functionaljava:4.6"
+    compile "org.functionaljava:functionaljava:4.7"
     compile 'uk.com.robust-it:cloning:1.9.3'
 }
