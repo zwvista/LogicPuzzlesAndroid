@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain;
 
+import com.rits.cloning.Cloner;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -31,12 +32,7 @@ public class NeighboursGameState extends CellsGameState<NeighboursGame, Neighbou
 
     public NeighboursGameState(NeighboursGame game) {
         super(game);
-        objArray = new GridLineObject[rows() * cols()][];
-        for (int i = 0; i < objArray.length; i++) {
-            objArray[i] = new GridLineObject[4];
-            for (int j = 0; j < 4; j++)
-                objArray[i][j] = game.objArray[i][j];
-        }
+        objArray = new Cloner().deepClone(game.objArray);
         updateIsSolved();
     }
 

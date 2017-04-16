@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain;
 
+import com.rits.cloning.Cloner;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -27,7 +28,7 @@ public class FenceItUpGameState extends CellsGameState<FenceItUpGame, FenceItUpG
 
     public FenceItUpGameState(FenceItUpGame game) {
         super(game);
-        objArray = game.objArray.clone();
+        objArray = new Cloner().deepClone(game.objArray);
         updateIsSolved();
     }
 
@@ -36,12 +37,6 @@ public class FenceItUpGameState extends CellsGameState<FenceItUpGame, FenceItUpG
     }
     public GridLineObject[] get(Position p) {
         return get(p.row, p.col);
-    }
-    public void set(int row, int col, GridLineObject[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
-    }
-    public void set(Position p, GridLineObject[] obj) {
-        set(p.row, p.col, obj);
     }
 
     private void updateIsSolved() {

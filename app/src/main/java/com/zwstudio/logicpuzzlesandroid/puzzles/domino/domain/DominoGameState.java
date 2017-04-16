@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain;
 
+import com.rits.cloning.Cloner;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -29,7 +30,7 @@ public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, 
 
     public DominoGameState(DominoGame game) {
         super(game);
-        objArray = game.objArray.clone();
+        objArray = new Cloner().deepClone(game.objArray);
         updateIsSolved();
     }
 

@@ -1,11 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain;
 
+import com.rits.cloning.Cloner;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +22,7 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
 
     public LoopyGameState(LoopyGame game) {
         super(game);
-        objArray = new Boolean[rows() * cols()][];
-        for (int i = 0; i < objArray.length; i++) {
-            objArray[i] = new Boolean[4];
-            Arrays.fill(objArray[i], false);
-        }
+        objArray = new Cloner().deepClone(game.objArray);
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++)
                 for (int dir = 1; dir <= 2; dir++) {
@@ -43,12 +39,6 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
     }
     public Boolean[] get(Position p) {
         return get(p.row, p.col);
-    }
-    public void set(int row, int col, Boolean[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
-    }
-    public void set(Position p, Boolean[] obj) {
-        set(p.row, p.col, obj);
     }
 
     private void updateIsSolved() {

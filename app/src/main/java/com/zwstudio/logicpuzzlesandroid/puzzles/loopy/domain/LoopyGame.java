@@ -29,12 +29,6 @@ public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameStat
     public Boolean[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, Boolean[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
-    }
-    public void set(Position p, Boolean[] obj) {
-        set(p.row, p.col, obj);
-    }
 
     public LoopyGame(List<String> layout, GameInterface<LoopyGame, LoopyGameMove, LoopyGameState> gi) {
         super(gi);

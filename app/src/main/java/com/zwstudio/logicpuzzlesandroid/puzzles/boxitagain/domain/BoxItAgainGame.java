@@ -42,12 +42,6 @@ public class BoxItAgainGame extends CellsGame<BoxItAgainGame, BoxItAgainGameMove
     public GridLineObject[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, GridLineObject[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
-    }
-    public void set(Position p, GridLineObject[] obj) {
-        set(p.row, p.col, obj);
-    }
 
     public BoxItAgainGame(List<String> layout, GameInterface<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState> gi) {
         super(gi);

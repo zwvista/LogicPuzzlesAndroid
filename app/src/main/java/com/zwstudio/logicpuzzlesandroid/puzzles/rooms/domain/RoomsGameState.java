@@ -1,12 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain;
 
+import com.rits.cloning.Cloner;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,11 +22,7 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
 
     public RoomsGameState(RoomsGame game) {
         super(game);
-        objArray = new GridLineObject[rows() * cols()][];
-        for (int i = 0; i < objArray.length; i++) {
-            objArray[i] = new GridLineObject[4];
-            Arrays.fill(objArray[i], GridLineObject.Empty);
-        }
+        objArray = new Cloner().deepClone(game.objArray);
         updateIsSolved();
     }
 
@@ -36,12 +32,6 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
     public GridLineObject[] get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, GridLineObject[] dotObj) {
-        objArray[row * cols() + col] = dotObj;
-    }
-    public void set(Position p, GridLineObject[] obj) {
-        set(p.row, p.col, obj);
-    }
 
     private void updateIsSolved() {
         isSolved = true;
@@ -49,12 +39,9 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
             Position p = entry.getKey();
             int n2 = entry.getValue();
             int n1 = 0;
-            for (int i = 0; i < 4; i++) {
-                Position os1 = RoomsGame.offset[i], os2 = RoomsGame.offset2[i];
-                int dir = RoomsGame.dirs[i];
-                for (Position p2 = p.plus(); isValid(p2.add(os1)) && get(p2.add(os2))[dir] != GridLineObject.Line; p2.addBy(os1))
+            for (int i = 0; i < 4; i++)
+                for (Position p2 = p.plus(); get(p2.add(RoomsGame.offset2[i]))[RoomsGame.dirs[i]] != GridLineObject.Line; p2.addBy(RoomsGame.offset[i]))
                     n1++;
-            }
             pos2state.put(p, n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;
         }

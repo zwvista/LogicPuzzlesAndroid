@@ -7,6 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,15 +33,24 @@ public class RoomsGame extends CellsGame<RoomsGame, RoomsGameMove, RoomsGameStat
     };
     public static int dirs[] = { 1, 0, 3, 2 };
 
-    public boolean isValid(int row, int col) {
-        return row >= 0 && col >= 0 && row < size.row - 1 && col < size.col - 1;
-    }
-
+    public GridLineObject[][] objArray;
     public Map<Position, Integer> pos2hint = new HashMap<>();
+
+    public GridLineObject[] get(int row, int col) {
+        return objArray[row * cols() + col];
+    }
+    public GridLineObject[] get(Position p) {
+        return get(p.row, p.col);
+    }
 
     public RoomsGame(List<String> layout, GameInterface<RoomsGame, RoomsGameMove, RoomsGameState> gi) {
         super(gi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
+        objArray = new GridLineObject[rows() * cols()][];
+        for (int i = 0; i < objArray.length; i++) {
+            objArray[i] = new GridLineObject[4];
+            Arrays.fill(objArray[i], GridLineObject.Empty);
+        }
         for (int r = 0; r < rows() - 1; r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols() - 1; c++) {
@@ -51,6 +61,18 @@ public class RoomsGame extends CellsGame<RoomsGame, RoomsGameMove, RoomsGameStat
                     pos2hint.put(p, n);
                 }
             }
+        }
+        for (int r = 0; r < rows() - 1; r++) {
+            get(r, 0)[2] = GridLineObject.Line;
+            get(r + 1, 0)[0] = GridLineObject.Line;
+            get(r, cols() - 1)[2] = GridLineObject.Line;
+            get(r + 1, cols() - 1)[0] = GridLineObject.Line;
+        }
+        for (int c = 0; c < cols() - 1; c++) {
+            get(0, c)[1] = GridLineObject.Line;
+            get(0, c + 1)[3] = GridLineObject.Line;
+            get(rows() - 1, c)[1] = GridLineObject.Line;
+            get(rows() - 1, c + 1)[3] = GridLineObject.Line;
         }
         RoomsGameState state = new RoomsGameState(this);
         states.add(state);
