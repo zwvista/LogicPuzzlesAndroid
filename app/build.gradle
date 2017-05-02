@@ -78,7 +78,7 @@ android {
             "drawables-xhdpi",
             "drawables-xxhdpi",
             "layouts",
-            "valuess",
+            "values",
         ]
         def srcDirs = resDirs.collect {
             getSubDirs(it)

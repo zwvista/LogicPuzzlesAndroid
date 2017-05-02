@@ -160,6 +160,15 @@
         <activity android:name=".puzzles.linesweeper.android.LineSweeperOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.lits.android.LitsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lits.android.LitsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lits.android.LitsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.loopy.android.LoopyMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

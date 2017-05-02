@@ -25,6 +25,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.data.LighthousesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lits.data.LitsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.data.MagnetsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
@@ -93,6 +94,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public LineSweeperDocument linesweeperDocument;
     @Bean
+    public LitsDocument litsDocument;
+    @Bean
     public LoopyDocument loopyDocument;
     @Bean
     public MagnetsDocument magnetsDocument;
@@ -147,6 +150,7 @@ public class LogicPuzzlesApplication extends Application {
         lightenupDocument.init();
         lighthousesDocument.init();
         linesweeperDocument.init();
+        litsDocument.init();
         loopyDocument.init();
         magnetsDocument.init();
         masyuDocument.init();

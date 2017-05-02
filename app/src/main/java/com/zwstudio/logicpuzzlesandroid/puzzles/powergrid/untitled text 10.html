@@ -1,0 +1,711 @@
+<p>
+	使用左外连接时，注意以下两点
+</p>
+<ul>
+	<li>
+		第一张表的过滤条件写在where子句中
+	</li>
+	<li>
+		其余各张表的过滤条件写在on子句中
+	</li>
+</ul>
+<p>
+	A表
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					id
+				</th>
+				<th scope="col">
+					active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					3
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					4
+				</td>
+				<td>
+					0
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br />
+	
+</p>
+<p>
+	B表
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					id
+				</th>
+				<th scope="col">
+					aid
+				</th>
+				<th scope="col">
+					active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					11
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					12
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					0
+				</td>
+			</tr>
+			<tr>
+				<td>
+					22
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					23
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
+<p>
+	要求的结果
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					A.id
+				</th>
+				<th scope="col">
+					A.active
+				</th>
+				<th scope="col">
+					B.id
+				</th>
+				<th scope="col">
+					B.aid
+				</th>
+				<th scope="col">
+					B.active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					11
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					22
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					23
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					3
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
+<p>
+	错误的SQL 1<br />
+	select A.*, B.*<br />
+	from A left join B<br />
+	on A.id = B.aid and A.active=1 and B.active=1
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					A.id
+				</th>
+				<th scope="col">
+					A.active
+				</th>
+				<th scope="col">
+					B.id
+				</th>
+				<th scope="col">
+					B.aid
+				</th>
+				<th scope="col">
+					B.active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					11
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					22
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					23
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					3
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td>
+					4
+				</td>
+				<td>
+					0
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
+<p>
+	错误的SQL 2<br />
+	select A.*, B.*<br />
+	from A left join B<br />
+	on A.id = B.aid<br />
+	where A.active=1 and B.active=1<br />
+	
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					A.id
+				</th>
+				<th scope="col">
+					A.active
+				</th>
+				<th scope="col">
+					B.id
+				</th>
+				<th scope="col">
+					B.aid
+				</th>
+				<th scope="col">
+					B.active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					11
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					22
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					23
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
+<p>
+	正确的SQL 1<br />
+	select A.*, B.*<br />
+	from A left join B<br />
+	on A.id = B.aid and B.active=1<br />
+	where A.active=1
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					A.id
+				</th>
+				<th scope="col">
+					A.active
+				</th>
+				<th scope="col">
+					B.id
+				</th>
+				<th scope="col">
+					B.aid
+				</th>
+				<th scope="col">
+					B.active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					11
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					22
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					23
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					3
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
+<p>
+	正确的SQL 2<br />
+	select A.*, B.*<br />
+	from A left join B<br />
+	on A.id = B.aid<br />
+	where A.active=1<br />
+	and B.id is null or B.active=1
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					A.id
+				</th>
+				<th scope="col">
+					A.active
+				</th>
+				<th scope="col">
+					B.id
+				</th>
+				<th scope="col">
+					B.aid
+				</th>
+				<th scope="col">
+					B.active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					11
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					22
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					23
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					3
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
+<p>
+	正确的SQL 3<br />
+	select A.*, B.*<br />
+	from (select * from A where A.active=1) A<br />
+	left join (select * from B where B.active=1) B<br />
+	on A.id = B.aid
+	<table border="1" width="400" cellspacing="1" cellpadding="1">
+		<tbody>
+			<tr>
+				<th scope="col">
+					A.id
+				</th>
+				<th scope="col">
+					A.active
+				</th>
+				<th scope="col">
+					B.id
+				</th>
+				<th scope="col">
+					B.aid
+				</th>
+				<th scope="col">
+					B.active
+				</th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					11
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					22
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					23
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					3
+				</td>
+				<td>
+					1
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
