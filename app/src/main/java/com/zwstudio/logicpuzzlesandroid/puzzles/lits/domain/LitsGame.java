@@ -28,13 +28,9 @@ import static fj.data.List.iterableList;
 public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
-            new Position(-1, 1),
             new Position(0, 1),
-            new Position(1, 1),
             new Position(1, 0),
-            new Position(1, -1),
             new Position(0, -1),
-            new Position(-1, -1),
     };
     public static Position offset2[] = {
             new Position(0, 0),
@@ -43,6 +39,41 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
             new Position(0, 0),
     };
     public static int dirs[] = {1, 0, 3, 2};
+    public static Position offset3[] = {
+            new Position(0, 0),
+            new Position(0, 1),
+            new Position(1, 0),
+            new Position(1, 1),
+    };
+
+    public static Position tetrominoes[][][] = {
+        { // L
+            {new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(2, 1)},
+            {new Position(0, 1), new Position(1, 1), new Position(2, 0), new Position(2, 1)},
+            {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(1, 0)},
+            {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(1, 2)},
+            {new Position(0, 0), new Position(0, 1), new Position(1, 0), new Position(2, 0)},
+            {new Position(0, 0), new Position(0, 1), new Position(1, 1), new Position(2, 1)},
+            {new Position(0, 0), new Position(1, 0), new Position(1, 1), new Position(1, 2)},
+            {new Position(0, 2), new Position(1, 0), new Position(1, 1), new Position(1, 2)},
+        },
+        { // I
+            {new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0)},
+            {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(0, 3)},
+        },
+        { // T
+            {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(1, 1)},
+            {new Position(0, 1), new Position(1, 0), new Position(1, 1), new Position(2, 1)},
+            {new Position(0, 1), new Position(1, 0), new Position(1, 1), new Position(1, 2)},
+            {new Position(0, 0), new Position(1, 0), new Position(1, 1), new Position(2, 0)},
+        },
+        { // S
+            {new Position(0, 0), new Position(0, 1), new Position(1, 1), new Position(1, 2)},
+            {new Position(0, 1), new Position(0, 2), new Position(1, 0), new Position(1, 1)},
+            {new Position(0, 0), new Position(1, 0), new Position(1, 1), new Position(2, 1)},
+            {new Position(0, 1), new Position(1, 0), new Position(1, 1), new Position(2, 0)},
+        },
+    };
 
     public List<List<Position>> areas = new ArrayList<>();
     public Map<Position, Integer> pos2area = new HashMap<>();
@@ -90,7 +121,7 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
                 Position p = new Position(r, c);
                 for (int i = 0; i < 4; i++)
                     if (dots.get(p.add(LitsGame.offset2[i]), LitsGame.dirs[i]) != GridLineObject.Line)
-                        g.connectNode(pos2node.get(p), pos2node.get(p.add(LitsGame.offset[i * 2])));
+                        g.connectNode(pos2node.get(p), pos2node.get(p.add(LitsGame.offset[i])));
             }
         while (!rng.isEmpty()) {
             g.setRootNode(pos2node.get(iterableList(rng).head()));
