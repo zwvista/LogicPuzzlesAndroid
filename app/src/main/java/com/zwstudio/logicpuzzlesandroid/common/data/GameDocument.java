@@ -88,18 +88,18 @@ public abstract class GameDocument<G extends Game, GM> {
 //                        layout = new ArrayList<>();
 //                        for (int i = 2; i < strs.length - 2; i++) {
 //                            String s = strs[i];
-//                            layout.add(s.substring(0, s.indexOf('\\')));
+//                            layout.add(s.substring(0, s.length() - 1));
 //                        }
 //Java 8
 //                        layout = Arrays.asList(parser.nextText().split("\n"));
 //                        layout = layout.subList(2, layout.size() - 2)
-//                                .stream().map(s -> s.substring(0, s.indexOf('\\')))
+//                                .stream().map(s -> s.substring(0, s.length() - 1))
 //                                .collect(Collectors.toList());
 //Functional Java
                         id = "Level " + parser.getAttributeValue(null,"id");
                         layout = Arrays.asList(parser.nextText().split("\n"));
                         layout = iterableList(layout.subList(2, layout.size() - 2))
-                                .map(s -> s.substring(0, s.indexOf('\\')))
+                                .map(s -> s.substring(0, s.length() - 1))
                                 .toJavaList();
                         levels.put(id, layout);
                     }
