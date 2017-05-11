@@ -10,6 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import java.util.Map;
 import fj.F;
 import fj.Ord;
 
+import static fj.data.Array.arrayArray;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
@@ -74,6 +76,17 @@ public class FenceLitsGameState extends CellsGameState<FenceLitsGame, FenceLitsG
 
     private void updateIsSolved() {
         isSolved = true;
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue();
+            int n1 = 0;
+            for (int i = 0; i < 4; i++)
+                if (get(p.add(FenceLitsGame.offset2[i]))[FenceLitsGame.dirs[i]] == GridLineObject.Line)
+                    n1++;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            pos2state.put(p, s);
+            if (n1 != n2) isSolved = false;
+        }
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows() - 1; r++)
@@ -90,18 +103,24 @@ public class FenceLitsGameState extends CellsGameState<FenceLitsGame, FenceLitsG
                     if (get(p.add(FenceLitsGame.offset2[i]))[FenceLitsGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node.get(p), pos2node.get(p.add(FenceLitsGame.offset[i])));
             }
+        if (!isSolved) return;
         List<List<Integer>> fencelitses = new ArrayList<>();
         while (!pos2node.isEmpty()) {
             g.setRootNode(fromMap(pos2node).values().head());
             List<Node> nodeList = g.bfs();
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
-            if (area.size() != 2) {isSolved = false; return;}
-            List<Integer> fencelits = iterableList(area).map(p -> game.pos2hint.get(p)).sort(Ord.intOrd).toJavaList();
-            if (fencelitses.contains(fencelits)) {isSolved = false; return;}
-            fencelitses.add(fencelits);
+            if (area.size() != 4) {isSolved = false; return;}
+            area.sort(Position::compareTo);
+            List<Position> treeOffsets = new ArrayList<>();
+            Position p2 = new Position(iterableList(area).map(p -> p.row).minimum(Ord.intOrd),
+                    iterableList(area).map(p -> p.col).minimum(Ord.intOrd));
+            for (Position p : area)
+                treeOffsets.add(p.subtract(p2));
+            if (!arrayArray(FenceLitsGame.tetrominoes).exists(arr -> Arrays.equals(arr, treeOffsets.toArray()))) {
+                isSolved = false; return;
+            }
             for (Position p : area)
                 pos2node.remove(p);
-
         }
     }
 }
