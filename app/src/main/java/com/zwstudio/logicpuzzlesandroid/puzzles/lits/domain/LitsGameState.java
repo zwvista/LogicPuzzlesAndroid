@@ -115,7 +115,7 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
         }
         List<List<Position>> blocks = new ArrayList<>();
         while (!pos2node.isEmpty()) {
-            g.setRootNode(pos2node.get(iterableList(pos2node.values()).head()));
+            g.setRootNode(iterableList(pos2node.values()).head());
             List<Node> nodeList = g.bfs();
             List<Position> block = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             blocks.add(block);
@@ -179,7 +179,7 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
             LitsAreaInfo info = infos.get(i);
             int index = info.tetrominoIndex;
             if (index == -1) continue;
-            if (iterableList(info.neighborIndexes).exists(j -> infos.get(j).tetrominoIndex == j)) notSolved.f(info);
+            if (iterableList(info.neighborIndexes).exists(j -> infos.get(j).tetrominoIndex == index)) notSolved.f(info);
         }
         if (!isSolved) return;
         List<Position> block = blocks.get(0);

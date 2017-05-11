@@ -99,7 +99,7 @@ public abstract class GameDocument<G extends Game, GM> {
                         id = "Level " + parser.getAttributeValue(null,"id");
                         layout = Arrays.asList(parser.nextText().split("\n"));
                         layout = iterableList(layout.subList(2, layout.size() - 2))
-                                .map(s -> s.substring(0, s.length() - 1))
+                                .map(s -> s.substring(0, s.length() - 2))
                                 .toJavaList();
                         levels.put(id, layout);
                     }
