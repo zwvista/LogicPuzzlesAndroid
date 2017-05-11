@@ -25,8 +25,8 @@ public class HomeChooseGameActivity extends BaseActivity {
 
     List<String> lstGames = Arrays.asList("Abc", "BattleShips", "BootyIsland", "BoxItAgain", "BoxItAround",
             "BoxItUp", "Bridges", "BusySeas", "Clouds", "Domino", "FenceItUp", "Hitori", "LightenUp", "Lighthouses",
-            "LineSweeper", "Lits", "Loopy", "Magnets", "Masyu", "Mosaik", "Neighbours", "Nurikabe", "Pairakabe", "Parks",
-            "PowerGrid", "ProductSentinels", "Rooms", "Sentinels", "Skyscrapers", "SlitherLink",
+            "LineSweeper", "Lits", "Loopy", "Magnets", "Masyu", "MiniLits", "Mosaik", "Neighbours", "Nurikabe",
+            "Pairakabe", "Parks", "PowerGrid", "ProductSentinels", "Rooms", "Sentinels", "Skyscrapers", "SlitherLink",
             "Sumscrapers", "Tents");
 
     @AfterViews

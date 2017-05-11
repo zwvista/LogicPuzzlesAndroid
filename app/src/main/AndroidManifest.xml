@@ -196,6 +196,15 @@
         <activity android:name=".puzzles.magnets.android.MagnetsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.minilits.android.MiniLitsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.minilits.android.MiniLitsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.minilits.android.MiniLitsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.mosaik.android.MosaikMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
