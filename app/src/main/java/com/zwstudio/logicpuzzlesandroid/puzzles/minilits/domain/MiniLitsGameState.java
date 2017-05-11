@@ -155,25 +155,25 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
         for (int i = 0; i < infos.size(); i++) {
             MiniLitsAreaInfo info = infos.get(i);
             int treeCount = info.trees.size();
-            if (treeCount >= 4 && allowedObjectsOnly)
+            if (treeCount >= 3 && allowedObjectsOnly)
                 for (Position p : game.areas.get(i)) {
                     MiniLitsObject o = get(p);
                     if (o instanceof MiniLitsEmptyObject || o instanceof MiniLitsMarkerObject)
                         set(p, new MiniLitsForbiddenObject());
                 }
-            if (treeCount > 4 || treeCount == 4 && info.blockIndexes.size() > 1) notSolved.f(info);
-            if (treeCount == 4 && info.blockIndexes.size() == 1) {
+            if (treeCount > 3 || treeCount == 3 && info.blockIndexes.size() > 1) notSolved.f(info);
+            if (treeCount == 3 && info.blockIndexes.size() == 1) {
                 info.trees.sort(Position::compareTo);
                 List<Position> treeOffsets = new ArrayList<>();
                 Position p2 = new Position(iterableList(info.trees).map(p -> p.row).minimum(Ord.intOrd),
                         iterableList(info.trees).map(p -> p.col).minimum(Ord.intOrd));
                 for (Position p : info.trees)
                     treeOffsets.add(p.subtract(p2));
-                info.tetrominoIndex = arrayArray(MiniLitsGame.tetrominoes).toStream()
-                        .indexOf(arr -> arrayArray(arr).exists(arr2 -> Arrays.equals(arr2, treeOffsets.toArray()))).orSome(-1);
+                info.tetrominoIndex = arrayArray(MiniLitsGame.triominos).toStream()
+                        .indexOf(arr -> Arrays.equals(arr, treeOffsets.toArray())).orSome(-1);
                 if (info.tetrominoIndex == -1) notSolved.f(info);
             }
-            if (treeCount < 4) isSolved = false;
+            if (treeCount < 3) isSolved = false;
         }
         for (int i = 0; i < infos.size(); i++) {
             MiniLitsAreaInfo info = infos.get(i);
