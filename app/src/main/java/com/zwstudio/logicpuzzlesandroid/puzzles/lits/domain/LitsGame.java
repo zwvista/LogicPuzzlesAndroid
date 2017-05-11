@@ -80,7 +80,7 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
     public GridDots dots;
     public int treesInEachArea = 1;
 
-    public LitsGame(List<String> layout, GameInterface<LitsGame, LitsGameMove, LitsGameState> gi) {
+    public LitsGame(List<String> layout, GameInterface<LitsGame, LitsGameMove, LitsGameState> gi, boolean allowedObjectsOnly) {
         super(gi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
         dots = new GridDots(rows() + 1, cols() + 1);
@@ -133,7 +133,7 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
             areas.add(area);
             rng.removeAll(area);
         }
-        LitsGameState state = new LitsGameState(this);
+        LitsGameState state = new LitsGameState(this, allowedObjectsOnly);
         states.add(state);
         levelInitilized(state);
     }

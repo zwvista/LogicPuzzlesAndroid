@@ -48,6 +48,35 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(CloudsGameMove move) {
+        Position p = move.p;
+        if (!isValid(p) || get(p) == move.obj) return false;
+        set(p, move.obj);
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(CloudsGameMove move, MarkerOptions markerOption) {
+        F<CloudsObject, CloudsObject> f = obj -> {
+            switch (obj) {
+            case Empty:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        CloudsObject.Marker : CloudsObject.Cloud;
+            case Cloud:
+                return markerOption == MarkerOptions.MarkerLast ?
+                        CloudsObject.Marker : CloudsObject.Empty;
+            case Marker:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        CloudsObject.Cloud : CloudsObject.Empty;
+            }
+            return obj;
+        };
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        move.obj = f.f(get(p));
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         for (int r = 0; r < rows(); r++) {
@@ -101,34 +130,5 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
                 return;
             }
         }
-    }
-
-    public boolean setObject(CloudsGameMove move) {
-        Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
-        set(p, move.obj);
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(CloudsGameMove move, MarkerOptions markerOption) {
-        F<CloudsObject, CloudsObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        CloudsObject.Marker : CloudsObject.Cloud;
-            case Cloud:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        CloudsObject.Marker : CloudsObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        CloudsObject.Cloud : CloudsObject.Empty;
-            }
-            return obj;
-        };
-        Position p = move.p;
-        if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
-        return setObject(move);
     }
 }

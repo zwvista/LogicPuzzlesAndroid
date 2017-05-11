@@ -45,17 +45,44 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(PairakabeGameMove move) {
+        Position p = move.p;
+        PairakabeObject objOld = get(p);
+        PairakabeObject objNew = move.obj;
+        if (objOld instanceof PairakabeHintObject || objOld.toString().equals(objNew.toString())) return false;
+        set(p, objNew);
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(PairakabeGameMove move, MarkerOptions markerOption) {
+        F<PairakabeObject, PairakabeObject> f = obj -> {
+            if (obj instanceof PairakabeEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new PairakabeMarkerObject() : new PairakabeWallObject();
+            if (obj instanceof PairakabeWallObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new PairakabeMarkerObject() : new PairakabeEmptyObject();
+            if (obj instanceof PairakabeMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new PairakabeWallObject() : new PairakabeEmptyObject();
+            return obj;
+        };
+        move.obj = f.f(get(move.p));
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         for (int r = 0; r < rows() - 1; r++)
             rule2x2:
-            for (int c = 0; c < cols() - 1; c++) {
-                Position p = new Position(r, c);
-                for (Position os : PairakabeGame.offset2)
-                    if (!(get(p.add(os)) instanceof PairakabeWallObject))
-                        continue rule2x2;
-                isSolved = false;
-            }
+                    for (int c = 0; c < cols() - 1; c++) {
+                        Position p = new Position(r, c);
+                        for (Position os : PairakabeGame.offset2)
+                            if (!(get(p.add(os)) instanceof PairakabeWallObject))
+                                continue rule2x2;
+                        isSolved = false;
+                    }
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         List<Position> rngWalls = new ArrayList<>();
@@ -101,13 +128,13 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
                 if (nodeList.contains(pos2node.get(p)))
                     rng.add(p);
             switch (rng.size()) {
-            case 0:
-                isSolved = false;
-                break;
-            case 1:
-                ((PairakabeHintObject) get(rng.get(0))).state = HintState.Error;
-                break;
-            case 2:
+                case 0:
+                    isSolved = false;
+                    break;
+                case 1:
+                    ((PairakabeHintObject) get(rng.get(0))).state = HintState.Error;
+                    break;
+                case 2:
                 {
                     Position p1 = rng.get(0), p2 = rng.get(1);
                     int n1 = game.pos2hint.get(p1) + game.pos2hint.get(p2);
@@ -117,39 +144,12 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
                     if (s != HintState.Complete) isSolved = false;
                 }
                 break;
-            default:
-                for (Position p : rng)
-                    ((PairakabeHintObject) get(p)).state = HintState.Normal;
-                isSolved = false;
-                break;
+                default:
+                    for (Position p : rng)
+                        ((PairakabeHintObject) get(p)).state = HintState.Normal;
+                    isSolved = false;
+                    break;
             }
         }
-    }
-
-    public boolean setObject(PairakabeGameMove move) {
-        Position p = move.p;
-        PairakabeObject objOld = get(p);
-        PairakabeObject objNew = move.obj;
-        if (objOld instanceof PairakabeHintObject || objOld.toString().equals(objNew.toString())) return false;
-        set(p, objNew);
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(PairakabeGameMove move, MarkerOptions markerOption) {
-        F<PairakabeObject, PairakabeObject> f = obj -> {
-            if (obj instanceof PairakabeEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new PairakabeMarkerObject() : new PairakabeWallObject();
-            if (obj instanceof PairakabeWallObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new PairakabeMarkerObject() : new PairakabeEmptyObject();
-            if (obj instanceof PairakabeMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new PairakabeWallObject() : new PairakabeEmptyObject();
-            return obj;
-        };
-        move.obj = f.f(get(move.p));
-        return setObject(move);
     }
 }

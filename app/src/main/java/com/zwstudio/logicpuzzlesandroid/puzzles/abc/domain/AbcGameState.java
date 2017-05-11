@@ -49,6 +49,26 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
                 HintState.Normal;
     }
 
+    public boolean setObject(AbcGameMove move) {
+        Position p = move.p;
+        if (!isValid(p) || get(p) == move.obj) return false;
+        set(p, move.obj);
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(AbcGameMove move, MarkerOptions markerOption) {
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        char o = get(p);
+        move.obj =
+                o == ' ' ? markerOption == MarkerOptions.MarkerFirst ? '.' : 'A' :
+                o == '.' ? markerOption == MarkerOptions.MarkerFirst ? 'A' : ' ' :
+                o == game.chMax ? markerOption == MarkerOptions.MarkerLast ? '.' : ' ' :
+                (char)(o + 1);
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         List<Character> chars = new ArrayList<>();
@@ -92,25 +112,5 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
             if (chars.size() != game.chMax - 'A' + 1) isSolved = false;
         }
-    }
-
-    public boolean setObject(AbcGameMove move) {
-        Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
-        set(p, move.obj);
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(AbcGameMove move, MarkerOptions markerOption) {
-        Position p = move.p;
-        if (!isValid(p)) return false;
-        char o = get(p);
-        move.obj =
-                o == ' ' ? markerOption == MarkerOptions.MarkerFirst ? '.' : 'A' :
-                o == '.' ? markerOption == MarkerOptions.MarkerFirst ? 'A' : ' ' :
-                o == game.chMax ? markerOption == MarkerOptions.MarkerLast ? '.' : ' ' :
-                (char)(o + 1);
-        return setObject(move);
     }
 }

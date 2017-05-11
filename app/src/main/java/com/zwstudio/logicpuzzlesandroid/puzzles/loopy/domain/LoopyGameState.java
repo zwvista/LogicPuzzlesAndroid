@@ -41,6 +41,18 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
         return get(p.row, p.col);
     }
 
+    public boolean setObject(LoopyGameMove move) {
+        Position p = move.p;
+        int dir = move.dir;
+        if (!isValid(p) || game.get(p)[dir] && get(p)[dir]) return false;
+        Position p2 = p.add(LoopyGame.offset[dir]);
+        int dir2 = (dir + 2) % 4;
+        get(p)[dir] = !get(p)[dir];
+        get(p2)[dir2] = !get(p2)[dir2];
+        updateIsSolved();
+        return true;
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();
@@ -50,16 +62,16 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
                 Position p = new Position(r, c);
                 int n = arrayArray(get(p)).filter(o -> o).length();
                 switch (n) {
-                case 2:
+                    case 2:
                     {
                         Node node = new Node(p.toString());
                         g.addNode(node);
                         pos2node.put(p, node);
                     }
                     break;
-                default:
-                    isSolved = false;
-                    return;
+                    default:
+                        isSolved = false;
+                        return;
                 }
             }
 
@@ -76,17 +88,5 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
         int n1 = nodeList.size();
         int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
-    }
-
-    public boolean setObject(LoopyGameMove move) {
-        Position p = move.p;
-        int dir = move.dir;
-        if (!isValid(p) || game.get(p)[dir] && get(p)[dir]) return false;
-        Position p2 = p.add(LoopyGame.offset[dir]);
-        int dir2 = (dir + 2) % 4;
-        get(p)[dir] = !get(p)[dir];
-        get(p2)[dir2] = !get(p2)[dir2];
-        updateIsSolved();
-        return true;
     }
 }

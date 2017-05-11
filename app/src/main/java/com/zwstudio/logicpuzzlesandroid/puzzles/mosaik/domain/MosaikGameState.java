@@ -43,22 +43,6 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
         set(p.row, p.col, obj);
     }
 
-    private void updateIsSolved() {
-        isSolved = true;
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n2 = entry.getValue();
-            int n1 = 0;
-            for (Position os : MosaikGame.offset) {
-                Position p2 = p.add(os);
-                if (!isValid(p2)) continue;
-                if (get(p2) == MosaikObject.Filled) n1++;
-            }
-            pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2) isSolved = false;
-        }
-    }
-
     public boolean setObject(MosaikGameMove move) {
         if (get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
@@ -84,5 +68,21 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
         MosaikObject o = get(move.p);
         move.obj = f.f(o);
         return setObject(move);
+    }
+
+    private void updateIsSolved() {
+        isSolved = true;
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue();
+            int n1 = 0;
+            for (Position os : MosaikGame.offset) {
+                Position p2 = p.add(os);
+                if (!isValid(p2)) continue;
+                if (get(p2) == MosaikObject.Filled) n1++;
+            }
+            pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
+            if (n1 != n2) isSolved = false;
+        }
     }
 }

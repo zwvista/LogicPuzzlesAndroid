@@ -33,20 +33,6 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
         return get(p.row, p.col);
     }
 
-    private void updateIsSolved() {
-        isSolved = true;
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n2 = entry.getValue();
-            int n1 = 0;
-            for (int i = 0; i < 4; i++)
-                for (Position p2 = p.plus(); get(p2.add(RoomsGame.offset2[i]))[RoomsGame.dirs[i]] != GridLineObject.Line; p2.addBy(RoomsGame.offset[i]))
-                    n1++;
-            pos2state.put(p, n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2) isSolved = false;
-        }
-    }
-
     public boolean setObject(RoomsGameMove move) {
         Position p1 = move.p;
         int dir = move.dir, dir2 = (dir + 2) % 4;
@@ -76,5 +62,19 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
         GridLineObject[] dotObj = get(move.p);
         move.obj = f.f(dotObj[move.dir]);
         return setObject(move);
+    }
+
+    private void updateIsSolved() {
+        isSolved = true;
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue();
+            int n1 = 0;
+            for (int i = 0; i < 4; i++)
+                for (Position p2 = p.plus(); get(p2.add(RoomsGame.offset2[i]))[RoomsGame.dirs[i]] != GridLineObject.Line; p2.addBy(RoomsGame.offset[i]))
+                    n1++;
+            pos2state.put(p, n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
+            if (n1 != n2) isSolved = false;
+        }
     }
 }

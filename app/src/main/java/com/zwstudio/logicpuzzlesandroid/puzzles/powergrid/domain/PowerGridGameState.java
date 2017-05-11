@@ -43,6 +43,31 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(PowerGridGameMove move, boolean allowedObjectsOnly) {
+        if (get(move.p).equals(move.obj)) return false;
+        set(move.p, move.obj);
+        updateIsSolved(allowedObjectsOnly);
+        return true;
+    }
+
+    public boolean switchObject(PowerGridGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        F<PowerGridObject, PowerGridObject> f = obj -> {
+            if (obj instanceof PowerGridEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new PowerGridMarkerObject() : new PowerGridPostObject();
+            if (obj instanceof PowerGridPostObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new PowerGridMarkerObject() : new PowerGridEmptyObject();
+            if (obj instanceof PowerGridMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new PowerGridPostObject() : new PowerGridEmptyObject();
+            return obj;
+        };
+        PowerGridObject o = get(move.p);
+        move.obj = f.f(o);
+        return setObject(move, allowedObjectsOnly);
+    }
+
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         for (int r = 0; r < rows(); r++)
@@ -93,30 +118,5 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
                     if (get(r, c) instanceof PowerGridEmptyObject && (n1 > 1 || n1 == 1 && n2 != Math.abs(posts.get(0).row - r)))
                         set(r, c, new PowerGridForbiddenObject());
         }
-    }
-
-    public boolean setObject(PowerGridGameMove move, boolean allowedObjectsOnly) {
-        if (get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
-        return true;
-    }
-
-    public boolean switchObject(PowerGridGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        F<PowerGridObject, PowerGridObject> f = obj -> {
-            if (obj instanceof PowerGridEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new PowerGridMarkerObject() : new PowerGridPostObject();
-            if (obj instanceof PowerGridPostObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new PowerGridMarkerObject() : new PowerGridEmptyObject();
-            if (obj instanceof PowerGridMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new PowerGridPostObject() : new PowerGridEmptyObject();
-            return obj;
-        };
-        PowerGridObject o = get(move.p);
-        move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
     }
 }

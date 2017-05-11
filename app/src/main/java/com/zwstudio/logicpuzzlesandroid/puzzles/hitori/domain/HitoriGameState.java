@@ -47,6 +47,35 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(HitoriGameMove move) {
+        Position p = move.p;
+        if (!isValid(p) || get(p) == move.obj) return false;
+        set(p, move.obj);
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(HitoriGameMove move, MarkerOptions markerOption) {
+        F<HitoriObject, HitoriObject> f = obj -> {
+            switch (obj) {
+            case Normal:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        HitoriObject.Marker : HitoriObject.Darken;
+            case Darken:
+                return markerOption == MarkerOptions.MarkerLast ?
+                        HitoriObject.Marker : HitoriObject.Normal;
+            case Marker:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        HitoriObject.Darken : HitoriObject.Normal;
+            }
+            return obj;
+        };
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        move.obj = f.f(get(p));
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         String chars;
@@ -111,34 +140,5 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
         int n1 = nodeList.size();
         int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
-    }
-
-    public boolean setObject(HitoriGameMove move) {
-        Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
-        set(p, move.obj);
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(HitoriGameMove move, MarkerOptions markerOption) {
-        F<HitoriObject, HitoriObject> f = obj -> {
-            switch (obj) {
-            case Normal:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        HitoriObject.Marker : HitoriObject.Darken;
-            case Darken:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        HitoriObject.Marker : HitoriObject.Normal;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        HitoriObject.Darken : HitoriObject.Normal;
-            }
-            return obj;
-        };
-        Position p = move.p;
-        if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
-        return setObject(move);
     }
 }

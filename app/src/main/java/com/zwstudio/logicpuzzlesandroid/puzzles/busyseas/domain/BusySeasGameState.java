@@ -45,6 +45,31 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(BusySeasGameMove move, boolean allowedObjectsOnly) {
+        if (get(move.p).equals(move.obj)) return false;
+        set(move.p, move.obj);
+        updateIsSolved(allowedObjectsOnly);
+        return true;
+    }
+
+    public boolean switchObject(BusySeasGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        F<BusySeasObject, BusySeasObject> f = obj -> {
+            if (obj instanceof BusySeasEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new BusySeasMarkerObject() : new BusySeasLighthouseObject();
+            if (obj instanceof BusySeasLighthouseObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new BusySeasMarkerObject() : new BusySeasEmptyObject();
+            if (obj instanceof BusySeasMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new BusySeasLighthouseObject() : new BusySeasEmptyObject();
+            return obj;
+        };
+        BusySeasObject o = get(move.p);
+        move.obj = f.f(o);
+        return setObject(move, allowedObjectsOnly);
+    }
+
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         for (int r = 0; r < rows(); r++)
@@ -97,30 +122,5 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
                 for (Position p2 : rng)
                     set(p2, new BusySeasForbiddenObject());
         }
-    }
-
-    public boolean setObject(BusySeasGameMove move, boolean allowedObjectsOnly) {
-        if (get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
-        return true;
-    }
-
-    public boolean switchObject(BusySeasGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        F<BusySeasObject, BusySeasObject> f = obj -> {
-            if (obj instanceof BusySeasEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new BusySeasMarkerObject() : new BusySeasLighthouseObject();
-            if (obj instanceof BusySeasLighthouseObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new BusySeasMarkerObject() : new BusySeasEmptyObject();
-            if (obj instanceof BusySeasMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new BusySeasLighthouseObject() : new BusySeasEmptyObject();
-            return obj;
-        };
-        BusySeasObject o = get(move.p);
-        move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
     }
 }

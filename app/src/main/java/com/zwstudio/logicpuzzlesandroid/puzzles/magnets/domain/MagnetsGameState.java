@@ -40,73 +40,6 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
         set(p.row, p.col, obj);
     }
 
-    private void updateIsSolved() {
-        isSolved = true;
-        for (int r = 0; r < rows(); r++) {
-            int np1 = 0, np2 = game.row2hint[r * 2];
-            int nn1 = 0, nn2 = game.row2hint[r * 2 + 1];
-            for (int c = 0; c < cols(); c++)
-                switch (get(r, c)) {
-                case Positive:
-                    np1++;
-                    break;
-                case Negative:
-                    nn1++;
-                    break;
-                }
-            row2state[r * 2] = np1 < np2 ? HintState.Normal : np1 == np2 ? HintState.Complete : HintState.Error;
-            row2state[r * 2 + 1] = nn1 < nn2 ? HintState.Normal : nn1 == nn2 ? HintState.Complete : HintState.Error;
-            if (np1 != np2 || nn1 != nn2) isSolved = false;
-        }
-        for (int c = 0; c < cols(); c++) {
-            int np1 = 0, np2 = game.col2hint[c * 2];
-            int nn1 = 0, nn2 = game.col2hint[c * 2 + 1];
-            for (int r = 0; r < rows(); r++)
-                switch (get(r, c)) {
-                case Positive:
-                    np1++;
-                    break;
-                case Negative:
-                    nn1++;
-                    break;
-                }
-            col2state[c * 2] = np1 < np2 ? HintState.Normal : np1 == np2 ? HintState.Complete : HintState.Error;
-            col2state[c * 2 + 1] = nn1 < nn2 ? HintState.Normal : nn1 == nn2 ? HintState.Complete : HintState.Error;
-            if (np1 != np2 || nn1 != nn2) isSolved = false;
-        }
-        if (!isSolved) return;
-        for (MagnetsArea a : game.areas)
-            switch (a.type) {
-            case Single:
-                continue;
-            case Horizontal:
-            case Vertical:
-                {
-                    Position os = MagnetsGame.offset[a.type == MagnetsAreaType.Horizontal ? 1 : 2];
-                    MagnetsObject o1 = get(a.p), o2 = get(a.p.add(os));
-                    if (o1.isEmpty() != o2.isEmpty()) {
-                        isSolved = false;
-                        return;
-                    }
-                }
-                break;
-            }
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                MagnetsObject o = get(r, c);
-                for (Position os : MagnetsGame.offset) {
-                    Position p2 = p.add(os);
-                    if (!isValid(p2)) continue;
-                    MagnetsObject o2 = get(p2);
-                    if (o.isPole() && o == o2) {
-                        isSolved = false;
-                        return;
-                    }
-                }
-            }
-    }
-
     public boolean setObject(MagnetsGameMove move) {
         Position p = move.p;
         if (!isValid(p) || game.singles.contains(p) || get(p) == move.obj) return false;
@@ -136,5 +69,72 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
         if (!isValid(p)) return false;
         move.obj = f.f(get(p));
         return setObject(move);
+    }
+
+    private void updateIsSolved() {
+        isSolved = true;
+        for (int r = 0; r < rows(); r++) {
+            int np1 = 0, np2 = game.row2hint[r * 2];
+            int nn1 = 0, nn2 = game.row2hint[r * 2 + 1];
+            for (int c = 0; c < cols(); c++)
+                switch (get(r, c)) {
+                    case Positive:
+                        np1++;
+                        break;
+                    case Negative:
+                        nn1++;
+                        break;
+                }
+            row2state[r * 2] = np1 < np2 ? HintState.Normal : np1 == np2 ? HintState.Complete : HintState.Error;
+            row2state[r * 2 + 1] = nn1 < nn2 ? HintState.Normal : nn1 == nn2 ? HintState.Complete : HintState.Error;
+            if (np1 != np2 || nn1 != nn2) isSolved = false;
+        }
+        for (int c = 0; c < cols(); c++) {
+            int np1 = 0, np2 = game.col2hint[c * 2];
+            int nn1 = 0, nn2 = game.col2hint[c * 2 + 1];
+            for (int r = 0; r < rows(); r++)
+                switch (get(r, c)) {
+                    case Positive:
+                        np1++;
+                        break;
+                    case Negative:
+                        nn1++;
+                        break;
+                }
+            col2state[c * 2] = np1 < np2 ? HintState.Normal : np1 == np2 ? HintState.Complete : HintState.Error;
+            col2state[c * 2 + 1] = nn1 < nn2 ? HintState.Normal : nn1 == nn2 ? HintState.Complete : HintState.Error;
+            if (np1 != np2 || nn1 != nn2) isSolved = false;
+        }
+        if (!isSolved) return;
+        for (MagnetsArea a : game.areas)
+            switch (a.type) {
+                case Single:
+                    continue;
+                case Horizontal:
+                case Vertical:
+                {
+                    Position os = MagnetsGame.offset[a.type == MagnetsAreaType.Horizontal ? 1 : 2];
+                    MagnetsObject o1 = get(a.p), o2 = get(a.p.add(os));
+                    if (o1.isEmpty() != o2.isEmpty()) {
+                        isSolved = false;
+                        return;
+                    }
+                }
+                break;
+            }
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                MagnetsObject o = get(r, c);
+                for (Position os : MagnetsGame.offset) {
+                    Position p2 = p.add(os);
+                    if (!isValid(p2)) continue;
+                    MagnetsObject o2 = get(p2);
+                    if (o.isPole() && o == o2) {
+                        isSolved = false;
+                        return;
+                    }
+                }
+            }
     }
 }

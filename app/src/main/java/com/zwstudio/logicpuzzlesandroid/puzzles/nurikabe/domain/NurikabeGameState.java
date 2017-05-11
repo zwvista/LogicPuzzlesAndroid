@@ -45,17 +45,44 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(NurikabeGameMove move) {
+        Position p = move.p;
+        NurikabeObject objOld = get(p);
+        NurikabeObject objNew = move.obj;
+        if (objOld instanceof NurikabeHintObject || objOld.toString().equals(objNew.toString())) return false;
+        set(p, objNew);
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(NurikabeGameMove move, MarkerOptions markerOption) {
+        F<NurikabeObject, NurikabeObject> f = obj -> {
+            if (obj instanceof NurikabeEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new NurikabeMarkerObject() : new NurikabeWallObject();
+            if (obj instanceof NurikabeWallObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new NurikabeMarkerObject() : new NurikabeEmptyObject();
+            if (obj instanceof NurikabeMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new NurikabeWallObject() : new NurikabeEmptyObject();
+            return obj;
+        };
+        move.obj = f.f(get(move.p));
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         for (int r = 0; r < rows() - 1; r++)
             rule2x2:
-            for (int c = 0; c < cols() - 1; c++) {
-                Position p = new Position(r, c);
-                for (Position os : NurikabeGame.offset2)
-                    if (!(get(p.add(os)) instanceof NurikabeWallObject))
-                        continue rule2x2;
-                isSolved = false;
-            }
+                    for (int c = 0; c < cols() - 1; c++) {
+                        Position p = new Position(r, c);
+                        for (Position os : NurikabeGame.offset2)
+                            if (!(get(p.add(os)) instanceof NurikabeWallObject))
+                                continue rule2x2;
+                        isSolved = false;
+                    }
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         List<Position> rngWalls = new ArrayList<>();
@@ -101,10 +128,10 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
                 if (nodeList.contains(pos2node.get(p)))
                     rng.add(p);
             switch (rng.size()) {
-            case 0:
-                isSolved = false;
-                break;
-            case 1:
+                case 0:
+                    isSolved = false;
+                    break;
+                case 1:
                 {
                     Position p = rng.get(0);
                     int n1 = game.pos2hint.get(p);
@@ -113,39 +140,12 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
                     if (s != HintState.Complete) isSolved = false;
                 }
                 break;
-            default:
-                for (Position p : rng)
-                    ((NurikabeHintObject) get(p)).state = HintState.Normal;
-                isSolved = false;
-                break;
+                default:
+                    for (Position p : rng)
+                        ((NurikabeHintObject) get(p)).state = HintState.Normal;
+                    isSolved = false;
+                    break;
             }
         }
-    }
-
-    public boolean setObject(NurikabeGameMove move) {
-        Position p = move.p;
-        NurikabeObject objOld = get(p);
-        NurikabeObject objNew = move.obj;
-        if (objOld instanceof NurikabeHintObject || objOld.toString().equals(objNew.toString())) return false;
-        set(p, objNew);
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(NurikabeGameMove move, MarkerOptions markerOption) {
-        F<NurikabeObject, NurikabeObject> f = obj -> {
-            if (obj instanceof NurikabeEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new NurikabeMarkerObject() : new NurikabeWallObject();
-            if (obj instanceof NurikabeWallObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new NurikabeMarkerObject() : new NurikabeEmptyObject();
-            if (obj instanceof NurikabeMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new NurikabeWallObject() : new NurikabeEmptyObject();
-            return obj;
-        };
-        move.obj = f.f(get(move.p));
-        return setObject(move);
     }
 }

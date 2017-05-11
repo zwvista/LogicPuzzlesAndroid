@@ -41,6 +41,37 @@ public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, 
         return get(p.row, p.col);
     }
 
+    public boolean setObject(DominoGameMove move) {
+        Position p1 = move.p;
+        int dir = move.dir, dir2 = (dir + 2) % 4;
+        GridLineObject o = get(p1)[dir];
+        if (o.equals(move.obj)) return false;
+        Position p2 = p1.add(DominoGame.offset[dir]);
+        get(p2)[dir2] = get(p1)[dir] = move.obj;
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(DominoGameMove move, MarkerOptions markerOption) {
+        F<GridLineObject, GridLineObject> f = obj -> {
+            switch (obj) {
+            case Empty:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        GridLineObject.Marker : GridLineObject.Line;
+            case Line:
+                return markerOption == MarkerOptions.MarkerLast ?
+                        GridLineObject.Marker : GridLineObject.Empty;
+            case Marker:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        GridLineObject.Line : GridLineObject.Empty;
+            }
+            return obj;
+        };
+        GridLineObject[] dotObj = get(move.p);
+        move.obj = f.f(dotObj[move.dir]);
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();
@@ -72,36 +103,5 @@ public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, 
                 pos2node.remove(p);
 
         }
-    }
-
-    public boolean setObject(DominoGameMove move) {
-        Position p1 = move.p;
-        int dir = move.dir, dir2 = (dir + 2) % 4;
-        GridLineObject o = get(p1)[dir];
-        if (o.equals(move.obj)) return false;
-        Position p2 = p1.add(DominoGame.offset[dir]);
-        get(p2)[dir2] = get(p1)[dir] = move.obj;
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(DominoGameMove move, MarkerOptions markerOption) {
-        F<GridLineObject, GridLineObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        GridLineObject.Marker : GridLineObject.Line;
-            case Line:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        GridLineObject.Marker : GridLineObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        GridLineObject.Line : GridLineObject.Empty;
-            }
-            return obj;
-        };
-        GridLineObject[] dotObj = get(move.p);
-        move.obj = f.f(dotObj[move.dir]);
-        return setObject(move);
     }
 }

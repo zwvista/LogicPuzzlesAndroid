@@ -41,6 +41,31 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(ParksGameMove move, boolean allowedObjectsOnly) {
+        if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
+        set(move.p, move.obj);
+        updateIsSolved(allowedObjectsOnly);
+        return true;
+    }
+
+    public boolean switchObject(ParksGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        F<ParksObject, ParksObject> f = obj -> {
+            if (obj instanceof ParksEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new ParksMarkerObject() : new ParksTreeObject();
+            if (obj instanceof ParksTreeObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new ParksMarkerObject() : new ParksEmptyObject();
+            if (obj instanceof ParksMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new ParksTreeObject() : new ParksEmptyObject();
+            return obj;
+        };
+        ParksObject o = get(move.p);
+        move.obj = f.f(o);
+        return setObject(move, allowedObjectsOnly);
+    }
+
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         for (int r = 0; r < rows(); r++)
@@ -114,30 +139,5 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
                     set(p, new ParksForbiddenObject());
             }
         }
-    }
-
-    public boolean setObject(ParksGameMove move, boolean allowedObjectsOnly) {
-        if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
-        return true;
-    }
-
-    public boolean switchObject(ParksGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        F<ParksObject, ParksObject> f = obj -> {
-            if (obj instanceof ParksEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new ParksMarkerObject() : new ParksTreeObject();
-            if (obj instanceof ParksTreeObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new ParksMarkerObject() : new ParksEmptyObject();
-            if (obj instanceof ParksMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new ParksTreeObject() : new ParksEmptyObject();
-            return obj;
-        };
-        ParksObject o = get(move.p);
-        move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
     }
 }

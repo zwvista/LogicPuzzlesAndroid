@@ -42,6 +42,17 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(MasyuGameMove move) {
+        Position p = move.p;
+        int dir = move.dir;
+        Position p2 = p.add(MasyuGame.offset[dir]);
+        int dir2 = (dir + 2) % 4;
+        get(p)[dir] = !get(p)[dir];
+        get(p2)[dir2] = !get(p2)[dir2];
+        updateIsSolved();
+        return true;
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();
@@ -57,27 +68,27 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                     if (o[i])
                         dirs.add(i);
                 switch (dirs.size()) {
-                case 0:
-                    if (ch != ' ') {isSolved = false; return;}
-                    break;
-                case 2:
+                    case 0:
+                        if (ch != ' ') {isSolved = false; return;}
+                        break;
+                    case 2:
                     {
                         Node node = new Node(p.toString());
                         g.addNode(node);
                         pos2node.put(p, node);
                         pos2Dirs.put(p, dirs);
                         switch (ch) {
-                        case 'B':
-                            if (dirs.get(1) - dirs.get(0) == 2) {isSolved = false; return;}
-                            break;
-                        case 'W':
-                            if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
-                            break;
+                            case 'B':
+                                if (dirs.get(1) - dirs.get(0) == 2) {isSolved = false; return;}
+                                break;
+                            case 'W':
+                                if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
+                                break;
                         }
                     }
                     break;
-                default:
-                    isSolved = false; return;
+                    default:
+                        isSolved = false; return;
                 }
             }
 
@@ -93,17 +104,17 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                 if (node2 == null) {isSolved = false; return;}
                 List<Integer> dirs2 = pos2Dirs.get(p2);
                 switch (ch) {
-                case 'B':
-                    if (!((i == 0 || i == 2) && dirs2.get(0) == 0 && dirs2.get(1) == 2 ||
-                            (i == 1 || i == 3) && dirs2.get(0) == 1 && dirs2.get(1) == 3))
+                    case 'B':
+                        if (!((i == 0 || i == 2) && dirs2.get(0) == 0 && dirs2.get(1) == 2 ||
+                                (i == 1 || i == 3) && dirs2.get(0) == 1 && dirs2.get(1) == 3))
                         {isSolved = false; return;}
-                    break;
-                case 'W':
-                    int n1 = (i + 1) % 4, n2 = (i + 3) % 4;
-                    if (dirs2.get(0) == n1 || dirs2.get(0) == n2 || dirs2.get(1) == n1 || dirs2.get(1) == n2)
-                        bW = true;
-                    if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
-                    break;
+                        break;
+                    case 'W':
+                        int n1 = (i + 1) % 4, n2 = (i + 3) % 4;
+                        if (dirs2.get(0) == n1 || dirs2.get(0) == n2 || dirs2.get(1) == n1 || dirs2.get(1) == n2)
+                            bW = true;
+                        if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
+                        break;
                 }
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
@@ -114,16 +125,5 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
         int n1 = nodeList.size();
         int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
-    }
-
-    public boolean setObject(MasyuGameMove move) {
-        Position p = move.p;
-        int dir = move.dir;
-        Position p2 = p.add(MasyuGame.offset[dir]);
-        int dir2 = (dir + 2) % 4;
-        get(p)[dir] = !get(p)[dir];
-        get(p2)[dir2] = !get(p2)[dir2];
-        updateIsSolved();
-        return true;
     }
 }

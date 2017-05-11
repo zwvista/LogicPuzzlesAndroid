@@ -43,6 +43,34 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
         set(p.row, p.col, obj);
     }
 
+    public boolean switchBridges(BridgesGameMove move) {
+        Position pFrom = move.pFrom, pTo = move.pTo;
+        if (!(pFrom.compareTo(pTo) < 0 && (pFrom.row == pTo.row || pFrom.col == pTo.col))) return false;
+        BridgesObject o11 = get(pFrom), o22 = get(pTo);
+        if (!(o11 instanceof BridgesIslandObject && o22 instanceof BridgesIslandObject)) return false;
+        BridgesIslandObject o1 = (BridgesIslandObject) o11, o2 = (BridgesIslandObject) o22;
+        int n1 = pFrom.row == pTo.row ? 1 : 2;
+        int n2 = (n1 + 2) % 4;
+        Position os = BridgesGame.offset[n1];
+        for (Position p = pFrom.add(os); !p.equals(pTo); p.addBy(os))
+            switch (o1.bridges[n1]) {
+            case 0:
+                {
+                    BridgesObject o = get(p);
+                    if (!(o instanceof BridgesEmptyObject)) return false;
+                    set(p, new BridgesBridgeObject());
+                }
+                break;
+            case 1:
+                set(p, new BridgesEmptyObject());
+                break;
+            }
+        int n = (o1.bridges[n1] + 1) % 3;
+        o1.bridges[n1] = o2.bridges[n2] = n;
+        updateIsSolved();
+        return true;
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();
@@ -74,33 +102,5 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
         int n1 = nodeList.size();
         int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
-    }
-
-    public boolean switchBridges(BridgesGameMove move) {
-        Position pFrom = move.pFrom, pTo = move.pTo;
-        if (!(pFrom.compareTo(pTo) < 0 && (pFrom.row == pTo.row || pFrom.col == pTo.col))) return false;
-        BridgesObject o11 = get(pFrom), o22 = get(pTo);
-        if (!(o11 instanceof BridgesIslandObject && o22 instanceof BridgesIslandObject)) return false;
-        BridgesIslandObject o1 = (BridgesIslandObject) o11, o2 = (BridgesIslandObject) o22;
-        int n1 = pFrom.row == pTo.row ? 1 : 2;
-        int n2 = (n1 + 2) % 4;
-        Position os = BridgesGame.offset[n1];
-        for (Position p = pFrom.add(os); !p.equals(pTo); p.addBy(os))
-            switch (o1.bridges[n1]) {
-            case 0:
-                {
-                    BridgesObject o = get(p);
-                    if (!(o instanceof BridgesEmptyObject)) return false;
-                    set(p, new BridgesBridgeObject());
-                }
-                break;
-            case 1:
-                set(p, new BridgesEmptyObject());
-                break;
-            }
-        int n = (o1.bridges[n1] + 1) % 3;
-        o1.bridges[n1] = o2.bridges[n2] = n;
-        updateIsSolved();
-        return true;
     }
 }

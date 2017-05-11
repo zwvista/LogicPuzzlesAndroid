@@ -49,57 +49,6 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         set(p.row, p.col, obj);
     }
 
-    private void updateIsSolved() {
-        isSolved = true;
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n2 = entry.getValue();
-            int n1 = 0;
-            if (get(p)[1] == GridLineObject.Line) n1++;
-            if (get(p)[2] == GridLineObject.Line) n1++;
-            if (get(p.add(new Position(1, 1)))[0] == GridLineObject.Line) n1++;
-            if (get(p.add(new Position(1, 1)))[3] == GridLineObject.Line) n1++;
-            pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2) isSolved = false;
-        }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                int n = arrayArray(get(p)).filter(o -> o == GridLineObject.Line).length();
-                switch (n) {
-                case 0:
-                    continue;
-                case 2:
-                    {
-                        Node node = new Node(p.toString());
-                        g.addNode(node);
-                        pos2node.put(p, node);
-                    }
-                    break;
-                default:
-                    isSolved = false;
-                    return;
-                }
-            }
-
-        for (Position p : pos2node.keySet()) {
-            GridLineObject[] dotObj = get(p);
-            for (int i = 0; i < 4; i++) {
-                if (dotObj[i] != GridLineObject.Line) continue;
-                Position p2 = p.add(SlitherLinkGame.offset[i]);
-                g.connectNode(pos2node.get(p), pos2node.get(p2));
-            }
-        }
-        g.setRootNode(iterableList(pos2node.values()).head());
-        List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
-    }
-
     public boolean setObject(SlitherLinkGameMove move) {
         Position p1 = move.p;
         int dir = move.dir, dir2 = (dir + 2) % 4;
@@ -129,5 +78,56 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         GridLineObject[] dotObj = get(move.p);
         move.obj = f.f(dotObj[move.dir]);
         return setObject(move);
+    }
+
+    private void updateIsSolved() {
+        isSolved = true;
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue();
+            int n1 = 0;
+            if (get(p)[1] == GridLineObject.Line) n1++;
+            if (get(p)[2] == GridLineObject.Line) n1++;
+            if (get(p.add(new Position(1, 1)))[0] == GridLineObject.Line) n1++;
+            if (get(p.add(new Position(1, 1)))[3] == GridLineObject.Line) n1++;
+            pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
+            if (n1 != n2) isSolved = false;
+        }
+        if (!isSolved) return;
+        Graph g = new Graph();
+        Map<Position, Node> pos2node = new HashMap<>();
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                int n = arrayArray(get(p)).filter(o -> o == GridLineObject.Line).length();
+                switch (n) {
+                    case 0:
+                        continue;
+                    case 2:
+                    {
+                        Node node = new Node(p.toString());
+                        g.addNode(node);
+                        pos2node.put(p, node);
+                    }
+                    break;
+                    default:
+                        isSolved = false;
+                        return;
+                }
+            }
+
+        for (Position p : pos2node.keySet()) {
+            GridLineObject[] dotObj = get(p);
+            for (int i = 0; i < 4; i++) {
+                if (dotObj[i] != GridLineObject.Line) continue;
+                Position p2 = p.add(SlitherLinkGame.offset[i]);
+                g.connectNode(pos2node.get(p), pos2node.get(p2));
+            }
+        }
+        g.setRootNode(iterableList(pos2node.values()).head());
+        List<Node> nodeList = g.bfs();
+        int n1 = nodeList.size();
+        int n2 = pos2node.values().size();
+        if (n1 != n2) isSolved = false;
     }
 }

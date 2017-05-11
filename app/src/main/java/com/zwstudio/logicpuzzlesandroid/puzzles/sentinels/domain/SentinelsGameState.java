@@ -49,6 +49,31 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(SentinelsGameMove move, boolean allowedObjectsOnly) {
+        if (get(move.p).equals(move.obj)) return false;
+        set(move.p, move.obj);
+        updateIsSolved(allowedObjectsOnly);
+        return true;
+    }
+
+    public boolean switchObject(SentinelsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        F<SentinelsObject, SentinelsObject> f = obj -> {
+            if (obj instanceof SentinelsEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new SentinelsMarkerObject() : new SentinelsTowerObject();
+            if (obj instanceof SentinelsTowerObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new SentinelsMarkerObject() : new SentinelsEmptyObject();
+            if (obj instanceof SentinelsMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new SentinelsTowerObject() : new SentinelsEmptyObject();
+            return obj;
+        };
+        SentinelsObject o = get(move.p);
+        move.obj = f.f(o);
+        return setObject(move, allowedObjectsOnly);
+    }
+
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         Graph g = new Graph();
@@ -122,30 +147,5 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
         int n1 = nodeList.size();
         int n2 = pos2node.values().size();
         if (n1 != n2) isSolved = false;
-    }
-
-    public boolean setObject(SentinelsGameMove move, boolean allowedObjectsOnly) {
-        if (get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
-        return true;
-    }
-
-    public boolean switchObject(SentinelsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        F<SentinelsObject, SentinelsObject> f = obj -> {
-            if (obj instanceof SentinelsEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new SentinelsMarkerObject() : new SentinelsTowerObject();
-            if (obj instanceof SentinelsTowerObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new SentinelsMarkerObject() : new SentinelsEmptyObject();
-            if (obj instanceof SentinelsMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new SentinelsTowerObject() : new SentinelsEmptyObject();
-            return obj;
-        };
-        SentinelsObject o = get(move.p);
-        move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
     }
 }

@@ -48,6 +48,22 @@ public class SumscrapersGameState extends CellsGameState<SumscrapersGame, Sumscr
                 HintState.Normal;
     }
 
+    public boolean setObject(SumscrapersGameMove move) {
+        Position p = move.p;
+        if (!isValid(p) || get(p) == move.obj) return false;
+        set(p, move.obj);
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(SumscrapersGameMove move) {
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        int o = get(p);
+        move.obj = (o + 1) % (game.intMax() + 1);
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         List<Integer> nums = new ArrayList<>();
@@ -93,21 +109,5 @@ public class SumscrapersGameState extends CellsGameState<SumscrapersGame, Sumscr
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
             if (nums.size() != game.intMax()) isSolved = false;
         }
-    }
-
-    public boolean setObject(SumscrapersGameMove move) {
-        Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
-        set(p, move.obj);
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(SumscrapersGameMove move) {
-        Position p = move.p;
-        if (!isValid(p)) return false;
-        int o = get(p);
-        move.obj = (o + 1) % (game.intMax() + 1);
-        return setObject(move);
     }
 }

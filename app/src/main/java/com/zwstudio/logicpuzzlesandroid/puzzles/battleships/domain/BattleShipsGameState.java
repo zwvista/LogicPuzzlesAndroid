@@ -48,6 +48,35 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(BattleShipsGameMove move) {
+        Position p = move.p;
+        if (!isValid(p) || get(p) == move.obj) return false;
+        set(p, move.obj);
+        updateIsSolved();
+        return true;
+    }
+
+    public boolean switchObject(BattleShipsGameMove move, MarkerOptions markerOption) {
+        F<BattleShipsObject, BattleShipsObject> f = obj -> {
+            switch (obj) {
+            case Empty:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        BattleShipsObject.Marker : BattleShipsObject.Cloud;
+            case Cloud:
+                return markerOption == MarkerOptions.MarkerLast ?
+                        BattleShipsObject.Marker : BattleShipsObject.Empty;
+            case Marker:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        BattleShipsObject.Cloud : BattleShipsObject.Empty;
+            }
+            return obj;
+        };
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        move.obj = f.f(get(p));
+        return setObject(move);
+    }
+
     private void updateIsSolved() {
         isSolved = true;
         for (int r = 0; r < rows(); r++) {
@@ -101,34 +130,5 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
                 return;
             }
         }
-    }
-
-    public boolean setObject(BattleShipsGameMove move) {
-        Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
-        set(p, move.obj);
-        updateIsSolved();
-        return true;
-    }
-
-    public boolean switchObject(BattleShipsGameMove move, MarkerOptions markerOption) {
-        F<BattleShipsObject, BattleShipsObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        BattleShipsObject.Marker : BattleShipsObject.Cloud;
-            case Cloud:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        BattleShipsObject.Marker : BattleShipsObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        BattleShipsObject.Cloud : BattleShipsObject.Empty;
-            }
-            return obj;
-        };
-        Position p = move.p;
-        if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
-        return setObject(move);
     }
 }

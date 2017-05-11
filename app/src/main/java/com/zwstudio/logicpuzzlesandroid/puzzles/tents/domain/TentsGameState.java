@@ -42,6 +42,32 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(TentsGameMove move, boolean allowedObjectsOnly) {
+        if (!isValid(move.p) || get(move.p) == move.obj) return false;
+        set(move.p, move.obj);
+        updateIsSolved(allowedObjectsOnly);
+        return true;
+    }
+
+    public boolean switchObject(TentsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        F<TentsObject, TentsObject> f = obj -> {
+            if (obj instanceof TentsEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new TentsMarkerObject() : new TentsTentObject();
+            if (obj instanceof TentsTentObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new TentsMarkerObject() : new TentsEmptyObject();
+            if (obj instanceof TentsMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new TentsTentObject() : new TentsEmptyObject();
+            return obj;
+        };
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        move.obj = f.f(get(p));
+        return setObject(move, allowedObjectsOnly);
+    }
+
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         for (int r = 0; r < rows(); r++) {
@@ -89,31 +115,5 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
                         (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasTree || hasTent))
                     set(r, c, new TentsForbiddenObject());
             }
-   }
-
-    public boolean setObject(TentsGameMove move, boolean allowedObjectsOnly) {
-        if (!isValid(move.p) || get(move.p) == move.obj) return false;
-        set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
-        return true;
-    }
-
-    public boolean switchObject(TentsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        F<TentsObject, TentsObject> f = obj -> {
-            if (obj instanceof TentsEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new TentsMarkerObject() : new TentsTentObject();
-            if (obj instanceof TentsTentObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new TentsMarkerObject() : new TentsEmptyObject();
-            if (obj instanceof TentsMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new TentsTentObject() : new TentsEmptyObject();
-            return obj;
-        };
-        Position p = move.p;
-        if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
-        return setObject(move, allowedObjectsOnly);
     }
 }

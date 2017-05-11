@@ -43,6 +43,31 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(BootyIslandGameMove move, boolean allowedObjectsOnly) {
+        if (get(move.p).equals(move.obj)) return false;
+        set(move.p, move.obj);
+        updateIsSolved(allowedObjectsOnly);
+        return true;
+    }
+
+    public boolean switchObject(BootyIslandGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        F<BootyIslandObject, BootyIslandObject> f = obj -> {
+            if (obj instanceof BootyIslandEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new BootyIslandMarkerObject() : new BootyIslandTreasureObject();
+            if (obj instanceof BootyIslandTreasureObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new BootyIslandMarkerObject() : new BootyIslandEmptyObject();
+            if (obj instanceof BootyIslandMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new BootyIslandTreasureObject() : new BootyIslandEmptyObject();
+            return obj;
+        };
+        BootyIslandObject o = get(move.p);
+        move.obj = f.f(o);
+        return setObject(move, allowedObjectsOnly);
+    }
+
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         for (int r = 0; r < rows(); r++)
@@ -136,30 +161,5 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
             pos2state.put(p, s);
             if (s != HintState.Complete) isSolved = false;
         }
-    }
-
-    public boolean setObject(BootyIslandGameMove move, boolean allowedObjectsOnly) {
-        if (get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
-        return true;
-    }
-
-    public boolean switchObject(BootyIslandGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        F<BootyIslandObject, BootyIslandObject> f = obj -> {
-            if (obj instanceof BootyIslandEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new BootyIslandMarkerObject() : new BootyIslandTreasureObject();
-            if (obj instanceof BootyIslandTreasureObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new BootyIslandMarkerObject() : new BootyIslandEmptyObject();
-            if (obj instanceof BootyIslandMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new BootyIslandTreasureObject() : new BootyIslandEmptyObject();
-            return obj;
-        };
-        BootyIslandObject o = get(move.p);
-        move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
     }
 }

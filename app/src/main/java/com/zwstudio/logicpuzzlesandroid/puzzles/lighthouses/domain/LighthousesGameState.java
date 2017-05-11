@@ -45,6 +45,31 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
         set(p.row, p.col, obj);
     }
 
+    public boolean setObject(LighthousesGameMove move, boolean allowedObjectsOnly) {
+        if (get(move.p).equals(move.obj)) return false;
+        set(move.p, move.obj);
+        updateIsSolved(allowedObjectsOnly);
+        return true;
+    }
+
+    public boolean switchObject(LighthousesGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+        F<LighthousesObject, LighthousesObject> f = obj -> {
+            if (obj instanceof LighthousesEmptyObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new LighthousesMarkerObject() : new LighthousesLighthouseObject();
+            if (obj instanceof LighthousesLighthouseObject)
+                return markerOption == MarkerOptions.MarkerLast ?
+                        new LighthousesMarkerObject() : new LighthousesEmptyObject();
+            if (obj instanceof LighthousesMarkerObject)
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        new LighthousesLighthouseObject() : new LighthousesEmptyObject();
+            return obj;
+        };
+        LighthousesObject o = get(move.p);
+        move.obj = f.f(o);
+        return setObject(move, allowedObjectsOnly);
+    }
+
     private void updateIsSolved(boolean allowedObjectsOnly) {
         isSolved = true;
         for (int r = 0; r < rows(); r++)
@@ -110,30 +135,5 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
                 for (Position p2 : rng)
                     set(p2, new LighthousesForbiddenObject());
         }
-    }
-
-    public boolean setObject(LighthousesGameMove move, boolean allowedObjectsOnly) {
-        if (get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
-        return true;
-    }
-
-    public boolean switchObject(LighthousesGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        F<LighthousesObject, LighthousesObject> f = obj -> {
-            if (obj instanceof LighthousesEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new LighthousesMarkerObject() : new LighthousesLighthouseObject();
-            if (obj instanceof LighthousesLighthouseObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new LighthousesMarkerObject() : new LighthousesEmptyObject();
-            if (obj instanceof LighthousesMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new LighthousesLighthouseObject() : new LighthousesEmptyObject();
-            return obj;
-        };
-        LighthousesObject o = get(move.p);
-        move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
     }
 }

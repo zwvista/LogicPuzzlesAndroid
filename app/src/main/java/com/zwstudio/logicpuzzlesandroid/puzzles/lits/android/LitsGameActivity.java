@@ -23,7 +23,7 @@ public class LitsGameActivity extends GameActivity<LitsGame, LitsDocument, LitsG
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new LitsGame(layout, this);
+        game = new LitsGame(layout, this, doc().isAllowedObjectsOnly());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

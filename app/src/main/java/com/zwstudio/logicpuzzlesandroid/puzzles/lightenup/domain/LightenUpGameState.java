@@ -44,35 +44,6 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
         set(p.row, p.col, obj);
     }
 
-    private void updateIsSolved() {
-        isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                LightenUpObject o = get(r, c);
-                if (o instanceof LightenUpEmptyObject && o.lightness == 0 ||
-                        o instanceof LightenUpMarkerObject && o.lightness == 0)
-                    isSolved = false;
-                else if (o instanceof LightenUpLightbulbObject) {
-                    LightenUpLightbulbObject o2 = (LightenUpLightbulbObject)o;
-                    o2.state = o.lightness == 1 ? AllowedObjectState.Normal : AllowedObjectState.Error;
-                    if (o.lightness > 1) isSolved = false;
-                } else if (o instanceof LightenUpWallObject) {
-                    LightenUpWallObject o2 = (LightenUpWallObject) o;
-                    int n2 = game.pos2hint.get(p);
-                    if (n2 < 0) continue;
-                    int n1 = 0;
-                    for (Position os : LightenUpGame.offset) {
-                        Position p2 = p.add(os);
-                        if (!isValid(p2)) continue;
-                        if (get(p2) instanceof LightenUpLightbulbObject) n1++;
-                    }
-                    o2.state = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-                    if (n1 != n2) isSolved = false;
-                }
-            }
-    }
-
     private boolean objChanged(LightenUpGameMove move, boolean toajust, boolean tolighten) {
         Position p = move.p;
         set(p, move.obj);
@@ -134,5 +105,34 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
             return setObject(move);
         }
         return false;
+    }
+
+    private void updateIsSolved() {
+        isSolved = true;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                LightenUpObject o = get(r, c);
+                if (o instanceof LightenUpEmptyObject && o.lightness == 0 ||
+                        o instanceof LightenUpMarkerObject && o.lightness == 0)
+                    isSolved = false;
+                else if (o instanceof LightenUpLightbulbObject) {
+                    LightenUpLightbulbObject o2 = (LightenUpLightbulbObject)o;
+                    o2.state = o.lightness == 1 ? AllowedObjectState.Normal : AllowedObjectState.Error;
+                    if (o.lightness > 1) isSolved = false;
+                } else if (o instanceof LightenUpWallObject) {
+                    LightenUpWallObject o2 = (LightenUpWallObject) o;
+                    int n2 = game.pos2hint.get(p);
+                    if (n2 < 0) continue;
+                    int n1 = 0;
+                    for (Position os : LightenUpGame.offset) {
+                        Position p2 = p.add(os);
+                        if (!isValid(p2)) continue;
+                        if (get(p2) instanceof LightenUpLightbulbObject) n1++;
+                    }
+                    o2.state = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+                    if (n1 != n2) isSolved = false;
+                }
+            }
     }
 }
