@@ -33,6 +33,33 @@ public class FenceLitsGame extends CellsGame<FenceLitsGame, FenceLitsGameMove, F
     };
     public static int dirs[] = { 1, 0, 3, 2 };
 
+    public static Position tetrominoes[][] = {
+        // L
+        {new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(2, 1)},
+        {new Position(0, 1), new Position(1, 1), new Position(2, 0), new Position(2, 1)},
+        {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(1, 0)},
+        {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(1, 2)},
+        {new Position(0, 0), new Position(0, 1), new Position(1, 0), new Position(2, 0)},
+        {new Position(0, 0), new Position(0, 1), new Position(1, 1), new Position(2, 1)},
+        {new Position(0, 0), new Position(1, 0), new Position(1, 1), new Position(1, 2)},
+        {new Position(0, 2), new Position(1, 0), new Position(1, 1), new Position(1, 2)},
+        // I
+        {new Position(0, 0), new Position(1, 0), new Position(2, 0), new Position(3, 0)},
+        {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(0, 3)},
+        // T
+        {new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(1, 1)},
+        {new Position(0, 1), new Position(1, 0), new Position(1, 1), new Position(2, 1)},
+        {new Position(0, 1), new Position(1, 0), new Position(1, 1), new Position(1, 2)},
+        {new Position(0, 0), new Position(1, 0), new Position(1, 1), new Position(2, 0)},
+        // S
+        {new Position(0, 0), new Position(0, 1), new Position(1, 1), new Position(1, 2)},
+        {new Position(0, 1), new Position(0, 2), new Position(1, 0), new Position(1, 1)},
+        {new Position(0, 0), new Position(1, 0), new Position(1, 1), new Position(2, 1)},
+        {new Position(0, 1), new Position(1, 0), new Position(1, 1), new Position(2, 0)},
+        // O
+        {new Position(0, 0), new Position(0, 1), new Position(1, 0), new Position(1, 1)},
+    };
+
     public GridLineObject[][] objArray;
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
