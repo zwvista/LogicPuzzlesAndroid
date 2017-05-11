@@ -21,6 +21,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.data.BusySeasDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data.CloudsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.data.DominoDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.data.FenceItUpDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.data.FenceLitsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.data.LighthousesDocument;
@@ -87,6 +88,8 @@ public class LogicPuzzlesApplication extends Application {
     @Bean
     public FenceItUpDocument fenceitupDocument;
     @Bean
+    public FenceLitsDocument fencelitsDocument;
+    @Bean
     public HitoriDocument hitoriDocument;
     @Bean
     public LightenUpDocument lightenupDocument;
@@ -149,6 +152,7 @@ public class LogicPuzzlesApplication extends Application {
         cloudsDocument.init();
         dominoDocument.init();
         fenceitupDocument.init();
+        fencelitsDocument.init();
         hitoriDocument.init();
         lightenupDocument.init();
         lighthousesDocument.init();

@@ -124,6 +124,15 @@
         <activity android:name=".puzzles.fenceitup.android.FenceItUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.fencelits.android.FenceLitsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fencelits.android.FenceLitsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fencelits.android.FenceLitsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hitori.android.HitoriMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
