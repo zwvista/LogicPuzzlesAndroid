@@ -69,6 +69,22 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 1/Abc
+
+        Summary
+        Fill the board with ABC
+
+        Description
+        1. The goal is to put the letter A B and C in the board.
+        2. Each letter appears once in every row and column.
+        3. The letters on the borders tell you what letter you see from there.
+        4. Since most puzzles can contain empty spaces, the hint on the board
+           doesn't always match the tile next to it.
+        5. Bigger puzzles can contain the letter 'D'. In these cases, the name
+           of the puzzle is 'Abcd'. Further on, you might also encounter 'E',
+           'F' etc.
+    */
     private void updateIsSolved() {
         isSolved = true;
         List<Character> chars = new ArrayList<>();
@@ -81,15 +97,18 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12;
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22;
                 if (ch12 == ' ') continue;
+                // 2. Each letter appears once in every row.
                 if (chars.contains(ch12))
                     isSolved = false;
                 else
                     chars.add(ch12);
             }
+            // 3. The letters on the borders tell you what letter you see from there.
             HintState s1 = ch11 == ' ' ? HintState.Normal : ch11 == h1 ? HintState.Complete : HintState.Error;
             HintState s2 = ch21 == ' ' ? HintState.Normal : ch21 == h2 ? HintState.Complete : HintState.Error;
             row2state[r * 2] = s1; row2state[r * 2 + 1] = s2;
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
+            // 2. Each letter appears once in every row.
             if (chars.size() != game.chMax - 'A' + 1) isSolved = false;
         }
         for (int c = 1; c < cols() - 1; c++) {
@@ -101,15 +120,18 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12;
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22;
                 if (ch12 == ' ') continue;
+                // 2. Each letter appears once in every column.
                 if (chars.contains(ch12))
                     isSolved = false;
                 else
                     chars.add(ch12);
             }
+            // 3. The letters on the borders tell you what letter you see from there.
             HintState s1 = ch11 == ' ' ? HintState.Normal : ch11 == h1 ? HintState.Complete : HintState.Error;
             HintState s2 = ch21 == ' ' ? HintState.Normal : ch21 == h2 ? HintState.Complete : HintState.Error;
             col2state[c * 2] = s1; col2state[c * 2 + 1] = s2;
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
+            // 2. Each letter appears once in every column.
             if (chars.size() != game.chMax - 'A' + 1) isSolved = false;
         }
     }
