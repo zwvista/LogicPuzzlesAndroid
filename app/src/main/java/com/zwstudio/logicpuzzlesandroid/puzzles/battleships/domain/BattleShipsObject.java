@@ -5,5 +5,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain;
  */
 
 public enum BattleShipsObject {
-    Empty, Cloud, Marker
+    Empty, Fobidden, Marker,
+    BattleShipTop, BattleShipBottom, BattleShipLeft, BattleShipRight, BattleShipMiddle, BattleShipUnit
 }

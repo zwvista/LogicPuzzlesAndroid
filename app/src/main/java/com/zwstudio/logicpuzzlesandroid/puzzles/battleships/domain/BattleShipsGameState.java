@@ -14,7 +14,6 @@ import java.util.Map;
 
 import fj.F;
 
-import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
 /**
@@ -30,6 +29,11 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         super(game);
         objArray = new BattleShipsObject[rows() * cols()];
         Arrays.fill(objArray, BattleShipsObject.Empty);
+        for (Map.Entry<Position, BattleShipsObject> entry : game.pos2obj.entrySet()) {
+            Position p = entry.getKey();
+            BattleShipsObject o = entry.getValue();
+            set(p, o);
+        }
         row2state = new HintState[rows()];
         col2state = new HintState[cols()];
         updateIsSolved();
@@ -50,7 +54,7 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
 
     public boolean setObject(BattleShipsGameMove move) {
         Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
+        if (!isValid(p) || game.pos2obj.containsKey(p) || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
@@ -61,13 +65,23 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
             switch (obj) {
             case Empty:
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        BattleShipsObject.Marker : BattleShipsObject.Cloud;
-            case Cloud:
+                        BattleShipsObject.Marker : BattleShipsObject.BattleShipUnit;
+            case BattleShipUnit:
+                return BattleShipsObject.BattleShipMiddle;
+            case BattleShipMiddle:
+                return BattleShipsObject.BattleShipLeft;
+            case BattleShipLeft:
+                return BattleShipsObject.BattleShipTop;
+            case BattleShipTop:
+                return BattleShipsObject.BattleShipRight;
+            case BattleShipRight:
+                return BattleShipsObject.BattleShipBottom;
+            case BattleShipBottom:
                 return markerOption == MarkerOptions.MarkerLast ?
                         BattleShipsObject.Marker : BattleShipsObject.Empty;
             case Marker:
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        BattleShipsObject.Cloud : BattleShipsObject.Empty;
+                        BattleShipsObject.BattleShipUnit : BattleShipsObject.Empty;
             }
             return obj;
         };
@@ -81,17 +95,25 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         isSolved = true;
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == BattleShipsObject.Cloud)
+            for (int c = 0; c < cols(); c++) {
+                BattleShipsObject o = get(r, c);
+                if (o == BattleShipsObject.BattleShipTop || o == BattleShipsObject.BattleShipBottom ||
+                        o == BattleShipsObject.BattleShipLeft || o == BattleShipsObject.BattleShipRight ||
+                        o == BattleShipsObject.BattleShipMiddle || o == BattleShipsObject.BattleShipUnit)
                     n1++;
+            }
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
         for (int c = 0; c < cols(); c++) {
             int n1 = 0, n2 = game.col2hint[c];
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) == BattleShipsObject.Cloud)
+            for (int r = 0; r < rows(); r++) {
+                BattleShipsObject o = get(r, c);
+                if (o == BattleShipsObject.BattleShipTop || o == BattleShipsObject.BattleShipBottom ||
+                        o == BattleShipsObject.BattleShipLeft || o == BattleShipsObject.BattleShipRight ||
+                        o == BattleShipsObject.BattleShipMiddle || o == BattleShipsObject.BattleShipUnit)
                     n1++;
+            }
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
@@ -101,34 +123,28 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                if (get(p) != BattleShipsObject.Cloud) continue;
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
+                BattleShipsObject o = get(p);
+                if (o == BattleShipsObject.BattleShipTop || o == BattleShipsObject.BattleShipBottom ||
+                        o == BattleShipsObject.BattleShipLeft || o == BattleShipsObject.BattleShipRight ||
+                        o == BattleShipsObject.BattleShipMiddle || o == BattleShipsObject.BattleShipUnit) {
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
+                }
             }
-        for (Position p : pos2node.keySet())
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
+            Position p = entry.getKey();
+            Node node = entry.getValue();
             for (Position os : BattleShipsGame.offset) {
                 Position p2 = p.add(os);
                 if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+                    g.connectNode(node, pos2node.get(p2));
             }
+        }
+        Integer[] shipNumbers = {0, 0, 0, 0, 0};
         while (!pos2node.isEmpty()) {
             g.setRootNode(iterableList(pos2node.values()).head());
             List<Node> nodeList = g.bfs();
-            int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
-            for (Node node : nodeList) {
-                Position p = fromMap(pos2node).toStream().find(e -> e._2().equals(node)).some()._1();
-                pos2node.remove(p);
-                if (r2 < p.row) r2 = p.row;
-                if (r1 > p.row) r1 = p.row;
-                if (c2 < p.col) c2 = p.col;
-                if (c1 > p.col) c1 = p.col;
-            }
-            int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
-            if (!(rs >= 2 && cs >= 2 && rs * cs == nodeList.size())) {
-                isSolved = false;
-                return;
-            }
         }
     }
 }

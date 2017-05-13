@@ -6,8 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fj.F2;
 
@@ -22,10 +23,16 @@ public class BattleShipsGame extends CellsGame<BattleShipsGame, BattleShipsGameM
             new Position(1, 0),
             new Position(0, -1),
     };
+    public static Position offset2[] = {
+            new Position(-1, 1),
+            new Position(1, 1),
+            new Position(1, -1),
+            new Position(-1, -1),
+    };
 
     public int[] row2hint;
     public int[] col2hint;
-    public List<Position> pos2cloud = new ArrayList<>();
+    public Map<Position, BattleShipsObject> pos2obj = new HashMap<>();
 
     public BattleShipsGame(List<String> layout, GameInterface<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState> gi) {
         super(gi);
@@ -38,14 +45,30 @@ public class BattleShipsGame extends CellsGame<BattleShipsGame, BattleShipsGameM
             for (int c = 0; c < cols() + 1; c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch == 'C')
-                    pos2cloud.add(p);
-                else if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    if (r == rows())
-                        col2hint[c] = n;
-                    else if (c == cols())
-                        row2hint[r] = n;
+                switch(ch) {
+                case '^':
+                    pos2obj.put(p, BattleShipsObject.BattleShipTop); break;
+                case 'v':
+                    pos2obj.put(p, BattleShipsObject.BattleShipBottom); break;
+                case '<':
+                    pos2obj.put(p, BattleShipsObject.BattleShipLeft); break;
+                case '>':
+                    pos2obj.put(p, BattleShipsObject.BattleShipRight); break;
+                case '+':
+                    pos2obj.put(p, BattleShipsObject.BattleShipMiddle); break;
+                case 'o':
+                    pos2obj.put(p, BattleShipsObject.BattleShipUnit); break;
+                case '.':
+                    pos2obj.put(p, BattleShipsObject.Marker); break;
+                default:
+                    if (ch >= '0' && ch <= '9') {
+                        int n = ch - '0';
+                        if (r == rows())
+                            col2hint[c] = n;
+                        else if (c == cols())
+                            row2hint[r] = n;
+                    }
+                    break;
                 }
             }
         }
