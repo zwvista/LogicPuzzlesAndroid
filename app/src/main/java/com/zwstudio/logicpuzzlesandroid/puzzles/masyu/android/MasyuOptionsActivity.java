@@ -1,13 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_options)
-public class MasyuOptionsActivity extends OptionsActivity {
+public class MasyuOptionsActivity extends GameOptionsActivity {
     public MasyuDocument doc() {return app.masyuDocument;}
 
     protected void onDefault() {}

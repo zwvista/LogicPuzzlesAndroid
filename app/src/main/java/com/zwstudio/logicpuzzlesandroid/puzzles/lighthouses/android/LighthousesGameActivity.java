@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.data.LighthousesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class LighthousesGameActivity extends GameActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
+public class LighthousesGameActivity extends GameGameActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
     public LighthousesDocument doc() {return app.lighthousesDocument;}
 
     protected LighthousesGameView gameView;

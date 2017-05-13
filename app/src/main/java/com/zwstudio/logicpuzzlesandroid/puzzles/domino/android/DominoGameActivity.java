@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.domino.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.data.DominoDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class DominoGameActivity extends GameActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState> {
+public class DominoGameActivity extends GameGameActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState> {
     public DominoDocument doc() {return app.dominoDocument;}
 
     protected DominoGameView gameView;

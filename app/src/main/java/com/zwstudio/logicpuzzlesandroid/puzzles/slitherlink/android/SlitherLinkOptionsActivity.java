@@ -7,7 +7,7 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument;
 
@@ -19,14 +19,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
-public class SlitherLinkOptionsActivity extends OptionsActivity {
+public class SlitherLinkOptionsActivity extends GameOptionsActivity {
     public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
 
     @AfterViews
     protected void init() {
-        List<String> lst = OptionsActivity.lstMarkers;
+        List<String> lst = GameOptionsActivity.lstMarkers;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, OptionsActivity.lstMarkers) {
+                android.R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);

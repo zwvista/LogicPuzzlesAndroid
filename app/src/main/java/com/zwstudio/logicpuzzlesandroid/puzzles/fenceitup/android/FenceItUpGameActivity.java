@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.data.FenceItUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class FenceItUpGameActivity extends GameActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState> {
+public class FenceItUpGameActivity extends GameGameActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState> {
     public FenceItUpDocument doc() {return app.fenceitupDocument;}
 
     protected FenceItUpGameView gameView;

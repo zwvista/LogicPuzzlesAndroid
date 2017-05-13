@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class HitoriGameActivity extends GameActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
+public class HitoriGameActivity extends GameGameActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
     public HitoriDocument doc() {return app.hitoriDocument;}
 
     protected HitoriGameView gameView;

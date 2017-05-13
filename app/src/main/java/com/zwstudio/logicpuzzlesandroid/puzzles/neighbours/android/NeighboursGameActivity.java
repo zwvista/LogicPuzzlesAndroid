@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class NeighboursGameActivity extends GameActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState> {
+public class NeighboursGameActivity extends GameGameActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState> {
     public NeighboursDocument doc() {return app.neighboursDocument;}
 
     protected NeighboursGameView gameView;

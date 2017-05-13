@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class HitoriMainActivity extends MainActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
+public class HitoriMainActivity extends GameMainActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
     public HitoriDocument doc() {return app.hitoriDocument;}
 
     @AfterViews

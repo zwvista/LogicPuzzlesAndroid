@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.data.PairakabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class PairakabeGameActivity extends GameActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
+public class PairakabeGameActivity extends GameGameActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
     public PairakabeDocument doc() {return app.pairakabeDocument;}
 
     protected PairakabeGameView gameView;

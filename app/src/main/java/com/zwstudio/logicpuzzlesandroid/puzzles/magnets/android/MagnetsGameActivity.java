@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.magnets.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.data.MagnetsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class MagnetsGameActivity extends GameActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState> {
+public class MagnetsGameActivity extends GameGameActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState> {
     public MagnetsDocument doc() {return app.magnetsDocument;}
 
     protected MagnetsGameView gameView;

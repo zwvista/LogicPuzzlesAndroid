@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.data.PairakabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class PairakabeMainActivity extends MainActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
+public class PairakabeMainActivity extends GameMainActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
     public PairakabeDocument doc() {return app.pairakabeDocument;}
 
     @AfterViews

@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.data.BusySeasDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class BusySeasMainActivity extends MainActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
+public class BusySeasMainActivity extends GameMainActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
     public BusySeasDocument doc() {return app.busyseasDocument;}
 
     @AfterViews

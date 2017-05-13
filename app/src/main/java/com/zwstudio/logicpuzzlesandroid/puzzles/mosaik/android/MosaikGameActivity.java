@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class MosaikGameActivity extends GameActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
+public class MosaikGameActivity extends GameGameActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
     public MosaikDocument doc() {return app.mosaikDocument;}
 
     protected MosaikGameView gameView;

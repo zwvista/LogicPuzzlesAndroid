@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.data.FenceItUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class FenceItUpMainActivity extends MainActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState> {
+public class FenceItUpMainActivity extends GameMainActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState> {
     public FenceItUpDocument doc() {return app.fenceitupDocument;}
 
     @AfterViews

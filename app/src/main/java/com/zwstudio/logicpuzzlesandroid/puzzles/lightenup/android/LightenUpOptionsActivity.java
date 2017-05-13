@@ -7,7 +7,7 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.data.LightenUpDocument;
 
@@ -20,12 +20,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
-public class LightenUpOptionsActivity extends OptionsActivity {
+public class LightenUpOptionsActivity extends GameOptionsActivity {
     public LightenUpDocument doc() {return app.lightenupDocument;}
 
     @AfterViews
     protected void init() {
-        List<String> lst = OptionsActivity.lstMarkers;
+        List<String> lst = GameOptionsActivity.lstMarkers;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override

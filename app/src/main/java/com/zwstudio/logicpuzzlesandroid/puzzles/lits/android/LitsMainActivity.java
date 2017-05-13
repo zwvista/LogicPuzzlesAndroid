@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lits.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.data.LitsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class LitsMainActivity extends MainActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState> {
+public class LitsMainActivity extends GameMainActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState> {
     public LitsDocument doc() {return app.litsDocument;}
 
     @AfterViews

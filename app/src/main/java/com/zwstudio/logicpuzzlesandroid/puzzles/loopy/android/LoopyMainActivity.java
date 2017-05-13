@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.loopy.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class LoopyMainActivity extends MainActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
+public class LoopyMainActivity extends GameMainActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
     public LoopyDocument doc() {return app.loopyDocument;}
 
     @AfterViews

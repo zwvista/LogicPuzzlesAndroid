@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bridges.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class BridgesGameActivity extends GameActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState> {
+public class BridgesGameActivity extends GameGameActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState> {
     public BridgesDocument doc() {return app.bridgesDocument;}
 
     protected BridgesGameView gameView;

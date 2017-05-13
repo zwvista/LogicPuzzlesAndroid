@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class NurikabeMainActivity extends MainActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState> {
+public class NurikabeMainActivity extends GameMainActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState> {
     public NurikabeDocument doc() {return app.nurikabeDocument;}
 
     @AfterViews

@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.domino.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.data.DominoDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class DominoMainActivity extends MainActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState> {
+public class DominoMainActivity extends GameMainActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState> {
     public DominoDocument doc() {return app.dominoDocument;}
 
     @AfterViews

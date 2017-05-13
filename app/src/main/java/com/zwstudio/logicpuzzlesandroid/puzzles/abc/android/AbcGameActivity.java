@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.abc.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.data.AbcDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class AbcGameActivity extends GameActivity<AbcGame, AbcDocument, AbcGameMove, AbcGameState> {
+public class AbcGameActivity extends GameGameActivity<AbcGame, AbcDocument, AbcGameMove, AbcGameState> {
     public AbcDocument doc() {return app.abcDocument;}
 
     protected AbcGameView gameView;

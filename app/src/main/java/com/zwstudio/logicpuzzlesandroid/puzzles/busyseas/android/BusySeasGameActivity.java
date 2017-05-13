@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.data.BusySeasDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class BusySeasGameActivity extends GameActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
+public class BusySeasGameActivity extends GameGameActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
     public BusySeasDocument doc() {return app.busyseasDocument;}
 
     protected BusySeasGameView gameView;

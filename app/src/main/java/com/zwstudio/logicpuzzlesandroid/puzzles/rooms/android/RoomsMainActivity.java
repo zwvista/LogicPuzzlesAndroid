@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.data.RoomsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class RoomsMainActivity extends MainActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
+public class RoomsMainActivity extends GameMainActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
     public RoomsDocument doc() {return app.roomsDocument;}
 
     @AfterViews

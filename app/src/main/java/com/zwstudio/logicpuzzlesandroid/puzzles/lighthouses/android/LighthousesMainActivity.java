@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.data.LighthousesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class LighthousesMainActivity extends MainActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
+public class LighthousesMainActivity extends GameMainActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
     public LighthousesDocument doc() {return app.lighthousesDocument;}
 
     @AfterViews

@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @EActivity
-public abstract class OptionsActivity extends BaseActivity {
+public abstract class GameOptionsActivity extends BaseActivity {
 
     @ViewById
     public Spinner spnMarker;

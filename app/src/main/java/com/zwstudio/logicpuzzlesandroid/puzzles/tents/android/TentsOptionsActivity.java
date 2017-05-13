@@ -4,11 +4,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.data.TentsDocument;
 
@@ -16,18 +15,17 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
-import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
-public class TentsOptionsActivity extends OptionsActivity {
+public class TentsOptionsActivity extends GameOptionsActivity {
     public TentsDocument doc() {return app.tentsDocument;}
 
     @AfterViews
     protected void init() {
-        List<String> lst = OptionsActivity.lstMarkers;
+        List<String> lst = GameOptionsActivity.lstMarkers;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override

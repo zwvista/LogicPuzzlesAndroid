@@ -5,14 +5,14 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameState;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class BridgesMainActivity extends MainActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState> {
+public class BridgesMainActivity extends GameMainActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState> {
     public BridgesDocument doc() {return app.bridgesDocument;}
 
     @AfterViews

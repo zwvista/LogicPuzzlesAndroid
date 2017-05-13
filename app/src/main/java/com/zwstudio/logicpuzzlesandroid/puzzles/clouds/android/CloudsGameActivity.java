@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.clouds.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.data.CloudsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class CloudsGameActivity extends GameActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState> {
+public class CloudsGameActivity extends GameGameActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState> {
     public CloudsDocument doc() {return app.cloudsDocument;}
 
     protected CloudsGameView gameView;

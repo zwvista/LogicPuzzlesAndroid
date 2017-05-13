@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.data.SentinelsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class SentinelsGameActivity extends GameActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState> {
+public class SentinelsGameActivity extends GameGameActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState> {
     public SentinelsDocument doc() {return app.sentinelsDocument;}
 
     protected SentinelsGameView gameView;

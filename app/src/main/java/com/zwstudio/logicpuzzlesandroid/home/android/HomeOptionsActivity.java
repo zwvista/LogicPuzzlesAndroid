@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.home.android;
 import android.widget.CheckedTextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument;
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress;
 
@@ -15,7 +15,7 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 
 @EActivity(R.layout.activity_home_options)
-public class HomeOptionsActivity extends OptionsActivity {
+public class HomeOptionsActivity extends GameOptionsActivity {
     public HomeDocument doc() {return app.homeDocument;}
 
     @ViewById

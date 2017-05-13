@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.android;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.MainActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
-public class MosaikMainActivity extends MainActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
+public class MosaikMainActivity extends GameMainActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
     public MosaikDocument doc() {return app.mosaikDocument;}
 
     @AfterViews

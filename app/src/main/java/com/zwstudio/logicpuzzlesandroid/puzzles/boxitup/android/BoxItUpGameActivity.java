@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.data.BoxItUpDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class BoxItUpGameActivity extends GameActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState> {
+public class BoxItUpGameActivity extends GameGameActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState> {
     public BoxItUpDocument doc() {return app.boxitupDocument;}
 
     protected BoxItUpGameView gameView;

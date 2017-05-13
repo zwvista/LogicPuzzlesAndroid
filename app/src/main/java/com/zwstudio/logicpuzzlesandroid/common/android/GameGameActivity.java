@@ -18,7 +18,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity
-public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDocument<G, GM>, GM, GS extends GameState>
+public abstract class GameGameActivity<G extends Game<G, GM, GS>, GD extends GameDocument<G, GM>, GM, GS extends GameState>
         extends BaseActivity implements GameInterface<G, GM, GS> {
     public abstract GD doc();
 

@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tents.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.data.TentsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class TentsGameActivity extends GameActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState> {
+public class TentsGameActivity extends GameGameActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState> {
     public TentsDocument doc() {return app.tentsDocument;}
 
     protected TentsGameView gameView;

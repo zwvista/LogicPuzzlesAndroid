@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class MasyuGameActivity extends GameActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState> {
+public class MasyuGameActivity extends GameGameActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState> {
     public MasyuDocument doc() {return app.masyuDocument;}
 
     protected MasyuGameView gameView;

@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.loopy.android;
 import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
-import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame;
@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_game)
-public class LoopyGameActivity extends GameActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
+public class LoopyGameActivity extends GameGameActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
     public LoopyDocument doc() {return app.loopyDocument;}
 
     protected LoopyGameView gameView;
