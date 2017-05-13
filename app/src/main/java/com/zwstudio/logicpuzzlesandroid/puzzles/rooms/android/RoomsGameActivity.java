@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.android;
 
+import android.view.View;
+
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
@@ -8,13 +10,23 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_rooms_game)
+@EActivity(R.layout.activity_game_game)
 public class RoomsGameActivity extends GameActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
     public RoomsDocument doc() {return app.roomsDocument;}
+
+    protected RoomsGameView gameView;
+    protected View getGameView() {return gameView;}
+
+    @AfterViews
+    protected void init() {
+        gameView = new RoomsGameView(this);
+        super.init();
+    }
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

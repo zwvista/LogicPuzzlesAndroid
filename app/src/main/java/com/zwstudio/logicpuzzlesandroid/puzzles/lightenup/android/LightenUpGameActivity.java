@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.android;
 
+import android.view.View;
+
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
@@ -8,13 +10,23 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_lightenup_game)
+@EActivity(R.layout.activity_game_game)
 public class LightenUpGameActivity extends GameActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState> {
     public LightenUpDocument doc() {return app.lightenupDocument;}
+
+    protected LightenUpGameView gameView;
+    protected View getGameView() {return gameView;}
+
+    @AfterViews
+    protected void init() {
+        gameView = new LightenUpGameView(this);
+        super.init();
+    }
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

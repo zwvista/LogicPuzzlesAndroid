@@ -20,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_domino_options)
+@EActivity(R.layout.activity_game_options)
 public class DominoOptionsActivity extends OptionsActivity {
     public DominoDocument doc() {return app.dominoDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

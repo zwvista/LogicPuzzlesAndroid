@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android;
 
+import android.view.View;
+
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
@@ -8,13 +10,23 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_nurikabe_game)
+@EActivity(R.layout.activity_game_game)
 public class NurikabeGameActivity extends GameActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState> {
     public NurikabeDocument doc() {return app.nurikabeDocument;}
+
+    protected NurikabeGameView gameView;
+    protected View getGameView() {return gameView;}
+
+    @AfterViews
+    protected void init() {
+        gameView = new NurikabeGameView(this);
+        super.init();
+    }
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

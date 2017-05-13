@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.android.OptionsActivity;
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_bridges_options)
+@EActivity(R.layout.activity_game_options)
 public class BridgesOptionsActivity extends OptionsActivity {
     public BridgesDocument doc() {return app.bridgesDocument;}
 

@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.android;
 
+import android.view.View;
+
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
@@ -8,13 +10,23 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_lighthouses_game)
+@EActivity(R.layout.activity_game_game)
 public class LighthousesGameActivity extends GameActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
     public LighthousesDocument doc() {return app.lighthousesDocument;}
+
+    protected LighthousesGameView gameView;
+    protected View getGameView() {return gameView;}
+
+    @AfterViews
+    protected void init() {
+        gameView = new LighthousesGameView(this);
+        super.init();
+    }
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

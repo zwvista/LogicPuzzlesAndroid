@@ -21,14 +21,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_sentinels_options)
+@EActivity(R.layout.activity_game_options)
 public class SentinelsOptionsActivity extends OptionsActivity {
     public SentinelsDocument doc() {return app.sentinelsDocument;}
-
-    @ViewById
-    Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {

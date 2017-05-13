@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_masyu_main)
+@EActivity(R.layout.activity_game_main)
 public class MasyuMainActivity extends MainActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState> {
     public MasyuDocument doc() {return app.masyuDocument;}
 

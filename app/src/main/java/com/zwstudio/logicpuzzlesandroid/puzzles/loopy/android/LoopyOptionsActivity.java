@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_loopy_options)
+@EActivity(R.layout.activity_game_options)
 public class LoopyOptionsActivity extends OptionsActivity {
     public LoopyDocument doc() {return app.loopyDocument;}
 

@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_productsentinels_main)
+@EActivity(R.layout.activity_game_main)
 public class ProductSentinelsMainActivity extends MainActivity<ProductSentinelsGame, ProductSentinelsDocument, ProductSentinelsGameMove, ProductSentinelsGameState> {
     public ProductSentinelsDocument doc() {return app.productsentinelsDocument;}
 

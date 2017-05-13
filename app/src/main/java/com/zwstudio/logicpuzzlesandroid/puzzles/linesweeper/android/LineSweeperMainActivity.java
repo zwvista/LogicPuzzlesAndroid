@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_linesweeper_main)
+@EActivity(R.layout.activity_game_main)
 public class LineSweeperMainActivity extends MainActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState> {
     public LineSweeperDocument doc() {return app.linesweeperDocument;}
 

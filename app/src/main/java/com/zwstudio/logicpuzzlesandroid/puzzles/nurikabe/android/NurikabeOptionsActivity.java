@@ -20,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_nurikabe_options)
+@EActivity(R.layout.activity_game_options)
 public class NurikabeOptionsActivity extends OptionsActivity {
     public NurikabeDocument doc() {return app.nurikabeDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

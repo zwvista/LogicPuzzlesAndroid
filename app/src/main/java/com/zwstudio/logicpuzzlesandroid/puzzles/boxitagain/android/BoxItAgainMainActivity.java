@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_boxitagain_main)
+@EActivity(R.layout.activity_game_main)
 public class BoxItAgainMainActivity extends MainActivity<BoxItAgainGame, BoxItAgainDocument, BoxItAgainGameMove, BoxItAgainGameState> {
     public BoxItAgainDocument doc() {return app.boxitagainDocument;}
 

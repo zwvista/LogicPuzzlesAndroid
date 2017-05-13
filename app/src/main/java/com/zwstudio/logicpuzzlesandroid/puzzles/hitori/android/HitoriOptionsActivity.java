@@ -20,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_hitori_options)
+@EActivity(R.layout.activity_game_options)
 public class HitoriOptionsActivity extends OptionsActivity {
     public HitoriDocument doc() {return app.hitoriDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

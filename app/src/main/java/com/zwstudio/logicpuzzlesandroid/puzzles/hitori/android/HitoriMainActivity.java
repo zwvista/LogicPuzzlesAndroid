@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_hitori_main)
+@EActivity(R.layout.activity_game_main)
 public class HitoriMainActivity extends MainActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
     public HitoriDocument doc() {return app.hitoriDocument;}
 

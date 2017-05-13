@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_rooms_main)
+@EActivity(R.layout.activity_game_main)
 public class RoomsMainActivity extends MainActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
     public RoomsDocument doc() {return app.roomsDocument;}
 

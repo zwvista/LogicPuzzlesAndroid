@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_parks_main)
+@EActivity(R.layout.activity_game_main)
 public class ParksMainActivity extends MainActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState> {
     public ParksDocument doc() {return app.parksDocument;}
 

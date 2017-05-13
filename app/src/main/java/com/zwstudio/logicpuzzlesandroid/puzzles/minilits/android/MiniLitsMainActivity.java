@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_minilits_main)
+@EActivity(R.layout.activity_game_main)
 public class MiniLitsMainActivity extends MainActivity<MiniLitsGame, MiniLitsDocument, MiniLitsGameMove, MiniLitsGameState> {
     public MiniLitsDocument doc() {return app.minilitsDocument;}
 

@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocu
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_skyscrapers_options)
+@EActivity(R.layout.activity_game_options)
 public class SkyscrapersOptionsActivity extends OptionsActivity {
     public SkyscrapersDocument doc() {return app.skyscrapersDocument;}
 

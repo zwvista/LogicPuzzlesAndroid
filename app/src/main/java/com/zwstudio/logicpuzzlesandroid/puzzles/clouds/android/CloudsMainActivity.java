@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_clouds_main)
+@EActivity(R.layout.activity_game_main)
 public class CloudsMainActivity extends MainActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState> {
     public CloudsDocument doc() {return app.cloudsDocument;}
 

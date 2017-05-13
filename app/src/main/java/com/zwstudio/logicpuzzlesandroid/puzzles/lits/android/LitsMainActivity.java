@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_lits_main)
+@EActivity(R.layout.activity_game_main)
 public class LitsMainActivity extends MainActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState> {
     public LitsDocument doc() {return app.litsDocument;}
 

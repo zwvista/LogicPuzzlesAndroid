@@ -20,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_mosaik_options)
+@EActivity(R.layout.activity_game_options)
 public class MosaikOptionsActivity extends OptionsActivity {
     public MosaikDocument doc() {return app.mosaikDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

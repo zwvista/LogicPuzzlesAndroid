@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.android;
 
+import android.view.View;
+
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
@@ -8,13 +10,23 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_linesweeper_game)
+@EActivity(R.layout.activity_game_game)
 public class LineSweeperGameActivity extends GameActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState> {
     public LineSweeperDocument doc() {return app.linesweeperDocument;}
+
+    protected LineSweeperGameView gameView;
+    protected View getGameView() {return gameView;}
+
+    @AfterViews
+    protected void init() {
+        gameView = new LineSweeperGameView(this);
+        super.init();
+    }
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

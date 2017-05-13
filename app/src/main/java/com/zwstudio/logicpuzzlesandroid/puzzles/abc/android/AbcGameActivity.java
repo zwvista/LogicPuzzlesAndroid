@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc.android;
 
+import android.view.View;
+
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
@@ -8,13 +10,23 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_abc_game)
+@EActivity(R.layout.activity_game_game)
 public class AbcGameActivity extends GameActivity<AbcGame, AbcDocument, AbcGameMove, AbcGameState> {
     public AbcDocument doc() {return app.abcDocument;}
+
+    protected AbcGameView gameView;
+    protected View getGameView() {return gameView;}
+
+    @AfterViews
+    protected void init() {
+        gameView = new AbcGameView(this);
+        super.init();
+    }
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

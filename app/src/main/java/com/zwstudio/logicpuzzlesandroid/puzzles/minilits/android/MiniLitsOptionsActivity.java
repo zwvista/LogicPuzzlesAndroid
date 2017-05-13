@@ -21,14 +21,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_minilits_options)
+@EActivity(R.layout.activity_game_options)
 public class MiniLitsOptionsActivity extends OptionsActivity {
     public MiniLitsDocument doc() {return app.minilitsDocument;}
-
-    @ViewById
-    Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {

@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_magnets_main)
+@EActivity(R.layout.activity_game_main)
 public class MagnetsMainActivity extends MainActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState> {
     public MagnetsDocument doc() {return app.magnetsDocument;}
 

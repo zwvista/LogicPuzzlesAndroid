@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/activity_sentinels_game"
+    android:id="@+id/activity_game_game"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,8 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorBackground"
-    tools:context=".puzzles.sentinels.android.SentinelsGameActivity">
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -40,13 +39,6 @@
             android:textColor="@color/colorText"/>
     </LinearLayout>
 
-    <view
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        class="com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.android.SentinelsGameView"
-        android:id="@+id/gameView"
-        android:background="@color/colorBackground"
-        android:layout_centerInParent="true"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -63,15 +55,15 @@
                 android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvMoves"
-                    tools:text="Moves: 0(0)"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorText"
-                    />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvMoves"
+                tools:text="Moves: 0(0)"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorText"
+                />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"

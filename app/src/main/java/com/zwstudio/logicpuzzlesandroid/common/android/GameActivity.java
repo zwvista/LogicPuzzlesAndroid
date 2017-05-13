@@ -2,7 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.common.android;
 
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
@@ -11,7 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -22,7 +23,8 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
     public abstract GD doc();
 
     @ViewById
-    protected View gameView;
+    protected ViewGroup activity_game_game;
+    protected View getGameView() {return null;}
     @ViewById
     protected TextView tvLevel;
     @ViewById
@@ -41,8 +43,20 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
     public G game;
     protected boolean levelInitilizing;
 
-    @AfterViews
     protected void init() {
+    /*
+        <view
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            class="com.zwstudio.logicpuzzlesandroid.puzzles.abc.android.AbcGameView"
+            android:id="@+id/gameView"
+            android:background="@color/colorBackground"
+            android:layout_centerInParent="true"/>
+    */
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        activity_game_game.addView(getGameView(), params);
         startGame();
     }
 
@@ -80,13 +94,13 @@ public abstract class GameActivity<G extends Game<G, GM, GS>, GD extends GameDoc
 
     @Override
     public void levelInitilized(G game, GS state) {
-        gameView.invalidate();
+        getGameView().invalidate();
         updateMovesUI(game);
     }
 
     @Override
     public void levelUpdated(G game, GS stateFrom, GS stateTo) {
-        gameView.invalidate();
+        getGameView().invalidate();
         updateMovesUI(game);
         if (!levelInitilizing) doc().levelUpdated(game);
     }

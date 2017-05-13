@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument;
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_masyu_options)
+@EActivity(R.layout.activity_game_options)
 public class MasyuOptionsActivity extends OptionsActivity {
     public MasyuDocument doc() {return app.masyuDocument;}
 

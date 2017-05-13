@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
@@ -15,17 +14,13 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.data.PairakabeDocument
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
-import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_pairakabe_options)
+@EActivity(R.layout.activity_game_options)
 public class PairakabeOptionsActivity extends OptionsActivity {
     public PairakabeDocument doc() {return app.pairakabeDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

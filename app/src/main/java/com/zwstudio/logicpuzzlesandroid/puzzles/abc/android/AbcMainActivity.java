@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_abc_main)
+@EActivity(R.layout.activity_game_main)
 public class AbcMainActivity extends MainActivity<AbcGame, AbcDocument, AbcGameMove, AbcGameState> {
     public AbcDocument doc() {return app.abcDocument;}
 

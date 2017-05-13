@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_mosaik_main)
+@EActivity(R.layout.activity_game_main)
 public class MosaikMainActivity extends MainActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
     public MosaikDocument doc() {return app.mosaikDocument;}
 

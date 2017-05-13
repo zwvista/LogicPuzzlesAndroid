@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_slitherlink_main)
+@EActivity(R.layout.activity_game_main)
 public class SlitherLinkMainActivity extends MainActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState> {
     public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
 

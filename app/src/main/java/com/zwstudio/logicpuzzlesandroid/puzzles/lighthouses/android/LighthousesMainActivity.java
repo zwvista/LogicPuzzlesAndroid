@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_lighthouses_main)
+@EActivity(R.layout.activity_game_main)
 public class LighthousesMainActivity extends MainActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
     public LighthousesDocument doc() {return app.lighthousesDocument;}
 

@@ -20,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_boxitaround_options)
+@EActivity(R.layout.activity_game_options)
 public class BoxItAroundOptionsActivity extends OptionsActivity {
     public BoxItAroundDocument doc() {return app.boxitaroundDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

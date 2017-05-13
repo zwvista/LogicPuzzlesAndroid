@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.android;
 
+import android.view.View;
+
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
@@ -8,13 +10,23 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_pairakabe_game)
+@EActivity(R.layout.activity_game_game)
 public class PairakabeGameActivity extends GameActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
     public PairakabeDocument doc() {return app.pairakabeDocument;}
+
+    protected PairakabeGameView gameView;
+    protected View getGameView() {return gameView;}
+
+    @AfterViews
+    protected void init() {
+        gameView = new PairakabeGameView(this);
+        super.init();
+    }
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;

@@ -20,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_fencelits_options)
+@EActivity(R.layout.activity_game_options)
 public class FenceLitsOptionsActivity extends OptionsActivity {
     public FenceLitsDocument doc() {return app.fencelitsDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

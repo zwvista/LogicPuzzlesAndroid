@@ -21,14 +21,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_tents_options)
+@EActivity(R.layout.activity_game_options)
 public class TentsOptionsActivity extends OptionsActivity {
     public TentsDocument doc() {return app.tentsDocument;}
-
-    @ViewById
-    Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {

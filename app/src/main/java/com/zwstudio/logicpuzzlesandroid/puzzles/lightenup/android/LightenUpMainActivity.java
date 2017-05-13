@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_lightenup_main)
+@EActivity(R.layout.activity_game_main)
 public class LightenUpMainActivity extends MainActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState> {
     public LightenUpDocument doc() {return app.lightenupDocument;}
 

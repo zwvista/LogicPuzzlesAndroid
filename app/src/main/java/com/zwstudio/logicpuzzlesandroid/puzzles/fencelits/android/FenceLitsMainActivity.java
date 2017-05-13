@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_fencelits_main)
+@EActivity(R.layout.activity_game_main)
 public class FenceLitsMainActivity extends MainActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState> {
     public FenceLitsDocument doc() {return app.fencelitsDocument;}
 

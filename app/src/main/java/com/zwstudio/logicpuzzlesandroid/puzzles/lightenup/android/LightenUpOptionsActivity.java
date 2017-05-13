@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
@@ -16,19 +15,13 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
-import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_lightenup_options)
+@EActivity(R.layout.activity_game_options)
 public class LightenUpOptionsActivity extends OptionsActivity {
     public LightenUpDocument doc() {return app.lightenupDocument;}
-
-    @ViewById
-    Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {

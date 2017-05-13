@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_busyseas_main)
+@EActivity(R.layout.activity_game_main)
 public class BusySeasMainActivity extends MainActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
     public BusySeasDocument doc() {return app.busyseasDocument;}
 

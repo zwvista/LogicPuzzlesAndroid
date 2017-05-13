@@ -2,15 +2,23 @@ package com.zwstudio.logicpuzzlesandroid.common.android;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.widget.CheckedTextView;
+import android.widget.Spinner;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 import java.util.Arrays;
 import java.util.List;
 
 @EActivity
 public abstract class OptionsActivity extends BaseActivity {
+
+    @ViewById
+    public Spinner spnMarker;
+    @ViewById
+    public CheckedTextView ctvAllowedObjectsOnly;
 
     public static List<String> lstMarkers = Arrays.asList("No Marker", "Marker First", "Marker Last");
 

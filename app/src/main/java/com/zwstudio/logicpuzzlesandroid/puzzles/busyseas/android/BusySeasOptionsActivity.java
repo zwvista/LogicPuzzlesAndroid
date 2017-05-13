@@ -21,14 +21,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_busyseas_options)
+@EActivity(R.layout.activity_game_options)
 public class BusySeasOptionsActivity extends OptionsActivity {
     public BusySeasDocument doc() {return app.busyseasDocument;}
-
-    @ViewById
-    Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {

@@ -11,7 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_loopy_main)
+@EActivity(R.layout.activity_game_main)
 public class LoopyMainActivity extends MainActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
     public LoopyDocument doc() {return app.loopyDocument;}
 

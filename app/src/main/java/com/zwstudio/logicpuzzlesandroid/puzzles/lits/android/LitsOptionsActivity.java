@@ -21,14 +21,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_lits_options)
+@EActivity(R.layout.activity_game_options)
 public class LitsOptionsActivity extends OptionsActivity {
     public LitsDocument doc() {return app.litsDocument;}
-
-    @ViewById
-    Spinner spnMarker;
-    @ViewById
-    CheckedTextView ctvAllowedObjectsOnly;
 
     @AfterViews
     protected void init() {

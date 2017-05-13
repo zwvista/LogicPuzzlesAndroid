@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.data.LineSweeperDocu
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_linesweeper_options)
+@EActivity(R.layout.activity_game_options)
 public class LineSweeperOptionsActivity extends OptionsActivity {
     public LineSweeperDocument doc() {return app.linesweeperDocument;}
 

@@ -20,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import java.sql.SQLException;
 import java.util.List;
 
-@EActivity(R.layout.activity_clouds_options)
+@EActivity(R.layout.activity_game_options)
 public class CloudsOptionsActivity extends OptionsActivity {
     public CloudsDocument doc() {return app.cloudsDocument;}
-
-    @ViewById
-    Spinner spnMarker;
 
     @AfterViews
     protected void init() {

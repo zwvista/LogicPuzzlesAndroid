@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.data.SumscrapersDocu
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_sumscrapers_options)
+@EActivity(R.layout.activity_game_options)
 public class SumscrapersOptionsActivity extends OptionsActivity {
     public SumscrapersDocument doc() {return app.sumscrapersDocument;}
 
