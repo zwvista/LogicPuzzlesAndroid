@@ -12,6 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.data.BattleShipsDocument;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 
@@ -48,6 +49,7 @@ public class BattleShipsOptionsActivity extends GameOptionsActivity {
         spnMarker.setAdapter(adapter);
 
         spnMarker.setSelection(doc().getMarkerOption());
+        ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
     }
 
     @ItemSelect
@@ -61,14 +63,28 @@ public class BattleShipsOptionsActivity extends GameOptionsActivity {
         }
     }
 
+    @Click
+    protected void ctvAllowedObjectsOnly() {
+        GameProgress rec = doc().gameProgress();
+        ctvAllowedObjectsOnly.setChecked(!doc().isAllowedObjectsOnly());
+        doc().setAllowedObjectsOnly(rec, !doc().isAllowedObjectsOnly());
+        try {
+            app.daoGameProgress.update(rec);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected void onDefault() {
         GameProgress rec = doc().gameProgress();
         doc().setMarkerOption(rec, 0);
+        doc().setAllowedObjectsOnly(rec, false);
         try {
             app.daoGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         spnMarker.setSelection(doc().getMarkerOption());
+        ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
     }
 }
