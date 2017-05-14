@@ -64,6 +64,24 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 5/Rooms
+
+        Summary
+        Close the doors between Rooms
+
+        Description
+        1. The view of the board is a castle with every tile identifying a Room.
+           Between Rooms there are doors that can be open or closed. At the start
+           of the game all doors are open.
+        2. Each number inside a Room tells you how many other Rooms you see from
+           there, in a straight line horizontally or vertically when the appropriate
+           doors are closed.
+        3. At the end of the solution, each Room must be reachable from the others.
+           That means no single Room or group of Rooms can be divided by the others.
+        4. In harder levels some tiles won't tell you how many Rooms are visible
+           at all.
+    */
     private void updateIsSolved() {
         isSolved = true;
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {

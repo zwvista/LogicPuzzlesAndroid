@@ -77,6 +77,20 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 5/Clouds
+
+        Summary
+        Weather Radar Report
+
+        Description
+        1. You must find Clouds in the sky.
+        2. The hints on the borders tell you how many tiles are covered by Clouds
+           in that row or column.
+        3. Clouds only appear in rectangular or square areas. Furthermore, their
+           width and height is always at least two tiles wide.
+        4. Clouds can't touch between themselves, not even diagonally. 
+    */
     private void updateIsSolved() {
         isSolved = true;
         for (int r = 0; r < rows(); r++) {

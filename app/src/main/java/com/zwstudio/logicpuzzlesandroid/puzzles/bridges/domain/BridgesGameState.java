@@ -71,6 +71,23 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
         return true;
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 7/Bridges
+
+        Summary
+        Enough Sudoku, let's build!
+
+        Description
+        1. The board represents a Sea with some islands on it.
+        2. You must connect all the islands with Bridges, making sure every
+           island is connected to each other with a Bridges path.
+        3. The number on each island tells you how many Bridges are touching
+           that island.
+        4. Bridges can only run horizontally or vertically and can't cross
+           each other.
+        5. Lastly, you can connect two islands with either one or two Bridges
+           (or none, of course)
+    */
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();

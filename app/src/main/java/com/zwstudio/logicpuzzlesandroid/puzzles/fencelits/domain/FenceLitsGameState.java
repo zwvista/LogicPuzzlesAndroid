@@ -74,6 +74,19 @@ public class FenceLitsGameState extends CellsGameState<FenceLitsGame, FenceLitsG
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 12/FenceLits
+
+        Summary
+        Fencing Tetris
+
+        Description
+        1. The goal is to divide the board into Tetris pieces, including the
+           square one (differently from LITS).
+        2. The number in a cell tells you how many of the sides are marked
+           (like slitherlink).
+        3. Please consider that the outside border of the board as marked.
+    */
     private void updateIsSolved() {
         isSolved = true;
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {

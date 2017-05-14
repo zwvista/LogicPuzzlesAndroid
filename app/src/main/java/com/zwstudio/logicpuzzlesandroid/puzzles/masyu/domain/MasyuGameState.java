@@ -53,6 +53,23 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
         return true;
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 3/Masyu
+
+        Summary
+        Draw a Necklace that goes through every Pearl
+
+        Description
+        1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
+           that never branches-off or crosses itself.
+        2. The rules to pass Pearls are:
+        3. Lines passing through White Pearls must go straight through them.
+           However, at least at one side of the White Pearl(or both), they must
+           do a 90 degree turn.
+        4. Lines passing through Black Pearls must do a 90 degree turn in them.
+           Then they must go straight in the next tile in both directions.
+        5. Lines passing where there are no Pearls can do what they want.
+    */
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();

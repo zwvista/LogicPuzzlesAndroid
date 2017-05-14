@@ -72,6 +72,17 @@ public class BoxItAroundGameState extends CellsGameState<BoxItAroundGame, BoxItA
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 8/Box It Around
+
+        Summary
+        Keep Boxing Stuff
+
+        Description
+        1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
+        2. Each Box must contain one number and the number represents the sum of
+           of the width and the height of that Box.
+    */
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();

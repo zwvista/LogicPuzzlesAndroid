@@ -72,6 +72,17 @@ public class BoxItUpGameState extends CellsGameState<BoxItUpGame, BoxItUpGameMov
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 5/Box It Up
+
+        Summary
+        Numbered Areas Interval
+
+        Description
+        1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
+        2. Each Box must contain one number and the number represents the area of
+           that Box.
+    */
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();

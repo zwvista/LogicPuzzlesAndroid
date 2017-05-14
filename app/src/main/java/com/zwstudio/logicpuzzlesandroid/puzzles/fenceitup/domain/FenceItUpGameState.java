@@ -71,6 +71,18 @@ public class FenceItUpGameState extends CellsGameState<FenceItUpGame, FenceItUpG
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 7/Fence It Up
+
+        Summary
+        Now with Fences
+
+        Description
+        1. A simple puzzle where you have to divide the Board into enclosed
+           areas by Fences.
+        2. Each area must contain one number and the number tells you the length
+           of the perimeter of the area.
+    */
     private void updateIsSolved() {
         isSolved = true;
         Graph g = new Graph();

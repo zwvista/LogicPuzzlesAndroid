@@ -71,6 +71,21 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 2/Magnets
+
+        Summary
+        Place Magnets on the board, respecting the orientation of poles
+
+        Description
+        1. Each Magnet has a positive(+) and a negative(-) pole.
+        2. Every rectangle can either contain a Magnet or be empty.
+        3. The number on the board tells you how many positive and negative poles
+           you can see from there in a straight line.
+        4. When placing a Magnet, you have to respect the rule that the same pole
+           (+ and + / - and -) can't be adjacent horizontally or vertically.
+        5. In some levels, a few numbers on the border can be hidden.
+    */
     private void updateIsSolved() {
         isSolved = true;
         for (int r = 0; r < rows(); r++) {
