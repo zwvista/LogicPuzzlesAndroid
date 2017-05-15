@@ -1,6 +1,7 @@
 
 package com.zwstudio.logicpuzzlesandroid.common.android;
 
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
@@ -19,5 +20,8 @@ public abstract class GameHelpActivity<G extends Game<G, GM, GS>, GD extends Gam
     protected ListView lvHelp;
 
     protected void init() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, doc().help);
+        lvHelp.setAdapter(adapter);
     }
 }
