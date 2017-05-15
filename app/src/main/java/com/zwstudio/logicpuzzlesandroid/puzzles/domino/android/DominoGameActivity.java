@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class DominoGameActivity extends GameGameActivity<DominoGame, DominoDocum
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        DominoHelpActivity_.intent(this).start();
     }
 }

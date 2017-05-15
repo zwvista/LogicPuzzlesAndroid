@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class CloudsGameActivity extends GameGameActivity<CloudsGame, CloudsDocum
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        CloudsHelpActivity_.intent(this).start();
     }
 }

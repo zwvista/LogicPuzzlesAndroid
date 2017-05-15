@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class TentsGameActivity extends GameGameActivity<TentsGame, TentsDocument
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        TentsHelpActivity_.intent(this).start();
     }
 }

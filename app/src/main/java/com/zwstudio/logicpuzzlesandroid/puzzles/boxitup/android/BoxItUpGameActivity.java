@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class BoxItUpGameActivity extends GameGameActivity<BoxItUpGame, BoxItUpDo
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        BoxItUpHelpActivity_.intent(this).start();
     }
 }

@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class FenceItUpGameActivity extends GameGameActivity<FenceItUpGame, Fence
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        FenceItUpHelpActivity_.intent(this).start();
     }
 }

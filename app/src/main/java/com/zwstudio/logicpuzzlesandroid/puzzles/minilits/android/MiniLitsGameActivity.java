@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class MiniLitsGameActivity extends GameGameActivity<MiniLitsGame, MiniLit
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        MiniLitsHelpActivity_.intent(this).start();
     }
 }

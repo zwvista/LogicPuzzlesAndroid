@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class MasyuGameActivity extends GameGameActivity<MasyuGame, MasyuDocument
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        MasyuHelpActivity_.intent(this).start();
     }
 }

@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class BattleShipsGameActivity extends GameGameActivity<BattleShipsGame, B
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        BattleShipsHelpActivity_.intent(this).start();
     }
 }

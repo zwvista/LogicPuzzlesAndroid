@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class SlitherLinkGameActivity extends GameGameActivity<SlitherLinkGame, S
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        SlitherLinkHelpActivity_.intent(this).start();
     }
 }

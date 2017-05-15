@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class BusySeasGameActivity extends GameGameActivity<BusySeasGame, BusySea
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        BusySeasHelpActivity_.intent(this).start();
     }
 }

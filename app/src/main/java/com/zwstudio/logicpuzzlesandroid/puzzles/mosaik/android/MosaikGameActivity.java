@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class MosaikGameActivity extends GameGameActivity<MosaikGame, MosaikDocum
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        MosaikHelpActivity_.intent(this).start();
     }
 }

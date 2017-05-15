@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class LoopyGameActivity extends GameGameActivity<LoopyGame, LoopyDocument
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        LoopyHelpActivity_.intent(this).start();
     }
 }

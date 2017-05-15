@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class RoomsGameActivity extends GameGameActivity<RoomsGame, RoomsDocument
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        RoomsHelpActivity_.intent(this).start();
     }
 }

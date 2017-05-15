@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvGame"
             android:layout_weight="1"
-            tools:text="@string/game"
+            android:text="@string/game2"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textAlignment="viewStart"
             android:gravity="start"
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <Button
-                android:text="@string/help"
+                android:text="@string/help2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnHelp"

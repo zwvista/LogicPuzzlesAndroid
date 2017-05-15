@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class BootyIslandGameActivity extends GameGameActivity<BootyIslandGame, B
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        BootyIslandHelpActivity_.intent(this).start();
     }
 }

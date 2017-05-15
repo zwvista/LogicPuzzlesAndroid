@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class MagnetsGameActivity extends GameGameActivity<MagnetsGame, MagnetsDo
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        MagnetsHelpActivity_.intent(this).start();
     }
 }

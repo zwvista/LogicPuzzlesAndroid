@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class BridgesGameActivity extends GameGameActivity<BridgesGame, BridgesDo
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        BridgesHelpActivity_.intent(this).start();
     }
 }

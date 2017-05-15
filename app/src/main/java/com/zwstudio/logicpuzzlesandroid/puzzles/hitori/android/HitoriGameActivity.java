@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class HitoriGameActivity extends GameGameActivity<HitoriGame, HitoriDocum
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        HitoriHelpActivity_.intent(this).start();
     }
 }

@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class LitsGameActivity extends GameGameActivity<LitsGame, LitsDocument, L
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        LitsHelpActivity_.intent(this).start();
     }
 }

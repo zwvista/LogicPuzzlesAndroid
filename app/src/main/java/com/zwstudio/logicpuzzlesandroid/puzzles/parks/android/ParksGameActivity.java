@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class ParksGameActivity extends GameGameActivity<ParksGame, ParksDocument
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        ParksHelpActivity_.intent(this).start();
     }
 }

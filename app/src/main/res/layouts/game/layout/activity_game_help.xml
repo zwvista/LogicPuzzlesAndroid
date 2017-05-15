@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/activity_game_game"
+    android:id="@+id/activity_game_help"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,6 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/tvGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:text="@string/game2"/>
+
+        <Space android:layout_width="match_parent"
+               android:layout_height="25dp"/>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

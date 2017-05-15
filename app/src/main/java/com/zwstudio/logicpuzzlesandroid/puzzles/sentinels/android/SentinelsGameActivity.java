@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class SentinelsGameActivity extends GameGameActivity<SentinelsGame, Senti
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        SentinelsHelpActivity_.intent(this).start();
     }
 }

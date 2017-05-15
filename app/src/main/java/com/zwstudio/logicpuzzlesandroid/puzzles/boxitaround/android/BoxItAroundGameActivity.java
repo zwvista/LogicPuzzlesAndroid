@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class BoxItAroundGameActivity extends GameGameActivity<BoxItAroundGame, B
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        BoxItAroundHelpActivity_.intent(this).start();
     }
 }

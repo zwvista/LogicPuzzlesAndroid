@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class LineSweeperGameActivity extends GameGameActivity<LineSweeperGame, L
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        LineSweeperHelpActivity_.intent(this).start();
     }
 }

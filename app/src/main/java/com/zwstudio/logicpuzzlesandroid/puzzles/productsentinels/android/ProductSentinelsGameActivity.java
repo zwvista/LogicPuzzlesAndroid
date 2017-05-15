@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductS
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductSentinelsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class ProductSentinelsGameActivity extends GameGameActivity<ProductSentin
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        ProductSentinelsHelpActivity_.intent(this).start();
     }
 }

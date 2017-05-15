@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class NurikabeGameActivity extends GameGameActivity<NurikabeGame, Nurikab
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        NurikabeHelpActivity_.intent(this).start();
     }
 }

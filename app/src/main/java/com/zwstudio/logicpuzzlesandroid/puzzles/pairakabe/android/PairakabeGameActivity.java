@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class PairakabeGameActivity extends GameGameActivity<PairakabeGame, Paira
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        PairakabeHelpActivity_.intent(this).start();
     }
 }

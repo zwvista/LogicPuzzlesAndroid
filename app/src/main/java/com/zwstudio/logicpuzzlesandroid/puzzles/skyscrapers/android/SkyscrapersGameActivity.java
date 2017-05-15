@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class SkyscrapersGameActivity extends GameGameActivity<SkyscrapersGame, S
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        SkyscrapersHelpActivity_.intent(this).start();
     }
 }

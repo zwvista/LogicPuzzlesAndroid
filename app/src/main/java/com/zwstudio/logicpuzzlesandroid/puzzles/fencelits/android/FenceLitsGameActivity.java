@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class FenceLitsGameActivity extends GameGameActivity<FenceLitsGame, Fence
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        FenceLitsHelpActivity_.intent(this).start();
     }
 }

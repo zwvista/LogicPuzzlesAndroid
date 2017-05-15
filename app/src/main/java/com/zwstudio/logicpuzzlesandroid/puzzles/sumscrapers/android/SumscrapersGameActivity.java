@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class SumscrapersGameActivity extends GameGameActivity<SumscrapersGame, S
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        SumscrapersHelpActivity_.intent(this).start();
     }
 }

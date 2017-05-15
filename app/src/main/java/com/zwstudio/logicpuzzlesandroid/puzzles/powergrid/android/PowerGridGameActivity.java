@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class PowerGridGameActivity extends GameGameActivity<PowerGridGame, Power
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        PowerGridHelpActivity_.intent(this).start();
     }
 }
