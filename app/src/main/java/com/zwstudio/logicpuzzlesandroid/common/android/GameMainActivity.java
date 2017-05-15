@@ -36,7 +36,7 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
             button.setOnClickListener(onClickListener);
         }
 
-        tvGame.setText(doc().gameProgress().gameID);
+        tvGame.setText(doc().gameID());
 
         boolean toResume = getIntent().getBooleanExtra("toResume", false);
         if (toResume) resumeGame();

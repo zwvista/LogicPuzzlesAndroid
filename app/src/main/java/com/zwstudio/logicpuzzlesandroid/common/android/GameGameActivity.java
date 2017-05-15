@@ -26,6 +26,8 @@ public abstract class GameGameActivity<G extends Game<G, GM, GS>, GD extends Gam
     protected ViewGroup activity_game_game;
     protected View getGameView() {return null;}
     @ViewById
+    protected TextView tvGame;
+    @ViewById
     protected TextView tvLevel;
     @ViewById
     protected TextView tvSolved;
@@ -57,6 +59,7 @@ public abstract class GameGameActivity<G extends Game<G, GM, GS>, GD extends Gam
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         activity_game_game.addView(getGameView(), params);
+        tvGame.setText(doc().gameID());
         startGame();
     }
 
@@ -140,5 +143,4 @@ public abstract class GameGameActivity<G extends Game<G, GM, GS>, GD extends Gam
             updateSolutionUI();
         });
     }
-
 }

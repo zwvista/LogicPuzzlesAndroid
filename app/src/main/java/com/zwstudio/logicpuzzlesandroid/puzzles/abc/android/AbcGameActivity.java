@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
@@ -49,5 +50,10 @@ public class AbcGameActivity extends GameGameActivity<AbcGame, AbcDocument, AbcG
         } finally {
             levelInitilizing = false;
         }
+    }
+
+    @Click
+    protected void btnHelp() {
+        AbcHelpActivity_.intent(this).start();
     }
 }

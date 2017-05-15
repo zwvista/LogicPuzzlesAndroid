@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ public abstract class GameDocument<G extends Game, GM> {
     public Map<String, List<String>> levels = new HashMap<>();
     public String selectedLevelID;
     public String selectedLevelIDSolution() {return selectedLevelID + " Solution";}
+    public List<String> help = new ArrayList<>();
     @App
     public LogicPuzzlesApplication app;
 
@@ -102,6 +104,9 @@ public abstract class GameDocument<G extends Game, GM> {
                                 .map(s -> s.substring(0, s.indexOf('`')))
                                 .toJavaList();
                         levels.put(id, layout);
+                    } else if (name.equals("help")){
+                        help = Arrays.asList(parser.nextText().split("\n"));
+                        help = iterableList(help.subList(2, help.size() - 2)).toJavaList();
                     }
                     break;
                 case XmlPullParser.END_TAG:

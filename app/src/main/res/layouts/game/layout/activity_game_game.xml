@@ -12,21 +12,55 @@
     android:background="@color/colorBackground">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvLevel"
+            android:id="@+id/tvGame"
             android:layout_weight="1"
-            tools:text="Level 81"
+            tools:text="@string/game"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textAlignment="viewStart"
             android:gravity="start"
             android:textColor="@color/colorText"/>
+        <TextView
+            tools:text="Level 81"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLevel"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAlignment="viewEnd"
+            android:gravity="end"
+            android:textColor="@color/colorText"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:text="@string/help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnHelp"
+                android:gravity="start|center_vertical"
+                style="?android:attr/buttonBarButtonStyle"/>
+        </LinearLayout>
         <TextView
             android:text="@string/solved"
             android:layout_width="wrap_content"
@@ -38,7 +72,7 @@
             android:gravity="end"
             android:textColor="@color/colorText"/>
     </LinearLayout>
-
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
