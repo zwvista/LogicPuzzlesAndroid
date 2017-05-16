@@ -16,7 +16,7 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
         <TextView
-            android:text="Game"
+            tools:text="Game"
             android:id="@+id/tvGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,58 +45,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="6">
         <Button
-            android:text="Level 1"
+            android:text="1"
             android:id="@+id/btnLevel1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
-            android:text="Level 2"
+            android:text="2"
             android:id="@+id/btnLevel2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
-            android:text="Level 3"
+            android:text="3"
             android:id="@+id/btnLevel3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
-            android:text="Level 4"
+            android:text="4"
             android:id="@+id/btnLevel4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="4">
         <Button
-            android:text="Level 5"
+            android:text="5"
             android:id="@+id/btnLevel5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
-            android:text="Level 6"
+            android:text="6"
             android:id="@+id/btnLevel6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <Button
-            android:text="Level 7"
-            android:id="@+id/btnLevel7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <Button
-            android:text="Level 8"
-            android:id="@+id/btnLevel8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
@@ -105,32 +87,71 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="6">
         <Button
-            android:text="Level 16"
+            android:text="7"
+            android:id="@+id/btnLevel7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:text="8"
+            android:id="@+id/btnLevel8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:text="9"
             android:id="@+id/btnLevel16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
-            android:text="Level 24"
+            android:text="10"
             android:id="@+id/btnLevel24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
-            android:text="Level 34"
+            android:text="11"
             android:id="@+id/btnLevel34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
-            android:text="Level 81"
+            android:text="12"
             android:id="@+id/btnLevel81"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="7">
+            <Space android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"/>
+            <Button
+                android:text="< Prev"
+                android:id="@+id/btnPrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+            <Space android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"/>
+            <Button
+                android:text="Next >"
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+            <Space android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"/>
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

@@ -26,13 +26,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvGame"
             android:layout_weight="1"
-            android:text="@string/game2"
+            tools:text="Game"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textAlignment="viewStart"
             android:gravity="start"
             android:textColor="@color/colorText"/>
         <TextView
-            tools:text="Level 81"
+            tools:text="81"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvLevel"
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <Button
-                android:text="@string/help2"
+                tools:text="Help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnHelp"

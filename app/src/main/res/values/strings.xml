@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">LogicGamesAndroid</string>
-    <string name="game2">Game</string>
-    <string name="help2">Help</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
     <string name="clear">Clear</string>
