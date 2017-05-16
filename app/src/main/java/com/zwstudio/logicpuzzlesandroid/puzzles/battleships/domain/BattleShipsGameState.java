@@ -181,9 +181,9 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
                     iterableList(area).forall(p -> p.row == area.get(0).row) &&
                     get(area.get(0)) == BattleShipsObject.BattleShipLeft &&
                     get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipRight ||
-                    iterableList(area).forall(p -> p.row == area.get(0).row) &&
-                    get(area.get(0)) == BattleShipsObject.BattleShipLeft &&
-                    get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipRight) &&
+                    iterableList(area).forall(p -> p.col == area.get(0).col) &&
+                    get(area.get(0)) == BattleShipsObject.BattleShipTop &&
+                    get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipBottom) &&
                     Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) == BattleShipsObject.BattleShipMiddle)) &&
                     arrayArray(BattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);

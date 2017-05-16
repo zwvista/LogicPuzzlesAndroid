@@ -15,12 +15,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fj.data.List.iterableList;
+import fj.F;
+import static fj.data.Array.arrayArray;
+import static fj.data.Array.range;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -74,7 +75,11 @@ public abstract class GameDocument<G extends Game, GM> {
     private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
         int eventType = parser.getEventType();
-
+        F<List<String>, List<String>> getCdata = strs -> {
+            int a = range(0, strs.size() - 1).find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
+            int b = range(0, strs.size() - 1).reverse().find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
+            return a == -1 || b == -1 ? strs : strs.subList(a, b + 1);
+        };
         while (eventType != XmlPullParser.END_DOCUMENT){
             String name = null;
             String id = null;
@@ -85,28 +90,18 @@ public abstract class GameDocument<G extends Game, GM> {
                 case XmlPullParser.START_TAG:
                     name = parser.getName();
                     if (name.equals("level")){
-//Conventional Java
-//                        String[] strs = parser.nextText().split("\n");
-//                        layout = new ArrayList<>();
-//                        for (int i = 2; i < strs.length - 2; i++) {
-//                            String s = strs[i];
-//                            layout.add(s.substring(0, s.indexOf('`')));
-//                        }
-//Java 8
-//                        layout = Arrays.asList(parser.nextText().split("\n"));
-//                        layout = layout.subList(2, layout.size() - 2)
-//                                .stream().map(s -> s.substring(0, s.indexOf('`')))
-//                                .collect(Collectors.toList());
-//Functional Java
+
                         id = "Level " + parser.getAttributeValue(null,"id");
-                        layout = Arrays.asList(parser.nextText().split("\n"));
-                        layout = iterableList(layout.subList(2, layout.size() - 2))
-                                .map(s -> s.substring(0, s.indexOf('`')))
+                        layout = arrayArray(parser.nextText().split("\n"))
+                                .map(s -> s.replace("\r", "").replace("`", ""))
                                 .toJavaList();
+                        layout = getCdata.f(layout);
                         levels.put(id, layout);
                     } else if (name.equals("help")){
-                        help = Arrays.asList(parser.nextText().split("\n"));
-                        help = iterableList(help.subList(2, help.size() - 2)).toJavaList();
+                        help = arrayArray(parser.nextText().split("\n"))
+                                .map(s -> s.replace("\r", ""))
+                                .toJavaList();
+                        help = getCdata.f(help);
                     }
                     break;
                 case XmlPullParser.END_TAG:
