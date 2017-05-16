@@ -23,7 +23,7 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/colorText"
-            android:layout_marginBottom="100dip"/>
+            android:layout_marginBottom="75dp"/>
         <Button
             android:text="Resume Game"
             android:layout_width="match_parent"
@@ -34,13 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnOptions"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -134,7 +127,7 @@
                    android:layout_height="wrap_content"
                    android:layout_weight="1"/>
             <Button
-                android:text="< Prev"
+                android:text="&lt; Prev"
                 android:id="@+id/btnPrev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,7 +136,7 @@
                    android:layout_height="wrap_content"
                    android:layout_weight="1"/>
             <Button
-                android:text="Next >"
+                android:text="Next &gt;"
                 android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
