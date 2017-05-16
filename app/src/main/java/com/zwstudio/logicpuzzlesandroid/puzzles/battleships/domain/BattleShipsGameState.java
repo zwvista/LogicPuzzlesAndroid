@@ -13,7 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 import fj.F;
+import fj.data.Array;
 
+import static fj.data.Array.arrayArray;
+import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
 /**
@@ -165,9 +168,31 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
             }
         }
         Integer[] shipNumbers = {0, 0, 0, 0, 0};
+        Integer[] shipNumbers2 = {0, 4, 3, 2, 1};
         while (!pos2node.isEmpty()) {
             g.setRootNode(iterableList(pos2node.values()).head());
             List<Node> nodeList = g.bfs();
+            List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
+            for (Position p : area)
+                pos2node.remove(p);
+            area.sort(Position::compareTo);
+            if (!(area.size() == 1 && get(area.get(0)) == BattleShipsObject.BattleShipUnit ||
+                    area.size() > 1 && area.size() < 5 && ((
+                    iterableList(area).forall(p -> p.row == area.get(0).row) &&
+                    get(area.get(0)) == BattleShipsObject.BattleShipLeft &&
+                    get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipRight ||
+                    iterableList(area).forall(p -> p.row == area.get(0).row) &&
+                    get(area.get(0)) == BattleShipsObject.BattleShipLeft &&
+                    get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipRight) &&
+                    Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) == BattleShipsObject.BattleShipMiddle)) &&
+                    arrayArray(BattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
+                        Position p2 = p.add(os);
+                        if (!isValid(p2)) return true;
+                        BattleShipsObject o = get(p2);
+                        return o == BattleShipsObject.Empty || o == BattleShipsObject.Fobidden || o == BattleShipsObject.Marker;
+                    })))) {isSolved = false; return;}
+            shipNumbers[area.size()]++;
         }
+        if (!Arrays.equals(shipNumbers, shipNumbers2)) isSolved = false;
     }
 }
