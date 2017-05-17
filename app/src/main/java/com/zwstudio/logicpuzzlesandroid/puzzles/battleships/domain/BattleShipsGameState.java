@@ -63,7 +63,8 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         return true;
     }
 
-    public boolean switchObject(BattleShipsGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(BattleShipsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<BattleShipsObject, BattleShipsObject> f = obj -> {
             switch (obj) {
             case Empty:

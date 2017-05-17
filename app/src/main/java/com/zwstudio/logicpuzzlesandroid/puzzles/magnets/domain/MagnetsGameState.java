@@ -48,7 +48,8 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
         return true;
     }
 
-    public boolean switchObject(MagnetsGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(MagnetsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<MagnetsObject, MagnetsObject> f = obj -> {
             switch (obj) {
             case Empty:

@@ -41,7 +41,7 @@ public class NurikabeGameActivity extends GameGameActivity<NurikabeGame, Nurikab
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new NurikabeGame(layout, this);
+        game = new NurikabeGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

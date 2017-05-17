@@ -41,12 +41,12 @@ public class ParksGameActivity extends GameGameActivity<ParksGame, ParksDocument
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new ParksGame(layout, this);
+        game = new ParksGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
                 ParksGameMove move = doc().loadMove(rec);
-                game.setObject(move, doc().isAllowedObjectsOnly());
+                game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;

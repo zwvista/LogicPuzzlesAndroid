@@ -81,7 +81,9 @@ public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpG
         return false;
     }
 
-    public boolean switchObject(LightenUpGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(LightenUpGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         F<LightenUpObject, LightenUpObject> f = obj -> {
             if (obj instanceof LightenUpEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?

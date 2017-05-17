@@ -27,13 +27,13 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
     public SentinelsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
-    public SentinelsGameState(SentinelsGame game, boolean allowedObjectsOnly) {
+    public SentinelsGameState(SentinelsGame game) {
         super(game);
         objArray = new SentinelsObject[rows() * cols()];
         Arrays.fill(objArray, new SentinelsEmptyObject());
         for (Position p : game.pos2hint.keySet())
             set(p, new SentinelsHintObject());
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public SentinelsObject get(int row, int col) {
@@ -49,14 +49,15 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(SentinelsGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(SentinelsGameMove move) {
         if (get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(SentinelsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(SentinelsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<SentinelsObject, SentinelsObject> f = obj -> {
             if (obj instanceof SentinelsEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -71,10 +72,11 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
         };
         SentinelsObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();

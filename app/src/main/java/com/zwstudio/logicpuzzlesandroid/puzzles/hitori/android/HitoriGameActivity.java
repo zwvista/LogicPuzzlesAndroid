@@ -41,7 +41,7 @@ public class HitoriGameActivity extends GameGameActivity<HitoriGame, HitoriDocum
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new HitoriGame(layout, this);
+        game = new HitoriGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

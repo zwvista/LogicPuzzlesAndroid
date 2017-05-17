@@ -41,7 +41,7 @@ public class PairakabeGameActivity extends GameGameActivity<PairakabeGame, Paira
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new PairakabeGame(layout, this);
+        game = new PairakabeGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

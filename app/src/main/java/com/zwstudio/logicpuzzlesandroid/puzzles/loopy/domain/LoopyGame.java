@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -30,8 +31,8 @@ public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameStat
         return get(p.row, p.col);
     }
 
-    public LoopyGame(List<String> layout, GameInterface<LoopyGame, LoopyGameMove, LoopyGameState> gi) {
-        super(gi);
+    public LoopyGame(List<String> layout, GameInterface<LoopyGame, LoopyGameMove, LoopyGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() / 2 + 1, layout.get(0).length() / 2 + 1);
         objArray = new Boolean[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {

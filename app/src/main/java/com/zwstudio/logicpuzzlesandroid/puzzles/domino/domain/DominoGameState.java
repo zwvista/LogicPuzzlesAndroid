@@ -52,7 +52,8 @@ public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, 
         return true;
     }
 
-    public boolean switchObject(DominoGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(DominoGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<GridLineObject, GridLineObject> f = obj -> {
             switch (obj) {
             case Empty:

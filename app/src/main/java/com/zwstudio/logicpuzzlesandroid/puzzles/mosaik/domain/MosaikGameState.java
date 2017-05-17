@@ -50,7 +50,8 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
         return true;
     }
 
-    public boolean switchObject(MosaikGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(MosaikGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<MosaikObject, MosaikObject> f = obj -> {
             switch (obj) {
             case Empty:

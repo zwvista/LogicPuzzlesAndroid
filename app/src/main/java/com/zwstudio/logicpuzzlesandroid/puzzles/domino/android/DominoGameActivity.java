@@ -41,7 +41,7 @@ public class DominoGameActivity extends GameGameActivity<DominoGame, DominoDocum
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new DominoGame(layout, this);
+        game = new DominoGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

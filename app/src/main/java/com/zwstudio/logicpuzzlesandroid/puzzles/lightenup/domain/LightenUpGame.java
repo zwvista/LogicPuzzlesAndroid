@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -25,8 +26,8 @@ public class LightenUpGame extends CellsGame<LightenUpGame, LightenUpGameMove, L
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public LightenUpGame(List<String> layout, GameInterface<LightenUpGame, LightenUpGameMove, LightenUpGameState> gi) {
-        super(gi);
+    public LightenUpGame(List<String> layout, GameInterface<LightenUpGame, LightenUpGameMove, LightenUpGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
@@ -61,8 +62,8 @@ public class LightenUpGame extends CellsGame<LightenUpGame, LightenUpGameMove, L
         return changed;
    }
 
-    public boolean switchObject(LightenUpGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(LightenUpGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(LightenUpGameMove move) {

@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -25,8 +26,8 @@ public class PowerGridGame extends CellsGame<PowerGridGame, PowerGridGameMove, P
     public int[] row2hint;
     public int[] col2hint;
 
-    public PowerGridGame(List<String> layout, GameInterface<PowerGridGame, PowerGridGameMove, PowerGridGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public PowerGridGame(List<String> layout, GameInterface<PowerGridGame, PowerGridGameMove, PowerGridGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() - 1, layout.get(0).length() - 1);
         row2hint = new int[rows()];
         col2hint = new int[cols()];
@@ -45,7 +46,7 @@ public class PowerGridGame extends CellsGame<PowerGridGame, PowerGridGameMove, P
                 }
             }
         }
-        PowerGridGameState state = new PowerGridGameState(this, allowedObjectsOnly);
+        PowerGridGameState state = new PowerGridGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -67,12 +68,12 @@ public class PowerGridGame extends CellsGame<PowerGridGame, PowerGridGameMove, P
         return changed;
    }
 
-    public boolean switchObject(PowerGridGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(PowerGridGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(PowerGridGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(PowerGridGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public PowerGridObject getObject(Position p) {

@@ -41,7 +41,7 @@ public class AbcGameActivity extends GameGameActivity<AbcGame, AbcDocument, AbcG
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new AbcGame(layout, this);
+        game = new AbcGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

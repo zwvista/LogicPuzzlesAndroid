@@ -43,14 +43,15 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(ParksGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(ParksGameMove move) {
         if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(ParksGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(ParksGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<ParksObject, ParksObject> f = obj -> {
             if (obj instanceof ParksEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -65,7 +66,7 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
         };
         ParksObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
     /*
@@ -84,7 +85,8 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
            but it CAN be on the same diagonal line.
         7. Larger puzzles have TWO Trees in each park, each row and each column.
     */
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {

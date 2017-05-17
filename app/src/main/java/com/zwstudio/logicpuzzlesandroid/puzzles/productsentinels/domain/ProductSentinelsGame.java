@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -26,8 +27,8 @@ public class ProductSentinelsGame extends CellsGame<ProductSentinelsGame, Produc
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public ProductSentinelsGame(List<String> layout, GameInterface<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public ProductSentinelsGame(List<String> layout, GameInterface<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length() / 2);
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
@@ -39,7 +40,7 @@ public class ProductSentinelsGame extends CellsGame<ProductSentinelsGame, Produc
                 pos2hint.put(p, n);
             }
         }
-        ProductSentinelsGameState state = new ProductSentinelsGameState(this, allowedObjectsOnly);
+        ProductSentinelsGameState state = new ProductSentinelsGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -61,12 +62,12 @@ public class ProductSentinelsGame extends CellsGame<ProductSentinelsGame, Produc
         return changed;
    }
 
-    public boolean switchObject(ProductSentinelsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(ProductSentinelsGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(ProductSentinelsGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(ProductSentinelsGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public ProductSentinelsObject getObject(Position p) {

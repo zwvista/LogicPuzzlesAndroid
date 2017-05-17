@@ -41,7 +41,7 @@ public class LightenUpGameActivity extends GameGameActivity<LightenUpGame, Light
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new LightenUpGame(layout, this);
+        game = new LightenUpGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

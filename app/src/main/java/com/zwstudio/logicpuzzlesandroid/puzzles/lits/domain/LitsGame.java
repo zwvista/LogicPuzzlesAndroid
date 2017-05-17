@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
@@ -80,8 +81,8 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
     public GridDots dots;
     public int treesInEachArea = 1;
 
-    public LitsGame(List<String> layout, GameInterface<LitsGame, LitsGameMove, LitsGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public LitsGame(List<String> layout, GameInterface<LitsGame, LitsGameMove, LitsGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
         dots = new GridDots(rows() + 1, cols() + 1);
         for (int r = 0; r < rows() + 1; r++) {
@@ -133,7 +134,7 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
             areas.add(area);
             rng.removeAll(area);
         }
-        LitsGameState state = new LitsGameState(this, allowedObjectsOnly);
+        LitsGameState state = new LitsGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -155,12 +156,12 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
         return changed;
    }
 
-    public boolean switchObject(LitsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(LitsGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(LitsGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(LitsGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public LitsObject getObject(Position p) {

@@ -21,13 +21,13 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
     public HintState[] row2state;
     public HintState[] col2state;
 
-    public PowerGridGameState(PowerGridGame game, boolean allowedObjectsOnly) {
+    public PowerGridGameState(PowerGridGame game) {
         super(game);
         objArray = new PowerGridObject[rows() * cols()];
         Arrays.fill(objArray, new PowerGridEmptyObject());
         row2state = new HintState[rows()];
         col2state = new HintState[cols()];
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public PowerGridObject get(int row, int col) {
@@ -43,14 +43,15 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(PowerGridGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(PowerGridGameMove move) {
         if (get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(PowerGridGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(PowerGridGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<PowerGridObject, PowerGridObject> f = obj -> {
             if (obj instanceof PowerGridEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -65,10 +66,11 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
         };
         PowerGridObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {

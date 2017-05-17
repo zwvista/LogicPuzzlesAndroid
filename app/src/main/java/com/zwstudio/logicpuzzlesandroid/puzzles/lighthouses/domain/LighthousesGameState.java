@@ -23,13 +23,13 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
     public LighthousesObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
-    public LighthousesGameState(LighthousesGame game, boolean allowedObjectsOnly) {
+    public LighthousesGameState(LighthousesGame game) {
         super(game);
         objArray = new LighthousesObject[rows() * cols()];
         Arrays.fill(objArray, new LighthousesEmptyObject());
         for (Position p : game.pos2hint.keySet())
             set(p, new LighthousesHintObject());
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public LighthousesObject get(int row, int col) {
@@ -45,14 +45,15 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(LighthousesGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(LighthousesGameMove move) {
         if (get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(LighthousesGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(LighthousesGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<LighthousesObject, LighthousesObject> f = obj -> {
             if (obj instanceof LighthousesEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -67,10 +68,11 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
         };
         LighthousesObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {

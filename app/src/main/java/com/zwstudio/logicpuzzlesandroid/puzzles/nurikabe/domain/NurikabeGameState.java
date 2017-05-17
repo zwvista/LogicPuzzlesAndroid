@@ -55,7 +55,8 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
         return true;
     }
 
-    public boolean switchObject(NurikabeGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(NurikabeGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<NurikabeObject, NurikabeObject> f = obj -> {
             if (obj instanceof NurikabeEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?

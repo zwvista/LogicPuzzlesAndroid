@@ -41,12 +41,12 @@ public class PowerGridGameActivity extends GameGameActivity<PowerGridGame, Power
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new PowerGridGame(layout, this, doc().isAllowedObjectsOnly());
+        game = new PowerGridGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
                 PowerGridGameMove move = doc().loadMove(rec);
-                game.setObject(move, doc().isAllowedObjectsOnly());
+                game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;

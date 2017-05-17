@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
@@ -62,8 +63,8 @@ public class MiniLitsGame extends CellsGame<MiniLitsGame, MiniLitsGameMove, Mini
     public GridDots dots;
     public int treesInEachArea = 1;
 
-    public MiniLitsGame(List<String> layout, GameInterface<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public MiniLitsGame(List<String> layout, GameInterface<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
         dots = new GridDots(rows() + 1, cols() + 1);
         for (int r = 0; r < rows() + 1; r++) {
@@ -115,7 +116,7 @@ public class MiniLitsGame extends CellsGame<MiniLitsGame, MiniLitsGameMove, Mini
             areas.add(area);
             rng.removeAll(area);
         }
-        MiniLitsGameState state = new MiniLitsGameState(this, allowedObjectsOnly);
+        MiniLitsGameState state = new MiniLitsGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -137,12 +138,12 @@ public class MiniLitsGame extends CellsGame<MiniLitsGame, MiniLitsGameMove, Mini
         return changed;
    }
 
-    public boolean switchObject(MiniLitsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(MiniLitsGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(MiniLitsGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(MiniLitsGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public MiniLitsObject getObject(Position p) {

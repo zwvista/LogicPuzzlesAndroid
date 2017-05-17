@@ -41,12 +41,12 @@ public class ProductSentinelsGameActivity extends GameGameActivity<ProductSentin
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new ProductSentinelsGame(layout, this, doc().isAllowedObjectsOnly());
+        game = new ProductSentinelsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
                 ProductSentinelsGameMove move = doc().loadMove(rec);
-                game.setObject(move, doc().isAllowedObjectsOnly());
+                game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;

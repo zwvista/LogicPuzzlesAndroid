@@ -41,12 +41,12 @@ public class BusySeasGameActivity extends GameGameActivity<BusySeasGame, BusySea
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new BusySeasGame(layout, this, doc().isAllowedObjectsOnly());
+        game = new BusySeasGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
                 BusySeasGameMove move = doc().loadMove(rec);
-                game.setObject(move, doc().isAllowedObjectsOnly());
+                game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;

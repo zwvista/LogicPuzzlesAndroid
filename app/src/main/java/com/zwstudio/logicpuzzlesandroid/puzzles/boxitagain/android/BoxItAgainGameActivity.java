@@ -41,7 +41,7 @@ public class BoxItAgainGameActivity extends GameGameActivity<BoxItAgainGame, Box
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new BoxItAgainGame(layout, this);
+        game = new BoxItAgainGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

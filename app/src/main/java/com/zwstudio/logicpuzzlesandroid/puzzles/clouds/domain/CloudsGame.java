@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -27,8 +28,8 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
     public int[] col2hint;
     public List<Position> pos2cloud = new ArrayList<>();
 
-    public CloudsGame(List<String> layout, GameInterface<CloudsGame, CloudsGameMove, CloudsGameState> gi) {
-        super(gi);
+    public CloudsGame(List<String> layout, GameInterface<CloudsGame, CloudsGameMove, CloudsGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() - 1, layout.get(0).length() - 1);
         row2hint = new int[rows()];
         col2hint = new int[cols()];
@@ -72,8 +73,8 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
         return changed;
    }
 
-    public boolean switchObject(CloudsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(CloudsGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(CloudsGameMove move) {

@@ -41,12 +41,12 @@ public class SentinelsGameActivity extends GameGameActivity<SentinelsGame, Senti
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new SentinelsGame(layout, this, doc().isAllowedObjectsOnly());
+        game = new SentinelsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
                 SentinelsGameMove move = doc().loadMove(rec);
-                game.setObject(move, doc().isAllowedObjectsOnly());
+                game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;

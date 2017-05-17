@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -34,8 +35,8 @@ public class BattleShipsGame extends CellsGame<BattleShipsGame, BattleShipsGameM
     public int[] col2hint;
     public Map<Position, BattleShipsObject> pos2obj = new HashMap<>();
 
-    public BattleShipsGame(List<String> layout, GameInterface<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState> gi) {
-        super(gi);
+    public BattleShipsGame(List<String> layout, GameInterface<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() - 1, layout.get(0).length() - 1);
         row2hint = new int[rows()];
         col2hint = new int[cols()];
@@ -95,8 +96,8 @@ public class BattleShipsGame extends CellsGame<BattleShipsGame, BattleShipsGameM
         return changed;
    }
 
-    public boolean switchObject(BattleShipsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(BattleShipsGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(BattleShipsGameMove move) {

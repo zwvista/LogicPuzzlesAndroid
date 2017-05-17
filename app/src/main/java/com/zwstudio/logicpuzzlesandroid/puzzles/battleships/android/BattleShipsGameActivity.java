@@ -41,7 +41,7 @@ public class BattleShipsGameActivity extends GameGameActivity<BattleShipsGame, B
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new BattleShipsGame(layout, this);
+        game = new BattleShipsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

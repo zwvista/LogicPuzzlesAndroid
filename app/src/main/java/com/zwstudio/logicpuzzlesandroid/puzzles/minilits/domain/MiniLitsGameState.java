@@ -33,12 +33,12 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
     public MiniLitsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
-    public MiniLitsGameState(MiniLitsGame game, boolean allowedObjectsOnly) {
+    public MiniLitsGameState(MiniLitsGame game) {
         super(game);
         objArray = new MiniLitsObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
             objArray[i] = new MiniLitsEmptyObject();
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public MiniLitsObject get(int row, int col) {
@@ -61,14 +61,15 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
         int tetrominoIndex = -1;
     }
 
-    public boolean setObject(MiniLitsGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(MiniLitsGameMove move) {
         if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(MiniLitsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(MiniLitsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<MiniLitsObject, MiniLitsObject> f = obj -> {
             if (obj instanceof MiniLitsEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -83,10 +84,11 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
         };
         MiniLitsObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();

@@ -30,7 +30,7 @@ import static fj.data.Array.range;
  */
 
 @EBean(scope = EBean.Scope.Singleton)
-public abstract class GameDocument<G extends Game, GM> {
+public abstract class GameDocument<G extends Game, GM> implements GameDocumentInterface {
     public String gameID() {
         String name = getClass().getSimpleName();
         return name.substring(0, name.indexOf("Document"));

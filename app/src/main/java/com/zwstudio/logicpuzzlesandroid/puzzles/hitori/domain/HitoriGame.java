@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -35,8 +36,8 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
         set(p.row, p.col, obj);
     }
 
-    public HitoriGame(List<String> layout, GameInterface<HitoriGame, HitoriGameMove, HitoriGameState> gi) {
-        super(gi);
+    public HitoriGame(List<String> layout, GameInterface<HitoriGame, HitoriGameMove, HitoriGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new char[rows() * cols()];
         for (int r = 0; r < rows(); r++) {
@@ -69,8 +70,8 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
         return changed;
    }
 
-    public boolean switchObject(HitoriGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(HitoriGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(HitoriGameMove move) {

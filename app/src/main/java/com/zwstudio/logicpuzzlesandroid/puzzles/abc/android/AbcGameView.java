@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
@@ -97,7 +96,7 @@ public class AbcGameView extends CellsGameView {
                 obj = ' ';
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()]))
+            if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

@@ -60,7 +60,8 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         return true;
     }
 
-    public boolean switchObject(SlitherLinkGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(SlitherLinkGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<GridLineObject, GridLineObject> f = obj -> {
             switch (obj) {
             case Empty:

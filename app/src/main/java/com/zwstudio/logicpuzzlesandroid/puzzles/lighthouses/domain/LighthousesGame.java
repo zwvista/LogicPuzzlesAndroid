@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -30,8 +31,8 @@ public class LighthousesGame extends CellsGame<LighthousesGame, LighthousesGameM
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public LighthousesGame(List<String> layout, GameInterface<LighthousesGame, LighthousesGameMove, LighthousesGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public LighthousesGame(List<String> layout, GameInterface<LighthousesGame, LighthousesGameMove, LighthousesGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
@@ -44,7 +45,7 @@ public class LighthousesGame extends CellsGame<LighthousesGame, LighthousesGameM
                 }
             }
         }
-        LighthousesGameState state = new LighthousesGameState(this, allowedObjectsOnly);
+        LighthousesGameState state = new LighthousesGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -66,12 +67,12 @@ public class LighthousesGame extends CellsGame<LighthousesGame, LighthousesGameM
         return changed;
    }
 
-    public boolean switchObject(LighthousesGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(LighthousesGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(LighthousesGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(LighthousesGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public LighthousesObject getObject(Position p) {

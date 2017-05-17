@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.common.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
+
 /**
  * Created by TCC-2-9002 on 2016/10/27.
  */
@@ -16,7 +18,7 @@ public class CellsGame<G extends Game<G, GM, GS>, GM, GS extends GameState> exte
         return isValid(p.row, p.col);
     }
 
-    public CellsGame(GameInterface<G, GM, GS> gi) {
-        super(gi);
+    public CellsGame(GameInterface<G, GM, GS> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
     }
 }

@@ -57,7 +57,8 @@ public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameSt
         return true;
     }
 
-    public boolean switchObject(AbcGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(AbcGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         Position p = move.p;
         if (!isValid(p)) return false;
         char o = get(p);

@@ -41,7 +41,7 @@ public class CloudsGameActivity extends GameGameActivity<CloudsGame, CloudsDocum
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new CloudsGame(layout, this);
+        game = new CloudsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

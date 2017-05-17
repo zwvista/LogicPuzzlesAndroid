@@ -41,12 +41,12 @@ public class TentsGameActivity extends GameGameActivity<TentsGame, TentsDocument
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new TentsGame(layout, this, doc().isAllowedObjectsOnly());
+        game = new TentsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
                 TentsGameMove move = doc().loadMove(rec);
-                game.setObject(move, doc().isAllowedObjectsOnly());
+                game.setObject(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
             if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;

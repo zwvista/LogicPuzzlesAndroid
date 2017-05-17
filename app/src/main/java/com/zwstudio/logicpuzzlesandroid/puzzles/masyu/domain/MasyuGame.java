@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -34,8 +35,8 @@ public class MasyuGame extends CellsGame<MasyuGame, MasyuGameMove, MasyuGameStat
         set(p.row, p.col, obj);
     }
 
-    public MasyuGame(List<String> layout, GameInterface<MasyuGame, MasyuGameMove, MasyuGameState> gi) {
-        super(gi);
+    public MasyuGame(List<String> layout, GameInterface<MasyuGame, MasyuGameMove, MasyuGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new char[rows() * cols()];
         for (int r = 0; r < rows(); r++) {

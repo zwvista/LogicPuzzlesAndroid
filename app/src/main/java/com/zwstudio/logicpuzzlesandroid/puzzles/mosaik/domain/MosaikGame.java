@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -31,8 +32,8 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public MosaikGame(List<String> layout, GameInterface<MosaikGame, MosaikGameMove, MosaikGameState> gi) {
-        super(gi);
+    public MosaikGame(List<String> layout, GameInterface<MosaikGame, MosaikGameMove, MosaikGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
@@ -67,8 +68,8 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
         return changed;
    }
 
-    public boolean switchObject(MosaikGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(MosaikGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(MosaikGameMove move) {

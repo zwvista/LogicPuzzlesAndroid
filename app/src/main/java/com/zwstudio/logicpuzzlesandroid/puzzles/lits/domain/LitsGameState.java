@@ -33,12 +33,12 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
     public LitsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
-    public LitsGameState(LitsGame game, boolean allowedObjectsOnly) {
+    public LitsGameState(LitsGame game) {
         super(game);
         objArray = new LitsObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
             objArray[i] = new LitsEmptyObject();
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public LitsObject get(int row, int col) {
@@ -61,14 +61,15 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
         int tetrominoIndex = -1;
     }
 
-    public boolean setObject(LitsGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(LitsGameMove move) {
         if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(LitsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(LitsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<LitsObject, LitsObject> f = obj -> {
             if (obj instanceof LitsEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -83,10 +84,11 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
         };
         LitsObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();

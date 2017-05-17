@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -50,8 +51,8 @@ public class NeighboursGame extends CellsGame<NeighboursGame, NeighboursGameMove
         set(p.row, p.col, obj);
     }
 
-    public NeighboursGame(List<String> layout, GameInterface<NeighboursGame, NeighboursGameMove, NeighboursGameState> gi) {
-        super(gi);
+    public NeighboursGame(List<String> layout, GameInterface<NeighboursGame, NeighboursGameMove, NeighboursGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         objArray = new GridLineObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
@@ -103,8 +104,8 @@ public class NeighboursGame extends CellsGame<NeighboursGame, NeighboursGameMove
         return changed;
    }
 
-    public boolean switchObject(NeighboursGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(NeighboursGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(NeighboursGameMove move) {

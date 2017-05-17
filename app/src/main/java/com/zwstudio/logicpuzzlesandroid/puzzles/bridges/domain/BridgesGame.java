@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -23,8 +24,8 @@ public class BridgesGame extends CellsGame<BridgesGame, BridgesGameMove, Bridges
     public Map<Position, BridgesIslandInfo> islandsInfo = new HashMap<>();
     public boolean isIsland(Position p) {return islandsInfo.containsKey(p);}
 
-    public BridgesGame(List<String> layout, GameInterface<BridgesGame, BridgesGameMove, BridgesGameState> gi) {
-        super(gi);
+    public BridgesGame(List<String> layout, GameInterface<BridgesGame, BridgesGameMove, BridgesGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);

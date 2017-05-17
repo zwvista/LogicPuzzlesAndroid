@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.common.domain;
 
 import com.rits.cloning.Cloner;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,12 @@ public class Game<G extends Game<G, GM, GS>, GM, GS extends GameState> {
     public int moveCount() {return states.size() - 1;}
 
     private GameInterface<G, GM, GS> gi;
+    public GameDocumentInterface gdi;
 
-    public Game(GameInterface<G, GM, GS> gi) {
+    public Game(GameInterface<G, GM, GS> gi, GameDocumentInterface gdi) {
         cloner.dontClone(this.getClass());
         this.gi = gi;
+        this.gdi = gdi;
     }
 
     protected void moveAdded(GM move) {

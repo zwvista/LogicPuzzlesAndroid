@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -43,8 +44,8 @@ public class BoxItAgainGame extends CellsGame<BoxItAgainGame, BoxItAgainGameMove
         return get(p.row, p.col);
     }
 
-    public BoxItAgainGame(List<String> layout, GameInterface<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState> gi) {
-        super(gi);
+    public BoxItAgainGame(List<String> layout, GameInterface<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         objArray = new GridLineObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
@@ -95,8 +96,8 @@ public class BoxItAgainGame extends CellsGame<BoxItAgainGame, BoxItAgainGameMove
         return changed;
    }
 
-    public boolean switchObject(BoxItAgainGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(BoxItAgainGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(BoxItAgainGameMove move) {

@@ -121,8 +121,7 @@ public class ProductSentinelsGameView extends CellsGameView {
                 obj = new ProductSentinelsEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
-            if (game().switchObject(move, MarkerOptions.values()[activity().doc().getMarkerOption()],
-                    activity().doc().isAllowedObjectsOnly()))
+            if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }
         return true;

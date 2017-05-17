@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -28,8 +29,8 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
     public List<MagnetsArea> areas = new ArrayList<>();
     public List<Position> singles = new ArrayList<>();
 
-    public MagnetsGame(List<String> layout, GameInterface<MagnetsGame, MagnetsGameMove, MagnetsGameState> gi) {
-        super(gi);
+    public MagnetsGame(List<String> layout, GameInterface<MagnetsGame, MagnetsGameMove, MagnetsGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() - 2, layout.get(0).length() - 2);
         row2hint = new int[rows() * 2];
         col2hint = new int[cols() * 2];
@@ -84,8 +85,8 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
         return changed;
    }
 
-    public boolean switchObject(MagnetsGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(MagnetsGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(MagnetsGameMove move) {

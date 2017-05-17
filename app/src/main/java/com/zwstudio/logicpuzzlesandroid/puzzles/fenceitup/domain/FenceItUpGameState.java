@@ -51,7 +51,8 @@ public class FenceItUpGameState extends CellsGameState<FenceItUpGame, FenceItUpG
         return true;
     }
 
-    public boolean switchObject(FenceItUpGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(FenceItUpGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<GridLineObject, GridLineObject> f = obj -> {
             switch (obj) {
             case Empty:

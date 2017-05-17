@@ -41,7 +41,7 @@ public class SlitherLinkGameActivity extends GameGameActivity<SlitherLinkGame, S
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new SlitherLinkGame(layout, this);
+        game = new SlitherLinkGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

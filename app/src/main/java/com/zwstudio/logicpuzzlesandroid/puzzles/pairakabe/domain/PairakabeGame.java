@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -31,8 +32,8 @@ public class PairakabeGame extends CellsGame<PairakabeGame, PairakabeGameMove, P
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public PairakabeGame(List<String> layout, GameInterface<PairakabeGame, PairakabeGameMove, PairakabeGameState> gi) {
-        super(gi);
+    public PairakabeGame(List<String> layout, GameInterface<PairakabeGame, PairakabeGameMove, PairakabeGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
@@ -67,8 +68,8 @@ public class PairakabeGame extends CellsGame<PairakabeGame, PairakabeGameMove, P
         return changed;
    }
 
-    public boolean switchObject(PairakabeGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(PairakabeGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(PairakabeGameMove move) {

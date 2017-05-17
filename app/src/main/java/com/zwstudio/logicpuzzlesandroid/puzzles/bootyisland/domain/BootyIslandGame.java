@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -30,8 +30,8 @@ public class BootyIslandGame extends CellsGame<BootyIslandGame, BootyIslandGameM
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public BootyIslandGame(List<String> layout, GameInterface<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public BootyIslandGame(List<String> layout, GameInterface<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
@@ -44,7 +44,7 @@ public class BootyIslandGame extends CellsGame<BootyIslandGame, BootyIslandGameM
                 }
             }
         }
-        BootyIslandGameState state = new BootyIslandGameState(this, allowedObjectsOnly);
+        BootyIslandGameState state = new BootyIslandGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -66,12 +66,12 @@ public class BootyIslandGame extends CellsGame<BootyIslandGame, BootyIslandGameM
         return changed;
    }
 
-    public boolean switchObject(BootyIslandGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(BootyIslandGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(BootyIslandGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(BootyIslandGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public BootyIslandObject getObject(Position p) {

@@ -61,7 +61,8 @@ public class NeighboursGameState extends CellsGameState<NeighboursGame, Neighbou
         return true;
     }
 
-    public boolean switchObject(NeighboursGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(NeighboursGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<GridLineObject, GridLineObject> f = obj -> {
             switch (obj) {
             case Empty:

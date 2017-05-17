@@ -41,7 +41,7 @@ public class LoopyGameActivity extends GameGameActivity<LoopyGame, LoopyDocument
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new LoopyGame(layout, this);
+        game = new LoopyGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

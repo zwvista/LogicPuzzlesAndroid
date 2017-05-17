@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
@@ -49,8 +50,8 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
     public GridDots dots;
     public int treesInEachArea = 1;
 
-    public ParksGame(List<String> layout, GameInterface<ParksGame, ParksGameMove, ParksGameState> gi) {
-        super(gi);
+    public ParksGame(List<String> layout, GameInterface<ParksGame, ParksGameMove, ParksGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
         dots = new GridDots(rows() + 1, cols() + 1);
         for (int r = 0; r < rows() + 1; r++) {
@@ -124,12 +125,12 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
         return changed;
    }
 
-    public boolean switchObject(ParksGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(ParksGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(ParksGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(ParksGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public ParksObject getObject(Position p) {

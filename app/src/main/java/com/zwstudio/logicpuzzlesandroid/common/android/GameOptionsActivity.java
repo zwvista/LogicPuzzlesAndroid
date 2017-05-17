@@ -1,7 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.common.android;
 
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -94,35 +92,17 @@ public abstract class GameOptionsActivity<G extends Game<G, GM, GS>, GD extends 
 
     @Click
     protected void btnDefault() {
-        // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                {
-                    //Yes button clicked
-                    GameProgress rec = doc().gameProgress();
-                    doc().setMarkerOption(rec, 0);
-                    doc().setAllowedObjectsOnly(rec, false);
-                    try {
-                        app.daoGameProgress.update(rec);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    spnMarker.setSelection(doc().getMarkerOption());
-                    ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
-                    break;
-                }
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
-                    break;
-                }
+        yesNoDialog("Do you really want to reset the options?", () -> {
+            GameProgress rec = doc().gameProgress();
+            doc().setMarkerOption(rec, 0);
+            doc().setAllowedObjectsOnly(rec, false);
+            try {
+                app.daoGameProgress.update(rec);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        };
-
-        Builder builder = new Builder(this);
-        builder.setMessage("Do you really want to reset the options?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+            spnMarker.setSelection(doc().getMarkerOption());
+            ctvAllowedObjectsOnly.setChecked(doc().isAllowedObjectsOnly());
+        });
     }
 }

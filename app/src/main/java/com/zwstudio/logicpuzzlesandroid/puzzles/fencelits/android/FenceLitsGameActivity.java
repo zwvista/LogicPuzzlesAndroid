@@ -41,7 +41,7 @@ public class FenceLitsGameActivity extends GameGameActivity<FenceLitsGame, Fence
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new FenceLitsGame(layout, this);
+        game = new FenceLitsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

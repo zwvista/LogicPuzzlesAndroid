@@ -17,7 +17,7 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
     public HintState[] row2state;
     public HintState[] col2state;
 
-    public TentsGameState(TentsGame game, boolean allowedObjectsOnly) {
+    public TentsGameState(TentsGame game) {
         super(game);
         objArray = new TentsObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
@@ -26,7 +26,7 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
             set(p, new TentsTreeObject());
         row2state = new HintState[rows()];
         col2state = new HintState[cols()];
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public TentsObject get(int row, int col) {
@@ -42,14 +42,15 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(TentsGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(TentsGameMove move) {
         if (!isValid(move.p) || get(move.p) == move.obj) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(TentsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(TentsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<TentsObject, TentsObject> f = obj -> {
             if (obj instanceof TentsEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -65,10 +66,11 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
         Position p = move.p;
         if (!isValid(p)) return false;
         move.obj = f.f(get(p));
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];

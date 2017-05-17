@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -43,8 +44,8 @@ public class DominoGame extends CellsGame<DominoGame, DominoGameMove, DominoGame
         return get(p.row, p.col);
     }
 
-    public DominoGame(List<String> layout, GameInterface<DominoGame, DominoGameMove, DominoGameState> gi) {
-        super(gi);
+    public DominoGame(List<String> layout, GameInterface<DominoGame, DominoGameMove, DominoGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         objArray = new GridLineObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
@@ -96,8 +97,8 @@ public class DominoGame extends CellsGame<DominoGame, DominoGameMove, DominoGame
         return changed;
    }
 
-    public boolean switchObject(DominoGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(DominoGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(DominoGameMove move) {

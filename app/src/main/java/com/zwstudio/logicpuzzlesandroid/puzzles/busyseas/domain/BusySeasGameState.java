@@ -23,13 +23,13 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
     public BusySeasObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
-    public BusySeasGameState(BusySeasGame game, boolean allowedObjectsOnly) {
+    public BusySeasGameState(BusySeasGame game) {
         super(game);
         objArray = new BusySeasObject[rows() * cols()];
         Arrays.fill(objArray, new BusySeasEmptyObject());
         for (Position p : game.pos2hint.keySet())
             set(p, new BusySeasHintObject());
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public BusySeasObject get(int row, int col) {
@@ -45,14 +45,15 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(BusySeasGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(BusySeasGameMove move) {
         if (get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(BusySeasGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(BusySeasGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<BusySeasObject, BusySeasObject> f = obj -> {
             if (obj instanceof BusySeasEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -67,10 +68,10 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
         };
         BusySeasObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
         isSolved = true;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {

@@ -27,13 +27,13 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
     public ProductSentinelsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
-    public ProductSentinelsGameState(ProductSentinelsGame game, boolean allowedObjectsOnly) {
+    public ProductSentinelsGameState(ProductSentinelsGame game) {
         super(game);
         objArray = new ProductSentinelsObject[rows() * cols()];
         Arrays.fill(objArray, new ProductSentinelsEmptyObject());
         for (Position p : game.pos2hint.keySet())
             set(p, new ProductSentinelsHintObject());
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
     }
 
     public ProductSentinelsObject get(int row, int col) {
@@ -49,14 +49,15 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(ProductSentinelsGameMove move, boolean allowedObjectsOnly) {
+    public boolean setObject(ProductSentinelsGameMove move) {
         if (get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
-        updateIsSolved(allowedObjectsOnly);
+        updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(ProductSentinelsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
+    public boolean switchObject(ProductSentinelsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<ProductSentinelsObject, ProductSentinelsObject> f = obj -> {
             if (obj instanceof ProductSentinelsEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
@@ -71,10 +72,11 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
         };
         ProductSentinelsObject o = get(move.p);
         move.obj = f.f(o);
-        return setObject(move, allowedObjectsOnly);
+        return setObject(move);
     }
 
-    private void updateIsSolved(boolean allowedObjectsOnly) {
+    private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();

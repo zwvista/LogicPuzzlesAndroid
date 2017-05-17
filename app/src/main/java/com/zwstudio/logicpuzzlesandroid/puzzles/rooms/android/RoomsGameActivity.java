@@ -41,7 +41,7 @@ public class RoomsGameActivity extends GameGameActivity<RoomsGame, RoomsDocument
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new RoomsGame(layout, this);
+        game = new RoomsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

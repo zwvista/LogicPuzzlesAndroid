@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -41,8 +41,8 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
         set(p.row, p.col, obj);
     }
 
-    public AbcGame(List<String> layout, GameInterface<AbcGame, AbcGameMove, AbcGameState> gi) {
-        super(gi);
+    public AbcGame(List<String> layout, GameInterface<AbcGame, AbcGameMove, AbcGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new char[rows() * cols()];
 
@@ -77,8 +77,8 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
         return changed;
    }
 
-    public boolean switchObject(AbcGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(AbcGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(AbcGameMove move) {

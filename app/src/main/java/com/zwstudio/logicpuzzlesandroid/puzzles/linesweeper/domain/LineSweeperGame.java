@@ -1,9 +1,10 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,8 @@ public class LineSweeperGame extends CellsGame<LineSweeperGame, LineSweeperGameM
     public Map<Position, Integer> pos2hint = new HashMap<>();
     public boolean isHint(Position p) {return pos2hint.containsKey(p);}
 
-    public LineSweeperGame(List<String> layout, GameInterface<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState> gi) {
-        super(gi);
+    public LineSweeperGame(List<String> layout, GameInterface<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         for (int r = 0; r < rows() - 1; r++) {
             String str = layout.get(r);

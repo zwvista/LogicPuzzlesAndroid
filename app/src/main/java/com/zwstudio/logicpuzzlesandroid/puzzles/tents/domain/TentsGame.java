@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -37,8 +38,8 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
     public int[] col2hint;
     public List<Position> pos2tree = new ArrayList<>();
 
-    public TentsGame(List<String> layout, GameInterface<TentsGame, TentsGameMove, TentsGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public TentsGame(List<String> layout, GameInterface<TentsGame, TentsGameMove, TentsGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() - 1, layout.get(0).length() - 1);
         row2hint = new int[rows()];
         col2hint = new int[cols()];
@@ -60,7 +61,7 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
             }
         }
 
-        TentsGameState state = new TentsGameState(this, allowedObjectsOnly);
+        TentsGameState state = new TentsGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -82,12 +83,12 @@ public class TentsGame extends CellsGame<TentsGame, TentsGameMove, TentsGameStat
         return changed;
    }
 
-    public boolean switchObject(TentsGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(TentsGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(TentsGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(TentsGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public TentsObject getObject(Position p) {

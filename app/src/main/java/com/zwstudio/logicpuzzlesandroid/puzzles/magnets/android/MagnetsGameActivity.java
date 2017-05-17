@@ -41,7 +41,7 @@ public class MagnetsGameActivity extends GameGameActivity<MagnetsGame, MagnetsDo
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new MagnetsGame(layout, this);
+        game = new MagnetsGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

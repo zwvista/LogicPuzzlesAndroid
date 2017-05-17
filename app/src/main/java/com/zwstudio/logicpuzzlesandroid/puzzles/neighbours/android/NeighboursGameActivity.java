@@ -41,7 +41,7 @@ public class NeighboursGameActivity extends GameGameActivity<NeighboursGame, Nei
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new NeighboursGame(layout, this);
+        game = new NeighboursGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

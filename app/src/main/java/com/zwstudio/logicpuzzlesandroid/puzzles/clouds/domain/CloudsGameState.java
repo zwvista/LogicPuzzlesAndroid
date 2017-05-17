@@ -56,7 +56,8 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
         return true;
     }
 
-    public boolean switchObject(CloudsGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(CloudsGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<CloudsObject, CloudsObject> f = obj -> {
             switch (obj) {
             case Empty:

@@ -55,7 +55,8 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
         return true;
     }
 
-    public boolean switchObject(HitoriGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(HitoriGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<HitoriObject, HitoriObject> f = obj -> {
             switch (obj) {
             case Normal:

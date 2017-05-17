@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -34,8 +35,8 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public SlitherLinkGame(List<String> layout, GameInterface<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> gi) {
-        super(gi);
+    public SlitherLinkGame(List<String> layout, GameInterface<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         for (int r = 0; r < rows() - 1; r++) {
             String str = layout.get(r);
@@ -70,8 +71,8 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
         return changed;
    }
 
-    public boolean switchObject(SlitherLinkGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(SlitherLinkGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(SlitherLinkGameMove move) {

@@ -41,7 +41,7 @@ public class BridgesGameActivity extends GameGameActivity<BridgesGame, BridgesDo
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new BridgesGame(layout, this);
+        game = new BridgesGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

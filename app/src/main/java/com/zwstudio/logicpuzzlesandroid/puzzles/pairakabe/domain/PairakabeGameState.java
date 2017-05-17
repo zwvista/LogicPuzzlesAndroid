@@ -55,7 +55,8 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
         return true;
     }
 
-    public boolean switchObject(PairakabeGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(PairakabeGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<PairakabeObject, PairakabeObject> f = obj -> {
             if (obj instanceof PairakabeEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?

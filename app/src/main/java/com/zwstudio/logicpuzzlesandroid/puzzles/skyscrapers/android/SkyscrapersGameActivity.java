@@ -41,7 +41,7 @@ public class SkyscrapersGameActivity extends GameGameActivity<SkyscrapersGame, S
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new SkyscrapersGame(layout, this);
+        game = new SkyscrapersGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

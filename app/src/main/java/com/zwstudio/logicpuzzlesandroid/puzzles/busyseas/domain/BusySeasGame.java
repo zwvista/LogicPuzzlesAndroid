@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
@@ -26,8 +27,8 @@ public class BusySeasGame extends CellsGame<BusySeasGame, BusySeasGameMove, Busy
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
 
-    public BusySeasGame(List<String> layout, GameInterface<BusySeasGame, BusySeasGameMove, BusySeasGameState> gi, boolean allowedObjectsOnly) {
-        super(gi);
+    public BusySeasGame(List<String> layout, GameInterface<BusySeasGame, BusySeasGameMove, BusySeasGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
@@ -40,7 +41,7 @@ public class BusySeasGame extends CellsGame<BusySeasGame, BusySeasGameMove, Busy
                 }
             }
         }
-        BusySeasGameState state = new BusySeasGameState(this, allowedObjectsOnly);
+        BusySeasGameState state = new BusySeasGameState(this);
         states.add(state);
         levelInitilized(state);
     }
@@ -62,12 +63,12 @@ public class BusySeasGame extends CellsGame<BusySeasGame, BusySeasGameMove, Busy
         return changed;
    }
 
-    public boolean switchObject(BusySeasGameMove move, MarkerOptions markerOption, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption, allowedObjectsOnly));
+    public boolean switchObject(BusySeasGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(BusySeasGameMove move, boolean allowedObjectsOnly) {
-        return changeObject(move, (state, move2) -> state.setObject(move2, allowedObjectsOnly));
+    public boolean setObject(BusySeasGameMove move) {
+        return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
     public BusySeasObject getObject(Position p) {

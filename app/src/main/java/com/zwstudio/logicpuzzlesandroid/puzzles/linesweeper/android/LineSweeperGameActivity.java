@@ -41,7 +41,7 @@ public class LineSweeperGameActivity extends GameGameActivity<LineSweeperGame, L
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new LineSweeperGame(layout, this);
+        game = new LineSweeperGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

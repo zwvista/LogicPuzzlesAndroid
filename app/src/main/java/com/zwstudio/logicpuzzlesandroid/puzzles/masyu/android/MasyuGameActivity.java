@@ -41,7 +41,7 @@ public class MasyuGameActivity extends GameGameActivity<MasyuGame, MasyuDocument
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new MasyuGame(layout, this);
+        game = new MasyuGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

@@ -52,7 +52,8 @@ public class BoxItAroundGameState extends CellsGameState<BoxItAroundGame, BoxItA
         return true;
     }
 
-    public boolean switchObject(BoxItAroundGameMove move, MarkerOptions markerOption) {
+    public boolean switchObject(BoxItAroundGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<GridLineObject, GridLineObject> f = obj -> {
             switch (obj) {
             case Empty:

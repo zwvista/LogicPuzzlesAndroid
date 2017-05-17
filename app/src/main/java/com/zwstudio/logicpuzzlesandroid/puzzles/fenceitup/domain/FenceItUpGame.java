@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
@@ -43,8 +44,8 @@ public class FenceItUpGame extends CellsGame<FenceItUpGame, FenceItUpGameMove, F
         return get(p.row, p.col);
     }
 
-    public FenceItUpGame(List<String> layout, GameInterface<FenceItUpGame, FenceItUpGameMove, FenceItUpGameState> gi) {
-        super(gi);
+    public FenceItUpGame(List<String> layout, GameInterface<FenceItUpGame, FenceItUpGameMove, FenceItUpGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size() + 1, layout.get(0).length() / 2 + 1);
         objArray = new GridLineObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
@@ -95,8 +96,8 @@ public class FenceItUpGame extends CellsGame<FenceItUpGame, FenceItUpGameMove, F
         return changed;
    }
 
-    public boolean switchObject(FenceItUpGameMove move, MarkerOptions markerOption) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2, markerOption));
+    public boolean switchObject(FenceItUpGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
     public boolean setObject(FenceItUpGameMove move) {

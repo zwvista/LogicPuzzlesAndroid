@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain;
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
@@ -40,8 +41,8 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
         set(p.row, p.col, obj);
     }
 
-    public SkyscrapersGame(List<String> layout, GameInterface<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> gi) {
-        super(gi);
+    public SkyscrapersGame(List<String> layout, GameInterface<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> gi, GameDocumentInterface gdi) {
+        super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new int[rows() * cols()];
 

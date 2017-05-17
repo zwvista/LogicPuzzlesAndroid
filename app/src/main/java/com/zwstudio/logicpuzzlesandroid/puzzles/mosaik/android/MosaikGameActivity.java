@@ -41,7 +41,7 @@ public class MosaikGameActivity extends GameGameActivity<MosaikGame, MosaikDocum
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new MosaikGame(layout, this);
+        game = new MosaikGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

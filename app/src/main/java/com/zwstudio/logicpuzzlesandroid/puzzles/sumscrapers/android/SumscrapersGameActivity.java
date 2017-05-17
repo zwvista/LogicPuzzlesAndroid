@@ -41,7 +41,7 @@ public class SumscrapersGameActivity extends GameGameActivity<SumscrapersGame, S
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new SumscrapersGame(layout, this);
+        game = new SumscrapersGame(layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
