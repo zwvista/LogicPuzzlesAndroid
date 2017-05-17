@@ -47,11 +47,9 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
     }
 
     public boolean setObject(LoopyGameMove move) {
-        Position p1 = move.p;
         int dir = move.dir, dir2 = (dir + 2) % 4;
-        GridLineObject o = get(p1)[dir];
-        if (o.equals(move.obj)) return false;
-        Position p2 = p1.add(LoopyGame.offset[dir]);
+        Position p1 = move.p, p2 = p1.add(LoopyGame.offset[dir]);
+        if (!isValid(p2) || game.get(p1)[dir] == GridLineObject.Line || get(p1)[dir] == move.obj) return false;
         get(p2)[dir2] = get(p1)[dir] = move.obj;
         updateIsSolved();
         return true;

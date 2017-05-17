@@ -44,13 +44,13 @@ public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameStat
             String str = layout.get(2 * r);
             for (int c = 0; c < cols() - 1; c++) {
                 char ch = str.charAt(2 * c + 1);
-                if (ch == '-') get(r, c)[1] = GridLineObject.Line;
+                if (ch == '-') get(r, c)[1] = get(r, c + 1)[3] = GridLineObject.Line;
             }
             if (r == rows() - 1) break;
             str = layout.get(2 * r + 1);
             for (int c = 0; c < cols(); c++) {
                 char ch = str.charAt(2 * c);
-                if (ch == '|') get(r, c)[2] = GridLineObject.Line;
+                if (ch == '|') get(r, c)[2] = get(r + 1, c)[0] = GridLineObject.Line;
             }
         }
         LoopyGameState state = new LoopyGameState(this);
@@ -74,6 +74,10 @@ public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameStat
         }
         return changed;
    }
+
+    public boolean switchObject(LoopyGameMove move) {
+        return changeObject(move, (state, move2) -> state.switchObject(move2));
+    }
 
     public boolean setObject(LoopyGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
