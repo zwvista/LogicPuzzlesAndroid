@@ -27,18 +27,4 @@ public class BusySeasDocument extends GameDocument<BusySeasGame, BusySeasGameMov
             obj = BusySeasObject.objFromString(rec.strValue1);
         }};
     }
-    public int getMarkerOption() {
-        String o = gameProgress().option1;
-        return o == null ? 0 : Integer.parseInt(o);
-    }
-    public void setMarkerOption(GameProgress rec, int o) {
-        rec.option1 = String.valueOf(o);
-    }
-    public boolean isAllowedObjectsOnly() {
-        String o = gameProgress().option2;
-        return Boolean.parseBoolean(o);
-    }
-    public void setAllowedObjectsOnly(GameProgress rec, boolean o) {
-        rec.option2 = String.valueOf(o);
-    }
 }

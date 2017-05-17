@@ -10,6 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGameState;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,7 +22,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
-public class NeighboursOptionsActivity extends GameOptionsActivity {
+public class NeighboursOptionsActivity extends GameOptionsActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState> {
     public NeighboursDocument doc() {return app.neighboursDocument;}
 
     @AfterViews

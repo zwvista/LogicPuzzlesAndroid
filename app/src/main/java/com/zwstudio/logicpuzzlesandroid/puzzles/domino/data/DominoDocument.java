@@ -29,11 +29,4 @@ public class DominoDocument extends GameDocument<DominoGame, DominoGameMove> {
             obj = GridLineObject.values()[rec.intValue2];
         }};
     }
-    public int getMarkerOption() {
-        String o = gameProgress().option1;
-        return o == null ? 0 : Integer.parseInt(o);
-    }
-    public void setMarkerOption(GameProgress rec, int o) {
-        rec.option1 = String.valueOf(o);
-    }
 }

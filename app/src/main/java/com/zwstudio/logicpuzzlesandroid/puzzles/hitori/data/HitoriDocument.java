@@ -27,11 +27,4 @@ public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove> {
             obj = HitoriObject.values()[rec.intValue1];
         }};
     }
-    public int getMarkerOption() {
-        String o = gameProgress().option1;
-        return o == null ? 0 : Integer.parseInt(o);
-    }
-    public void setMarkerOption(GameProgress rec, int o) {
-        rec.option1 = String.valueOf(o);
-    }
 }

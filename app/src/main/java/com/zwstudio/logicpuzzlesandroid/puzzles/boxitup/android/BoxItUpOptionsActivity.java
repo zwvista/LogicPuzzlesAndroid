@@ -10,6 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.data.BoxItUpDocument;
+import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameState;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,7 +22,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
-public class BoxItUpOptionsActivity extends GameOptionsActivity {
+public class BoxItUpOptionsActivity extends GameOptionsActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState> {
     public BoxItUpDocument doc() {return app.boxitupDocument;}
 
     @AfterViews
