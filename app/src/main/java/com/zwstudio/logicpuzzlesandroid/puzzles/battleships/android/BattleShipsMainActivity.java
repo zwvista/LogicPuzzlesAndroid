@@ -7,12 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameState;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class BattleShipsMainActivity extends GameMainActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState> {
-    public BattleShipsDocument doc() {return app.battleshipsDocument;}
+    @Bean
+    protected BattleShipsDocument document;
+    public BattleShipsDocument doc() {return document;}
 
     @Click
     void btnOptions() {

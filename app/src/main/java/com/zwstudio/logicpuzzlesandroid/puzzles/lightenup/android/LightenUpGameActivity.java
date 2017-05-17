@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class LightenUpGameActivity extends GameGameActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState> {
-    public LightenUpDocument doc() {return app.lightenupDocument;}
+    @Bean
+    protected LightenUpDocument document;
+    public LightenUpDocument doc() {return document;}
 
     protected LightenUpGameView gameView;
     protected View getGameView() {return gameView;}

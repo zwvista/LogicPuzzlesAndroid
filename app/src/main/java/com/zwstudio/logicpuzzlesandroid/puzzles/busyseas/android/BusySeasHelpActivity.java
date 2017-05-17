@@ -7,10 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class BusySeasHelpActivity extends GameHelpActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
-    public BusySeasDocument doc() {return app.busyseasDocument;}
+    @Bean
+    protected BusySeasDocument document;
+    public BusySeasDocument doc() {return document;}
 }

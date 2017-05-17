@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class MagnetsGameActivity extends GameGameActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState> {
-    public MagnetsDocument doc() {return app.magnetsDocument;}
+    @Bean
+    protected MagnetsDocument document;
+    public MagnetsDocument doc() {return document;}
 
     protected MagnetsGameView gameView;
     protected View getGameView() {return gameView;}

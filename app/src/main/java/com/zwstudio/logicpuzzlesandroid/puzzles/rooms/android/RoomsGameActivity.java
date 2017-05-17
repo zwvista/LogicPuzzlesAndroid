@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class RoomsGameActivity extends GameGameActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
-    public RoomsDocument doc() {return app.roomsDocument;}
+    @Bean
+    protected RoomsDocument document;
+    public RoomsDocument doc() {return document;}
 
     protected RoomsGameView gameView;
     protected View getGameView() {return gameView;}

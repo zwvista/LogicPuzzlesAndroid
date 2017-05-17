@@ -15,6 +15,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 
@@ -23,7 +24,9 @@ import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
 public class FenceItUpOptionsActivity extends GameOptionsActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState> {
-    public FenceItUpDocument doc() {return app.fenceitupDocument;}
+    @Bean
+    protected FenceItUpDocument document;
+    public FenceItUpDocument doc() {return document;}
 
     @AfterViews
     protected void init() {

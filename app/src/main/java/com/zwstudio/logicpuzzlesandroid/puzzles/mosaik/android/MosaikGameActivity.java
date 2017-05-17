@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class MosaikGameActivity extends GameGameActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
-    public MosaikDocument doc() {return app.mosaikDocument;}
+    @Bean
+    protected MosaikDocument document;
+    public MosaikDocument doc() {return document;}
 
     protected MosaikGameView gameView;
     protected View getGameView() {return gameView;}

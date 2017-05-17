@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class PairakabeGameActivity extends GameGameActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
-    public PairakabeDocument doc() {return app.pairakabeDocument;}
+    @Bean
+    protected PairakabeDocument document;
+    public PairakabeDocument doc() {return document;}
 
     protected PairakabeGameView gameView;
     protected View getGameView() {return gameView;}

@@ -7,13 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class LoopyMainActivity extends GameMainActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
-    public LoopyDocument doc() {return app.loopyDocument;}
+    @Bean
+    protected LoopyDocument document;
+    public LoopyDocument doc() {return document;}
 
     @Click
     void btnOptions() {

@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class SentinelsGameActivity extends GameGameActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState> {
-    public SentinelsDocument doc() {return app.sentinelsDocument;}
+    @Bean
+    protected SentinelsDocument document;
+    public SentinelsDocument doc() {return document;}
 
     protected SentinelsGameView gameView;
     protected View getGameView() {return gameView;}

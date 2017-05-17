@@ -7,10 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class FenceItUpHelpActivity extends GameHelpActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState> {
-    public FenceItUpDocument doc() {return app.fenceitupDocument;}
+    @Bean
+    protected FenceItUpDocument document;
+    public FenceItUpDocument doc() {return document;}
 }

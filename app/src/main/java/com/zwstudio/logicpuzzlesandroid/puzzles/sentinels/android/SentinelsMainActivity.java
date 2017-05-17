@@ -7,13 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class SentinelsMainActivity extends GameMainActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState> {
-    public SentinelsDocument doc() {return app.sentinelsDocument;}
+    @Bean
+    protected SentinelsDocument document;
+    public SentinelsDocument doc() {return document;}
 
     @Click
     void btnOptions() {

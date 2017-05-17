@@ -7,9 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameState;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_options)
 public class HitoriOptionsActivity extends GameOptionsActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
-    public HitoriDocument doc() {return app.hitoriDocument;}
+    @Bean
+    protected HitoriDocument document;
+    public HitoriDocument doc() {return document;}
 }

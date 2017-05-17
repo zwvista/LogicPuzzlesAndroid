@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class MasyuGameActivity extends GameGameActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState> {
-    public MasyuDocument doc() {return app.masyuDocument;}
+    @Bean
+    protected MasyuDocument document;
+    public MasyuDocument doc() {return document;}
 
     protected MasyuGameView gameView;
     protected View getGameView() {return gameView;}

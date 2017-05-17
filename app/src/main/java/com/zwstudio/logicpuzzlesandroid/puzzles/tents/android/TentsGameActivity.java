@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class TentsGameActivity extends GameGameActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState> {
-    public TentsDocument doc() {return app.tentsDocument;}
+    @Bean
+    protected TentsDocument document;
+    public TentsDocument doc() {return document;}
 
     protected TentsGameView gameView;
     protected View getGameView() {return gameView;}

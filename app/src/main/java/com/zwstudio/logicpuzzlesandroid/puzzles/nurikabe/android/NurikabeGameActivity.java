@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class NurikabeGameActivity extends GameGameActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState> {
-    public NurikabeDocument doc() {return app.nurikabeDocument;}
+    @Bean
+    protected NurikabeDocument document;
+    public NurikabeDocument doc() {return document;}
 
     protected NurikabeGameView gameView;
     protected View getGameView() {return gameView;}

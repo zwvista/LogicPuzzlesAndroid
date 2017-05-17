@@ -7,10 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class LoopyHelpActivity extends GameHelpActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
-    public LoopyDocument doc() {return app.loopyDocument;}
+    @Bean
+    protected LoopyDocument document;
+    public LoopyDocument doc() {return document;}
 }

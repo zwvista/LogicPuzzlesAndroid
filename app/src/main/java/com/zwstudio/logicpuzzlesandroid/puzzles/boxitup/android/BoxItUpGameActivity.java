@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class BoxItUpGameActivity extends GameGameActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState> {
-    public BoxItUpDocument doc() {return app.boxitupDocument;}
+    @Bean
+    protected BoxItUpDocument document;
+    public BoxItUpDocument doc() {return document;}
 
     protected BoxItUpGameView gameView;
     protected View getGameView() {return gameView;}

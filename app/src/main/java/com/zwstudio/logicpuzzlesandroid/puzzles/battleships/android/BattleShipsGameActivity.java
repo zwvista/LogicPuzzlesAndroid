@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class BattleShipsGameActivity extends GameGameActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState> {
-    public BattleShipsDocument doc() {return app.battleshipsDocument;}
+    @Bean
+    protected BattleShipsDocument document;
+    public BattleShipsDocument doc() {return document;}
 
     protected BattleShipsGameView gameView;
     protected View getGameView() {return gameView;}

@@ -7,9 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameState;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_options)
 public class PowerGridOptionsActivity extends GameOptionsActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState> {
-    public PowerGridDocument doc() {return app.powergridDocument;}
+    @Bean
+    protected PowerGridDocument document;
+    public PowerGridDocument doc() {return document;}
 }

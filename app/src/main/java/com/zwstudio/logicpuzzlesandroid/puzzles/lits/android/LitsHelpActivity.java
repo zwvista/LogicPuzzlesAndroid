@@ -7,10 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class LitsHelpActivity extends GameHelpActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState> {
-    public LitsDocument doc() {return app.litsDocument;}
+    @Bean
+    protected LitsDocument document;
+    public LitsDocument doc() {return document;}
 }

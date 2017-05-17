@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class AbcGameActivity extends GameGameActivity<AbcGame, AbcDocument, AbcGameMove, AbcGameState> {
-    public AbcDocument doc() {return app.abcDocument;}
+    @Bean
+    protected AbcDocument document;
+    public AbcDocument doc() {return document;}
 
     protected AbcGameView gameView;
     protected View getGameView() {return gameView;}

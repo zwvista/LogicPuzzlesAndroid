@@ -7,10 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class TentsHelpActivity extends GameHelpActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState> {
-    public TentsDocument doc() {return app.tentsDocument;}
+    @Bean
+    protected TentsDocument document;
+    public TentsDocument doc() {return document;}
 }

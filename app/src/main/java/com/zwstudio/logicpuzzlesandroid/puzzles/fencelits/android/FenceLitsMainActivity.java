@@ -7,13 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class FenceLitsMainActivity extends GameMainActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState> {
-    public FenceLitsDocument doc() {return app.fencelitsDocument;}
+    @Bean
+    protected FenceLitsDocument document;
+    public FenceLitsDocument doc() {return document;}
 
     @Click
     void btnOptions() {

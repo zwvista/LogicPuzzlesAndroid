@@ -15,6 +15,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 
@@ -23,7 +24,9 @@ import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
 public class SlitherLinkOptionsActivity extends GameOptionsActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState> {
-    public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
+    @Bean
+    protected SlitherLinkDocument document;
+    public SlitherLinkDocument doc() {return document;}
 
     @AfterViews
     protected void init() {

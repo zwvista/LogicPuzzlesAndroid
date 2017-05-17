@@ -7,13 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class MosaikMainActivity extends GameMainActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
-    public MosaikDocument doc() {return app.mosaikDocument;}
+    @Bean
+    protected MosaikDocument document;
+    public MosaikDocument doc() {return document;}
 
     @Click
     void btnOptions() {

@@ -7,10 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class SumscrapersHelpActivity extends GameHelpActivity<SumscrapersGame, SumscrapersDocument, SumscrapersGameMove, SumscrapersGameState> {
-    public SumscrapersDocument doc() {return app.sumscrapersDocument;}
+    @Bean
+    protected SumscrapersDocument document;
+    public SumscrapersDocument doc() {return document;}
 }

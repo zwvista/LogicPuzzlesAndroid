@@ -7,13 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class SlitherLinkMainActivity extends GameMainActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState> {
-    public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
+    @Bean
+    protected SlitherLinkDocument document;
+    public SlitherLinkDocument doc() {return document;}
 
     @Click
     void btnOptions() {

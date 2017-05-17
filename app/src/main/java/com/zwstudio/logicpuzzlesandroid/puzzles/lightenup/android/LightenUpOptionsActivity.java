@@ -7,9 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameState;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_options)
 public class LightenUpOptionsActivity extends GameOptionsActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState> {
-    public LightenUpDocument doc() {return app.lightenupDocument;}
+    @Bean
+    protected LightenUpDocument document;
+    public LightenUpDocument doc() {return document;}
 }

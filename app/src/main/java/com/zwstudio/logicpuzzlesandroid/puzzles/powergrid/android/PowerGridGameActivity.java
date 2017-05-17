@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class PowerGridGameActivity extends GameGameActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState> {
-    public PowerGridDocument doc() {return app.powergridDocument;}
+    @Bean
+    protected PowerGridDocument document;
+    public PowerGridDocument doc() {return document;}
 
     protected PowerGridGameView gameView;
     protected View getGameView() {return gameView;}

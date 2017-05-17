@@ -7,10 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class LineSweeperHelpActivity extends GameHelpActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState> {
-    public LineSweeperDocument doc() {return app.linesweeperDocument;}
+    @Bean
+    protected LineSweeperDocument document;
+    public LineSweeperDocument doc() {return document;}
 }

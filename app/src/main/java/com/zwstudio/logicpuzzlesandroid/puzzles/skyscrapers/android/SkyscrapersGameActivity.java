@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class SkyscrapersGameActivity extends GameGameActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState> {
-    public SkyscrapersDocument doc() {return app.skyscrapersDocument;}
+    @Bean
+    protected SkyscrapersDocument document;
+    public SkyscrapersDocument doc() {return document;}
 
     protected SkyscrapersGameView gameView;
     protected View getGameView() {return gameView;}

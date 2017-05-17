@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class CloudsGameActivity extends GameGameActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState> {
-    public CloudsDocument doc() {return app.cloudsDocument;}
+    @Bean
+    protected CloudsDocument document;
+    public CloudsDocument doc() {return document;}
 
     protected CloudsGameView gameView;
     protected View getGameView() {return gameView;}

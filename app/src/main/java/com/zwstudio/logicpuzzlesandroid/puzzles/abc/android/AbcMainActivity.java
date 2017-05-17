@@ -7,12 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameState;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class AbcMainActivity extends GameMainActivity<AbcGame, AbcDocument, AbcGameMove, AbcGameState> {
-    public AbcDocument doc() {return app.abcDocument;}
+    @Bean
+    protected AbcDocument document;
+    public AbcDocument doc() {return document;}
 
     @Click
     void btnOptions() {

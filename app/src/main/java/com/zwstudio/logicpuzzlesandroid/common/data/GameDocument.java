@@ -5,6 +5,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
 import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
 import org.xmlpull.v1.XmlPullParser;
@@ -28,7 +29,7 @@ import static fj.data.Array.range;
  * Created by zwvista on 2016/09/29.
  */
 
-@EBean
+@EBean(scope = EBean.Scope.Singleton)
 public abstract class GameDocument<G extends Game, GM> {
     public String gameID() {
         String name = getClass().getSimpleName();
@@ -42,6 +43,7 @@ public abstract class GameDocument<G extends Game, GM> {
     @App
     public LogicPuzzlesApplication app;
 
+    @AfterInject
     public void init() {
         String filename = gameID() + ".xml";
         try {

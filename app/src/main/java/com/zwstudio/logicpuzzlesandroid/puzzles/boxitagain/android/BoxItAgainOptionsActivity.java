@@ -15,6 +15,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain.BoxItAgainGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain.BoxItAgainGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 
@@ -23,7 +24,9 @@ import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
 public class BoxItAgainOptionsActivity extends GameOptionsActivity<BoxItAgainGame, BoxItAgainDocument, BoxItAgainGameMove, BoxItAgainGameState> {
-    public BoxItAgainDocument doc() {return app.boxitagainDocument;}
+    @Bean
+    protected BoxItAgainDocument document;
+    public BoxItAgainDocument doc() {return document;}
 
     @AfterViews
     protected void init() {

@@ -7,13 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class BoxItAroundMainActivity extends GameMainActivity<BoxItAroundGame, BoxItAroundDocument, BoxItAroundGameMove, BoxItAroundGameState> {
-    public BoxItAroundDocument doc() {return app.boxitaroundDocument;}
+    @Bean
+    protected BoxItAroundDocument document;
+    public BoxItAroundDocument doc() {return document;}
 
     @Click
     void btnOptions() {

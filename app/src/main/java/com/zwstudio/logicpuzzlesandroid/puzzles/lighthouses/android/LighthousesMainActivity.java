@@ -7,13 +7,15 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameState;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class LighthousesMainActivity extends GameMainActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
-    public LighthousesDocument doc() {return app.lighthousesDocument;}
+    @Bean
+    protected LighthousesDocument document;
+    public LighthousesDocument doc() {return document;}
 
     @Click
     void btnOptions() {

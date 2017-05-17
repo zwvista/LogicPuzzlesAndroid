@@ -15,6 +15,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 
@@ -23,7 +24,9 @@ import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
 public class BoxItAroundOptionsActivity extends GameOptionsActivity<BoxItAroundGame, BoxItAroundDocument, BoxItAroundGameMove, BoxItAroundGameState> {
-    public BoxItAroundDocument doc() {return app.boxitaroundDocument;}
+    @Bean
+    protected BoxItAroundDocument document;
+    public BoxItAroundDocument doc() {return document;}
 
     @AfterViews
     protected void init() {

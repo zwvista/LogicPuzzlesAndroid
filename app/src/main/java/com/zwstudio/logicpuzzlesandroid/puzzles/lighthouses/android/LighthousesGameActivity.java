@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class LighthousesGameActivity extends GameGameActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
-    public LighthousesDocument doc() {return app.lighthousesDocument;}
+    @Bean
+    protected LighthousesDocument document;
+    public LighthousesDocument doc() {return document;}
 
     protected LighthousesGameView gameView;
     protected View getGameView() {return gameView;}

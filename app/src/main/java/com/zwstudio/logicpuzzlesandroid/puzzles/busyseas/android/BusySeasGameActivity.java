@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class BusySeasGameActivity extends GameGameActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
-    public BusySeasDocument doc() {return app.busyseasDocument;}
+    @Bean
+    protected BusySeasDocument document;
+    public BusySeasDocument doc() {return document;}
 
     protected BusySeasGameView gameView;
     protected View getGameView() {return gameView;}

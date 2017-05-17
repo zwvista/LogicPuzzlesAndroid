@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +21,9 @@ import static fj.data.List.iterableList;
 
 @EActivity(R.layout.activity_game_game)
 public class BootyIslandGameActivity extends GameGameActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState> {
-    public BootyIslandDocument doc() {return app.bootyislandDocument;}
+    @Bean
+    protected BootyIslandDocument document;
+    public BootyIslandDocument doc() {return document;}
 
     protected BootyIslandGameView gameView;
     protected View getGameView() {return gameView;}

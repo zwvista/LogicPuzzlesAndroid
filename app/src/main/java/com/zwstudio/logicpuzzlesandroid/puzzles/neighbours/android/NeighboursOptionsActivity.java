@@ -15,6 +15,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGameState;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemSelect;
 
@@ -23,7 +24,9 @@ import java.util.List;
 
 @EActivity(R.layout.activity_game_options)
 public class NeighboursOptionsActivity extends GameOptionsActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState> {
-    public NeighboursDocument doc() {return app.neighboursDocument;}
+    @Bean
+    protected NeighboursDocument document;
+    public NeighboursDocument doc() {return document;}
 
     @AfterViews
     protected void init() {
