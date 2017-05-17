@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.home.android;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.widget.CheckedTextView;
 
 import com.zwstudio.logicpuzzlesandroid.R;
@@ -55,16 +57,40 @@ public class HomeOptionsActivity extends BaseActivity {
         }
     }
 
-    protected void onDefault() {
-        rec.playMusic = true;
-        rec.playSound = true;
-        try {
-            app.daoHomeGameProgress.update(rec);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        ctvPlayMusic.setChecked(rec.playMusic);
-        app.soundManager.playOrPauseMusic();
-        ctvPlaySound.setChecked(rec.playSound);
+    @Click
+    protected void btnDone() {
+        finish();
+    }
+
+    @Click
+    protected void btnDefault() {
+        // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    //Yes button clicked
+                    rec.playMusic = true;
+                    rec.playSound = true;
+                    try {
+                        app.daoHomeGameProgress.update(rec);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    ctvPlayMusic.setChecked(rec.playMusic);
+                    app.soundManager.playOrPauseMusic();
+                    ctvPlaySound.setChecked(rec.playSound);
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you really want to reset the options?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 }
