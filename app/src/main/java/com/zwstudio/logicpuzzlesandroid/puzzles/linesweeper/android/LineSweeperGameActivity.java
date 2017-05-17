@@ -16,6 +16,8 @@ import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
+import static fj.data.List.iterableList;
+
 @EActivity(R.layout.activity_game_game)
 public class LineSweeperGameActivity extends GameGameActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState> {
     public LineSweeperDocument doc() {return app.linesweeperDocument;}
@@ -31,7 +33,7 @@ public class LineSweeperGameActivity extends GameGameActivity<LineSweeperGame, L
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;
-        List<String> layout = doc().levels.get(selectedLevelID);
+        List<String> layout = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o._1().equals(selectedLevelID)).orSome(0))._2();
         tvLevel.setText(selectedLevelID);
         updateSolutionUI();
 

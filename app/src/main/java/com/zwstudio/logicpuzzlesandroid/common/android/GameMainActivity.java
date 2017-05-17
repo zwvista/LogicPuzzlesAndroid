@@ -12,6 +12,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import static fj.data.List.iterableList;
+
 @EActivity
 public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends GameDocument<G, GM>, GM, GS extends GameState>
         extends BaseActivity {
@@ -19,22 +21,32 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
 
     @ViewById
     protected TextView tvGame;
+    @ViewById
+    protected Button btnResumeLevel;
+
+    int currentPage = 0;
+    int countPerPage = 12;
+    int numPages = 1;
 
     protected void init(int[] levels) {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String levelID = ((Button)v).getText().toString();
-                doc().selectedLevelID = levelID;
+                doc().selectedLevelID = ((Button)v).getText().toString();
                 resumeGame();
             }
         };
         // http://stackoverflow.com/questions/25905086/multiple-buttons-onclicklistener-android
-        for(int n : levels) {
-            int resID = getResources().getIdentifier("btnLevel" + n, "id", "com.zwstudio.logicpuzzlesandroid");
+        for(int i = 0; i < countPerPage; i++) {
+            int resID = getResources().getIdentifier("btnLevel" + (i + 1), "id", "com.zwstudio.logicpuzzlesandroid");
             Button button = (Button)findViewById(resID);
             button.setOnClickListener(onClickListener);
         }
+
+        numPages = (doc().levels.size() + countPerPage - 1) / countPerPage;
+        int index = iterableList(doc().levels).toStream().indexOf(o -> o._1().equals(doc().selectedLevelID)).orSome(0);
+        currentPage = index / countPerPage;
+        showCurrentPage();
 
         tvGame.setText(doc().gameID());
 
@@ -42,8 +54,36 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
         if (toResume) resumeGame();
     }
 
+    protected void onResume() {
+        super.onResume();
+        btnResumeLevel.setText("Resume Level " + doc().selectedLevelID);
+    }
+
+    private void showCurrentPage() {
+        for(int i = 0; i < countPerPage; i++) {
+            int resID = getResources().getIdentifier("btnLevel" + (i + 1), "id", "com.zwstudio.logicpuzzlesandroid");
+            Button button = (Button)findViewById(resID);
+            int index = currentPage * countPerPage + i;
+            boolean b = index < doc().levels.size();
+            button.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
+            if (b) button.setText(doc().levels.get(index)._1());
+        }
+    }
+
     @Click
-    protected void btnResumeGame() {
+    protected void btnPrevPage() {
+        currentPage = (currentPage - 1 + numPages) % numPages;
+        showCurrentPage();
+    }
+
+    @Click
+    protected void btnNextPage() {
+        currentPage = (currentPage + 1) % numPages;
+        showCurrentPage();
+    }
+
+    @Click
+    protected void btnResumeLevel() {
         resumeGame();
     }
 

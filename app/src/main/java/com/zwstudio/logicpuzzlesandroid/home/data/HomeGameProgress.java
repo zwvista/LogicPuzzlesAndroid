@@ -14,6 +14,8 @@ public class HomeGameProgress implements java.io.Serializable {
     @DatabaseField
     public String gameName = "LightenUp";
     @DatabaseField
+    public String gameTitle = "Lighten Up";
+    @DatabaseField
     public boolean playMusic = true;
     @DatabaseField
     public boolean playSound = true;

@@ -15,11 +15,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import fj.F;
+import fj.P;
+import fj.P2;
+
 import static fj.data.Array.arrayArray;
 import static fj.data.Array.range;
 
@@ -34,7 +35,7 @@ public abstract class GameDocument<G extends Game, GM> {
         return name.substring(0, name.indexOf("Document"));
     }
 
-    public Map<String, List<String>> levels = new HashMap<>();
+    public List<P2<String, List<String>>> levels = new ArrayList<>();
     public String selectedLevelID;
     public String selectedLevelIDSolution() {return selectedLevelID + " Solution";}
     public List<String> help = new ArrayList<>();
@@ -91,12 +92,12 @@ public abstract class GameDocument<G extends Game, GM> {
                     name = parser.getName();
                     if (name.equals("level")){
 
-                        id = "Level " + parser.getAttributeValue(null,"id");
+                        id = parser.getAttributeValue(null,"id");
                         layout = arrayArray(parser.nextText().split("\n"))
                                 .map(s -> s.replace("\r", "").replace("`", ""))
                                 .toJavaList();
                         layout = getCdata.f(layout);
-                        levels.put(id, layout);
+                        levels.add(P.p(id, layout));
                     } else if (name.equals("help")){
                         help = arrayArray(parser.nextText().split("\n"))
                                 .map(s -> s.replace("\r", ""))

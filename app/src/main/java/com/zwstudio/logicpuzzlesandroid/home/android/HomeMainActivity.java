@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.home.android;
 
 import android.content.Intent;
 import android.media.AudioManager;
+import android.widget.Button;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity;
@@ -11,17 +12,26 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_home_main)
 public class HomeMainActivity extends BaseActivity {
     public HomeDocument doc() {return app.homeDocument;}
     static final int CHOOSE_GAME_REQUEST = 123;
 
+    @ViewById
+    protected Button btnResumeGame;
+
     @AfterViews
     protected void init() {
         // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
         // Set the hardware buttons to control the music
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        btnResumeGame.setText("Resume Game " + doc().gameProgress().gameName);
     }
 
     @Click

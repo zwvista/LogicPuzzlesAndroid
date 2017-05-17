@@ -16,6 +16,8 @@ import org.androidannotations.annotations.EActivity;
 
 import java.util.List;
 
+import static fj.data.List.iterableList;
+
 @EActivity(R.layout.activity_game_game)
 public class RoomsGameActivity extends GameGameActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
     public RoomsDocument doc() {return app.roomsDocument;}
@@ -31,7 +33,7 @@ public class RoomsGameActivity extends GameGameActivity<RoomsGame, RoomsDocument
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;
-        List<String> layout = doc().levels.get(selectedLevelID);
+        List<String> layout = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o._1().equals(selectedLevelID)).orSome(0))._2();
         tvLevel.setText(selectedLevelID);
         updateSolutionUI();
 

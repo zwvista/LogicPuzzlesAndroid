@@ -12,7 +12,7 @@ public class GameProgress implements java.io.Serializable {
     @DatabaseField
     public String gameID;
     @DatabaseField
-    public String levelID = "Level 1";
+    public String levelID = "1";
     @DatabaseField
     public String option1;
     @DatabaseField

@@ -25,10 +25,10 @@
             android:textColor="@color/colorText"
             android:layout_marginBottom="75dp"/>
         <Button
-            android:text="Resume Game"
+            android:text="Resume Level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnResumeGame"/>
+            android:id="@+id/btnResumeLevel"/>
         <Button
             android:text="Options"
             android:layout_width="match_parent"
@@ -95,25 +95,25 @@
             android:layout_weight="1"/>
         <Button
             android:text="9"
-            android:id="@+id/btnLevel16"
+            android:id="@+id/btnLevel9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
             android:text="10"
-            android:id="@+id/btnLevel24"
+            android:id="@+id/btnLevel10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
             android:text="11"
-            android:id="@+id/btnLevel34"
+            android:id="@+id/btnLevel11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
             android:text="12"
-            android:id="@+id/btnLevel81"
+            android:id="@+id/btnLevel12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
@@ -128,7 +128,7 @@
                    android:layout_weight="1"/>
             <Button
                 android:text="&lt; Prev"
-                android:id="@+id/btnPrev"
+                android:id="@+id/btnPrevPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"/>
@@ -137,7 +137,7 @@
                    android:layout_weight="1"/>
             <Button
                 android:text="Next &gt;"
-                android:id="@+id/btnNext"
+                android:id="@+id/btnNextPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"/>
