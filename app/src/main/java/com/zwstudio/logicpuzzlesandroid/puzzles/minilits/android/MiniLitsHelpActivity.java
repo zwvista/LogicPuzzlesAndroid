@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class MiniLitsHelpActivity extends GameHelpActivity<MiniLitsGame, MiniLitsDocument, MiniLitsGameMove, MiniLitsGameState> {
     public MiniLitsDocument doc() {return app.minilitsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class TentsHelpActivity extends GameHelpActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState> {
     public TentsDocument doc() {return app.tentsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class RoomsHelpActivity extends GameHelpActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
     public RoomsDocument doc() {return app.roomsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

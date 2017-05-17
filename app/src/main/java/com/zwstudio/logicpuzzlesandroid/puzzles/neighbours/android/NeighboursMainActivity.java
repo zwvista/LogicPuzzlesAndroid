@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class NeighboursMainActivity extends GameMainActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState> {
     public NeighboursDocument doc() {return app.neighboursDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         NeighboursOptionsActivity_.intent(this).start();

@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class NurikabeHelpActivity extends GameHelpActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState> {
     public NurikabeDocument doc() {return app.nurikabeDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class LitsHelpActivity extends GameHelpActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState> {
     public LitsDocument doc() {return app.litsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

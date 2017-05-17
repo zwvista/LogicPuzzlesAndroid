@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class MagnetsHelpActivity extends GameHelpActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState> {
     public MagnetsDocument doc() {return app.magnetsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

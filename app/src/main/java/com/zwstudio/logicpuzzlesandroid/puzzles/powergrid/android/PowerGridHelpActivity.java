@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class PowerGridHelpActivity extends GameHelpActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState> {
     public PowerGridDocument doc() {return app.powergridDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class ParksHelpActivity extends GameHelpActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState> {
     public ParksDocument doc() {return app.parksDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

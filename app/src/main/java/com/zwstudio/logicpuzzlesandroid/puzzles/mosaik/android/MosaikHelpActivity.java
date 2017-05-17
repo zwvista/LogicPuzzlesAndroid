@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class MosaikHelpActivity extends GameHelpActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState> {
     public MosaikDocument doc() {return app.mosaikDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

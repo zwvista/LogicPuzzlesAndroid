@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class PairakabeMainActivity extends GameMainActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
     public PairakabeDocument doc() {return app.pairakabeDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         PairakabeOptionsActivity_.intent(this).start();

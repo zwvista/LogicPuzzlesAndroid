@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class PowerGridMainActivity extends GameMainActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState> {
     public PowerGridDocument doc() {return app.powergridDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         PowerGridOptionsActivity_.intent(this).start();

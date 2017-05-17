@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class BoxItUpHelpActivity extends GameHelpActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState> {
     public BoxItUpDocument doc() {return app.boxitupDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

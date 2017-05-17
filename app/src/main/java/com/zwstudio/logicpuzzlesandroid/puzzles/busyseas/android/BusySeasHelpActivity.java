@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class BusySeasHelpActivity extends GameHelpActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState> {
     public BusySeasDocument doc() {return app.busyseasDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

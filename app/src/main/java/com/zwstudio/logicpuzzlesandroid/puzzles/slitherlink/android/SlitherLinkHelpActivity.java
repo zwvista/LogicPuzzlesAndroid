@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class SlitherLinkHelpActivity extends GameHelpActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState> {
     public SlitherLinkDocument doc() {return app.slitherlinkDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

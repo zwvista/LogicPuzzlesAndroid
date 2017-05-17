@@ -7,15 +7,9 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameState;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_help)
 public class BattleShipsHelpActivity extends GameHelpActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState> {
     public BattleShipsDocument doc() {return app.battleshipsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class FenceItUpHelpActivity extends GameHelpActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState> {
     public FenceItUpDocument doc() {return app.fenceitupDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

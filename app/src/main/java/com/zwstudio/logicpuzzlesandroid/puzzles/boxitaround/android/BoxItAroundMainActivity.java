@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class BoxItAroundMainActivity extends GameMainActivity<BoxItAroundGame, BoxItAroundDocument, BoxItAroundGameMove, BoxItAroundGameState> {
     public BoxItAroundDocument doc() {return app.boxitaroundDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         BoxItAroundOptionsActivity_.intent(this).start();

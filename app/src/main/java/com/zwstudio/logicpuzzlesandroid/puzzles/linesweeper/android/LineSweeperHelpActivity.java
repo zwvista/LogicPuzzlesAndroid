@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class LineSweeperHelpActivity extends GameHelpActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState> {
     public LineSweeperDocument doc() {return app.linesweeperDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

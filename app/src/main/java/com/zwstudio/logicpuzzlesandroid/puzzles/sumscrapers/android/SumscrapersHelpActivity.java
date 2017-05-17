@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class SumscrapersHelpActivity extends GameHelpActivity<SumscrapersGame, SumscrapersDocument, SumscrapersGameMove, SumscrapersGameState> {
     public SumscrapersDocument doc() {return app.sumscrapersDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

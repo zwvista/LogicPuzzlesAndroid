@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class BootyIslandMainActivity extends GameMainActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState> {
     public BootyIslandDocument doc() {return app.bootyislandDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         BootyIslandOptionsActivity_.intent(this).start();

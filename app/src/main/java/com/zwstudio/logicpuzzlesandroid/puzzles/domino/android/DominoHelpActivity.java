@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class DominoHelpActivity extends GameHelpActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState> {
     public DominoDocument doc() {return app.dominoDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

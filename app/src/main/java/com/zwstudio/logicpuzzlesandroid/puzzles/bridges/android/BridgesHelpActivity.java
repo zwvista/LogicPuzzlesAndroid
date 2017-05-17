@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class BridgesHelpActivity extends GameHelpActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState> {
     public BridgesDocument doc() {return app.bridgesDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

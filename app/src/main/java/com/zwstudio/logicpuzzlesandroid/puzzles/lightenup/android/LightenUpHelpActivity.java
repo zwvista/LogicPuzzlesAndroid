@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class LightenUpHelpActivity extends GameHelpActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState> {
     public LightenUpDocument doc() {return app.lightenupDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

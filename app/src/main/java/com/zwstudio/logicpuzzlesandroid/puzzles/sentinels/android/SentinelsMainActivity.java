@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class SentinelsMainActivity extends GameMainActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState> {
     public SentinelsDocument doc() {return app.sentinelsDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         SentinelsOptionsActivity_.intent(this).start();

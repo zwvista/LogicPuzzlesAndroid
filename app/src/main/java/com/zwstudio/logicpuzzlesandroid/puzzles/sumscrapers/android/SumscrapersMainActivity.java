@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class SumscrapersMainActivity extends GameMainActivity<SumscrapersGame, SumscrapersDocument, SumscrapersGameMove, SumscrapersGameState> {
     public SumscrapersDocument doc() {return app.sumscrapersDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         SumscrapersOptionsActivity_.intent(this).start();

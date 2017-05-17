@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class LoopyMainActivity extends GameMainActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState> {
     public LoopyDocument doc() {return app.loopyDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         LoopyOptionsActivity_.intent(this).start();

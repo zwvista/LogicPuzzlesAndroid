@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class HitoriMainActivity extends GameMainActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
     public HitoriDocument doc() {return app.hitoriDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         HitoriOptionsActivity_.intent(this).start();

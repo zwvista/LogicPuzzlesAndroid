@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class ParksMainActivity extends GameMainActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState> {
     public ParksDocument doc() {return app.parksDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         ParksOptionsActivity_.intent(this).start();

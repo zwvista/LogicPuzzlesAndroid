@@ -7,19 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameState;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_game_main)
 public class BattleShipsMainActivity extends GameMainActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState> {
     public BattleShipsDocument doc() {return app.battleshipsDocument;}
-
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
 
     @Click
     void btnOptions() {

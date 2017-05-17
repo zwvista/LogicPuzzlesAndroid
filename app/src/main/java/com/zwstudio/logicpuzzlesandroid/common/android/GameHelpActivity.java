@@ -9,6 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -22,6 +23,7 @@ public abstract class GameHelpActivity<G extends Game<G, GM, GS>, GD extends Gam
     @ViewById
     protected ListView lvHelp;
 
+    @AfterViews
     protected void init() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, doc().help);

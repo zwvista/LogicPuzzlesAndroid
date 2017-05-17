@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class BoxItUpMainActivity extends GameMainActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState> {
     public BoxItUpDocument doc() {return app.boxitupDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         BoxItUpOptionsActivity_.intent(this).start();

@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class BootyIslandHelpActivity extends GameHelpActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState> {
     public BootyIslandDocument doc() {return app.bootyislandDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

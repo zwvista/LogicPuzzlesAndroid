@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -28,7 +29,8 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
     int countPerPage = 12;
     int numPages = 1;
 
-    protected void init(int[] levels) {
+    @AfterViews
+    protected void init() {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

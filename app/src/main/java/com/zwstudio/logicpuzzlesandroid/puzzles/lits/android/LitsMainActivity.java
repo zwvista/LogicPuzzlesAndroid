@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class LitsMainActivity extends GameMainActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState> {
     public LitsDocument doc() {return app.litsDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         LitsOptionsActivity_.intent(this).start();

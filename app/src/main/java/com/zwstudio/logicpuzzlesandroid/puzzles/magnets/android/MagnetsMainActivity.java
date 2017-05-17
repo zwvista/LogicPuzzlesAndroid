@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class MagnetsMainActivity extends GameMainActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState> {
     public MagnetsDocument doc() {return app.magnetsDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         MagnetsOptionsActivity_.intent(this).start();

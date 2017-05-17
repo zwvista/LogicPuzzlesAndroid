@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class PairakabeHelpActivity extends GameHelpActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState> {
     public PairakabeDocument doc() {return app.pairakabeDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

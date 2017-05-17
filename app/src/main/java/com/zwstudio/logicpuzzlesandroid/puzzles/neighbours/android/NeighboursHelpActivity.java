@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class NeighboursHelpActivity extends GameHelpActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState> {
     public NeighboursDocument doc() {return app.neighboursDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

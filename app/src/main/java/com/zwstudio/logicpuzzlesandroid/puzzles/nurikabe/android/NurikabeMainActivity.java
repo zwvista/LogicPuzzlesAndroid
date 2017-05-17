@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class NurikabeMainActivity extends GameMainActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState> {
     public NurikabeDocument doc() {return app.nurikabeDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         NurikabeOptionsActivity_.intent(this).start();

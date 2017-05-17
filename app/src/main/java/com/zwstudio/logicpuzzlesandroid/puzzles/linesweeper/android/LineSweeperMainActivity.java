@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class LineSweeperMainActivity extends GameMainActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState> {
     public LineSweeperDocument doc() {return app.linesweeperDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         LineSweeperOptionsActivity_.intent(this).start();

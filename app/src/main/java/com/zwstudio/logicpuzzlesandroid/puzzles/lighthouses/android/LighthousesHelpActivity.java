@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class LighthousesHelpActivity extends GameHelpActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState> {
     public LighthousesDocument doc() {return app.lighthousesDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

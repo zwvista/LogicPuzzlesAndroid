@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class CloudsHelpActivity extends GameHelpActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState> {
     public CloudsDocument doc() {return app.cloudsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

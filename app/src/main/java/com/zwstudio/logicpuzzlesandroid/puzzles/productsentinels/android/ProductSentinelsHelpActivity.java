@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class ProductSentinelsHelpActivity extends GameHelpActivity<ProductSentinelsGame, ProductSentinelsDocument, ProductSentinelsGameMove, ProductSentinelsGameState> {
     public ProductSentinelsDocument doc() {return app.productsentinelsDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

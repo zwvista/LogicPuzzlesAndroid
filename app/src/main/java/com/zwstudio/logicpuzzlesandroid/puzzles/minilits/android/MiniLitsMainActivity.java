@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class MiniLitsMainActivity extends GameMainActivity<MiniLitsGame, MiniLitsDocument, MiniLitsGameMove, MiniLitsGameState> {
     public MiniLitsDocument doc() {return app.minilitsDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         MiniLitsOptionsActivity_.intent(this).start();

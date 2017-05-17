@@ -13,9 +13,4 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_game_help)
 public class HitoriHelpActivity extends GameHelpActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState> {
     public HitoriDocument doc() {return app.hitoriDocument;}
-
-    @AfterViews
-    protected void init() {
-        super.init();
-    }
 }

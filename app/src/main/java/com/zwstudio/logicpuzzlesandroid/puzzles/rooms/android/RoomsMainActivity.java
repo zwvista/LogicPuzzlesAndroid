@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class RoomsMainActivity extends GameMainActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState> {
     public RoomsDocument doc() {return app.roomsDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         RoomsOptionsActivity_.intent(this).start();

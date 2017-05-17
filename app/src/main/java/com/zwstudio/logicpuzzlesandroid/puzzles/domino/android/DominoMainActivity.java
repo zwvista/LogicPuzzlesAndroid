@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class DominoMainActivity extends GameMainActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState> {
     public DominoDocument doc() {return app.dominoDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         DominoOptionsActivity_.intent(this).start();

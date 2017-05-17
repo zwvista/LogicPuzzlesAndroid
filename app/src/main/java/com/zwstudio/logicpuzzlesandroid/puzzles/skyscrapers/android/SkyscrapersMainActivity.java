@@ -15,12 +15,6 @@ import org.androidannotations.annotations.EActivity;
 public class SkyscrapersMainActivity extends GameMainActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState> {
     public SkyscrapersDocument doc() {return app.skyscrapersDocument;}
 
-    @AfterViews
-    void init() {
-        int[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 34, 81};
-        super.init(levels);
-    }
-
     @Click
     void btnOptions() {
         SkyscrapersOptionsActivity_.intent(this).start();
