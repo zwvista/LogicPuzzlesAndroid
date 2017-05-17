@@ -30,6 +30,7 @@ public class BattleShipsGameView extends CellsGameView {
     private Paint gridPaint = new Paint();
     private Paint whitePaint = new Paint();
     private Paint grayPaint = new Paint();
+    private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public BattleShipsGameView(Context context) {
@@ -54,6 +55,9 @@ public class BattleShipsGameView extends CellsGameView {
         whitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         grayPaint.setColor(Color.GRAY);
         grayPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        forbiddenPaint.setColor(Color.RED);
+        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -106,6 +110,9 @@ public class BattleShipsGameView extends CellsGameView {
                     break;
                 case Marker:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, paint);
+                    break;
+                case Fobidden:
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
                     break;
                 }
             }

@@ -119,7 +119,13 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
            1 Supertanker (5 squares)
     */
     private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                if (get(r, c) == BattleShipsObject.Fobidden)
+                    set(r, c, BattleShipsObject.Empty);
+            }
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
             for (int c = 0; c < cols(); c++) {
@@ -144,6 +150,13 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                BattleShipsObject o = get(r, c);
+                if ((o == BattleShipsObject.Empty || o == BattleShipsObject.Marker) && allowedObjectsOnly && (
+                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
+                    set(r, c, BattleShipsObject.Fobidden);
+            }
         if (!isSolved) return;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
