@@ -24,6 +24,7 @@ import fj.P2;
 
 import static fj.data.Array.arrayArray;
 import static fj.data.Array.range;
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -96,9 +97,11 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
 
                         id = parser.getAttributeValue(null,"id");
                         layout = arrayArray(parser.nextText().split("\n"))
-                                .map(s -> s.replace("\r", "").replace("`", ""))
+                                .map(s -> s.replace("\r", ""))
                                 .toJavaList();
-                        layout = getCdata.f(layout);
+                        layout = iterableList(getCdata.f(layout))
+                                .map(s -> s.replace("`", ""))
+                                .toJavaList();
                         levels.add(P.p(id, layout));
                     } else if (name.equals("help")){
                         help = arrayArray(parser.nextText().split("\n"))

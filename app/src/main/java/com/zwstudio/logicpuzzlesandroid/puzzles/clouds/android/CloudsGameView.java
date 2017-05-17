@@ -29,6 +29,7 @@ public class CloudsGameView extends CellsGameView {
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
     private Paint lightPaint = new Paint();
+    private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public CloudsGameView(Context context) {
@@ -53,6 +54,9 @@ public class CloudsGameView extends CellsGameView {
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         lightPaint.setColor(Color.YELLOW);
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        forbiddenPaint.setColor(Color.RED);
+        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -80,6 +84,9 @@ public class CloudsGameView extends CellsGameView {
                     break;
                 case Marker:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
+                    break;
+                case Forbidden:
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
                     break;
                 }
             }

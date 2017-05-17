@@ -122,10 +122,9 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                if (get(r, c) == BattleShipsObject.Fobidden)
+            for (int c = 0; c < cols(); c++)
+                if (get(r, c) == BattleShipsObject.Forbidden)
                     set(r, c, BattleShipsObject.Empty);
-            }
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
             for (int c = 0; c < cols(); c++) {
@@ -155,7 +154,7 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
                 BattleShipsObject o = get(r, c);
                 if ((o == BattleShipsObject.Empty || o == BattleShipsObject.Marker) && allowedObjectsOnly && (
                         row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
-                    set(r, c, BattleShipsObject.Fobidden);
+                    set(r, c, BattleShipsObject.Forbidden);
             }
         if (!isSolved) return;
         Graph g = new Graph();
@@ -203,7 +202,7 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;
                         BattleShipsObject o = get(p2);
-                        return o == BattleShipsObject.Empty || o == BattleShipsObject.Fobidden || o == BattleShipsObject.Marker;
+                        return o == BattleShipsObject.Empty || o == BattleShipsObject.Forbidden || o == BattleShipsObject.Marker;
                     })))) {isSolved = false; return;}
             shipNumbers[area.size()]++;
         }

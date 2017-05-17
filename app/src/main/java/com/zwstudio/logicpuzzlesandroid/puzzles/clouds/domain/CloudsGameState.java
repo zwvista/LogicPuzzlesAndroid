@@ -93,7 +93,12 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
         4. Clouds can't touch between themselves, not even diagonally. 
     */
     private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++)
+                if (get(r, c) == CloudsObject.Forbidden)
+                    set(r, c, CloudsObject.Empty);
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
             for (int c = 0; c < cols(); c++)
@@ -110,6 +115,13 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                CloudsObject o = get(r, c);
+                if ((o == CloudsObject.Empty || o == CloudsObject.Marker) && allowedObjectsOnly && (
+                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
+                    set(r, c, CloudsObject.Forbidden);
+            }
         if (!isSolved) return;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();

@@ -3,12 +3,16 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain;
 import com.rits.cloning.Cloner;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import fj.F;
 
 import static fj.data.Array.arrayArray;
 import static fj.data.List.iterableList;
@@ -18,7 +22,7 @@ import static fj.data.List.iterableList;
  */
 
 public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, LoopyGameState> {
-    public Boolean[][] objArray;
+    public GridLineObject[][] objArray;
 
     public LoopyGameState(LoopyGame game) {
         super(game);
@@ -26,31 +30,52 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++)
                 for (int dir = 1; dir <= 2; dir++) {
-                    if (!game.get(r, c)[dir]) continue;
+                    if (game.get(r, c)[dir] != GridLineObject.Line) continue;
                     LoopyGameMove move = new LoopyGameMove();
                     move.p = new Position(r, c);
                     move.dir = dir;
+                    move.obj = GridLineObject.Line;
                     setObject(move);
                 }
     }
 
-    public Boolean[] get(int row, int col) {
+    public GridLineObject[] get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public Boolean[] get(Position p) {
+    public GridLineObject[] get(Position p) {
         return get(p.row, p.col);
     }
 
     public boolean setObject(LoopyGameMove move) {
-        Position p = move.p;
-        int dir = move.dir;
-        if (!isValid(p) || game.get(p)[dir] && get(p)[dir]) return false;
-        Position p2 = p.add(LoopyGame.offset[dir]);
-        int dir2 = (dir + 2) % 4;
-        get(p)[dir] = !get(p)[dir];
-        get(p2)[dir2] = !get(p2)[dir2];
+        Position p1 = move.p;
+        int dir = move.dir, dir2 = (dir + 2) % 4;
+        GridLineObject o = get(p1)[dir];
+        if (o.equals(move.obj)) return false;
+        Position p2 = p1.add(LoopyGame.offset[dir]);
+        get(p2)[dir2] = get(p1)[dir] = move.obj;
         updateIsSolved();
         return true;
+    }
+
+    public boolean switchObject(LoopyGameMove move) {
+        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
+        F<GridLineObject, GridLineObject> f = obj -> {
+            switch (obj) {
+            case Empty:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        GridLineObject.Marker : GridLineObject.Line;
+            case Line:
+                return markerOption == MarkerOptions.MarkerLast ?
+                        GridLineObject.Marker : GridLineObject.Empty;
+            case Marker:
+                return markerOption == MarkerOptions.MarkerFirst ?
+                        GridLineObject.Line : GridLineObject.Empty;
+            }
+            return obj;
+        };
+        GridLineObject[] dotObj = get(move.p);
+        move.obj = f.f(dotObj[move.dir]);
+        return setObject(move);
     }
 
     /*
@@ -70,25 +95,24 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                int n = arrayArray(get(p)).filter(o -> o).length();
+                int n = arrayArray(get(p)).filter(o -> o == GridLineObject.Line).length();
                 switch (n) {
                     case 2:
                     {
                         Node node = new Node(p.toString());
                         g.addNode(node);
                         pos2node.put(p, node);
+                        break;
                     }
-                    break;
                     default:
                         isSolved = false;
                         return;
                 }
             }
-
         for (Position p : pos2node.keySet()) {
-            Boolean[] dotObj = get(p);
+            GridLineObject[] dotObj = get(p);
             for (int i = 0; i < 4; i++) {
-                if (!dotObj[i]) continue;
+                if (dotObj[i] != GridLineObject.Line) continue;
                 Position p2 = p.add(LoopyGame.offset[i]);
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }

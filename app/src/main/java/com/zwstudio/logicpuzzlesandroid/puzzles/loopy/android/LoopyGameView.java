@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove;
@@ -23,8 +24,9 @@ public class LoopyGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
     private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
     private Paint gridPaint = new Paint();
-    private Paint linePaint1 = new Paint();
-    private Paint linePaint2 = new Paint();
+    private Paint line1Paint = new Paint();
+    private Paint line2Paint = new Paint();
+    private Paint markerPaint = new Paint();
     private Paint dotPaint = new Paint();
 
     public LoopyGameView(Context context) {
@@ -45,12 +47,15 @@ public class LoopyGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        linePaint1.setColor(Color.WHITE);
-        linePaint1.setStyle(Paint.Style.STROKE);
-        linePaint1.setStrokeWidth(20);
-        linePaint2.setColor(Color.GREEN);
-        linePaint2.setStyle(Paint.Style.STROKE);
-        linePaint2.setStrokeWidth(20);
+        line1Paint.setColor(Color.WHITE);
+        line1Paint.setStyle(Paint.Style.STROKE);
+        line1Paint.setStrokeWidth(20);
+        line2Paint.setColor(Color.GREEN);
+        line2Paint.setStyle(Paint.Style.STROKE);
+        line2Paint.setStrokeWidth(20);
+        markerPaint.setColor(Color.YELLOW);
+        markerPaint.setStyle(Paint.Style.STROKE);
+        markerPaint.setStrokeWidth(5);
         dotPaint.setColor(Color.WHITE);
         dotPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         dotPaint.setStrokeWidth(5);
@@ -72,18 +77,30 @@ public class LoopyGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++)
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
         if (isInEditMode()) return;
+        int markerOffset = 20;
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++) {
-                int[] dirs = {1, 2};
-                for (int dir : dirs) {
-                    boolean b = game().getObject(r, c)[dir];
-                    if (!b) continue;
-                    Paint paint = game().get(r, c)[dir] ? linePaint1 : linePaint2;
-                    if (dir == 1)
-                        canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), paint);
-                    else
-                        canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), paint);
-               }
+                GridLineObject[] dotObj = game().getObject(r, c);
+                switch (dotObj[1]){
+                case Line:
+                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r),
+                            game().get(r, c)[1] == GridLineObject.Line ? line1Paint : line2Paint);
+                    break;
+                case Marker:
+                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) - markerOffset, cwc2(c) + markerOffset, chr(r) + markerOffset, markerPaint);
+                    canvas.drawLine(cwc2(c) - markerOffset, chr(r) + markerOffset, cwc2(c) + markerOffset, chr(r) - markerOffset, markerPaint);
+                    break;
+                }
+                switch (dotObj[2]){
+                case Line:
+                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1),
+                            game().get(r, c)[2] == GridLineObject.Line ? line1Paint : line2Paint);
+                    break;
+                case Marker:
+                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) - markerOffset, cwc(c) + markerOffset, chr2(r) + markerOffset, markerPaint);
+                    canvas.drawLine(cwc(c) - markerOffset, chr2(r) + markerOffset, cwc(c) + markerOffset, chr2(r) - markerOffset, markerPaint);
+                    break;
+                }
             }
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++)
@@ -102,6 +119,7 @@ public class LoopyGameView extends CellsGameView {
             LoopyGameMove move = new LoopyGameMove() {{
                 p = new Position(row, col);
                 dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
+                obj = GridLineObject.Empty;
             }};
             if (game().setObject(move))
                 activity().app.soundManager.playSoundTap();

@@ -5,5 +5,5 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain;
  */
 
 public enum CloudsObject {
-    Empty, Cloud, Marker
+    Empty, Forbidden, Marker, Cloud
 }

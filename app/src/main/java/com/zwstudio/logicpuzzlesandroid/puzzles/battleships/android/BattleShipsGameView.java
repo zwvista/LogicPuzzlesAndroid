@@ -111,7 +111,7 @@ public class BattleShipsGameView extends CellsGameView {
                 case Marker:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, paint);
                     break;
-                case Fobidden:
+                case Forbidden:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
                     break;
                 }
