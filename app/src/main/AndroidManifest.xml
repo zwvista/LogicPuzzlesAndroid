@@ -301,6 +301,18 @@
         <activity android:name=".puzzles.mineships.android.MineShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.minesweeper.android.MinesweeperMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.minesweeper.android.MinesweeperGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.minesweeper.android.MinesweeperHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.minesweeper.android.MinesweeperOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.minilits.android.MiniLitsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

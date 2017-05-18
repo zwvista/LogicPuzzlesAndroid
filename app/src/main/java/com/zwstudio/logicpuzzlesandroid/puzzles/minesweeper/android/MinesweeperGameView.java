@@ -1,55 +1,47 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.android;
+package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.android;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasEmptyObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasForbiddenObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGame;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasMarkerObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasLighthouseObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperGameMove;
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperObject;
 
 /**
  * TODO: document your custom view class.
  */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
-public class BusySeasGameView extends CellsGameView {
+public class MinesweeperGameView extends CellsGameView {
 
-    private BusySeasGameActivity activity() {return (BusySeasGameActivity)getContext();}
-    private BusySeasGame game() {return activity().game;}
+    private MinesweeperGameActivity activity() {return (MinesweeperGameActivity)getContext();}
+    private MinesweeperGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
+    private Paint filledPaint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
-    private Paint forbiddenPaint = new Paint();
-    private Drawable dLightbulb;
 
-    public BusySeasGameView(Context context) {
+    public MinesweeperGameView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public BusySeasGameView(Context context, AttributeSet attrs) {
+    public MinesweeperGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public BusySeasGameView(Context context, AttributeSet attrs, int defStyle) {
+    public MinesweeperGameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
@@ -57,15 +49,13 @@ public class BusySeasGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
+        filledPaint.setColor(Color.rgb(128, 0, 128));
+        filledPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setColor(Color.WHITE);
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        forbiddenPaint.setColor(Color.RED);
-        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setStrokeWidth(5);
-        dLightbulb = fromImageToDrawable("lightbulb.png");
     }
 
     @Override
@@ -85,17 +75,15 @@ public class BusySeasGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
-                BusySeasObject o = game().getObject(p);
-                if (o instanceof BusySeasLighthouseObject) {
-                    BusySeasLighthouseObject o2 = (BusySeasLighthouseObject) o;
-                    dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
-                    int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
-                    dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    dLightbulb.draw(canvas);
-                } else if (o instanceof BusySeasMarkerObject)
+                MinesweeperObject o = game().getObject(p);
+                switch (o) {
+                case Filled:
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, filledPaint);
+                    break;
+                case Marker:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
-                else if (o instanceof BusySeasForbiddenObject)
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
+                    break;
+                }
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
                     HintState state = game().getHintState(p);
@@ -116,9 +104,9 @@ public class BusySeasGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            BusySeasGameMove move = new BusySeasGameMove() {{
+            MinesweeperGameMove move = new MinesweeperGameMove() {{
                 p = new Position(row, col);
-                obj = new BusySeasEmptyObject();
+                obj = MinesweeperObject.Empty;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
