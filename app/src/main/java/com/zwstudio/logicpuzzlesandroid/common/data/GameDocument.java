@@ -297,6 +297,19 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
         }
     }
 
+    public void resetAllLevels() {
+        try {
+            DeleteBuilder<MoveProgress, Integer> builder = app.daoMoveProgress.deleteBuilder();
+            builder.where().eq("gameID", gameID());
+            builder.delete();
+            DeleteBuilder<LevelProgress, Integer> builder2 = app.daoLevelProgress.deleteBuilder();
+            builder2.where().eq("gameID", gameID());
+            builder2.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public int getMarkerOption() {
         String o = gameProgress().option1;
         return o == null ? 0 : Integer.parseInt(o);

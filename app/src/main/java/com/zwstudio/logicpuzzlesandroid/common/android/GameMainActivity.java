@@ -90,4 +90,11 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
     }
 
     protected abstract void resumeGame();
+
+    @Click
+    protected void btnResetAllLevels() {
+        yesNoDialog("Do you really want to reset the options?", () -> {
+            doc().resetAllLevels();
+        });
+    }
 }

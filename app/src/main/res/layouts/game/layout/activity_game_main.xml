@@ -30,6 +30,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnResumeLevel"/>
         <Button
+            android:text="Reset All Levels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnResetAllLevels"/>
+        <Button
             android:text="Options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
