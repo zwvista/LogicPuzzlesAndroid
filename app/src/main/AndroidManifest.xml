@@ -133,6 +133,18 @@
         <activity android:name=".puzzles.clouds.android.CloudsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.domino.android.DominoMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -179,6 +191,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.hitori.android.HitoriOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.lightenup.android.LightenUpMainActivity_"
@@ -263,6 +287,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.magnets.android.MagnetsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mineships.android.MineShipsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mineships.android.MineShipsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mineships.android.MineShipsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mineships.android.MineShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.minilits.android.MiniLitsMainActivity_"
