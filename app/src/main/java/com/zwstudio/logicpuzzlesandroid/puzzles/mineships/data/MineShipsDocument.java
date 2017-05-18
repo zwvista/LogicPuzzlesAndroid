@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mineships.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsGame;
@@ -19,12 +18,12 @@ public class MineShipsDocument extends GameDocument<MineShipsGame, MineShipsGame
     protected void saveMove(MineShipsGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.obj.ordinal();
+        rec.strValue1 = move.obj.objAsString();
     }
     public MineShipsGameMove loadMove(MoveProgress rec) {
         return new MineShipsGameMove() {{
             p = new Position(rec.row, rec.col);
-            obj = MineShipsObject.values()[rec.intValue1];
+            obj = MineShipsObject.objFromString(rec.strValue1);
         }};
     }
 }

@@ -10,11 +10,19 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsBattleShipBottomObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsBattleShipLeftObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsBattleShipMiddleObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsBattleShipRightObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsBattleShipTopObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsBattleShipUnitObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsEmptyObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsObject;
 
 /**
@@ -29,7 +37,7 @@ public class MineShipsGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint whitePaint = new Paint();
-    private Paint grayPaint = new Paint();
+    private Paint markerPaint = new Paint();
     private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -53,8 +61,9 @@ public class MineShipsGameView extends CellsGameView {
         gridPaint.setStyle(Paint.Style.STROKE);
         whitePaint.setColor(Color.WHITE);
         whitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        grayPaint.setColor(Color.GRAY);
-        grayPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setColor(Color.WHITE);
+        markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setStrokeWidth(5);
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
@@ -66,8 +75,8 @@ public class MineShipsGameView extends CellsGameView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / cols() - 1;
+        cellHeight = getHeight() / rows() - 1;
         invalidate();
     }
 
@@ -78,67 +87,49 @@ public class MineShipsGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                MineShipsObject o = game().getObject(r, c);
+                Position p = new Position(r, c);
+                MineShipsObject o = game().getObject(p);
                 Path path = new Path();
-                Paint paint = game().pos2obj.containsKey(new Position(r, c)) ? grayPaint : whitePaint;
-                switch (o) {
-                case BattleShipUnit:
-                    canvas.drawArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 360, true, paint);
-                    break;
-                case BattleShipMiddle:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, paint);
-                    break;
-                case BattleShipLeft:
+                if (o instanceof MineShipsBattleShipUnitObject)
+                    canvas.drawArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 360, true, whitePaint);
+                else if (o instanceof MineShipsBattleShipMiddleObject)
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, whitePaint);
+                else if (o instanceof MineShipsBattleShipLeftObject) {
                     path.addRect(cwc2(c), chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 90, 180);
-                    canvas.drawPath(path, paint);
-                    break;
-                case BattleShipTop:
+                    canvas.drawPath(path, whitePaint);
+                }
+                else if (o instanceof MineShipsBattleShipTopObject) {
                     path.addRect(cwc(c) + 4, chr2(r), cwc(c + 1) - 4, chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 180, 180);
-                    canvas.drawPath(path, paint);
-                    break;
-                case BattleShipRight:
+                    canvas.drawPath(path, whitePaint);
+                }
+                else if (o instanceof MineShipsBattleShipRightObject) {
                     path.addRect(cwc(c) + 4, chr(r) + 4, cwc2(c), chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 270, 180);
-                    canvas.drawPath(path, paint);
-                    break;
-                case BattleShipBottom:
+                    canvas.drawPath(path, whitePaint);
+                }
+                else if (o instanceof MineShipsBattleShipBottomObject) {
                     path.addRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr2(r), Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 180);
-                    canvas.drawPath(path, paint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, paint);
-                    break;
-                case Forbidden:
+                    canvas.drawPath(path, whitePaint);
+                }
+                else if (o instanceof MineShipsMarkerObject)
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
+                else if (o instanceof MineShipsForbiddenObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                    break;
+                Integer n = game().pos2hint.get(p);
+                if (n != null) {
+                    HintState state = game().getHintState(p);
+                    textPaint.setColor(
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
+                            Color.WHITE
+                    );
+                    String text = String.valueOf(n);
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
-        if (isInEditMode()) return;
-        for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
-        }
-        for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
-        }
     }
 
     @Override
@@ -149,7 +140,7 @@ public class MineShipsGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             MineShipsGameMove move = new MineShipsGameMove() {{
                 p = new Position(row, col);
-                obj = MineShipsObject.Empty;
+                obj = new MineShipsEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
