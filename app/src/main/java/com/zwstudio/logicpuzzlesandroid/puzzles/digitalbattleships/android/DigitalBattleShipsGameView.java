@@ -28,7 +28,6 @@ public class DigitalBattleShipsGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
-    private Paint whitePaint = new Paint();
     private Paint grayPaint = new Paint();
     private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
@@ -51,8 +50,6 @@ public class DigitalBattleShipsGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        whitePaint.setColor(Color.WHITE);
-        whitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         grayPaint.setColor(Color.GRAY);
         grayPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setColor(Color.RED);
@@ -78,38 +75,40 @@ public class DigitalBattleShipsGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
+                int n = game().get(r, c);
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 DigitalBattleShipsObject o = game().getObject(r, c);
                 Path path = new Path();
-                Paint paint = game().pos2obj.containsKey(new Position(r, c)) ? grayPaint : whitePaint;
                 switch (o) {
                 case BattleShipUnit:
-                    canvas.drawArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 360, true, paint);
+                    canvas.drawArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 360, true, grayPaint);
                     break;
                 case BattleShipMiddle:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, paint);
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, grayPaint);
                     break;
                 case BattleShipLeft:
                     path.addRect(cwc2(c), chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 90, 180);
-                    canvas.drawPath(path, paint);
+                    canvas.drawPath(path, grayPaint);
                     break;
                 case BattleShipTop:
                     path.addRect(cwc(c) + 4, chr2(r), cwc(c + 1) - 4, chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 180, 180);
-                    canvas.drawPath(path, paint);
+                    canvas.drawPath(path, grayPaint);
                     break;
                 case BattleShipRight:
                     path.addRect(cwc(c) + 4, chr(r) + 4, cwc2(c), chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 270, 180);
-                    canvas.drawPath(path, paint);
+                    canvas.drawPath(path, grayPaint);
                     break;
                 case BattleShipBottom:
                     path.addRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr2(r), Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 180);
-                    canvas.drawPath(path, paint);
+                    canvas.drawPath(path, grayPaint);
                     break;
                 case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, paint);
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, grayPaint);
                     break;
                 case Forbidden:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
@@ -117,6 +116,13 @@ public class DigitalBattleShipsGameView extends CellsGameView {
                 }
             }
         if (isInEditMode()) return;
+        textPaint.setColor(Color.WHITE);
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                int n = game().get(r, c);
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
+            }
         for (int r = 0; r < rows(); r++) {
             HintState s = game().getRowState(r);
             textPaint.setColor(

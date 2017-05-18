@@ -32,11 +32,6 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
         super(game);
         objArray = new DigitalBattleShipsObject[rows() * cols()];
         Arrays.fill(objArray, DigitalBattleShipsObject.Empty);
-        for (Map.Entry<Position, DigitalBattleShipsObject> entry : game.pos2obj.entrySet()) {
-            Position p = entry.getKey();
-            DigitalBattleShipsObject o = entry.getValue();
-            set(p, o);
-        }
         row2state = new HintState[rows()];
         col2state = new HintState[cols()];
         updateIsSolved();
@@ -57,7 +52,7 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
 
     public boolean setObject(DigitalBattleShipsGameMove move) {
         Position p = move.p;
-        if (!isValid(p) || game.pos2obj.containsKey(p) || get(p) == move.obj) return false;
+        if (!isValid(p) || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
@@ -132,7 +127,7 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
                 if (o == DigitalBattleShipsObject.BattleShipTop || o == DigitalBattleShipsObject.BattleShipBottom ||
                         o == DigitalBattleShipsObject.BattleShipLeft || o == DigitalBattleShipsObject.BattleShipRight ||
                         o == DigitalBattleShipsObject.BattleShipMiddle || o == DigitalBattleShipsObject.BattleShipUnit)
-                    n1++;
+                    n1 += game.get(r, c);
             }
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
@@ -144,7 +139,7 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
                 if (o == DigitalBattleShipsObject.BattleShipTop || o == DigitalBattleShipsObject.BattleShipBottom ||
                         o == DigitalBattleShipsObject.BattleShipLeft || o == DigitalBattleShipsObject.BattleShipRight ||
                         o == DigitalBattleShipsObject.BattleShipMiddle || o == DigitalBattleShipsObject.BattleShipUnit)
-                    n1++;
+                    n1 += game.get(r, c);
             }
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
