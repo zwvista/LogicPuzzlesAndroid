@@ -10,11 +10,19 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsBattleShipBottomObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsBattleShipLeftObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsBattleShipMiddleObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsBattleShipRightObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsBattleShipTopObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsBattleShipUnitObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsEmptyObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsObject;
 
 /**
@@ -66,8 +74,8 @@ public class LightBattleShipsGameView extends CellsGameView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / cols() - 1;
+        cellHeight = getHeight() / rows() - 1;
         invalidate();
     }
 
@@ -78,67 +86,50 @@ public class LightBattleShipsGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                LightBattleShipsObject o = game().getObject(r, c);
+                Position p = new Position(r, c);
+                LightBattleShipsObject o = game().getObject(p);
                 Path path = new Path();
                 Paint paint = game().pos2obj.containsKey(new Position(r, c)) ? grayPaint : whitePaint;
-                switch (o) {
-                case BattleShipUnit:
+                if (o instanceof LightBattleShipsBattleShipUnitObject)
                     canvas.drawArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 360, true, paint);
-                    break;
-                case BattleShipMiddle:
+                else if (o instanceof LightBattleShipsBattleShipMiddleObject)
                     canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, paint);
-                    break;
-                case BattleShipLeft:
+                else if (o instanceof LightBattleShipsBattleShipLeftObject) {
                     path.addRect(cwc2(c), chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 90, 180);
                     canvas.drawPath(path, paint);
-                    break;
-                case BattleShipTop:
+                }
+                else if (o instanceof LightBattleShipsBattleShipTopObject) {
                     path.addRect(cwc(c) + 4, chr2(r), cwc(c + 1) - 4, chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 180, 180);
                     canvas.drawPath(path, paint);
-                    break;
-                case BattleShipRight:
+                }
+                else if (o instanceof LightBattleShipsBattleShipRightObject) {
                     path.addRect(cwc(c) + 4, chr(r) + 4, cwc2(c), chr(r + 1) - 4, Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 270, 180);
                     canvas.drawPath(path, paint);
-                    break;
-                case BattleShipBottom:
+                }
+                else if (o instanceof LightBattleShipsBattleShipBottomObject) {
                     path.addRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr2(r), Path.Direction.CW);
                     path.addArc(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, 0, 180);
                     canvas.drawPath(path, paint);
-                    break;
-                case Marker:
+                }
+                else if (o instanceof LightBattleShipsMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, paint);
-                    break;
-                case Forbidden:
+                else if (o instanceof LightBattleShipsForbiddenObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                    break;
+                Integer n = game().pos2hint.get(p);
+                if (n != null) {
+                    HintState state = game().getHintState(p);
+                    textPaint.setColor(
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
+                            Color.WHITE
+                    );
+                    String text = String.valueOf(n);
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
-        if (isInEditMode()) return;
-        for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
-        }
-        for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
-        }
     }
 
     @Override
@@ -149,7 +140,7 @@ public class LightBattleShipsGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             LightBattleShipsGameMove move = new LightBattleShipsGameMove() {{
                 p = new Position(row, col);
-                obj = LightBattleShipsObject.Empty;
+                obj = new LightBattleShipsEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))

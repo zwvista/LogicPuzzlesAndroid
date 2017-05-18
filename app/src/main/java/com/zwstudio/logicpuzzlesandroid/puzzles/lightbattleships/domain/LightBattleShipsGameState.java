@@ -7,6 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import fj.data.Array;
 import static fj.data.Array.arrayArray;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.function.Integers.add;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -25,20 +27,22 @@ import static fj.data.List.iterableList;
 
 public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState> {
     public LightBattleShipsObject[] objArray;
-    public HintState[] row2state;
-    public HintState[] col2state;
+    public Map<Position, HintState> pos2state = new HashMap<>();
 
     public LightBattleShipsGameState(LightBattleShipsGame game) {
         super(game);
         objArray = new LightBattleShipsObject[rows() * cols()];
-        Arrays.fill(objArray, LightBattleShipsObject.Empty);
+        Arrays.fill(objArray, new LightBattleShipsEmptyObject());
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            LightBattleShipsHintObject o = new LightBattleShipsHintObject();
+            set(p, o);
+        }
         for (Map.Entry<Position, LightBattleShipsObject> entry : game.pos2obj.entrySet()) {
             Position p = entry.getKey();
             LightBattleShipsObject o = entry.getValue();
             set(p, o);
         }
-        row2state = new HintState[rows()];
-        col2state = new HintState[cols()];
         updateIsSolved();
     }
 
@@ -66,27 +70,25 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
     public boolean switchObject(LightBattleShipsGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<LightBattleShipsObject, LightBattleShipsObject> f = obj -> {
-            switch (obj) {
-            case Empty:
+            if(obj instanceof LightBattleShipsEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        LightBattleShipsObject.Marker : LightBattleShipsObject.BattleShipUnit;
-            case BattleShipUnit:
-                return LightBattleShipsObject.BattleShipMiddle;
-            case BattleShipMiddle:
-                return LightBattleShipsObject.BattleShipLeft;
-            case BattleShipLeft:
-                return LightBattleShipsObject.BattleShipTop;
-            case BattleShipTop:
-                return LightBattleShipsObject.BattleShipRight;
-            case BattleShipRight:
-                return LightBattleShipsObject.BattleShipBottom;
-            case BattleShipBottom:
+                        new LightBattleShipsMarkerObject() : new LightBattleShipsBattleShipUnitObject();
+            else if(obj instanceof LightBattleShipsBattleShipUnitObject)
+                return new LightBattleShipsBattleShipMiddleObject();
+            else if(obj instanceof LightBattleShipsBattleShipMiddleObject)
+                return new LightBattleShipsBattleShipLeftObject();
+            else if(obj instanceof LightBattleShipsBattleShipLeftObject)
+                return new LightBattleShipsBattleShipTopObject();
+            else if(obj instanceof LightBattleShipsBattleShipTopObject)
+                return new LightBattleShipsBattleShipRightObject();
+            else if(obj instanceof LightBattleShipsBattleShipRightObject)
+                return new LightBattleShipsBattleShipBottomObject();
+            else if(obj instanceof LightBattleShipsBattleShipBottomObject)
                 return markerOption == MarkerOptions.MarkerLast ?
-                        LightBattleShipsObject.Marker : LightBattleShipsObject.Empty;
-            case Marker:
+                        new LightBattleShipsMarkerObject() : new LightBattleShipsEmptyObject();
+            else if(obj instanceof LightBattleShipsMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        LightBattleShipsObject.BattleShipUnit : LightBattleShipsObject.Empty;
-            }
+                        new LightBattleShipsBattleShipUnitObject() : new LightBattleShipsEmptyObject();
             return obj;
         };
         Position p = move.p;
@@ -123,39 +125,57 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
         isSolved = true;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++)
-                if (get(r, c) == LightBattleShipsObject.Forbidden)
-                    set(r, c, LightBattleShipsObject.Empty);
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0, n2 = game.row2hint[r];
-            for (int c = 0; c < cols(); c++) {
-                LightBattleShipsObject o = get(r, c);
-                if (o == LightBattleShipsObject.BattleShipTop || o == LightBattleShipsObject.BattleShipBottom ||
-                        o == LightBattleShipsObject.BattleShipLeft || o == LightBattleShipsObject.BattleShipRight ||
-                        o == LightBattleShipsObject.BattleShipMiddle || o == LightBattleShipsObject.BattleShipUnit)
-                    n1++;
-            }
-            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0, n2 = game.col2hint[c];
-            for (int r = 0; r < rows(); r++) {
-                LightBattleShipsObject o = get(r, c);
-                if (o == LightBattleShipsObject.BattleShipTop || o == LightBattleShipsObject.BattleShipBottom ||
-                        o == LightBattleShipsObject.BattleShipLeft || o == LightBattleShipsObject.BattleShipRight ||
-                        o == LightBattleShipsObject.BattleShipMiddle || o == LightBattleShipsObject.BattleShipUnit)
-                    n1++;
-            }
-            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
+                if (get(r, c) instanceof LightBattleShipsForbiddenObject)
+                    set(r, c, new LightBattleShipsEmptyObject());
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                F<Boolean, Boolean> hasNeighbor = isHint -> {
+                    for (Position os : LightBattleShipsGame.offset) {
+                        Position p2 = p.add(os);
+                        if (!isValid(p2)) continue;
+                        LightBattleShipsObject o = get(p2);
+                        if (o instanceof LightBattleShipsHintObject) {
+                            if (!isHint) return true;
+                        } else if (o instanceof LightBattleShipsBattleShipTopObject || o instanceof LightBattleShipsBattleShipBottomObject ||
+                                o instanceof LightBattleShipsBattleShipLeftObject || o instanceof LightBattleShipsBattleShipRightObject ||
+                                o instanceof LightBattleShipsBattleShipMiddleObject || o instanceof LightBattleShipsBattleShipUnitObject) {
+                            if (isHint) return true;
+                        }
+                    }
+                    return false;
+                };
                 LightBattleShipsObject o = get(r, c);
-                if ((o == LightBattleShipsObject.Empty || o == LightBattleShipsObject.Marker) && allowedObjectsOnly && (
-                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
-                    set(r, c, LightBattleShipsObject.Forbidden);
+                if (o instanceof LightBattleShipsHintObject) {
+                    LightBattleShipsHintObject o2 = (LightBattleShipsHintObject)o;
+                    o2.state = !hasNeighbor.f(true) ? HintState.Normal : HintState.Error;
+                } else if ((o instanceof LightBattleShipsEmptyObject || o instanceof LightBattleShipsMarkerObject) && allowedObjectsOnly && hasNeighbor.f(false))
+                    set(r, c, new LightBattleShipsForbiddenObject());
             }
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue();
+            Integer nums[] = {0, 0, 0, 0};
+            List<Position> rng = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                Position os = LightBattleShipsGame.offset[i * 2];
+                for (Position p2 = p.add(os); game.isValid(p2); p2.addBy(os)) {
+                    LightBattleShipsObject o = get(p2);
+                    if (o instanceof LightBattleShipsEmptyObject)
+                        rng.add(p2.plus());
+                    else if (o instanceof LightBattleShipsBattleShipTopObject || o instanceof LightBattleShipsBattleShipBottomObject ||
+                            o instanceof LightBattleShipsBattleShipLeftObject || o instanceof LightBattleShipsBattleShipRightObject ||
+                            o instanceof LightBattleShipsBattleShipMiddleObject || o instanceof LightBattleShipsBattleShipUnitObject)
+                        nums[i]++;
+                }
+            }
+            int n1 = arrayArray(nums).foldLeft(add, 0);
+            pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
+            if (n1 != n2) isSolved = false;
+            else if(allowedObjectsOnly)
+                for (Position p2 : rng)
+                    set(p2, new LightBattleShipsForbiddenObject());
+        }
         if (!isSolved) return;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
@@ -163,9 +183,9 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 LightBattleShipsObject o = get(p);
-                if (o == LightBattleShipsObject.BattleShipTop || o == LightBattleShipsObject.BattleShipBottom ||
-                        o == LightBattleShipsObject.BattleShipLeft || o == LightBattleShipsObject.BattleShipRight ||
-                        o == LightBattleShipsObject.BattleShipMiddle || o == LightBattleShipsObject.BattleShipUnit) {
+                if (o instanceof LightBattleShipsBattleShipTopObject || o instanceof LightBattleShipsBattleShipBottomObject ||
+                        o instanceof LightBattleShipsBattleShipLeftObject || o instanceof LightBattleShipsBattleShipRightObject ||
+                        o instanceof LightBattleShipsBattleShipMiddleObject || o instanceof LightBattleShipsBattleShipUnitObject) {
                     Node node = new Node(p.toString());
                     g.addNode(node);
                     pos2node.put(p, node);
@@ -189,20 +209,20 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
             for (Position p : area)
                 pos2node.remove(p);
             area.sort(Position::compareTo);
-            if (!(area.size() == 1 && get(area.get(0)) == LightBattleShipsObject.BattleShipUnit ||
+            if (!(area.size() == 1 && get(area.get(0)) instanceof LightBattleShipsBattleShipUnitObject ||
                     area.size() > 1 && area.size() < 5 && ((
                     iterableList(area).forall(p -> p.row == area.get(0).row) &&
-                    get(area.get(0)) == LightBattleShipsObject.BattleShipLeft &&
-                    get(area.get(area.size() - 1)) == LightBattleShipsObject.BattleShipRight ||
+                    get(area.get(0)) instanceof LightBattleShipsBattleShipLeftObject &&
+                    get(area.get(area.size() - 1)) instanceof LightBattleShipsBattleShipRightObject ||
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
-                    get(area.get(0)) == LightBattleShipsObject.BattleShipTop &&
-                    get(area.get(area.size() - 1)) == LightBattleShipsObject.BattleShipBottom) &&
-                    Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) == LightBattleShipsObject.BattleShipMiddle)) &&
+                    get(area.get(0)) instanceof LightBattleShipsBattleShipTopObject &&
+                    get(area.get(area.size() - 1)) instanceof LightBattleShipsBattleShipBottomObject) &&
+                    Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof LightBattleShipsBattleShipMiddleObject)) &&
                     arrayArray(LightBattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;
                         LightBattleShipsObject o = get(p2);
-                        return o == LightBattleShipsObject.Empty || o == LightBattleShipsObject.Forbidden || o == LightBattleShipsObject.Marker;
+                        return o instanceof LightBattleShipsEmptyObject || o instanceof LightBattleShipsForbiddenObject || o instanceof LightBattleShipsMarkerObject || o instanceof LightBattleShipsHintObject;
                     })))) {isSolved = false; return;}
             shipNumbers[area.size()]++;
         }

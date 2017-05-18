@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -20,9 +19,13 @@ import fj.F2;
 public class LightBattleShipsGame extends CellsGame<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
+            new Position(-1, 1),
             new Position(0, 1),
+            new Position(1, 1),
             new Position(1, 0),
+            new Position(1, -1),
             new Position(0, -1),
+            new Position(-1, -1),
     };
     public static Position offset2[] = {
             new Position(-1, 1),
@@ -31,43 +34,37 @@ public class LightBattleShipsGame extends CellsGame<LightBattleShipsGame, LightB
             new Position(-1, -1),
     };
 
-    public int[] row2hint;
-    public int[] col2hint;
+    public Map<Position, Integer> pos2hint = new HashMap<>();
     public Map<Position, LightBattleShipsObject> pos2obj = new HashMap<>();
 
     public LightBattleShipsGame(List<String> layout, GameInterface<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
-        size = new Position(layout.size() - 1, layout.get(0).length() - 1);
-        row2hint = new int[rows()];
-        col2hint = new int[cols()];
+        size = new Position(layout.size(), layout.get(0).length());
 
-        for (int r = 0; r < rows() + 1; r++) {
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() + 1; c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
                 switch(ch) {
                 case '^':
-                    pos2obj.put(p, LightBattleShipsObject.BattleShipTop); break;
+                    pos2obj.put(p, new LightBattleShipsBattleShipTopObject()); break;
                 case 'v':
-                    pos2obj.put(p, LightBattleShipsObject.BattleShipBottom); break;
+                    pos2obj.put(p, new LightBattleShipsBattleShipBottomObject()); break;
                 case '<':
-                    pos2obj.put(p, LightBattleShipsObject.BattleShipLeft); break;
+                    pos2obj.put(p, new LightBattleShipsBattleShipLeftObject()); break;
                 case '>':
-                    pos2obj.put(p, LightBattleShipsObject.BattleShipRight); break;
+                    pos2obj.put(p, new LightBattleShipsBattleShipRightObject()); break;
                 case '+':
-                    pos2obj.put(p, LightBattleShipsObject.BattleShipMiddle); break;
+                    pos2obj.put(p, new LightBattleShipsBattleShipMiddleObject()); break;
                 case 'o':
-                    pos2obj.put(p, LightBattleShipsObject.BattleShipUnit); break;
+                    pos2obj.put(p, new LightBattleShipsBattleShipUnitObject()); break;
                 case '.':
-                    pos2obj.put(p, LightBattleShipsObject.Marker); break;
+                    pos2obj.put(p, new LightBattleShipsMarkerObject()); break;
                 default:
                     if (ch >= '0' && ch <= '9') {
                         int n = ch - '0';
-                        if (r == rows())
-                            col2hint[c] = n;
-                        else if (c == cols())
-                            row2hint[r] = n;
+                        pos2hint.put(new Position(r, c), n);
                     }
                     break;
                 }
@@ -112,11 +109,7 @@ public class LightBattleShipsGame extends CellsGame<LightBattleShipsGame, LightB
         return state().get(row, col);
     }
 
-    public HintState getRowState(int row) {
-        return state().row2state[row];
-    }
-
-    public HintState getColState(int col) {
-        return state().col2state[col];
+    public HintState getHintState(Position p) {
+        return state().pos2state.get(p);
     }
 }

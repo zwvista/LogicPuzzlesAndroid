@@ -135,7 +135,7 @@ public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsG
                         o instanceof MineShipsBattleShipMiddleObject || o instanceof MineShipsBattleShipUnitObject)
                     n1++;
                 else if(o instanceof  MineShipsEmptyObject)
-                    rng.add(p2);
+                    rng.add(p2.plus());
             }
             pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;

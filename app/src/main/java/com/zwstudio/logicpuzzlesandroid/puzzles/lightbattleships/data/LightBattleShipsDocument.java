@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsGame;
@@ -19,12 +18,12 @@ public class LightBattleShipsDocument extends GameDocument<LightBattleShipsGame,
     protected void saveMove(LightBattleShipsGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.obj.ordinal();
+        rec.strValue1 = move.obj.objAsString();
     }
     public LightBattleShipsGameMove loadMove(MoveProgress rec) {
         return new LightBattleShipsGameMove() {{
             p = new Position(rec.row, rec.col);
-            obj = LightBattleShipsObject.values()[rec.intValue1];
+            obj = LightBattleShipsObject.objFromString(rec.strValue1);
         }};
     }
 }
