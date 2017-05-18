@@ -27,16 +27,6 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
     public LoopyGameState(LoopyGame game) {
         super(game);
         objArray = new Cloner().deepClone(game.objArray);
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++)
-                for (int dir = 1; dir <= 2; dir++) {
-                    if (game.get(r, c)[dir] != GridLineObject.Line) continue;
-                    LoopyGameMove move = new LoopyGameMove();
-                    move.p = new Position(r, c);
-                    move.dir = dir;
-                    move.obj = GridLineObject.Line;
-                    setObject(move);
-                }
     }
 
     public GridLineObject[] get(int row, int col) {

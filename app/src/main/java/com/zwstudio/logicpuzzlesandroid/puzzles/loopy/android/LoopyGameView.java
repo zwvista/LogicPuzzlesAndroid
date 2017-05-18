@@ -121,7 +121,7 @@ public class LoopyGameView extends CellsGameView {
                 dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
                 obj = GridLineObject.Empty;
             }};
-            if (game().setObject(move))
+            if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }
         return true;
