@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class MinesweeperGameMove {
     public Position p;
-    public MinesweeperObject obj;
+    public com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperObject obj;
 }

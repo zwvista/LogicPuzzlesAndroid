@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -27,7 +26,6 @@ public class MinesweeperGame extends CellsGame<MinesweeperGame, MinesweeperGameM
             new Position(1, -1),
             new Position(0, -1),
             new Position(-1, -1),
-            new Position(0, 0),
     };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();

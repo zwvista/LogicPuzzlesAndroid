@@ -5,8 +5,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fj.F;
@@ -22,12 +23,11 @@ public class MinesweeperGameState extends CellsGameState<MinesweeperGame, Minesw
     public MinesweeperGameState(MinesweeperGame game) {
         super(game);
         objArray = new MinesweeperObject[rows() * cols()];
-        Arrays.fill(objArray, MinesweeperObject.Empty);
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n = entry.getValue();
-            pos2state.put(p, n == 0 ? HintState.Complete : HintState.Normal);
-        }
+        for (int i = 0; i < objArray.length; i++)
+            objArray[i] = new MinesweeperEmptyObject();
+        for (Position p : game.pos2hint.keySet())
+            set(p, new MinesweeperHintObject());
+        updateIsSolved();
     }
 
     public MinesweeperObject get(int row, int col) {
@@ -53,17 +53,15 @@ public class MinesweeperGameState extends CellsGameState<MinesweeperGame, Minesw
     public boolean switchObject(MinesweeperGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<MinesweeperObject, MinesweeperObject> f = obj -> {
-            switch (obj) {
-            case Empty:
+            if (obj instanceof MinesweeperEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        MinesweeperObject.Marker : MinesweeperObject.Filled;
-            case Filled:
+                        new MinesweeperMarkerObject() : new MinesweeperMineObject();
+            else if(obj instanceof MinesweeperMineObject)
                 return markerOption == MarkerOptions.MarkerLast ?
-                        MinesweeperObject.Marker : MinesweeperObject.Empty;
-            case Marker:
+                        new MinesweeperMarkerObject() : new MinesweeperEmptyObject();
+            else if(obj instanceof MinesweeperMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        MinesweeperObject.Filled : MinesweeperObject.Empty;
-            }
+                        new MinesweeperMineObject() : new MinesweeperEmptyObject();
             return obj;
         };
         MinesweeperObject o = get(move.p);
@@ -88,18 +86,32 @@ public class MinesweeperGameState extends CellsGameState<MinesweeperGame, Minesw
            area are filled and some are not.
     */
     private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++)
+                if (get(r, c) instanceof MinesweeperForbiddenObject)
+                    set(r, c, new MinesweeperEmptyObject());
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
             int n1 = 0;
+            List<Position> rng = new ArrayList<>();
             for (Position os : MinesweeperGame.offset) {
                 Position p2 = p.add(os);
                 if (!isValid(p2)) continue;
-                if (get(p2) == MinesweeperObject.Filled) n1++;
+                MinesweeperObject o = get(p2);
+                if (o instanceof MinesweeperMineObject)
+                    n1++;
+                else if (o instanceof MinesweeperEmptyObject)
+                    rng.add(p2.plus());
             }
             pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2) isSolved = false;
+            if (n1 != n2)
+                isSolved = false;
+            else if(allowedObjectsOnly)
+                for (Position p2 : rng)
+                    set(p2, new MinesweeperForbiddenObject());
         }
     }
 }

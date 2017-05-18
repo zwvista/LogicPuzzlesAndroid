@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,9 +13,12 @@ import android.view.MotionEvent;
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperEmptyObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperMarkerObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperMineObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperObject;
 
 /**
@@ -27,9 +32,10 @@ public class MinesweeperGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
-    private Paint filledPaint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Paint forbiddenPaint = new Paint();
+    private Drawable dTree;
 
     public MinesweeperGameView(Context context) {
         super(context);
@@ -49,13 +55,15 @@ public class MinesweeperGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        filledPaint.setColor(Color.rgb(128, 0, 128));
-        filledPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setColor(Color.WHITE);
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
+        forbiddenPaint.setColor(Color.RED);
+        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        forbiddenPaint.setStrokeWidth(5);
+        dTree = fromImageToDrawable("tree.png");
     }
 
     @Override
@@ -76,14 +84,14 @@ public class MinesweeperGameView extends CellsGameView {
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
                 MinesweeperObject o = game().getObject(p);
-                switch (o) {
-                case Filled:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, filledPaint);
-                    break;
-                case Marker:
+                if (o instanceof MinesweeperMineObject) {
+                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
+                    dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dTree.draw(canvas);
+                } else if (o instanceof MinesweeperMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
-                    break;
-                }
+                else if (o instanceof MinesweeperForbiddenObject)
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
                     HintState state = game().getHintState(p);
@@ -106,7 +114,7 @@ public class MinesweeperGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             MinesweeperGameMove move = new MinesweeperGameMove() {{
                 p = new Position(row, col);
-                obj = MinesweeperObject.Empty;
+                obj = new MinesweeperEmptyObject();
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))

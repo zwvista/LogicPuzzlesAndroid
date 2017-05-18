@@ -138,7 +138,7 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
             List<Position> rng = new ArrayList<>();
             for (Position p : game.pos2hint.keySet())
                 if (nodeList.contains(pos2node.get(p)))
-                    rng.add(p);
+                    rng.add(p.plus());
             switch (rng.size()) {
                 case 0:
                     isSolved = false;

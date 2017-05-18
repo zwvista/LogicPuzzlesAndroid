@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
@@ -81,7 +80,7 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                rng.add(p);
+                rng.add(p.plus());
                 Node node = new Node(p.toString());
                 g.addNode(node);
                 pos2node.put(p, node);

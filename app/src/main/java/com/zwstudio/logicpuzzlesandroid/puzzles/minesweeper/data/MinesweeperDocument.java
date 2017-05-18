@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperGame;
@@ -19,12 +18,12 @@ public class MinesweeperDocument extends GameDocument<MinesweeperGame, Minesweep
     protected void saveMove(MinesweeperGameMove move, MoveProgress rec) {
         rec.row = move.p.row;
         rec.col = move.p.col;
-        rec.intValue1 = move.obj.ordinal();
+        rec.strValue1 = move.obj.objAsString();
     }
     public MinesweeperGameMove loadMove(MoveProgress rec) {
         return new MinesweeperGameMove() {{
             p = new Position(rec.row, rec.col);
-            obj = MinesweeperObject.values()[rec.intValue1];
+            obj = MinesweeperObject.objFromString(rec.strValue1);
         }};
     }
 }

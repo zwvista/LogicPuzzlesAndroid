@@ -147,7 +147,7 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
             List<Position> rng = new ArrayList<>();
             for (Position p : game.pos2hint.keySet())
                 if (nodeList.contains(pos2node.get(p)))
-                    rng.add(p);
+                    rng.add(p.plus());
             switch (rng.size()) {
                 case 0:
                     isSolved = false;
