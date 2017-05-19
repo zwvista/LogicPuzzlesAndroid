@@ -98,18 +98,17 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/Battle Ships
+        iOS Game: Logic Games/Puzzle Set 13/Light Battle Ships
 
         Summary
-        Play solo Battleships, with the help of the numbers on the border.
+        Please divert your course 15 degrees to avoid collision
 
         Description
-        1. Standard rules of Battleships apply, but you are guessing the other
-           player ships disposition, by using the numbers on the borders.
-        2. Each number tells you how many ship or ship pieces you're seeing in
-           that row or column.
-        3. Standard rules apply: a ship or piece of ship can't touch another,
-           not even diagonally.
+        1. A mix of Battle Ships and Lighthouses, you have to guess the usual
+           piece of ships with the help of Lighthouses.
+        2. Each number is a Lighthouse, telling you how many pieces of ship
+           there are in that row and column, summed together.
+        3. Ships cannot touch each other OR touch Lighthouses. Not even diagonally.
         4. In each puzzle there are
            1 Aircraft Carrier (4 squares)
            2 Destroyers (3 squares)

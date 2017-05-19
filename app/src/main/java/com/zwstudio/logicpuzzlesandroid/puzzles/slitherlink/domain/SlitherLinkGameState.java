@@ -49,7 +49,12 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         set(p.row, p.col, obj);
     }
 
+    private boolean isValidMove(SlitherLinkGameMove move) {
+        return !(move.p.row == rows() - 1 && move.dir == 2 || move.p.col == cols() - 1 && move.dir == 1);
+    }
+
     public boolean setObject(SlitherLinkGameMove move) {
+        if (!isValidMove(move)) return false;
         Position p1 = move.p;
         int dir = move.dir, dir2 = (dir + 2) % 4;
         GridLineObject o = get(p1)[dir];
@@ -61,6 +66,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
     }
 
     public boolean switchObject(SlitherLinkGameMove move) {
+        if (!isValidMove(move)) return false;
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<GridLineObject, GridLineObject> f = obj -> {
             switch (obj) {

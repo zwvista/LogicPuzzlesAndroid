@@ -93,27 +93,19 @@ public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsG
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/Battle Ships
+        iOS Game: Logic Games/Puzzle Set 8/Mine Ships
 
         Summary
-        Play solo Battleships, with the help of the numbers on the border.
+        Warning! Naval Mines in the water!
 
         Description
-        1. Standard rules of Battleships apply, but you are guessing the other
-           player ships disposition, by using the numbers on the borders.
-        2. Each number tells you how many ship or ship pieces you're seeing in
-           that row or column.
-        3. Standard rules apply: a ship or piece of ship can't touch another,
-           not even diagonally.
-        4. In each puzzle there are
-           1 Aircraft Carrier (4 squares)
-           2 Destroyers (3 squares)
-           3 Submarines (2 squares)
-           4 Patrol boats (1 square)
-
-        Variant
-        5. Some puzzle can also have a:
-           1 Supertanker (5 squares)
+        1. There are actually no mines in the water, but this is a mix between
+           Minesweeper and Battle Ships.
+        2. You must find the same set of ships like 'Battle Ships'
+           (1*4, 2*3, 3*2, 4*1).
+        3. However this time the hints are given in the same form as 'Minesweeper',
+           where a number tells you how many pieces of ship are around it.
+        4. Usual Battle Ships rules apply!
     */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();

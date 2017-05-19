@@ -91,19 +91,19 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/Battle Ships
+        iOS Game: Logic Games/Puzzle Set 13/Digital Battle Ships
 
         Summary
-        Play solo Battleships, with the help of the numbers on the border.
+        Please divert your course 12+1+2 to avoid collision
 
         Description
-        1. Standard rules of Battleships apply, but you are guessing the other
-           player ships disposition, by using the numbers on the borders.
-        2. Each number tells you how many ship or ship pieces you're seeing in
-           that row or column.
-        3. Standard rules apply: a ship or piece of ship can't touch another,
+        1. Play like Solo Battle Ships, with a difference.
+        2. Each number on the outer board tells you the SUM of the ship or
+           ship pieces you're seeing in that row or column.
+        3. A ship or ship piece is worth the number it occupies on the board.
+        4. Standard rules apply: a ship or piece of ship can't touch another,
            not even diagonally.
-        4. In each puzzle there are
+        5. In each puzzle there are
            1 Aircraft Carrier (4 squares)
            2 Destroyers (3 squares)
            3 Submarines (2 squares)
