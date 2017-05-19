@@ -1,19 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain;
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 
 import fj.F;
-import fj.F0;
-
-import static fj.data.Array.arrayArray;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -21,13 +15,15 @@ import static fj.data.Array.arrayArray;
 
 public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState> {
     public AbstractPaintingObject[] objArray;
-    public Map<Position, HintState> pos2state = new HashMap<>();
+    public HintState[] row2state;
+    public HintState[] col2state;
 
     public AbstractPaintingGameState(AbstractPaintingGame game) {
         super(game);
         objArray = new AbstractPaintingObject[rows() * cols()];
-        for (int i = 0; i < objArray.length; i++)
-            objArray[i] = new AbstractPaintingEmptyObject();
+        row2state = new HintState[rows()];
+        col2state = new HintState[cols()];
+        Arrays.fill(objArray, AbstractPaintingObject.Empty);
     }
 
     public AbstractPaintingObject get(int row, int col) {
@@ -45,7 +41,8 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
 
     public boolean setObject(AbstractPaintingGameMove move) {
         if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
+        for (Position p2 : game.areas.get(game.pos2area.get(move.p)))
+            set(p2, move.obj);
         updateIsSolved();
         return true;
     }
@@ -53,15 +50,17 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
     public boolean switchObject(AbstractPaintingGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<AbstractPaintingObject, AbstractPaintingObject> f = obj -> {
-            if (obj instanceof AbstractPaintingEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new AbstractPaintingMarkerObject() : new AbstractPaintingTreeObject();
-            if (obj instanceof AbstractPaintingTreeObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new AbstractPaintingMarkerObject() : new AbstractPaintingEmptyObject();
-            if (obj instanceof AbstractPaintingMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new AbstractPaintingTreeObject() : new AbstractPaintingEmptyObject();
+            switch (obj) {
+                case Empty:
+                    return markerOption == MarkerOptions.MarkerFirst ?
+                            AbstractPaintingObject.Marker : AbstractPaintingObject.Painting;
+                case Painting:
+                    return markerOption == MarkerOptions.MarkerLast ?
+                            AbstractPaintingObject.Marker : AbstractPaintingObject.Empty;
+                case Marker:
+                    return markerOption == MarkerOptions.MarkerFirst ?
+                            AbstractPaintingObject.Painting : AbstractPaintingObject.Empty;
+            }
             return obj;
         };
         AbstractPaintingObject o = get(move.p);
@@ -86,74 +85,31 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 AbstractPaintingObject o = get(r, c);
-                if (o instanceof AbstractPaintingForbiddenObject)
-                    set(r, c, new AbstractPaintingEmptyObject());
+                if (o == AbstractPaintingObject.Forbidden)
+                    set(r, c, AbstractPaintingObject.Empty);
             }
-        // 3. A Tree can't touch another Tree, not even diagonally.
+        for (int r = 0; r < rows(); r++) {
+            int n1 = 0, n2 = game.row2hint[r];
+            for (int c = 0; c < cols(); c++)
+                if (get(r, c) == AbstractPaintingObject.Painting)
+                    n1++;
+            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            if (n1 != n2) isSolved = false;
+        }
+        for (int c = 0; c < cols(); c++) {
+            int n1 = 0, n2 = game.col2hint[c];
+            for (int r = 0; r < rows(); r++)
+                if (get(r, c) == AbstractPaintingObject.Painting)
+                    n1++;
+            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            if (n1 != n2) isSolved = false;
+        }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                F0<Boolean> hasNeighbor = () -> {
-                    return arrayArray(AbstractPaintingGame.offset).exists(os -> {
-                        Position p2 = p.add(os);
-                        return isValid(p2) && get(p2) instanceof AbstractPaintingTreeObject;
-                    });
-                };
                 AbstractPaintingObject o = get(r, c);
-                if (o instanceof AbstractPaintingTreeObject) {
-                    AbstractPaintingTreeObject o2 = (AbstractPaintingTreeObject)o;
-                    o2.state = !hasNeighbor.f() ? AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof AbstractPaintingEmptyObject || o instanceof AbstractPaintingMarkerObject) && allowedObjectsOnly && hasNeighbor.f())
-                    set(r, c, new AbstractPaintingForbiddenObject());
+                if ((o == AbstractPaintingObject.Empty || o == AbstractPaintingObject.Marker) && allowedObjectsOnly && (
+                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
+                    set(r, c, AbstractPaintingObject.Forbidden);
             }
-        int n2 = game.treesInEachArea;
-        // 5. There must be exactly ONE Tree in each row.
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0;
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) instanceof AbstractPaintingTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int c = 0; c < cols(); c++) {
-                AbstractPaintingObject o = get(r, c);
-                if (o instanceof AbstractPaintingTreeObject) {
-                    AbstractPaintingTreeObject o2 = (AbstractPaintingTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof AbstractPaintingEmptyObject || o instanceof AbstractPaintingMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new AbstractPaintingForbiddenObject());
-            }
-        }
-        // 5. There must be exactly ONE Tree in each column.
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0;
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) instanceof AbstractPaintingTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int r = 0; r < rows(); r++) {
-                AbstractPaintingObject o = get(r, c);
-                if (o instanceof AbstractPaintingTreeObject) {
-                    AbstractPaintingTreeObject o2 = (AbstractPaintingTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof AbstractPaintingEmptyObject || o instanceof AbstractPaintingMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new AbstractPaintingForbiddenObject());
-            }
-        }
-        // 4. Each park must have exactly ONE Tree.
-        for (List<Position> a : game.areas) {
-            int n1 = 0;
-            for (Position p : a)
-                if (get(p) instanceof AbstractPaintingTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (Position p : a) {
-                AbstractPaintingObject o = get(p);
-                if (o instanceof AbstractPaintingTreeObject) {
-                    AbstractPaintingTreeObject o2 = (AbstractPaintingTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof AbstractPaintingEmptyObject || o instanceof AbstractPaintingMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(p, new AbstractPaintingForbiddenObject());
-            }
-        }
     }
 }

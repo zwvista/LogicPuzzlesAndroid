@@ -28,13 +28,9 @@ import static fj.data.List.iterableList;
 public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
-            new Position(-1, 1),
             new Position(0, 1),
-            new Position(1, 1),
             new Position(1, 0),
-            new Position(1, -1),
             new Position(0, -1),
-            new Position(-1, -1),
     };
     public static Position offset2[] = {
             new Position(0, 0),
@@ -47,12 +43,15 @@ public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, Abstra
     public List<List<Position>> areas = new ArrayList<>();
     public Map<Position, Integer> pos2area = new HashMap<>();
     public GridDots dots;
-    public int treesInEachArea = 1;
+    public int[] row2hint;
+    public int[] col2hint;
 
     public AbstractPaintingGame(List<String> layout, GameInterface<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
-        size = new Position(layout.size() / 2, layout.get(0).length() / 2);
+        size = new Position(layout.size() / 2 - 1, layout.get(0).length() / 2 - 1);
         dots = new GridDots(rows() + 1, cols() + 1);
+        row2hint = new int[rows()];
+        col2hint = new int[cols()];
         for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r * 2);
             for (int c = 0; c < cols(); c++) {
@@ -90,7 +89,7 @@ public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, Abstra
                 Position p = new Position(r, c);
                 for (int i = 0; i < 4; i++)
                     if (dots.get(p.add(AbstractPaintingGame.offset2[i]), AbstractPaintingGame.dirs[i]) != GridLineObject.Line)
-                        g.connectNode(pos2node.get(p), pos2node.get(p.add(AbstractPaintingGame.offset[i * 2])));
+                        g.connectNode(pos2node.get(p), pos2node.get(p.add(AbstractPaintingGame.offset[i])));
             }
         while (!rng.isEmpty()) {
             g.setRootNode(pos2node.get(iterableList(rng).head()));
@@ -101,6 +100,16 @@ public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, Abstra
                 pos2area.put(p, n);
             areas.add(area);
             rng.removeAll(area);
+        }
+        for (int r = 0; r < rows() + 1; r++) {
+            char ch = layout.get(2 * r + 1).charAt(2 * cols() + 1);
+            if (ch >= '0' && ch <= '9')
+                row2hint[r] = ch - '0';
+        }
+        for (int c = 0; c < cols(); c++) {
+            char ch = layout.get(2 * rows() + 1).charAt(2 * c + 1);
+            if (ch >= '0' && ch <= '9')
+                col2hint[c] = ch - '0';
         }
         AbstractPaintingGameState state = new AbstractPaintingGameState(this);
         states.add(state);
@@ -140,7 +149,11 @@ public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, Abstra
         return state().get(row, col);
     }
 
-    public HintState getHintState(Position p) {
-        return state().pos2state.get(p);
+    public HintState getRowState(int row) {
+        return state().row2state[row];
+    }
+
+    public HintState getColState(int col) {
+        return state().col2state[col];
     }
 }
