@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+<puzzle>
+<help>
+  <![CDATA[
+1. The goal is to reveal part of the abstract painting behind the board.
+2. Outer numbers tell how many tiles form the painting on the row and column.
+3. The region of the painting can be entirely hidden or revealed.
+  ]]>
+</help>
+<levels>
+  <level id="1">
+    <![CDATA[
+ - - - -  `
+| |     |3`
+   -      `
+|   |   |2`
+ - - - -  `
+|       |4`
+ - -      `
+|   |   |2`
+ - - - -  `
+ 1 2 4 4  `
+    ]]>
+  </level>
+  <level id="18">
+    <![CDATA[
+ - - - - -  `
+|   | |   |4`
+            `
+|   | |   |4`
+ - - -      `
+|     |   |2`
+     - - -  `
+|   |     | `
+ - -        `
+|   |     |3`
+ - - - - -  `
+ 2 2 2 5 5  `
+    ]]>
+  </level>
+  <level id="24">
+    <![CDATA[
+ - - - - -  `
+| |     | |4`
+   -        `
+|   |   | |4`
+     - -    `
+|   | | | |3`
+   -     -  `
+| |   |   | `
+ - -   -    `
+|   |   | |1`
+ - - - - -  `
+ 4   2 4 2  `
+    ]]>
+  </level>
+  <level id="33">
+    <![CDATA[
+ - - - - - -  `
+|     | |   | `
+ - - -   -    `
+|   |     | |3`
+     -        `
+|   | |   | |3`
+ - -   - -    `
+|   |     | |1`
+ -   - - - -  `
+| | |   |   |4`
+   -          `
+| |     |   |5`
+ - - - - - -  `
+   3 2 2   6  `
+    ]]>
+  </level>
+  <level id="250">
+    <![CDATA[
+ - - - - - - - - - -  `
+|   | | | | |     | |4`
+ - -         -   -    `
+| |   | | | | | | | |4`
+   - - - - -   -   -  `
+| |   |   |   |     | `
+ - - - - - -   - - -  `
+|   |   |   | |   | | `
+ - - -   -   - - -    `
+|     | | | | |   | |9`
+ - - - -   -       -  `
+| | |     | | |   | |7`
+     - - -   - - -    `
+| |   |   | | |   | |4`
+ - - - - - -   -   -  `
+| | |   |   |   | | |5`
+     - - - - - - -    `
+| | |       |   |   |1`
+ - - - - - - - - -    `
+|     |     |     | |6`
+ - - - - - - - - - -  `
+ 5 4   6 5 5     4 4  `
+    ]]>
+  </level>
+</levels>
+</puzzle>
