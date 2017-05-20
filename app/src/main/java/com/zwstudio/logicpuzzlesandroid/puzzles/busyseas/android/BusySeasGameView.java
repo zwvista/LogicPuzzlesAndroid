@@ -65,7 +65,7 @@ public class BusySeasGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        dLightbulb = fromImageToDrawable("lightbulb.png");
+        dLightbulb = fromImageToDrawable("images/lightbulb.png");
     }
 
     @Override

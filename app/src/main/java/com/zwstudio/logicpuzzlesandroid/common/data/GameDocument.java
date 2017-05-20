@@ -48,7 +48,7 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
     public void init() {
         String filename = gameID() + ".xml";
         try {
-            InputStream in_s = app.getApplicationContext().getAssets().open(filename);
+            InputStream in_s = app.getApplicationContext().getAssets().open("xml/" + filename);
             loadXml(in_s);
             in_s.close();
         } catch (IOException e) {

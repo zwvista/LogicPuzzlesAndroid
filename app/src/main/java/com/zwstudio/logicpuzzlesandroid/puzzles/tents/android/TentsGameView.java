@@ -67,8 +67,8 @@ public class TentsGameView extends CellsGameView {
         forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        dTree = fromImageToDrawable("tree.png");
-        dTent = fromImageToDrawable("tent.png");
+        dTree = fromImageToDrawable("images/tree.png");
+        dTent = fromImageToDrawable("images/tent.png");
     }
 
     @Override

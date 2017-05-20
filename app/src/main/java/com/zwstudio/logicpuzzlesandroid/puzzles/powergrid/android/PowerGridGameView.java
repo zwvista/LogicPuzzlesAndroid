@@ -65,7 +65,7 @@ public class PowerGridGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        dPost = fromImageToDrawable("tree.png");
+        dPost = fromImageToDrawable("images/tree.png");
     }
 
     @Override

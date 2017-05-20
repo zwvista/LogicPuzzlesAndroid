@@ -56,8 +56,8 @@ public class MagnetsGameView extends CellsGameView {
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        dPositive = fromImageToDrawable("positive.png");
-        dNegative = fromImageToDrawable("negative.png");
+        dPositive = fromImageToDrawable("images/positive.png");
+        dNegative = fromImageToDrawable("images/negative.png");
     }
 
     @Override

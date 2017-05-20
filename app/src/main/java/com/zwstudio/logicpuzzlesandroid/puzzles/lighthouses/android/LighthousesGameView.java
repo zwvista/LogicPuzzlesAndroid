@@ -65,7 +65,7 @@ public class LighthousesGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        dTree = fromImageToDrawable("tree.png");
+        dTree = fromImageToDrawable("images/tree.png");
     }
 
     @Override

@@ -13,8 +13,10 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
+
+import static fj.data.Array.arrayArray;
 
 @EActivity(R.layout.activity_home_choose_game)
 public class HomeChooseGameActivity extends BaseActivity {
@@ -23,14 +25,17 @@ public class HomeChooseGameActivity extends BaseActivity {
     @ViewById
     ListView lvGames;
 
-    List<String> lstGames = Arrays.asList("Abc", "AbstractPainting", "BattleShips", "BootyIsland", "BoxItAgain", "BoxItAround",
-            "BoxItUp", "Bridges", "BusySeas", "Clouds", "DigitalBattleShips", "Domino", "FenceItUp", "FenceLits", "FenceSentinels",
-            "Hitori", "LightBattleShips", "LightenUp", "Lighthouses", "LineSweeper", "Lits", "Loopy", "Magnets",
-            "Masyu", "MineShips", "Minesweeper", "MiniLits", "Mosaik", "Neighbours", "Nurikabe", "Pairakabe", "Parks", "PowerGrid",
-            "ProductSentinels", "Rooms", "Sentinels", "Skyscrapers", "SlitherLink", "Sumscrapers", "Tents");
+    List<String> lstGames;
 
     @AfterViews
     protected void init() {
+        try {
+            lstGames = arrayArray(app.getApplicationContext().getAssets().list("xml"))
+                    .map(f -> f.substring(0, f.length() - ".xml".length()))
+                    .toJavaList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_single_choice, lstGames);
         lvGames.setAdapter(adapter);

@@ -65,7 +65,7 @@ public class SentinelsGameView extends CellsGameView {
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
-        dTower = fromImageToDrawable("tree.png");
+        dTower = fromImageToDrawable("images/tree.png");
     }
 
     @Override
