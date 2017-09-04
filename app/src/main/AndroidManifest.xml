@@ -385,6 +385,18 @@
         <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.overunder.android.OverUnderMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.overunder.android.OverUnderGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.overunder.android.OverUnderHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.overunder.android.OverUnderOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pairakabe.android.PairakabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
