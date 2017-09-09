@@ -41,9 +41,13 @@ public class CellsGameView extends View {
 
     // http://stackoverflow.com/questions/11120392/android-center-text-on-canvas
     protected void drawTextCentered(String text, int x, int y, Canvas canvas, TextPaint textPaint) {
-        textPaint.setTextSize(cellHeight);
-        float xPos = x + (cellWidth - textPaint.measureText(text)) / 2;
-        float yPos = y + (cellHeight - textPaint.descent() - textPaint.ascent()) / 2;
+        drawTextCentered(text, x, y, cellWidth, cellHeight, canvas, textPaint);
+    }
+
+    protected void drawTextCentered(String text, int x, int y, int wd, int ht, Canvas canvas, TextPaint textPaint) {
+        textPaint.setTextSize(ht);
+        float xPos = x + (wd - textPaint.measureText(text)) / 2;
+        float yPos = y + (ht - textPaint.descent() - textPaint.ascent()) / 2;
         canvas.drawText(text, xPos, yPos, textPaint);
     }
 

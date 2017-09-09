@@ -505,6 +505,18 @@
         <activity android:name=".puzzles.sumscrapers.android.SumscrapersOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.tapa.android.TapaMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapa.android.TapaGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapa.android.TapaHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapa.android.TapaOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.tents.android.TentsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
