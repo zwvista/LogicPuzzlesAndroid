@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
@@ -26,54 +26,54 @@ import static fj.data.HashMap.fromMap;
  * Created by zwvista on 2016/09/29.
  */
 
-public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGameState> {
-    public TapaObject[] objArray;
+public class PataGameState extends CellsGameState<PataGame, PataGameMove, PataGameState> {
+    public PataObject[] objArray;
 
-    public TapaGameState(TapaGame game) {
+    public PataGameState(PataGame game) {
         super(game);
-        objArray = new TapaObject[rows() * cols()];
+        objArray = new PataObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
-            objArray[i] = new TapaEmptyObject();
+            objArray[i] = new PataEmptyObject();
         for (Position p : game.pos2hint.keySet())
-            set(p, new TapaHintObject());
+            set(p, new PataHintObject());
     }
 
-    public TapaObject get(int row, int col) {
+    public PataObject get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public TapaObject get(Position p) {
+    public PataObject get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, TapaObject obj) {
+    public void set(int row, int col, PataObject obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, TapaObject obj) {
+    public void set(Position p, PataObject obj) {
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(TapaGameMove move) {
+    public boolean setObject(PataGameMove move) {
         Position p = move.p;
-        TapaObject objOld = get(p);
-        TapaObject objNew = move.obj;
-        if (objOld instanceof TapaHintObject || objOld.equals(objNew))
+        PataObject objOld = get(p);
+        PataObject objNew = move.obj;
+        if (objOld instanceof PataHintObject || objOld.equals(objNew))
             return false;
         set(p, objNew);
         updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(TapaGameMove move) {
+    public boolean switchObject(PataGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<TapaObject, TapaObject> f = obj -> {
-            if (obj instanceof TapaEmptyObject)
+        F<PataObject, PataObject> f = obj -> {
+            if (obj instanceof PataEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaMarkerObject() : new TapaWallObject();
-            if (obj instanceof TapaWallObject)
+                        new PataMarkerObject() : new PataWallObject();
+            if (obj instanceof PataWallObject)
                 return markerOption == MarkerOptions.MarkerLast ?
-                        new TapaMarkerObject() : new TapaEmptyObject();
-            if (obj instanceof TapaMarkerObject)
+                        new PataMarkerObject() : new PataEmptyObject();
+            if (obj instanceof PataMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaWallObject() : new TapaEmptyObject();
+                        new PataWallObject() : new PataEmptyObject();
             return obj;
         };
         move.obj = f.f(get(move.p));
@@ -81,47 +81,33 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 9/Tapa
+        iOS Game: Logic Games/Puzzle Set 9/Pata
 
         Summary
-        Turkish art of PAint(TAPA)
+        Yes, it's the opposite of Tapa
 
         Description
-        1. The goal is to fill some tiles forming a single orthogonally continuous
-           path. Just like Nurikabe.
-        2. A number indicates how many of the surrounding tiles are filled. If a
-           tile has more than one number, it hints at multiple separated groups
-           of filled tiles.
-        3. For example, a cell with a 1 and 3 means there is a continuous group
-           of 3 filled cells around it and one more single filled cell, separated
-           from the other 3. The order of the numbers in this case is irrelevant.
-        4. Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
-           Tiles with numbers can be considered 'empty'.
-
-        Variations
-        5. Tapa has plenty of variations. Some are available in the levels of this
-           game. Stronger variations are B-W Tapa, Island Tapa and Pata and have
-           their own game.
-        6. Equal Tapa - The board contains an equal number of white and black tiles.
-           Tiles with numbers or question marks are NOT counted as empty or filled
-           for this rule (i.e. they're left out of the count).
-        7. Four-Me-Tapa - Four-Me-Not rule apply: you can't have more than three
-           filled tiles in line.
-        8. No Square Tapa - No 2*2 area of the board can be left empty.
+        1. Plays the opposite of Tapa, regarding the hints:
+        2. A number indicates the groups of connected empty tiles that are around
+           it, instead of filled ones.
+        3. Different groups of empty tiles are separated by at least one filled cell.
+        4. Same as Tapa:
+        5. The filled tiles are continuous.
+        6. You can't have a 2*2 space of filled tiles.
     */
     private void updateIsSolved() {
         isSolved = true;
-        F<List<Integer>, List<Integer>> computeHint = filled -> {
+        F<List<Integer>, List<Integer>> computeHint = emptied -> {
             List<Integer> hint = new ArrayList<>();
-            if (filled.isEmpty())
+            if (emptied.isEmpty())
                 hint.add(0);
             else {
-                for (int j = 0; j < filled.size(); j++)
-                    if (j == 0 || filled.get(j) - filled.get(j - 1) != 1)
+                for (int j = 0; j < emptied.size(); j++)
+                    if (j == 0 || emptied.get(j) - emptied.get(j - 1) != 1)
                         hint.add(1);
                     else
                         hint.set(hint.size() - 1, hint.get(hint.size() - 1) + 1);
-                if (filled.size() > 1 && hint.size() > 1 && filled.get(filled.size() - 1) - filled.get(0) == 7) {
+                if (emptied.size() > 1 && hint.size() > 1 && emptied.get(emptied.size() - 1) - emptied.get(0) == 7) {
                     hint.set(0, hint.get(0) + hint.get(hint.size() - 1));
                     hint.remove(hint.size() - 1);
                 }
@@ -141,14 +127,21 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
         fromMap(game.pos2hint).foreachDoEffect(kv -> {
             Position p = kv._1();
             List<Integer> arr2 = kv._2();
-            List<Integer> filled = Stream.range(0, 8).filter(i -> {
-                Position p2 = p.add(TapaGame.offset[i]);
-                return isValid(p2) && get(p2) instanceof TapaWallObject;
+            List<Integer> emptied = Stream.range(0, 8).filter(i -> {
+                Position p2 = p.add(PataGame.offset[i]);
+                if (!isValid(p2)) return false;
+                PataObject o = get(p2);
+                return o instanceof PataEmptyObject || o instanceof PataHintObject;
             }).toJavaList();
-            List<Integer> arr = computeHint.f(filled);
-            HintState s = arr.size() == 1 && arr.get(0) == 0 ? HintState.Normal :
+            List<Integer> arr = computeHint.f(emptied);
+            List<Integer> filled = Stream.range(0, 8).filter(i -> {
+                Position p2 = p.add(PataGame.offset[i]);
+                return isValid(p2) && get(p2) instanceof PataWallObject;
+            }).toJavaList();
+            List<Integer> arr3 = computeHint.f(filled);
+            HintState s = arr3.size() == 1 && arr3.get(0) == 0 ? HintState.Normal :
                     isCompatible.f(arr, arr2) ? HintState.Complete : HintState.Error;
-            TapaHintObject o = new TapaHintObject();
+            PataHintObject o = new PataHintObject();
             o.state = s;
             set(p, o);
             if (s != HintState.Complete) isSolved = false;
@@ -157,9 +150,9 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
-                if (array(TapaGame.offset2).forall(os -> {
-                    TapaObject o = get(p.add(os));
-                    return o instanceof TapaWallObject;
+                if (array(PataGame.offset2).forall(os -> {
+                    PataObject o = get(p.add(os));
+                    return o instanceof PataWallObject;
                 })) {
                     isSolved = false; return;
                 }
@@ -173,11 +166,11 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
                 Node node = new Node(p.toString());
                 g.addNode(node);
                 pos2node.put(p, node);
-                if (get(p) instanceof TapaWallObject)
+                if (get(p) instanceof PataWallObject)
                     rngWalls.add(p);
             }
         for (Position p : rngWalls)
-            for (Position os : TapaGame.offset) {
+            for (Position os : PataGame.offset) {
                 Position p2 = p.add(os);
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));

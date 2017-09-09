@@ -49,6 +49,18 @@
         <activity android:name=".puzzles.abstractpainting.android.AbstractPaintingOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.battleships.android.BattleShipsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -131,6 +143,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.busyseas.android.BusySeasOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bwtapa.android.BWTapaMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bwtapa.android.BWTapaGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bwtapa.android.BWTapaHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bwtapa.android.BWTapaOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
@@ -421,6 +445,18 @@
         <activity android:name=".puzzles.parks.android.ParksOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pata.android.PataMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pata.android.PataGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pata.android.PataHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pata.android.PataOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.powergrid.android.PowerGridMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -515,6 +551,54 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.tapa.android.TapaOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapaislands.android.TapaIslandsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapaislands.android.TapaIslandsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapaislands.android.TapaIslandsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapaislands.android.TapaIslandsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapalike.android.TapAlikeMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapalike.android.TapAlikeGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapalike.android.TapAlikeHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapalike.android.TapAlikeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.taparow.android.TapARowMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.taparow.android.TapARowGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.taparow.android.TapARowHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.taparow.android.TapARowOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.tents.android.TentsMainActivity_"

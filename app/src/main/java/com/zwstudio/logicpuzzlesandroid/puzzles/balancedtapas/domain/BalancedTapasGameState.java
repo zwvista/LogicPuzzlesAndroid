@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
@@ -26,54 +26,54 @@ import static fj.data.HashMap.fromMap;
  * Created by zwvista on 2016/09/29.
  */
 
-public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGameState> {
-    public TapaObject[] objArray;
+public class BalancedTapasGameState extends CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState> {
+    public BalancedTapasObject[] objArray;
 
-    public TapaGameState(TapaGame game) {
+    public BalancedTapasGameState(BalancedTapasGame game) {
         super(game);
-        objArray = new TapaObject[rows() * cols()];
+        objArray = new BalancedTapasObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
-            objArray[i] = new TapaEmptyObject();
+            objArray[i] = new BalancedTapasEmptyObject();
         for (Position p : game.pos2hint.keySet())
-            set(p, new TapaHintObject());
+            set(p, new BalancedTapasHintObject());
     }
 
-    public TapaObject get(int row, int col) {
+    public BalancedTapasObject get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public TapaObject get(Position p) {
+    public BalancedTapasObject get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, TapaObject obj) {
+    public void set(int row, int col, BalancedTapasObject obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, TapaObject obj) {
+    public void set(Position p, BalancedTapasObject obj) {
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(TapaGameMove move) {
+    public boolean setObject(BalancedTapasGameMove move) {
         Position p = move.p;
-        TapaObject objOld = get(p);
-        TapaObject objNew = move.obj;
-        if (objOld instanceof TapaHintObject || objOld.equals(objNew))
+        BalancedTapasObject objOld = get(p);
+        BalancedTapasObject objNew = move.obj;
+        if (objOld instanceof BalancedTapasHintObject || objOld.equals(objNew))
             return false;
         set(p, objNew);
         updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(TapaGameMove move) {
+    public boolean switchObject(BalancedTapasGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<TapaObject, TapaObject> f = obj -> {
-            if (obj instanceof TapaEmptyObject)
+        F<BalancedTapasObject, BalancedTapasObject> f = obj -> {
+            if (obj instanceof BalancedTapasEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaMarkerObject() : new TapaWallObject();
-            if (obj instanceof TapaWallObject)
+                        new BalancedTapasMarkerObject() : new BalancedTapasWallObject();
+            if (obj instanceof BalancedTapasWallObject)
                 return markerOption == MarkerOptions.MarkerLast ?
-                        new TapaMarkerObject() : new TapaEmptyObject();
-            if (obj instanceof TapaMarkerObject)
+                        new BalancedTapasMarkerObject() : new BalancedTapasEmptyObject();
+            if (obj instanceof BalancedTapasMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaWallObject() : new TapaEmptyObject();
+                        new BalancedTapasWallObject() : new BalancedTapasEmptyObject();
             return obj;
         };
         move.obj = f.f(get(move.p));
@@ -81,7 +81,7 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 9/Tapa
+        iOS Game: Logic Games/Puzzle Set 9/BalancedTapas
 
         Summary
         Turkish art of PAint(TAPA)
@@ -99,15 +99,15 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
            Tiles with numbers can be considered 'empty'.
 
         Variations
-        5. Tapa has plenty of variations. Some are available in the levels of this
-           game. Stronger variations are B-W Tapa, Island Tapa and Pata and have
+        5. BalancedTapas has plenty of variations. Some are available in the levels of this
+           game. Stronger variations are B-W BalancedTapas, Island BalancedTapas and Pata and have
            their own game.
-        6. Equal Tapa - The board contains an equal number of white and black tiles.
+        6. Equal BalancedTapas - The board contains an equal number of white and black tiles.
            Tiles with numbers or question marks are NOT counted as empty or filled
            for this rule (i.e. they're left out of the count).
-        7. Four-Me-Tapa - Four-Me-Not rule apply: you can't have more than three
+        7. Four-Me-BalancedTapas - Four-Me-Not rule apply: you can't have more than three
            filled tiles in line.
-        8. No Square Tapa - No 2*2 area of the board can be left empty.
+        8. No Square BalancedTapas - No 2*2 area of the board can be left empty.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -142,13 +142,13 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
             Position p = kv._1();
             List<Integer> arr2 = kv._2();
             List<Integer> filled = Stream.range(0, 8).filter(i -> {
-                Position p2 = p.add(TapaGame.offset[i]);
-                return isValid(p2) && get(p2) instanceof TapaWallObject;
+                Position p2 = p.add(BalancedTapasGame.offset[i]);
+                return isValid(p2) && get(p2) instanceof BalancedTapasWallObject;
             }).toJavaList();
             List<Integer> arr = computeHint.f(filled);
             HintState s = arr.size() == 1 && arr.get(0) == 0 ? HintState.Normal :
                     isCompatible.f(arr, arr2) ? HintState.Complete : HintState.Error;
-            TapaHintObject o = new TapaHintObject();
+            BalancedTapasHintObject o = new BalancedTapasHintObject();
             o.state = s;
             set(p, o);
             if (s != HintState.Complete) isSolved = false;
@@ -157,9 +157,9 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
-                if (array(TapaGame.offset2).forall(os -> {
-                    TapaObject o = get(p.add(os));
-                    return o instanceof TapaWallObject;
+                if (array(BalancedTapasGame.offset2).forall(os -> {
+                    BalancedTapasObject o = get(p.add(os));
+                    return o instanceof BalancedTapasWallObject;
                 })) {
                     isSolved = false; return;
                 }
@@ -173,11 +173,11 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
                 Node node = new Node(p.toString());
                 g.addNode(node);
                 pos2node.put(p, node);
-                if (get(p) instanceof TapaWallObject)
+                if (get(p) instanceof BalancedTapasWallObject)
                     rngWalls.add(p);
             }
         for (Position p : rngWalls)
-            for (Position os : TapaGame.offset) {
+            for (Position os : BalancedTapasGame.offset) {
                 Position p2 = p.add(os);
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));

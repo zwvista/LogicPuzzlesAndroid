@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
@@ -21,59 +21,60 @@ import fj.data.Stream;
 
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
-public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGameState> {
-    public TapaObject[] objArray;
+public class TapaIslandsGameState extends CellsGameState<TapaIslandsGame, TapaIslandsGameMove, TapaIslandsGameState> {
+    public TapaIslandsObject[] objArray;
 
-    public TapaGameState(TapaGame game) {
+    public TapaIslandsGameState(TapaIslandsGame game) {
         super(game);
-        objArray = new TapaObject[rows() * cols()];
+        objArray = new TapaIslandsObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
-            objArray[i] = new TapaEmptyObject();
+            objArray[i] = new TapaIslandsEmptyObject();
         for (Position p : game.pos2hint.keySet())
-            set(p, new TapaHintObject());
+            set(p, new TapaIslandsHintObject());
     }
 
-    public TapaObject get(int row, int col) {
+    public TapaIslandsObject get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public TapaObject get(Position p) {
+    public TapaIslandsObject get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, TapaObject obj) {
+    public void set(int row, int col, TapaIslandsObject obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, TapaObject obj) {
+    public void set(Position p, TapaIslandsObject obj) {
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(TapaGameMove move) {
+    public boolean setObject(TapaIslandsGameMove move) {
         Position p = move.p;
-        TapaObject objOld = get(p);
-        TapaObject objNew = move.obj;
-        if (objOld instanceof TapaHintObject || objOld.equals(objNew))
+        TapaIslandsObject objOld = get(p);
+        TapaIslandsObject objNew = move.obj;
+        if (objOld instanceof TapaIslandsHintObject || objOld.equals(objNew))
             return false;
         set(p, objNew);
         updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(TapaGameMove move) {
+    public boolean switchObject(TapaIslandsGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<TapaObject, TapaObject> f = obj -> {
-            if (obj instanceof TapaEmptyObject)
+        F<TapaIslandsObject, TapaIslandsObject> f = obj -> {
+            if (obj instanceof TapaIslandsEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaMarkerObject() : new TapaWallObject();
-            if (obj instanceof TapaWallObject)
+                        new TapaIslandsMarkerObject() : new TapaIslandsWallObject();
+            if (obj instanceof TapaIslandsWallObject)
                 return markerOption == MarkerOptions.MarkerLast ?
-                        new TapaMarkerObject() : new TapaEmptyObject();
-            if (obj instanceof TapaMarkerObject)
+                        new TapaIslandsMarkerObject() : new TapaIslandsEmptyObject();
+            if (obj instanceof TapaIslandsMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaWallObject() : new TapaEmptyObject();
+                        new TapaIslandsWallObject() : new TapaIslandsEmptyObject();
             return obj;
         };
         move.obj = f.f(get(move.p));
@@ -81,33 +82,18 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 9/Tapa
+        iOS Game: Logic Games/Puzzle Set 9/Tapa Islands
 
         Summary
-        Turkish art of PAint(TAPA)
+        Tap-Archipelago
 
         Description
-        1. The goal is to fill some tiles forming a single orthogonally continuous
-           path. Just like Nurikabe.
-        2. A number indicates how many of the surrounding tiles are filled. If a
-           tile has more than one number, it hints at multiple separated groups
-           of filled tiles.
-        3. For example, a cell with a 1 and 3 means there is a continuous group
-           of 3 filled cells around it and one more single filled cell, separated
-           from the other 3. The order of the numbers in this case is irrelevant.
-        4. Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
-           Tiles with numbers can be considered 'empty'.
-
-        Variations
-        5. Tapa has plenty of variations. Some are available in the levels of this
-           game. Stronger variations are B-W Tapa, Island Tapa and Pata and have
-           their own game.
-        6. Equal Tapa - The board contains an equal number of white and black tiles.
-           Tiles with numbers or question marks are NOT counted as empty or filled
-           for this rule (i.e. they're left out of the count).
-        7. Four-Me-Tapa - Four-Me-Not rule apply: you can't have more than three
-           filled tiles in line.
-        8. No Square Tapa - No 2*2 area of the board can be left empty.
+        1. Plays with the same rules as Tapa with these variations.
+        2. Empty tiles from 'islands', or separated areas, are surrounded by the
+           filled tiles.
+        3. Each separated area may contain at most one clue tile.
+        4. If there is a clue tile in an area, at least one digit should give the
+           size of that area in unit squares.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -142,13 +128,13 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
             Position p = kv._1();
             List<Integer> arr2 = kv._2();
             List<Integer> filled = Stream.range(0, 8).filter(i -> {
-                Position p2 = p.add(TapaGame.offset[i]);
-                return isValid(p2) && get(p2) instanceof TapaWallObject;
+                Position p2 = p.add(TapaIslandsGame.offset[i]);
+                return isValid(p2) && get(p2) instanceof TapaIslandsWallObject;
             }).toJavaList();
             List<Integer> arr = computeHint.f(filled);
             HintState s = arr.size() == 1 && arr.get(0) == 0 ? HintState.Normal :
                     isCompatible.f(arr, arr2) ? HintState.Complete : HintState.Error;
-            TapaHintObject o = new TapaHintObject();
+            TapaIslandsHintObject o = new TapaIslandsHintObject();
             o.state = s;
             set(p, o);
             if (s != HintState.Complete) isSolved = false;
@@ -157,9 +143,9 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
-                if (array(TapaGame.offset2).forall(os -> {
-                    TapaObject o = get(p.add(os));
-                    return o instanceof TapaWallObject;
+                if (array(TapaIslandsGame.offset2).forall(os -> {
+                    TapaIslandsObject o = get(p.add(os));
+                    return o instanceof TapaIslandsWallObject;
                 })) {
                     isSolved = false; return;
                 }
@@ -167,23 +153,69 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         List<Position> rngWalls = new ArrayList<>();
+        List<Position> rngEmpty = new ArrayList<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 Node node = new Node(p.toString());
                 g.addNode(node);
                 pos2node.put(p, node);
-                if (get(p) instanceof TapaWallObject)
+                if (get(p) instanceof TapaIslandsWallObject)
                     rngWalls.add(p);
+                else
+                    rngEmpty.add(p);
             }
         for (Position p : rngWalls)
-            for (Position os : TapaGame.offset) {
+            for (Position os : TapaIslandsGame.offset) {
                 Position p2 = p.add(os);
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
-        g.setRootNode(pos2node.get(rngWalls.get(0)));
-        List<Node> nodeList = g.bfs();
-        if (rngWalls.size() != nodeList.size()) isSolved = false;
+        for (Position p : rngEmpty)
+            for (Position os : TapaIslandsGame.offset) {
+                Position p2 = p.add(os);
+                if (rngEmpty.contains(p2))
+                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+            }
+        if (rngWalls.isEmpty()) {isSolved = false; return;}
+        {
+            g.setRootNode(pos2node.get(rngWalls.get(0)));
+            List<Node> nodeList = g.bfs();
+            if (rngWalls.size() != nodeList.size()) {isSolved = false; return;}
+        }
+        while (!rngEmpty.isEmpty()) {
+            g.setRootNode(pos2node.get(rngEmpty.get(0)));
+            List<Node> nodeList = g.bfs();
+            rngEmpty = iterableList(rngEmpty).filter(p -> !nodeList.contains(pos2node.get(p))).toJavaList();
+            int n2 = nodeList.size();
+            List<Position> rng = new ArrayList<>();
+            for (Position p : game.pos2hint.keySet())
+                if (nodeList.contains(pos2node.get(p)))
+                    rng.add(p);
+            switch (rng.size()) {
+            case 0:
+                isSolved = false;
+                break;
+            case 1:
+                {
+                    Position p = rng.get(0);
+                    List<Integer> arr2 = game.pos2hint.get(p);
+                    HintState s = arr2.contains(n2) ? HintState.Complete : HintState.Error;
+                    TapaIslandsHintObject o = new TapaIslandsHintObject();
+                    o.state = s;
+                    set(p, o);
+                    if (s != HintState.Complete) isSolved = false;
+                }
+                break;
+            default:
+                for (Position p : rng) {
+                    TapaIslandsHintObject o = new TapaIslandsHintObject();
+                    o.state = HintState.Normal;
+                    set(p, o);
+                }
+                isSolved = false;
+                break;
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
@@ -26,54 +26,54 @@ import static fj.data.HashMap.fromMap;
  * Created by zwvista on 2016/09/29.
  */
 
-public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGameState> {
-    public TapaObject[] objArray;
+public class TapDifferentlyGameState extends CellsGameState<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState> {
+    public TapDifferentlyObject[] objArray;
 
-    public TapaGameState(TapaGame game) {
+    public TapDifferentlyGameState(TapDifferentlyGame game) {
         super(game);
-        objArray = new TapaObject[rows() * cols()];
+        objArray = new TapDifferentlyObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
-            objArray[i] = new TapaEmptyObject();
+            objArray[i] = new TapDifferentlyEmptyObject();
         for (Position p : game.pos2hint.keySet())
-            set(p, new TapaHintObject());
+            set(p, new TapDifferentlyHintObject());
     }
 
-    public TapaObject get(int row, int col) {
+    public TapDifferentlyObject get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public TapaObject get(Position p) {
+    public TapDifferentlyObject get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, TapaObject obj) {
+    public void set(int row, int col, TapDifferentlyObject obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, TapaObject obj) {
+    public void set(Position p, TapDifferentlyObject obj) {
         set(p.row, p.col, obj);
     }
 
-    public boolean setObject(TapaGameMove move) {
+    public boolean setObject(TapDifferentlyGameMove move) {
         Position p = move.p;
-        TapaObject objOld = get(p);
-        TapaObject objNew = move.obj;
-        if (objOld instanceof TapaHintObject || objOld.equals(objNew))
+        TapDifferentlyObject objOld = get(p);
+        TapDifferentlyObject objNew = move.obj;
+        if (objOld instanceof TapDifferentlyHintObject || objOld.equals(objNew))
             return false;
         set(p, objNew);
         updateIsSolved();
         return true;
     }
 
-    public boolean switchObject(TapaGameMove move) {
+    public boolean switchObject(TapDifferentlyGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<TapaObject, TapaObject> f = obj -> {
-            if (obj instanceof TapaEmptyObject)
+        F<TapDifferentlyObject, TapDifferentlyObject> f = obj -> {
+            if (obj instanceof TapDifferentlyEmptyObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaMarkerObject() : new TapaWallObject();
-            if (obj instanceof TapaWallObject)
+                        new TapDifferentlyMarkerObject() : new TapDifferentlyWallObject();
+            if (obj instanceof TapDifferentlyWallObject)
                 return markerOption == MarkerOptions.MarkerLast ?
-                        new TapaMarkerObject() : new TapaEmptyObject();
-            if (obj instanceof TapaMarkerObject)
+                        new TapDifferentlyMarkerObject() : new TapDifferentlyEmptyObject();
+            if (obj instanceof TapDifferentlyMarkerObject)
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        new TapaWallObject() : new TapaEmptyObject();
+                        new TapDifferentlyWallObject() : new TapDifferentlyEmptyObject();
             return obj;
         };
         move.obj = f.f(get(move.p));
@@ -81,33 +81,15 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 9/Tapa
+        iOS Game: Logic Games/Puzzle Set 10/Tap Differently
 
         Summary
-        Turkish art of PAint(TAPA)
+        Tapa Landscaper
 
         Description
-        1. The goal is to fill some tiles forming a single orthogonally continuous
-           path. Just like Nurikabe.
-        2. A number indicates how many of the surrounding tiles are filled. If a
-           tile has more than one number, it hints at multiple separated groups
-           of filled tiles.
-        3. For example, a cell with a 1 and 3 means there is a continuous group
-           of 3 filled cells around it and one more single filled cell, separated
-           from the other 3. The order of the numbers in this case is irrelevant.
-        4. Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
-           Tiles with numbers can be considered 'empty'.
-
-        Variations
-        5. Tapa has plenty of variations. Some are available in the levels of this
-           game. Stronger variations are B-W Tapa, Island Tapa and Pata and have
-           their own game.
-        6. Equal Tapa - The board contains an equal number of white and black tiles.
-           Tiles with numbers or question marks are NOT counted as empty or filled
-           for this rule (i.e. they're left out of the count).
-        7. Four-Me-Tapa - Four-Me-Not rule apply: you can't have more than three
-           filled tiles in line.
-        8. No Square Tapa - No 2*2 area of the board can be left empty.
+        1. Plays with the same rules as Tapa with these variations:
+        2. Each row must have a different number of filled cells.
+        3. Each column must have a different number of filled cells.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -142,13 +124,13 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
             Position p = kv._1();
             List<Integer> arr2 = kv._2();
             List<Integer> filled = Stream.range(0, 8).filter(i -> {
-                Position p2 = p.add(TapaGame.offset[i]);
-                return isValid(p2) && get(p2) instanceof TapaWallObject;
+                Position p2 = p.add(TapDifferentlyGame.offset[i]);
+                return isValid(p2) && get(p2) instanceof TapDifferentlyWallObject;
             }).toJavaList();
             List<Integer> arr = computeHint.f(filled);
             HintState s = arr.size() == 1 && arr.get(0) == 0 ? HintState.Normal :
                     isCompatible.f(arr, arr2) ? HintState.Complete : HintState.Error;
-            TapaHintObject o = new TapaHintObject();
+            TapDifferentlyHintObject o = new TapDifferentlyHintObject();
             o.state = s;
             set(p, o);
             if (s != HintState.Complete) isSolved = false;
@@ -157,9 +139,9 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
-                if (array(TapaGame.offset2).forall(os -> {
-                    TapaObject o = get(p.add(os));
-                    return o instanceof TapaWallObject;
+                if (array(TapDifferentlyGame.offset2).forall(os -> {
+                    TapDifferentlyObject o = get(p.add(os));
+                    return o instanceof TapDifferentlyWallObject;
                 })) {
                     isSolved = false; return;
                 }
@@ -173,17 +155,35 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
                 Node node = new Node(p.toString());
                 g.addNode(node);
                 pos2node.put(p, node);
-                if (get(p) instanceof TapaWallObject)
+                if (get(p) instanceof TapDifferentlyWallObject)
                     rngWalls.add(p);
             }
         for (Position p : rngWalls)
-            for (Position os : TapaGame.offset) {
+            for (Position os : TapDifferentlyGame.offset) {
                 Position p2 = p.add(os);
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         g.setRootNode(pos2node.get(rngWalls.get(0)));
         List<Node> nodeList = g.bfs();
-        if (rngWalls.size() != nodeList.size()) isSolved = false;
+        if (rngWalls.size() != nodeList.size()) {isSolved = false; return;}
+        Set<Integer> nums = new HashSet<>();
+        for (int r = 0; r < rows(); r++) {
+            int n = 0;
+            for (int c = 0; c < cols(); c++)
+                if (get(r, c) instanceof TapDifferentlyWallObject)
+                    n++;
+            nums.add(n);
+        }
+        if (nums.size() != rows()) {isSolved = false; return;}
+        nums.clear();
+        for (int c = 0; c < cols(); c++) {
+            int n = 0;
+            for (int r = 0; r < rows(); r++)
+                if (get(r, c) instanceof TapDifferentlyWallObject)
+                    n++;
+            nums.add(n);
+        }
+        if (nums.size() != cols()) isSolved = false;
     }
 }
