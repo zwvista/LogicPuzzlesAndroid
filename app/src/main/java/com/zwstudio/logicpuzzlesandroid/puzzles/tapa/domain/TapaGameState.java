@@ -139,16 +139,18 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
             return h1.containsAll(h2);
         };
         fromMap(game.pos2hint).foreachDoEffect(kv -> {
-            List<Integer> filled = Stream.range(0, 7).filter(i -> {
-                Position p2 = kv._1().add(TapaGame.offset[i]);
-                return isValid(p2) && get(p2).toString().equals(new TapaWallObject().toString());
+            Position p = kv._1();
+            List<Integer> arr2 = kv._2();
+            List<Integer> filled = Stream.range(0, 8).filter(i -> {
+                Position p2 = p.add(TapaGame.offset[i]);
+                return isValid(p2) && get(p2) instanceof TapaWallObject;
             }).toJavaList();
             List<Integer> arr = computeHint.f(filled);
             HintState s = arr.size() == 1 && arr.get(0) == 0 ? HintState.Normal :
-                    isCompatible.f(arr, kv._2()) ? HintState.Complete : HintState.Error;
+                    isCompatible.f(arr, arr2) ? HintState.Complete : HintState.Error;
             TapaHintObject o = new TapaHintObject();
             o.state = s;
-            set(kv._1(), o);
+            set(p, o);
             if (s != HintState.Complete) isSolved = false;
         });
         if (!isSolved) return;
