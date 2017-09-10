@@ -229,6 +229,18 @@
         <activity android:name=".puzzles.fencesentinels.android.FenceSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.galaxies.android.GalaxiesMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.galaxies.android.GalaxiesGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.galaxies.android.GalaxiesHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.galaxies.android.GalaxiesOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hitori.android.HitoriMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -443,6 +455,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.orchards.android.OrchardsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.parks.android.ParksMainActivity_"

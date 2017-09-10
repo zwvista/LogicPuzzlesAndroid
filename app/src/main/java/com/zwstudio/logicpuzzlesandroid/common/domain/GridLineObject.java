@@ -5,5 +5,5 @@ package com.zwstudio.logicpuzzlesandroid.common.domain;
  */
 
 public enum GridLineObject {
-    Empty, Line, Marker
+    Empty, Line, Marker, Forbidden
 }
