@@ -42,7 +42,7 @@ public class FenceItUpGameState extends CellsGameState<FenceItUpGame, FenceItUpG
     public boolean setObject(FenceItUpGameMove move) {
         Position p1 = move.p;
         int dir = move.dir, dir2 = (dir + 2) % 4;
-        if (game.get(p1)[dir] == GridLineObject.Line) return false;
+        if (game.get(p1)[dir] != GridLineObject.Empty) return false;
         GridLineObject o = get(p1)[dir];
         if (o.equals(move.obj)) return false;
         Position p2 = p1.add(FenceItUpGame.offset[dir]);

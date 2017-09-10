@@ -4,13 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGame;
@@ -30,7 +28,7 @@ public class GalaxiesGameView extends CellsGameView {
     private Paint line1Paint = new Paint();
     private Paint line2Paint = new Paint();
     private Paint markerPaint = new Paint();
-    private TextPaint textPaint = new TextPaint();
+    private Paint galaxyPaint = new Paint();
 
     public GalaxiesGameView(Context context) {
         super(context);
@@ -59,8 +57,8 @@ public class GalaxiesGameView extends CellsGameView {
         markerPaint.setColor(Color.YELLOW);
         markerPaint.setStyle(Paint.Style.STROKE);
         markerPaint.setStrokeWidth(5);
-        textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
+        galaxyPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        galaxyPaint.setStrokeWidth(5);
     }
 
     @Override
@@ -76,22 +74,8 @@ public class GalaxiesGameView extends CellsGameView {
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
+            for (int c = 0; c < cols(); c++)
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
-                if (isInEditMode()) continue;
-                Position p = new Position(r, c);
-                Integer n = game().pos2hint.get(p);
-                if (n != null) {
-                    HintState state = game().hint2StrState(p);
-                    textPaint.setColor(
-                            state == HintState.Complete ? Color.GREEN :
-                            state == HintState.Error ? Color.RED :
-                            Color.WHITE
-                    );
-                    String text = String.valueOf(n);
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
-                }
-            }
         if (isInEditMode()) return;
         int markerOffset = 20;
         for (int r = 0; r < rows() + 1; r++)
@@ -118,6 +102,18 @@ public class GalaxiesGameView extends CellsGameView {
                     break;
                 }
             }
+        for (Position p : game().galaxies) {
+            HintState state = game().hint2State(p);
+            galaxyPaint.setColor(
+                    state == HintState.Complete ? Color.GREEN :
+                    state == HintState.Error ? Color.RED :
+                    Color.WHITE
+            );
+            int r = p.row, c = p.col;
+            int x = cwc2(c / 2) - (c % 2 == 0 ? cellWidth / 2 : 0);
+            int y = chr2(r / 2) - (r % 2 == 0 ? cellHeight / 2 : 0);
+            canvas.drawArc(x - 20, y - 20, x + 20, y + 20, 0, 360, true, galaxyPaint);
+        }
     }
 
     @Override

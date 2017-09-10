@@ -11,13 +11,10 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import fj.F;
-import fj.F0;
 
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
@@ -54,7 +51,7 @@ public class GalaxiesGameState extends CellsGameState<GalaxiesGame, GalaxiesGame
     public boolean setObject(GalaxiesGameMove move) {
         Position p1 = move.p;
         int dir = move.dir, dir2 = (dir + 2) % 4;
-        if (game.get(p1)[dir] == GridLineObject.Empty) return false;
+        if (game.get(p1)[dir] != GridLineObject.Empty) return false;
         GridLineObject o = get(p1)[dir];
         if (o.equals(move.obj)) return false;
         Position p2 = p1.add(GalaxiesGame.offset[dir]);
@@ -85,22 +82,20 @@ public class GalaxiesGameState extends CellsGameState<GalaxiesGame, GalaxiesGame
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 8/Galaxies
+        iOS Game: Logic Games/Puzzle Set 4/Galaxies
 
         Summary
-        Galaxies, yes, but not equally sociable
+        Fill the Symmetric Spiral Galaxies
 
         Description
-        1. The board represents a piece of land bought by a bunch of people. They
-           decided to split the land in equal parts.
-        2. However some people are more social and some are less, so each owner
-           wants an exact number of galaxies around him.
-        3. Each number on the board represents an owner house and the number of
-           galaxies he desires.
-        4. Divide the land so that each one has an equal number of squares and
-           the requested number of galaxies.
-        5. Later on, there will be Question Marks, which represents an owner for
-           which you don't know the galaxies preference.
+        1. In the board there are marked centers of a few 'Spiral' Galaxies.
+        2. These Galaxies are symmetrical to a rotation of 180 degrees. This
+           means that rotating the shape of the Galaxy by 180 degrees (half a
+           full turn) around the center, will result in an identical shape.
+        3. In the end, all the space must be included in Galaxies and Galaxies
+           can't overlap.
+        4. There can be single tile Galaxies (with the center inside it) and
+           some Galaxy center will be cross two or four tiles.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -117,7 +112,7 @@ public class GalaxiesGameState extends CellsGameState<GalaxiesGame, GalaxiesGame
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
                 for (int i = 0; i < 4; i++)
-                    if (get(p.add(GalaxiesGame.offset2[i]))[GalaxiesGame.dirs[i]] == GridLineObject.Empty)
+                    if (get(p.add(GalaxiesGame.offset2[i]))[GalaxiesGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node.get(p), pos2node.get(p.add(GalaxiesGame.offset[i])));
             }
         List<List<Position>> areas = new ArrayList<>();
@@ -132,33 +127,18 @@ public class GalaxiesGameState extends CellsGameState<GalaxiesGame, GalaxiesGame
                 pos2node.remove(p);
             }
         }
-        int n2 = game.areaSize;
         for (List<Position> area : areas) {
-            List<Position> rng = iterableList(area).filter(p -> game.pos2hint.containsKey(p)).toJavaList();
+            List<Position> rng = iterableList(game.galaxies).filter(p -> area.contains(new Position(p.row / 2, p.col / 2))).toJavaList();
             if (rng.size() != 1) {
                 for (Position p : rng)
                     pos2state.put(p, HintState.Normal);
                 isSolved = false; continue;
             }
-            Position p3 = rng.get(0);
-            int n1 = area.size(), n3 = game.pos2hint.get(p3);
-            F0<Integer> galaxies = () -> {
-                Set<Integer> indexes = new HashSet<>();
-                Integer idx = pos2area.get(area.get(0));
-                for (Position p : area)
-                    for (int i = 0; i < 4; i++) {
-                        if (get(p.add(GalaxiesGame.offset2[i]))[GalaxiesGame.dirs[i]] == GridLineObject.Empty) continue;
-                        Position p2 = p.add(GalaxiesGame.offset[i]);
-                        Integer idx2 = pos2area.get(p2);
-                        if (idx2 == null) continue;
-                        if (idx == idx2) return -1;
-                        indexes.add(idx2);
-                    }
-                return indexes.size();
-            };
-            HintState s = n1 == n2 && n3 == galaxies.f() ? HintState.Complete : HintState.Error;
-            pos2state.put(p3, s);
-            if (s != HintState.Complete) isSolved = false;
+            Position galaxy = rng.get(0);
+            boolean b = iterableList(area).forall(p -> area.contains(new Position(galaxy.row - p.row - 1, galaxy.col - p.col - 1)));
+            HintState s = b ? HintState.Complete : HintState.Error;
+            pos2state.put(galaxy, s);
+            if (!b) isSolved = false;
         }
     }
 }

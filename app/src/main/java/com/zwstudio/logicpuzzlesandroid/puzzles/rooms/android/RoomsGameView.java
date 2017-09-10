@@ -82,7 +82,7 @@ public class RoomsGameView extends CellsGameView {
                 Position p = new Position(r, c);
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
-                    HintState state = game().hint2StrState(p);
+                    HintState state = game().hint2State(p);
                     textPaint.setColor(
                             state == HintState.Complete ? Color.GREEN :
                             state == HintState.Error ? Color.RED :

@@ -112,7 +112,7 @@ public class BoxItAgainGame extends CellsGame<BoxItAgainGame, BoxItAgainGameMove
         return state().get(row, col);
     }
 
-    public HintState hint2StrState(Position p) {
+    public HintState hint2State(Position p) {
         return state().pos2state.get(p);
     }
 }
