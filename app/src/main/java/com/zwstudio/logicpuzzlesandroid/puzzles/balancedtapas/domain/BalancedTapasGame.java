@@ -35,10 +35,13 @@ public class BalancedTapasGame extends CellsGame<BalancedTapasGame, BalancedTapa
     };
 
     public Map<Position, List<Integer>> pos2hint = new HashMap<>();
+    public int left, right;
 
-    public BalancedTapasGame(List<String> layout, GameInterface<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState> gi, GameDocumentInterface gdi) {
+    public BalancedTapasGame(List<String> layout, String leftPart, GameInterface<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length() / 4);
+        left = leftPart.charAt(0) - '0'; right = left + 1;
+        if (leftPart.length() > 1) left++;
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {

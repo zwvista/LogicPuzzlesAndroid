@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame;
@@ -14,8 +15,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-
-import java.util.List;
 
 import static fj.data.List.iterableList;
 
@@ -36,12 +35,12 @@ public class LoopyGameActivity extends GameGameActivity<LoopyGame, LoopyDocument
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;
-        List<String> layout = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o.id.equals(selectedLevelID)).orSome(0)).layout;
+        GameLevel level = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o.id.equals(selectedLevelID)).orSome(0));
         tvLevel.setText(selectedLevelID);
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new LoopyGame(layout, this, doc());
+        game = new LoopyGame(level.layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

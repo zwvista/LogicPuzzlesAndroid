@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity;
+import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.data.DigitalBattleShipsDocument;
 import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.DigitalBattleShipsGame;
@@ -14,8 +15,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-
-import java.util.List;
 
 import static fj.data.List.iterableList;
 
@@ -36,12 +35,12 @@ public class DigitalBattleShipsGameActivity extends GameGameActivity<DigitalBatt
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;
-        List<String> layout = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o.id.equals(selectedLevelID)).orSome(0)).layout;
+        GameLevel level = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o.id.equals(selectedLevelID)).orSome(0));
         tvLevel.setText(selectedLevelID);
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new DigitalBattleShipsGame(layout, this, doc());
+        game = new DigitalBattleShipsGame(level.layout, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {
