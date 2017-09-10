@@ -433,6 +433,18 @@
         <activity android:name=".puzzles.pairakabe.android.PairakabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.parks.android.ParksMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
