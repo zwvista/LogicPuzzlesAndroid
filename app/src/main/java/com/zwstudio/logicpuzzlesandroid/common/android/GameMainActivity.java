@@ -50,7 +50,7 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
         currentPage = index / countPerPage;
         showCurrentPage();
 
-        tvGame.setText(doc().gameID());
+        tvGame.setText(doc().gameTitle());
 
         boolean toResume = getIntent().getBooleanExtra("toResume", false);
         if (toResume) resumeGame();
