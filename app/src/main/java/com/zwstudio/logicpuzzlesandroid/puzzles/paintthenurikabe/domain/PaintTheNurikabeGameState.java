@@ -23,11 +23,9 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
         super(game);
         objArray = new PaintTheNurikabeObject[rows() * cols()];
         Arrays.fill(objArray, PaintTheNurikabeObject.Empty);
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n = entry.getValue();
-            pos2state.put(p, n == 0 ? HintState.Complete : HintState.Normal);
-        }
+        for (Position p : game.pos2hint.keySet())
+            pos2state.put(p, HintState.Normal);
+        updateIsSolved();
     }
 
     public PaintTheNurikabeObject get(int row, int col) {
@@ -72,20 +70,18 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 4/PaintTheNurikabe
+        iOS Game: Logic Games/Puzzle Set 6/Paint The Nurikabe
 
         Summary
-        Paint the mosaic, filling squares with the numbered hints
+        Paint areas, find Nurikabes
 
         Description
-        1. In PaintTheNurikabe, there is a hidden image which can be discovered using the
-           numbered hints.
-        2. A number tells you how many tiles must be filled in the 3*3 area formed
-           by the tile itself and the ones surrounding it.
-        3. Thus the numbers can go from 0, where no tiles is filled, to 9, where
-           every tile is filled in a 3*3 area around the tile with the number.
-        4. Every number in between denotes that some of the tiles in that 3*3
-           area are filled and some are not.
+        1. By painting (filling) the areas you have to complete a Nurikabe.
+           Specifically:
+        2. A number indicates how many painted tiles are adjacent to it.
+        3. The painted tiles form an orthogonally continuous area, like a
+           Nurikabe.
+        4. There can't be any 2*2 area of the same color(painted or empty).
     */
     private void updateIsSolved() {
         isSolved = true;

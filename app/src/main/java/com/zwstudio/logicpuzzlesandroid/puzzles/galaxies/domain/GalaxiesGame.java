@@ -35,7 +35,6 @@ public class GalaxiesGame extends CellsGame<GalaxiesGame, GalaxiesGameMove, Gala
 
     public GridLineObject[][] objArray;
     public Set<Position> galaxies = new HashSet<>();
-    public int areaSize = 0;
 
     public GridLineObject[] get(int row, int col) {
         return objArray[row * cols() + col];
