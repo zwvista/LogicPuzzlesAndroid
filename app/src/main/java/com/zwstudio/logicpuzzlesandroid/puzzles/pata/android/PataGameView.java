@@ -21,6 +21,8 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain.PataWallObject;
 
 import java.util.List;
 
+import fj.F;
+
 /**
  * TODO: document your custom view class.
  */
@@ -87,24 +89,28 @@ public class PataGameView extends CellsGameView {
                             o2.state == HintState.Error ? Color.RED :
                             Color.WHITE
                     );
+                    F<Integer, String> hint2Str = i -> {
+                        int n = hint.get(i);
+                        return n == -1 ? "?" : String.valueOf(n);
+                    };
                     switch (hint.size()) {
                     case 1:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc(c), chr(r), canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc(c), chr(r), canvas, textPaint);
                         break;
                     case 2:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(1)), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(1), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
                     case 3:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(1)), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(2)), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(1), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(2), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
                     case 4:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(1)), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(2)), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(3)), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(1), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(2), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(3), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
                     }
                 } else if (o instanceof PataMarkerObject)

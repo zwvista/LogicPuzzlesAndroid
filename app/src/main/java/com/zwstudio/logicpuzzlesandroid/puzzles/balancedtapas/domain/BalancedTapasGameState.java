@@ -81,33 +81,15 @@ public class BalancedTapasGameState extends CellsGameState<BalancedTapasGame, Ba
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 9/BalancedTapas
+        iOS Game: Logic Games/Puzzle Set 10/Balanced Tapas
 
         Summary
-        Turkish art of PAint(TAPA)
+        Healthy Spanish diet
 
         Description
-        1. The goal is to fill some tiles forming a single orthogonally continuous
-           path. Just like Nurikabe.
-        2. A number indicates how many of the surrounding tiles are filled. If a
-           tile has more than one number, it hints at multiple separated groups
-           of filled tiles.
-        3. For example, a cell with a 1 and 3 means there is a continuous group
-           of 3 filled cells around it and one more single filled cell, separated
-           from the other 3. The order of the numbers in this case is irrelevant.
-        4. Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
-           Tiles with numbers can be considered 'empty'.
-
-        Variations
-        5. BalancedTapas has plenty of variations. Some are available in the levels of this
-           game. Stronger variations are B-W BalancedTapas, Island BalancedTapas and Pata and have
-           their own game.
-        6. Equal BalancedTapas - The board contains an equal number of white and black tiles.
-           Tiles with numbers or question marks are NOT counted as empty or filled
-           for this rule (i.e. they're left out of the count).
-        7. Four-Me-BalancedTapas - Four-Me-Not rule apply: you can't have more than three
-           filled tiles in line.
-        8. No Square BalancedTapas - No 2*2 area of the board can be left empty.
+        1. Plays with the same rules as Tapa with these variations.
+        2. The board is divided in two vertical parts.
+        3. The filled cell count in both parts must be equal.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -184,6 +166,17 @@ public class BalancedTapasGameState extends CellsGameState<BalancedTapasGame, Ba
             }
         g.setRootNode(pos2node.get(rngWalls.get(0)));
         List<Node> nodeList = g.bfs();
-        if (rngWalls.size() != nodeList.size()) isSolved = false;
+        if (rngWalls.size() != nodeList.size()) {isSolved = false; return;}
+        F2<Integer, Integer, Integer> computeWalls = (from, to) -> {
+            int n = 0;
+            for (int c = 0; c < cols(); c++) {
+                for (int r = 0; r < rows(); r++)
+                    if (get(r, c) instanceof BalancedTapasWallObject)
+                        n++;
+            }
+            return n;
+        };
+        int n1 = computeWalls.f(0, game.left), n2 = computeWalls.f(game.right, cols());
+        if (n1 != n2) isSolved = false;
     }
 }

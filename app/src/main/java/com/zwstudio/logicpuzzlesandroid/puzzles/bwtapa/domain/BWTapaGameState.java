@@ -81,33 +81,15 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 9/BWTapa
+        iOS Game: Logic Games/Puzzle Set 9/B&W Tapa
 
         Summary
-        Turkish art of PAint(TAPA)
+        Black and white Tapas
 
         Description
-        1. The goal is to fill some tiles forming a single orthogonally continuous
-           path. Just like Nurikabe.
-        2. A number indicates how many of the surrounding tiles are filled. If a
-           tile has more than one number, it hints at multiple separated groups
-           of filled tiles.
-        3. For example, a cell with a 1 and 3 means there is a continuous group
-           of 3 filled cells around it and one more single filled cell, separated
-           from the other 3. The order of the numbers in this case is irrelevant.
-        4. Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
-           Tiles with numbers can be considered 'empty'.
-
-        Variations
-        5. BWTapa has plenty of variations. Some are available in the levels of this
-           game. Stronger variations are B-W BWTapa, Island BWTapa and Pata and have
-           their own game.
-        6. Equal BWTapa - The board contains an equal number of white and black tiles.
-           Tiles with numbers or question marks are NOT counted as empty or filled
-           for this rule (i.e. they're left out of the count).
-        7. Four-Me-BWTapa - Four-Me-Not rule apply: you can't have more than three
-           filled tiles in line.
-        8. No Square BWTapa - No 2*2 area of the board can be left empty.
+        1. Play with the same rules as Tapa with these variations:
+        2. Both Black and White cells must form a single continuous region.
+        3. There can't be any 2*2 of white or black cells.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -160,6 +142,9 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
                 if (array(BWTapaGame.offset2).forall(os -> {
                     BWTapaObject o = get(p.add(os));
                     return o instanceof BWTapaWallObject;
+                }) || array(BWTapaGame.offset2).forall(os -> {
+                    BWTapaObject o = get(p.add(os));
+                    return o instanceof BWTapaEmptyObject || o instanceof BWTapaHintObject;
                 })) {
                     isSolved = false; return;
                 }
@@ -167,6 +152,7 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         List<Position> rngWalls = new ArrayList<>();
+        List<Position> rngEmpty = new ArrayList<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
@@ -175,6 +161,8 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
                 pos2node.put(p, node);
                 if (get(p) instanceof BWTapaWallObject)
                     rngWalls.add(p);
+                else
+                    rngEmpty.add(p);
             }
         for (Position p : rngWalls)
             for (Position os : BWTapaGame.offset) {
@@ -182,8 +170,17 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
+        for (Position p : rngEmpty)
+            for (Position os : BWTapaGame.offset) {
+                Position p2 = p.add(os);
+                if (rngEmpty.contains(p2))
+                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+            }
         g.setRootNode(pos2node.get(rngWalls.get(0)));
         List<Node> nodeList = g.bfs();
-        if (rngWalls.size() != nodeList.size()) isSolved = false;
+        if (rngWalls.size() != nodeList.size()) {isSolved = false; return;}
+        g.setRootNode(pos2node.get(rngEmpty.get(0)));
+        nodeList = g.bfs();
+        if (rngEmpty.size() != nodeList.size()) isSolved = false;
     }
 }

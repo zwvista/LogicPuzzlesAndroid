@@ -79,7 +79,7 @@ public class LineSweeperGameView extends CellsGameView {
                 Position p = new Position(r, c);
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
-                    HintState state = game().getHintState(p);
+                    HintState state = game().hint2StrState(p);
                     textPaint.setColor(
                             state == HintState.Complete ? Color.GREEN :
                             state == HintState.Error ? Color.RED :

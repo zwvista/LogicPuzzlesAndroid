@@ -21,6 +21,8 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTap
 
 import java.util.List;
 
+import fj.F;
+
 /**
  * TODO: document your custom view class.
  */
@@ -32,6 +34,7 @@ public class BalancedTapasGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
+    private Paint linePaint = new Paint();
     private Paint wallPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -53,6 +56,9 @@ public class BalancedTapasGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
+        linePaint.setColor(Color.YELLOW);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setStrokeWidth(10);
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
@@ -87,29 +93,38 @@ public class BalancedTapasGameView extends CellsGameView {
                             o2.state == HintState.Error ? Color.RED :
                             Color.WHITE
                     );
+                    F<Integer, String> hint2Str = i -> {
+                        int n = hint.get(i);
+                        return n == -1 ? "?" : String.valueOf(n);
+                    };
                     switch (hint.size()) {
                     case 1:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc(c), chr(r), canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc(c), chr(r), canvas, textPaint);
                         break;
                     case 2:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(1)), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(1), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
                     case 3:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(1)), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(2)), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(1), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(2), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
                     case 4:
-                        drawTextCentered(String.valueOf(hint.get(0)), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(1)), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(2)), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
-                        drawTextCentered(String.valueOf(hint.get(3)), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(1), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(2), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(3), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
                     }
                 } else if (o instanceof BalancedTapasMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
             }
+        for (int r = 0; r < rows(); r++) {
+            int c = game().left;
+            int x = cwc(c) - (c > game().right ? cellWidth / 2 : 0);
+            canvas.drawLine(x, chr(r), x, chr(r + 1), linePaint);
+        }
     }
 
     @Override

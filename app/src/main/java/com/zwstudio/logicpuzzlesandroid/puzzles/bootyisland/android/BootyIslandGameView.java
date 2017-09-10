@@ -97,7 +97,7 @@ public class BootyIslandGameView extends CellsGameView {
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
-                    HintState state = game().getHintState(p);
+                    HintState state = game().hint2StrState(p);
                     textPaint.setColor(
                             state == HintState.Complete ? Color.GREEN :
                             state == HintState.Error ? Color.RED :
