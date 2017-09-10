@@ -5,5 +5,5 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain;
  */
 
 public enum PaintTheNurikabeObject {
-    Empty, Filled, Marker
+    Empty, Painted, Forbidden, Marker
 }

@@ -1,15 +1,23 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fj.F;
+
+import static fj.data.Array.array;
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -42,8 +50,12 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
     }
 
     public boolean setObject(PaintTheNurikabeGameMove move) {
-        if (get(move.p).equals(move.obj)) return false;
-        set(move.p, move.obj);
+        Position p = move.p;
+        PaintTheNurikabeObject o = move.obj;
+        if (!isValid(p) || get(p).equals(o)) return false;
+        set(p, o);
+        for (Position p2 : game.areas.get(game.pos2area.get(p)))
+            set(p2, o);
         updateIsSolved();
         return true;
     }
@@ -54,13 +66,13 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
             switch (obj) {
             case Empty:
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        PaintTheNurikabeObject.Marker : PaintTheNurikabeObject.Filled;
-            case Filled:
+                        PaintTheNurikabeObject.Marker : PaintTheNurikabeObject.Painted;
+            case Painted:
                 return markerOption == MarkerOptions.MarkerLast ?
                         PaintTheNurikabeObject.Marker : PaintTheNurikabeObject.Empty;
             case Marker:
                 return markerOption == MarkerOptions.MarkerFirst ?
-                        PaintTheNurikabeObject.Filled : PaintTheNurikabeObject.Empty;
+                        PaintTheNurikabeObject.Painted : PaintTheNurikabeObject.Empty;
             }
             return obj;
         };
@@ -70,7 +82,7 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 6/Paint The Nurikabe
+        iOS Game: Logic Games/Puzzle Set 16/Paint The Nurikabe
 
         Summary
         Paint areas, find Nurikabes
@@ -84,18 +96,66 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
         4. There can't be any 2*2 area of the same color(painted or empty).
     */
     private void updateIsSolved() {
+        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                PaintTheNurikabeObject o = get(r, c);
+                if (o == PaintTheNurikabeObject.Forbidden)
+                    set(r, c, PaintTheNurikabeObject.Empty);
+            }
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
+            List<Position> rng = new ArrayList<>();
             int n1 = 0;
             for (Position os : PaintTheNurikabeGame.offset) {
                 Position p2 = p.add(os);
                 if (!isValid(p2)) continue;
-                if (get(p2) == PaintTheNurikabeObject.Filled) n1++;
+                PaintTheNurikabeObject o = get(p2);
+                if (o == PaintTheNurikabeObject.Painted)
+                    n1++;
+                else if (o == PaintTheNurikabeObject.Empty)
+                    rng.add(p2);
             }
-            pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
-            if (n1 != n2) isSolved = false;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            pos2state.put(p, s);
+            if (s != HintState.Complete)
+                isSolved = false;
+            else
+                for (Position p2 : rng)
+                    set(p2, PaintTheNurikabeObject.Forbidden);
         }
+        for (int r = 0; r < rows() - 1; r++)
+            for (int c = 0; c < cols() - 1; c++) {
+                Position p = new Position(r, c);
+                if (array(NurikabeGame.offset2).forall(os -> get(p.add(os)) == PaintTheNurikabeObject.Painted) ||
+                        array(NurikabeGame.offset2).forall(os -> get(p.add(os)) == PaintTheNurikabeObject.Empty)) {
+                    isSolved = false; return;
+                }
+            }
+        if (!isSolved) return;
+        Graph g = new Graph();
+        Map<Position, Node> pos2node = new HashMap<>();
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                if (get(p) == PaintTheNurikabeObject.Painted) {
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
+                }
+            }
+        for (Position p : pos2node.keySet())
+            for (Position os : NurikabeGame.offset) {
+                Position p2 = p.add(os);
+                if (pos2node.containsKey(p2))
+                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+            }
+        g.setRootNode(iterableList(pos2node.values()).head());
+        List<Node> nodeList = g.bfs();
+        int n1 = nodeList.size();
+        int n2 = pos2node.values().size();
+        if (n1 != n2) isSolved = false;
     }
 }
