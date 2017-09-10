@@ -102,7 +102,7 @@ public class BWTapaGameView extends CellsGameView {
                         drawTextCentered(hint2Str.f(1), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
                     case 3:
-                        drawTextCentered(hint2Str.f(0), cwc2(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
+                        drawTextCentered(hint2Str.f(0), cwc(c), chr(r), cellWidth, cellHeight / 2, canvas, textPaint);
                         drawTextCentered(hint2Str.f(1), cwc(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         drawTextCentered(hint2Str.f(2), cwc2(c), chr2(r), cellWidth / 2, cellHeight / 2, canvas, textPaint);
                         break;
