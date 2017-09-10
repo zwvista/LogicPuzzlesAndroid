@@ -22,7 +22,7 @@ import java.util.Map;
 
 import fj.F;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.Array.range;
 import static fj.data.List.iterableList;
 
@@ -93,7 +93,10 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
                     String name = parser.getName();
                     if (name.equals("level")){
                         String id = parser.getAttributeValue(null,"id");
-                        List<String> layout = arrayArray(parser.nextText().split("\n"))
+                        Map<String, String> settings = new HashMap<>();
+                        for (int i = 0; i < parser.getAttributeCount(); i++)
+                            settings.put(parser.getAttributeName(i), parser.getAttributeValue(i));
+                        List<String> layout = array(parser.nextText().split("\n"))
                                 .map(s -> s.replace("\r", ""))
                                 .toJavaList();
                         layout = iterableList(getCdata.f(layout))
@@ -102,13 +105,10 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
                         GameLevel level = new GameLevel();
                         level.id = id;
                         level.layout = layout;
-                        Map<String, String> settings = new HashMap<>();
-                        for (int i = 0; i < parser.getAttributeCount(); i++)
-                            settings.put(parser.getAttributeName(i), parser.getAttributeValue(i));
                         level.settings = settings;
                         levels.add(level);
                     } else if (name.equals("help")){
-                        help = arrayArray(parser.nextText().split("\n"))
+                        help = array(parser.nextText().split("\n"))
                                 .map(s -> s.replace("\r", ""))
                                 .toJavaList();
                         help = getCdata.f(help);

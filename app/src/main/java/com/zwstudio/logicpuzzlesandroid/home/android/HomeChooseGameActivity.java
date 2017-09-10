@@ -16,7 +16,7 @@ import org.androidannotations.annotations.ViewById;
 import java.io.IOException;
 import java.util.List;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 
 @EActivity(R.layout.activity_home_choose_game)
 public class HomeChooseGameActivity extends BaseActivity {
@@ -30,7 +30,7 @@ public class HomeChooseGameActivity extends BaseActivity {
     @AfterViews
     protected void init() {
         try {
-            lstGames = arrayArray(app.getApplicationContext().getAssets().list("xml"))
+            lstGames = array(app.getApplicationContext().getAssets().list("xml"))
                     .map(f -> f.substring(0, f.length() - ".xml".length()))
                     .toJavaList();
         } catch (IOException e) {

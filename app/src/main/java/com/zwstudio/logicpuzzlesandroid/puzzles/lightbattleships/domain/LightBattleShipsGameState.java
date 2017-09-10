@@ -16,7 +16,7 @@ import java.util.Map;
 import fj.F;
 import fj.data.Array;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 import static fj.function.Integers.add;
@@ -168,7 +168,7 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
                         nums[i]++;
                 }
             }
-            int n1 = arrayArray(nums).foldLeft(add, 0);
+            int n1 = array(nums).foldLeft(add, 0);
             pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;
             else if(allowedObjectsOnly)
@@ -217,7 +217,7 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
                     get(area.get(0)) instanceof LightBattleShipsBattleShipTopObject &&
                     get(area.get(area.size() - 1)) instanceof LightBattleShipsBattleShipBottomObject) &&
                     Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof LightBattleShipsBattleShipMiddleObject)) &&
-                    arrayArray(LightBattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
+                    array(LightBattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;
                         LightBattleShipsObject o = get(p2);

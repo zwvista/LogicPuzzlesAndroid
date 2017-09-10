@@ -18,7 +18,7 @@ import java.util.Map;
 import fj.F;
 import fj.Ord;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
@@ -130,7 +130,7 @@ public class FenceLitsGameState extends CellsGameState<FenceLitsGame, FenceLitsG
                     iterableList(area).map(p -> p.col).minimum(Ord.intOrd));
             for (Position p : area)
                 treeOffsets.add(p.subtract(p2));
-            if (!arrayArray(FenceLitsGame.tetrominoes).exists(arr -> Arrays.equals(arr, treeOffsets.toArray()))) {
+            if (!array(FenceLitsGame.tetrominoes).exists(arr -> Arrays.equals(arr, treeOffsets.toArray()))) {
                 isSolved = false; return;
             }
             for (Position p : area)

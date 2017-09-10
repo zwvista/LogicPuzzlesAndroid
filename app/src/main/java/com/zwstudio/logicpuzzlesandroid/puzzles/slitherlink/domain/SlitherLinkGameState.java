@@ -15,7 +15,7 @@ import java.util.Map;
 
 import fj.F;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 
 /**
@@ -125,7 +125,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                int n = arrayArray(get(p)).filter(o -> o == GridLineObject.Line).length();
+                int n = array(get(p)).filter(o -> o == GridLineObject.Line).length();
                 switch (n) {
                     case 0:
                         continue;

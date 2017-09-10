@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 
 /**
@@ -99,7 +99,7 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                int n = arrayArray(get(p)).filter(o -> o).length();
+                int n = array(get(p)).filter(o -> o).length();
                 switch (n) {
                     case 0:
                         continue;

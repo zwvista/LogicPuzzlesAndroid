@@ -13,7 +13,7 @@ import java.util.Map;
 import fj.F;
 import fj.F0;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -99,7 +99,7 @@ public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, Par
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 F0<Boolean> hasNeighbor = () -> {
-                    return arrayArray(ParksGame.offset).exists(os -> {
+                    return array(ParksGame.offset).exists(os -> {
                         Position p2 = p.add(os);
                         return isValid(p2) && get(p2) instanceof ParksTreeObject;
                     });

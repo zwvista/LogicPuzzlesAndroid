@@ -21,7 +21,7 @@ import fj.Ord;
 import fj.data.Option;
 import fj.function.Effect1;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
@@ -171,8 +171,8 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
                         iterableList(info.trees).map(p -> p.col).minimum(Ord.intOrd));
                 for (Position p : info.trees)
                     treeOffsets.add(p.subtract(p2));
-                info.tetrominoIndex = arrayArray(LitsGame.tetrominoes).toStream()
-                        .indexOf(arr -> arrayArray(arr).exists(arr2 -> Arrays.equals(arr2, treeOffsets.toArray()))).orSome(-1);
+                info.tetrominoIndex = array(LitsGame.tetrominoes).toStream()
+                        .indexOf(arr -> array(arr).exists(arr2 -> Arrays.equals(arr2, treeOffsets.toArray()))).orSome(-1);
                 if (info.tetrominoIndex == -1) notSolved.f(info);
             }
             if (treeCount < 4) isSolved = false;

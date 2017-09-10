@@ -21,7 +21,7 @@ import fj.Ord;
 import fj.data.Option;
 import fj.function.Effect1;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
@@ -171,7 +171,7 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
                         iterableList(info.trees).map(p -> p.col).minimum(Ord.intOrd));
                 for (Position p : info.trees)
                     treeOffsets.add(p.subtract(p2));
-                info.tetrominoIndex = arrayArray(MiniLitsGame.triominos).toStream()
+                info.tetrominoIndex = array(MiniLitsGame.triominos).toStream()
                         .indexOf(arr -> Arrays.equals(arr, treeOffsets.toArray())).orSome(-1);
                 if (info.tetrominoIndex == -1) notSolved.f(info);
             }

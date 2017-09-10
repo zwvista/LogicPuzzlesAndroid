@@ -16,7 +16,7 @@ import java.util.Map;
 import fj.F;
 import fj.data.Array;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
@@ -177,7 +177,7 @@ public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsG
                     get(area.get(0)) instanceof MineShipsBattleShipTopObject &&
                     get(area.get(area.size() - 1)) instanceof MineShipsBattleShipBottomObject) &&
                     Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof MineShipsBattleShipMiddleObject)) &&
-                    arrayArray(MineShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
+                    array(MineShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;
                         MineShipsObject o = get(p2);

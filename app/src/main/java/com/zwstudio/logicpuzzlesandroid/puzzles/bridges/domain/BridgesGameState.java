@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 import static fj.function.Integers.add;
 
@@ -96,7 +96,7 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
             Position p = entry.getKey();
             BridgesIslandInfo info = entry.getValue();
             BridgesIslandObject o = (BridgesIslandObject) get(p);
-            int n1 = arrayArray(o.bridges).foldLeft(add, 0);
+            int n1 = array(o.bridges).foldLeft(add, 0);
             int n2 = info.bridges;
             o.state = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;

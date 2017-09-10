@@ -15,7 +15,7 @@ import java.util.Map;
 import fj.F;
 import fj.data.Array;
 
-import static fj.data.Array.arrayArray;
+import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
@@ -198,7 +198,7 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
                     get(area.get(0)) == BattleShipsObject.BattleShipTop &&
                     get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipBottom) &&
                     Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) == BattleShipsObject.BattleShipMiddle)) &&
-                    arrayArray(BattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
+                    array(BattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;
                         BattleShipsObject o = get(p2);
