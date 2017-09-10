@@ -46,7 +46,7 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
         }
 
         numPages = (doc().levels.size() + countPerPage - 1) / countPerPage;
-        int index = iterableList(doc().levels).toStream().indexOf(o -> o._1().equals(doc().selectedLevelID)).orSome(0);
+        int index = iterableList(doc().levels).toStream().indexOf(o -> o.id.equals(doc().selectedLevelID)).orSome(0);
         currentPage = index / countPerPage;
         showCurrentPage();
 
@@ -68,7 +68,7 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
             int index = currentPage * countPerPage + i;
             boolean b = index < doc().levels.size();
             button.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
-            if (b) button.setText(doc().levels.get(index)._1());
+            if (b) button.setText(doc().levels.get(index).id);
         }
     }
 

@@ -16,11 +16,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fj.F;
-import fj.P;
-import fj.P2;
 
 import static fj.data.Array.arrayArray;
 import static fj.data.Array.range;
@@ -37,7 +37,7 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
         return name.substring(0, name.indexOf("Document"));
     }
 
-    public List<P2<String, List<String>>> levels = new ArrayList<>();
+    public List<GameLevel> levels = new ArrayList<>();
     public String selectedLevelID;
     public String selectedLevelIDSolution() {return selectedLevelID + " Solution";}
     public List<String> help = new ArrayList<>();
@@ -80,38 +80,43 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
     {
         int eventType = parser.getEventType();
         F<List<String>, List<String>> getCdata = strs -> {
-            int a = range(0, strs.size() - 1).find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
-            int b = range(0, strs.size() - 1).reverse().find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
+            int a = range(0, strs.size()).find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
+            int b = range(0, strs.size()).reverse().find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
             return a == -1 || b == -1 ? strs : strs.subList(a, b + 1);
         };
         while (eventType != XmlPullParser.END_DOCUMENT){
-            String name = null;
-            String id = null;
-            List<String> layout = null;
             switch (eventType){
-                case XmlPullParser.START_DOCUMENT:
-                    break;
-                case XmlPullParser.START_TAG:
-                    name = parser.getName();
+            case XmlPullParser.START_DOCUMENT:
+                break;
+            case XmlPullParser.START_TAG:
+                {
+                    String name = parser.getName();
                     if (name.equals("level")){
-
-                        id = parser.getAttributeValue(null,"id");
-                        layout = arrayArray(parser.nextText().split("\n"))
+                        String id = parser.getAttributeValue(null,"id");
+                        List<String> layout = arrayArray(parser.nextText().split("\n"))
                                 .map(s -> s.replace("\r", ""))
                                 .toJavaList();
                         layout = iterableList(getCdata.f(layout))
                                 .map(s -> s.replace("`", ""))
                                 .toJavaList();
-                        levels.add(P.p(id, layout));
+                        GameLevel level = new GameLevel();
+                        level.id = id;
+                        level.layout = layout;
+                        Map<String, String> settings = new HashMap<>();
+                        for (int i = 0; i < parser.getAttributeCount(); i++)
+                            settings.put(parser.getAttributeName(i), parser.getAttributeValue(i));
+                        level.settings = settings;
+                        levels.add(level);
                     } else if (name.equals("help")){
                         help = arrayArray(parser.nextText().split("\n"))
                                 .map(s -> s.replace("\r", ""))
                                 .toJavaList();
                         help = getCdata.f(help);
                     }
-                    break;
-                case XmlPullParser.END_TAG:
-                    break;
+                }
+                break;
+            case XmlPullParser.END_TAG:
+                break;
             }
             eventType = parser.next();
         }

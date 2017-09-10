@@ -36,7 +36,7 @@ public class NurikabeGameActivity extends GameGameActivity<NurikabeGame, Nurikab
 
     protected void startGame() {
         String selectedLevelID = doc().selectedLevelID;
-        List<String> layout = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o._1().equals(selectedLevelID)).orSome(0))._2();
+        List<String> layout = doc().levels.get(iterableList(doc().levels).toStream().indexOf(o -> o.id.equals(selectedLevelID)).orSome(0)).layout;
         tvLevel.setText(selectedLevelID);
         updateSolutionUI();
 
