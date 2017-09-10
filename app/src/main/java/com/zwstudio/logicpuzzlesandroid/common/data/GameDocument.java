@@ -3,6 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.common.data;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game;
+import com.zwstudio.logicpuzzlesandroid.home.android.HomeChooseGameActivity;
 import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
 import org.androidannotations.annotations.AfterInject;
@@ -35,6 +36,11 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
     public String gameID() {
         String name = getClass().getSimpleName();
         return name.substring(0, name.indexOf("Document"));
+    }
+    public String gameTitle() {
+        String name = gameID();
+        String title = HomeChooseGameActivity.name2title.get(name);
+        return title == null ? name : title;
     }
 
     public List<GameLevel> levels = new ArrayList<>();

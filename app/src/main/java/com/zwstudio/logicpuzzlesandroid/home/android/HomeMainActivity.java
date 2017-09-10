@@ -31,13 +31,12 @@ public class HomeMainActivity extends BaseActivity {
 
     protected void onResume() {
         super.onResume();
-        btnResumeGame.setText("Resume Game " + doc().gameProgress().gameName);
+        btnResumeGame.setText("Resume Game " + doc().gameProgress().gameTitle);
     }
 
     @Click
     protected void btnResumeGame() {
-        String gameName = doc().gameProgress().gameName;
-        resumeGame(gameName, true);
+        resumeGame(doc().gameProgress().gameName, doc().gameProgress().gameTitle, true);
     }
 
     @Click
@@ -50,8 +49,8 @@ public class HomeMainActivity extends BaseActivity {
         HomeOptionsActivity_.intent(this).start();
     }
 
-    private void resumeGame(String gameName, boolean toResume) {
-        doc().resumeGame(gameName);
+    private void resumeGame(String gameName, String gameTitle, boolean toResume) {
+        doc().resumeGame(gameName, gameTitle);
         Class<?> cls = null;
         try {
             cls = Class.forName(String.format("com.zwstudio.logicpuzzlesandroid.puzzles.%s.android.%sMainActivity_",

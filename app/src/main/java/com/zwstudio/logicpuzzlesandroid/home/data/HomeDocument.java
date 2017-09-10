@@ -31,10 +31,11 @@ public class HomeDocument {
         }
     }
 
-    public void resumeGame(String gameName) {
+    public void resumeGame(String gameName, String gameTitle) {
         try {
             HomeGameProgress rec = gameProgress();
             rec.gameName = gameName;
+            rec.gameTitle = gameTitle;
             app.daoHomeGameProgress.update(rec);
         } catch (SQLException e) {
             e.printStackTrace();
