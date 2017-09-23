@@ -409,6 +409,18 @@
         <activity android:name=".puzzles.neighbours.android.NeighboursOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.numberpath.android.NumberPathMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numberpath.android.NumberPathGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numberpath.android.NumberPathHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numberpath.android.NumberPathOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.nurikabe.android.NurikabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -565,6 +577,30 @@
         <activity android:name=".puzzles.slitherlink.android.SlitherLinkOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.snail.android.SnailMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snail.android.SnailGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snail.android.SnailHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snail.android.SnailOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snake.android.SnakeMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snake.android.SnakeGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snake.android.SnakeHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snake.android.SnakeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.sumscrapers.android.SumscrapersMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -635,6 +671,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tatami.android.TatamiMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tatami.android.TatamiGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tatami.android.TatamiHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tatami.android.TatamiOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.tents.android.TentsMainActivity_"
