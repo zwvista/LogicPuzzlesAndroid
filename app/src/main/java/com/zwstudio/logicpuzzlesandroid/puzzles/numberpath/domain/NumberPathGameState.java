@@ -111,8 +111,10 @@ public class NumberPathGameState extends CellsGameState<NumberPathGame, NumberPa
         }
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+        int n1 = game.get(pEnd);
+        int n2 = nums.size();
+        int n3 = nodeList.size();
+        int n4 = pos2node.values().size();
+        if (n1 != n2 || n1 != n3 || n1 != n4) isSolved = false;
     }
 }

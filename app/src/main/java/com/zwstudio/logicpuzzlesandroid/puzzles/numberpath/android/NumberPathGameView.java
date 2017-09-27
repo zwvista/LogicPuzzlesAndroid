@@ -11,6 +11,12 @@ import android.view.MotionEvent;
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.domain.NumberPathGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.domain.NumberPathGameMove;
+
+import fj.function.Effect0;
+
+import static fj.data.List.range;
+import static java.lang.Math.abs;
 
 /**
  * TODO: document your custom view class.
@@ -20,8 +26,8 @@ public class NumberPathGameView extends CellsGameView {
 
     private NumberPathGameActivity activity() {return (NumberPathGameActivity)getContext();}
     private NumberPathGame game() {return activity().game;}
-    private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
-    private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
+    private int rows() {return isInEditMode() ? 5 : game().rows();}
+    private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
@@ -69,18 +75,10 @@ public class NumberPathGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                Position p = new Position(r, c);
-//                Integer n = game().pos2hint.get(p);
-//                if (n != null) {
-//                    HintState state = game().hint2State(p);
-//                    textPaint.setColor(
-//                            state == HintState.Complete ? Color.GREEN :
-//                            state == HintState.Error ? Color.RED :
-//                            Color.WHITE
-//                    );
-//                    String text = String.valueOf(n);
-//                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
-//                }
+                Integer n = game().get(r, c);
+                textPaint.setColor(Color.WHITE);
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
         if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++)
@@ -104,43 +102,40 @@ public class NumberPathGameView extends CellsGameView {
         int row = (int)(event.getY() / cellHeight);
         if (col >= cols() || row >= rows()) return true;
         Position p = new Position(row, col);
-//        boolean isH = game().isHint(p);
-//        Effect0 f = () -> activity().app.soundManager.playSoundTap();
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                if (!isH) {
-//                    pLastDown = pLastMove = p; f.f();
-//                }
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                if (!isH && pLastMove != null && !p.equals(pLastMove)) {
-//                    int n = range(0, NumberPathGame.offset.length)
-//                            .filter(i -> NumberPathGame.offset[i].equals(p.subtract(pLastMove)))
-//                            .orHead(() -> -1);
-//                    if (n != -1) {
-//                        NumberPathGameMove move = new NumberPathGameMove() {{
-//                            p = pLastMove; dir = n / 2;
-//                        }};
-//                        if (game().setObject(move)) f.f();
-//                    }
-//                    pLastMove = p;
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                if (p.equals(pLastDown)) {
-//                    double dx = event.getX() - (col + 0.5) * cellWidth;
-//                    double dy = event.getY() - (row + 0.5) * cellHeight;
-//                    double dx2 = abs(dx), dy2 = abs(dy);
-//                    NumberPathGameMove move = new NumberPathGameMove() {{
-//                        p = new Position(row, col);
-//                        dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
-//                                -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
-//                    }};
-//                    if (game().setObject(move)) f.f();
-//                }
-//                pLastDown = pLastMove = null;
-//                break;
-//        }
+        Effect0 f = () -> activity().app.soundManager.playSoundTap();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                pLastDown = pLastMove = p; f.f();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (pLastMove != null && !p.equals(pLastMove)) {
+                    int n = range(0, NumberPathGame.offset.length)
+                            .filter(i -> NumberPathGame.offset[i].equals(p.subtract(pLastMove)))
+                            .orHead(() -> -1);
+                    if (n != -1) {
+                        NumberPathGameMove move = new NumberPathGameMove() {{
+                            p = pLastMove; dir = n / 2;
+                        }};
+                        if (game().setObject(move)) f.f();
+                    }
+                    pLastMove = p;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (p.equals(pLastDown)) {
+                    double dx = event.getX() - (col + 0.5) * cellWidth;
+                    double dy = event.getY() - (row + 0.5) * cellHeight;
+                    double dx2 = abs(dx), dy2 = abs(dy);
+                    NumberPathGameMove move = new NumberPathGameMove() {{
+                        p = new Position(row, col);
+                        dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
+                                -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
+                    }};
+                    if (game().setObject(move)) f.f();
+                }
+                pLastDown = pLastMove = null;
+                break;
+        }
         return true;
     }
 

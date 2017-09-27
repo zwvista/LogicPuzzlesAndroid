@@ -39,11 +39,12 @@ public class NumberPathGame extends CellsGame<NumberPathGame, NumberPathGameMove
     public NumberPathGame(List<String> layout, GameInterface<NumberPathGame, NumberPathGameMove, NumberPathGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length() / 2);
+        objArray = new int[rows() * cols()];
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                String s = str.substring(c * 2, c * 2 + 2);
+                String s = str.substring(c * 2, c * 2 + 2).trim();
                 set(p, Integer.valueOf(s));
             }
         }
