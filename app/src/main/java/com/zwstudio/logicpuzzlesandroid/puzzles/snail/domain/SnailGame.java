@@ -3,11 +3,16 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import fj.F;
 import fj.F2;
 
 /**
@@ -23,6 +28,8 @@ public class SnailGame extends CellsGame<SnailGame, SnailGameMove, SnailGameStat
     };
 
     public char[] objArray;
+    public List<Position> snailPathGrid, snailPathLine;
+
     public char get(int row, int col) {
         return objArray[row * cols() + col];
     }
@@ -40,6 +47,7 @@ public class SnailGame extends CellsGame<SnailGame, SnailGameMove, SnailGameStat
         super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         objArray = new char[rows() * cols()];
+        Arrays.fill(objArray, ' ');
         for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
@@ -48,6 +56,31 @@ public class SnailGame extends CellsGame<SnailGame, SnailGameMove, SnailGameStat
                     set(r, c, ch);
             }
         }
+
+        F<Integer, List<Position>> snailPath = n -> {
+            List<Position> path = new ArrayList<>();
+            Set<Position> rng = new HashSet<>();
+            for (int r = 0; r < n; r++)
+                for (int c = 0; c < n; c++)
+                    rng.add(new Position(r, c));
+            Position p = new Position(0, -1);
+            int dir = 1;
+            while (!rng.isEmpty()) {
+                Position p2 = p.add(SnailGame.offset[dir]);
+                if (rng.contains(p2))
+                    rng.remove(p = p2);
+                else {
+                    dir = (dir + 1) % 4;
+                    p.addBy(SnailGame.offset[dir]);
+                    rng.remove(p);
+                }
+                path.add(p.plus());
+            }
+            return path;
+        };
+        snailPathGrid = snailPath.f(rows());
+        snailPathLine = snailPath.f(rows() + 1);
+
         SnailGameState state = new SnailGameState(this);
         states.add(state);
         levelInitilized(state);
@@ -78,19 +111,23 @@ public class SnailGame extends CellsGame<SnailGame, SnailGameMove, SnailGameStat
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public SnailObject getObject(Position p) {
+    public char getObject(Position p) {
         return state().get(p);
     }
 
-    public SnailObject getObject(int row, int col) {
+    public char getObject(int row, int col) {
         return state().get(row, col);
     }
 
-    public String getRowHint(int row) {
-        return state().row2hint[row];
+    public HintState getRowState(int row) {
+        return state().row2state[row];
     }
 
-    public String getColHint(int col) {
-        return state().col2hint[col];
+    public HintState getColState(int col) {
+        return state().col2state[col];
+    }
+
+    public HintState getPositionState(int row, int col) {
+        return state().pos2state.get(new Position(row, col));
     }
 }

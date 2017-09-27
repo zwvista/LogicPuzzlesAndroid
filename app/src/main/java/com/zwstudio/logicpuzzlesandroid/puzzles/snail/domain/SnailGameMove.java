@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class SnailGameMove {
     public Position p;
-    public SnailObject obj;
+    public char obj;
 }

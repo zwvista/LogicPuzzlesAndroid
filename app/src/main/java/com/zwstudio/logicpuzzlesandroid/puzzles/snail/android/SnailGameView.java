@@ -10,10 +10,9 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailObject;
 
 /**
  * TODO: document your custom view class.
@@ -26,7 +25,6 @@ public class SnailGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
-    private Paint darkenPaint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -48,9 +46,7 @@ public class SnailGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        darkenPaint.setColor(Color.LTGRAY);
-        darkenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        markerPaint.setColor(Color.WHITE);
+        markerPaint.setColor(Color.GREEN);
         markerPaint.setStyle(Paint.Style.STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
@@ -68,33 +64,30 @@ public class SnailGameView extends CellsGameView {
     @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
+        for (int i = 1; i < game().snailPathLine.size(); i++) {
+            Position p1 = game().snailPathLine.get(i - 1), p2 = game().snailPathLine.get(i);
+            canvas.drawLine(cwc(p1.col), chr(p1.row), cwc(p2.col), chr(p2.row), gridPaint);
+        }
+        if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
-                if (isInEditMode()) continue;
-                SnailObject o = game().getObject(r, c);
-                switch (o) {
-                case Darken:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, darkenPaint);
-                    break;
-                case Marker:
+                if (game().getPositionState(r, c) == HintState.Complete)
                     canvas.drawArc(cwc(c), chr(r), cwc(c + 1), chr(r + 1), 0, 360, true, markerPaint);
-                   break;
-                }
-                textPaint.setColor(Color.WHITE);
-                String text = String.valueOf(game().get(r, c));
+                char ch = game().getObject(r, c);
+                if (ch == ' ') continue;
+                textPaint.setColor(
+                    game().get(r, c) == ch ? Color.GRAY : Color.WHITE
+                );
+                String text = String.valueOf(ch);
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
-        if (isInEditMode()) return;
         textPaint.setColor(Color.RED);
-        for (int r = 0; r < rows(); r++) {
-            String text = game().getRowHint(r);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
-        }
-        for (int c = 0; c < cols(); c++) {
-            String text = game().getColHint(c);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
-        }
+        for (int r = 0; r < rows(); r++)
+            if (game().getRowState(r) == HintState.Error)
+                drawTextCentered("123", cwc(cols()), chr(r), canvas, textPaint);
+        for (int c = 0; c < cols(); c++)
+            if (game().getColState(c) == HintState.Error)
+                drawTextCentered("123", cwc(c), chr(rows()), canvas, textPaint);
     }
 
     @Override
@@ -105,7 +98,7 @@ public class SnailGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             SnailGameMove move = new SnailGameMove() {{
                 p = new Position(row, col);
-                obj = SnailObject.Normal;
+                obj = ' ';
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))

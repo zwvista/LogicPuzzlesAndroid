@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame;
@@ -90,7 +89,6 @@ public class AbcGameView extends CellsGameView {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
-            GameProgress rec = activity().doc().gameProgress();
             AbcGameMove move = new AbcGameMove() {{
                 p = new Position(row, col);
                 obj = ' ';

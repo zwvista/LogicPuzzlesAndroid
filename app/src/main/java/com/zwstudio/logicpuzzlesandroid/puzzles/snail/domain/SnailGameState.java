@@ -1,49 +1,44 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import fj.F;
-
-import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class SnailGameState extends CellsGameState<SnailGame, SnailGameMove, SnailGameState> {
-    private SnailObject[] objArray;
-    public String[] row2hint;
-    public String[] col2hint;
+    private char[] objArray;
+    public Map<Position, HintState> pos2state = new HashMap<>();
+    public HintState[] row2state;
+    public HintState[] col2state;
 
     public SnailGameState(SnailGame game) {
         super(game);
-        objArray = new SnailObject[rows() * cols()];
-        Arrays.fill(objArray, SnailObject.Normal);
-        row2hint = new String[rows()];
-        col2hint = new String[cols()];
+        objArray = new char[rows() * cols()];
+        System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
+        row2state = new HintState[rows()];
+        col2state = new HintState[cols()];
         updateIsSolved();
     }
 
-    public SnailObject get(int row, int col) {
+    public char get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public SnailObject get(Position p) {
+    public char get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, SnailObject obj) {
+    public void set(int row, int col, char obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, SnailObject obj) {
+    public void set(Position p, char obj) {
         set(p.row, p.col, obj);
     }
 
@@ -57,23 +52,14 @@ public class SnailGameState extends CellsGameState<SnailGame, SnailGameMove, Sna
 
     public boolean switchObject(SnailGameMove move) {
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<SnailObject, SnailObject> f = obj -> {
-            switch (obj) {
-            case Normal:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        SnailObject.Marker : SnailObject.Darken;
-            case Darken:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        SnailObject.Marker : SnailObject.Normal;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        SnailObject.Darken : SnailObject.Normal;
-            }
-            return obj;
-        };
         Position p = move.p;
         if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
+        char o = get(p);
+        move.obj =
+                o == ' ' ? markerOption == MarkerOptions.MarkerFirst ? '.' : '1' :
+                o == '.' ? markerOption == MarkerOptions.MarkerFirst ? '1' : ' ' :
+                o == '3' ? markerOption == MarkerOptions.MarkerLast ? '.' : ' ' :
+                (char)(o + 1);
         return setObject(move);
     }
 
@@ -94,65 +80,57 @@ public class SnailGameState extends CellsGameState<SnailGame, SnailGameMove, Sna
         isSolved = true;
         String chars;
         for (int r = 0; r < rows(); r++) {
-            chars = row2hint[r] = "";
+            chars = "";
+            row2state[r] = HintState.Complete;
             for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) == SnailObject.Darken) continue;
-                char ch = game.get(r, c);
-                if (chars.contains(String.valueOf(ch))) {
-                    isSolved = false;
-                    row2hint[r] += ch;
-                } else
+                char ch = get(r, c);
+                if (ch == ' ') continue;
+                if (chars.contains(String.valueOf(ch)))
+                    break;
+                else
                     chars += ch;
+            }
+            if (chars.length() != 3) {
+                row2state[r] = HintState.Error; isSolved = false;
             }
         }
         for (int c = 0; c < cols(); c++) {
-            chars = col2hint[c] = "";
+            chars = "";
+            col2state[c] = HintState.Complete;
             for (int r = 0; r < rows(); r++) {
-                Position p = new Position(r, c);
-                if (get(p) == SnailObject.Darken) continue;
-                char ch = game.get(r, c);
-                if (chars.contains(String.valueOf(ch))) {
-                    isSolved = false;
-                    col2hint[c] += ch;
-                } else
+                char ch = get(r, c);
+                if (ch == ' ') continue;
+                if (chars.contains(String.valueOf(ch)))
+                    break;
+                else
                     chars += ch;
             }
-        }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        List<Position> rngDarken = new ArrayList<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) == SnailObject.Darken)
-                    rngDarken.add(p);
-                else{
-                    Node node = new Node(p.toString());
-                    g.addNode(node);
-                    pos2node.put(p, node);
-                }
-            }
-        for (Position p : rngDarken)
-            for (Position os : SnailGame.offset) {
-                Position p2 = p.add(os);
-                if (rngDarken.contains(p2)) {
-                    isSolved = false;
-                    return;
-                }
-            }
-        for (Position p : pos2node.keySet()) {
-            for (Position os : SnailGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+            if (chars.length() != 3) {
+                col2state[c] = HintState.Error; isSolved = false;
             }
         }
-        g.setRootNode(iterableList(pos2node.values()).head());
-        List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+        List<Position> rng = new ArrayList<>();
+        chars = "";
+        for (Position p : game.snailPathGrid) {
+            char ch = get(p);
+            pos2state.put(p, HintState.Error);
+            if (ch == ' ') continue;
+            rng.add(p);
+            chars += ch;
+            pos2state.put(p, HintState.Complete);
+        }
+        int cnt = chars.length();
+        if (chars.charAt(0) != '1') {
+            pos2state.put(rng.get(0), HintState.Error); isSolved = false;
+        }
+        if (chars.charAt(cnt - 1) != '3') {
+            pos2state.put(rng.get(cnt - 1), HintState.Error); isSolved = false;
+        }
+        for (int i = 0; i < cnt - 1; i++) {
+            char ch1 = chars.charAt(i), ch2 = chars.charAt(i + 1);
+            if (!(ch1 == '1' && ch2 == '2' || ch1 == '2' && ch2 == '3' || ch1 == '3' && ch2 == '1')) {
+                pos2state.put(rng.get(i), HintState.Error); isSolved = false;
+            }
+        }
     }
 }
