@@ -46,6 +46,9 @@ public class CellsGameView extends View {
 
     protected void drawTextCentered(String text, int x, int y, int wd, int ht, Canvas canvas, TextPaint textPaint) {
         textPaint.setTextSize(ht);
+        int txtWd = (int)textPaint.measureText(text);
+        int txtSize = ht >= txtWd ? ht : ht * ht / txtWd;
+        textPaint.setTextSize(txtSize);
         float xPos = x + (wd - textPaint.measureText(text)) / 2;
         float yPos = y + (ht - textPaint.descent() - textPaint.ascent()) / 2;
         canvas.drawText(text, xPos, yPos, textPaint);

@@ -25,6 +25,7 @@ public class SnailGameView extends CellsGameView {
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
+    private Paint linePaint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -46,6 +47,9 @@ public class SnailGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
+        linePaint.setColor(Color.YELLOW);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setStrokeWidth(20);
         markerPaint.setColor(Color.GREEN);
         markerPaint.setStyle(Paint.Style.STROKE);
         textPaint.setAntiAlias(true);
@@ -64,9 +68,12 @@ public class SnailGameView extends CellsGameView {
     @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
+        for (int r = 1; r < rows() - 1; r++)
+            for (int c = 1; c < cols() - 1; c++)
+                canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
         for (int i = 1; i < game().snailPathLine.size(); i++) {
             Position p1 = game().snailPathLine.get(i - 1), p2 = game().snailPathLine.get(i);
-            canvas.drawLine(cwc(p1.col), chr(p1.row), cwc(p2.col), chr(p2.row), gridPaint);
+            canvas.drawLine(cwc(p1.col), chr(p1.row), cwc(p2.col), chr(p2.row), linePaint);
         }
         if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++)
