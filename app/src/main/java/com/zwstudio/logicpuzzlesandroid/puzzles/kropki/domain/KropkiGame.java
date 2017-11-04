@@ -101,7 +101,7 @@ public class KropkiGame extends CellsGame<KropkiGame, KropkiGameMove, KropkiGame
                     Position p = new Position(r, c);
                     for (int i = 0; i < 4; i++)
                         if (dots.get(p.add(KropkiGame.offset2[i]), KropkiGame.dirs[i]) != GridLineObject.Line)
-                            g.connectNode(pos2node.get(p), pos2node.get(p.add(KropkiGame.offset[i * 2])));
+                            g.connectNode(pos2node.get(p), pos2node.get(p.add(KropkiGame.offset[i])));
                 }
             while (!rng.isEmpty()) {
                 g.setRootNode(pos2node.get(iterableList(rng).head()));
