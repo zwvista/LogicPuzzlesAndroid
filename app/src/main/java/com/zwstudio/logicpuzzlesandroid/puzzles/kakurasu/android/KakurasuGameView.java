@@ -28,7 +28,7 @@ public class KakurasuGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
+    private Paint markerPaint = new Paint();
     private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -52,8 +52,8 @@ public class KakurasuGameView extends CellsGameView {
         gridPaint.setStyle(Paint.Style.STROKE);
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        markerPaint.setColor(Color.WHITE);
+        markerPaint.setStyle(Paint.Style.STROKE);
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
@@ -65,16 +65,16 @@ public class KakurasuGameView extends CellsGameView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / cols() - 1;
+        cellHeight = getHeight() / rows() - 1;
         invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
+        for (int r = 1; r < rows() - 1; r++)
+            for (int c = 1; c < cols() - 1; c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 KakurasuObject o = game().getObject(r, c);
@@ -91,28 +91,36 @@ public class KakurasuGameView extends CellsGameView {
                 }
             }
         if (isInEditMode()) return;
-        for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
-        }
-        for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
-        }
+        for (int r = 1; r < rows() - 1; r++)
+            for (int i = 0; i < 2; i++) {
+                int c = i == 0 ? 0 : cols() - 1;
+                HintState s = game().getRowState(r * 2 + i);
+                textPaint.setColor(
+                        s == HintState.Complete ? Color.GREEN :
+                        s == HintState.Error ? Color.RED :
+                        Color.WHITE
+                );
+                int n = game().row2hint[r * 2 + i];
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
+                if (i == 1)
+                    canvas.drawArc(cwc(c), chr(r), cwc(c + 1), chr(r + 1), 0, 360, true, markerPaint);
+            }
+        for (int c = 1; c < cols() - 1; c++)
+            for (int i = 0; i < 2; i++) {
+                int r = i == 0 ? 0 : rows() - 1;
+                HintState s = game().getColState(c * 2 + i);
+                textPaint.setColor(
+                        s == HintState.Complete ? Color.GREEN :
+                        s == HintState.Error ? Color.RED :
+                        Color.WHITE
+                );
+                int n = game().col2hint[c * 2 + i];
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
+                if (i == 1)
+                    canvas.drawArc(cwc(c), chr(r), cwc(c + 1), chr(r + 1), 0, 360, true, markerPaint);
+            }
     }
 
     @Override

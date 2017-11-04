@@ -1,21 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import fj.F;
-
-import static fj.data.HashMap.fromMap;
-import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -30,8 +22,8 @@ public class KakurasuGameState extends CellsGameState<KakurasuGame, KakurasuGame
         super(game);
         objArray = new KakurasuObject[rows() * cols()];
         Arrays.fill(objArray, KakurasuObject.Empty);
-        row2state = new HintState[rows()];
-        col2state = new HintState[cols()];
+        row2state = new HintState[rows() * 2];
+        col2state = new HintState[cols() * 2];
         updateIsSolved();
     }
 
@@ -79,18 +71,17 @@ public class KakurasuGameState extends CellsGameState<KakurasuGame, KakurasuGame
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 5/Kakurasu
+        iOS Game: Logic Games/Puzzle Set 8/Kakurasu
 
         Summary
-        Weather Radar Report
+        Cloud Kakuro on a Skyscraper
 
         Description
-        1. You must find Kakurasu in the sky.
-        2. The hints on the borders tell you how many tiles are covered by Kakurasu
-           in that row or column.
-        3. Kakurasu only appear in rectangular or square areas. Furthermore, their
-           width and height is always at least two tiles wide.
-        4. Kakurasu can't touch between themselves, not even diagonally. 
+        1. On the bottom and right border, you see the value of (respectively)
+           the columns and rows.
+        2. On the other borders, on the top and the left, you see the hints about
+           which tile have to be filled on the board. These numbers represent the
+           sum of the values mentioned above.
     */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
@@ -99,63 +90,33 @@ public class KakurasuGameState extends CellsGameState<KakurasuGame, KakurasuGame
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == KakurasuObject.Forbidden)
                     set(r, c, KakurasuObject.Empty);
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0, n2 = game.row2hint[r];
-            for (int c = 0; c < cols(); c++)
+        for (int r = 1; r < rows() - 1; r++) {
+            int n1 = 0, n2 = game.row2hint[r * 2];
+            for (int c = 1; c < cols() - 1; c++)
                 if (get(r, c) == KakurasuObject.Cloud)
-                    n1++;
-            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
+                    n1 += game.col2hint[c * 2 + 1];
+            HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            row2state[r * 2] = s;
+            if (s != HintState.Complete) isSolved = false;
+            if (n1 >= n2 && allowedObjectsOnly)
+                for (int c = 1; c < cols() - 1; c++)
+                    switch (get(r, c)) {
+                    case Empty: case Marker: set(r, c, KakurasuObject.Forbidden); break;
+                    }
         }
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0, n2 = game.col2hint[c];
-            for (int r = 0; r < rows(); r++)
+        for (int c = 1; c < cols() - 1; c++) {
+            int n1 = 0, n2 = game.col2hint[c * 2];
+            for (int r = 1; r < rows() - 1; r++)
                 if (get(r, c) == KakurasuObject.Cloud)
-                    n1++;
-            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                KakurasuObject o = get(r, c);
-                if ((o == KakurasuObject.Empty || o == KakurasuObject.Marker) && allowedObjectsOnly && (
-                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
-                    set(r, c, KakurasuObject.Forbidden);
-            }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) != KakurasuObject.Cloud) continue;
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
-            }
-        for (Position p : pos2node.keySet())
-            for (Position os : KakurasuGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
-            }
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(iterableList(pos2node.values()).head());
-            List<Node> nodeList = g.bfs();
-            int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
-            for (Node node : nodeList) {
-                Position p = fromMap(pos2node).toStream().find(e -> e._2().equals(node)).some()._1();
-                pos2node.remove(p);
-                if (r2 < p.row) r2 = p.row;
-                if (r1 > p.row) r1 = p.row;
-                if (c2 < p.col) c2 = p.col;
-                if (c1 > p.col) c1 = p.col;
-            }
-            int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
-            if (!(rs >= 2 && cs >= 2 && rs * cs == nodeList.size())) {
-                isSolved = false;
-                return;
-            }
+                    n1 += game.row2hint[r * 2 + 1];
+            HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            col2state[c * 2] = s;
+            if (s != HintState.Complete) isSolved = false;
+            if (n1 >= n2 && allowedObjectsOnly)
+                for (int r = 1; r < rows() - 1; r++)
+                    switch (get(r, c)) {
+                    case Empty: case Marker: set(r, c, KakurasuObject.Forbidden); break;
+                    }
         }
     }
 }

@@ -3,11 +3,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fj.F2;
@@ -24,30 +22,30 @@ public class KakurasuGame extends CellsGame<KakurasuGame, KakurasuGameMove, Kaku
             new Position(0, -1),
     };
 
+    public boolean isValid(int row, int col) {
+        return row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1;
+    }
+
     public int[] row2hint;
     public int[] col2hint;
-    public List<Position> pos2cloud = new ArrayList<>();
 
     public KakurasuGame(List<String> layout, GameInterface<KakurasuGame, KakurasuGameMove, KakurasuGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
-        size = new Position(layout.size() - 1, layout.get(0).length() - 1);
-        row2hint = new int[rows()];
-        col2hint = new int[cols()];
+        size = new Position(layout.size(), layout.get(0).length() / 2);
+        row2hint = new int[rows() * 2];
+        col2hint = new int[cols() * 2];
 
-        for (int r = 0; r < rows() + 1; r++) {
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() + 1; c++) {
+            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                char ch = str.charAt(c);
-                if (ch == 'C')
-                    pos2cloud.add(p);
-                else if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    if (r == rows())
-                        col2hint[c] = n;
-                    else if (c == cols())
-                        row2hint[r] = n;
-                }
+                String s = str.substring(c * 2, c * 2 + 2);
+                if (s.equals("  ")) continue;
+                int n = Integer.parseInt(s.trim());
+                if (r == 0 || r == rows() - 1)
+                    col2hint[c * 2 + (r == 0 ? 0 : 1)] = n;
+                else if (c == 0 || c == cols() - 1)
+                    row2hint[r * 2 + (c == 0 ? 0 : 1)] = n;
             }
         }
 
