@@ -13,8 +13,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroObject;
+
+import java.util.Map;
 
 /**
  * TODO: document your custom view class.
@@ -28,8 +28,8 @@ public class KakuroGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
-    private Paint forbiddenPaint = new Paint();
+    private Paint linePaint = new Paint();
+    private TextPaint hintPaint = new TextPaint();
     private TextPaint textPaint = new TextPaint();
 
     public KakuroGameView(Context context) {
@@ -50,13 +50,12 @@ public class KakuroGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
+        wallPaint.setColor(Color.GRAY);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setColor(Color.RED);
-        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setStrokeWidth(5);
+        linePaint.setColor(Color.BLACK);
+        hintPaint.setAntiAlias(true);
+        hintPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(Color.WHITE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
     }
@@ -65,8 +64,8 @@ public class KakuroGameView extends CellsGameView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / cols() - 1;
+        cellHeight = getHeight() / rows() - 1;
         invalidate();
     }
 
@@ -77,41 +76,39 @@ public class KakuroGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                KakuroObject o = game().getObject(r, c);
-                switch (o) {
-                case Cloud:
+                Integer n = game().getObject(new Position(r, c));
+                if (n == null) {
                     canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
-                    break;
-                case Forbidden:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                    break;
+                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r + 1), linePaint);
+                } else if (n != 0) {
+                    String text = String.valueOf(n);
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
         if (isInEditMode()) return;
-        for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
+        for (Map.Entry<Position, Integer> entry : game().pos2horzHint.entrySet()) {
+            Position p = entry.getKey();
+            int n = entry.getValue();
+            HintState s = game().getHorzState(p);
+            hintPaint.setColor(
                     s == HintState.Complete ? Color.GREEN :
                     s == HintState.Error ? Color.RED :
-                    Color.WHITE
+                    Color.BLACK
             );
-            int n = game().row2hint[r];
             String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
+            drawTextCentered(text, cwc2(p.col), chr(p.row), cellWidth / 2, cellHeight / 2, canvas, hintPaint);
         }
-        for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
+        for (Map.Entry<Position, Integer> entry : game().pos2vertHint.entrySet()) {
+            Position p = entry.getKey();
+            int n = entry.getValue();
+            HintState s = game().getVertState(p);
+            hintPaint.setColor(
                     s == HintState.Complete ? Color.GREEN :
                     s == HintState.Error ? Color.RED :
-                    Color.WHITE
+                    Color.BLACK
             );
-            int n = game().col2hint[c];
             String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
+            drawTextCentered(text, cwc(p.col), chr2(p.row), cellWidth / 2, cellHeight / 2, canvas, hintPaint);
         }
     }
 
@@ -123,7 +120,7 @@ public class KakuroGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             KakuroGameMove move = new KakuroGameMove() {{
                 p = new Position(row, col);
-                obj = KakuroObject.Empty;
+                obj = 0;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))

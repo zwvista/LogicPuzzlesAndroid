@@ -1,161 +1,88 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import fj.F;
-
-import static fj.data.HashMap.fromMap;
-import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class KakuroGameState extends CellsGameState<KakuroGame, KakuroGameMove, KakuroGameState> {
-    public KakuroObject[] objArray;
-    public HintState[] row2state;
-    public HintState[] col2state;
+    public Map<Position, Integer> pos2num = new HashMap<>();
+    public Map<Position, HintState> pos2horzHint = new HashMap<>();
+    public Map<Position, HintState> pos2vertHint = new HashMap<>();
 
     public KakuroGameState(KakuroGame game) {
         super(game);
-        objArray = new KakuroObject[rows() * cols()];
-        Arrays.fill(objArray, KakuroObject.Empty);
-        row2state = new HintState[rows()];
-        col2state = new HintState[cols()];
+        pos2num = new HashMap<>(game.pos2num);
         updateIsSolved();
     }
 
-    public KakuroObject get(int row, int col) {
-        return objArray[row * cols() + col];
+    public Integer get(Position p) {
+        return pos2num.get(p);
     }
-    public KakuroObject get(Position p) {
-        return get(p.row, p.col);
-    }
-    public void set(int row, int col, KakuroObject obj) {
-        objArray[row * cols() + col] = obj;
-    }
-    public void set(Position p, KakuroObject obj) {
-        set(p.row, p.col, obj);
+    public void set(Position p, Integer obj) {
+        pos2num.put(p, obj);
     }
 
     public boolean setObject(KakuroGameMove move) {
         Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
+        if (!isValid(p) || get(p) == null || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(KakuroGameMove move) {
-        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<KakuroObject, KakuroObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        KakuroObject.Marker : KakuroObject.Cloud;
-            case Cloud:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        KakuroObject.Marker : KakuroObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        KakuroObject.Cloud : KakuroObject.Empty;
-            }
-            return obj;
-        };
         Position p = move.p;
-        if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
+        if (!isValid(p) || get(p) == null) return false;
+        int o = get(p);
+        move.obj = (o + 1) % 10;
         return setObject(move);
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 5/Kakuro
+        iOS Game: Logic Games/Puzzle Set 4/Kakuro
 
         Summary
-        Weather Radar Report
+        Fill the board with numbers 1 to 9 according to the sums
 
         Description
-        1. You must find Kakuro in the sky.
-        2. The hints on the borders tell you how many tiles are covered by Kakuro
-           in that row or column.
-        3. Kakuro only appear in rectangular or square areas. Furthermore, their
-           width and height is always at least two tiles wide.
-        4. Kakuro can't touch between themselves, not even diagonally. 
+        1. Your goal is to write a number in every blank tile (without a diagonal
+           line).
+        2. The number on the top of a column or at the left of a row, gives you
+           the sum of the numbers in that column or row.
+        3. You can write numbers 1 to 9 in the tiles, however no same number should
+           appear in a consecutive row or column.
+        4. Tiles which only have a diagonal line aren't used in the game.
     */
     private void updateIsSolved() {
-        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == KakuroObject.Forbidden)
-                    set(r, c, KakuroObject.Empty);
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0, n2 = game.row2hint[r];
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == KakuroObject.Cloud)
-                    n1++;
-            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
+        for (Map.Entry<Position, Integer> entry : game.pos2horzHint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue(), n1 = 0;
+            Position os = KakuroGame.offset[1];
+            Integer n;
+            for (Position p2 = p.add(os); (n = pos2num.get(p2)) != null; p2.addBy(os))
+                n1 += n;
+            HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            pos2horzHint.put(p, s);
+            if (s != HintState.Complete) isSolved = false;
         }
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0, n2 = game.col2hint[c];
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) == KakuroObject.Cloud)
-                    n1++;
-            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                KakuroObject o = get(r, c);
-                if ((o == KakuroObject.Empty || o == KakuroObject.Marker) && allowedObjectsOnly && (
-                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
-                    set(r, c, KakuroObject.Forbidden);
-            }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) != KakuroObject.Cloud) continue;
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
-            }
-        for (Position p : pos2node.keySet())
-            for (Position os : KakuroGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
-            }
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(iterableList(pos2node.values()).head());
-            List<Node> nodeList = g.bfs();
-            int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
-            for (Node node : nodeList) {
-                Position p = fromMap(pos2node).toStream().find(e -> e._2().equals(node)).some()._1();
-                pos2node.remove(p);
-                if (r2 < p.row) r2 = p.row;
-                if (r1 > p.row) r1 = p.row;
-                if (c2 < p.col) c2 = p.col;
-                if (c1 > p.col) c1 = p.col;
-            }
-            int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
-            if (!(rs >= 2 && cs >= 2 && rs * cs == nodeList.size())) {
-                isSolved = false;
-                return;
-            }
+        for (Map.Entry<Position, Integer> entry : game.pos2vertHint.entrySet()) {
+            Position p = entry.getKey();
+            int n2 = entry.getValue(), n1 = 0;
+            Position os = KakuroGame.offset[2];
+            Integer n;
+            for (Position p2 = p.add(os); (n = pos2num.get(p2)) != null; p2.addBy(os))
+                n1 += n;
+            HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            pos2vertHint.put(p, s);
+            if (s != HintState.Complete) isSolved = false;
         }
     }
 }

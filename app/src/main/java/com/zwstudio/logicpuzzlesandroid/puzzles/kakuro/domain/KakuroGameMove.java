@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class KakuroGameMove {
     public Position p;
-    public KakuroObject obj;
+    public int obj;
 }
