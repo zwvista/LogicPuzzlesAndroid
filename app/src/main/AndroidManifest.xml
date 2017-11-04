@@ -565,6 +565,30 @@
         <activity android:name=".puzzles.productsentinels.android.ProductSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.robotfences.android.RobotFencesMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.robotfences.android.RobotFencesGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.robotfences.android.RobotFencesHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.robotfences.android.RobotFencesOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.rooms.android.RoomsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
