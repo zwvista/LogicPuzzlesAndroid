@@ -1,160 +1,108 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
-
-import fj.F;
-
-import static fj.data.HashMap.fromMap;
-import static fj.data.List.iterableList;
+import java.util.Set;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class TennerGridGameState extends CellsGameState<TennerGridGame, TennerGridGameMove, TennerGridGameState> {
-    public TennerGridObject[] objArray;
-    public HintState[] row2state;
-    public HintState[] col2state;
+    public int[] objArray;
+    public Map<Position, HintState> pos2state = new HashMap<>();
 
     public TennerGridGameState(TennerGridGame game) {
         super(game);
-        objArray = new TennerGridObject[rows() * cols()];
-        Arrays.fill(objArray, TennerGridObject.Empty);
-        row2state = new HintState[rows()];
-        col2state = new HintState[cols()];
+        objArray = new int[rows() * cols()];
+        System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
         updateIsSolved();
     }
 
-    public TennerGridObject get(int row, int col) {
+    public int get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public TennerGridObject get(Position p) {
+    public int get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, TennerGridObject obj) {
+    public void set(int row, int col, int obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, TennerGridObject obj) {
+    public void set(Position p, int obj) {
         set(p.row, p.col, obj);
     }
 
     public boolean setObject(TennerGridGameMove move) {
         Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
+        if (!isValid(p) || game.get(p) >= 0 || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(TennerGridGameMove move) {
-        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<TennerGridObject, TennerGridObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        TennerGridObject.Marker : TennerGridObject.Cloud;
-            case Cloud:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        TennerGridObject.Marker : TennerGridObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        TennerGridObject.Cloud : TennerGridObject.Empty;
-            }
-            return obj;
-        };
         Position p = move.p;
-        if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
+        if (!isValid(p) || game.get(p) >= 0) return false;
+        int o = get(p);
+        move.obj = o == 9 ? -1 : o + 1;
         return setObject(move);
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 5/TennerGrid
+        iOS Game: Logic Games/Puzzle Set 7/TennerGrid
 
         Summary
-        Weather Radar Report
+        Counting up to 10
 
         Description
-        1. You must find TennerGrid in the sky.
-        2. The hints on the borders tell you how many tiles are covered by TennerGrid
-           in that row or column.
-        3. TennerGrid only appear in rectangular or square areas. Furthermore, their
-           width and height is always at least two tiles wide.
-        4. TennerGrid can't touch between themselves, not even diagonally. 
+        1. You goal is to enter every digit, from 0 to 9, in each row of the Grid.
+        2. The number on the bottom row gives you the sum for that column.
+        3. Digit can repeat on the same column, however digits in contiguous tiles
+           must be different, even diagonally. Obviously digits can't repeat on
+           the same row.
     */
     private void updateIsSolved() {
-        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == TennerGridObject.Forbidden)
-                    set(r, c, TennerGridObject.Empty);
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0, n2 = game.row2hint[r];
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == TennerGridObject.Cloud)
-                    n1++;
-            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
         for (int c = 0; c < cols(); c++) {
-            int n1 = 0, n2 = game.col2hint[c];
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) == TennerGridObject.Cloud)
-                    n1++;
-            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                TennerGridObject o = get(r, c);
-                if ((o == TennerGridObject.Empty || o == TennerGridObject.Marker) && allowedObjectsOnly && (
-                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
-                    set(r, c, TennerGridObject.Forbidden);
+            int h = get(rows() - 1, c), n = 0;
+            boolean isDirty = false, allFixed = true;
+            for (int r = 0; r < rows() - 1; r++) {
+                int o1 = game.get(r, c), o2 = get(r, c);
+                if (o1 == -1) {
+                    allFixed = false;
+                    if (o2 == -1)
+                        isSolved = false;
+                    else
+                        isDirty = true;
+                }
+                n += o2 == -1 ? 0 : o2;
             }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
+            HintState s = !isDirty && !allFixed ? HintState.Normal : n == h ? HintState.Complete : HintState.Error;
+            pos2state.put(new Position(rows() - 1, c), s);
+            if (s != HintState.Complete) isSolved = false;
+        }
+        for (int r = 0; r < rows() - 1; r++) {
+            Set<Integer> nums = new HashSet<>();
+            HintState rowState = HintState.Complete;
+            for (int c = 0; c < cols(); c++) {
+                int o1 = game.get(r, c), o2 = get(r, c);
+                if (o1 == -1 && o2 == -1) rowState = HintState.Normal;
+                if (o2 != -1) nums.add(o2);
+            }
+            if (nums.size() != cols()) {
+                isSolved = false;
+                if (rowState == HintState.Complete) rowState = HintState.Error;
+            }
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                if (get(p) != TennerGridObject.Cloud) continue;
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
-            }
-        for (Position p : pos2node.keySet())
-            for (Position os : TennerGridGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
-            }
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(iterableList(pos2node.values()).head());
-            List<Node> nodeList = g.bfs();
-            int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
-            for (Node node : nodeList) {
-                Position p = fromMap(pos2node).toStream().find(e -> e._2().equals(node)).some()._1();
-                pos2node.remove(p);
-                if (r2 < p.row) r2 = p.row;
-                if (r1 > p.row) r1 = p.row;
-                if (c2 < p.col) c2 = p.col;
-                if (c1 > p.col) c1 = p.col;
-            }
-            int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
-            if (!(rs >= 2 && cs >= 2 && rs * cs == nodeList.size())) {
-                isSolved = false;
-                return;
+                int o1 = game.get(r, c), o2 = get(r, c);
+                if (o1 == -1 && o2 != -1)
+                    pos2state.put(p, rowState);
             }
         }
     }

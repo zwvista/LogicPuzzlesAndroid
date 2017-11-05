@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class TennerGridGameMove {
     public Position p;
-    public TennerGridObject obj;
+    public int obj;
 }

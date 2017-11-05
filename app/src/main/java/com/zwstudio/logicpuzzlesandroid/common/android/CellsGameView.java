@@ -16,9 +16,11 @@ import java.io.InputStream;
 /**
  * TODO: document your custom view class.
  */
-public class CellsGameView extends View {
+public abstract class CellsGameView extends View {
 
     protected int cellWidth, cellHeight;
+    protected abstract int rowsInView();
+    protected abstract int colsInView();
 
     public CellsGameView(Context context) {
         super(context);
@@ -35,8 +37,8 @@ public class CellsGameView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = Math.min(getMeasuredWidth(), getMeasuredHeight());
-        setMeasuredDimension(size, size);
+        int size = Math.min(getMeasuredWidth(), getMeasuredHeight()) / Math.max(rowsInView(), colsInView());
+        setMeasuredDimension(size * colsInView(), size * rowsInView());
     }
 
     // http://stackoverflow.com/questions/11120392/android-center-text-on-canvas

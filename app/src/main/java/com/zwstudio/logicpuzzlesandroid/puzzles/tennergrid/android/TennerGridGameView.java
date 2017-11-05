@@ -13,8 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridObject;
 
 /**
  * TODO: document your custom view class.
@@ -65,8 +63,8 @@ public class TennerGridGameView extends CellsGameView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / cols() - 1;
+        cellHeight = getHeight() / rows() - 1;
         invalidate();
     }
 
@@ -77,42 +75,19 @@ public class TennerGridGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                TennerGridObject o = game().getObject(r, c);
-                switch (o) {
-                case Cloud:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
-                    break;
-                case Forbidden:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                    break;
-                }
+                Position p = new Position(r, c);
+                int n = game().getObject(p);
+                if (n == -1) continue;
+                HintState s = game().getPosState(p);
+                textPaint.setColor(
+                        game().get(p) == n ? Color.GRAY :
+                        s == HintState.Complete ? Color.GREEN :
+                        s == HintState.Error ? Color.RED :
+                        Color.WHITE
+                );
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
-        if (isInEditMode()) return;
-        for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
-        }
-        for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
-        }
     }
 
     @Override
@@ -123,7 +98,7 @@ public class TennerGridGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             TennerGridGameMove move = new TennerGridGameMove() {{
                 p = new Position(row, col);
-                obj = TennerGridObject.Empty;
+                obj = 0;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
