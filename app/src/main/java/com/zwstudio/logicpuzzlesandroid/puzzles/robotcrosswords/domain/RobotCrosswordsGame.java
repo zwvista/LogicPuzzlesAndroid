@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fj.F2;
+import fj.function.Effect1;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -24,31 +24,64 @@ public class RobotCrosswordsGame extends CellsGame<RobotCrosswordsGame, RobotCro
             new Position(0, -1),
     };
 
-    public int[] row2hint;
-    public int[] col2hint;
-    public List<Position> pos2cloud = new ArrayList<>();
+    public int[] objArray;
+    public int get(int row, int col) {
+        return objArray[row * cols() + col];
+    }
+    public int get(Position p) {
+        return get(p.row, p.col);
+    }
+    public void set(int row, int col, int obj) {
+        objArray[row * cols() + col] = obj;
+    }
+    public void set(Position p, int obj) {
+        set(p.row, p.col, obj);
+    }
+
+    public List<List<Position>> areas = new ArrayList<>();
+    public int horzAreaCount = 0;
 
     public RobotCrosswordsGame(List<String> layout, GameInterface<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
-        size = new Position(layout.size() - 1, layout.get(0).length() - 1);
-        row2hint = new int[rows()];
-        col2hint = new int[cols()];
+        size = new Position(layout.size(), layout.get(0).length());
+        objArray = new int[rows() * cols()];
 
-        for (int r = 0; r < rows() + 1; r++) {
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() + 1; c++) {
-                Position p = new Position(r, c);
+            for (int c = 0; c < cols(); c++) {
                 char ch = str.charAt(c);
-                if (ch == 'C')
-                    pos2cloud.add(p);
-                else if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    if (r == rows())
-                        col2hint[c] = n;
-                    else if (c == cols())
-                        row2hint[r] = n;
-                }
+                set(r, c, ch == '.' ? -1 : ch == ' ' ? 0 : ch - '0');
             }
+        }
+
+        List<Position> area = new ArrayList<>();
+        Effect1<Boolean> f = isHorz -> {
+            if (area.isEmpty()) return;
+            if (area.size() > 1) {
+                areas.add(new ArrayList<>(area));
+                if (isHorz) horzAreaCount++;
+            }
+            area.clear();
+        };
+        for (int r = 0; r < rows(); r++) {
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                if (get(p) == -1)
+                    f.f(true);
+                else
+                    area.add(p);
+            }
+            f.f(true);
+        }
+        for (int c = 0; c < cols(); c++) {
+            for (int r = 0; r < rows(); r++) {
+                Position p = new Position(r, c);
+                if (get(p) == -1)
+                    f.f(false);
+                else
+                    area.add(p);
+            }
+            f.f(false);
         }
 
         RobotCrosswordsGameState state = new RobotCrosswordsGameState(this);
@@ -81,19 +114,19 @@ public class RobotCrosswordsGame extends CellsGame<RobotCrosswordsGame, RobotCro
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public RobotCrosswordsObject getObject(Position p) {
+    public int getObject(Position p) {
         return state().get(p);
     }
 
-    public RobotCrosswordsObject getObject(int row, int col) {
+    public int getObject(int row, int col) {
         return state().get(row, col);
     }
 
-    public HintState getRowState(int row) {
-        return state().row2state[row];
+    public HintState getHorzState(Position p) {
+        return state().pos2horzState.get(p);
     }
 
-    public HintState getColState(int col) {
-        return state().col2state[col];
+    public HintState getVertState(Position p) {
+        return state().pos2vertState.get(p);
     }
 }

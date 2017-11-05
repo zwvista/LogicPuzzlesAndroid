@@ -1,161 +1,88 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fj.F;
+import fj.Ord;
 
-import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.data.Set.iterableSet;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class RobotCrosswordsGameState extends CellsGameState<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState> {
-    public RobotCrosswordsObject[] objArray;
-    public HintState[] row2state;
-    public HintState[] col2state;
+    public int[] objArray;
+    public Map<Position, HintState> pos2horzState = new HashMap<>();
+    public Map<Position, HintState> pos2vertState = new HashMap<>();
 
     public RobotCrosswordsGameState(RobotCrosswordsGame game) {
         super(game);
-        objArray = new RobotCrosswordsObject[rows() * cols()];
-        Arrays.fill(objArray, RobotCrosswordsObject.Empty);
-        row2state = new HintState[rows()];
-        col2state = new HintState[cols()];
+        objArray = new int[rows() * cols()];
+        System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
         updateIsSolved();
     }
 
-    public RobotCrosswordsObject get(int row, int col) {
+    public int get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public RobotCrosswordsObject get(Position p) {
+    public int get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, RobotCrosswordsObject obj) {
+    public void set(int row, int col, int obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, RobotCrosswordsObject obj) {
+    public void set(Position p, int obj) {
         set(p.row, p.col, obj);
     }
 
     public boolean setObject(RobotCrosswordsGameMove move) {
         Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
+        if (!isValid(p) || game.get(p) != 0 || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(RobotCrosswordsGameMove move) {
-        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<RobotCrosswordsObject, RobotCrosswordsObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        RobotCrosswordsObject.Marker : RobotCrosswordsObject.Cloud;
-            case Cloud:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        RobotCrosswordsObject.Marker : RobotCrosswordsObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        RobotCrosswordsObject.Cloud : RobotCrosswordsObject.Empty;
-            }
-            return obj;
-        };
         Position p = move.p;
-        if (!isValid(p)) return false;
-        move.obj = f.f(get(p));
+        if (!isValid(p) || game.get(p) != 0) return false;
+        int o = get(p);
+        move.obj = (o + 1) % 10;
         return setObject(move);
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 5/RobotCrosswords
+        iOS Game: Logic Games/Puzzle Set 13/RobotCrosswords
 
         Summary
-        Weather Radar Report
+        BZZZZliip 4 across?
 
         Description
-        1. You must find RobotCrosswords in the sky.
-        2. The hints on the borders tell you how many tiles are covered by RobotCrosswords
-           in that row or column.
-        3. RobotCrosswords only appear in rectangular or square areas. Furthermore, their
-           width and height is always at least two tiles wide.
-        4. RobotCrosswords can't touch between themselves, not even diagonally. 
+        1. In a possible crossword for Robots, letters are substituted with digits.
+        2. Each 'word' is formed by an uninterrupted sequence of numbers (i.e.
+           2-3-4-5), but in any order (i.e. 3-4-2-5).
     */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == RobotCrosswordsObject.Forbidden)
-                    set(r, c, RobotCrosswordsObject.Empty);
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0, n2 = game.row2hint[r];
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) == RobotCrosswordsObject.Cloud)
-                    n1++;
-            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0, n2 = game.col2hint[c];
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) == RobotCrosswordsObject.Cloud)
-                    n1++;
-            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
-        }
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                RobotCrosswordsObject o = get(r, c);
-                if ((o == RobotCrosswordsObject.Empty || o == RobotCrosswordsObject.Marker) && allowedObjectsOnly && (
-                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
-                    set(r, c, RobotCrosswordsObject.Forbidden);
-            }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) != RobotCrosswordsObject.Cloud) continue;
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
-            }
-        for (Position p : pos2node.keySet())
-            for (Position os : RobotCrosswordsGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
-            }
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(iterableList(pos2node.values()).head());
-            List<Node> nodeList = g.bfs();
-            int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
-            for (Node node : nodeList) {
-                Position p = fromMap(pos2node).toStream().find(e -> e._2().equals(node)).some()._1();
-                pos2node.remove(p);
-                if (r2 < p.row) r2 = p.row;
-                if (r1 > p.row) r1 = p.row;
-                if (c2 < p.col) c2 = p.col;
-                if (c1 > p.col) c1 = p.col;
-            }
-            int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
-            if (!(rs >= 2 && cs >= 2 && rs * cs == nodeList.size())) {
-                isSolved = false;
-                return;
-            }
+        for (int i = 0; i < game.areas.size(); i++) {
+            List<Position> a = game.areas.get(i);
+            List<Integer> nums = iterableList(a).map(p -> get(p)).toJavaList();
+            int size = nums.size();
+            List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
+            HintState s = nums2.get(0) == 0 ? HintState.Normal :
+                    nums2.size() == size && nums2.get(nums2.size() - 1) - nums2.get(0) + 1 == size ?
+                    HintState.Complete : HintState.Error;
+            for (Position p : a)
+                (i < game.horzAreaCount ? pos2horzState : pos2vertState).put(p, s);
+            if (s != HintState.Complete) isSolved = false;
         }
     }
 }

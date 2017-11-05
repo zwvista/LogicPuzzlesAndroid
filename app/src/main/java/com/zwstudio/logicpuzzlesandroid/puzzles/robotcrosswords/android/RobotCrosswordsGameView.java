@@ -13,8 +13,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain.RobotCrosswordsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain.RobotCrosswordsGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain.RobotCrosswordsObject;
+
+import java.util.List;
 
 /**
  * TODO: document your custom view class.
@@ -28,9 +28,8 @@ public class RobotCrosswordsGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
-    private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Paint hintPaint = new Paint();
 
     public RobotCrosswordsGameView(Context context) {
         super(context);
@@ -52,21 +51,18 @@ public class RobotCrosswordsGameView extends CellsGameView {
         gridPaint.setStyle(Paint.Style.STROKE);
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setColor(Color.RED);
-        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
+        hintPaint.setStyle(Paint.Style.FILL);
+        hintPaint.setStrokeWidth(5);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
+        cellWidth = getWidth() / cols() - 1;
+        cellHeight = getHeight() / rows() - 1;
         invalidate();
     }
 
@@ -77,41 +73,29 @@ public class RobotCrosswordsGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                RobotCrosswordsObject o = game().getObject(r, c);
-                switch (o) {
-                case Cloud:
+                int n = game().getObject(r, c);
+                if (n == -1)
                     canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
-                    break;
-                case Forbidden:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                    break;
+                else if (n > 0) {
+                    String text = String.valueOf(n);
+                    textPaint.setColor(game().get(r, c) == n ? Color.GRAY : Color.WHITE);
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 }
             }
         if (isInEditMode()) return;
-        for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
-        }
-        for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
+        for (int i = 0; i < game().areas.size(); i++) {
+            List<Position> a = game().areas.get(i);
+            boolean isHorz = i < game().horzAreaCount;
+            for (Position p : a) {
+                int r = p.row, c = p.col;
+                HintState s = isHorz ? game().getHorzState(p) : game().getVertState(p);
+                if (s == HintState.Normal) continue;
+                hintPaint.setColor(s == HintState.Complete ? Color.GREEN : Color.RED);
+                if (isHorz)
+                    canvas.drawArc(cwc(c + 1) - 20, chr2(r) - 20, cwc(c + 1) + 20, chr2(r) + 20, 0, 360, true, hintPaint);
+                else
+                    canvas.drawArc(cwc2(c) - 20, chr(r + 1) - 20, cwc2(c) + 20, chr(r + 1) + 20, 0, 360, true, hintPaint);
+            }
         }
     }
 
@@ -123,7 +107,7 @@ public class RobotCrosswordsGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             RobotCrosswordsGameMove move = new RobotCrosswordsGameMove() {{
                 p = new Position(row, col);
-                obj = RobotCrosswordsObject.Empty;
+                obj = 0;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))

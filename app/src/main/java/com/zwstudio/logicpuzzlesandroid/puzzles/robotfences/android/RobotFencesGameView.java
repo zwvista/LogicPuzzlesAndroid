@@ -9,12 +9,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesInfo;
 
 /**
  * TODO: document your custom view class.
@@ -28,7 +28,7 @@ public class RobotFencesGameView extends CellsGameView {
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
+    private Paint linePaint = new Paint();
     private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
@@ -52,13 +52,10 @@ public class RobotFencesGameView extends CellsGameView {
         gridPaint.setStyle(Paint.Style.STROKE);
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setColor(Color.RED);
-        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setStrokeWidth(5);
+        linePaint.setColor(Color.YELLOW);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setStrokeWidth(20);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -77,40 +74,40 @@ public class RobotFencesGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                RobotFencesObject o = game().getObject(r, c);
-                switch (o) {
-                case Cloud:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
-                    break;
-                case Forbidden:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                    break;
-                }
+                int n = game().getObject(r, c);
+                if (n == 0) continue;
+                String text = String.valueOf(n);
+                textPaint.setColor(game().get(r, c) == n ? Color.GRAY : Color.WHITE);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
         if (isInEditMode()) return;
+        for (int r = 0; r < rows() + 1; r++)
+            for (int c = 0; c < cols() + 1; c++) {
+                if (game().dots.get(r, c, 1) == GridLineObject.Line)
+                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
+                if (game().dots.get(r, c, 2) == GridLineObject.Line)
+                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
+            }
         for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
+            RobotFencesInfo info = game().getRowInfo(r);
+            HintState s = info.state;
             textPaint.setColor(
                     s == HintState.Complete ? Color.GREEN :
                     s == HintState.Error ? Color.RED :
                     Color.WHITE
             );
-            int n = game().row2hint[r];
-            String text = String.valueOf(n);
+            String text = info.nums;
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
         }
         for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
+            RobotFencesInfo info = game().getColInfo(c);
+            HintState s = info.state;
             textPaint.setColor(
                     s == HintState.Complete ? Color.GREEN :
                     s == HintState.Error ? Color.RED :
                     Color.WHITE
             );
-            int n = game().col2hint[c];
-            String text = String.valueOf(n);
+            String text = info.nums;
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
         }
     }
@@ -123,7 +120,7 @@ public class RobotFencesGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             RobotFencesGameMove move = new RobotFencesGameMove() {{
                 p = new Position(row, col);
-                obj = RobotFencesObject.Empty;
+                obj = 0;
             }};
             // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))

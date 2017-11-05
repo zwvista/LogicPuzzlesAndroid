@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class RobotFencesGameMove {
     public Position p;
-    public RobotFencesObject obj;
+    public int obj;
 }
