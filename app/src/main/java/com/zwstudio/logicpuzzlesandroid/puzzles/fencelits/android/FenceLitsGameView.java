@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGame;
@@ -26,6 +25,8 @@ public class FenceLitsGameView extends CellsGameView {
     private FenceLitsGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
     private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
+    @Override protected int rowsInView() {return rows();}
+    @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint line1Paint = new Paint();
     private Paint line2Paint = new Paint();
@@ -61,15 +62,6 @@ public class FenceLitsGameView extends CellsGameView {
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
-        invalidate();
     }
 
     @Override

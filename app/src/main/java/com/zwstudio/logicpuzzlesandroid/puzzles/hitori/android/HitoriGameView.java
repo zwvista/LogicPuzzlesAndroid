@@ -12,7 +12,6 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject;
 
 /**
@@ -25,6 +24,8 @@ public class HitoriGameView extends CellsGameView {
     private HitoriGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
+    @Override protected int rowsInView() {return rows() + 1;}
+    @Override protected int colsInView() {return cols() + 1;}
     private Paint gridPaint = new Paint();
     private Paint darkenPaint = new Paint();
     private Paint markerPaint = new Paint();
@@ -54,15 +55,6 @@ public class HitoriGameView extends CellsGameView {
         markerPaint.setStyle(Paint.Style.STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
-        invalidate();
     }
 
     @Override

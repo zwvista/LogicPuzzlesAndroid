@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGame;
@@ -27,6 +26,8 @@ public class BattleShipsGameView extends CellsGameView {
     private BattleShipsGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
+    @Override protected int rowsInView() {return rows() + 1;}
+    @Override protected int colsInView() {return cols() + 1;}
     private Paint gridPaint = new Paint();
     private Paint whitePaint = new Paint();
     private Paint grayPaint = new Paint();
@@ -60,15 +61,6 @@ public class BattleShipsGameView extends CellsGameView {
         forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
-        invalidate();
     }
 
     @Override

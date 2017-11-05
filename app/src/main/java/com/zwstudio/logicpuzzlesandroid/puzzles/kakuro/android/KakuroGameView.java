@@ -26,6 +26,8 @@ public class KakuroGameView extends CellsGameView {
     private KakuroGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
+    @Override protected int rowsInView() {return rows();}
+    @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
     private Paint linePaint = new Paint();
@@ -58,15 +60,6 @@ public class KakuroGameView extends CellsGameView {
         textPaint.setColor(Color.WHITE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
-        invalidate();
     }
 
     @Override

@@ -16,7 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsArea;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsObject;
 
 /**
@@ -29,6 +28,8 @@ public class MagnetsGameView extends CellsGameView {
     private MagnetsGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
+    @Override protected int rowsInView() {return rows() + 2;}
+    @Override protected int colsInView() {return cols() + 2;}
     private Paint gridPaint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
@@ -58,15 +59,6 @@ public class MagnetsGameView extends CellsGameView {
         textPaint.setStyle(Paint.Style.FILL);
         dPositive = fromImageToDrawable("images/positive.png");
         dNegative = fromImageToDrawable("images/negative.png");
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 2) - 1;
-        cellHeight = getHeight() / (rows() + 2) - 1;
-        invalidate();
     }
 
     @Override

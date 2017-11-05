@@ -24,6 +24,8 @@ public class GalaxiesGameView extends CellsGameView {
     private GalaxiesGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows() - 1;}
     private int cols() {return isInEditMode() ? 5 : game().cols() - 1;}
+    @Override protected int rowsInView() {return rows();}
+    @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint line1Paint = new Paint();
     private Paint line2Paint = new Paint();
@@ -59,15 +61,6 @@ public class GalaxiesGameView extends CellsGameView {
         markerPaint.setStrokeWidth(5);
         galaxyPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         galaxyPaint.setStrokeWidth(5);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
-        invalidate();
     }
 
     @Override

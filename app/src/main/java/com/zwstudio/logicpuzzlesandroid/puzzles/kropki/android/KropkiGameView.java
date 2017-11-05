@@ -26,6 +26,8 @@ public class KropkiGameView extends CellsGameView {
     private KropkiGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
+    @Override protected int rowsInView() {return rows();}
+    @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
     private TextPaint textPaint = new TextPaint();
@@ -60,15 +62,6 @@ public class KropkiGameView extends CellsGameView {
         hintPaint.setStrokeWidth(5);
         hintPaint2.setStyle(Paint.Style.STROKE);
         hintPaint2.setStrokeWidth(5);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
-        invalidate();
     }
 
     @Override

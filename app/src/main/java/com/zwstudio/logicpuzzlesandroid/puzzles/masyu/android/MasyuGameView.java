@@ -28,6 +28,8 @@ public class MasyuGameView extends CellsGameView {
     private MasyuGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
+    @Override protected int rowsInView() {return rows();}
+    @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
     private Paint pearlBlackPaint = new Paint();
@@ -64,15 +66,6 @@ public class MasyuGameView extends CellsGameView {
         pearlWhitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / cols() - 1;
-        cellHeight = getHeight() / rows() - 1;
-        invalidate();
     }
 
     @Override

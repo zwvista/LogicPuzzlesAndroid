@@ -26,6 +26,8 @@ public class RobotFencesGameView extends CellsGameView {
     private RobotFencesGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
+    @Override protected int rowsInView() {return rows() + 1;}
+    @Override protected int colsInView() {return cols() + 1;}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
     private Paint linePaint = new Paint();
@@ -56,15 +58,6 @@ public class RobotFencesGameView extends CellsGameView {
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
         textPaint.setAntiAlias(true);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (cols() < 1 || rows() < 1) return;
-        cellWidth = getWidth() / (cols() + 1) - 1;
-        cellHeight = getHeight() / (rows() + 1) - 1;
-        invalidate();
     }
 
     @Override
