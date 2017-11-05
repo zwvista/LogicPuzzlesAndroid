@@ -19,7 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class MosaikGameView extends CellsGameView {
 
     private MosaikGameActivity activity() {return (MosaikGameActivity)getContext();}
@@ -101,7 +100,6 @@ public class MosaikGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = MosaikObject.Empty;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

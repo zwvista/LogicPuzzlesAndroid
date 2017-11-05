@@ -19,7 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesIn
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class RobotFencesGameView extends CellsGameView {
 
     private RobotFencesGameActivity activity() {return (RobotFencesGameActivity)getContext();}
@@ -115,7 +114,6 @@ public class RobotFencesGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = 0;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

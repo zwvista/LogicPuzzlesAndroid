@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsTreeObje
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class MiniLitsGameView extends CellsGameView {
 
     private MiniLitsGameActivity activity() {return (MiniLitsGameActivity)getContext();}
@@ -112,7 +111,6 @@ public class MiniLitsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new MiniLitsEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

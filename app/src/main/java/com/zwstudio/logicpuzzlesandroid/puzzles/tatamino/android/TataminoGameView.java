@@ -18,7 +18,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.domain.TataminoObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class TataminoGameView extends CellsGameView {
 
     private TataminoGameActivity activity() {return (TataminoGameActivity)getContext();}
@@ -117,7 +116,6 @@ public class TataminoGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = TataminoObject.Empty;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

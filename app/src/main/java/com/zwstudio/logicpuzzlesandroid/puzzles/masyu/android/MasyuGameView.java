@@ -21,7 +21,6 @@ import static java.lang.Math.abs;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class MasyuGameView extends CellsGameView {
 
     private MasyuGameActivity activity() {return (MasyuGameActivity)getContext();}

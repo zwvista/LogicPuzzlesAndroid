@@ -28,7 +28,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBat
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class LightBattleShipsGameView extends CellsGameView {
 
     private LightBattleShipsGameActivity activity() {return (LightBattleShipsGameActivity)getContext();}
@@ -135,7 +134,6 @@ public class LightBattleShipsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new LightBattleShipsEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

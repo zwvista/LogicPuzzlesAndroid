@@ -26,7 +26,6 @@ import fj.F;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class BWTapaGameView extends CellsGameView {
 
     private BWTapaGameActivity activity() {return (BWTapaGameActivity)getContext();}
@@ -121,7 +120,6 @@ public class BWTapaGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new BWTapaEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

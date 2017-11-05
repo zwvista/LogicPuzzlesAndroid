@@ -18,7 +18,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100Object
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class Square100GameView extends CellsGameView {
 
     private Square100GameActivity activity() {return (Square100GameActivity)getContext();}
@@ -117,7 +116,6 @@ public class Square100GameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = Square100Object.Empty;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

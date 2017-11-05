@@ -23,7 +23,6 @@ import fj.function.Effect0;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class BridgesGameView extends CellsGameView {
 
     private BridgesGameActivity activity() {return (BridgesGameActivity)getContext();}

@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductS
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class ProductSentinelsGameView extends CellsGameView {
 
     private ProductSentinelsGameActivity activity() {return (ProductSentinelsGameActivity)getContext();}
@@ -113,7 +112,6 @@ public class ProductSentinelsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new ProductSentinelsEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

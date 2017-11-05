@@ -18,7 +18,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class SnakeGameView extends CellsGameView {
 
     private SnakeGameActivity activity() {return (SnakeGameActivity)getContext();}
@@ -117,7 +116,6 @@ public class SnakeGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = SnakeObject.Empty;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

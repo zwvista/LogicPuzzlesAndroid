@@ -23,7 +23,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObje
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class NurikabeGameView extends CellsGameView {
 
     private NurikabeGameActivity activity() {return (NurikabeGameActivity)getContext();}
@@ -98,7 +97,6 @@ public class NurikabeGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new NurikabeEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

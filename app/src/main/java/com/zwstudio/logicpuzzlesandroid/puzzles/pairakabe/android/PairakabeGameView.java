@@ -23,7 +23,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeWallOb
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class PairakabeGameView extends CellsGameView {
 
     private PairakabeGameActivity activity() {return (PairakabeGameActivity)getContext();}
@@ -98,7 +97,6 @@ public class PairakabeGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new PairakabeEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

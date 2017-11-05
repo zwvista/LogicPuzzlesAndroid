@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksTreeObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class ParksGameView extends CellsGameView {
 
     private ParksGameActivity activity() {return (ParksGameActivity)getContext();}
@@ -112,7 +111,6 @@ public class ParksGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new ParksEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

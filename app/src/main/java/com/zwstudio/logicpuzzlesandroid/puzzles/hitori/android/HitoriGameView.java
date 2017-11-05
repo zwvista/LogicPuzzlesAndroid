@@ -17,7 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class HitoriGameView extends CellsGameView {
 
     private HitoriGameActivity activity() {return (HitoriGameActivity)getContext();}
@@ -99,7 +98,6 @@ public class HitoriGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = HitoriObject.Normal;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

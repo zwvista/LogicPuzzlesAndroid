@@ -19,7 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.Abstract
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class AbstractPaintingGameView extends CellsGameView {
 
     private AbstractPaintingGameActivity activity() {return (AbstractPaintingGameActivity)getContext();}
@@ -133,7 +132,6 @@ public class AbstractPaintingGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = AbstractPaintingObject.Empty;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

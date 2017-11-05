@@ -18,7 +18,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameMo
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class FenceLitsGameView extends CellsGameView {
 
     private FenceLitsGameActivity activity() {return (FenceLitsGameActivity)getContext();}
@@ -126,7 +125,6 @@ public class FenceLitsGameView extends CellsGameView {
                 obj = GridLineObject.Empty;
                 dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

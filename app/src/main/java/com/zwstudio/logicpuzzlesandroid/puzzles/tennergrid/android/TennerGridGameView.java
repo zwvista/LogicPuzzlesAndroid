@@ -17,7 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGame
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class TennerGridGameView extends CellsGameView {
 
     private TennerGridGameActivity activity() {return (TennerGridGameActivity)getContext();}
@@ -72,11 +71,12 @@ public class TennerGridGameView extends CellsGameView {
                 int n = game().getObject(p);
                 if (n == -1) continue;
                 HintState s = game().getPosState(p);
+                boolean b = game().get(p) == n;
                 textPaint.setColor(
-                        game().get(p) == n ? Color.GRAY :
+                        b && r < rows() - 1 ? Color.GRAY :
                         s == HintState.Complete ? Color.GREEN :
                         s == HintState.Error ? Color.RED :
-                        Color.WHITE
+                        b ? Color.GRAY :Color.WHITE
                 );
                 String text = String.valueOf(n);
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
@@ -93,7 +93,6 @@ public class TennerGridGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = 0;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

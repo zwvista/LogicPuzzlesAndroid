@@ -19,7 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain.KakurasuObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class KakurasuGameView extends CellsGameView {
 
     private KakurasuGameActivity activity() {return (KakurasuGameActivity)getContext();}
@@ -126,7 +125,6 @@ public class KakurasuGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = KakurasuObject.Empty;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

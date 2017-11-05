@@ -19,7 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameMove;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class BoxItUpGameView extends CellsGameView {
 
     private BoxItUpGameActivity activity() {return (BoxItUpGameActivity)getContext();}
@@ -127,7 +126,6 @@ public class BoxItUpGameView extends CellsGameView {
                 obj = GridLineObject.Empty;
                 dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

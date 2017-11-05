@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsTreeObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class TentsGameView extends CellsGameView {
 
     private TentsGameActivity activity() {return (TentsGameActivity)getContext();}
@@ -130,7 +129,6 @@ public class TentsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new TentsEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

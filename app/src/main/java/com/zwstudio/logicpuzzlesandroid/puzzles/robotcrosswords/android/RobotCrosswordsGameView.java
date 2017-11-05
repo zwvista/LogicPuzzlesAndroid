@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class RobotCrosswordsGameView extends CellsGameView {
 
     private RobotCrosswordsGameActivity activity() {return (RobotCrosswordsGameActivity)getContext();}
@@ -102,7 +101,6 @@ public class RobotCrosswordsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = 0;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

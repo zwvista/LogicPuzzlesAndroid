@@ -25,7 +25,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandTr
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class BootyIslandGameView extends CellsGameView {
 
     private BootyIslandGameActivity activity() {return (BootyIslandGameActivity)getContext();}
@@ -112,7 +111,6 @@ public class BootyIslandGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new BootyIslandEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

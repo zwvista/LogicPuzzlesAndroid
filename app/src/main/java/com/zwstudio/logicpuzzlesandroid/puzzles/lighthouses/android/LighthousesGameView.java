@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesLi
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class LighthousesGameView extends CellsGameView {
 
     private LighthousesGameActivity activity() {return (LighthousesGameActivity)getContext();}
@@ -113,7 +112,6 @@ public class LighthousesGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new LighthousesEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

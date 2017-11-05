@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain.OrchardsTreeObje
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class OrchardsGameView extends CellsGameView {
 
     private OrchardsGameActivity activity() {return (OrchardsGameActivity)getContext();}
@@ -112,7 +111,6 @@ public class OrchardsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new OrchardsEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

@@ -17,7 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGa
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class SkyscrapersGameView extends CellsGameView {
 
     private SkyscrapersGameActivity activity() {return (SkyscrapersGameActivity)getContext();}

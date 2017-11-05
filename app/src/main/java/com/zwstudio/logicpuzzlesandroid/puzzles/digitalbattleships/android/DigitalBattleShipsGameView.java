@@ -19,7 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.Digita
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class DigitalBattleShipsGameView extends CellsGameView {
 
     private DigitalBattleShipsGameActivity activity() {return (DigitalBattleShipsGameActivity)getContext();}
@@ -149,7 +148,6 @@ public class DigitalBattleShipsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = DigitalBattleShipsObject.Empty;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

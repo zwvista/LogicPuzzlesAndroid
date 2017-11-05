@@ -19,7 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.overunder.domain.OverUnderGameMo
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class OverUnderGameView extends CellsGameView {
 
     private OverUnderGameActivity activity() {return (OverUnderGameActivity)getContext();}
@@ -127,7 +126,6 @@ public class OverUnderGameView extends CellsGameView {
                 obj = GridLineObject.Empty;
                 dir = yOffset >= -offset && yOffset <= offset ? 1 : 2;
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

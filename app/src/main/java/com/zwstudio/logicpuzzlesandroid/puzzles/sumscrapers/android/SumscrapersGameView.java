@@ -17,7 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGa
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class SumscrapersGameView extends CellsGameView {
 
     private SumscrapersGameActivity activity() {return (SumscrapersGameActivity)getContext();}

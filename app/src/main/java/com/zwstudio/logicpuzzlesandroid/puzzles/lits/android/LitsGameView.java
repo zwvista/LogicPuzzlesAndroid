@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsTreeObject;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class LitsGameView extends CellsGameView {
 
     private LitsGameActivity activity() {return (LitsGameActivity)getContext();}
@@ -112,7 +111,6 @@ public class LitsGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new LitsEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

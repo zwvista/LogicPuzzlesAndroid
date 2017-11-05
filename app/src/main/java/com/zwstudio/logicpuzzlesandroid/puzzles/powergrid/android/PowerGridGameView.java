@@ -25,7 +25,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridPostOb
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class PowerGridGameView extends CellsGameView {
 
     private PowerGridGameActivity activity() {return (PowerGridGameActivity)getContext();}
@@ -124,7 +123,6 @@ public class PowerGridGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new PowerGridEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }

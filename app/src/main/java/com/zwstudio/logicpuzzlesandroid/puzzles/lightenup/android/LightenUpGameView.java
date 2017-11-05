@@ -26,7 +26,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 /**
  * TODO: document your custom view class.
  */
-// http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public class LightenUpGameView extends CellsGameView {
 
     private LightenUpGameActivity activity() {return (LightenUpGameActivity)getContext();}
@@ -112,7 +111,6 @@ public class LightenUpGameView extends CellsGameView {
                 p = new Position(row, col);
                 obj = new LightenUpEmptyObject();
             }};
-            // http://stackoverflow.com/questions/5878952/cast-int-to-enum-in-java
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
         }
