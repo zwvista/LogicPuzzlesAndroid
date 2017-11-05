@@ -26,9 +26,6 @@ public class TennerGridGameView extends CellsGameView {
     @Override protected int rowsInView() {return rows();}
     @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
-    private Paint wallPaint = new Paint();
-    private Paint lightPaint = new Paint();
-    private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public TennerGridGameView(Context context) {
@@ -49,15 +46,7 @@ public class TennerGridGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
-        wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lightPaint.setColor(Color.YELLOW);
-        lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setColor(Color.RED);
-        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

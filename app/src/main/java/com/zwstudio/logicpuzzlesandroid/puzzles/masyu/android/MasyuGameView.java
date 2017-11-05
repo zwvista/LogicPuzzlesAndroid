@@ -64,7 +64,6 @@ public class MasyuGameView extends CellsGameView {
         pearlWhitePaint.setColor(Color.WHITE);
         pearlWhitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

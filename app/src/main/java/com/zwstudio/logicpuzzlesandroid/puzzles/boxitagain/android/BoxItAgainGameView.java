@@ -60,7 +60,6 @@ public class BoxItAgainGameView extends CellsGameView {
         markerPaint.setStyle(Paint.Style.STROKE);
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

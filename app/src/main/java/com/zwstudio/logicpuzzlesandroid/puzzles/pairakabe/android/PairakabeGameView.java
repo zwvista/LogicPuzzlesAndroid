@@ -56,7 +56,6 @@ public class PairakabeGameView extends CellsGameView {
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

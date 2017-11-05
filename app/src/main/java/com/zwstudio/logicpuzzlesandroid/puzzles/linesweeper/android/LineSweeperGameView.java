@@ -58,7 +58,6 @@ public class LineSweeperGameView extends CellsGameView {
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

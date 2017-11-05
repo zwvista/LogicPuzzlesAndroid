@@ -60,7 +60,6 @@ public class PaintTheNurikabeGameView extends CellsGameView {
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

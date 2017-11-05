@@ -8,5 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class Square100GameMove {
     public Position p;
-    public Square100Object obj;
+    public boolean isRightPart;
+    public String obj;
 }

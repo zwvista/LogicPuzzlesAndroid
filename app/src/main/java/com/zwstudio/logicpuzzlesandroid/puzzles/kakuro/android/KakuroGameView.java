@@ -58,7 +58,6 @@ public class KakuroGameView extends CellsGameView {
         hintPaint.setStyle(Paint.Style.FILL);
         textPaint.setColor(Color.WHITE);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

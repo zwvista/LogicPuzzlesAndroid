@@ -61,7 +61,6 @@ public class BootyIslandGameView extends CellsGameView {
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);

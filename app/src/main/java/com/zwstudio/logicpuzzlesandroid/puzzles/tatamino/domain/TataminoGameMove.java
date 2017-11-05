@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class TataminoGameMove {
     public Position p;
-    public TataminoObject obj;
+    public char obj;
 }

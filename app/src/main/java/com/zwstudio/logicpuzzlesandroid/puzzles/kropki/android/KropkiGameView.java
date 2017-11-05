@@ -55,7 +55,6 @@ public class KropkiGameView extends CellsGameView {
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
         textPaint.setColor(Color.WHITE);
         hintPaint.setStyle(Paint.Style.FILL);
         hintPaint.setStrokeWidth(5);

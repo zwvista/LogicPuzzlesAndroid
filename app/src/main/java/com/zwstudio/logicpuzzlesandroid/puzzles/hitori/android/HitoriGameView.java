@@ -53,7 +53,6 @@ public class HitoriGameView extends CellsGameView {
         markerPaint.setColor(Color.WHITE);
         markerPaint.setStyle(Paint.Style.STROKE);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

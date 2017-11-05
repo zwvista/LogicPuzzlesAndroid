@@ -3,12 +3,15 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots;
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fj.F2;
 
@@ -23,34 +26,53 @@ public class TataminoGame extends CellsGame<TataminoGame, TataminoGameMove, Tata
             new Position(1, 0),
             new Position(0, -1),
     };
+    public static Position offset2[] = {
+            new Position(0, 0),
+            new Position(0, 1),
+            new Position(1, 0),
+            new Position(0, 0),
+    };
+    public static int dirs[] = {1, 2, 1, 2};
 
-    public int[] row2hint;
-    public int[] col2hint;
-    public List<Position> pos2cloud = new ArrayList<>();
+    public List<List<Position>> areas = new ArrayList<>();
+    public Map<Position, Integer> pos2area = new HashMap<>();
+    public GridDots dots;
+
+    public char[] objArray;
+    public char get(int row, int col) {
+        return objArray[row * cols() + col];
+    }
+    public char get(Position p) {
+        return get(p.row, p.col);
+    }
+    public void set(int row, int col, char obj) {
+        objArray[row * cols() + col] = obj;
+    }
+    public void set(Position p, char obj) {
+        set(p.row, p.col, obj);
+    }
 
     public TataminoGame(List<String> layout, GameInterface<TataminoGame, TataminoGameMove, TataminoGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
-        size = new Position(layout.size() - 1, layout.get(0).length() - 1);
-        row2hint = new int[rows()];
-        col2hint = new int[cols()];
+        size = new Position(layout.size(), layout.get(0).length());
+        dots = new GridDots(rows() + 1, cols() + 1);
+        objArray = new char[rows() * cols()];
 
-        for (int r = 0; r < rows() + 1; r++) {
+        for (int r = 0; r < rows(); r++) {
             String str = layout.get(r);
-            for (int c = 0; c < cols() + 1; c++) {
-                Position p = new Position(r, c);
+            for (int c = 0; c < cols(); c++) {
                 char ch = str.charAt(c);
-                if (ch == 'C')
-                    pos2cloud.add(p);
-                else if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    if (r == rows())
-                        col2hint[c] = n;
-                    else if (c == cols())
-                        row2hint[r] = n;
-                }
+                set(r, c, ch);
             }
         }
-
+        for (int r = 0; r < rows(); r++) {
+            dots.set(r, 0, 2, GridLineObject.Line);
+            dots.set(r, cols(), 2, GridLineObject.Line);
+        }
+        for (int c = 0; c < cols(); c++) {
+            dots.set(0, c, 1, GridLineObject.Line);
+            dots.set(rows(), c, 1, GridLineObject.Line);
+        }
         TataminoGameState state = new TataminoGameState(this);
         states.add(state);
         levelInitilized(state);
@@ -81,19 +103,17 @@ public class TataminoGame extends CellsGame<TataminoGame, TataminoGameMove, Tata
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public TataminoObject getObject(Position p) {
+    public char getObject(Position p) {
         return state().get(p);
     }
 
-    public TataminoObject getObject(int row, int col) {
+    public char getObject(int row, int col) {
         return state().get(row, col);
     }
 
-    public HintState getRowState(int row) {
-        return state().row2state[row];
+    public HintState getPosState(Position p) {
+        return state().pos2state.get(p);
     }
 
-    public HintState getColState(int col) {
-        return state().col2state[col];
-    }
+    public GridDots getDots() {return state().dots;}
 }

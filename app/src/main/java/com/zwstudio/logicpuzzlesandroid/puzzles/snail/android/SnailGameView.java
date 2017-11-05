@@ -54,7 +54,6 @@ public class SnailGameView extends CellsGameView {
         markerPaint.setColor(Color.GREEN);
         markerPaint.setStyle(Paint.Style.STROKE);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

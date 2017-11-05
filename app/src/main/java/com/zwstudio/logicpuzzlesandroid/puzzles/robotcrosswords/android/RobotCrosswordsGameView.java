@@ -53,7 +53,6 @@ public class RobotCrosswordsGameView extends CellsGameView {
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
         hintPaint.setStyle(Paint.Style.FILL);
         hintPaint.setStrokeWidth(5);
     }

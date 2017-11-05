@@ -63,7 +63,6 @@ public class LightenUpGameView extends CellsGameView {
         lightPaint.setColor(Color.YELLOW);
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
         dLightbulb = fromImageToDrawable("images/lightbulb.png");
     }
 

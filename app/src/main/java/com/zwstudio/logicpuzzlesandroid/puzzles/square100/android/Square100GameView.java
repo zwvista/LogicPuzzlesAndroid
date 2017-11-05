@@ -10,10 +10,8 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100Game;
 import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100GameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100Object;
 
 /**
  * TODO: document your custom view class.
@@ -58,7 +56,6 @@ public class Square100GameView extends CellsGameView {
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -68,39 +65,20 @@ public class Square100GameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                Square100Object o = game().getObject(r, c);
-                switch (o) {
-                case Cloud:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
-                    break;
-                case Forbidden:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-                    break;
-                }
+                String text = game().getObject(r, c);
+                textPaint.setColor(Color.WHITE);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
         if (isInEditMode()) return;
         for (int r = 0; r < rows(); r++) {
-            HintState s = game().getRowState(r);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().row2hint[r];
+            int n = game().getRowHint(r);
+            textPaint.setColor(n == 100 ? Color.GREEN : Color.RED);
             String text = String.valueOf(n);
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
         }
         for (int c = 0; c < cols(); c++) {
-            HintState s = game().getColState(c);
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            int n = game().col2hint[c];
+            int n = game().getColHint(c);
+            textPaint.setColor(n == 100 ? Color.GREEN : Color.RED);
             String text = String.valueOf(n);
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
         }
@@ -114,7 +92,8 @@ public class Square100GameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             Square100GameMove move = new Square100GameMove() {{
                 p = new Position(row, col);
-                obj = Square100Object.Empty;
+                isRightPart = event.getX() >= col * cellWidth + cellWidth / 2;
+                obj = "   ";
             }};
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();

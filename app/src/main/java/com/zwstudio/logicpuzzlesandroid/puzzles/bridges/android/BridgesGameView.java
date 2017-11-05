@@ -59,7 +59,6 @@ public class BridgesGameView extends CellsGameView {
         bridgePaint.setStyle(Paint.Style.STROKE);
         bridgePaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
-        textPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
