@@ -1,5 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.home.android;
 
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,6 +22,7 @@ import java.util.Map;
 
 import static fj.data.Array.array;
 import static fj.data.List.iterableList;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 @EActivity(R.layout.activity_home_choose_game)
 public class HomeChooseGameActivity extends BaseActivity {
@@ -46,15 +49,22 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("LightenUp", "Lighten Up");
         put("MineShips", "Mine Ships");
         put("MiniLits", "Mini-Lits");
+        put("NoughtsAndCrosses", "Noughts & Crosses");
         put("NumberPath", "Number Path");
         put("OverUnder", "Over Under");
         put("PaintTheNurikabe", "Paint The Nurikabe");
         put("ProductSentinels", "Product Sentinels");
+        put("RobotCrosswords", "Robot Crosswords");
+        put("RobotFences", "Robot Fences");
+        put("Square100", "Square 100");
         put("TapaIslands", "Tapa Islands");
         put("TapAlike", "Tap-Alike");
         put("TapARow", "Tap-A-Row");
         put("TapDifferently", "Tap Differently");
+        put("TennerGrid", "Tenner Grid");
+        put("TheOddBrick", "The Odd Brick");
     }};
+    private static final int UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
 
     @AfterViews
     protected void init() {
@@ -65,16 +75,29 @@ public class HomeChooseGameActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        lstGameTitles = iterableList(lstGameNames).map(s -> {
-            String t = name2title.get(s);
-            return t == null ? s : t;
-        }).toJavaList();
+        lstGameTitles = iterableList(lstGameNames).map(s -> defaultIfNull(name2title.get(s), s)).toJavaList();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_single_choice, lstGameTitles);
         lvGames.setAdapter(adapter);
         String gameName = doc().gameProgress().gameName;
         lvGames.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        lvGames.setItemChecked(lstGameNames.indexOf(gameName), true);
+        int selectedPosition = lstGameNames.indexOf(gameName);
+        lvGames.setItemChecked(selectedPosition, true);
+
+        // https://stackoverflow.com/questions/7733813/how-can-you-tell-when-a-layout-has-been-drawn/7735122#7735122
+        lvGames.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                lvGames.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                // https://stackoverflow.com/questions/5540223/center-a-listview-on-its-current-selection
+                int h1 = lvGames.getHeight();
+                // https://stackoverflow.com/questions/3361423/android-get-listview-item-height
+                View childView = adapter.getView(selectedPosition, null, lvGames);
+                childView.measure(UNBOUNDED, UNBOUNDED);
+                int h2 = childView.getMeasuredHeight();
+                lvGames.smoothScrollToPositionFromTop(selectedPosition, h1/2 - h2/2);
+            }
+        });
     }
 
     @ItemClick

@@ -92,4 +92,5 @@ dependencies {
     compile 'javax.persistence:persistence-api:1.0.2'
     compile "org.functionaljava:functionaljava:4.7"
     compile 'uk.com.robust-it:cloning:1.9.5'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 }

@@ -11,6 +11,8 @@ import java.util.List;
 
 import fj.F2;
 
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+
 /**
  * Created by zwvista on 2016/09/29.
  */
@@ -109,7 +111,6 @@ public class NoughtsAndCrossesGame extends CellsGame<NoughtsAndCrossesGame, Noug
     }
 
     public HintState getPosState(Position p) {
-        HintState s = state().pos2state.get(p);
-        return s == null ? HintState.Normal : s;
+        return defaultIfNull(state().pos2state.get(p), HintState.Normal);
     }
 }

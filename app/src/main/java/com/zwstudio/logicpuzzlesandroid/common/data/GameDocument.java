@@ -26,6 +26,7 @@ import fj.F;
 import static fj.data.Array.array;
 import static fj.data.Array.range;
 import static fj.data.List.iterableList;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -39,8 +40,7 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
     }
     public String gameTitle() {
         String name = gameID();
-        String title = HomeChooseGameActivity.name2title.get(name);
-        return title == null ? name : title;
+        return defaultIfNull(HomeChooseGameActivity.name2title.get(name), name);
     }
 
     public List<GameLevel> levels = new ArrayList<>();
