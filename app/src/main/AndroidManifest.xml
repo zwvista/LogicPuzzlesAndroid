@@ -445,6 +445,18 @@
         <activity android:name=".puzzles.neighbours.android.NeighboursOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.numberpath.android.NumberPathMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -791,6 +803,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.tents.android.TentsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
     </application>
