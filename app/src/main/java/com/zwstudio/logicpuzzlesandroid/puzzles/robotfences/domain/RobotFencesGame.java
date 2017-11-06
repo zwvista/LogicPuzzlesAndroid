@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -153,11 +154,15 @@ public class RobotFencesGame extends CellsGame<RobotFencesGame, RobotFencesGameM
         return state().get(row, col);
     }
 
-    public RobotFencesInfo getRowInfo(int row) {
-        return state().row2info[row];
+    public HintState getRowState(int row) {
+        return state().row2state[row];
     }
 
-    public RobotFencesInfo getColInfo(int col) {
-        return state().col2info[col];
+    public HintState getColState(int col) {
+        return state().col2state[col];
+    }
+
+    public HintState getPosState(Position p) {
+        return state().area2state[pos2area.get(p)];
     }
 }

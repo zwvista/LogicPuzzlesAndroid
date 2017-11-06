@@ -14,7 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesInfo;
 
 /**
  * TODO: document your custom view class.
@@ -25,13 +24,12 @@ public class RobotFencesGameView extends CellsGameView {
     private RobotFencesGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
-    @Override protected int rowsInView() {return rows() + 1;}
-    @Override protected int colsInView() {return cols() + 1;}
+    @Override protected int rowsInView() {return rows();}
+    @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
-    private Paint wallPaint = new Paint();
     private Paint linePaint = new Paint();
-    private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Paint hintPaint = new Paint();
 
     public RobotFencesGameView(Context context) {
         super(context);
@@ -51,12 +49,12 @@ public class RobotFencesGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.WHITE);
         gridPaint.setStyle(Paint.Style.STROKE);
-        wallPaint.setColor(Color.WHITE);
-        wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         linePaint.setColor(Color.YELLOW);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
         textPaint.setAntiAlias(true);
+        hintPaint.setStyle(Paint.Style.FILL);
+        hintPaint.setStrokeWidth(5);
     }
 
     @Override
@@ -66,10 +64,16 @@ public class RobotFencesGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                int n = game().getObject(r, c);
+                Position p = new Position(r, c);
+                int n = game().getObject(p);
                 if (n == 0) continue;
                 String text = String.valueOf(n);
-                textPaint.setColor(game().get(r, c) == n ? Color.GRAY : Color.WHITE);
+                HintState s = game().getPosState(p);
+                textPaint.setColor(
+                        game().get(r, c) == n ? Color.GRAY :
+                        s == HintState.Normal ? Color.WHITE :
+                        s == HintState.Complete ? Color.GREEN : Color.RED
+                );
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
         if (isInEditMode()) return;
@@ -81,26 +85,18 @@ public class RobotFencesGameView extends CellsGameView {
                     canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
             }
         for (int r = 0; r < rows(); r++) {
-            RobotFencesInfo info = game().getRowInfo(r);
-            HintState s = info.state;
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            String text = info.nums;
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
+            HintState s = game().getRowState(r);
+            if (s == HintState.Normal) continue;
+            hintPaint.setColor(s == HintState.Complete ? Color.GREEN : Color.RED);
+            int c = cols() - 1;
+            canvas.drawArc(cwc(c + 1) - 20, chr2(r) - 20, cwc(c + 1) + 20, chr2(r) + 20, 0, 360, true, hintPaint);
         }
         for (int c = 0; c < cols(); c++) {
-            RobotFencesInfo info = game().getColInfo(c);
-            HintState s = info.state;
-            textPaint.setColor(
-                    s == HintState.Complete ? Color.GREEN :
-                    s == HintState.Error ? Color.RED :
-                    Color.WHITE
-            );
-            String text = info.nums;
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
+            HintState s = game().getColState(c);
+            if (s == HintState.Normal) continue;
+            hintPaint.setColor(s == HintState.Complete ? Color.GREEN : Color.RED);
+            int r = rows() - 1;
+            canvas.drawArc(cwc2(c) - 20, chr(r + 1) - 20, cwc2(c) + 20, chr(r + 1) + 20, 0, 360, true, hintPaint);
         }
     }
 

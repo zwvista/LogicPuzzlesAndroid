@@ -78,8 +78,7 @@ public class RobotCrosswordsGameState extends CellsGameState<RobotCrosswordsGame
             int size = nums.size();
             List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
             HintState s = nums2.get(0) == 0 ? HintState.Normal :
-                    nums2.size() == size && nums2.get(nums2.size() - 1) - nums2.get(0) + 1 == size ?
-                    HintState.Complete : HintState.Error;
+                    nums2.size() == size ? HintState.Complete : HintState.Error;
             for (Position p : a)
                 (i < game.horzAreaCount ? pos2horzState : pos2vertState).put(p, s);
             if (s != HintState.Complete) isSolved = false;

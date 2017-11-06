@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.List;
 
+import fj.F;
 import fj.Ord;
-import fj.function.Effect2;
 
 import static fj.data.List.iterableList;
 import static fj.data.Set.iterableSet;
@@ -19,23 +19,17 @@ import static fj.data.Stream.range;
 
 public class RobotFencesGameState extends CellsGameState<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState> {
     public int[] objArray;
-    public RobotFencesInfo[] row2info;
-    public RobotFencesInfo[] col2info;
-    public RobotFencesInfo[] area2info;
+    public HintState[] row2state;
+    public HintState[] col2state;
+    public HintState[] area2state;
 
     public RobotFencesGameState(RobotFencesGame game) {
         super(game);
         objArray = new int[rows() * cols()];
         System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
-        row2info = new RobotFencesInfo[rows()];
-        for (int i = 0; i < row2info.length; i++)
-            row2info[i] = new RobotFencesInfo();
-        col2info = new RobotFencesInfo[cols()];
-        for (int i = 0; i < col2info.length; i++)
-            col2info[i] = new RobotFencesInfo();
-        area2info = new RobotFencesInfo[game.areas.size()];
-        for (int i = 0; i < area2info.length; i++)
-            area2info[i] = new RobotFencesInfo();
+        row2state = new HintState[rows()];
+        col2state = new HintState[cols()];
+        area2state = new HintState[game.areas.size()];
         updateIsSolved();
     }
 
@@ -82,18 +76,16 @@ public class RobotFencesGameState extends CellsGameState<RobotFencesGame, RobotF
     */
     private void updateIsSolved() {
         isSolved = true;
-        Effect2<List<Integer>, RobotFencesInfo> f = (nums, info) -> {
+        F<List<Integer>, HintState> f = nums -> {
             int size = nums.size();
             List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
             HintState s = nums2.get(0) == 0 ? HintState.Normal :
-                    nums2.size() == size && nums2.get(nums2.size() - 1) - nums2.get(0) + 1 == size ?
-                    HintState.Complete : HintState.Error;
-            info.nums = iterableList(nums2).toStream().filter(i -> i != 0).foldLeft((acc, v) -> acc + v.toString(), "");
-            info.state = s;
+                    nums2.size() == size ? HintState.Complete : HintState.Error;
             if (s != HintState.Complete) isSolved = false;
+            return s;
         };
-        range(0, rows()).foreachDoEffect(r -> f.f(range(0, cols()).map(c -> get(r, c)).toJavaList(), row2info[r]));
-        range(0, cols()).foreachDoEffect(c -> f.f(range(0, rows()).map(r -> get(r, c)).toJavaList(), col2info[c]));
-        range(0, game.areas.size()).foreachDoEffect(i -> f.f(iterableList(game.areas.get(i)).map(p -> get(p)).toJavaList(), area2info[i]));
+        range(0, rows()).foreachDoEffect(r -> row2state[r] = f.f(range(0, cols()).map(c -> get(r, c)).toJavaList()));
+        range(0, cols()).foreachDoEffect(c -> col2state[c] = f.f(range(0, rows()).map(r -> get(r, c)).toJavaList()));
+        range(0, game.areas.size()).foreachDoEffect(i -> area2state[i] = f.f(iterableList(game.areas.get(i)).map(p -> get(p)).toJavaList()));
     }
 }
