@@ -3,23 +3,13 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots;
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import fj.F2;
-
-import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -28,80 +18,27 @@ import static fj.data.List.iterableList;
 public class ParkLakesGame extends CellsGame<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
-            new Position(-1, 1),
             new Position(0, 1),
-            new Position(1, 1),
             new Position(1, 0),
-            new Position(1, -1),
             new Position(0, -1),
-            new Position(-1, -1),
     };
-    public static Position offset2[] = {
-            new Position(0, 0),
-            new Position(1, 1),
-            new Position(1, 1),
-            new Position(0, 0),
-    };
-    public static int dirs[] = {1, 0, 3, 2};
 
-    public List<List<Position>> areas = new ArrayList<>();
-    public Map<Position, Integer> pos2area = new HashMap<>();
-    public GridDots dots;
-    public int treesInEachArea = 1;
+    public Map<Position, Integer> pos2hint = new HashMap<>();
 
     public ParkLakesGame(List<String> layout, GameInterface<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
-        size = new Position(layout.size() / 2, layout.get(0).length() / 2);
-        dots = new GridDots(rows() + 1, cols() + 1);
-        for (int r = 0; r < rows() + 1; r++) {
-            String str = layout.get(r * 2);
+        size = new Position(layout.size(), layout.get(0).length() / 2);
+
+        for (int r = 0; r < rows(); r++) {
+            String str = layout.get(r);
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                char ch = str.charAt(c * 2 + 1);
-                if (ch == '-') {
-                    dots.set(r, c, 1, GridLineObject.Line);
-                    dots.set(r, c + 1, 3, GridLineObject.Line);
-                }
-            }
-            if (r == rows()) break;
-            str = layout.get(r * 2 + 1);
-            for (int c = 0; c < cols() + 1; c++) {
-                Position p = new Position(r, c);
-                char ch = str.charAt(c * 2);
-                if (ch == '|') {
-                    dots.set(r, c, 2, GridLineObject.Line);
-                    dots.set(r + 1, c, 0, GridLineObject.Line);
-                }
+                String s = str.substring(c * 2, c  * 2 + 2);
+                if (!s.equals("  "))
+                    pos2hint.put(p, s.equals(" ?") ? -1 : Integer.parseInt(s.trim()));
             }
         }
-        Set<Position> rng = new HashSet<>();
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                rng.add(p.plus());
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
-            }
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                for (int i = 0; i < 4; i++)
-                    if (dots.get(p.add(ParkLakesGame.offset2[i]), ParkLakesGame.dirs[i]) != GridLineObject.Line)
-                        g.connectNode(pos2node.get(p), pos2node.get(p.add(ParkLakesGame.offset[i * 2])));
-            }
-        while (!rng.isEmpty()) {
-            g.setRootNode(pos2node.get(iterableList(rng).head()));
-            List<Node> nodeList = g.bfs();
-            List<Position> area = iterableList(rng).filter(p -> nodeList.contains(pos2node.get(p))).toJavaList();
-            int n = areas.size();
-            for(Position p : area)
-                pos2area.put(p, n);
-            areas.add(area);
-            rng.removeAll(area);
-        }
+
         ParkLakesGameState state = new ParkLakesGameState(this);
         states.add(state);
         levelInitilized(state);
@@ -138,9 +75,5 @@ public class ParkLakesGame extends CellsGame<ParkLakesGame, ParkLakesGameMove, P
 
     public ParkLakesObject getObject(int row, int col) {
         return state().get(row, col);
-    }
-
-    public HintState hint2State(Position p) {
-        return state().pos2state.get(p);
     }
 }
