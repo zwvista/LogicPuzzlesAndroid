@@ -229,6 +229,18 @@
         <activity android:name=".puzzles.fencesentinels.android.FenceSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.fourmenot.android.FourMeNotMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fourmenot.android.FourMeNotGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fourmenot.android.FourMeNotHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fourmenot.android.FourMeNotOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.galaxies.android.GalaxiesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -251,6 +263,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.hitori.android.HitoriOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.holidayisland.android.HolidayIslandMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.holidayisland.android.HolidayIslandGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.holidayisland.android.HolidayIslandHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.holidayisland.android.HolidayIslandOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.kakurasu.android.KakurasuMainActivity_"
@@ -385,6 +409,18 @@
         <activity android:name=".puzzles.magnets.android.MagnetsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.mathrax.android.MathraxMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mathrax.android.MathraxGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mathrax.android.MathraxHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mathrax.android.MathraxOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.mineships.android.MineShipsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -481,6 +517,18 @@
         <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.orchards.android.OrchardsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.overunder.android.OverUnderMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -505,18 +553,6 @@
         <activity android:name=".puzzles.pairakabe.android.PairakabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsMainActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsGameActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsHelpActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsOptionsActivity_"
-                  android:screenOrientation="portrait">
-        </activity>
         <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
@@ -527,6 +563,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parklakes.android.ParkLakesMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parklakes.android.ParkLakesGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parklakes.android.ParkLakesHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parklakes.android.ParkLakesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.parks.android.ParksMainActivity_"
@@ -815,6 +863,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.theoddbrick.android.TheOddBrickOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
     </application>

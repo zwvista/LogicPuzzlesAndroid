@@ -45,6 +45,8 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("DigitalBattleShips", "Digital Battle Ships");
         put("FenceItUp", "Fence It Up");
         put("FenceSentinels", "Fence Sentinels");
+        put("FourMeNot", "Four-Me-Not");
+        put("HolidayIsland", "Holiday Island");
         put("LightBattleShips", "Light Battle Ships");
         put("LightenUp", "Lighten Up");
         put("MineShips", "Mine Ships");
@@ -53,6 +55,7 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("NumberPath", "Number Path");
         put("OverUnder", "Over Under");
         put("PaintTheNurikabe", "Paint The Nurikabe");
+        put("ParkLakes", "Park Lakes");
         put("ProductSentinels", "Product Sentinels");
         put("RobotCrosswords", "Robot Crosswords");
         put("RobotFences", "Robot Fences");
@@ -63,6 +66,7 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("TapDifferently", "Tap Differently");
         put("TennerGrid", "Tenner Grid");
         put("TheOddBrick", "The Odd Brick");
+        put("TierraDelFuego", "Tierra Del Fuego");
     }};
     private static final int UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
 
