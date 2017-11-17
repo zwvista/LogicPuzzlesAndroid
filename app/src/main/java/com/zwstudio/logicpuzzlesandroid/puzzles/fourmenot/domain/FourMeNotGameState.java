@@ -2,18 +2,24 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fj.F;
-import fj.F0;
+import fj.function.Effect0;
+import fj.function.Effect2;
 
-import static fj.data.Array.array;
+import static fj.data.HashMap.fromMap;
+import static fj.data.List.arrayList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -26,8 +32,8 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
     public FourMeNotGameState(FourMeNotGame game) {
         super(game);
         objArray = new FourMeNotObject[rows() * cols()];
-        for (int i = 0; i < objArray.length; i++)
-            objArray[i] = new FourMeNotEmptyObject();
+        System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
+        updateIsSolved();
     }
 
     public FourMeNotObject get(int row, int col) {
@@ -44,13 +50,14 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
     }
 
     public boolean setObject(FourMeNotGameMove move) {
-        if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
+        if (!isValid(move.p) || !(game.get(move.p) instanceof FourMeNotEmptyObject) || get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(FourMeNotGameMove move) {
+        if (!isValid(move.p) || !(game.get(move.p) instanceof FourMeNotEmptyObject)) return false;
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<FourMeNotObject, FourMeNotObject> f = obj -> {
             if (obj instanceof FourMeNotEmptyObject)
@@ -70,95 +77,99 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/FourMeNot
+        iOS Game: Logic Games/Puzzle Set 9/Four-Me-Not
 
         Summary
-        Put one Tree in each Park, row and column.(two in bigger levels)
+        It seems we do a lot of gardening in this game!
 
         Description
-        1. In FourMeNot, you have many differently coloured areas(FourMeNot) on the board.
-        2. The goal is to plant Trees, following these rules:
-        3. A Tree can't touch another Tree, not even diagonally.
-        4. Each park must have exactly ONE Tree.
-        5. There must be exactly ONE Tree in each row and each column.
-        6. Remember a Tree CANNOT touch another Tree diagonally,
-           but it CAN be on the same diagonal line.
-        7. Larger puzzles have TWO Trees in each park, each row and each column.
+        1. In Four-Me-Not (or Forbidden Four) you need to create a continuous
+           flower bed without putting four flowers in a row.
+        2. More exactly, you have to join the existing flowers by adding more of
+           them, creating a single path of flowers touching horizontally or
+           vertically.
+        3. At the same time, you can't line up horizontally or vertically more
+           than 3 flowers (thus Forbidden Four).
+        4. Some tiles are marked as squares and are just fixed blocks.
     */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                FourMeNotObject o = get(r, c);
-                if (o instanceof FourMeNotForbiddenObject)
-                    set(r, c, new FourMeNotEmptyObject());
-            }
-        // 3. A Tree can't touch another Tree, not even diagonally.
+        Graph g = new Graph();
+        Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                F0<Boolean> hasNeighbor = () -> {
-                    return array(FourMeNotGame.offset).exists(os -> {
-                        Position p2 = p.add(os);
-                        return isValid(p2) && get(p2) instanceof FourMeNotTreeObject;
-                    });
-                };
-                FourMeNotObject o = get(r, c);
-                if (o instanceof FourMeNotTreeObject) {
-                    FourMeNotTreeObject o2 = (FourMeNotTreeObject)o;
-                    o2.state = !hasNeighbor.f() ? AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject) && allowedObjectsOnly && hasNeighbor.f())
-                    set(r, c, new FourMeNotForbiddenObject());
-            }
-        int n2 = game.treesInEachArea;
-        // 5. There must be exactly ONE Tree in each row.
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0;
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) instanceof FourMeNotTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int c = 0; c < cols(); c++) {
-                FourMeNotObject o = get(r, c);
-                if (o instanceof FourMeNotTreeObject) {
-                    FourMeNotTreeObject o2 = (FourMeNotTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new FourMeNotForbiddenObject());
-            }
-        }
-        // 5. There must be exactly ONE Tree in each column.
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0;
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) instanceof FourMeNotTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int r = 0; r < rows(); r++) {
-                FourMeNotObject o = get(r, c);
-                if (o instanceof FourMeNotTreeObject) {
-                    FourMeNotTreeObject o2 = (FourMeNotTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new FourMeNotForbiddenObject());
-            }
-        }
-        // 4. Each park must have exactly ONE Tree.
-        for (List<Position> a : game.areas) {
-            int n1 = 0;
-            for (Position p : a)
-                if (get(p) instanceof FourMeNotTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (Position p : a) {
                 FourMeNotObject o = get(p);
-                if (o instanceof FourMeNotTreeObject) {
-                    FourMeNotTreeObject o2 = (FourMeNotTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(p, new FourMeNotForbiddenObject());
+                if (o instanceof FourMeNotForbiddenObject)
+                    set(p, new FourMeNotEmptyObject());
+                else if (o instanceof FourMeNotTreeObject) {
+                    ((FourMeNotTreeObject)o).state = AllowedObjectState.Normal;
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
+                }
             }
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
+            Position p = entry.getKey();
+            Node node = entry.getValue();
+            for (Position os : TierraDelFuegoGame.offset) {
+                Position p2 = p.add(os);
+                Node node2 = pos2node.get(p2);
+                if (node2 == null) continue;
+                g.connectNode(node, node2);
+            }
+        }
+        g.setRootNode(fromMap(pos2node).values().head());
+        List<Node> nodeList = g.bfs();
+        if (nodeList.size() != pos2node.size()) isSolved = false;
+
+        List<Position> trees = new ArrayList<>();
+        Effect0 f = () -> {
+            if (trees.size() > 3) {
+                isSolved = false;
+                for (Position p : trees)
+                    ((FourMeNotTreeObject)get(p)).state = AllowedObjectState.Error;
+            }
+            trees.clear();
+        };
+        Effect2<Position, List<Integer>> f2 = (p, indexes) -> {
+            if (!allowedObjectsOnly) return;
+            int n = 0;
+            for (int i : indexes) {
+                Position os = FourMeNotGame.offset[i];
+                for (Position p2 = p.add(os); isValid(p2) && get(p2) instanceof FourMeNotTreeObject; p2.addBy(os))
+                    n++;
+            }
+            if (n > 3) set(p, new FourMeNotForbiddenObject());
+        };
+        for (int r = 0; r < rows(); r++) {
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                FourMeNotObject o = get(p);
+                if (o instanceof FourMeNotTreeObject)
+                    trees.add(p);
+                else {
+                    if (o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject)
+                        f2.f(p, arrayList(1, 3).toJavaList());
+                    f.f();
+                }
+            }
+            f.f();
+        }
+        for (int c = 0; c < cols(); c++) {
+            for (int r = 0; r < rows(); r++) {
+                Position p = new Position(r, c);
+                FourMeNotObject o = get(p);
+                if (o instanceof FourMeNotTreeObject)
+                    trees.add(p);
+                else {
+                    if (o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject)
+                        f2.f(p, arrayList(0, 2).toJavaList());
+                    f.f();
+                }
+            }
+            f.f();
         }
     }
 }
