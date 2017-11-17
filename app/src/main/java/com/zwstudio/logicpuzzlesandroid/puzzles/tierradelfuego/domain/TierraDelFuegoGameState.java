@@ -2,18 +2,21 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fj.F;
-import fj.F0;
 
-import static fj.data.Array.array;
+import static fj.data.HashMap.fromMap;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -21,13 +24,18 @@ import static fj.data.Array.array;
 
 public class TierraDelFuegoGameState extends CellsGameState<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState> {
     public TierraDelFuegoObject[] objArray;
-    public Map<Position, HintState> pos2state = new HashMap<>();
 
     public TierraDelFuegoGameState(TierraDelFuegoGame game) {
         super(game);
         objArray = new TierraDelFuegoObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
             objArray[i] = new TierraDelFuegoEmptyObject();
+        for (Map.Entry<Position, Character> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            char ch = entry.getValue();
+            set(p, new TierraDelFuegoHintObject() {{id = ch;}});
+        }
+        updateIsSolved();
     }
 
     public TierraDelFuegoObject get(int row, int col) {
@@ -44,13 +52,14 @@ public class TierraDelFuegoGameState extends CellsGameState<TierraDelFuegoGame, 
     }
 
     public boolean setObject(TierraDelFuegoGameMove move) {
-        if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
+        if (!isValid(move.p) || game.pos2hint.get(move.p) != null || get(move.p).equals(move.obj)) return false;
         set(move.p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(TierraDelFuegoGameMove move) {
+        if (!isValid(move.p) || game.pos2hint.get(move.p) != null) return false;
         MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
         F<TierraDelFuegoObject, TierraDelFuegoObject> f = obj -> {
             if (obj instanceof TierraDelFuegoEmptyObject)
@@ -70,95 +79,91 @@ public class TierraDelFuegoGameState extends CellsGameState<TierraDelFuegoGame, 
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/TierraDelFuego
+        iOS Game: Logic Games/Puzzle Set 11/Tierra Del Fuego
 
         Summary
-        Put one Tree in each Park, row and column.(two in bigger levels)
+        Fuegians!
 
         Description
-        1. In TierraDelFuego, you have many differently coloured areas(TierraDelFuego) on the board.
-        2. The goal is to plant Trees, following these rules:
-        3. A Tree can't touch another Tree, not even diagonally.
-        4. Each park must have exactly ONE Tree.
-        5. There must be exactly ONE Tree in each row and each column.
-        6. Remember a Tree CANNOT touch another Tree diagonally,
-           but it CAN be on the same diagonal line.
-        7. Larger puzzles have TWO Trees in each park, each row and each column.
+        1. The board represents the 'Tierra del Fuego' archipelago, where native
+           tribes, the Fuegians, live.
+        2. Being organized in tribes, each tribe, marked with a different letter,
+           has occupied an island in the archipelago.
+        3. The archipelago is peculiar because all bodies of water separating the
+           islands are identical in shape and occupied a 2*1 or 1*2 space.
+        4. These bodies of water can only touch diagonally.
+        5. Your task is to find these bodies of water.
+        6. Please note there are no hidden tribes or islands without a tribe on it.
     */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                TierraDelFuegoObject o = get(r, c);
-                if (o instanceof TierraDelFuegoForbiddenObject)
-                    set(r, c, new TierraDelFuegoEmptyObject());
-            }
-        // 3. A Tree can't touch another Tree, not even diagonally.
+        Graph g = new Graph();
+        Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                F0<Boolean> hasNeighbor = () -> {
-                    return array(TierraDelFuegoGame.offset).exists(os -> {
-                        Position p2 = p.add(os);
-                        return isValid(p2) && get(p2) instanceof TierraDelFuegoTreeObject;
-                    });
-                };
-                TierraDelFuegoObject o = get(r, c);
-                if (o instanceof TierraDelFuegoTreeObject) {
-                    TierraDelFuegoTreeObject o2 = (TierraDelFuegoTreeObject)o;
-                    o2.state = !hasNeighbor.f() ? AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof TierraDelFuegoEmptyObject || o instanceof TierraDelFuegoMarkerObject) && allowedObjectsOnly && hasNeighbor.f())
-                    set(r, c, new TierraDelFuegoForbiddenObject());
-            }
-        int n2 = game.treesInEachArea;
-        // 5. There must be exactly ONE Tree in each row.
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0;
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) instanceof TierraDelFuegoTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int c = 0; c < cols(); c++) {
-                TierraDelFuegoObject o = get(r, c);
-                if (o instanceof TierraDelFuegoTreeObject) {
-                    TierraDelFuegoTreeObject o2 = (TierraDelFuegoTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof TierraDelFuegoEmptyObject || o instanceof TierraDelFuegoMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new TierraDelFuegoForbiddenObject());
-            }
-        }
-        // 5. There must be exactly ONE Tree in each column.
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0;
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) instanceof TierraDelFuegoTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int r = 0; r < rows(); r++) {
-                TierraDelFuegoObject o = get(r, c);
-                if (o instanceof TierraDelFuegoTreeObject) {
-                    TierraDelFuegoTreeObject o2 = (TierraDelFuegoTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof TierraDelFuegoEmptyObject || o instanceof TierraDelFuegoMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new TierraDelFuegoForbiddenObject());
-            }
-        }
-        // 4. Each park must have exactly ONE Tree.
-        for (List<Position> a : game.areas) {
-            int n1 = 0;
-            for (Position p : a)
-                if (get(p) instanceof TierraDelFuegoTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (Position p : a) {
                 TierraDelFuegoObject o = get(p);
-                if (o instanceof TierraDelFuegoTreeObject) {
-                    TierraDelFuegoTreeObject o2 = (TierraDelFuegoTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof TierraDelFuegoEmptyObject || o instanceof TierraDelFuegoMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(p, new TierraDelFuegoForbiddenObject());
+                Node node = new Node(p.toString());
+                g.addNode(node);
+                pos2node.put(p, node);
+                if (o instanceof TierraDelFuegoForbiddenObject)
+                    set(p, new TierraDelFuegoEmptyObject());
+                else if (o instanceof TierraDelFuegoTreeObject)
+                    ((TierraDelFuegoTreeObject)o).state = AllowedObjectState.Normal;
+                else if (o instanceof TierraDelFuegoHintObject)
+                    ((TierraDelFuegoHintObject)o).state = HintState.Normal;
             }
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
+            Position p = entry.getKey();
+            Node node = entry.getValue();
+            boolean b1 = get(p) instanceof TierraDelFuegoTreeObject;
+            for (Position os : TierraDelFuegoGame.offset) {
+                Position p2 = p.add(os);
+                Node node2 = pos2node.get(p2);
+                if (node2 == null) continue;
+                boolean b2 = get(p2) instanceof TierraDelFuegoTreeObject;
+                if (b1 == b2)
+                    g.connectNode(node, node2);
+            }
+        }
+        while (!pos2node.isEmpty()) {
+            g.setRootNode(fromMap(pos2node).values().head());
+            List<Node> nodeList = g.bfs();
+            List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
+            if (get(fromMap(pos2node).keys().head()) instanceof TierraDelFuegoTreeObject) {
+                if (area.size() != 2)
+                    isSolved = false;
+                else if (allowedObjectsOnly)
+                    for (Position p : area)
+                        for (Position os : TierraDelFuegoGame.offset) {
+                            Position p2 = p.add(os);
+                            if (!isValid(p2)) continue;
+                            TierraDelFuegoObject o = get(p2);
+                            if (o instanceof TierraDelFuegoEmptyObject || o instanceof TierraDelFuegoMarkerObject)
+                                set(p, new TierraDelFuegoForbiddenObject());
+                        }
+                if (area.size() > 2)
+                    for (Position p : area)
+                        ((TierraDelFuegoTreeObject)get(p)).state = AllowedObjectState.Error;
+            } else {
+                Set<Character> ids = new HashSet<>();
+                for (Position p : area) {
+                    TierraDelFuegoObject o = get(p);
+                    if (o instanceof TierraDelFuegoHintObject)
+                        ids.add(((TierraDelFuegoHintObject)o).id);
+                }
+                if (ids.size() == 1)
+                    for (Position p : area) {
+                        TierraDelFuegoObject o = get(p);
+                        if (o instanceof TierraDelFuegoHintObject)
+                            ((TierraDelFuegoHintObject)o).state = HintState.Complete;
+                    }
+                else
+                    isSolved = false;
+            }
+            for (Position p : area)
+                pos2node.remove(p);
         }
     }
 }

@@ -12,13 +12,13 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoEmptyObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoHintObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoTreeObject;
@@ -35,9 +35,9 @@ public class TierraDelFuegoGameView extends CellsGameView {
     @Override protected int rowsInView() {return rows();}
     @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
-    private Paint linePaint = new Paint();
     private Paint markerPaint = new Paint();
     private Paint forbiddenPaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
     private Drawable dTree;
 
     public TierraDelFuegoGameView(Context context) {
@@ -58,15 +58,13 @@ public class TierraDelFuegoGameView extends CellsGameView {
     private void init(AttributeSet attrs, int defStyle) {
         gridPaint.setColor(Color.GRAY);
         gridPaint.setStyle(Paint.Style.STROKE);
-        linePaint.setColor(Color.YELLOW);
-        linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setStrokeWidth(20);
         markerPaint.setColor(Color.WHITE);
         markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         markerPaint.setStrokeWidth(5);
         forbiddenPaint.setColor(Color.RED);
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
+        textPaint.setAntiAlias(true);
         dTree = fromImageToDrawable("images/tree.png");
     }
 
@@ -77,13 +75,6 @@ public class TierraDelFuegoGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++)
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
         if (isInEditMode()) return;
-        for (int r = 0; r < rows() + 1; r++)
-            for (int c = 0; c < cols() + 1; c++) {
-                if (game().dots.get(r, c, 1) == GridLineObject.Line)
-                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
-                if (game().dots.get(r, c, 2) == GridLineObject.Line)
-                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
-            }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
@@ -94,6 +85,11 @@ public class TierraDelFuegoGameView extends CellsGameView {
                     int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
                     dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dTree.draw(canvas);
+                } else if (o instanceof TierraDelFuegoHintObject) {
+                    TierraDelFuegoHintObject o2 = (TierraDelFuegoHintObject)o;
+                    textPaint.setColor(o2.state == HintState.Complete ? Color.GREEN : Color.WHITE);
+                    String text = String.valueOf(o2.id);
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
                 } else if (o instanceof TierraDelFuegoMarkerObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
                 else if (o instanceof TierraDelFuegoForbiddenObject)
