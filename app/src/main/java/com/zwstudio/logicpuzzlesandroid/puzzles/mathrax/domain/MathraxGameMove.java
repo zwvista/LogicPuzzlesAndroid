@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class MathraxGameMove {
     public Position p;
-    public MathraxObject obj;
+    public int obj;
 }

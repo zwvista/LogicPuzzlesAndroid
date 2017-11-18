@@ -1,8 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mathrax.domain;
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -11,154 +9,116 @@ import java.util.List;
 import java.util.Map;
 
 import fj.F;
-import fj.F0;
+import fj.F2;
+import fj.Ord;
 
 import static fj.data.Array.array;
+import static fj.data.Set.iterableSet;
+import static fj.data.Stream.range;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class MathraxGameState extends CellsGameState<MathraxGame, MathraxGameMove, MathraxGameState> {
-    public MathraxObject[] objArray;
+    public int[] objArray;
+    public HintState[] row2state;
+    public HintState[] col2state;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
     public MathraxGameState(MathraxGame game) {
         super(game);
-        objArray = new MathraxObject[rows() * cols()];
-        for (int i = 0; i < objArray.length; i++)
-            objArray[i] = new MathraxEmptyObject();
+        objArray = new int[rows() * cols()];
+        System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
+        row2state = new HintState[rows()];
+        col2state = new HintState[cols()];
+        updateIsSolved();
     }
 
-    public MathraxObject get(int row, int col) {
+    public int get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public MathraxObject get(Position p) {
+    public int get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, MathraxObject dotObj) {
+    public void set(int row, int col, int dotObj) {
         objArray[row * cols() + col] = dotObj;
     }
-    public void set(Position p, MathraxObject obj) {
+    public void set(Position p, int obj) {
         set(p.row, p.col, obj);
     }
 
     public boolean setObject(MathraxGameMove move) {
-        if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
+        if (!isValid(move.p) || game.get(move.p) != 0 || get(move.p) == move.obj) return false;
         set(move.p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(MathraxGameMove move) {
-        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<MathraxObject, MathraxObject> f = obj -> {
-            if (obj instanceof MathraxEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new MathraxMarkerObject() : new MathraxTreeObject();
-            if (obj instanceof MathraxTreeObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new MathraxMarkerObject() : new MathraxEmptyObject();
-            if (obj instanceof MathraxMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new MathraxTreeObject() : new MathraxEmptyObject();
-            return obj;
-        };
-        MathraxObject o = get(move.p);
-        move.obj = f.f(o);
+        Position p = move.p;
+        if (!isValid(p) || game.get(p) != 0) return false;
+        int o = get(p);
+        move.obj = (o + 1) % (cols() + 1);
         return setObject(move);
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/Mathrax
+        iOS Game: Logic Games/Puzzle Set 6/Mathrax
 
         Summary
-        Put one Tree in each Park, row and column.(two in bigger levels)
+        Diagonal Math Wiz
 
         Description
-        1. In Mathrax, you have many differently coloured areas(Mathrax) on the board.
-        2. The goal is to plant Trees, following these rules:
-        3. A Tree can't touch another Tree, not even diagonally.
-        4. Each park must have exactly ONE Tree.
-        5. There must be exactly ONE Tree in each row and each column.
-        6. Remember a Tree CANNOT touch another Tree diagonally,
-           but it CAN be on the same diagonal line.
-        7. Larger puzzles have TWO Trees in each park, each row and each column.
+        1. The goal is to input numbers 1 to N, where N is the board size, following
+           the hints in the intersections.
+        2. A number must appear once for every row and column.
+        3. The tiny numbers and sign in the intersections tell you the result of
+           the operation between the two opposite diagonal tiles. This is valid
+           for both pairs of numbers surrounding the hint.
+        4. In some puzzles, there will be 'E' or 'O' as hint. This means that all
+           four tiles are either (E)ven or (O)dd numbers.
     */
     private void updateIsSolved() {
-        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                MathraxObject o = get(r, c);
-                if (o instanceof MathraxForbiddenObject)
-                    set(r, c, new MathraxEmptyObject());
-            }
-        // 3. A Tree can't touch another Tree, not even diagonally.
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                F0<Boolean> hasNeighbor = () -> {
-                    return array(MathraxGame.offset).exists(os -> {
-                        Position p2 = p.add(os);
-                        return isValid(p2) && get(p2) instanceof MathraxTreeObject;
-                    });
-                };
-                MathraxObject o = get(r, c);
-                if (o instanceof MathraxTreeObject) {
-                    MathraxTreeObject o2 = (MathraxTreeObject)o;
-                    o2.state = !hasNeighbor.f() ? AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof MathraxEmptyObject || o instanceof MathraxMarkerObject) && allowedObjectsOnly && hasNeighbor.f())
-                    set(r, c, new MathraxForbiddenObject());
-            }
-        int n2 = game.treesInEachArea;
-        // 5. There must be exactly ONE Tree in each row.
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0;
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) instanceof MathraxTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int c = 0; c < cols(); c++) {
-                MathraxObject o = get(r, c);
-                if (o instanceof MathraxTreeObject) {
-                    MathraxTreeObject o2 = (MathraxTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof MathraxEmptyObject || o instanceof MathraxMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new MathraxForbiddenObject());
-            }
-        }
-        // 5. There must be exactly ONE Tree in each column.
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0;
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) instanceof MathraxTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int r = 0; r < rows(); r++) {
-                MathraxObject o = get(r, c);
-                if (o instanceof MathraxTreeObject) {
-                    MathraxTreeObject o2 = (MathraxTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof MathraxEmptyObject || o instanceof MathraxMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new MathraxForbiddenObject());
-            }
-        }
-        // 4. Each park must have exactly ONE Tree.
-        for (List<Position> a : game.areas) {
-            int n1 = 0;
-            for (Position p : a)
-                if (get(p) instanceof MathraxTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (Position p : a) {
-                MathraxObject o = get(p);
-                if (o instanceof MathraxTreeObject) {
-                    MathraxTreeObject o2 = (MathraxTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof MathraxEmptyObject || o instanceof MathraxMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(p, new MathraxForbiddenObject());
-            }
+        F<List<Integer>, HintState> f = nums -> {
+            int size = nums.size();
+            List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
+            HintState s = nums2.get(0) == 0 ? HintState.Normal :
+                    nums2.size() == size ? HintState.Complete : HintState.Error;
+            if (s != HintState.Complete) isSolved = false;
+            return s;
+        };
+        range(0, rows()).foreachDoEffect(r -> row2state[r] = f.f(range(0, cols()).map(c -> get(r, c)).toJavaList()));
+        range(0, cols()).foreachDoEffect(c -> col2state[c] = f.f(range(0, rows()).map(r -> get(r, c)).toJavaList()));
+        for (Map.Entry<Position, MathraxHint> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            MathraxHint h = entry.getValue();
+            F2<Integer, Integer, HintState> g = (n1, n2) -> {
+                if (n1 == 0 || n2 == 0) return HintState.Normal;
+                int n = h.result;
+                switch (h.op) {
+                case '+':
+                    return n1 + n2 == n ? HintState.Complete : HintState.Error;
+                case '-':
+                    return n1 - n2 == n || n2 - n1 == n ? HintState.Complete : HintState.Error;
+                case '*':
+                    return n1 * n2 == n ? HintState.Complete : HintState.Error;
+                case '/':
+                    return n1 / n2 * n2 == n * n2 || n2 / n1 * n1 == n * n1 ? HintState.Complete : HintState.Error;
+                case 'O':
+                    return n1 % 2 == 1 && n2 % 2 == 1 ? HintState.Complete : HintState.Error;
+                case 'E':
+                    return n1 % 2 == 0 && n2 % 2 == 0 ? HintState.Complete : HintState.Error;
+                }
+                return HintState.Normal;
+            };
+            List<Integer> nums = array(MathraxGame.offset2).map(os -> get(p.add(os))).toJavaList();
+            HintState s1 = g.f(nums.get(0), nums.get(1)), s2 = g.f(nums.get(2), nums.get(3));
+            HintState s = s1 == HintState.Error || s2 == HintState.Error ? HintState.Error :
+                    s1 == HintState.Complete && s2 == HintState.Complete ? HintState.Complete : HintState.Normal;
+            pos2state.put(p, s);
+            if (s != HintState.Complete) isSolved = false;
         }
     }
 }
