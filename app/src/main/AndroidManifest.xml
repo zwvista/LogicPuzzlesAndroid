@@ -253,6 +253,18 @@
         <activity android:name=".puzzles.galaxies.android.GalaxiesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.gardener.android.GardenerMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gardener.android.GardenerGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gardener.android.GardenerHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gardener.android.GardenerOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hitori.android.HitoriMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

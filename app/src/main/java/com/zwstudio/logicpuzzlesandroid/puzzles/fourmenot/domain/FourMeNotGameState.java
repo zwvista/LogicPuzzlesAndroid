@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import fj.F;
+import fj.F0;
 import fj.function.Effect0;
 import fj.function.Effect2;
 
@@ -113,7 +113,7 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
         for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
             Position p = entry.getKey();
             Node node = entry.getValue();
-            for (Position os : TierraDelFuegoGame.offset) {
+            for (Position os : FourMeNotGame.offset) {
                 Position p2 = p.add(os);
                 Node node2 = pos2node.get(p2);
                 if (node2 == null) continue;
@@ -125,23 +125,26 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
         if (nodeList.size() != pos2node.size()) isSolved = false;
 
         List<Position> trees = new ArrayList<>();
-        Effect0 f = () -> {
-            if (trees.size() > 3) {
+        F0<Boolean> areTreesInvalid = () -> {
+            return trees.size() > 3;
+        };
+        Effect0 checkTrees = () -> {
+            if (areTreesInvalid.f()) {
                 isSolved = false;
                 for (Position p : trees)
                     ((FourMeNotTreeObject)get(p)).state = AllowedObjectState.Error;
             }
             trees.clear();
         };
-        Effect2<Position, List<Integer>> f2 = (p, indexes) -> {
+        Effect2<Position, List<Integer>> checkForbidden = (p, indexes) -> {
             if (!allowedObjectsOnly) return;
-            int n = 0;
             for (int i : indexes) {
                 Position os = FourMeNotGame.offset[i];
                 for (Position p2 = p.add(os); isValid(p2) && get(p2) instanceof FourMeNotTreeObject; p2.addBy(os))
-                    n++;
+                    trees.add(p2);
             }
-            if (n > 3) set(p, new FourMeNotForbiddenObject());
+            if (areTreesInvalid.f()) set(p, new FourMeNotForbiddenObject());
+            trees.clear();
         };
         for (int r = 0; r < rows(); r++) {
             for (int c = 0; c < cols(); c++) {
@@ -150,12 +153,12 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
                 if (o instanceof FourMeNotTreeObject)
                     trees.add(p);
                 else {
+                    checkTrees.f();
                     if (o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject)
-                        f2.f(p, arrayList(1, 3).toJavaList());
-                    f.f();
+                        checkForbidden.f(p, arrayList(1, 3).toJavaList());
                 }
             }
-            f.f();
+            checkTrees.f();
         }
         for (int c = 0; c < cols(); c++) {
             for (int r = 0; r < rows(); r++) {
@@ -164,12 +167,12 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
                 if (o instanceof FourMeNotTreeObject)
                     trees.add(p);
                 else {
+                    checkTrees.f();
                     if (o instanceof FourMeNotEmptyObject || o instanceof FourMeNotMarkerObject)
-                        f2.f(p, arrayList(0, 2).toJavaList());
-                    f.f();
+                        checkForbidden.f(p, arrayList(0, 2).toJavaList());
                 }
             }
-            f.f();
+            checkTrees.f();
         }
     }
 }
