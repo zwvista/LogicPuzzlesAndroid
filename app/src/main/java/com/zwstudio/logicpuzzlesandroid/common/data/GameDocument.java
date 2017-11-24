@@ -95,30 +95,28 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
             case XmlPullParser.START_DOCUMENT:
                 break;
             case XmlPullParser.START_TAG:
-                {
-                    String name = parser.getName();
-                    if (name.equals("level")){
-                        String id = parser.getAttributeValue(null,"id");
-                        Map<String, String> settings = new HashMap<>();
-                        for (int i = 0; i < parser.getAttributeCount(); i++)
-                            settings.put(parser.getAttributeName(i), parser.getAttributeValue(i));
-                        List<String> layout = array(parser.nextText().split("\n"))
-                                .map(s -> s.replace("\r", ""))
-                                .toJavaList();
-                        layout = iterableList(getCdata.f(layout))
-                                .map(s -> s.replace("`", ""))
-                                .toJavaList();
-                        GameLevel level = new GameLevel();
-                        level.id = id;
-                        level.layout = layout;
-                        level.settings = settings;
-                        levels.add(level);
-                    } else if (name.equals("help")){
-                        help = array(parser.nextText().split("\n"))
-                                .map(s -> s.replace("\r", ""))
-                                .toJavaList();
-                        help = getCdata.f(help);
-                    }
+                String name = parser.getName();
+                if (name.equals("level")){
+                    String id = parser.getAttributeValue(null,"id");
+                    Map<String, String> settings = new HashMap<>();
+                    for (int i = 0; i < parser.getAttributeCount(); i++)
+                        settings.put(parser.getAttributeName(i), parser.getAttributeValue(i));
+                    List<String> layout = array(parser.nextText().split("\n"))
+                            .map(s -> s.replace("\r", ""))
+                            .toJavaList();
+                    layout = iterableList(getCdata.f(layout))
+                            .map(s -> s.replace("`", ""))
+                            .toJavaList();
+                    GameLevel level = new GameLevel();
+                    level.id = id;
+                    level.layout = layout;
+                    level.settings = settings;
+                    levels.add(level);
+                } else if (name.equals("help")){
+                    help = array(parser.nextText().split("\n"))
+                            .map(s -> s.replace("\r", ""))
+                            .toJavaList();
+                    help = getCdata.f(help);
                 }
                 break;
             case XmlPullParser.END_TAG:

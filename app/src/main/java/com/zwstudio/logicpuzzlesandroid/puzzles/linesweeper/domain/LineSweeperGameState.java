@@ -101,18 +101,16 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
                 Position p = new Position(r, c);
                 int n = array(get(p)).filter(o -> o).length();
                 switch (n) {
-                    case 0:
-                        continue;
-                    case 2:
-                    {
-                        Node node = new Node(p.toString());
-                        g.addNode(node);
-                        pos2node.put(p, node);
-                    }
+                case 0:
+                    continue;
+                case 2:
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
                     break;
-                    default:
-                        isSolved = false;
-                        return;
+                default:
+                    isSolved = false;
+                    return;
                 }
             }
 

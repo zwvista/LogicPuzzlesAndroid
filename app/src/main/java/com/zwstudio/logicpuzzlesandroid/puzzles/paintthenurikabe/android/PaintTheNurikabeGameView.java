@@ -81,7 +81,7 @@ public class PaintTheNurikabeGameView extends CellsGameView {
                 }
                 Integer n = game().pos2hint.get(p);
                 if (n != null) {
-                    HintState state = game().hint2State(p);
+                    HintState state = game().pos2State(p);
                     textPaint.setColor(
                             state == HintState.Complete ? Color.GREEN :
                             state == HintState.Error ? Color.RED :

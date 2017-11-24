@@ -1,12 +1,12 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,22 +17,18 @@ import fj.F2;
  * Created by zwvista on 2016/09/29.
  */
 
-public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGameState> {
+public class NumberLinkGame extends CellsGame<NumberLinkGame, NumberLinkGameMove, NumberLinkGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
-            new Position(-1, 1),
             new Position(0, 1),
-            new Position(1, 1),
             new Position(1, 0),
-            new Position(1, -1),
             new Position(0, -1),
-            new Position(-1, -1),
-            new Position(0, 0),
     };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
+    public Map<Integer, List<Position>> pos2rng = new HashMap<>();
 
-    public MosaikGame(List<String> layout, GameInterface<MosaikGame, MosaikGameMove, MosaikGameState> gi, GameDocumentInterface gdi) {
+    public NumberLinkGame(List<String> layout, GameInterface<NumberLinkGame, NumberLinkGameMove, NumberLinkGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
         size = new Position(layout.size(), layout.get(0).length());
         for (int r = 0; r < rows(); r++) {
@@ -40,23 +36,26 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 char ch = str.charAt(c);
-                if (ch >= '0' && ch <= '9') {
-                    int n = ch - '0';
-                    pos2hint.put(p, n);
-                }
+                if (ch == ' ') continue;
+                int n = Character.isDigit(ch) ? ch - '0' : ch - 'A' + 10;
+                pos2hint.put(p, n);
+                List<Position> rng = pos2rng.get(n);
+                if (rng == null) rng = new ArrayList<>();
+                rng.add(p);
+                pos2rng.put(n, rng);
             }
         }
-        MosaikGameState state = new MosaikGameState(this);
+        NumberLinkGameState state = new NumberLinkGameState(this);
         states.add(state);
         levelInitilized(state);
     }
 
-    private boolean changeObject(MosaikGameMove move, F2<MosaikGameState, MosaikGameMove, Boolean> f) {
+    private boolean changeObject(NumberLinkGameMove move, F2<NumberLinkGameState, NumberLinkGameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
-        MosaikGameState state = cloner.deepClone(state());
+        NumberLinkGameState state = cloner.deepClone(state());
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);
@@ -68,19 +67,15 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
         return changed;
    }
 
-    public boolean switchObject(MosaikGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
-    }
-
-    public boolean setObject(MosaikGameMove move) {
+    public boolean setObject(NumberLinkGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public MosaikObject getObject(Position p) {
+    public Boolean[] getObject(Position p) {
         return state().get(p);
     }
 
-    public MosaikObject getObject(int row, int col) {
+    public Boolean[] getObject(int row, int col) {
         return state().get(row, col);
     }
 

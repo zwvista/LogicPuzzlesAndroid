@@ -55,11 +55,9 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
         for (Position p = pFrom.add(os); !p.equals(pTo); p.addBy(os))
             switch (o1.bridges[n1]) {
             case 0:
-                {
-                    BridgesObject o = get(p);
-                    if (!(o instanceof BridgesEmptyObject)) return false;
-                    set(p, new BridgesBridgeObject());
-                }
+                BridgesObject o = get(p);
+                if (!(o instanceof BridgesEmptyObject)) return false;
+                set(p, new BridgesBridgeObject());
                 break;
             case 1:
                 set(p, new BridgesEmptyObject());

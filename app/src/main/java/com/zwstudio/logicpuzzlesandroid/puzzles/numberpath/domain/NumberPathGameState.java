@@ -88,11 +88,9 @@ public class NumberPathGameState extends CellsGameState<NumberPathGame, NumberPa
                 case 0:
                     continue;
                 case 2:
-                    {
-                        Node node = new Node(p.toString());
-                        g.addNode(node);
-                        pos2node.put(p, node);
-                    }
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
                     break;
                 default:
                     isSolved = false;

@@ -92,12 +92,10 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
                 int n = array(get(p)).filter(o -> o == GridLineObject.Line).length();
                 switch (n) {
                     case 2:
-                    {
                         Node node = new Node(p.toString());
                         g.addNode(node);
                         pos2node.put(p, node);
                         break;
-                    }
                     default:
                         isSolved = false;
                         return;

@@ -505,6 +505,18 @@
         <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.numberlink.android.NumberLinkMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numberlink.android.NumberLinkGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numberlink.android.NumberLinkHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numberlink.android.NumberLinkOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.numberpath.android.NumberPathMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

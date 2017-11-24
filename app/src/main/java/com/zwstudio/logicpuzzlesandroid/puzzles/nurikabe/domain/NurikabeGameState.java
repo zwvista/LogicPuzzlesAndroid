@@ -149,23 +149,23 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
                 if (nodeList.contains(pos2node.get(p)))
                     rng.add(p.plus());
             switch (rng.size()) {
-                case 0:
-                    isSolved = false;
-                    break;
-                case 1:
-                {
-                    Position p = rng.get(0);
-                    int n1 = game.pos2hint.get(p);
-                    HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
-                    ((NurikabeHintObject) get(p)).state = s;
-                    if (s != HintState.Complete) isSolved = false;
-                }
+            case 0:
+                isSolved = false;
                 break;
-                default:
-                    for (Position p : rng)
-                        ((NurikabeHintObject) get(p)).state = HintState.Normal;
-                    isSolved = false;
-                    break;
+            case 1:
+            {
+                Position p = rng.get(0);
+                int n1 = game.pos2hint.get(p);
+                HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
+                ((NurikabeHintObject) get(p)).state = s;
+                if (s != HintState.Complete) isSolved = false;
+                break;
+            }
+            default:
+                for (Position p : rng)
+                    ((NurikabeHintObject) get(p)).state = HintState.Normal;
+                isSolved = false;
+                break;
             }
         }
     }

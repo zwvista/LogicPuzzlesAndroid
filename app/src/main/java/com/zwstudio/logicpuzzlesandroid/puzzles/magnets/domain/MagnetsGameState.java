@@ -128,15 +128,13 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
                     continue;
                 case Horizontal:
                 case Vertical:
-                {
                     Position os = MagnetsGame.offset[a.type == MagnetsAreaType.Horizontal ? 1 : 2];
                     MagnetsObject o1 = get(a.p), o2 = get(a.p.add(os));
                     if (o1.isEmpty() != o2.isEmpty()) {
                         isSolved = false;
                         return;
                     }
-                }
-                break;
+                    break;
             }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {

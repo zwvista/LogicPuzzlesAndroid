@@ -140,27 +140,25 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
                 if (nodeList.contains(pos2node.get(p)))
                     rng.add(p.plus());
             switch (rng.size()) {
-                case 0:
-                    isSolved = false;
-                    break;
-                case 1:
-                    ((PairakabeHintObject) get(rng.get(0))).state = HintState.Error;
-                    break;
-                case 2:
-                {
-                    Position p1 = rng.get(0), p2 = rng.get(1);
-                    int n1 = game.pos2hint.get(p1) + game.pos2hint.get(p2);
-                    HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
-                    ((PairakabeHintObject) get(p1)).state = s;
-                    ((PairakabeHintObject) get(p2)).state = s;
-                    if (s != HintState.Complete) isSolved = false;
-                }
+            case 0:
+                isSolved = false;
                 break;
-                default:
-                    for (Position p : rng)
-                        ((PairakabeHintObject) get(p)).state = HintState.Normal;
-                    isSolved = false;
-                    break;
+            case 1:
+                ((PairakabeHintObject) get(rng.get(0))).state = HintState.Error;
+                break;
+            case 2:
+                Position p1 = rng.get(0), p2 = rng.get(1);
+                int n1 = game.pos2hint.get(p1) + game.pos2hint.get(p2);
+                HintState s = n1 == n2 ? HintState.Complete : HintState.Error;
+                ((PairakabeHintObject) get(p1)).state = s;
+                ((PairakabeHintObject) get(p2)).state = s;
+                if (s != HintState.Complete) isSolved = false;
+                break;
+            default:
+                for (Position p : rng)
+                    ((PairakabeHintObject) get(p)).state = HintState.Normal;
+                isSolved = false;
+                break;
             }
         }
     }

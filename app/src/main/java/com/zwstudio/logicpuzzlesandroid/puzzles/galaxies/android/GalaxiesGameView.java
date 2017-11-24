@@ -95,7 +95,7 @@ public class GalaxiesGameView extends CellsGameView {
                 }
             }
         for (Position p : game().galaxies) {
-            HintState state = game().hint2State(p);
+            HintState state = game().pos2State(p);
             galaxyPaint.setColor(
                     state == HintState.Complete ? Color.GREEN :
                     state == HintState.Error ? Color.RED :

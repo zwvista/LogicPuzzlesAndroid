@@ -197,16 +197,16 @@ public class TapaIslandsGameState extends CellsGameState<TapaIslandsGame, TapaIs
                 isSolved = false;
                 break;
             case 1:
-                {
-                    Position p = rng.get(0);
-                    List<Integer> arr2 = game.pos2hint.get(p);
-                    HintState s = arr2.contains(n2) ? HintState.Complete : HintState.Error;
-                    TapaIslandsHintObject o = new TapaIslandsHintObject();
-                    o.state = s;
-                    set(p, o);
-                    if (s != HintState.Complete) isSolved = false;
-                }
+            {
+                Position p = rng.get(0);
+                List<Integer> arr2 = game.pos2hint.get(p);
+                HintState s = arr2.contains(n2) ? HintState.Complete : HintState.Error;
+                TapaIslandsHintObject o = new TapaIslandsHintObject();
+                o.state = s;
+                set(p, o);
+                if (s != HintState.Complete) isSolved = false;
                 break;
+            }
             default:
                 for (Position p : rng) {
                     TapaIslandsHintObject o = new TapaIslandsHintObject();

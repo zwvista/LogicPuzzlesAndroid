@@ -85,27 +85,25 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                     if (o[i])
                         dirs.add(i);
                 switch (dirs.size()) {
-                    case 0:
-                        if (ch != ' ') {isSolved = false; return;}
+                case 0:
+                    if (ch != ' ') {isSolved = false; return;}
+                    break;
+                case 2:
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
+                    pos2Dirs.put(p, dirs);
+                    switch (ch) {
+                    case 'B':
+                        if (dirs.get(1) - dirs.get(0) == 2) {isSolved = false; return;}
                         break;
-                    case 2:
-                    {
-                        Node node = new Node(p.toString());
-                        g.addNode(node);
-                        pos2node.put(p, node);
-                        pos2Dirs.put(p, dirs);
-                        switch (ch) {
-                            case 'B':
-                                if (dirs.get(1) - dirs.get(0) == 2) {isSolved = false; return;}
-                                break;
-                            case 'W':
-                                if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
-                                break;
-                        }
+                    case 'W':
+                        if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
+                        break;
                     }
                     break;
-                    default:
-                        isSolved = false; return;
+                default:
+                    isSolved = false; return;
                 }
             }
 

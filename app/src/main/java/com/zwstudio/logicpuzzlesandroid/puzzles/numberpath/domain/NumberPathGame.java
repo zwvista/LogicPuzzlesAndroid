@@ -82,7 +82,7 @@ public class NumberPathGame extends CellsGame<NumberPathGame, NumberPathGameMove
         return state().get(row, col);
     }
 
-    public HintState hint2State(Position p) {
+    public HintState pos2State(Position p) {
         return state().pos2state.get(p);
     }
 }

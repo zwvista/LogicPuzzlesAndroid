@@ -108,7 +108,7 @@ public class GardenerGameView extends CellsGameView {
         for (Map.Entry<Position, P2<Integer, Integer>> entry : game().pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n = entry.getValue()._1();
-            HintState state = game().hint2State(p);
+            HintState state = game().pos2State(p);
             textPaint.setColor(
                     state == HintState.Complete ? Color.GREEN :
                     state == HintState.Error ? Color.RED :
