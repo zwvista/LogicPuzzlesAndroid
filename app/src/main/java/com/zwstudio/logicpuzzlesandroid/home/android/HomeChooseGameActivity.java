@@ -57,6 +57,7 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("PaintTheNurikabe", "Paint The Nurikabe");
         put("ParkLakes", "Park Lakes");
         put("ProductSentinels", "Product Sentinels");
+        put("RippleEffect", "Ripple Effect");
         put("RobotCrosswords", "Robot Crosswords");
         put("RobotFences", "Robot Fences");
         put("Square100", "Square 100");
