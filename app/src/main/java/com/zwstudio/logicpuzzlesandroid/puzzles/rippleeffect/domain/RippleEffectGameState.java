@@ -1,161 +1,143 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import fj.F;
-
-import static fj.data.Array.array;
-import static fj.data.List.iterableList;
+import fj.function.Effect1;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class RippleEffectGameState extends CellsGameState<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState> {
-    public RippleEffectObject[] objArray;
+    public int[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
     public RippleEffectGameState(RippleEffectGame game) {
         super(game);
-        objArray = new RippleEffectObject[rows() * cols()];
-        Arrays.fill(objArray, RippleEffectObject.Empty);
-        for (Position p : game.pos2hint.keySet())
-            pos2state.put(p, HintState.Normal);
+        objArray = new int[rows() * cols()];
+        System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
         updateIsSolved();
     }
 
-    public RippleEffectObject get(int row, int col) {
+    public int get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public RippleEffectObject get(Position p) {
+    public int get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, RippleEffectObject obj) {
+    public void set(int row, int col, int obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, RippleEffectObject obj) {
+    public void set(Position p, int obj) {
         set(p.row, p.col, obj);
     }
 
     public boolean setObject(RippleEffectGameMove move) {
         Position p = move.p;
-        RippleEffectObject o = move.obj;
-        if (!isValid(p) || get(p).equals(o)) return false;
-        set(p, o);
-        for (Position p2 : game.areas.get(game.pos2area.get(p)))
-            set(p2, o);
+        if (!isValid(p) || game.get(p) != 0 || get(p) == move.obj) return false;
+        set(p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(RippleEffectGameMove move) {
-        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<RippleEffectObject, RippleEffectObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        RippleEffectObject.Marker : RippleEffectObject.Painted;
-            case Painted:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        RippleEffectObject.Marker : RippleEffectObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        RippleEffectObject.Painted : RippleEffectObject.Empty;
-            }
-            return obj;
-        };
-        RippleEffectObject o = get(move.p);
-        move.obj = f.f(o);
+        Position p = move.p;
+        if (!isValid(p) || game.get(p) != 0) return false;
+        move.obj = (get(p) + 1) % (game.areas.get(game.pos2area.get(p)).size() + 1);
         return setObject(move);
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 16/Paint The Nurikabe
+        iOS Game: Logic Games/Puzzle Set 5/Ripple Effect
 
         Summary
-        Paint areas, find Nurikabes
+        Fill the Room with the numbers, but take effect of the Ripple Effect
 
         Description
-        1. By painting (filling) the areas you have to complete a Nurikabe.
-           Specifically:
-        2. A number indicates how many painted tiles are adjacent to it.
-        3. The painted tiles form an orthogonally continuous area, like a
-           Nurikabe.
-        4. There can't be any 2*2 area of the same color(painted or empty).
+        1. The goal is to fill the Rooms you see on the board, with numbers 1 to room size.
+        2. While doing this, you must consider the Ripple Effect. The same number
+           can only appear on the same row or column at the distance of the number
+           itself.
+        3. For example a 2 must be separated by another 2 on the same row or
+           column by at least two tiles.
     */
     private void updateIsSolved() {
-        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++)
+                pos2state.put(new Position(r, c), HintState.Normal);
+        Map<Integer, List<Position>> num2rng = new HashMap<>();
+        Effect1<Boolean> f = sameRow -> {
+            for (Map.Entry<Integer, List<Position>> entry : num2rng.entrySet()) {
+                int n = entry.getKey();
+                List<Position> rng = entry.getValue();
+                Set<Integer> indexes = new HashSet<>();
+                for (int i = 0; i < rng.size() - 1; i++)
+                    if (sameRow ? rng.get(i + 1).col - rng.get(i).col <= n : rng.get(i + 1).row - rng.get(i).row <= n) {
+                        indexes.add(n); indexes.add(n + 1);
+                    }
+                if (!indexes.isEmpty()) isSolved = false;
+                for (int i = 0; i < rng.size(); i++)
+                    if (indexes.contains(i))
+                        pos2state.put(rng.get(i), HintState.Error);
+            }
+        };
+        for (int r = 0; r < rows(); r++) {
+            num2rng.clear();
             for (int c = 0; c < cols(); c++) {
-                RippleEffectObject o = get(r, c);
-                if (o == RippleEffectObject.Forbidden)
-                    set(r, c, RippleEffectObject.Empty);
+                Position p = new Position(r, c);
+                int n = get(p);
+                if (n == 0) {isSolved = false; continue;}
+                List<Position> rng = num2rng.get(n);
+                if (rng == null) rng = new ArrayList<>();
+                rng.add(p);
+                num2rng.put(n, rng);
             }
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n2 = entry.getValue();
-            List<Position> rng = new ArrayList<>();
-            int n1 = 0;
-            for (Position os : RippleEffectGame.offset) {
-                Position p2 = p.add(os);
-                if (!isValid(p2)) continue;
-                RippleEffectObject o = get(p2);
-                if (o == RippleEffectObject.Painted)
-                    n1++;
-                else if (o == RippleEffectObject.Empty)
-                    rng.add(p2);
-            }
-            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            pos2state.put(p, s);
-            if (s != HintState.Complete)
-                isSolved = false;
-            else
-                for (Position p2 : rng)
-                    set(p2, RippleEffectObject.Forbidden);
+            f.f(true);
         }
-        for (int r = 0; r < rows() - 1; r++)
-            for (int c = 0; c < cols() - 1; c++) {
+        for (int c = 0; c < cols(); c++) {
+            num2rng.clear();
+            for (int r = 0; r < rows(); r++) {
                 Position p = new Position(r, c);
-                if (array(NurikabeGame.offset2).forall(os -> get(p.add(os)) == RippleEffectObject.Painted) ||
-                        array(NurikabeGame.offset2).forall(os -> get(p.add(os)) == RippleEffectObject.Empty)) {
-                    isSolved = false; return;
-                }
+                int n = get(p);
+                if (n == 0) {isSolved = false; continue;}
+                List<Position> rng = num2rng.get(n);
+                if (rng == null) rng = new ArrayList<>();
+                rng.add(p);
+                num2rng.put(n, rng);
             }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) == RippleEffectObject.Painted) {
-                    Node node = new Node(p.toString());
-                    g.addNode(node);
-                    pos2node.put(p, node);
-                }
+            f.f(false);
+        }
+        for (List<Position> area : game.areas) {
+            num2rng.clear();
+            for (Position p : area) {
+                int n = get(p);
+                if (n == 0) continue;
+                List<Position> rng = num2rng.get(n);
+                if (rng == null) rng = new ArrayList<>();
+                rng.add(p);
+                num2rng.put(n, rng);
             }
-        for (Position p : pos2node.keySet())
-            for (Position os : NurikabeGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+            boolean anySame = false;
+            for (List<Position> rng : num2rng.values()) {
+                if (rng.size() <= 1) continue;
+                anySame = true; isSolved = false;
+                for (Position p : rng)
+                    pos2state.put(p, HintState.Error);
             }
-        g.setRootNode(iterableList(pos2node.values()).head());
-        List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+            if (!anySame)
+                for (Position p : area)
+                    if (pos2state.get(p) != HintState.Error)
+                        pos2state.put(p, HintState.Complete);
+        }
     }
 }

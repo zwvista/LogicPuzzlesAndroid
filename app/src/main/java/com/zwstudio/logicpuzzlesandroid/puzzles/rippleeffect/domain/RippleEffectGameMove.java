@@ -8,5 +8,5 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 public class RippleEffectGameMove {
     public Position p;
-    public RippleEffectObject obj;
+    public int obj;
 }

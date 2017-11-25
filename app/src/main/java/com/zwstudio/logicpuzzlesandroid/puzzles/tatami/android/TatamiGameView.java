@@ -28,8 +28,6 @@ public class TatamiGameView extends CellsGameView {
     @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
-    private Paint filledPaint = new Paint();
-    private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public TatamiGameView(Context context) {
@@ -53,11 +51,6 @@ public class TatamiGameView extends CellsGameView {
         linePaint.setColor(Color.YELLOW);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
-        filledPaint.setColor(Color.rgb(128, 0, 128));
-        filledPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        markerPaint.setColor(Color.WHITE);
-        markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
     }
 

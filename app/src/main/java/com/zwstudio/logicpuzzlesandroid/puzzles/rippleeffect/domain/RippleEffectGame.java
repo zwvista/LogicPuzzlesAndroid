@@ -41,15 +41,29 @@ public class RippleEffectGame extends CellsGame<RippleEffectGame, RippleEffectGa
     };
     public static int dirs[] = { 1, 0, 3, 2 };
 
-    public Map<Position, Integer> pos2hint = new HashMap<>();
     public List<List<Position>> areas = new ArrayList<>();
     public Map<Position, Integer> pos2area = new HashMap<>();
     public GridDots dots;
+    public int[] objArray;
+
+    public int get(int row, int col) {
+        return objArray[row * cols() + col];
+    }
+    public int get(Position p) {
+        return get(p.row, p.col);
+    }
+    public void set(int row, int col, int obj) {
+        objArray[row * cols() + col] = obj;
+    }
+    public void set(Position p, int obj) {
+        set(p.row, p.col, obj);
+    }
 
     public RippleEffectGame(List<String> layout, GameInterface<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
         dots = new GridDots(rows() + 1, cols() + 1);
+        objArray = new int[rows() * cols()];
         for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r * 2);
             for (int c = 0; c < cols(); c++) {
@@ -71,10 +85,8 @@ public class RippleEffectGame extends CellsGame<RippleEffectGame, RippleEffectGa
                 }
                 if (c == cols()) break;
                 char ch2 = str.charAt(c * 2 + 1);
-                if (ch2 >= '0' && ch2 <= '9') {
-                    int n = ch2 - '0';
-                    pos2hint.put(p, n);
-                }
+                int n = ch2 >= '0' && ch2 <= '9' ? ch2 - '0' : 0;
+                set(new Position(r, c), n);
             }
         }
         Set<Position> rng = new HashSet<>();
@@ -135,11 +147,11 @@ public class RippleEffectGame extends CellsGame<RippleEffectGame, RippleEffectGa
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public RippleEffectObject getObject(Position p) {
+    public int getObject(Position p) {
         return state().get(p);
     }
 
-    public RippleEffectObject getObject(int row, int col) {
+    public int getObject(int row, int col) {
         return state().get(row, col);
     }
 

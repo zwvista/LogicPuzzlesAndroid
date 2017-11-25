@@ -31,7 +31,7 @@ public class HomeChooseGameActivity extends BaseActivity {
     @ViewById
     ListView lvGames;
 
-    List<String> lstGameNames, lstGameTitles;
+    static List<String> lstGameNames, lstGameTitles;
     public static Map<String, String> name2title = new HashMap<String, String>() {{
         put("AbstractPainting", "Abstract Painting");
         put("BalancedTapas", "Balanced Tapas");
@@ -72,14 +72,16 @@ public class HomeChooseGameActivity extends BaseActivity {
 
     @AfterViews
     protected void init() {
-        try {
-            lstGameNames = array(app.getApplicationContext().getAssets().list("xml"))
-                    .map(f -> f.substring(0, f.length() - ".xml".length()))
-                    .toJavaList();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (lstGameNames == null) {
+            try {
+                lstGameNames = array(app.getApplicationContext().getAssets().list("xml"))
+                        .map(f -> f.substring(0, f.length() - ".xml".length()))
+                        .toJavaList();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            lstGameTitles = iterableList(lstGameNames).map(s -> defaultIfNull(name2title.get(s), s)).toJavaList();
         }
-        lstGameTitles = iterableList(lstGameNames).map(s -> defaultIfNull(name2title.get(s), s)).toJavaList();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_single_choice, lstGameTitles);
         lvGames.setAdapter(adapter);

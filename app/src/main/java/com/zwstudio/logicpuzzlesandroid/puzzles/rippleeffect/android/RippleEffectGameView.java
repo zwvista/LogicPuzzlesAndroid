@@ -14,7 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGameMove;
-import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectObject;
 
 /**
  * TODO: document your custom view class.
@@ -29,8 +28,6 @@ public class RippleEffectGameView extends CellsGameView {
     @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
-    private Paint filledPaint = new Paint();
-    private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
     public RippleEffectGameView(Context context) {
@@ -54,11 +51,6 @@ public class RippleEffectGameView extends CellsGameView {
         linePaint.setColor(Color.YELLOW);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
-        filledPaint.setColor(Color.rgb(128, 0, 128));
-        filledPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        markerPaint.setColor(Color.WHITE);
-        markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
     }
 
@@ -70,26 +62,17 @@ public class RippleEffectGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
-                RippleEffectObject o = game().getObject(p);
-                switch (o) {
-                case Painted:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, filledPaint);
-                    break;
-                case Marker:
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
-                    break;
-                }
-                Integer n = game().pos2hint.get(p);
-                if (n != null) {
-                    HintState state = game().pos2State(p);
-                    textPaint.setColor(
-                            state == HintState.Complete ? Color.GREEN :
-                            state == HintState.Error ? Color.RED :
-                            Color.WHITE
-                    );
-                    String text = String.valueOf(n);
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
-                }
+                int n = game().getObject(p);
+                if (n == 0) continue;
+                HintState s = game().pos2State(p);
+                textPaint.setColor(
+                        game().get(p) == n ? Color.GRAY :
+                        s == HintState.Complete ? Color.GREEN :
+                        s == HintState.Error ? Color.RED :
+                        Color.WHITE
+                );
+                String text = String.valueOf(n);
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
             }
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++) {
@@ -108,7 +91,7 @@ public class RippleEffectGameView extends CellsGameView {
             if (col >= cols() || row >= rows()) return true;
             RippleEffectGameMove move = new RippleEffectGameMove() {{
                 p = new Position(row, col);
-                obj = RippleEffectObject.Empty;
+                obj = 0;
             }};
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();
