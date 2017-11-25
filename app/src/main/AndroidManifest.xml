@@ -913,6 +913,18 @@
         <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.walls.android.WallsMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.walls.android.WallsGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.walls.android.WallsHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.walls.android.WallsOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
