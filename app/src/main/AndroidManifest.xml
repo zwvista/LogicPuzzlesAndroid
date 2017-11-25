@@ -649,6 +649,18 @@
         <activity android:name=".puzzles.productsentinels.android.ProductSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.rippleeffect.android.RippleEffectMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rippleeffect.android.RippleEffectGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rippleeffect.android.RippleEffectHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rippleeffect.android.RippleEffectOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

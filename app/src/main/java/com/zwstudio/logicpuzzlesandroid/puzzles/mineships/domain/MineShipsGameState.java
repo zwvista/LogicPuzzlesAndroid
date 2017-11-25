@@ -19,6 +19,7 @@ import fj.data.Array;
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.data.Stream.range;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -176,7 +177,7 @@ public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsG
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
                     get(area.get(0)) instanceof MineShipsBattleShipTopObject &&
                     get(area.get(area.size() - 1)) instanceof MineShipsBattleShipBottomObject) &&
-                    Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof MineShipsBattleShipMiddleObject)) &&
+                    range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof MineShipsBattleShipMiddleObject)) &&
                     array(MineShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;

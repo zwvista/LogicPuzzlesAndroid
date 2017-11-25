@@ -19,6 +19,7 @@ import fj.data.Array;
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.data.Stream.range;
 import static fj.function.Integers.add;
 
 /**
@@ -216,7 +217,7 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
                     get(area.get(0)) instanceof LightBattleShipsBattleShipTopObject &&
                     get(area.get(area.size() - 1)) instanceof LightBattleShipsBattleShipBottomObject) &&
-                    Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof LightBattleShipsBattleShipMiddleObject)) &&
+                    range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof LightBattleShipsBattleShipMiddleObject)) &&
                     array(LightBattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;

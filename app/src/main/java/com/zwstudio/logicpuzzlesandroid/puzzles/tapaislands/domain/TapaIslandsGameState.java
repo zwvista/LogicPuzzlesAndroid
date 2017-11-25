@@ -17,11 +17,11 @@ import java.util.Set;
 
 import fj.F;
 import fj.F2;
-import fj.data.Stream;
 
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.data.Stream.range;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -127,7 +127,7 @@ public class TapaIslandsGameState extends CellsGameState<TapaIslandsGame, TapaIs
         fromMap(game.pos2hint).foreachDoEffect(kv -> {
             Position p = kv._1();
             List<Integer> arr2 = kv._2();
-            List<Integer> filled = Stream.range(0, 8).filter(i -> {
+            List<Integer> filled = range(0, 8).filter(i -> {
                 Position p2 = p.add(TapaIslandsGame.offset[i]);
                 return isValid(p2) && get(p2) instanceof TapaIslandsWallObject;
             }).toJavaList();

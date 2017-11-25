@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain;
+package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
@@ -26,7 +26,7 @@ import static fj.data.List.iterableList;
  * Created by zwvista on 2016/09/29.
  */
 
-public class TatamiGame extends CellsGame<TatamiGame, TatamiGameMove, TatamiGameState> {
+public class RippleEffectGame extends CellsGame<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
             new Position(0, 1),
@@ -41,29 +41,15 @@ public class TatamiGame extends CellsGame<TatamiGame, TatamiGameMove, TatamiGame
     };
     public static int dirs[] = { 1, 0, 3, 2 };
 
+    public Map<Position, Integer> pos2hint = new HashMap<>();
     public List<List<Position>> areas = new ArrayList<>();
     public Map<Position, Integer> pos2area = new HashMap<>();
     public GridDots dots;
-    public char[] objArray;
 
-    public char get(int row, int col) {
-        return objArray[row * cols() + col];
-    }
-    public char get(Position p) {
-        return get(p.row, p.col);
-    }
-    public void set(int row, int col, char obj) {
-        objArray[row * cols() + col] = obj;
-    }
-    public void set(Position p, char obj) {
-        set(p.row, p.col, obj);
-    }
-
-    public TatamiGame(List<String> layout, GameInterface<TatamiGame, TatamiGameMove, TatamiGameState> gi, GameDocumentInterface gdi) {
+    public RippleEffectGame(List<String> layout, GameInterface<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
         dots = new GridDots(rows() + 1, cols() + 1);
-        objArray = new char[rows() * cols()];
         for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r * 2);
             for (int c = 0; c < cols(); c++) {
@@ -85,7 +71,10 @@ public class TatamiGame extends CellsGame<TatamiGame, TatamiGameMove, TatamiGame
                 }
                 if (c == cols()) break;
                 char ch2 = str.charAt(c * 2 + 1);
-                set(new Position(r, c), ch2);
+                if (ch2 >= '0' && ch2 <= '9') {
+                    int n = ch2 - '0';
+                    pos2hint.put(p, n);
+                }
             }
         }
         Set<Position> rng = new HashSet<>();
@@ -116,17 +105,17 @@ public class TatamiGame extends CellsGame<TatamiGame, TatamiGameMove, TatamiGame
             areas.add(area);
             rng.removeAll(area);
         }
-        TatamiGameState state = new TatamiGameState(this);
+        RippleEffectGameState state = new RippleEffectGameState(this);
         states.add(state);
         levelInitilized(state);
     }
 
-    private boolean changeObject(TatamiGameMove move, F2<TatamiGameState, TatamiGameMove, Boolean> f) {
+    private boolean changeObject(RippleEffectGameMove move, F2<RippleEffectGameState, RippleEffectGameMove, Boolean> f) {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size()).clear();
             moves.subList(stateIndex, states.size()).clear();
         }
-        TatamiGameState state = cloner.deepClone(state());
+        RippleEffectGameState state = cloner.deepClone(state());
         boolean changed = f.f(state, move);
         if (changed) {
             states.add(state);
@@ -138,19 +127,19 @@ public class TatamiGame extends CellsGame<TatamiGame, TatamiGameMove, TatamiGame
         return changed;
    }
 
-    public boolean switchObject(TatamiGameMove move) {
+    public boolean switchObject(RippleEffectGameMove move) {
         return changeObject(move, (state, move2) -> state.switchObject(move2));
     }
 
-    public boolean setObject(TatamiGameMove move) {
+    public boolean setObject(RippleEffectGameMove move) {
         return changeObject(move, (state, move2) -> state.setObject(move2));
     }
 
-    public char getObject(Position p) {
+    public RippleEffectObject getObject(Position p) {
         return state().get(p);
     }
 
-    public char getObject(int row, int col) {
+    public RippleEffectObject getObject(int row, int col) {
         return state().get(row, col);
     }
 

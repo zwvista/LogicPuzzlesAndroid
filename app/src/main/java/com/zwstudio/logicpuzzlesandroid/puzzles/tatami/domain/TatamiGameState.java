@@ -1,161 +1,139 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fj.F;
+import fj.Ord;
 
-import static fj.data.Array.array;
 import static fj.data.List.iterableList;
+import static fj.data.Stream.range;
 
 /**
  * Created by zwvista on 2016/09/29.
  */
 
 public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, TatamiGameState> {
-    public TatamiObject[] objArray;
+    public char[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
 
     public TatamiGameState(TatamiGame game) {
         super(game);
-        objArray = new TatamiObject[rows() * cols()];
-        Arrays.fill(objArray, TatamiObject.Empty);
-        for (Position p : game.pos2hint.keySet())
-            pos2state.put(p, HintState.Normal);
+        objArray = new char[rows() * cols()];
+        System.arraycopy(game.objArray, 0, objArray, 0, objArray.length);
         updateIsSolved();
     }
 
-    public TatamiObject get(int row, int col) {
+    public char get(int row, int col) {
         return objArray[row * cols() + col];
     }
-    public TatamiObject get(Position p) {
+    public char get(Position p) {
         return get(p.row, p.col);
     }
-    public void set(int row, int col, TatamiObject obj) {
+    public void set(int row, int col, char obj) {
         objArray[row * cols() + col] = obj;
     }
-    public void set(Position p, TatamiObject obj) {
+    public void set(Position p, char obj) {
         set(p.row, p.col, obj);
     }
 
     public boolean setObject(TatamiGameMove move) {
         Position p = move.p;
-        TatamiObject o = move.obj;
-        if (!isValid(p) || get(p).equals(o)) return false;
-        set(p, o);
-        for (Position p2 : game.areas.get(game.pos2area.get(p)))
-            set(p2, o);
+        if (!isValid(p) || game.get(p) != ' ' || get(p) == move.obj) return false;
+        set(p, move.obj);
         updateIsSolved();
         return true;
     }
 
     public boolean switchObject(TatamiGameMove move) {
-        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<TatamiObject, TatamiObject> f = obj -> {
-            switch (obj) {
-            case Empty:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        TatamiObject.Marker : TatamiObject.Painted;
-            case Painted:
-                return markerOption == MarkerOptions.MarkerLast ?
-                        TatamiObject.Marker : TatamiObject.Empty;
-            case Marker:
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        TatamiObject.Painted : TatamiObject.Empty;
-            }
-            return obj;
-        };
-        TatamiObject o = get(move.p);
-        move.obj = f.f(o);
+        Position p = move.p;
+        if (!isValid(p) || game.get(p) != ' ') return false;
+        char o = get(p);
+        move.obj = o == ' ' ? '1' : o == '3' ? ' ' : (char)(o + 1);
         return setObject(move);
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 16/Paint The Nurikabe
+        iOS Game: Logic Games/Puzzle Set 2/Tatami
 
         Summary
-        Paint areas, find Nurikabes
+        1,2,3... 1,2,3... Fill the mats
 
         Description
-        1. By painting (filling) the areas you have to complete a Nurikabe.
-           Specifically:
-        2. A number indicates how many painted tiles are adjacent to it.
-        3. The painted tiles form an orthogonally continuous area, like a
-           Nurikabe.
-        4. There can't be any 2*2 area of the same color(painted or empty).
+        1. Each rectangle represents a mat(Tatami) which is of the same size.
+           You must fill each Tatami with a number ranging from 1 to size.
+        2. Each number can appear only once in each Tatami.
+        3. In one row or column, each number must appear the same number of times.
+        4. You can't have two identical numbers touching horizontally or vertically.
     */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
+        List<Character> chars2 = Arrays.asList('1', '2', '3');
+        List<Character> chars3 = iterableList(chars2).bind(ch -> iterableList(Collections.nCopies(rows() / 3, ch))).toJavaList();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                TatamiObject o = get(r, c);
-                if (o == TatamiObject.Forbidden)
-                    set(r, c, TatamiObject.Empty);
+                Position p = new Position(r, c);
+                if (get(p) == ' ') isSolved = false;
+                pos2state.put(p, HintState.Normal);
             }
-        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
-            Position p = entry.getKey();
-            int n2 = entry.getValue();
-            List<Position> rng = new ArrayList<>();
-            int n1 = 0;
-            for (Position os : TatamiGame.offset) {
-                Position p2 = p.add(os);
-                if (!isValid(p2)) continue;
-                TatamiObject o = get(p2);
-                if (o == TatamiObject.Painted)
-                    n1++;
-                else if (o == TatamiObject.Empty)
-                    rng.add(p2);
-            }
-            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            pos2state.put(p, s);
-            if (s != HintState.Complete)
-                isSolved = false;
-            else
-                for (Position p2 : rng)
-                    set(p2, TatamiObject.Forbidden);
-        }
-        for (int r = 0; r < rows() - 1; r++)
+        for (int r = 0; r < rows(); r++) {
+            boolean lineSolved = true;
             for (int c = 0; c < cols() - 1; c++) {
-                Position p = new Position(r, c);
-                if (array(NurikabeGame.offset2).forall(os -> get(p.add(os)) == TatamiObject.Painted) ||
-                        array(NurikabeGame.offset2).forall(os -> get(p.add(os)) == TatamiObject.Empty)) {
-                    isSolved = false; return;
+                Position p1 = new Position(r, c), p2 = new Position(r, c + 1);
+                char ch1 = get(p1), ch2 = get(p2);
+                if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
+                    isSolved = lineSolved = false;
+                    pos2state.put(p1, HintState.Error);
+                    pos2state.put(p2, HintState.Error);
                 }
             }
-        if (!isSolved) return;
-        Graph g = new Graph();
-        Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                if (get(p) == TatamiObject.Painted) {
-                    Node node = new Node(p.toString());
-                    g.addNode(node);
-                    pos2node.put(p, node);
+            int r2 = r;
+            List<Character> chars = range(0, cols()).map(c -> get(r2, c)).sort(Ord.charOrd).toJavaList();
+            if (chars.get(0) != ' ' && !chars.equals(chars3)) {
+                isSolved = lineSolved = false;
+                for (int c = 0; c < cols(); c++)
+                    pos2state.put(new Position(r, c), HintState.Error);
+            }
+            if (lineSolved)
+                for (int c = 0; c < cols(); c++)
+                    pos2state.put(new Position(r, c), HintState.Complete);
+        }
+        for (int c = 0; c < cols(); c++) {
+            boolean lineSolved = true;
+            for (int r = 0; r < rows() - 1; r++) {
+                Position p1 = new Position(r, c), p2 = new Position(r + 1, c);
+                char ch1 = get(p1), ch2 = get(p2);
+                if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
+                    isSolved = lineSolved = false;
+                    pos2state.put(p1, HintState.Error);
+                    pos2state.put(p2, HintState.Error);
                 }
             }
-        for (Position p : pos2node.keySet())
-            for (Position os : NurikabeGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+            int c2 = c;
+            List<Character> chars = range(0, rows()).map(r -> get(r, c2)).sort(Ord.charOrd).toJavaList();
+            if (chars.get(0) != ' ' && !chars.equals(chars3)) {
+                isSolved = lineSolved = false;
+                for (int r = 0; r < rows(); r++)
+                    pos2state.put(new Position(r, c), HintState.Error);
             }
-        g.setRootNode(iterableList(pos2node.values()).head());
-        List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+            if (lineSolved)
+                for (int r = 0; r < rows(); r++)
+                    pos2state.put(new Position(r, c), HintState.Complete);
+        }
+        for (List<Position> a : game.areas) {
+            List<Character> chars = iterableList(a).map(p -> get(p)).sort(Ord.charOrd).toJavaList();
+            if (chars.get(0) != ' ' && !chars.equals(chars2)) {
+                isSolved = false;
+                for (Position p : a)
+                    pos2state.put(p, HintState.Error);
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.android;
+package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.android;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,16 +12,17 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGame;
-import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectObject;
 
 /**
  * TODO: document your custom view class.
  */
-public class TatamiGameView extends CellsGameView {
+public class RippleEffectGameView extends CellsGameView {
 
-    private TatamiGameActivity activity() {return (TatamiGameActivity)getContext();}
-    private TatamiGame game() {return activity().game;}
+    private RippleEffectGameActivity activity() {return (RippleEffectGameActivity)getContext();}
+    private RippleEffectGame game() {return activity().game;}
     private int rows() {return isInEditMode() ? 5 : game().rows();}
     private int cols() {return isInEditMode() ? 5 : game().cols();}
     @Override protected int rowsInView() {return rows();}
@@ -32,17 +33,17 @@ public class TatamiGameView extends CellsGameView {
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
 
-    public TatamiGameView(Context context) {
+    public RippleEffectGameView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public TatamiGameView(Context context, AttributeSet attrs) {
+    public RippleEffectGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public TatamiGameView(Context context, AttributeSet attrs, int defStyle) {
+    public RippleEffectGameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
@@ -69,17 +70,26 @@ public class TatamiGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
-                char ch = game().getObject(p);
-                if (ch == ' ') continue;
-                HintState s = game().pos2State(p);
-                textPaint.setColor(
-                        game().get(p) == ch ? Color.GRAY :
-                        s == HintState.Complete ? Color.GREEN :
-                        s == HintState.Error ? Color.RED :
-                        Color.WHITE
-                );
-                String text = String.valueOf(ch);
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
+                RippleEffectObject o = game().getObject(p);
+                switch (o) {
+                case Painted:
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, filledPaint);
+                    break;
+                case Marker:
+                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
+                    break;
+                }
+                Integer n = game().pos2hint.get(p);
+                if (n != null) {
+                    HintState state = game().pos2State(p);
+                    textPaint.setColor(
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
+                            Color.WHITE
+                    );
+                    String text = String.valueOf(n);
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
+                }
             }
         for (int r = 0; r < rows() + 1; r++)
             for (int c = 0; c < cols() + 1; c++) {
@@ -96,9 +106,9 @@ public class TatamiGameView extends CellsGameView {
             int col = (int)(event.getX() / cellWidth);
             int row = (int)(event.getY() / cellHeight);
             if (col >= cols() || row >= rows()) return true;
-            TatamiGameMove move = new TatamiGameMove() {{
+            RippleEffectGameMove move = new RippleEffectGameMove() {{
                 p = new Position(row, col);
-                obj = ' ';
+                obj = RippleEffectObject.Empty;
             }};
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap();

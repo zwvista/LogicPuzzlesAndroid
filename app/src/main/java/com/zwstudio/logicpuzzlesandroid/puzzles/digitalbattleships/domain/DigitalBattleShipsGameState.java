@@ -18,6 +18,7 @@ import fj.data.Array;
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.data.Stream.range;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -192,7 +193,7 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
                     get(area.get(0)) == DigitalBattleShipsObject.BattleShipTop &&
                     get(area.get(area.size() - 1)) == DigitalBattleShipsObject.BattleShipBottom) &&
-                    Array.range(1, area.size() - 2).forall(i -> get(area.get(i)) == DigitalBattleShipsObject.BattleShipMiddle)) &&
+                    range(1, area.size() - 2).forall(i -> get(area.get(i)) == DigitalBattleShipsObject.BattleShipMiddle)) &&
                     array(DigitalBattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
                         Position p2 = p.add(os);
                         if (!isValid(p2)) return true;

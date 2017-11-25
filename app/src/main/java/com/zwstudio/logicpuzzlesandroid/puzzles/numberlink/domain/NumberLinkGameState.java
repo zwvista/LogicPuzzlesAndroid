@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import fj.Equal;
-import fj.data.Stream;
 import fj.function.Effect2;
 
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.data.Stream.range;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -99,7 +99,7 @@ public class NumberLinkGameState extends CellsGameState<NumberLinkGame, NumberLi
                 g.addNode(node);
                 pos2node.put(p, node);
                 if (b && n == 1 || !b && n == 2)
-                    pos2indexes.put(p, Stream.range(0, 4).filter(i -> get(p)[i]).toJavaList());
+                    pos2indexes.put(p, range(0, 4).filter(i -> get(p)[i]).toJavaList());
                 else
                     isSolved = false;
             }
