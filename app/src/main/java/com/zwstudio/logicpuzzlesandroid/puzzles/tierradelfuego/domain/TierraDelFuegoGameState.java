@@ -132,6 +132,9 @@ public class TierraDelFuegoGameState extends CellsGameState<TierraDelFuegoGame, 
             List<Node> nodeList = g.bfs();
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             if (get(fromMap(pos2node).keys().head()) instanceof TierraDelFuegoTreeObject) {
+                // 3. The archipelago is peculiar because all bodies of water separating the
+                // islands are identical in shape and occupied a 2*1 or 1*2 space.
+                // 4. These bodies of water can only touch diagonally.
                 if (area.size() != 2)
                     isSolved = false;
                 else if (allowedObjectsOnly)
@@ -147,6 +150,8 @@ public class TierraDelFuegoGameState extends CellsGameState<TierraDelFuegoGame, 
                     for (Position p : area)
                         ((TierraDelFuegoTreeObject)get(p)).state = AllowedObjectState.Error;
             } else {
+                // 2. Being organized in tribes, each tribe, marked with a different letter,
+                // has occupied an island in the archipelago.
                 Set<Character> ids = new HashSet<>();
                 for (Position p : area) {
                     TierraDelFuegoObject o = get(p);

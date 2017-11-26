@@ -41,6 +41,7 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
 
     public boolean setObject(AbstractPaintingGameMove move) {
         if (!isValid(move.p) || get(move.p).equals(move.obj)) return false;
+        // 3. The region of the painting can be entirely hidden or revealed.
         for (Position p2 : game.areas.get(game.pos2area.get(move.p)))
             set(p2, move.obj);
         updateIsSolved();
@@ -93,6 +94,7 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == AbstractPaintingObject.Painting)
                     n1++;
+            // 2. Outer numbers tell how many tiles form the painting on the row.
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
@@ -101,6 +103,7 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
             for (int r = 0; r < rows(); r++)
                 if (get(r, c) == AbstractPaintingObject.Painting)
                     n1++;
+            // 2. Outer numbers tell how many tiles form the painting on the row.
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }

@@ -79,8 +79,10 @@ public class TentsGameView extends CellsGameView {
                 if (isInEditMode()) continue;
                 TentsObject o = game().getObject(r, c);
                 if (o instanceof TentsTreeObject) {
+                    TentsTreeObject o2 = (TentsTreeObject) o;
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
-                    dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
+                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
                     dTree.draw(canvas);
                 } else if (o instanceof TentsTentObject) {
                     TentsTentObject o2 = (TentsTentObject) o;

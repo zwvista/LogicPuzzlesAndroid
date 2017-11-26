@@ -80,6 +80,8 @@ public class TheOddBrickGameState extends CellsGameState<TheOddBrickGame, TheOdd
         F<List<Integer>, HintState> f = nums -> {
             int size = nums.size();
             List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
+            // 3. Each row and column contains numbers 1 to N, where N is the side of
+            // the board.
             HintState s = nums2.get(0) == 0 ? HintState.Normal :
                     nums2.size() == size ? HintState.Complete : HintState.Error;
             if (s != HintState.Complete) isSolved = false;
@@ -89,6 +91,8 @@ public class TheOddBrickGameState extends CellsGameState<TheOddBrickGame, TheOdd
         range(0, cols()).foreachDoEffect(c -> col2state[c] = f.f(range(0, rows()).map(r -> get(r, c)).toJavaList()));
         range(0, game.areas.size()).foreachDoEffect(i -> {
             List<Integer> nums = iterableList(game.areas.get(i)).map(p -> get(p)).toJavaList();
+            // 2. Each 2*1 brick contains and odd and an even number, while 1*1 bricks
+            // can contain any number.
             area2state[i] = nums.contains(0) ? HintState.Normal :
                     nums.size() == 1 || nums.get(0) % 2 == 0 && nums.get(1) % 2 == 1 ||
                     nums.get(0) % 2 == 1 && nums.get(1) % 2 == 0 ? HintState.Complete : HintState.Error;

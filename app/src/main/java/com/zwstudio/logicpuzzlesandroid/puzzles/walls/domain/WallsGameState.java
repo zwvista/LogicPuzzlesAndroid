@@ -58,20 +58,19 @@ public class WallsGameState extends CellsGameState<WallsGame, WallsGameMove, Wal
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/Walls
+        iOS Game: Logic Games/Puzzle Set 5/Walls
 
         Summary
-        Put one Tree in each Park, row and column.(two in bigger levels)
+        Find the maze of Bricks
 
         Description
-        1. In Walls, you have many differently coloured areas(Walls) on the board.
-        2. The goal is to plant Trees, following these rules:
-        3. A Tree can't touch another Tree, not even diagonally.
-        4. Each park must have exactly ONE Tree.
-        5. There must be exactly ONE Tree in each row and each column.
-        6. Remember a Tree CANNOT touch another Tree diagonally,
-           but it CAN be on the same diagonal line.
-        7. Larger puzzles have TWO Trees in each park, each row and each column.
+        1. In Walls you must fill the board with straight horizontal and
+           vertical lines (walls) that stem from each number.
+        2. The number itself tells you the total length of Wall segments
+           connected to it.
+        3. Wall pieces have two ways to be put, horizontally or vertically.
+        4. Not every wall piece must be connected with a number, but the
+           board must be filled with wall pieces.
     */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
@@ -81,6 +80,10 @@ public class WallsGameState extends CellsGameState<WallsGame, WallsGameMove, Wal
                 Position p = new Position(r, c);
                 WallsObject o = get(p);
                 if (o instanceof WallsEmptyObject)
+                    // 1. In Walls you must fill the board with straight horizontal and
+                    // vertical lines (walls) that stem from each number.
+                    // 4. Not every wall piece must be connected with a number, but the
+                    // board must be filled with wall pieces.
                     isSolved = false;
                 else if (o instanceof WallsHintObject) {
                     WallsHintObject o2 = (WallsHintObject) o;
@@ -90,16 +93,20 @@ public class WallsGameState extends CellsGameState<WallsGame, WallsGameMove, Wal
                         Position os = WallsGame.offset[i];
                         for (Position p2 = p.add(os); isValid(p2); p2.addBy(os))
                              if (i % 2 == 0)
+                                 // 3. Wall pieces have two ways to be put, horizontally or vertically.
                                  if (get(p2) instanceof WallsVertObject)
                                      n1++;
                                  else
                                      break;
                              else
+                                 // 3. Wall pieces have two ways to be put, horizontally or vertically.
                                  if (get(p2) instanceof WallsHorzObject)
                                      n1++;
                                  else
                                      break;
                     }
+                    // 2. The number itself tells you the total length of Wall segments
+                    // connected to it.
                     HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
                     if (s != HintState.Complete) isSolved = false;
                     ((WallsHintObject)get(p)).state = s;

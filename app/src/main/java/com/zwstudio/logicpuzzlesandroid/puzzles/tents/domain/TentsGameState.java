@@ -7,6 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import fj.F;
+import fj.F0;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -69,6 +70,24 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 1/Tents
+
+        Summary
+        Each camper wants to put his Tent under the shade of a Tree. But he also
+        wants his privacy!
+
+        Description
+        1. The board represents a camping field with many Trees. Campers want to set
+           their Tent in the shade, horizontally or vertically adjacent to a Tree(not
+           diagonally).
+        2. At the same time they need their privacy, so a Tent can't have any other
+           Tents near them, not even diagonally.
+        3. The numbers on the borders tell you how many Tents there are in that row
+           or column.
+        4. Finally, each Tree has at least one Tent touching it, horizontally or
+           vertically.
+    */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -77,6 +96,8 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) instanceof TentsTentObject)
                     n1++;
+            // 3. The numbers on the borders tell you how many Tents there are in that row
+            // or column.
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
@@ -85,6 +106,8 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
             for (int r = 0; r < rows(); r++)
                 if (get(r, c) instanceof TentsTentObject)
                     n1++;
+            // 3. The numbers on the borders tell you how many Tents there are in that row
+            // or column.
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
@@ -98,23 +121,34 @@ public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, Ten
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 TentsObject o = get(r, c);
-                if (o instanceof TentsTreeObject) continue;
-                boolean hasTree = false, hasTent = false;
-                for (Position os : TentsGame.offset) {
-                    Position p2 = p.add(os);
-                    if (isValid(p2) && get(p2) instanceof TentsTreeObject)
-                        hasTree = true;
-                }
-                for (Position os : TentsGame.offset2) {
-                    Position p2 = p.add(os);
-                    if (isValid(p2) && get(p2) instanceof TentsTentObject)
-                        hasTent = true;
-                }
+                F0<Boolean> hasTree = () -> {
+                    for (Position os : TentsGame.offset) {
+                        Position p2 = p.add(os);
+                        if (isValid(p2) && get(p2) instanceof TentsTreeObject)
+                            return true;
+                    }
+                    return false;
+                };
+                F<Boolean, Boolean> hasTent = isTree -> {
+                    for (Position os : TentsGame.offset2) {
+                        Position p2 = p.add(os);
+                        if (isValid(p2) && get(p2) instanceof TentsTentObject)
+                            return true;
+                    }
+                    return false;
+                };
                 if (o instanceof TentsTentObject) {
                     TentsTentObject o2 = (TentsTentObject)o;
-                    o2.state = hasTree && !hasTent ? AllowedObjectState.Normal : AllowedObjectState.Error;
+                    AllowedObjectState s = hasTree.f() && !hasTent.f(false) ? AllowedObjectState.Normal : AllowedObjectState.Error;
+                    o2.state = s;
+                    if (s == AllowedObjectState.Error) isSolved = false;
+                } else if (o instanceof TentsTreeObject) {
+                    TentsTreeObject o2 = (TentsTreeObject)o;
+                    AllowedObjectState s = hasTent.f(true) ? AllowedObjectState.Normal : AllowedObjectState.Error;
+                    o2.state = s;
+                    if (s == AllowedObjectState.Error) isSolved = false;
                 } else if ((o instanceof TentsEmptyObject || o instanceof TentsMarkerObject) && allowedObjectsOnly &&
-                        (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasTree || hasTent))
+                        (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasTree.f() || hasTent.f(false)))
                     set(r, c, new TentsForbiddenObject());
             }
     }
