@@ -11,17 +11,15 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsEmptyObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
-import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsMarkerObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsHintObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsHorzObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsTreeObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsVertObject;
 
 /**
  * TODO: document your custom view class.
@@ -36,8 +34,7 @@ public class WallsGameView extends CellsGameView {
     @Override protected int colsInView() {return cols();}
     private Paint gridPaint = new Paint();
     private Paint linePaint = new Paint();
-    private Paint markerPaint = new Paint();
-    private Paint forbiddenPaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
     private Drawable dTree;
 
     public WallsGameView(Context context) {
@@ -61,12 +58,7 @@ public class WallsGameView extends CellsGameView {
         linePaint.setColor(Color.YELLOW);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(20);
-        markerPaint.setColor(Color.WHITE);
-        markerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        markerPaint.setStrokeWidth(5);
-        forbiddenPaint.setColor(Color.RED);
-        forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        forbiddenPaint.setStrokeWidth(5);
+        textPaint.setAntiAlias(true);
         dTree = fromImageToDrawable("images/tree.png");
     }
 
@@ -77,28 +69,28 @@ public class WallsGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++)
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
         if (isInEditMode()) return;
-        for (int r = 0; r < rows() + 1; r++)
-            for (int c = 0; c < cols() + 1; c++) {
-                if (game().dots.get(r, c, 1) == GridLineObject.Line)
-                    canvas.drawLine(cwc(c), chr(r), cwc(c + 1), chr(r), linePaint);
-                if (game().dots.get(r, c, 2) == GridLineObject.Line)
-                    canvas.drawLine(cwc(c), chr(r), cwc(c), chr(r + 1), linePaint);
-            }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 WallsObject o = game().getObject(p);
-                if (o instanceof WallsTreeObject) {
-                    WallsTreeObject o2 = (WallsTreeObject) o;
+                if (o instanceof WallsHorzObject || o instanceof WallsVertObject) {
+                    boolean isHorz = o instanceof WallsHorzObject;
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
-                    int alpaha = o2.state == AllowedObjectState.Error ? 50 : 0;
-                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
+                    if (isHorz) { canvas.save(Canvas.MATRIX_SAVE_FLAG); canvas.rotate(90, cwc2(c), chr2(r)); }
                     dTree.draw(canvas);
-                } else if (o instanceof WallsMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
-                else if (o instanceof WallsForbiddenObject)
-                    canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
-            }
+                    if (isHorz) canvas.restore();
+                } else if (o instanceof WallsHintObject) {
+                    WallsHintObject o2 = (WallsHintObject) o;
+                    String text = String.valueOf(o2.walls);
+                    HintState s = o2.state;
+                    textPaint.setColor(
+                            s == HintState.Normal ? Color.WHITE :
+                            s == HintState.Complete ? Color.GREEN : Color.RED
+                    );
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
+                }
+        }
     }
 
     @Override

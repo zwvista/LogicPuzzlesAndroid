@@ -1,19 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain;
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import fj.F;
-import fj.F0;
-
-import static fj.data.Array.array;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -28,6 +20,13 @@ public class WallsGameState extends CellsGameState<WallsGame, WallsGameMove, Wal
         objArray = new WallsObject[rows() * cols()];
         for (int i = 0; i < objArray.length; i++)
             objArray[i] = new WallsEmptyObject();
+        for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
+            Position p = entry.getKey();
+            int n = entry.getValue();
+            WallsHintObject o = new WallsHintObject();
+            o.walls = n; o.state = HintState.Normal;
+            set(p, o);
+        }
     }
 
     public WallsObject get(int row, int col) {
@@ -51,21 +50,10 @@ public class WallsGameState extends CellsGameState<WallsGame, WallsGameMove, Wal
     }
 
     public boolean switchObject(WallsGameMove move) {
-        MarkerOptions markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()];
-        F<WallsObject, WallsObject> f = obj -> {
-            if (obj instanceof WallsEmptyObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new WallsMarkerObject() : new WallsTreeObject();
-            if (obj instanceof WallsTreeObject)
-                return markerOption == MarkerOptions.MarkerLast ?
-                        new WallsMarkerObject() : new WallsEmptyObject();
-            if (obj instanceof WallsMarkerObject)
-                return markerOption == MarkerOptions.MarkerFirst ?
-                        new WallsTreeObject() : new WallsEmptyObject();
-            return obj;
-        };
         WallsObject o = get(move.p);
-        move.obj = f.f(o);
+        move.obj = o instanceof WallsEmptyObject ? new WallsHorzObject() :
+            o instanceof WallsHorzObject ? new WallsVertObject() :
+            o instanceof WallsVertObject ? new WallsEmptyObject() : o;
         return setObject(move);
     }
 
@@ -90,75 +78,32 @@ public class WallsGameState extends CellsGameState<WallsGame, WallsGameMove, Wal
         isSolved = true;
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
-                WallsObject o = get(r, c);
-                if (o instanceof WallsForbiddenObject)
-                    set(r, c, new WallsEmptyObject());
-            }
-        // 3. A Tree can't touch another Tree, not even diagonally.
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                F0<Boolean> hasNeighbor = () -> {
-                    return array(WallsGame.offset).exists(os -> {
-                        Position p2 = p.add(os);
-                        return isValid(p2) && get(p2) instanceof WallsTreeObject;
-                    });
-                };
-                WallsObject o = get(r, c);
-                if (o instanceof WallsTreeObject) {
-                    WallsTreeObject o2 = (WallsTreeObject)o;
-                    o2.state = !hasNeighbor.f() ? AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof WallsEmptyObject || o instanceof WallsMarkerObject) && allowedObjectsOnly && hasNeighbor.f())
-                    set(r, c, new WallsForbiddenObject());
-            }
-        int n2 = game.treesInEachArea;
-        // 5. There must be exactly ONE Tree in each row.
-        for (int r = 0; r < rows(); r++) {
-            int n1 = 0;
-            for (int c = 0; c < cols(); c++)
-                if (get(r, c) instanceof WallsTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int c = 0; c < cols(); c++) {
-                WallsObject o = get(r, c);
-                if (o instanceof WallsTreeObject) {
-                    WallsTreeObject o2 = (WallsTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof WallsEmptyObject || o instanceof WallsMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new WallsForbiddenObject());
-            }
-        }
-        // 5. There must be exactly ONE Tree in each column.
-        for (int c = 0; c < cols(); c++) {
-            int n1 = 0;
-            for (int r = 0; r < rows(); r++)
-                if (get(r, c) instanceof WallsTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (int r = 0; r < rows(); r++) {
-                WallsObject o = get(r, c);
-                if (o instanceof WallsTreeObject) {
-                    WallsTreeObject o2 = (WallsTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof WallsEmptyObject || o instanceof WallsMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(r, c, new WallsForbiddenObject());
-            }
-        }
-        // 4. Each park must have exactly ONE Tree.
-        for (List<Position> a : game.areas) {
-            int n1 = 0;
-            for (Position p : a)
-                if (get(p) instanceof WallsTreeObject) n1++;
-            if (n1 != n2) isSolved = false;
-            for (Position p : a) {
                 WallsObject o = get(p);
-                if (o instanceof WallsTreeObject) {
-                    WallsTreeObject o2 = (WallsTreeObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && n1 <= n2 ?
-                            AllowedObjectState.Normal : AllowedObjectState.Error;
-                } else if ((o instanceof WallsEmptyObject || o instanceof WallsMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    set(p, new WallsForbiddenObject());
+                if (o instanceof WallsEmptyObject)
+                    isSolved = false;
+                else if (o instanceof WallsHintObject) {
+                    WallsHintObject o2 = (WallsHintObject) o;
+                    int n2 = o2.walls;
+                    int n1 = 0;
+                    for (int i = 0; i < 4; i++) {
+                        Position os = WallsGame.offset[i];
+                        for (Position p2 = p.add(os); isValid(p2); p2.addBy(os))
+                             if (i % 2 == 0)
+                                 if (get(p2) instanceof WallsVertObject)
+                                     n1++;
+                                 else
+                                     break;
+                             else
+                                 if (get(p2) instanceof WallsHorzObject)
+                                     n1++;
+                                 else
+                                     break;
+                    }
+                    HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+                    if (s != HintState.Complete) isSolved = false;
+                    ((WallsHintObject)get(p)).state = s;
+                }
             }
-        }
     }
 }
