@@ -101,6 +101,7 @@ public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, Sna
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == SnakeObject.Forbidden)
                     set(r, c, SnakeObject.Empty);
+        // 3. Numbers on the border tell you how many tiles the snake occupies in that row.
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
             for (int c = 0; c < cols(); c++)
@@ -109,6 +110,7 @@ public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, Sna
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
+        // 3. Numbers on the border tell you how many tiles the snake occupies in that column.
         for (int c = 0; c < cols(); c++) {
             int n1 = 0, n2 = game.col2hint[c];
             for (int r = 0; r < rows(); r++)
@@ -157,6 +159,8 @@ public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, Sna
                 else if (o == SnakeObject.Snake)
                     rngSnake.add(p2);
             }
+            // 2. The two tiles given at the start are the head and the tail of the snake.
+            // 4. The snake can't touch itself, not even diagonally.
             boolean b = game.pos2snake.contains(p);
             int cnt = rngSnake.size();
             if (b && cnt >= 1 || !b && cnt >= 2) {

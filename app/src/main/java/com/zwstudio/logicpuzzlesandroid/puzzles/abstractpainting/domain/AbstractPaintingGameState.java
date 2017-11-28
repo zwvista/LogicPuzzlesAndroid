@@ -103,7 +103,7 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
             for (int r = 0; r < rows(); r++)
                 if (get(r, c) == AbstractPaintingObject.Painting)
                     n1++;
-            // 2. Outer numbers tell how many tiles form the painting on the row.
+            // 2. Outer numbers tell how many tiles form the painting on the column.
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }

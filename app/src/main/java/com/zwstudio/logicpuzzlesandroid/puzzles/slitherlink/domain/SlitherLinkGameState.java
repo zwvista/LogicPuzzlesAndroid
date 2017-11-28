@@ -108,6 +108,8 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 2. Each number in a tile tells you on how many of its four sides are touched
+        // by the path.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -135,6 +137,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
                     pos2node.put(p, node);
                     break;
                 default:
+                    // 1. The path cannot have branches or cross itself.
                     isSolved = false;
                     return;
                 }
@@ -148,6 +151,7 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
+        // 1. Draw a single looping path with the aid of the numbered hints.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();

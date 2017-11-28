@@ -77,15 +77,18 @@ public class RobotFencesGameState extends CellsGameState<RobotFencesGame, RobotF
     private void updateIsSolved() {
         isSolved = true;
         F<List<Integer>, HintState> f = nums -> {
-            int size = nums.size();
             List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
+            // 2. Numbers can only be in range 1 to N where N is the board size.
             HintState s = nums2.get(0) == 0 ? HintState.Normal :
-                    nums2.size() == size ? HintState.Complete : HintState.Error;
+                    nums2.size() == nums.size() ? HintState.Complete : HintState.Error;
             if (s != HintState.Complete) isSolved = false;
             return s;
         };
+        // 3. No same number can appear in the same row.
         range(0, rows()).foreachDoEffect(r -> row2state[r] = f.f(range(0, cols()).map(c -> get(r, c)).toJavaList()));
+        // 3. No same number can appear in the same column.
         range(0, cols()).foreachDoEffect(c -> col2state[c] = f.f(range(0, rows()).map(r -> get(r, c)).toJavaList()));
+        // 1. You need to fill each region with a randomly ordered sequence of numbers.
         range(0, game.areas.size()).foreachDoEffect(i -> area2state[i] = f.f(iterableList(game.areas.get(i)).map(p -> get(p)).toJavaList()));
     }
 }

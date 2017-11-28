@@ -78,12 +78,11 @@ public class TheOddBrickGameState extends CellsGameState<TheOddBrickGame, TheOdd
     private void updateIsSolved() {
         isSolved = true;
         F<List<Integer>, HintState> f = nums -> {
-            int size = nums.size();
             List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
             // 3. Each row and column contains numbers 1 to N, where N is the side of
             // the board.
             HintState s = nums2.get(0) == 0 ? HintState.Normal :
-                    nums2.size() == size ? HintState.Complete : HintState.Error;
+                    nums2.size() == nums.size() ? HintState.Complete : HintState.Error;
             if (s != HintState.Complete) isSolved = false;
             return s;
         };

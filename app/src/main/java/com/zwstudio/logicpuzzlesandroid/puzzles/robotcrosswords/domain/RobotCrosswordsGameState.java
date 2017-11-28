@@ -70,15 +70,15 @@ public class RobotCrosswordsGameState extends CellsGameState<RobotCrosswordsGame
            2-3-4-5), but in any order (i.e. 3-4-2-5).
     */
     private void updateIsSolved() {
-        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         for (int i = 0; i < game.areas.size(); i++) {
             List<Position> a = game.areas.get(i);
             List<Integer> nums = iterableList(a).map(p -> get(p)).toJavaList();
-            int size = nums.size();
             List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
+            // 2. Each 'word' is formed by an uninterrupted sequence of numbers,
+            // but in any order.
             HintState s = nums2.get(0) == 0 ? HintState.Normal :
-                    nums2.size() == size ? HintState.Complete : HintState.Error;
+                    nums2.size() == nums.size() ? HintState.Complete : HintState.Error;
             for (Position p : a)
                 (i < game.horzAreaCount ? pos2horzState : pos2vertState).put(p, s);
             if (s != HintState.Complete) isSolved = false;
