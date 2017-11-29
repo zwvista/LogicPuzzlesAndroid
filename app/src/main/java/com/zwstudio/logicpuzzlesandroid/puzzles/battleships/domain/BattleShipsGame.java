@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain;
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
@@ -20,14 +19,12 @@ import fj.F2;
 public class BattleShipsGame extends CellsGame<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState> {
     public static Position offset[] = {
             new Position(-1, 0),
-            new Position(0, 1),
-            new Position(1, 0),
-            new Position(0, -1),
-    };
-    public static Position offset2[] = {
             new Position(-1, 1),
+            new Position(0, 1),
             new Position(1, 1),
+            new Position(1, 0),
             new Position(1, -1),
+            new Position(0, -1),
             new Position(-1, -1),
     };
 

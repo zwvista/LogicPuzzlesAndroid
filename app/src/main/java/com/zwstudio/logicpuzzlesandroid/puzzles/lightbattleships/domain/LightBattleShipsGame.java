@@ -27,12 +27,6 @@ public class LightBattleShipsGame extends CellsGame<LightBattleShipsGame, LightB
             new Position(0, -1),
             new Position(-1, -1),
     };
-    public static Position offset2[] = {
-            new Position(-1, 1),
-            new Position(1, 1),
-            new Position(1, -1),
-            new Position(-1, -1),
-    };
 
     public Map<Position, Integer> pos2hint = new HashMap<>();
     public Map<Position, LightBattleShipsObject> pos2obj = new HashMap<>();

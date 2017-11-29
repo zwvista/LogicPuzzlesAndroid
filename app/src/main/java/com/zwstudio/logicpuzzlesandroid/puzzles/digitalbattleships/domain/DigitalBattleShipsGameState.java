@@ -8,14 +8,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fj.F;
-import fj.data.Array;
 
-import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
@@ -121,6 +120,8 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == DigitalBattleShipsObject.Forbidden)
                     set(r, c, DigitalBattleShipsObject.Empty);
+        // 2. Each number on the outer board tells you the SUM of the ship or
+        // ship pieces you're seeing in that row.
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
             for (int c = 0; c < cols(); c++) {
@@ -128,11 +129,14 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
                 if (o == DigitalBattleShipsObject.BattleShipTop || o == DigitalBattleShipsObject.BattleShipBottom ||
                         o == DigitalBattleShipsObject.BattleShipLeft || o == DigitalBattleShipsObject.BattleShipRight ||
                         o == DigitalBattleShipsObject.BattleShipMiddle || o == DigitalBattleShipsObject.BattleShipUnit)
+                    // 3. A ship or ship piece is worth the number it occupies on the board.
                     n1 += game.get(r, c);
             }
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
+        // 2. Each number on the outer board tells you the SUM of the ship or
+        // ship pieces you're seeing in that column.
         for (int c = 0; c < cols(); c++) {
             int n1 = 0, n2 = game.col2hint[c];
             for (int r = 0; r < rows(); r++) {
@@ -140,6 +144,7 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
                 if (o == DigitalBattleShipsObject.BattleShipTop || o == DigitalBattleShipsObject.BattleShipBottom ||
                         o == DigitalBattleShipsObject.BattleShipLeft || o == DigitalBattleShipsObject.BattleShipRight ||
                         o == DigitalBattleShipsObject.BattleShipMiddle || o == DigitalBattleShipsObject.BattleShipUnit)
+                    // 3. A ship or ship piece is worth the number it occupies on the board.
                     n1 += game.get(r, c);
             }
             col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
@@ -152,7 +157,6 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
                         row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
                     set(r, c, DigitalBattleShipsObject.Forbidden);
             }
-        if (!isSolved) return;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
@@ -170,8 +174,8 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
         for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
             Position p = entry.getKey();
             Node node = entry.getValue();
-            for (Position os : DigitalBattleShipsGame.offset) {
-                Position p2 = p.add(os);
+            for (int i = 0; i < 4; i++) {
+                Position p2 = p.add(DigitalBattleShipsGame.offset[i * 2]);
                 if (pos2node.containsKey(p2))
                     g.connectNode(node, pos2node.get(p2));
             }
@@ -184,24 +188,36 @@ public class DigitalBattleShipsGameState extends CellsGameState<DigitalBattleShi
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             for (Position p : area)
                 pos2node.remove(p);
-            area.sort(Position::compareTo);
+            Collections.sort(area, Position::compareTo);
             if (!(area.size() == 1 && get(area.get(0)) == DigitalBattleShipsObject.BattleShipUnit ||
-                    area.size() > 1 && area.size() < 5 && ((
+                    area.size() > 1 && area.size() < 5 && (
                     iterableList(area).forall(p -> p.row == area.get(0).row) &&
                     get(area.get(0)) == DigitalBattleShipsObject.BattleShipLeft &&
                     get(area.get(area.size() - 1)) == DigitalBattleShipsObject.BattleShipRight ||
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
                     get(area.get(0)) == DigitalBattleShipsObject.BattleShipTop &&
                     get(area.get(area.size() - 1)) == DigitalBattleShipsObject.BattleShipBottom) &&
-                    range(1, area.size() - 2).forall(i -> get(area.get(i)) == DigitalBattleShipsObject.BattleShipMiddle)) &&
-                    array(DigitalBattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
-                        Position p2 = p.add(os);
-                        if (!isValid(p2)) return true;
-                        DigitalBattleShipsObject o = get(p2);
-                        return o == DigitalBattleShipsObject.Empty || o == DigitalBattleShipsObject.Forbidden || o == DigitalBattleShipsObject.Marker;
-                    })))) {isSolved = false; return;}
+                    range(1, area.size() - 2).forall(i -> get(area.get(i)) == DigitalBattleShipsObject.BattleShipMiddle))) {
+                isSolved = false; continue;
+            }
+            for (Position p : area)
+                for (Position os : DigitalBattleShipsGame.offset) {
+                    // 4. A ship or piece of ship can't touch another, not even diagonally.
+                    Position p2 = p.add(os);
+                    if (!isValid(p2) || area.contains(p2)) continue;
+                    DigitalBattleShipsObject o = get(p2);
+                    if (!(o == DigitalBattleShipsObject.Empty || o == DigitalBattleShipsObject.Forbidden || o == DigitalBattleShipsObject.Marker))
+                        isSolved = false;
+                    else if (allowedObjectsOnly)
+                        set(p, DigitalBattleShipsObject.Forbidden);
+                }
             shipNumbers[area.size()]++;
         }
+        // 5. In each puzzle there are
+        //    1 Aircraft Carrier (4 squares)
+        //    2 Destroyers (3 squares)
+        //    3 Submarines (2 squares)
+        //    4 Patrol boats (1 square)
         if (!Arrays.equals(shipNumbers, shipNumbers2)) isSolved = false;
     }
 }

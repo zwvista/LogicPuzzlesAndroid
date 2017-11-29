@@ -9,12 +9,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fj.F;
-import fj.data.Array;
 
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
@@ -127,6 +127,7 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) instanceof LightBattleShipsForbiddenObject)
                     set(r, c, new LightBattleShipsEmptyObject());
+        // 3. Ships cannot touch Lighthouses. Not even diagonally.
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
@@ -147,11 +148,14 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
                 };
                 LightBattleShipsObject o = get(r, c);
                 if (o instanceof LightBattleShipsHintObject) {
-                    LightBattleShipsHintObject o2 = (LightBattleShipsHintObject)o;
-                    o2.state = !hasNeighbor.f(true) ? HintState.Normal : HintState.Error;
+                    HintState s = !hasNeighbor.f(true) ? HintState.Normal : HintState.Error;
+                    ((LightBattleShipsHintObject)o).state = s;
+                    if (s == HintState.Error) isSolved = false;
                 } else if ((o instanceof LightBattleShipsEmptyObject || o instanceof LightBattleShipsMarkerObject) && allowedObjectsOnly && hasNeighbor.f(false))
                     set(r, c, new LightBattleShipsForbiddenObject());
             }
+        // 2. Each number is a Lighthouse, telling you how many pieces of ship
+        // there are in that row and column, summed together.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -176,7 +180,6 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
                 for (Position p2 : rng)
                     set(p2, new LightBattleShipsForbiddenObject());
         }
-        if (!isSolved) return;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
@@ -208,24 +211,36 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             for (Position p : area)
                 pos2node.remove(p);
-            area.sort(Position::compareTo);
+            Collections.sort(area, Position::compareTo);
             if (!(area.size() == 1 && get(area.get(0)) instanceof LightBattleShipsBattleShipUnitObject ||
-                    area.size() > 1 && area.size() < 5 && ((
+                    area.size() > 1 && area.size() < 5 && (
                     iterableList(area).forall(p -> p.row == area.get(0).row) &&
                     get(area.get(0)) instanceof LightBattleShipsBattleShipLeftObject &&
                     get(area.get(area.size() - 1)) instanceof LightBattleShipsBattleShipRightObject ||
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
                     get(area.get(0)) instanceof LightBattleShipsBattleShipTopObject &&
                     get(area.get(area.size() - 1)) instanceof LightBattleShipsBattleShipBottomObject) &&
-                    range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof LightBattleShipsBattleShipMiddleObject)) &&
-                    array(LightBattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
-                        Position p2 = p.add(os);
-                        if (!isValid(p2)) return true;
-                        LightBattleShipsObject o = get(p2);
-                        return o instanceof LightBattleShipsEmptyObject || o instanceof LightBattleShipsForbiddenObject || o instanceof LightBattleShipsMarkerObject || o instanceof LightBattleShipsHintObject;
-                    })))) {isSolved = false; return;}
+                    range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof LightBattleShipsBattleShipMiddleObject))) {
+                isSolved = false; continue;
+            }
+            for (Position p : area)
+                for (Position os : LightBattleShipsGame.offset) {
+                    // 3. Ships cannot touch each other. Not even diagonally.
+                    Position p2 = p.add(os);
+                    if (!isValid(p2) || area.contains(p2)) continue;
+                    LightBattleShipsObject o = get(p2);
+                    if (!(o instanceof LightBattleShipsEmptyObject || o instanceof LightBattleShipsForbiddenObject || o instanceof LightBattleShipsMarkerObject))
+                        isSolved = false;
+                    else if (allowedObjectsOnly)
+                        set(p, new LightBattleShipsForbiddenObject());
+                }
             shipNumbers[area.size()]++;
         }
+        // 4. In each puzzle there are
+        //    1 Aircraft Carrier (4 squares)
+        //    2 Destroyers (3 squares)
+        //    3 Submarines (2 squares)
+        //    4 Patrol boats (1 square)
         if (!Arrays.equals(shipNumbers, shipNumbers2)) isSolved = false;
     }
 }

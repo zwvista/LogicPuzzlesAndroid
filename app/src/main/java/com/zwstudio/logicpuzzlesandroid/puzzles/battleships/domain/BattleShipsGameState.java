@@ -8,14 +8,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fj.F;
-import fj.data.Array;
 
-import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
@@ -126,6 +125,7 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == BattleShipsObject.Forbidden)
                     set(r, c, BattleShipsObject.Empty);
+        // 2. Each number tells you how many ship or ship pieces you're seeing in that row.
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
             for (int c = 0; c < cols(); c++) {
@@ -138,6 +138,7 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
+        // 2. Each number tells you how many ship or ship pieces you're seeing in that column.
         for (int c = 0; c < cols(); c++) {
             int n1 = 0, n2 = game.col2hint[c];
             for (int r = 0; r < rows(); r++) {
@@ -157,7 +158,6 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
                         row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
                     set(r, c, BattleShipsObject.Forbidden);
             }
-        if (!isSolved) return;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
@@ -175,8 +175,8 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
         for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
             Position p = entry.getKey();
             Node node = entry.getValue();
-            for (Position os : BattleShipsGame.offset) {
-                Position p2 = p.add(os);
+            for (int i = 0; i < 4; i++) {
+                Position p2 = p.add(BattleShipsGame.offset[i * 2]);
                 if (pos2node.containsKey(p2))
                     g.connectNode(node, pos2node.get(p2));
             }
@@ -189,24 +189,36 @@ public class BattleShipsGameState extends CellsGameState<BattleShipsGame, Battle
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             for (Position p : area)
                 pos2node.remove(p);
-            area.sort(Position::compareTo);
+            Collections.sort(area, Position::compareTo);
             if (!(area.size() == 1 && get(area.get(0)) == BattleShipsObject.BattleShipUnit ||
-                    area.size() > 1 && area.size() < 5 && ((
+                    area.size() > 1 && area.size() < 5 && (
                     iterableList(area).forall(p -> p.row == area.get(0).row) &&
                     get(area.get(0)) == BattleShipsObject.BattleShipLeft &&
                     get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipRight ||
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
                     get(area.get(0)) == BattleShipsObject.BattleShipTop &&
                     get(area.get(area.size() - 1)) == BattleShipsObject.BattleShipBottom) &&
-                    range(1, area.size() - 2).forall(i -> get(area.get(i)) == BattleShipsObject.BattleShipMiddle)) &&
-                    array(BattleShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
-                        Position p2 = p.add(os);
-                        if (!isValid(p2)) return true;
-                        BattleShipsObject o = get(p2);
-                        return o == BattleShipsObject.Empty || o == BattleShipsObject.Forbidden || o == BattleShipsObject.Marker;
-                    })))) {isSolved = false; return;}
+                    range(1, area.size() - 2).forall(i -> get(area.get(i)) == BattleShipsObject.BattleShipMiddle))) {
+                isSolved = false; continue;
+            }
+            for (Position p : area)
+                for (Position os : BattleShipsGame.offset) {
+                    // 3. A ship or piece of ship can't touch another, not even diagonally.
+                    Position p2 = p.add(os);
+                    if (!isValid(p2) || area.contains(p2)) continue;
+                    BattleShipsObject o = get(p2);
+                    if (!(o == BattleShipsObject.Empty || o == BattleShipsObject.Forbidden || o == BattleShipsObject.Marker))
+                        isSolved = false;
+                    else if (allowedObjectsOnly)
+                        set(p, BattleShipsObject.Forbidden);
+                }
             shipNumbers[area.size()]++;
         }
+        // 4. In each puzzle there are
+        //    1 Aircraft Carrier (4 squares)
+        //    2 Destroyers (3 squares)
+        //    3 Submarines (2 squares)
+        //    4 Patrol boats (1 square)
         if (!Arrays.equals(shipNumbers, shipNumbers2)) isSolved = false;
     }
 }

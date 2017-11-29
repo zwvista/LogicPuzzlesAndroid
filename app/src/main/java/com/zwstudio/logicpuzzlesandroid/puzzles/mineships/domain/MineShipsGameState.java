@@ -9,14 +9,13 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fj.F;
-import fj.data.Array;
 
-import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
@@ -115,6 +114,7 @@ public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsG
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) instanceof MineShipsForbiddenObject)
                     set(r, c, new MineShipsEmptyObject());
+        // 3. A number tells you how many pieces of ship are around it.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n1 = 0, n2 = entry.getValue();
@@ -168,24 +168,37 @@ public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsG
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             for (Position p : area)
                 pos2node.remove(p);
-            area.sort(Position::compareTo);
+            Collections.sort(area, Position::compareTo);
             if (!(area.size() == 1 && get(area.get(0)) instanceof MineShipsBattleShipUnitObject ||
-                    area.size() > 1 && area.size() < 5 && ((
+                    area.size() > 1 && area.size() < 5 && (
                     iterableList(area).forall(p -> p.row == area.get(0).row) &&
                     get(area.get(0)) instanceof MineShipsBattleShipLeftObject &&
                     get(area.get(area.size() - 1)) instanceof MineShipsBattleShipRightObject ||
                     iterableList(area).forall(p -> p.col == area.get(0).col) &&
                     get(area.get(0)) instanceof MineShipsBattleShipTopObject &&
                     get(area.get(area.size() - 1)) instanceof MineShipsBattleShipBottomObject) &&
-                    range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof MineShipsBattleShipMiddleObject)) &&
-                    array(MineShipsGame.offset2).forall(os -> iterableList(area).forall(p -> {
-                        Position p2 = p.add(os);
-                        if (!isValid(p2)) return true;
-                        MineShipsObject o = get(p2);
-                        return o instanceof MineShipsEmptyObject || o instanceof MineShipsForbiddenObject || o instanceof MineShipsMarkerObject || o instanceof MineShipsHintObject;
-                    })))) {isSolved = false; return;}
+                    range(1, area.size() - 2).forall(i -> get(area.get(i)) instanceof MineShipsBattleShipMiddleObject))) {
+                isSolved = false; continue;
+            }
+            for (Position p : area)
+                for (Position os : MineShipsGame.offset) {
+                    // A ship or piece of ship can't touch another, not even diagonally.
+                    Position p2 = p.add(os);
+                    if (!isValid(p2) || area.contains(p2)) continue;
+                    MineShipsObject o = get(p2);
+                    if (o instanceof MineShipsEmptyObject || o instanceof MineShipsMarkerObject) {
+                        if (allowedObjectsOnly)
+                            set(p, new MineShipsForbiddenObject());
+                    } else if (!(o instanceof MineShipsForbiddenObject || o instanceof MineShipsHintObject))
+                        isSolved = false;
+                }
             shipNumbers[area.size()]++;
         }
+        // In each puzzle there are
+        //    1 Aircraft Carrier (4 squares)
+        //    2 Destroyers (3 squares)
+        //    3 Submarines (2 squares)
+        //    4 Patrol boats (1 square)
         if (!Arrays.equals(shipNumbers, shipNumbers2)) isSolved = false;
     }
 }
