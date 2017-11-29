@@ -93,6 +93,9 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
     */
     private void updateIsSolved() {
         isSolved = true;
+        // A number indicates how many of the surrounding tiles are filled. If a
+        // tile has more than one number, it hints at multiple separated groups
+        // of filled tiles.
         F<List<Integer>, List<Integer>> computeHint = filled -> {
             List<Integer> hint = new ArrayList<>();
             if (filled.isEmpty())
@@ -136,6 +139,7 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
             if (s != HintState.Complete) isSolved = false;
         });
         if (!isSolved) return;
+        // 3. There can't be any 2*2 of white or black cells.
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
@@ -176,6 +180,7 @@ public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, 
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
+        // 2. Both Black and White cells must form a single continuous region.
         g.setRootNode(pos2node.get(rngWalls.get(0)));
         List<Node> nodeList = g.bfs();
         if (rngWalls.size() != nodeList.size()) {isSolved = false; return;}

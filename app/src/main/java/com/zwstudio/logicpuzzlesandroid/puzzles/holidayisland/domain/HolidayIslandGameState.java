@@ -126,8 +126,7 @@ public class HolidayIslandGameState extends CellsGameState<HolidayIslandGame, Ho
             for (Position os : TierraDelFuegoGame.offset) {
                 Position p2 = p.add(os);
                 Node node2 = pos2node.get(p2);
-                if (node2 == null) continue;
-                g.connectNode(node, node2);
+                if (node2 != null) g.connectNode(node, node2);
             }
         }
         {

@@ -115,8 +115,7 @@ public class ParkLakesGameState extends CellsGameState<ParkLakesGame, ParkLakesG
             for (Position os : TierraDelFuegoGame.offset) {
                 Position p2 = p.add(os);
                 Node node2 = pos2node.get(p2);
-                if (node2 == null) continue;
-                g.connectNode(node, node2);
+                if (node2 != null) g.connectNode(node, node2);
             }
         }
         List<List<Position>> areas = new ArrayList<>();

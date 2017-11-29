@@ -199,8 +199,8 @@ public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGa
             Node node = entry.getValue();
             for (Position os : LightBattleShipsGame.offset) {
                 Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(node, pos2node.get(p2));
+                Node node2 = pos2node.get(p2);
+                if (node2 != null) g.connectNode(node, node2);
             }
         }
         Integer[] shipNumbers = {0, 0, 0, 0, 0};

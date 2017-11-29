@@ -156,8 +156,8 @@ public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsG
             Node node = entry.getValue();
             for (int i = 0; i < 4; i++) {
                 Position p2 = p.add(MineShipsGame.offset[i * 2]);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(node, pos2node.get(p2));
+                Node node2 = pos2node.get(p2);
+                if (node2 != null) g.connectNode(node, node2);
             }
         }
         Integer[] shipNumbers = {0, 0, 0, 0, 0};

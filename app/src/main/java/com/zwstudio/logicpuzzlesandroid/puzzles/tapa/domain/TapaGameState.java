@@ -21,6 +21,7 @@ import fj.data.Stream;
 
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -111,6 +112,9 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 2. A number indicates how many of the surrounding tiles are filled. If a
+        // tile has more than one number, it hints at multiple separated groups
+        // of filled tiles.
         F<List<Integer>, List<Integer>> computeHint = filled -> {
             List<Integer> hint = new ArrayList<>();
             if (filled.isEmpty())
@@ -154,6 +158,8 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
             if (s != HintState.Complete) isSolved = false;
         });
         if (!isSolved) return;
+        // 4. Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
+        // Tiles with numbers can be considered 'empty'.
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
@@ -166,24 +172,28 @@ public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGa
             }
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
-        List<Position> rngWalls = new ArrayList<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
-                if (get(p) instanceof TapaWallObject)
-                    rngWalls.add(p);
+                if (get(p) instanceof TapaWallObject) {
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
+                }
             }
-        for (Position p : rngWalls)
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
+            Position p = entry.getKey();
+            Node node = entry.getValue();
             for (Position os : TapaGame.offset) {
                 Position p2 = p.add(os);
-                if (rngWalls.contains(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+                Node node2 = pos2node.get(p2);
+                if (node2 != null) g.connectNode(node, node2);
             }
-        g.setRootNode(pos2node.get(rngWalls.get(0)));
+        }
+        // 1. The goal is to fill some tiles forming a single orthogonally continuous
+        // path. Just like Nurikabe.
+        g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
-        if (rngWalls.size() != nodeList.size()) isSolved = false;
+        if (nodeList.size() != pos2node.size()) isSolved = false;
     }
 }

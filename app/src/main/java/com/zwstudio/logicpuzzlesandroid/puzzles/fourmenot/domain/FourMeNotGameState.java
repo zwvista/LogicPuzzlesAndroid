@@ -116,8 +116,7 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
             for (Position os : FourMeNotGame.offset) {
                 Position p2 = p.add(os);
                 Node node2 = pos2node.get(p2);
-                if (node2 == null) continue;
-                g.connectNode(node, node2);
+                if (node2 != null) g.connectNode(node, node2);
             }
         }
         // 2. More exactly, you have to join the existing flowers by adding more of
