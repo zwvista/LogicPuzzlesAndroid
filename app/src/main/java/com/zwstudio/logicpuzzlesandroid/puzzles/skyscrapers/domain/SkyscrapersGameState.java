@@ -77,10 +77,12 @@ public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, Skyscr
         3. Each row and column can't have two Skyscrapers of the same height.
         4. The numbers on the boarders tell you how many skyscrapers you see from
            there, keeping mind that a higher skyscraper hides a lower one. 
-           Skyscrapers are numbered from 1(lowest) to the grid size(height).
+           Skyscrapers are numbered from 1(lowest) to the grid size(highest).
+        5. Each row and column can't have similar Skyscrapers.
     */
     private void updateIsSolved() {
         isSolved = true;
+        List<List<Integer>> numss = new ArrayList<>();
         List<Integer> nums = new ArrayList<>();
         for (int r = 1; r < rows() - 1; r++) {
             int h1 = get(r, 0), h2 = get(r, cols() - 1);
@@ -92,16 +94,25 @@ public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, Skyscr
                 if (n11 < n12) {n11 = n12; n1++;}
                 if (n21 < n22) {n21 = n22; n2++;}
                 if (n12 == 0) continue;
+                // 2. Each row can't have two Skyscrapers of the same height.
                 if (nums.contains(n12))
                     isSolved = false;
                 else
                     nums.add(n12);
             }
+            // 4. The numbers on the boarders tell you how many skyscrapers you see from
+            // there, keeping mind that a higher skyscraper hides a lower one.
+            // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
             HintState s1 = n1 == 0 ? HintState.Normal : n1 == h1 ? HintState.Complete : HintState.Error;
             HintState s2 = n2 == 0 ? HintState.Normal : n2 == h2 ? HintState.Complete : HintState.Error;
             row2state[r * 2] = s1; row2state[r * 2 + 1] = s2;
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
             if (nums.size() != game.intMax()) isSolved = false;
+            // 5. Each row and column can't have similar Skyscrapers.
+            if (numss.contains(nums))
+                isSolved = false;
+            else
+                numss.add(nums);
         }
         for (int c = 1; c < cols() - 1; c++) {
             int h1 = get(0, c), h2 = get(rows() - 1, c);
@@ -113,16 +124,25 @@ public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, Skyscr
                 if (n11 < n12) {n11 = n12; n1++;}
                 if (n21 < n22) {n21 = n22; n2++;}
                 if (n12 == 0) continue;
+                // 2. Each column can't have two Skyscrapers of the same height.
                 if (nums.contains(n12))
                     isSolved = false;
                 else
                     nums.add(n12);
             }
+            // 4. The numbers on the boarders tell you how many skyscrapers you see from
+            // there, keeping mind that a higher skyscraper hides a lower one.
+            // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
             HintState s1 = n1 == 0 ? HintState.Normal : n1 == h1 ? HintState.Complete : HintState.Error;
             HintState s2 = n2 == 0 ? HintState.Normal : n2 == h2 ? HintState.Complete : HintState.Error;
             col2state[c * 2] = s1; col2state[c * 2 + 1] = s2;
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false;
             if (nums.size() != game.intMax()) isSolved = false;
+            // 5. Each row and column can't have similar Skyscrapers.
+            if (numss.contains(nums))
+                isSolved = false;
+            else
+                numss.add(nums);
         }
     }
 }

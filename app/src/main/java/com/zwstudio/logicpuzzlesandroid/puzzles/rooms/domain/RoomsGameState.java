@@ -2,15 +2,23 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain;
 
 import com.rits.cloning.Cloner;
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGame;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fj.F;
+
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -85,6 +93,9 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 2. Each number inside a Room tells you how many other Rooms you see from
+        // there, in a straight line horizontally or vertically when the appropriate
+        // doors are closed.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -95,5 +106,30 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
             pos2state.put(p, n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;
         }
+        Set<Position> rng = new HashSet<>();
+        Graph g = new Graph();
+        Map<Position, Node> pos2node = new HashMap<>();
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                rng.add(p.plus());
+                Node node = new Node(p.toString());
+                g.addNode(node);
+                pos2node.put(p, node);
+            }
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                for (int i = 0; i < 4; i++)
+                    if (get(p.add(RoomsGame.offset2[i]))[RoomsGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node.get(p), pos2node.get(p.add(ParksGame.offset[i])));
+            }
+        // 3. At the end of the solution, each Room must be reachable from the others.
+        // That means no single Room or group of Rooms can be divided by the others.
+        g.setRootNode(iterableList(pos2node.values()).head());
+        List<Node> nodeList = g.bfs();
+        int n1 = nodeList.size();
+        int n2 = pos2node.values().size();
+        if (n1 != n2) isSolved = false;
     }
 }

@@ -75,6 +75,25 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 3/Sentinels
+
+        Summary
+        This time it's one Garden and many Towers
+
+        Description
+        1. On the Board there are a few sentinels. These sentinels are marked with
+           a number.
+        2. The number tells you how many tiles that Sentinel can control (see) from
+           there vertically and horizontally. This includes the tile where he is
+           located.
+        3. You must put Towers on the Boards in accordance with these hints, keeping
+           in mind that a Tower blocks the Sentinel View.
+        4. The restrictions are that there must be a single continuous Garden, and
+           two Towers can't touch horizontally or vertically.
+        5. Towers can't go over numbered squares. But numbered squares don't block
+           Sentinel View.
+    */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -94,12 +113,7 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
                     pos2node.put(p, node);
                 }
             }
-        for (Position p : pos2node.keySet())
-            for (Position os : SentinelsGame.offset) {
-                Position p2 = p.add(os);
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
-            }
+        // 4. two Towers can't touch horizontally or vertically.
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
@@ -120,6 +134,9 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
                         allowedObjectsOnly && hasNeighbor.f())
                     set(r, c, new SentinelsForbiddenObject());
             }
+        // 2. The number tells you how many tiles that Sentinel can control (see) from
+        // there vertically and horizontally. This includes the tile where he is
+        // located.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -144,6 +161,16 @@ public class SentinelsGameState extends CellsGameState<SentinelsGame, SentinelsG
                     set(p2, new SentinelsForbiddenObject());
         }
         if (!isSolved) return;
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
+            Position p = entry.getKey();
+            Node node = entry.getValue();
+            for (Position os : SentinelsGame.offset) {
+                Position p2 = p.add(os);
+                Node node2 = pos2node.get(p2);
+                if (node2 != null) g.connectNode(node, node2);
+            }
+        }
+        // 4. There must be a single continuous Garden
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();
