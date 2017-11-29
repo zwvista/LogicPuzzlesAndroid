@@ -69,6 +69,28 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 13/Booty Island
+
+        Summary
+        Overcrowded Piracy
+
+        Description
+        1. Overcrowded by Greedy Pirates (tm), this land has Treasures buried
+           almost everywhere and the relative maps scattered around.
+        2. In fact there's only one Treasure for each row and for each column.
+        3. On the island you can see maps with a number: these tell you how
+           many steps are required, horizontally or vertically, to reach a
+           Treasure.
+        4. For how stupid the Pirates are, they don't bury their Treasures
+           touching each other, even diagonally, however at times they are so
+           stupid that two or more maps point to the same Treasure!
+
+        Bigger Islands
+        5. On bigger islands, there will be two Treasures per row and column.
+        6. In this case, the number on the map doesn't necessarily point to the
+           closest Treasure on that row or column.
+    */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -80,6 +102,7 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
                 else if (o instanceof BootyIslandTreasureObject)
                     ((BootyIslandTreasureObject) o).state = AllowedObjectState.Normal;
             }
+        // 4. Pirates don't bury their Treasures touching each other, even diagonally.
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
@@ -94,12 +117,15 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
                 BootyIslandObject o = get(r, c);
                 if (o instanceof BootyIslandTreasureObject) {
                     BootyIslandTreasureObject o2 = (BootyIslandTreasureObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && !hasNeighbor.f() ?
+                    AllowedObjectState s = o2.state == AllowedObjectState.Normal && !hasNeighbor.f() ?
                             AllowedObjectState.Normal : AllowedObjectState.Error;
+                    o2.state = s;
+                    if (s == AllowedObjectState.Error) isSolved = false;
                 } else if ((o instanceof BootyIslandEmptyObject || o instanceof BootyIslandMarkerObject) &&
                         allowedObjectsOnly && hasNeighbor.f())
                     set(r, c, new BootyIslandForbiddenObject());
             }
+        // 2. In fact there's only one Treasure for each row.
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = 1;
             for (int c = 0; c < cols(); c++) {
@@ -117,6 +143,7 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
                     set(r, c, new BootyIslandForbiddenObject());
             }
         }
+        // 2. In fact there's only one Treasure for each column.
         for (int c = 0; c < cols(); c++) {
             int n1 = 0, n2 = 1;
             for (int r = 0; r < rows(); r++) {
@@ -134,6 +161,9 @@ public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyI
                     set(r, c, new BootyIslandForbiddenObject());
             }
         }
+        // 3. On the island you can see maps with a number: these tell you how
+        // many steps are required, horizontally or vertically, to reach a
+        // Treasure.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();

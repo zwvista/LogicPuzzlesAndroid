@@ -105,6 +105,9 @@ public class FenceSentinelsGameState extends CellsGameState<FenceSentinelsGame, 
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 2. The loop goes around all the numbers.
+        // 3. The number tells you how many cells you can see horizontally or
+        // vertically from there, including the cell itself.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -148,6 +151,7 @@ public class FenceSentinelsGameState extends CellsGameState<FenceSentinelsGame, 
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
+        // 1. The goal is to draw a single, uninterrupted, closed loop.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();

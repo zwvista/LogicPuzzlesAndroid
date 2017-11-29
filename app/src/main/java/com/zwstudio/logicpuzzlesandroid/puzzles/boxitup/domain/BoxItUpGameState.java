@@ -109,6 +109,7 @@ public class BoxItUpGameState extends CellsGameState<BoxItUpGame, BoxItUpGameMov
             for (Position p : area)
                 pos2node.remove(p);
             List<Position> rng = iterableList(area).filter(p -> game.pos2hint.containsKey(p)).toJavaList();
+            // 2. Each Box must contain one number.
             if (rng.size() != 1) {
                 for (Position p : rng)
                     pos2state.put(p, HintState.Normal);
@@ -134,6 +135,8 @@ public class BoxItUpGameState extends CellsGameState<BoxItUpGame, BoxItUpGameMov
                     }
                 return false;
             };
+            // 1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
+            // 2. The number represents the area of that Box.
             HintState s = rs * cs == n1 && rs * cs == n2 && !hasLine.f() ? HintState.Complete : HintState.Error;
             pos2state.put(p2, s);
             if (s != HintState.Complete) isSolved = false;

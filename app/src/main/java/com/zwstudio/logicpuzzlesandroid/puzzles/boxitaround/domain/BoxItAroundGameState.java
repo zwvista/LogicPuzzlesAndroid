@@ -82,7 +82,7 @@ public class BoxItAroundGameState extends CellsGameState<BoxItAroundGame, BoxItA
         Description
         1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
         2. Each Box must contain one number and the number represents the sum of
-           of the width and the height of that Box.
+           the width and the height of that Box.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -109,6 +109,7 @@ public class BoxItAroundGameState extends CellsGameState<BoxItAroundGame, BoxItA
             for (Position p : area)
                 pos2node.remove(p);
             List<Position> rng = iterableList(area).filter(p -> game.pos2hint.containsKey(p)).toJavaList();
+            // 2. Each Box must contain one number.
             if (rng.size() != 1) {
                 for (Position p : rng)
                     pos2state.put(p, HintState.Normal);
@@ -134,6 +135,8 @@ public class BoxItAroundGameState extends CellsGameState<BoxItAroundGame, BoxItA
                     }
                 return false;
             };
+            // 1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
+            // 2. The number represents the sum of the width and the height of that Box.
             HintState s = rs * cs == n1 && rs + cs == n2 && !hasLine.f() ? HintState.Complete : HintState.Error;
             pos2state.put(p2, s);
             if (s != HintState.Complete) isSolved = false;

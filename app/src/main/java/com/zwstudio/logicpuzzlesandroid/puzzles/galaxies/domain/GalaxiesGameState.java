@@ -127,18 +127,27 @@ public class GalaxiesGameState extends CellsGameState<GalaxiesGame, GalaxiesGame
                 pos2node.remove(p);
             }
         }
+        int n1 = 0;
         for (List<Position> area : areas) {
             List<Position> rng = iterableList(game.galaxies).filter(p -> area.contains(new Position(p.row / 2, p.col / 2))).toJavaList();
             if (rng.size() != 1) {
+                // 3. Galaxies can't overlap.
                 for (Position p : rng)
                     pos2state.put(p, HintState.Normal);
-                isSolved = false; continue;
+                isSolved = false;
+            } else {
+                // 2. These Galaxies are symmetrical to a rotation of 180 degrees. This
+                // means that rotating the shape of the Galaxy by 180 degrees (half a
+                // full turn) around the center, will result in an identical shape.
+                Position galaxy = rng.get(0);
+                boolean b = iterableList(area).forall(p -> area.contains(new Position(galaxy.row - p.row - 1, galaxy.col - p.col - 1)));
+                HintState s = b ? HintState.Complete : HintState.Error;
+                pos2state.put(galaxy, s);
+                if (!b) isSolved = false;
             }
-            Position galaxy = rng.get(0);
-            boolean b = iterableList(area).forall(p -> area.contains(new Position(galaxy.row - p.row - 1, galaxy.col - p.col - 1)));
-            HintState s = b ? HintState.Complete : HintState.Error;
-            pos2state.put(galaxy, s);
-            if (!b) isSolved = false;
+            n1 += area.size();
         }
+        // 3. In the end, all the space must be included in Galaxies
+        if (n1 != rows() * cols()) isSolved = false;
     }
 }

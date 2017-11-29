@@ -99,6 +99,8 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == CloudsObject.Forbidden)
                     set(r, c, CloudsObject.Empty);
+        // 2. The hints on the borders tell you how many tiles are covered by Clouds
+        // in that row.
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = game.row2hint[r];
             for (int c = 0; c < cols(); c++)
@@ -107,6 +109,8 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
             row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             if (n1 != n2) isSolved = false;
         }
+        // 2. The hints on the borders tell you how many tiles are covered by Clouds
+        // in that column.
         for (int c = 0; c < cols(); c++) {
             int n1 = 0, n2 = game.col2hint[c];
             for (int r = 0; r < rows(); r++)
@@ -152,6 +156,8 @@ public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, 
                 if (c1 > p.col) c1 = p.col;
             }
             int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
+            // 3. Clouds only appear in rectangular or square areas. Furthermore, their
+            // width and height is always at least two tiles wide.
             if (!(rs >= 2 && cs >= 2 && rs * cs == nodeList.size())) {
                 isSolved = false;
                 return;

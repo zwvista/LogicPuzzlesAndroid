@@ -45,6 +45,7 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
 
     public boolean switchBridges(BridgesGameMove move) {
         Position pFrom = move.pFrom, pTo = move.pTo;
+        // 4. Bridges can only run horizontally or vertically.
         if (!(pFrom.compareTo(pTo) < 0 && (pFrom.row == pTo.row || pFrom.col == pTo.col))) return false;
         BridgesObject o11 = get(pFrom), o22 = get(pTo);
         if (!(o11 instanceof BridgesIslandObject && o22 instanceof BridgesIslandObject)) return false;
@@ -55,6 +56,7 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
         for (Position p = pFrom.add(os); !p.equals(pTo); p.addBy(os))
             switch (o1.bridges[n1]) {
             case 0:
+                // 4. Bridges can't cross each other.
                 BridgesObject o = get(p);
                 if (!(o instanceof BridgesEmptyObject)) return false;
                 set(p, new BridgesBridgeObject());
@@ -63,6 +65,8 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
                 set(p, new BridgesEmptyObject());
                 break;
             }
+        // 5. Lastly, you can connect two islands with either one or two Bridges
+        // (or none, of course)
         int n = (o1.bridges[n1] + 1) % 3;
         o1.bridges[n1] = o2.bridges[n2] = n;
         updateIsSolved();
@@ -90,6 +94,8 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
         isSolved = true;
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
+        // 3. The number on each island tells you how many Bridges are touching
+        // that island.
         for (Map.Entry<Position, BridgesIslandInfo> entry : game.islandsInfo.entrySet()) {
             Position p = entry.getKey();
             BridgesIslandInfo info = entry.getValue();
@@ -112,6 +118,8 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
+        // 2. You must connect all the islands with Bridges, making sure every
+        // island is connected to each other with a Bridges path.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();

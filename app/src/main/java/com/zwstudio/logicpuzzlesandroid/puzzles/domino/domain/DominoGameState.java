@@ -118,6 +118,8 @@ public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, 
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             if (area.size() != 2) {isSolved = false; return;}
             List<Integer> domino = iterableList(area).map(p -> game.pos2hint.get(p)).sort(Ord.intOrd).toJavaList();
+            // 2. In early levels the board contains a smaller Domino set, of numbers ranging from 0 to 3.
+            // 3. This means you will be looking for a Domino set composed of these combinations.
             if (dominoes.contains(domino)) {isSolved = false; return;}
             dominoes.add(domino);
             for (Position p : area)

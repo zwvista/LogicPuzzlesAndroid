@@ -120,11 +120,16 @@ public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotG
                 g.connectNode(node, node2);
             }
         }
+        // 2. More exactly, you have to join the existing flowers by adding more of
+        // them, creating a single path of flowers touching horizontally or
+        // vertically.
         g.setRootNode(fromMap(pos2node).values().head());
         List<Node> nodeList = g.bfs();
         if (nodeList.size() != pos2node.size()) isSolved = false;
 
         List<Position> trees = new ArrayList<>();
+        // 3. At the same time, you can't line up horizontally or vertically more
+        // than 3 flowers (thus Forbidden Four).
         F0<Boolean> areTreesInvalid = () -> {
             return trees.size() > 3;
         };

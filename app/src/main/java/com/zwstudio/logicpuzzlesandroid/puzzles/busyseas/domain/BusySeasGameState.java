@@ -94,10 +94,13 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
                 BusySeasObject o = get(r, c);
                 if (o instanceof BusySeasLighthouseObject) {
                     BusySeasLighthouseObject o2 = (BusySeasLighthouseObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && hasLightedBoat.f() ?
+                    AllowedObjectState s = o2.state == AllowedObjectState.Normal && hasLightedBoat.f() ?
                             AllowedObjectState.Normal : AllowedObjectState.Error;
+                    o2.state = s;
+                    if (s == AllowedObjectState.Error) isSolved = false;
                 }
             }
+        // 3. A lighthouse lights all the tiles horizontally and vertically.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -107,6 +110,7 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
                 Position os = BusySeasGame.offset[i];
                 for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
                     BusySeasObject o2 = get(p2);
+                    // 3. A lighthouse's light is stopped by the first boat it meets.
                     if (o2 instanceof BusySeasHintObject) continue next;
                     if (o2 instanceof BusySeasEmptyObject)
                         rng.add(p2.plus());
@@ -115,6 +119,7 @@ public class BusySeasGameState extends CellsGameState<BusySeasGame, BusySeasGame
                 }
             }
             int n1 = nums[0] + nums[1] + nums[2] + nums[3];
+            // 2. Each boat has a number on it that tells you how many lighthouses are lighting it.
             HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             pos2state.put(p, s);
             if (s != HintState.Complete)

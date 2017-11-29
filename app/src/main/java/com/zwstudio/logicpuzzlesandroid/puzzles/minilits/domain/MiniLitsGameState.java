@@ -10,6 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -165,7 +166,7 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
                 }
             if (treeCount > 3 || treeCount == 3 && info.blockIndexes.size() > 1) notSolved.f(info);
             if (treeCount == 3 && info.blockIndexes.size() == 1) {
-                info.trees.sort(Position::compareTo);
+                Collections.sort(info.trees, Position::compareTo);
                 List<Position> treeOffsets = new ArrayList<>();
                 Position p2 = new Position(iterableList(info.trees).map(p -> p.row).minimum(Ord.intOrd),
                         iterableList(info.trees).map(p -> p.col).minimum(Ord.intOrd));

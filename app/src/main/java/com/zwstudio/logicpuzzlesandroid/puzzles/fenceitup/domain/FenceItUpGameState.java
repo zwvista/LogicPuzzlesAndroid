@@ -116,7 +116,8 @@ public class FenceItUpGameState extends CellsGameState<FenceItUpGame, FenceItUpG
             }
             Position p2 = rng.get(0);
             int n1 = 0, n2 = game.pos2hint.get(p2);
-            int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
+            // 2. Each area must contain one number and the number tells you the length
+            // of the perimeter of the area.
             for (Position p : area)
                 for (int i = 0; i < 4; i++)
                     if (get(p.add(FenceItUpGame.offset2[i]))[FenceItUpGame.dirs[i]] == GridLineObject.Line)

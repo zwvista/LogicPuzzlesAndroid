@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,8 @@ public class FenceLitsGameState extends CellsGameState<FenceLitsGame, FenceLitsG
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 2. The number in a cell tells you how many of the sides are marked
+        // (like slitherlink).
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -118,13 +121,14 @@ public class FenceLitsGameState extends CellsGameState<FenceLitsGame, FenceLitsG
                         g.connectNode(pos2node.get(p), pos2node.get(p.add(FenceLitsGame.offset[i])));
             }
         if (!isSolved) return;
-        List<List<Integer>> fencelitses = new ArrayList<>();
+        // 1. The goal is to divide the board into Tetris pieces, including the
+        // square one (differently from LITS).
         while (!pos2node.isEmpty()) {
             g.setRootNode(fromMap(pos2node).values().head());
             List<Node> nodeList = g.bfs();
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             if (area.size() != 4) {isSolved = false; return;}
-            area.sort(Position::compareTo);
+            Collections.sort(area, Position::compareTo);
             List<Position> treeOffsets = new ArrayList<>();
             Position p2 = new Position(iterableList(area).map(p -> p.row).minimum(Ord.intOrd),
                     iterableList(area).map(p -> p.col).minimum(Ord.intOrd));

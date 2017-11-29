@@ -111,7 +111,9 @@ public class BoxItAgainGameState extends CellsGameState<BoxItAgainGame, BoxItAga
             for (Position p : area)
                 pos2node.remove(p);
             List<Position> rng = iterableList(area).filter(p -> game.pos2hint.containsKey(p)).toJavaList();
+            // 3. Some tiles can be left unboxed, the board isn't entirely covered by boxes.
             if (rng.size() == 0) continue;
+            // 2. Each Box must contain one number.
             if (rng.size() != 1) {
                 for (Position p : rng)
                     pos2state.put(p, HintState.Normal);
@@ -137,6 +139,8 @@ public class BoxItAgainGameState extends CellsGameState<BoxItAgainGame, BoxItAga
                     }
                 return false;
             };
+            // 1. Just like Box It Up, you have to divide the Board in Boxes (Rectangles).
+            // 2. The number represents the area of that Box.
             HintState s = rs * cs == n1 && rs * cs == n2 && !hasLine.f() ? HintState.Complete : HintState.Error;
             pos2state.put(p2, s);
             if (s != HintState.Complete) isSolved = false;
