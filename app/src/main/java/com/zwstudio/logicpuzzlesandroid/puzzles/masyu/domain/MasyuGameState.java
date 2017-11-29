@@ -86,6 +86,7 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                         dirs.add(i);
                 switch (dirs.size()) {
                 case 0:
+                    // 1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
                     if (ch != ' ') {isSolved = false; return;}
                     break;
                 case 2:
@@ -95,14 +96,18 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                     pos2Dirs.put(p, dirs);
                     switch (ch) {
                     case 'B':
+                        // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
                         if (dirs.get(1) - dirs.get(0) == 2) {isSolved = false; return;}
                         break;
                     case 'W':
+                        // 3. Lines passing through White Pearls must go straight through them.
                         if (dirs.get(1) - dirs.get(0) != 2) {isSolved = false; return;}
                         break;
                     }
                     break;
                 default:
+                    // 1. The goal is to draw a single Loop(Necklace)
+                    // that never branches-off or crosses itself.
                     isSolved = false; return;
                 }
             }
@@ -120,11 +125,15 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
                 List<Integer> dirs2 = pos2Dirs.get(p2);
                 switch (ch) {
                     case 'B':
+                        // 4. Lines passing through Black Pearls must go straight
+                        // in the next tile in both directions.
                         if (!((i == 0 || i == 2) && dirs2.get(0) == 0 && dirs2.get(1) == 2 ||
                                 (i == 1 || i == 3) && dirs2.get(0) == 1 && dirs2.get(1) == 3))
                         {isSolved = false; return;}
                         break;
                     case 'W':
+                        // 3. At least at one side of the White Pearl(or both),
+                        // Lines passing through White Pearls must do a 90 degree turn.
                         int n1 = (i + 1) % 4, n2 = (i + 3) % 4;
                         if (dirs2.get(0) == n1 || dirs2.get(0) == n2 || dirs2.get(1) == n1 || dirs2.get(1) == n2)
                             bW = true;
@@ -135,6 +144,7 @@ public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, Mas
             }
             if (!bW ) {isSolved = false; return;}
         }
+        // 1. The goal is to draw a single Loop(Necklace).
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();

@@ -84,12 +84,15 @@ public class MathraxGameState extends CellsGameState<MathraxGame, MathraxGameMov
         F<List<Integer>, HintState> f = nums -> {
             int size = nums.size();
             List<Integer> nums2 = iterableSet(Ord.intOrd, nums).toJavaList();
+            // 1. The goal is to input numbers 1 to N, where N is the board size.
             HintState s = nums2.get(0) == 0 ? HintState.Normal :
                     nums2.size() == size ? HintState.Complete : HintState.Error;
             if (s != HintState.Complete) isSolved = false;
             return s;
         };
+        // 2. A number must appear once for every row.
         range(0, rows()).foreachDoEffect(r -> row2state[r] = f.f(range(0, cols()).map(c -> get(r, c)).toJavaList()));
+        // 2. A number must appear once for every column.
         range(0, cols()).foreachDoEffect(c -> col2state[c] = f.f(range(0, rows()).map(r -> get(r, c)).toJavaList()));
         for (Map.Entry<Position, MathraxHint> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
@@ -98,6 +101,8 @@ public class MathraxGameState extends CellsGameState<MathraxGame, MathraxGameMov
                 if (n1 == 0 || n2 == 0) return HintState.Normal;
                 int n = h.result;
                 switch (h.op) {
+                // 3. The tiny numbers and sign in the intersections tell you the result of
+                // the operation between the two opposite diagonal tiles.
                 case '+':
                     return n1 + n2 == n ? HintState.Complete : HintState.Error;
                 case '-':
@@ -106,6 +111,8 @@ public class MathraxGameState extends CellsGameState<MathraxGame, MathraxGameMov
                     return n1 * n2 == n ? HintState.Complete : HintState.Error;
                 case '/':
                     return n1 / n2 * n2 == n * n2 || n2 / n1 * n1 == n * n1 ? HintState.Complete : HintState.Error;
+                // 4. In some puzzles, there will be 'E' or 'O' as hint. This means that all
+                // four tiles are either (E)ven or (O)dd numbers.
                 case 'O':
                     return n1 % 2 == 1 && n2 % 2 == 1 ? HintState.Complete : HintState.Error;
                 case 'E':
@@ -114,6 +121,7 @@ public class MathraxGameState extends CellsGameState<MathraxGame, MathraxGameMov
                 return HintState.Normal;
             };
             List<Integer> nums = array(MathraxGame.offset2).map(os -> get(p.add(os))).toJavaList();
+            // 3. This is valid for both pairs of numbers surrounding the hint.
             HintState s1 = g.f(nums.get(0), nums.get(1)), s2 = g.f(nums.get(2), nums.get(3));
             HintState s = s1 == HintState.Error || s2 == HintState.Error ? HintState.Error :
                     s1 == HintState.Complete && s2 == HintState.Complete ? HintState.Complete : HintState.Normal;

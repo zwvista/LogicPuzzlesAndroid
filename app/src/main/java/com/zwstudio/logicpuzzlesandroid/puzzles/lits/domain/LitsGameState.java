@@ -88,6 +88,22 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 12/Lits
+
+        Summary
+        Tetris without the fat guy
+
+        Description
+        1. You play the game with all the Tetris pieces, except the square one.
+        2. So in other words you use pieces of four squares (tetrominoes) in the
+           shape of L, I, T and S, which can also be rotated or reflected (mirrored).
+        3. The board is divided into many areas. You have to place a tetromino
+           into each area respecting these rules:
+        4. No two adjacent (touching horizontally / vertically) tetromino should
+           be of equal shape, even counting rotations or reflections.
+        5. All the shaded cells should form a valid Nurikabe (hence no fat guy).
+    */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -125,6 +141,7 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
             for (Position p : block)
                 pos2node.remove(p);
         }
+        // 5. All the shaded cells should form a valid Nurikabe.
         if (blocks.size() != 1) isSolved = false;
         List<LitsAreaInfo> infos = new ArrayList<>();
         for (int i = 0; i < game.areas.size(); i++)
@@ -165,6 +182,8 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
                         set(p, new LitsForbiddenObject());
                 }
             if (treeCount > 4 || treeCount == 4 && info.blockIndexes.size() > 1) notSolved.f(info);
+            // 3. The board is divided into many areas. You have to place a tetromino
+            // into each area.
             if (treeCount == 4 && info.blockIndexes.size() == 1) {
                 Collections.sort(info.trees, Position::compareTo);
                 List<Position> treeOffsets = new ArrayList<>();
@@ -178,6 +197,8 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
             }
             if (treeCount < 4) isSolved = false;
         }
+        // 4. No two adjacent (touching horizontally / vertically) tetromino should
+        // be of equal shape, even counting rotations or reflections.
         for (int i = 0; i < infos.size(); i++) {
             LitsAreaInfo info = infos.get(i);
             int index = info.tetrominoIndex;
@@ -186,8 +207,8 @@ public class LitsGameState extends CellsGameState<LitsGame, LitsGameMove, LitsGa
         }
         if (!isSolved) return;
         List<Position> block = blocks.get(0);
-        rule2x2:
-        for (Position p : block) {
+        // 5. All the shaded cells should form a valid Nurikabe.
+        rule2x2: for (Position p : block) {
             for (Position os : LitsGame.offset3)
                 if (block.contains(p.add(os)))
                     continue rule2x2;

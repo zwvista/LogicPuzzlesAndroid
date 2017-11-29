@@ -95,15 +95,15 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 7. The wall can't form 2*2 squares.
         for (int r = 0; r < rows() - 1; r++)
-            rule2x2:
-                    for (int c = 0; c < cols() - 1; c++) {
-                        Position p = new Position(r, c);
-                        for (Position os : NurikabeGame.offset2)
-                            if (!(get(p.add(os)) instanceof NurikabeWallObject))
-                                continue rule2x2;
-                        isSolved = false;
-                    }
+            rule2x2: for (int c = 0; c < cols() - 1; c++) {
+                Position p = new Position(r, c);
+                for (Position os : NurikabeGame.offset2)
+                    if (!(get(p.add(os)) instanceof NurikabeWallObject))
+                        continue rule2x2;
+                isSolved = false;
+            }
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         List<Position> rngWalls = new ArrayList<>();
@@ -134,6 +134,9 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
         if (rngWalls.isEmpty())
             isSolved = false;
         else {
+            // 3. The garden is separated by a single continuous wall. This means all
+            // wall tiles on the board must be connected horizontally or vertically.
+            // There can't be isolated walls.
             g.setRootNode(pos2node.get(rngWalls.get(0)));
             List<Node> nodeList = g.bfs();
             if (rngWalls.size() != nodeList.size()) isSolved = false;
@@ -150,10 +153,14 @@ public class NurikabeGameState extends CellsGameState<NurikabeGame, NurikabeGame
                     rng.add(p.plus());
             switch (rng.size()) {
             case 0:
+                // 5. All the gardens in the puzzle are numbered at the start, there are no
+                // hidden gardens.
                 isSolved = false;
                 break;
             case 1:
             {
+                // 1. Each number on the grid indicates a garden, occupying as many tiles
+                // as the number itself.
                 Position p = rng.get(0);
                 int n1 = game.pos2hint.get(p);
                 HintState s = n1 == n2 ? HintState.Complete : HintState.Error;

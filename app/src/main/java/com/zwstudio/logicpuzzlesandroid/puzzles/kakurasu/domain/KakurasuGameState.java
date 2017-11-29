@@ -91,10 +91,15 @@ public class KakurasuGameState extends CellsGameState<KakurasuGame, KakurasuGame
                 if (get(r, c) == KakurasuObject.Forbidden)
                     set(r, c, KakurasuObject.Empty);
         for (int r = 1; r < rows() - 1; r++) {
+            // 1. On the bottom and right border, you see the value of (respectively)
+            // the rows.
             int n1 = 0, n2 = game.row2hint[r * 2];
             for (int c = 1; c < cols() - 1; c++)
                 if (get(r, c) == KakurasuObject.Cloud)
+                    // 2. On the other borders, on the top and the left, you see the hints about
+                    // which tile have to be filled on the board.
                     n1 += game.col2hint[c * 2 + 1];
+            // 2. These numbers represent the sum of the values mentioned above.
             HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             row2state[r * 2] = s;
             if (s != HintState.Complete) isSolved = false;
@@ -105,10 +110,15 @@ public class KakurasuGameState extends CellsGameState<KakurasuGame, KakurasuGame
                     }
         }
         for (int c = 1; c < cols() - 1; c++) {
+            // 1. On the bottom and right border, you see the value of (respectively)
+            // the columns.
             int n1 = 0, n2 = game.col2hint[c * 2];
             for (int r = 1; r < rows() - 1; r++)
                 if (get(r, c) == KakurasuObject.Cloud)
+                    // 2. On the other borders, on the top and the left, you see the hints about
+                    // which tile have to be filled on the board.
                     n1 += game.row2hint[r * 2 + 1];
+            // 2. These numbers represent the sum of the values mentioned above.
             HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             col2state[c * 2] = s;
             if (s != HintState.Complete) isSolved = false;

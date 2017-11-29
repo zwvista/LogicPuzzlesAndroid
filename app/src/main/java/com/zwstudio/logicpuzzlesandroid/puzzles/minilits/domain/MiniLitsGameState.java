@@ -88,6 +88,20 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 14/Mini-Lits
+
+        Summary
+        Lits Jr.
+
+        Description
+        1. You play the game with triominos (pieces of three squares).
+        2. The board is divided into many areas. You have to place a triomino
+           into each area respecting these rules:
+        3. No two adjacent (touching horizontally / vertically) triominos should
+           be of equal shape & orientation.
+        4. All the shaded cells should form a valid Nurikabe.
+    */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -125,6 +139,7 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
             for (Position p : block)
                 pos2node.remove(p);
         }
+        // 4. All the shaded cells should form a valid Nurikabe.
         if (blocks.size() != 1) isSolved = false;
         List<MiniLitsAreaInfo> infos = new ArrayList<>();
         for (int i = 0; i < game.areas.size(); i++)
@@ -165,6 +180,8 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
                         set(p, new MiniLitsForbiddenObject());
                 }
             if (treeCount > 3 || treeCount == 3 && info.blockIndexes.size() > 1) notSolved.f(info);
+            // 2. The board is divided into many areas. You have to place a triomino
+            // into each area.
             if (treeCount == 3 && info.blockIndexes.size() == 1) {
                 Collections.sort(info.trees, Position::compareTo);
                 List<Position> treeOffsets = new ArrayList<>();
@@ -178,6 +195,8 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
             }
             if (treeCount < 3) isSolved = false;
         }
+        // 3. No two adjacent (touching horizontally / vertically) triominos should
+        // be of equal shape & orientation.
         for (int i = 0; i < infos.size(); i++) {
             MiniLitsAreaInfo info = infos.get(i);
             int index = info.tetrominoIndex;
@@ -185,9 +204,9 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
             if (iterableList(info.neighborIndexes).exists(j -> infos.get(j).tetrominoIndex == index)) notSolved.f(info);
         }
         if (!isSolved) return;
+        // 4. All the shaded cells should form a valid Nurikabe.
         List<Position> block = blocks.get(0);
-        rule2x2:
-        for (Position p : block) {
+        rule2x2: for (Position p : block) {
             for (Position os : MiniLitsGame.offset3)
                 if (block.contains(p.add(os)))
                     continue rule2x2;

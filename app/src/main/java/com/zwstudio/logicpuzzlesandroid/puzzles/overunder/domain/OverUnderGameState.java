@@ -119,6 +119,7 @@ public class OverUnderGameState extends CellsGameState<OverUnderGame, OverUnderG
         }
         for (List<Position> area : areas) {
             List<Position> rng = iterableList(area).filter(p -> game.pos2hint.containsKey(p)).toJavaList();
+            // 2. Each region must contain two numbers.
             if (rng.size() != 2) {
                 for (Position p : rng)
                     pos2state.put(p, HintState.Normal);
@@ -129,6 +130,7 @@ public class OverUnderGameState extends CellsGameState<OverUnderGame, OverUnderG
             if (n2 > n3) {
                 int temp = n2; n2 = n3; n3 = temp;
             }
+            // 3. The region size must be between the two numbers.
             HintState s = n1 > n2 && n1 < n3 ? HintState.Complete : HintState.Error;
             pos2state.put(p2, s); pos2state.put(p3, s);
             if (s != HintState.Complete) isSolved = false;

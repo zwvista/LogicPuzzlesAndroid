@@ -101,6 +101,8 @@ public class MinesweeperGameState extends CellsGameState<MinesweeperGame, Minesw
                 else if (o instanceof MinesweeperEmptyObject)
                     rng.add(p2.plus());
             }
+            // 2. Numbers tell you how many mines there are close by, touching that
+            // number horizontally, vertically or diagonally.
             pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2)
                 isSolved = false;

@@ -69,28 +69,36 @@ public class NoughtsAndCrossesGameState extends CellsGameState<NoughtsAndCrosses
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 13/Robot Fences
+        iOS Game: Logic Games/Puzzle Set 16/Noughts & Crosses
 
         Summary
-        BZZZZliip ...cows?
+        Spot the Number
 
         Description
-        1. A bit like Robot Crosswords, you need to fill each region with a
-           randomly ordered sequence of numbers.
-        2. Numbers can only be in range 1 to N where N is the board size.
-        3. No same number can appear in the same row or column.
+        1. Place all numbers from 1 to N on each row and column - just once,
+           without repeating.
+        2. In other words, all numbers must appear just once on each row and column.
+        3. A circle marks where a number must go.
+        4. A cross marks where no number can go.
+        5. All other cells can contain a number or be empty.
     */
     private void updateIsSolved() {
         isSolved = true;
         F<List<Character>, HintState> f = nums -> {
+            // 4. A cross marks where no number can go.
+            // 5. All other cells can contain a number or be empty.
             List<Character> nums2 = iterableList(nums).filter(ch -> !" .X".contains(String.valueOf(ch))).toJavaList();
+            // 2. All numbers must appear just once.
             HintState s = nums2.size() == game.chMax - '0' &&
                     nums2.size() == new HashSet<Character>(nums2).size() ? HintState.Complete : HintState.Error;
             if (s != HintState.Complete) isSolved = false;
             return s;
         };
+        // 2. All numbers must appear just once on each row.
         range(0, rows()).foreachDoEffect(r -> row2state[r] = f.f(range(0, cols()).map(c -> get(r, c)).toJavaList()));
+        // 2. All numbers must appear just once on each column.
         range(0, cols()).foreachDoEffect(c -> col2state[c] = f.f(range(0, rows()).map(r -> get(r, c)).toJavaList()));
+        // 3. A circle marks where a number must go.
         for (Position p : game.noughts) {
             char ch = get(p);
             HintState s = ch == ' ' || ch == '.' ? HintState.Normal : HintState.Complete;

@@ -86,15 +86,15 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
     */
     private void updateIsSolved() {
         isSolved = true;
+        // The wall can't form 2*2 squares.
         for (int r = 0; r < rows() - 1; r++)
-            rule2x2:
-                    for (int c = 0; c < cols() - 1; c++) {
-                        Position p = new Position(r, c);
-                        for (Position os : PairakabeGame.offset2)
-                            if (!(get(p.add(os)) instanceof PairakabeWallObject))
-                                continue rule2x2;
-                        isSolved = false;
-                    }
+            rule2x2: for (int c = 0; c < cols() - 1; c++) {
+                Position p = new Position(r, c);
+                for (Position os : PairakabeGame.offset2)
+                    if (!(get(p.add(os)) instanceof PairakabeWallObject))
+                        continue rule2x2;
+                isSolved = false;
+            }
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         List<Position> rngWalls = new ArrayList<>();
@@ -125,6 +125,9 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
         if (rngWalls.isEmpty())
             isSolved = false;
         else {
+            // The garden is separated by a single continuous wall. This means all
+            // wall tiles on the board must be connected horizontally or vertically.
+            // There can't be isolated walls.
             g.setRootNode(pos2node.get(rngWalls.get(0)));
             List<Node> nodeList = g.bfs();
             if (rngWalls.size() != nodeList.size()) isSolved = false;
@@ -141,12 +144,16 @@ public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeG
                     rng.add(p.plus());
             switch (rng.size()) {
             case 0:
+                // All the gardens in the puzzle are numbered at the start, there are no
+                // hidden gardens.
                 isSolved = false;
                 break;
             case 1:
                 ((PairakabeHintObject) get(rng.get(0))).state = HintState.Error;
                 break;
             case 2:
+                // 2. Instead of just one number, each 'garden' contains two numbers and
+                // the area of the garden is given by the sum of both.
                 Position p1 = rng.get(0), p2 = rng.get(1);
                 int n1 = game.pos2hint.get(p1) + game.pos2hint.get(p2);
                 HintState s = n1 == n2 ? HintState.Complete : HintState.Error;

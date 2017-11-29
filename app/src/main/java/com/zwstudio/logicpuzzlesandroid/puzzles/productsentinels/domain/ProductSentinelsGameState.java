@@ -75,6 +75,25 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
         return setObject(move);
     }
 
+    /*
+       iOS Game: Logic Games/Puzzle Set 11/Product Sentinels
+
+       Summary
+       Multiplicative Towers
+
+       Description
+       1. On the Board there are a few sentinels. These sentinels are marked with
+          a number.
+       2. The number tells you the product of the tiles that Sentinel can control
+          (see) from there vertically and horizontally. This includes the tile
+          where he is located.
+       3. You must put Towers on the Boards in accordance with these hints, keeping
+          in mind that a Tower blocks the Sentinel View.
+       4. The restrictions are that there must be a single continuous Garden, and
+          two Towers can't touch horizontally or vertically.
+       5. Towers can't go over numbered squares. But numbered squares don't block
+          Sentinel View.
+   */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -100,6 +119,7 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
+        // 4. two Towers can't touch horizontally or vertically.
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
@@ -120,6 +140,9 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
                         allowedObjectsOnly && hasNeighbor.f())
                     set(r, c, new ProductSentinelsForbiddenObject());
             }
+        // 2. The number tells you the product of the tiles that Sentinel can control
+        // (see) from there vertically and horizontally. This includes the tile
+        // where he is located.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -144,6 +167,7 @@ public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGa
                     set(p2, new ProductSentinelsForbiddenObject());
         }
         if (!isSolved) return;
+        // 4. There must be a single continuous Garden
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();

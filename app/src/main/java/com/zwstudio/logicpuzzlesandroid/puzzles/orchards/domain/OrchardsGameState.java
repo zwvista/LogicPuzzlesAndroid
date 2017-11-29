@@ -116,7 +116,11 @@ public class OrchardsGameState extends CellsGameState<OrchardsGame, OrchardsGame
             g.setRootNode(fromMap(pos2node).values().head());
             List<Node> nodeList = g.bfs();
             List<Position> trees = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
+            // 2. These are Apple Trees, which must cross-pollinate, thus must be planted
+            // in pairs - horizontally or vertically touching.
             if (trees.size() != 2) isSolved = false;
+            // 3. A Tree must be touching just one other Tree: you can't put three or
+            // more contiguous Trees.
             if (trees.size() > 2)
                 for (Position p : trees) {
                     OrchardsTreeObject o = (OrchardsTreeObject) get(p);
@@ -132,6 +136,8 @@ public class OrchardsGameState extends CellsGameState<OrchardsGame, OrchardsGame
                 if (get(p) instanceof OrchardsTreeObject)
                     trees.add(p);
             int n1 = trees.size();
+            // 4. At the same time, like in Parks, every country area must have exactly
+            // two Trees in it.
             if (n1 != n2) isSolved = false;
             for (Position p : a) {
                 OrchardsObject o = get(p);

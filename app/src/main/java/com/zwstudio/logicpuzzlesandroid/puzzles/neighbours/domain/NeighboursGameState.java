@@ -149,11 +149,15 @@ public class NeighboursGameState extends CellsGameState<NeighboursGame, Neighbou
                         Position p2 = p.add(NeighboursGame.offset[i]);
                         Integer idx2 = pos2area.get(p2);
                         if (idx2 == null) continue;
-                        if (idx == idx2) return -1;
+                        if (idx.equals(idx2)) return -1;
                         indexes.add(idx2);
                     }
                 return indexes.size();
             };
+            // 3. Each number on the board represents an owner house and the number of
+            // neighbours he desires.
+            // 4. Divide the land so that each one has an equal number of squares and
+            // the requested number of neighbours.
             HintState s = n1 == n2 && n3 == neighbours.f() ? HintState.Complete : HintState.Error;
             pos2state.put(p3, s);
             if (s != HintState.Complete) isSolved = false;

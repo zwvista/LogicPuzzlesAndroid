@@ -89,6 +89,8 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 3. The number on the board tells you how many positive and negative poles
+        // you can see from there in a straight line.
         for (int r = 0; r < rows(); r++) {
             int np1 = 0, np2 = game.row2hint[r * 2];
             int nn1 = 0, nn2 = game.row2hint[r * 2 + 1];
@@ -105,6 +107,8 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
             row2state[r * 2 + 1] = nn1 < nn2 ? HintState.Normal : nn1 == nn2 ? HintState.Complete : HintState.Error;
             if (np1 != np2 || nn1 != nn2) isSolved = false;
         }
+        // 3. The number on the board tells you how many positive and negative poles
+        // you can see from there in a straight line.
         for (int c = 0; c < cols(); c++) {
             int np1 = 0, np2 = game.col2hint[c * 2];
             int nn1 = 0, nn2 = game.col2hint[c * 2 + 1];
@@ -122,6 +126,7 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
             if (np1 != np2 || nn1 != nn2) isSolved = false;
         }
         if (!isSolved) return;
+        // 2. Every rectangle can either contain a Magnet or be empty.
         for (MagnetsArea a : game.areas)
             switch (a.type) {
                 case Single:
@@ -136,6 +141,9 @@ public class MagnetsGameState extends CellsGameState<MagnetsGame, MagnetsGameMov
                     }
                     break;
             }
+        // 1. Each Magnet has a positive(+) and a negative(-) pole.
+        // 4. When placing a Magnet, you have to respect the rule that the same pole
+        // (+ and + / - and -) can't be adjacent horizontally or vertically.
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);

@@ -98,6 +98,8 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
                 if (!isValid(p2)) continue;
                 if (get(p2) == MosaikObject.Filled) n1++;
             }
+            // 2. A number tells you how many tiles must be filled in the 3*3 area formed
+            // by the tile itself and the ones surrounding it.
             pos2state.put(p, n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error);
             if (n1 != n2) isSolved = false;
         }
