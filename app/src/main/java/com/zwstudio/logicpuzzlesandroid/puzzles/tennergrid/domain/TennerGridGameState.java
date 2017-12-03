@@ -5,9 +5,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import static fj.Ord.intOrd;
+import static fj.data.List.range;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -68,6 +70,18 @@ public class TennerGridGameState extends CellsGameState<TennerGridGame, TennerGr
     */
     private void updateIsSolved() {
         isSolved = true;
+        for (int r = 0; r < rows() - 1; r++) {
+            int r2 = r;
+            List<Integer> cs = range(0, cols()).groupBy(c -> get(r2, c), intOrd).toStream()
+                    .filter(kv -> kv._1() != -1 && kv._2().length() > 1)
+                    .bind(kv -> kv._2().toStream()).toJavaList();
+            // 3. Obviously digits can't repeat on the same row.
+            if (!cs.isEmpty()) isSolved = false;
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                pos2state.put(p, cs.contains(c) ? HintState.Error : HintState.Normal);
+            }
+        }
         for (int c = 0; c < cols(); c++) {
             int h = get(rows() - 1, c), n = 0;
             boolean isDirty = false, allFixed = true;
@@ -85,25 +99,6 @@ public class TennerGridGameState extends CellsGameState<TennerGridGame, TennerGr
             HintState s = !isDirty && !allFixed ? HintState.Normal : n == h ? HintState.Complete : HintState.Error;
             pos2state.put(new Position(rows() - 1, c), s);
             if (s != HintState.Complete) isSolved = false;
-        }
-        for (int r = 0; r < rows() - 1; r++) {
-            Set<Integer> nums = new HashSet<>();
-            HintState rowState = HintState.Complete;
-            for (int c = 0; c < cols(); c++) {
-                int o1 = game.get(r, c), o2 = get(r, c);
-                if (o1 == -1 && o2 == -1) rowState = HintState.Normal;
-                if (o2 != -1) nums.add(o2);
-            }
-            if (nums.size() != cols()) {
-                isSolved = false;
-                if (rowState == HintState.Complete) rowState = HintState.Error;
-            }
-            for (int c = 0; c < cols(); c++) {
-                Position p = new Position(r, c);
-                int o1 = game.get(r, c), o2 = get(r, c);
-                if (o1 == -1 && o2 != -1)
-                    pos2state.put(p, rowState);
-            }
         }
     }
 }

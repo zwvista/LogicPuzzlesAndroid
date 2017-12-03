@@ -97,6 +97,8 @@ public class PataGameState extends CellsGameState<PataGame, PataGameMove, PataGa
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 2. A number indicates the groups of connected empty tiles that are around
+        // it, instead of filled ones.
         F<List<Integer>, List<Integer>> computeHint = emptied -> {
             List<Integer> hint = new ArrayList<>();
             if (emptied.isEmpty())
@@ -147,6 +149,7 @@ public class PataGameState extends CellsGameState<PataGame, PataGameMove, PataGa
             if (s != HintState.Complete) isSolved = false;
         });
         if (!isSolved) return;
+        // 6. You can't have a 2*2 space of filled tiles.
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
@@ -175,6 +178,7 @@ public class PataGameState extends CellsGameState<PataGame, PataGameMove, PataGa
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
+        // 5. The filled tiles are continuous.
         g.setRootNode(pos2node.get(rngWalls.get(0)));
         List<Node> nodeList = g.bfs();
         if (rngWalls.size() != nodeList.size()) isSolved = false;

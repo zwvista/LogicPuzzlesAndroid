@@ -6,6 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame;
+import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.TapAlikeWallObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +25,7 @@ import fj.function.Integers;
 import static fj.data.Array.array;
 import static fj.data.Array.iterableArray;
 import static fj.data.HashMap.fromMap;
+import static fj.data.List.iterableList;
 
 /**
  * Created by zwvista on 2016/09/29.
@@ -96,6 +99,9 @@ public class TapARowGameState extends CellsGameState<TapARowGame, TapARowGameMov
     */
     private void updateIsSolved() {
         isSolved = true;
+        // A number indicates how many of the surrounding tiles are filled. If a
+        // tile has more than one number, it hints at multiple separated groups
+        // of filled tiles.
         F<List<Integer>, List<Integer>> computeHint = filled -> {
             List<Integer> hint = new ArrayList<>();
             if (filled.isEmpty())
@@ -139,6 +145,8 @@ public class TapARowGameState extends CellsGameState<TapARowGame, TapARowGameMov
             if (s != HintState.Complete) isSolved = false;
         });
         if (!isSolved) return;
+        // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
+        // Tiles with numbers can be considered 'empty'.
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
@@ -155,21 +163,29 @@ public class TapARowGameState extends CellsGameState<TapARowGame, TapARowGameMov
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
-                Node node = new Node(p.toString());
-                g.addNode(node);
-                pos2node.put(p, node);
-                if (get(p) instanceof TapARowWallObject)
-                    rngWalls.add(p);
+                if (get(p) instanceof TapARowWallObject) {
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
+                }
             }
-        for (Position p : rngWalls)
-            for (Position os : TapARowGame.offset) {
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
+            Position p = entry.getKey();
+            Node node = entry.getValue();
+            for (Position os : TapaGame.offset) {
                 Position p2 = p.add(os);
-                if (rngWalls.contains(p2))
-                    g.connectNode(pos2node.get(p), pos2node.get(p2));
+                Node node2 = pos2node.get(p2);
+                if (node2 != null) g.connectNode(node, node2);
             }
-        g.setRootNode(pos2node.get(rngWalls.get(0)));
+        }
+        // The goal is to fill some tiles forming a single orthogonally continuous
+        // path. Just like Nurikabe.
+        g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
-        if (rngWalls.size() != nodeList.size()) {isSolved = false; return;}
+        if (nodeList.size() != pos2node.size()) isSolved = false;
+        // 2. The number also tells you the filled cell count for that row.
+        // 3. In other words, the sum of the digits in that row equals the number
+        // of that row.
         for (int r = 0; r < rows(); r++) {
             int n1 = 0, n2 = 0;
             for (int c = 0; c < cols(); c++) {

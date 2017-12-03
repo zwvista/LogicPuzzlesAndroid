@@ -97,6 +97,9 @@ public class TapaIslandsGameState extends CellsGameState<TapaIslandsGame, TapaIs
     */
     private void updateIsSolved() {
         isSolved = true;
+        // A number indicates how many of the surrounding tiles are filled. If a
+        // tile has more than one number, it hints at multiple separated groups
+        // of filled tiles.
         F<List<Integer>, List<Integer>> computeHint = filled -> {
             List<Integer> hint = new ArrayList<>();
             if (filled.isEmpty())
@@ -140,6 +143,8 @@ public class TapaIslandsGameState extends CellsGameState<TapaIslandsGame, TapaIs
             if (s != HintState.Complete) isSolved = false;
         });
         if (!isSolved) return;
+        // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
+        // Tiles with numbers can be considered 'empty'.
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
@@ -179,6 +184,8 @@ public class TapaIslandsGameState extends CellsGameState<TapaIslandsGame, TapaIs
             }
         if (rngWalls.isEmpty()) {isSolved = false; return;}
         {
+            // The goal is to fill some tiles forming a single orthogonally continuous
+            // path. Just like Nurikabe.
             g.setRootNode(pos2node.get(rngWalls.get(0)));
             List<Node> nodeList = g.bfs();
             if (rngWalls.size() != nodeList.size()) {isSolved = false; return;}
@@ -198,6 +205,9 @@ public class TapaIslandsGameState extends CellsGameState<TapaIslandsGame, TapaIs
                 break;
             case 1:
             {
+                // 3. Each separated area may contain at most one clue tile.
+                // 4. If there is a clue tile in an area, at least one digit should give the
+                // size of that area in unit squares.
                 Position p = rng.get(0);
                 List<Integer> arr2 = game.pos2hint.get(p);
                 HintState s = arr2.contains(n2) ? HintState.Complete : HintState.Error;
