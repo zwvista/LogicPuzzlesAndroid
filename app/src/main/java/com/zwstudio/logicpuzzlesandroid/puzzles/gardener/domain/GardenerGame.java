@@ -150,4 +150,8 @@ public class GardenerGame extends CellsGame<GardenerGame, GardenerGameMove, Gard
     public HintState pos2State(Position p) {
         return state().pos2state.get(p);
     }
+
+    public boolean invalidSpaces(Position p, boolean isHorz) {
+        return (isHorz ? state().invalidSpacesHorz : state().invalidSpacesVert).contains(p);
+    }
 }

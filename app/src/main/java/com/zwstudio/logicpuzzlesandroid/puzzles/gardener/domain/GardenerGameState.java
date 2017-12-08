@@ -14,15 +14,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fj.F;
 import fj.F0;
 import fj.P2;
-import fj.function.Effect0;
-import fj.function.Effect2;
+import fj.function.Effect1;
 
+import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
-import static fj.data.List.arrayList;
 import static fj.data.List.iterableList;
 
 /**
@@ -32,6 +32,8 @@ import static fj.data.List.iterableList;
 public class GardenerGameState extends CellsGameState<GardenerGame, GardenerGameMove, GardenerGameState> {
     public GardenerObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();
+    public Set<Position> invalidSpacesHorz = new HashSet<>();
+    public Set<Position> invalidSpacesVert = new HashSet<>();
 
     public GardenerGameState(GardenerGame game) {
         super(game);
@@ -105,17 +107,32 @@ public class GardenerGameState extends CellsGameState<GardenerGame, GardenerGame
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++)
+                if (get(r, c) instanceof GardenerForbiddenObject)
+                    set(r, c, new GardenerEmptyObject());
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 GardenerObject o = get(p);
-                if (o instanceof GardenerTreeObject)
-                    ((GardenerTreeObject)o).state = AllowedObjectState.Normal;
+                F0<Boolean> hasNeighbor = () -> {
+                    return array(GardenerGame.offset).exists(os -> {
+                        Position p2 = p.add(os);
+                        return isValid(p2) && get(p2) instanceof GardenerTreeObject;
+                    });
+                };
+                if (o instanceof GardenerTreeObject) {
+                    // 4. Flowers can't be horizontally or vertically touching.
+                    AllowedObjectState s = !hasNeighbor.f() ? AllowedObjectState.Normal : AllowedObjectState.Error;
+                    ((GardenerTreeObject)o).state = s;
+                    if (s == AllowedObjectState.Error) isSolved = false;
+                }
                 else {
-                    if (o instanceof GardenerForbiddenObject)
-                        set(p, new GardenerEmptyObject());
+                    // 4. Flowers can't be horizontally or vertically touching.
+                    if (!(o instanceof GardenerForbiddenObject) && allowedObjectsOnly && hasNeighbor.f())
+                        set(p, new GardenerForbiddenObject());
                     Node node = new Node(p.toString());
                     g.addNode(node);
                     pos2node.put(p, node);
@@ -130,10 +147,15 @@ public class GardenerGameState extends CellsGameState<GardenerGame, GardenerGame
                 if (node2 != null) g.connectNode(node, node2);
             }
         }
+        // 5. All the remaining Garden space where there are no Flowers must be
+        // interconnected (horizontally or vertically), as he wants to be able
+        // to reach every part of the Garden without treading over Flowers.
         g.setRootNode(fromMap(pos2node).values().head());
         List<Node> nodeList = g.bfs();
         if (nodeList.size() != pos2node.size()) isSolved = false;
 
+        // 3. A number tells you how many Flowers you must plant in that Flowerbed.
+        // A Flowerbed without number can have any quantity of Flowers.
         for (Map.Entry<Position, P2<Integer, Integer>> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue()._1();
@@ -154,55 +176,42 @@ public class GardenerGameState extends CellsGameState<GardenerGame, GardenerGame
                 }
         }
 
-        List<Position> trees = new ArrayList<>();
-        F0<Boolean> areTreesInvalid = () -> {
-            return new HashSet<Integer>(iterableList(trees).map(p -> game.pos2area.get(p)).toJavaList()).size() > 2;
-        };
-        Effect0 checkTrees = () -> {
-            if (areTreesInvalid.f()) {
+        List<Position> spaces = new ArrayList<>();
+        invalidSpacesHorz.clear();
+        invalidSpacesVert.clear();
+        // 6. Lastly, there must be enough balance in the Garden, so a straight
+        // line (horizontally or vertically) of non-planted tiles can't span
+        // for more than two Flowerbeds.
+        // 7. In other words, a straight path of empty space can't pass through
+        // three or more Flowerbeds.
+        Effect1<Boolean> checkSpaces = isHorz -> {
+            if (new HashSet<Integer>(iterableList(spaces).map(p -> game.pos2area.get(p)).toJavaList()).size() > 2) {
                 isSolved = false;
-                for (Position p : trees)
-                    ((GardenerTreeObject)get(p)).state = AllowedObjectState.Error;
+                (isHorz ? invalidSpacesHorz : invalidSpacesVert).addAll(spaces);
             }
-            trees.clear();
-        };
-        Effect2<Position, List<Integer>> checkForbidden = (p, indexes) -> {
-            if (!allowedObjectsOnly) return;
-            for (int i : indexes) {
-                Position os = GardenerGame.offset[i];
-                for (Position p2 = p.add(os); isValid(p2) && get(p2) instanceof GardenerTreeObject; p2.addBy(os))
-                    trees.add(p2);
-            }
-            if (areTreesInvalid.f()) set(p, new GardenerForbiddenObject());
-            trees.clear();
+            spaces.clear();
         };
         for (int r = 0; r < rows(); r++) {
             for (int c = 0; c < cols(); c++) {
                 Position p = new Position(r, c);
                 GardenerObject o = get(p);
                 if (o instanceof GardenerTreeObject)
-                    trees.add(p);
-                else {
-                    checkTrees.f();
-                    if (o instanceof GardenerEmptyObject || o instanceof GardenerMarkerObject)
-                        checkForbidden.f(p, arrayList(1, 3).toJavaList());
-                }
+                    checkSpaces.f(true);
+                else
+                    spaces.add(p);
             }
-            checkTrees.f();
+            checkSpaces.f(true);
         }
         for (int c = 0; c < cols(); c++) {
             for (int r = 0; r < rows(); r++) {
                 Position p = new Position(r, c);
                 GardenerObject o = get(p);
                 if (o instanceof GardenerTreeObject)
-                    trees.add(p);
-                else {
-                    checkTrees.f();
-                    if (o instanceof GardenerEmptyObject || o instanceof GardenerMarkerObject)
-                        checkForbidden.f(p, arrayList(0, 2).toJavaList());
-                }
+                    checkSpaces.f(false);
+                else
+                    spaces.add(p);
             }
-            checkTrees.f();
+            checkSpaces.f(false);
         }
     }
 }

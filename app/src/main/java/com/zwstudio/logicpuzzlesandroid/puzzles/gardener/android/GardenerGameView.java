@@ -43,6 +43,7 @@ public class GardenerGameView extends CellsGameView {
     private Paint markerPaint = new Paint();
     private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Paint hintPaint = new Paint();
     private Drawable dTree;
 
     public GardenerGameView(Context context) {
@@ -73,6 +74,9 @@ public class GardenerGameView extends CellsGameView {
         forbiddenPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
+        hintPaint.setStyle(Paint.Style.FILL);
+        hintPaint.setStrokeWidth(5);
+        hintPaint.setColor(Color.RED);
         dTree = fromImageToDrawable("images/tree.png");
     }
 
@@ -104,6 +108,10 @@ public class GardenerGameView extends CellsGameView {
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, markerPaint);
                 else if (o instanceof GardenerForbiddenObject)
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, forbiddenPaint);
+                if (game().invalidSpaces(p, true))
+                    canvas.drawArc(cwc(c + 1) - 20, chr2(r) - 20, cwc(c + 1) + 20, chr2(r) + 20, 0, 360, true, hintPaint);
+                if (game().invalidSpaces(p, false))
+                    canvas.drawArc(cwc2(c) - 20, chr(r + 1) - 20, cwc2(c) + 20, chr(r + 1) + 20, 0, 360, true, hintPaint);
             }
         for (Map.Entry<Position, P2<Integer, Integer>> entry : game().pos2hint.entrySet()) {
             Position p = entry.getKey();

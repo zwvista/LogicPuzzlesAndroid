@@ -93,6 +93,8 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
     private void updateIsSolved() {
         isSolved = true;
         String chars;
+        // 1. The goal is to shade squares so that a number appears only once in a
+        // row.
         for (int r = 0; r < rows(); r++) {
             chars = row2hint[r] = "";
             for (int c = 0; c < cols(); c++) {
@@ -106,6 +108,8 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
                     chars += ch;
             }
         }
+        // 1. The goal is to shade squares so that a number appears only once in a
+        // column.
         for (int c = 0; c < cols(); c++) {
             chars = col2hint[c] = "";
             for (int r = 0; r < rows(); r++) {
@@ -134,6 +138,8 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
                     pos2node.put(p, node);
                 }
             }
+        // 2. While doing that, you must take care that shaded squares don't touch
+        // horizontally or vertically between them.
         for (Position p : rngDarken)
             for (Position os : HitoriGame.offset) {
                 Position p2 = p.add(os);
@@ -149,6 +155,7 @@ public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, 
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
+        // 3. In the end all the un-shaded squares must form a single continuous area.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = nodeList.size();
