@@ -13,7 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikObject;
 
 /**

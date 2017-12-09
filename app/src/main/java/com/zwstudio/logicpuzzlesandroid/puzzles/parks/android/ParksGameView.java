@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -18,7 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksEmptyObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGameMove;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksTreeObject;

@@ -12,16 +12,15 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasEmptyObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasForbiddenObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasLighthouseObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasLighthouseObject;
 
 /**
  * TODO: document your custom view class.

@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGame;

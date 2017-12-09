@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame;
-import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.TapAlikeWallObject;
 
 import java.util.ArrayList;
 import java.util.Collections;

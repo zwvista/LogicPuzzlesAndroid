@@ -22,7 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIsla
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandTreeObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domain.ParkLakesHintObject;
 
 /**
  * TODO: document your custom view class.

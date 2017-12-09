@@ -10,11 +10,11 @@ import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandInfo;
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandObject;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 
 import java.util.Map;
 

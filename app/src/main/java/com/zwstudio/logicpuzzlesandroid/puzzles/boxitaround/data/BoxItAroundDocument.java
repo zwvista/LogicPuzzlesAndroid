@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.data;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument;
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress;
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;

@@ -11,17 +11,16 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpEmptyObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightbulbObject;
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarkerObject;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpWallObject;
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 /**
  * TODO: document your custom view class.

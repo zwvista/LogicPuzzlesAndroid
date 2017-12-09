@@ -16,7 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeHintObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeMarkerObject;
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeWallObject;
 
