@@ -193,6 +193,18 @@
         <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.domino.android.DominoMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
