@@ -71,6 +71,20 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 9/Lighthouses
+
+        Summary
+        Lighten Up at Sea
+
+        Description
+        1. You are at sea and you need to find the lighthouses and light the boats.
+        2. Each boat has a number on it that tells you how many lighthouses are lighting it.
+        3. A lighthouse lights all the tiles horizontally and vertically and doesn't
+           stop at boats or other lighthouses.
+        4. Finally, no boat touches another boat or lighthouse, not even diagonally.
+           No lighthouse touches another lighthouse as well.
+    */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -95,22 +109,17 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
                     }
                     return false;
                 };
-                F0<Boolean> hasLightedBoat = () -> {
-                    for (int i = 0; i < 4; i++) {
-                        Position os = LighthousesGame.offset[i * 2];
-                        for (Position p2 = p.add(os); isValid(p2); p2.addBy(os))
-                            if (get(p2) instanceof LighthousesHintObject)
-                                return true;
-                    }
-                    return false;
-                };
                 LighthousesObject o = get(r, c);
                 if (o instanceof LighthousesLighthouseObject) {
+                    // 4. Finally, no boat touches another boat or lighthouse, not even diagonally.
+                    // No lighthouse touches another lighthouse as well.
                     LighthousesLighthouseObject o2 = (LighthousesLighthouseObject)o;
-                    o2.state = o2.state == AllowedObjectState.Normal && !hasNeighbor.f() && hasLightedBoat.f() ?
+                    o2.state = o2.state == AllowedObjectState.Normal && !hasNeighbor.f() ?
                             AllowedObjectState.Normal : AllowedObjectState.Error;
                 } else if ((o instanceof LighthousesEmptyObject || o instanceof LighthousesMarkerObject) &&
                         allowedObjectsOnly && hasNeighbor.f())
+                    // 4. Finally, no boat touches another boat or lighthouse, not even diagonally.
+                    // No lighthouse touches another lighthouse as well.
                     set(r, c, new LighthousesForbiddenObject());
             }
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
@@ -122,7 +131,7 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
                 Position os = LighthousesGame.offset[i * 2];
                 for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
                     LighthousesObject o2 = get(p2);
-                    if (o2 instanceof LighthousesEmptyObject)
+                    if (o2 instanceof LighthousesEmptyObject || o2 instanceof LighthousesMarkerObject)
                         rng.add(p2.plus());
                     else if (o2 instanceof LighthousesLighthouseObject)
                         nums[i]++;
@@ -133,7 +142,7 @@ public class LighthousesGameState extends CellsGameState<LighthousesGame, Lighth
             pos2state.put(p, s);
             if (s != HintState.Complete)
                 isSolved = false;
-            else
+            if (allowedObjectsOnly && s != HintState.Normal)
                 for (Position p2 : rng)
                     set(p2, new LighthousesForbiddenObject());
         }

@@ -80,14 +80,18 @@ public class KropkiGameState extends CellsGameState<KropkiGame, KropkiGameMove, 
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 1. The Goal is to enter numbers 1 to board size once in every row.
         range(0, rows()).foreachDoEffect(r -> {
             HashSet<Integer> nums = iterableHashSet(range(0, cols()).map(c -> get(r, c)));
             if (nums.contains(0) || nums.size() != cols()) isSolved = false;
         });
+        // 1. The Goal is to enter numbers 1 to board size once in every column.
         range(0, cols()).foreachDoEffect(c -> {
             HashSet<Integer> nums = iterableHashSet(range(0, rows()).map(r -> get(r, c)));
             if (nums.contains(0) || nums.size() != rows()) isSolved = false;
         });
+        // 7. In later 9*9 levels you will also have bordered and coloured areas,
+        // which must also contain all the numbers 1 to 9.
         if (game.bordered)
             iterableList(game.areas).foreachDoEffect(a -> {
                 HashSet<Integer> nums = iterableHashSet(iterableList(a).map(p -> get(p)));
@@ -106,6 +110,12 @@ public class KropkiGameState extends CellsGameState<KropkiGame, KropkiGameMove, 
                     }
                     if (n1 > n2) {int temp = n1; n1 = n2; n2 = temp;}
                     KropkiHint kh = (i == 0 ? game.pos2horzHint : game.pos2vertHint).get(p);
+                    // 3. Black Dot - one number is twice the other.
+                    // 4. White Dot - the numbers are consecutive.
+                    // 5. Where the numbers are 1 and 2, there can be either a Black Dot(2 is
+                    // 1*2) or a White Dot(1 and 2 are consecutive).
+                    // 6. Please note that when two numbers are either consecutive or doubles,
+                    // there MUST be a Dot between them!
                     HintState s =
                             n2 != n1 + 1 && n2 != n1 * 2 && kh == KropkiHint.None ||
                             n2 == n1 + 1 && kh == KropkiHint.Consecutive ||

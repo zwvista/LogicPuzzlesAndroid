@@ -78,6 +78,7 @@ public class NumberPathGameState extends CellsGameState<NumberPathGame, NumberPa
                 Position p = new Position(r, c);
                 int n = array(get(p)).filter(o -> o).length();
                 if (p.equals(pStart) || p.equals(pEnd)) {
+                    // 1. Connect the top left corner (1) to the bottom right corner (N).
                     if (n != 1) {isSolved = false; return;}
                     Node node = new Node(p.toString());
                     g.addNode(node);
@@ -107,12 +108,14 @@ public class NumberPathGameState extends CellsGameState<NumberPathGame, NumberPa
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
+        // 1. Connect the top left corner (1) to the bottom right corner (N), including
+        // all the numbers between 1 and N, only once.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
         int n1 = game.get(pEnd);
         int n2 = nums.size();
         int n3 = nodeList.size();
-        int n4 = pos2node.values().size();
+        int n4 = pos2node.size();
         if (n1 != n2 || n1 != n3 || n1 != n4) isSolved = false;
     }
 }

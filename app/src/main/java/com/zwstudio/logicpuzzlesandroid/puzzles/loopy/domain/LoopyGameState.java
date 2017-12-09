@@ -97,6 +97,8 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
                         pos2node.put(p, node);
                         break;
                     default:
+                        // 1. The path cannot have branches or cross itself.
+                        // 1. You have to touch all the dots.
                         isSolved = false;
                         return;
                 }
@@ -109,10 +111,9 @@ public class LoopyGameState extends CellsGameState<LoopyGame, LoopyGameMove, Loo
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
+        // 1. Draw a single looping path.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+        if (nodeList.size() != pos2node.size()) isSolved = false;
     }
 }

@@ -78,6 +78,8 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
     */
     private void updateIsSolved() {
         isSolved = true;
+        // 2. A number in a cell denotes how many of the 8 adjacent cells are passed
+        // by the loop.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -109,6 +111,7 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
                     pos2node.put(p, node);
                     break;
                 default:
+                    // 1. Draw a single closed looping path that never crosses itself or branches off.
                     isSolved = false;
                     return;
                 }
@@ -122,10 +125,9 @@ public class LineSweeperGameState extends CellsGameState<LineSweeperGame, LineSw
                 g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
         }
+        // 1. Draw a single closed looping path that never crosses itself or branches off.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+        if (nodeList.size() != pos2node.size()) isSolved = false;
     }
 }

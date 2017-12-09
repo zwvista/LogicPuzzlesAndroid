@@ -154,8 +154,6 @@ public class SlitherLinkGameState extends CellsGameState<SlitherLinkGame, Slithe
         // 1. Draw a single looping path with the aid of the numbered hints.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+        if (nodeList.size() != pos2node.size()) isSolved = false;
     }
 }

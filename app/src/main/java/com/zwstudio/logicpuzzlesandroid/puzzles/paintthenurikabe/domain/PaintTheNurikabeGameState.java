@@ -104,6 +104,7 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
                 if (o == PaintTheNurikabeObject.Forbidden)
                     set(r, c, PaintTheNurikabeObject.Empty);
             }
+        // 2. A number indicates how many painted tiles are adjacent to it.
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();
@@ -126,6 +127,7 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
                 for (Position p2 : rng)
                     set(p2, PaintTheNurikabeObject.Forbidden);
         }
+        // 4. There can't be any 2*2 area of the same color(painted or empty).
         for (int r = 0; r < rows() - 1; r++)
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
@@ -152,10 +154,10 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node.get(p), pos2node.get(p2));
             }
+        // 3. The painted tiles form an orthogonally continuous area, like a
+        // Nurikabe.
         g.setRootNode(iterableList(pos2node.values()).head());
         List<Node> nodeList = g.bfs();
-        int n1 = nodeList.size();
-        int n2 = pos2node.values().size();
-        if (n1 != n2) isSolved = false;
+        if (nodeList.size() != pos2node.size()) isSolved = false;
     }
 }

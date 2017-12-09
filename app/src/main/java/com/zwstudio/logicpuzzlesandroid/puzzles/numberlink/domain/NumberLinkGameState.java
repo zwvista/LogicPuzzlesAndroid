@@ -101,6 +101,8 @@ public class NumberLinkGameState extends CellsGameState<NumberLinkGame, NumberLi
                 if (b && n == 1 || !b && n == 2)
                     pos2indexes.put(p, range(0, 4).filter(i -> get(p)[i]).toJavaList());
                 else
+                    // 3. Lines must originate on a number and must end in the other equal
+                    // number.
                     isSolved = false;
             }
         for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
@@ -116,6 +118,9 @@ public class NumberLinkGameState extends CellsGameState<NumberLinkGame, NumberLi
             }
             if (indexes.size() != 2) continue;
             int i1 = indexes.get(0), i2 = indexes.get(1);
+            // 4. At the end of the puzzle, no line can cover a 2*2 area (like a 180 degree turn).
+            // 5. In other words you can't turn right and immediately right again. The
+            // same happens on the left, obviously. Be careful not to miss this rule.
             Effect2<Integer, Boolean> f = (i, isRight) -> {
                 Position p2 = p.add(NumberLinkGame.offset[i]);
                 List<Integer> indexes2 = pos2indexes.get(p2);
@@ -145,6 +150,10 @@ public class NumberLinkGameState extends CellsGameState<NumberLinkGame, NumberLi
             boolean b1 = iterableList(rng1).minus(Equal.anyEqual(), iterableList(rng2)).isEmpty();
             boolean b2 = iterableList(rng2).minus(Equal.anyEqual(), iterableList(rng1)).isEmpty();
             boolean b3 = iterableList(area).forall(p -> pos2state.get(p) != HintState.Error);
+            // 3. Lines must originate on a number and must end in the other equal
+            // number.
+            // 4. At the end of the puzzle, you must have covered ALL the squares with
+            // lines.
             HintState s = !b1 || !b3 ? HintState.Error : b2 ? HintState.Complete : HintState.Normal;
             if (s != HintState.Complete) isSolved = false;
             for (Position p : rng1)
