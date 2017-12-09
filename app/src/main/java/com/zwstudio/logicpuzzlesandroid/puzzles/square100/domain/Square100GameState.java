@@ -77,10 +77,13 @@ public class Square100GameState extends CellsGameState<Square100Game, Square100G
         F2<Integer, Integer, Integer> f = (r, c) -> {
             String o = get(r, c);
             int n = o.charAt(1) - '0';
+            // 3. You can add digits before or after the given one.
             if (Character.isDigit(o.charAt(0))) n += (o.charAt(0) - '0') * 10;
             if (Character.isDigit(o.charAt(2))) n = n * 10 + (o.charAt(2) - '0');
             return n;
         };
+        // 2. You have to add digits to some (or all) tiles, in order to produce
+        // the sum of 100 for every row.
         for (int r = 0; r < rows(); r++) {
             int n = 0;
             for (int c = 0; c < cols(); c++)
@@ -88,6 +91,8 @@ public class Square100GameState extends CellsGameState<Square100Game, Square100G
             row2hint[r] = n;
             if (n != 100) isSolved = false;
         }
+        // 2. You have to add digits to some (or all) tiles, in order to produce
+        // the sum of 100 for every column.
         for (int c = 0; c < cols(); c++) {
             int n = 0;
             for (int r = 0; r < rows(); r++)

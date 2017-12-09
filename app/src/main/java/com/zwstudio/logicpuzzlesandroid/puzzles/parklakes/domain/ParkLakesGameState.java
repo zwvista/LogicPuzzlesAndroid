@@ -150,10 +150,37 @@ public class ParkLakesGameState extends CellsGameState<ParkLakesGame, ParkLakesG
                 if (i == null) continue;
                 n1 += areas.get(i).size();
             }
+            // 3. A number tells you the total size of any lakes orthogonally touching it,
+            // while a question mark tells you that there is at least one lake orthogonally
+            // touching it.
             HintState s = n1 == 0 ? HintState.Normal : n1 == n2 || n2 == -1 ?
                     HintState.Complete : HintState.Error;
             ((ParkLakesHintObject)get(p)).state = s;
             if (s != HintState.Complete) isSolved = false;
         }
+        g = new Graph();
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++) {
+                Position p = new Position(r, c);
+                if (!(get(p) instanceof ParkLakesTreeObject)) {
+                    Node node = new Node(p.toString());
+                    g.addNode(node);
+                    pos2node.put(p, node);
+                }
+            }
+        for (Map.Entry<Position, Node> entry : pos2node.entrySet()) {
+            Position p = entry.getKey();
+            Node node = entry.getValue();
+            for (Position os : TierraDelFuegoGame.offset) {
+                Position p2 = p.add(os);
+                Node node2 = pos2node.get(p2);
+                if (node2 == null) continue;
+                g.connectNode(node, node2);
+            }
+        }
+        // 5. All the land tiles are connected horizontally or vertically.
+        g.setRootNode(fromMap(pos2node).values().head());
+        List<Node> nodeList = g.bfs();
+        if (nodeList.size() != pos2node.size()) isSolved = false;
     }
 }

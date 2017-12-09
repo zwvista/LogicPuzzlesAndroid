@@ -229,6 +229,18 @@
         <activity android:name=".puzzles.fencesentinels.android.FenceSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.fillomino.android.FillominoMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fillomino.android.FillominoGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fillomino.android.FillominoHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fillomino.android.FillominoOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fourmenot.android.FourMeNotMainActivity_"
                   android:screenOrientation="portrait">
         </activity>

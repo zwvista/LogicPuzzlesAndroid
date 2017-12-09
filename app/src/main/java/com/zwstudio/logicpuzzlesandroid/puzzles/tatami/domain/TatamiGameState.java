@@ -73,7 +73,6 @@ public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, 
         4. You can't have two identical numbers touching horizontally or vertically.
     */
     private void updateIsSolved() {
-        boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
         List<Character> chars2 = Arrays.asList('1', '2', '3');
         List<Character> chars3 = iterableList(chars2).bind(ch -> iterableList(Collections.nCopies(rows() / 3, ch))).toJavaList();
@@ -89,6 +88,7 @@ public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, 
                 Position p1 = new Position(r, c), p2 = new Position(r, c + 1);
                 char ch1 = get(p1), ch2 = get(p2);
                 if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
+                    // 4. You can't have two identical numbers touching horizontally.
                     isSolved = lineSolved = false;
                     pos2state.put(p1, HintState.Error);
                     pos2state.put(p2, HintState.Error);
@@ -96,6 +96,7 @@ public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, 
             }
             int r2 = r;
             List<Character> chars = range(0, cols()).map(c -> get(r2, c)).sort(Ord.charOrd).toJavaList();
+            // 3. In one row, each number must appear the same number of times.
             if (chars.get(0) != ' ' && !chars.equals(chars3)) {
                 isSolved = lineSolved = false;
                 for (int c = 0; c < cols(); c++)
@@ -111,6 +112,7 @@ public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, 
                 Position p1 = new Position(r, c), p2 = new Position(r + 1, c);
                 char ch1 = get(p1), ch2 = get(p2);
                 if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
+                    // 4. You can't have two identical numbers touching vertically.
                     isSolved = lineSolved = false;
                     pos2state.put(p1, HintState.Error);
                     pos2state.put(p2, HintState.Error);
@@ -118,6 +120,7 @@ public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, 
             }
             int c2 = c;
             List<Character> chars = range(0, rows()).map(r -> get(r, c2)).sort(Ord.charOrd).toJavaList();
+            // 3. In one column, each number must appear the same number of times.
             if (chars.get(0) != ' ' && !chars.equals(chars3)) {
                 isSolved = lineSolved = false;
                 for (int r = 0; r < rows(); r++)
@@ -127,6 +130,7 @@ public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, 
                 for (int r = 0; r < rows(); r++)
                     pos2state.put(new Position(r, c), HintState.Complete);
         }
+        // 2. Each number can appear only once in each Tatami.
         for (List<Position> a : game.areas) {
             List<Character> chars = iterableList(a).map(p -> get(p)).sort(Ord.charOrd).toJavaList();
             if (chars.get(0) != ' ' && !chars.equals(chars2)) {

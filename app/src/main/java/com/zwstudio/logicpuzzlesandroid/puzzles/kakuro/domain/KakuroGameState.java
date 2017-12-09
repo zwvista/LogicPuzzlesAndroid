@@ -66,9 +66,19 @@ public class KakuroGameState extends CellsGameState<KakuroGame, KakuroGameMove, 
             Position p = entry.getKey();
             int n2 = entry.getValue(), n1 = 0;
             Position os = KakuroGame.offset[1];
-            Integer n;
-            for (Position p2 = p.add(os); (n = pos2num.get(p2)) != null; p2.addBy(os))
+            Integer n, lastN = 0;
+            for (Position p2 = p.add(os); (n = pos2num.get(p2)) != null; p2.addBy(os)) {
                 n1 += n;
+                // 3. You can write numbers 1 to 9 in the tiles, however no same number should
+                // appear in a consecutive row.
+                if (n.equals(lastN)) {
+                    isSolved = false;
+                    pos2horzHint.put(p2, HintState.Error);
+                    pos2horzHint.put(p2.subtract(os), HintState.Error);
+                }
+            }
+            // 2. The number on at the left of a row gives you
+            // the sum of the numbers in that row.
             HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             pos2horzHint.put(p, s);
             if (s != HintState.Complete) isSolved = false;
@@ -77,9 +87,19 @@ public class KakuroGameState extends CellsGameState<KakuroGame, KakuroGameMove, 
             Position p = entry.getKey();
             int n2 = entry.getValue(), n1 = 0;
             Position os = KakuroGame.offset[2];
-            Integer n;
-            for (Position p2 = p.add(os); (n = pos2num.get(p2)) != null; p2.addBy(os))
+            Integer n, lastN = 0;
+            for (Position p2 = p.add(os); (n = pos2num.get(p2)) != null; p2.addBy(os)) {
                 n1 += n;
+                // 3. You can write numbers 1 to 9 in the tiles, however no same number should
+                // appear in a consecutive column.
+                if (n.equals(lastN)) {
+                    isSolved = false;
+                    pos2horzHint.put(p2, HintState.Error);
+                    pos2horzHint.put(p2.subtract(os), HintState.Error);
+                }
+            }
+            // 2. The number on the top of a column gives you
+            // the sum of the numbers in that column.
             HintState s = n1 == 0 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             pos2vertHint.put(p, s);
             if (s != HintState.Complete) isSolved = false;
