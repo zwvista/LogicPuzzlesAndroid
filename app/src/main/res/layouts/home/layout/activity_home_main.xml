@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnResumeGame"
+            android:background="@drawable/gradient"
             android:layout_marginBottom="20dip"/>
         <Button
             android:text="Choose Game"
@@ -36,12 +37,14 @@
             android:layout_height="wrap_content"
             android:tag="Abc"
             android:id="@+id/btnChooseGame"
+            android:background="@drawable/gradient"
             android:layout_marginBottom="20dip"/>
         <Button
             android:text="Options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnOptions"
+            android:background="@drawable/gradient"
             android:layout_marginBottom="20dip"/>
     </LinearLayout>
 </RelativeLayout>

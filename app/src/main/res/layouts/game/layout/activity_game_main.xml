@@ -28,99 +28,119 @@
             android:text="Resume Level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
+            android:layout_marginBottom="10dip"
             android:id="@+id/btnResumeLevel"/>
         <Button
             android:text="Reset All Levels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
+            android:layout_marginBottom="10dip"
             android:id="@+id/btnResetAllLevels"/>
         <Button
             android:text="Options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
+            android:layout_marginBottom="10dip"
             android:id="@+id/btnOptions"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="10dip"
         android:weightSum="6">
         <Button
             android:text="1"
             android:id="@+id/btnLevel1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="2"
             android:id="@+id/btnLevel2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="3"
             android:id="@+id/btnLevel3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="4"
             android:id="@+id/btnLevel4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="5"
             android:id="@+id/btnLevel5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="6"
             android:id="@+id/btnLevel6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="10dip"
         android:weightSum="6">
         <Button
             android:text="7"
             android:id="@+id/btnLevel7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="8"
             android:id="@+id/btnLevel8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="9"
             android:id="@+id/btnLevel9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="10"
             android:id="@+id/btnLevel10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="11"
             android:id="@+id/btnLevel11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
         <Button
             android:text="12"
             android:id="@+id/btnLevel12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
             android:layout_weight="1"/>
     </LinearLayout>
         <LinearLayout
@@ -136,6 +156,7 @@
                 android:id="@+id/btnPrevPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/gradient"
                 android:layout_weight="2"/>
             <Space android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -145,6 +166,7 @@
                 android:id="@+id/btnNextPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/gradient"
                 android:layout_weight="2"/>
             <Space android:layout_width="wrap_content"
                    android:layout_height="wrap_content"

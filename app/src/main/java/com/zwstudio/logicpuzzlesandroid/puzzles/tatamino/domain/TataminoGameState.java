@@ -109,7 +109,7 @@ public class TataminoGameState extends CellsGameState<TataminoGame, TataminoGame
             for (Position p : area)
                 pos2node.remove(p);
             char ch = get(area.get(0));
-            int n1 = ch - '0', n2 = area.size();
+            int n1 = area.size(), n2 = ch - '0';
             HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             for (Position p : area) {
                 pos2state.put(p, s);
