@@ -16,10 +16,9 @@ import fj.F2;
 
 public class TennerGridGame extends CellsGame<TennerGridGame, TennerGridGameMove, TennerGridGameState> {
     public static Position offset[] = {
-            new Position(-1, 0),
-            new Position(0, 1),
+            new Position(1, -1),
             new Position(1, 0),
-            new Position(0, -1),
+            new Position(1, 1),
     };
 
     public int[] objArray;

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import static fj.Ord.intOrd;
+import static fj.data.Array.array;
 import static fj.data.List.range;
 
 /**
@@ -86,7 +87,8 @@ public class TennerGridGameState extends CellsGameState<TennerGridGame, TennerGr
             int h = get(rows() - 1, c), n = 0;
             boolean isDirty = false, allFixed = true;
             for (int r = 0; r < rows() - 1; r++) {
-                int o1 = game.get(r, c), o2 = get(r, c);
+                Position p = new Position(r, c);
+                int o1 = game.get(p), o2 = get(p);
                 if (o1 == -1) {
                     allFixed = false;
                     if (o2 == -1)
@@ -95,7 +97,20 @@ public class TennerGridGameState extends CellsGameState<TennerGridGame, TennerGr
                         isDirty = true;
                 }
                 n += o2 == -1 ? 0 : o2;
+                // 3. Digit can repeat on the same column, however digits in contiguous tiles
+                // must be different, even diagonally.
+                if (r < rows() - 2) {
+                    List<Position> rng = array(TennerGridGame.offset).toStream()
+                            .map(os -> p.add(os)).filter(p2 -> isValid(p2) && o2 == get(p2)).toJavaList();
+                    if (!rng.isEmpty()) {
+                        isSolved = false;
+                        pos2state.put(p, HintState.Error);
+                        for (Position p2 : rng)
+                            pos2state.put(p2, HintState.Error);
+                    }
+                }
             }
+            // 2. The number on the bottom row gives you the sum for that column.
             HintState s = !isDirty && !allFixed ? HintState.Normal : n == h ? HintState.Complete : HintState.Error;
             pos2state.put(new Position(rows() - 1, c), s);
             if (s != HintState.Complete) isSolved = false;

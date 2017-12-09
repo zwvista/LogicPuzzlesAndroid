@@ -79,6 +79,8 @@ public class SnailGameState extends CellsGameState<SnailGame, SnailGameMove, Sna
     private void updateIsSolved() {
         isSolved = true;
         String chars;
+        // 5. Board Rule: Each row of the board (disregarding the snail
+        // path) must have exactly one 1, one 2 and one 3.
         for (int r = 0; r < rows(); r++) {
             chars = "";
             row2state[r] = HintState.Complete;
@@ -94,6 +96,8 @@ public class SnailGameState extends CellsGameState<SnailGame, SnailGameMove, Sna
                 row2state[r] = HintState.Error; isSolved = false;
             }
         }
+        // 5. Board Rule: Each column of the board (disregarding the snail
+        // path) must have exactly one 1, one 2 and one 3.
         for (int c = 0; c < cols(); c++) {
             chars = "";
             col2state[c] = HintState.Complete;
@@ -120,6 +124,10 @@ public class SnailGameState extends CellsGameState<SnailGame, SnailGameMove, Sna
             pos2state.put(p, HintState.Complete);
         }
         int cnt = chars.length();
+        // 4. Trail Rule: The first number to write after entering in the top left
+        // is a 1 and the last before ending in the center is a 3. In between,
+        // the 1,2,3 sequence will repeat many times in this order, following the
+        // snail path.
         if (chars.charAt(0) != '1') {
             pos2state.put(rng.get(0), HintState.Error); isSolved = false;
         }

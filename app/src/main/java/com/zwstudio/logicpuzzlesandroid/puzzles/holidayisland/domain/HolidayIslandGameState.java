@@ -130,6 +130,7 @@ public class HolidayIslandGameState extends CellsGameState<HolidayIslandGame, Ho
             }
         }
         {
+            // 4. There is only one, continuous island.
             g.setRootNode(fromMap(pos2node).values().head());
             List<Node> nodeList = g.bfs();
             if (nodeList.size() != pos2node.size()) isSolved = false;
@@ -141,6 +142,7 @@ public class HolidayIslandGameState extends CellsGameState<HolidayIslandGame, Ho
                 Position p = new Position(r, c);
                 HolidayIslandObject o = get(p);
                 if (!(o instanceof HolidayIslandTreeObject || o instanceof HolidayIslandHintObject)) {
+                    // 5. A camper can't cross water or other Tents.
                     Node node = new Node(p.toString());
                     g.addNode(node);
                     pos2node.put(p, node);
@@ -180,6 +182,8 @@ public class HolidayIslandGameState extends CellsGameState<HolidayIslandGame, Ho
                 rng.addAll(areas.get(i));
             }
             int n1 = rng.size();
+            // 5. The numbers tell you how many tiles that camper can walk from his Tent,
+            // by moving horizontally or vertically.
             HintState s = n1 > n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
             ((HolidayIslandHintObject)get(p)).state = s;
             if (s != HintState.Complete) isSolved = false;

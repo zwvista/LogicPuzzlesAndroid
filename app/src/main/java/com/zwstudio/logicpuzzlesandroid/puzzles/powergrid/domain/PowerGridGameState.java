@@ -69,6 +69,24 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
         return setObject(move);
     }
 
+    /*
+        iOS Game: Logic Games/Puzzle Set 14/Power Grid
+
+        Summary
+        Utility Posts
+
+        Description
+        1. Your task is to identify Utility Posts of a Power Grid.
+        2. There are two Posts in each Row and in each Column.
+        3. The numbers on the side tell you the length of the cables between
+           the two Posts (in that Row or Column).
+        4. Or in other words, the number of empty tiles between two Posts.
+        5. Posts cannot touch themselves, not even diagonally.
+        6. Posts don't have to form a single connected chain.
+
+        Variant
+        7. On some levels, there are exactly two Posts in each diagonal too.
+    */
     private void updateIsSolved() {
         boolean allowedObjectsOnly = game.gdi.isAllowedObjectsOnly();
         isSolved = true;
@@ -88,6 +106,9 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
                     posts.add(p);
             }
             int n1 = posts.size(), n2 = game.row2hint[r] + 1;
+            // 2. There are two Posts in each Row.
+            // 3. The numbers on the side tell you the length of the cables between
+            // the two Posts (in that Row).
             HintState s = n1 < 2 ? HintState.Normal : n1 == 2 && n2 == posts.get(1).col - posts.get(0).col ?
                     HintState.Complete : HintState.Error;
             row2state[r] = s;
@@ -108,6 +129,9 @@ public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridG
                     posts.add(p);
             }
             int n1 = posts.size(), n2 = game.col2hint[c] + 1;
+            // 2. There are two Posts in each Column.
+            // 3. The numbers on the side tell you the length of the cables between
+            // the two Posts (in that Column).
             HintState s = n1 < 2 ? HintState.Normal : n1 == 2 && n2 == posts.get(1).row - posts.get(0).row ?
                     HintState.Complete : HintState.Error;
             col2state[c] = s;
