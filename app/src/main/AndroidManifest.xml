@@ -157,6 +157,18 @@
         <activity android:name=".puzzles.bwtapa.android.BWTapaOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.calcudoku.android.CalcudokuMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.calcudoku.android.CalcudokuGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.calcudoku.android.CalcudokuHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.calcudoku.android.CalcudokuOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
