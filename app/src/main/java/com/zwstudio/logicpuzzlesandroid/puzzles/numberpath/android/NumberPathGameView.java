@@ -105,7 +105,7 @@ public class NumberPathGameView extends CellsGameView {
                             .orHead(() -> -1);
                     if (n != -1) {
                         NumberPathGameMove move = new NumberPathGameMove() {{
-                            p = pLastMove; dir = n / 2;
+                            p = pLastMove; dir = n;
                         }};
                         if (game().setObject(move)) f.f();
                     }
@@ -122,7 +122,7 @@ public class NumberPathGameView extends CellsGameView {
                         dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
                                 -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
                     }};
-                    if (game().setObject(move)) f.f();
+                    game().setObject(move);
                 }
                 pLastDown = pLastMove = null;
                 break;

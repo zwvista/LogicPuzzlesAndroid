@@ -134,7 +134,7 @@ public class LineSweeperGameView extends CellsGameView {
                         dir = -dy2 <= dx && dx <= dy2 ? dy > 0 ? 2 : 0 :
                                 -dx2 <= dy && dy <= dx2 ? dx > 0 ? 1 : 3 : 0;
                     }};
-                    if (game().setObject(move)) f.f();
+                    game().setObject(move);
                 }
                 pLastDown = pLastMove = null;
                 break;
