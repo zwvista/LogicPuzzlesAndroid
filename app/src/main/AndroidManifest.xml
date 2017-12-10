@@ -169,6 +169,30 @@
         <activity android:name=".puzzles.calcudoku.android.CalcudokuOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
