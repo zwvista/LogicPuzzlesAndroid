@@ -34,7 +34,7 @@ public class CarpentersSquareGame extends CellsGame<CarpentersSquareGame, Carpen
     public static int dirs[] = { 1, 0, 3, 2 };
 
     public GridLineObject[][] objArray;
-    public Map<Position, Integer> pos2hint = new HashMap<>();
+    public Map<Position, CarpenterSquareHint> pos2hint = new HashMap<>();
 
     public GridLineObject[] get(int row, int col) {
         return objArray[row * cols() + col];
@@ -45,7 +45,7 @@ public class CarpentersSquareGame extends CellsGame<CarpentersSquareGame, Carpen
 
     public CarpentersSquareGame(List<String> layout, GameInterface<CarpentersSquareGame, CarpentersSquareGameMove, CarpentersSquareGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
-        size = new Position(layout.size() + 1, layout.get(0).length() / 2 + 1);
+        size = new Position(layout.size() + 1, layout.get(0).length() + 1);
         objArray = new GridLineObject[rows() * cols()][];
         for (int i = 0; i < objArray.length; i++) {
             objArray[i] = new GridLineObject[4];
@@ -55,10 +55,23 @@ public class CarpentersSquareGame extends CellsGame<CarpentersSquareGame, Carpen
             String str = layout.get(r);
             for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
-                String s = str.substring(c * 2, c * 2 + 2);
-                if (s.equals("  ")) continue;
-                int n = Integer.parseInt(s.trim());
-                pos2hint.put(p, n);
+                char ch = str.charAt(c);
+                if (ch >= '0' && ch <= '9')
+                    pos2hint.put(p, new CarpentersSquareCornerHint() {{
+                        tiles = ch - '0';
+                    }});
+                else if (ch == 'O')
+                    pos2hint.put(p, new CarpentersSquareCornerHint() {{
+                        tiles = 0;
+                    }});
+                else if (ch == '^')
+                    pos2hint.put(p, new CarpentersSquareUpHint());
+                else if (ch == 'v')
+                    pos2hint.put(p, new CarpentersSquareDownHint());
+                else if (ch == '<')
+                    pos2hint.put(p, new CarpentersSquareLeftHint());
+                else if (ch == '>')
+                    pos2hint.put(p, new CarpentersSquareRightHint());
             }
         }
         for (int r = 0; r < rows() - 1; r++) {

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import fj.F;
-import fj.F0;
+import fj.F2;
 
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
@@ -74,15 +74,21 @@ public class CarpentersSquareGameState extends CellsGameState<CarpentersSquareGa
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 5/Box It Up
+        iOS Game: Logic Games/Puzzle Set 16/Carpenter's Square
 
         Summary
-        Numbered Areas Interval
+        Angled Borders
 
         Description
-        1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
-        2. Each Box must contain one number and the number represents the area of
-           that Box.
+        1. Similar to Carpenter's Wall, this time you have to respect the same
+           rules, but instead of forming a Nurikabe, you just have to divide the
+           board into many.Capenter's Squares (L shaped tools) of different size.
+        2. The circled numbers on the board indicate the corner of the L.
+        3. When a number is inside the circle, that indicates the total number of
+           squares occupied by the L.
+        4. The arrow always sits at the end of an arm and points to the corner of
+           an L.
+        5. All the tiles in the board have to be part of a Carpenter's Square.
     */
     private void updateIsSolved() {
         isSolved = true;
@@ -108,15 +114,8 @@ public class CarpentersSquareGameState extends CellsGameState<CarpentersSquareGa
             List<Position> area = fromMap(pos2node).toStream().filter(e -> nodeList.contains(e._2())).map(e -> e._1()).toJavaList();
             for (Position p : area)
                 pos2node.remove(p);
-            List<Position> rng = iterableList(area).filter(p -> game.pos2hint.containsKey(p)).toJavaList();
-            // 2. Each Box must contain one number.
-            if (rng.size() != 1) {
-                for (Position p : rng)
-                    pos2state.put(p, HintState.Normal);
-                isSolved = false; continue;
-            }
-            Position p2 = rng.get(0);
-            int n1 = area.size(), n2 = game.pos2hint.get(p2);
+            List<Position> rngHint = iterableList(area).filter(p -> game.pos2hint.containsKey(p)).toJavaList();
+            int n1 = nodeList.size();
             int r2 = 0, r1 = rows(), c2 = 0, c1 = cols();
             for (Position p : area) {
                 if (r2 < p.row) r2 = p.row;
@@ -124,22 +123,69 @@ public class CarpentersSquareGameState extends CellsGameState<CarpentersSquareGa
                 if (c2 < p.col) c2 = p.col;
                 if (c1 > p.col) c1 = p.col;
             }
-            int rs = r2 - r1 + 1, cs = c2 - c1 + 1;
-            int r11 = r1, r22 = r2, c11 = c1, c22 = c2;
-            F0<Boolean> hasLine = () -> {
-                for (int r = r11; r <= r22; r++)
-                    for (int c = c11; c <= c22; c++) {
-                        GridLineObject[] dotObj = get(r + 1, c + 1);
-                        if (r < r22 && dotObj[3] == GridLineObject.Line || c < c22 && dotObj[0] == GridLineObject.Line)
-                            return true;
-                    }
-                return false;
-            };
-            // 1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
-            // 2. The number represents the area of that Box.
-            HintState s = rs * cs == n1 && rs * cs == n2 && !hasLine.f() ? HintState.Complete : HintState.Error;
-            pos2state.put(p2, s);
-            if (s != HintState.Complete) isSolved = false;
+            if (r1 == r2 || c1 == c2) {isSolved = false; continue;}
+            int r12 = r1, r22 = r2, c12 = c1, c22 = c2;
+            int cntR1 = iterableList(area).filter(p -> p.row == r12).length();
+            int cntR2 = iterableList(area).filter(p -> p.row == r22).length();
+            int cntC1 = iterableList(area).filter(p -> p.col == c12).length();
+            int cntC2 = iterableList(area).filter(p -> p.col == c22).length();
+            F2<Integer, Integer, Boolean> f = (a, b) -> a > 1 && b > 1 && a + b - 1 == n1;
+            // 1. You just have to divide the board into many.Capenter's Squares (L shaped tools) of different size.
+            int squareType =
+                    f.f(cntR1, cntC1) ? 0 : // ┌
+                    f.f(cntR1, cntC2) ? 1 : // ┐
+                    f.f(cntR2, cntC1) ? 2 : // └
+                    f.f(cntR2, cntC2) ? 3 : -1; // ┘
+            // 5. All the tiles in the board have to be part of a Carpenter's Square.
+            if (squareType == -1) isSolved = false;
+            for (Position p : rngHint) {
+                CarpenterSquareHint o = game.pos2hint.get(p);
+                if (o instanceof CarpentersSquareCornerHint) {
+                    // 2. The circled numbers on the board indicate the corner of the L.
+                    // 3. When a number is inside the circle, that indicates the total number of
+                    // squares occupied by the L.
+                    int n2 = ((CarpentersSquareCornerHint) o).tiles;
+                    HintState s = squareType == -1 ? HintState.Normal : !(n1 == n2 || n2 == 0) ? HintState.Error :
+                            squareType == 0 && p.equals(new Position(r1, c1)) ||
+                            squareType == 1 && p.equals(new Position(r1, c2)) ||
+                            squareType == 2 && p.equals(new Position(r2, c1)) ||
+                            squareType == 3 && p.equals(new Position(r2, c2)) ? HintState.Complete : HintState.Error;
+                    pos2state.put(p, s);
+                    if (s != HintState.Complete) isSolved = false;
+                } else if (o instanceof CarpentersSquareLeftHint) {
+                    // 4. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
+                    HintState s = squareType == -1 ? HintState.Normal :
+                            squareType == 0 && p.equals(new Position(r1, c2)) ||
+                            squareType == 2 && p.equals(new Position(r2, c2)) ? HintState.Complete : HintState.Error;
+                    pos2state.put(p, s);
+                    if (s != HintState.Complete) isSolved = false;
+                } else if (o instanceof CarpentersSquareUpHint) {
+                    // 4. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
+                    HintState s = squareType == -1 ? HintState.Normal :
+                            squareType == 0 && p.equals(new Position(r2, c1)) ||
+                            squareType == 1 && p.equals(new Position(r2, c2)) ? HintState.Complete : HintState.Error;
+                    pos2state.put(p, s);
+                    if (s != HintState.Complete) isSolved = false;
+                } else if (o instanceof CarpentersSquareRightHint) {
+                    // 4. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
+                    HintState s = squareType == -1 ? HintState.Normal :
+                            squareType == 1 && p.equals(new Position(r1, c1)) ||
+                            squareType == 3 && p.equals(new Position(r2, c1)) ? HintState.Complete : HintState.Error;
+                    pos2state.put(p, s);
+                    if (s != HintState.Complete) isSolved = false;
+                } else if (o instanceof CarpentersSquareDownHint) {
+                    // 4. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
+                    HintState s = squareType == -1 ? HintState.Normal :
+                            squareType == 2 && p.equals(new Position(r1, c1)) ||
+                            squareType == 3 && p.equals(new Position(r1, c2)) ? HintState.Complete : HintState.Error;
+                    pos2state.put(p, s);
+                    if (s != HintState.Complete) isSolved = false;
+                }
+            }
         }
     }
 }

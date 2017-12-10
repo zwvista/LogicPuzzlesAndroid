@@ -12,8 +12,18 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView;
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject;
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpenterSquareHint;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareCornerHint;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareDownHint;
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareGameMove;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareLeftHint;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareRightHint;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareUpHint;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallDownObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallLeftObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallRightObject;
+import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallUpObject;
 
 /**
  * TODO: document your custom view class.
@@ -31,6 +41,7 @@ public class CarpentersSquareGameView extends CellsGameView {
     private Paint line2Paint = new Paint();
     private Paint markerPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
+    private Paint fixedPaint = new Paint();
 
     public CarpentersSquareGameView(Context context) {
         super(context);
@@ -60,6 +71,8 @@ public class CarpentersSquareGameView extends CellsGameView {
         markerPaint.setStyle(Paint.Style.STROKE);
         markerPaint.setStrokeWidth(5);
         textPaint.setAntiAlias(true);
+        fixedPaint.setColor(Color.WHITE);
+        fixedPaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
@@ -70,16 +83,51 @@ public class CarpentersSquareGameView extends CellsGameView {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
                 Position p = new Position(r, c);
-                Integer n = game().pos2hint.get(p);
-                if (n != null) {
+                CarpenterSquareHint o = game().pos2hint.get(p);
+                if (o == null) continue;
+                if (o instanceof CarpentersSquareCornerHint) {
+                    int n = ((CarpentersSquareCornerHint) o).tiles;
                     HintState state = game().pos2State(p);
                     textPaint.setColor(
                             state == HintState.Complete ? Color.GREEN :
                             state == HintState.Error ? Color.RED :
                             Color.WHITE
                     );
-                    String text = String.valueOf(n);
+                    String text = n == 0 ? "?" : String.valueOf(n);
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint);
+                    canvas.drawArc(cwc(c), chr(r), cwc(c + 1), chr(r + 1), 0, 360, true, fixedPaint);
+                } else if (o instanceof CarpentersSquareLeftHint) {
+                    HintState state = game().pos2State(p);
+                    textPaint.setColor(
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
+                            Color.WHITE
+                    );
+                    drawTextCentered("<", cwc(c), chr(r), canvas, textPaint);
+                } else if (o instanceof CarpentersSquareRightHint) {
+                    HintState state = game().pos2State(p);
+                    textPaint.setColor(
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
+                            Color.WHITE
+                    );
+                    drawTextCentered(">", cwc(c), chr(r), canvas, textPaint);
+                } else if (o instanceof CarpentersSquareUpHint) {
+                    HintState state = game().pos2State(p);
+                    textPaint.setColor(
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
+                            Color.WHITE
+                    );
+                    drawTextCentered("^", cwc(c), chr(r), canvas, textPaint);
+                } else if (o instanceof CarpentersSquareDownHint) {
+                    HintState state = game().pos2State(p);
+                    textPaint.setColor(
+                            state == HintState.Complete ? Color.GREEN :
+                            state == HintState.Error ? Color.RED :
+                            Color.WHITE
+                    );
+                    drawTextCentered("v", cwc(c), chr(r), canvas, textPaint);
                 }
             }
         if (isInEditMode()) return;

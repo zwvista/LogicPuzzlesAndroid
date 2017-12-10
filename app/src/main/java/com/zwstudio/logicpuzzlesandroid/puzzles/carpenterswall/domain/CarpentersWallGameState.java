@@ -95,7 +95,7 @@ public class CarpentersWallGameState extends CellsGameState<CarpentersWallGame, 
     */
     private void updateIsSolved() {
         isSolved = true;
-        // 7. The wall can't form 2*2 squares.
+        // The wall can't form 2*2 squares.
         for (int r = 0; r < rows() - 1; r++)
             rule2x2: for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
@@ -145,7 +145,7 @@ public class CarpentersWallGameState extends CellsGameState<CarpentersWallGame, 
         if (rngWalls.isEmpty())
             isSolved = false;
         else {
-            // 3. The garden is separated by a single continuous wall. This means all
+            // The garden is separated by a single continuous wall. This means all
             // wall tiles on the board must be connected horizontally or vertically.
             // There can't be isolated walls.
             g.setRootNode(pos2node.get(rngWalls.get(0)));
@@ -174,6 +174,8 @@ public class CarpentersWallGameState extends CellsGameState<CarpentersWallGame, 
             int cntC1 = iterableList(area).filter(p -> p.col == c12).length();
             int cntC2 = iterableList(area).filter(p -> p.col == c22).length();
             F2<Integer, Integer, Boolean> f = (a, b) -> a > 1 && b > 1 && a + b - 1 == n1;
+            // 2. In the end, the empty spaces left by the Nurikabe will form many Carpenter's
+            // Squares (L shaped tools) of different size.
             int squareType =
                     f.f(cntR1, cntC1) ? 0 : // ┌
                     f.f(cntR1, cntC2) ? 1 : // ┐
@@ -182,6 +184,9 @@ public class CarpentersWallGameState extends CellsGameState<CarpentersWallGame, 
             for (Position p : rngHint) {
                 CarpentersWallObject o = get(p);
                 if (o instanceof CarpentersWallCornerObject) {
+                    // 3. The circled numbers on the board indicate the corner of the L.
+                    // 4. When a number is inside the circle, that indicates the total number of
+                    // squares occupied by the L.
                     CarpentersWallCornerObject o2 = (CarpentersWallCornerObject) o;
                     int n2 = o2.tiles;
                     HintState s = squareType == -1 ? HintState.Normal : !(n1 == n2 || n2 == 0) ? HintState.Error :
@@ -192,24 +197,32 @@ public class CarpentersWallGameState extends CellsGameState<CarpentersWallGame, 
                     o2.state = s;
                     if (s != HintState.Complete) isSolved = false;
                 } else if (o instanceof CarpentersWallLeftObject) {
+                    // 5. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
                     HintState s = squareType == -1 ? HintState.Normal :
                             squareType == 0 && p.equals(new Position(r1, c2)) ||
                             squareType == 2 && p.equals(new Position(r2, c2)) ? HintState.Complete : HintState.Error;
                     ((CarpentersWallLeftObject) o).state = s;
                     if (s != HintState.Complete) isSolved = false;
                 } else if (o instanceof CarpentersWallUpObject) {
+                    // 5. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
                     HintState s = squareType == -1 ? HintState.Normal :
                             squareType == 0 && p.equals(new Position(r2, c1)) ||
                             squareType == 1 && p.equals(new Position(r2, c2)) ? HintState.Complete : HintState.Error;
                     ((CarpentersWallUpObject) o).state = s;
                     if (s != HintState.Complete) isSolved = false;
                 } else if (o instanceof CarpentersWallRightObject) {
+                    // 5. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
                     HintState s = squareType == -1 ? HintState.Normal :
                             squareType == 1 && p.equals(new Position(r1, c1)) ||
                             squareType == 3 && p.equals(new Position(r2, c1)) ? HintState.Complete : HintState.Error;
                     ((CarpentersWallRightObject) o).state = s;
                     if (s != HintState.Complete) isSolved = false;
                 } else if (o instanceof CarpentersWallDownObject) {
+                    // 5. The arrow always sits at the end of an arm and points to the corner of
+                    // an L.
                     HintState s = squareType == -1 ? HintState.Normal :
                             squareType == 2 && p.equals(new Position(r1, c1)) ||
                             squareType == 3 && p.equals(new Position(r1, c2)) ? HintState.Complete : HintState.Error;
