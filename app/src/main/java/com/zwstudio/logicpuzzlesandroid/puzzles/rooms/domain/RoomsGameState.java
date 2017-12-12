@@ -109,16 +109,16 @@ public class RoomsGameState extends CellsGameState<RoomsGame, RoomsGameMove, Roo
         Set<Position> rng = new HashSet<>();
         Graph g = new Graph();
         Map<Position, Node> pos2node = new HashMap<>();
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
+        for (int r = 0; r < rows() - 1; r++)
+            for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
                 rng.add(p.plus());
                 Node node = new Node(p.toString());
                 g.addNode(node);
                 pos2node.put(p, node);
             }
-        for (int r = 0; r < rows(); r++)
-            for (int c = 0; c < cols(); c++) {
+        for (int r = 0; r < rows() - 1; r++)
+            for (int c = 0; c < cols() - 1; c++) {
                 Position p = new Position(r, c);
                 for (int i = 0; i < 4; i++)
                     if (get(p.add(RoomsGame.offset2[i]))[RoomsGame.dirs[i]] != GridLineObject.Line)
