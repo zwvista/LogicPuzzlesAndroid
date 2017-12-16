@@ -15,10 +15,6 @@ import java.util.Set;
 import fj.F;
 import fj.F2;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class SnailGame extends CellsGame<SnailGame, SnailGameMove, SnailGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

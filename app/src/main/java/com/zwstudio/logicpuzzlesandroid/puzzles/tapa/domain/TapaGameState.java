@@ -23,10 +23,6 @@ import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class TapaGameState extends CellsGameState<TapaGame, TapaGameMove, TapaGameState> {
     public TapaObject[] objArray;
 

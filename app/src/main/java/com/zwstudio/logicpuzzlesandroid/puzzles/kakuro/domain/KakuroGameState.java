@@ -7,10 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class KakuroGameState extends CellsGameState<KakuroGame, KakuroGameMove, KakuroGameState> {
     public Map<Position, Integer> pos2num = new HashMap<>();
     public Map<Position, HintState> pos2horzHint = new HashMap<>();

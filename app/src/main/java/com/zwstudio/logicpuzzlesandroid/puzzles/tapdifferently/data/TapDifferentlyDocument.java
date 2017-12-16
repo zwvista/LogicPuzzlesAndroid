@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.domain.TapDiffere
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TapDifferentlyDocument extends GameDocument<TapDifferentlyGame, TapDifferentlyGameMove> {
     protected void saveMove(TapDifferentlyGameMove move, MoveProgress rec) {

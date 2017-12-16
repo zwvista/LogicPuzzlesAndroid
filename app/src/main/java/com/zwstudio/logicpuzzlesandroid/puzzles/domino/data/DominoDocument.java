@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class DominoDocument extends GameDocument<DominoGame, DominoGameMove> {
     protected void saveMove(DominoGameMove move, MoveProgress rec) {

@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class NurikabeDocument extends GameDocument<NurikabeGame, NurikabeGameMove> {
     protected void saveMove(NurikabeGameMove move, MoveProgress rec) {

@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class ParksDocument extends GameDocument<ParksGame, ParksGameMove> {
     protected void saveMove(ParksGameMove move, MoveProgress rec) {

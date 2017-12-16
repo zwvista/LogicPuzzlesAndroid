@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class KropkiDocument extends GameDocument<KropkiGame, KropkiGameMove> {
     protected void saveMove(KropkiGameMove move, MoveProgress rec) {

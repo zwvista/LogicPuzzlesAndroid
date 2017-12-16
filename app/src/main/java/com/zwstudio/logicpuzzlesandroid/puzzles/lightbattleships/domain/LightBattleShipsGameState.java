@@ -22,10 +22,6 @@ import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
 import static fj.function.Integers.add;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class LightBattleShipsGameState extends CellsGameState<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState> {
     public LightBattleShipsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

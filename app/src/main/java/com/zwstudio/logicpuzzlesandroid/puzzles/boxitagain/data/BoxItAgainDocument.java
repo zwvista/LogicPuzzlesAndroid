@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain.BoxItAgainGame
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class BoxItAgainDocument extends GameDocument<BoxItAgainGame, BoxItAgainGameMove> {
     protected void saveMove(BoxItAgainGameMove move, MoveProgress rec) {

@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGame
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class NeighboursDocument extends GameDocument<NeighboursGame, NeighboursGameMove> {
     protected void saveMove(NeighboursGameMove move, MoveProgress rec) {

@@ -20,10 +20,6 @@ import fj.Ord;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class DominoGameState extends CellsGameState<DominoGame, DominoGameMove, DominoGameState> {
     public GridLineObject[][] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

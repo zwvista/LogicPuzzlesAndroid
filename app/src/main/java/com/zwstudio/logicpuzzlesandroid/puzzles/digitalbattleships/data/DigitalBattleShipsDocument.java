@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.Digita
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class DigitalBattleShipsDocument extends GameDocument<DigitalBattleShipsGame, DigitalBattleShipsGameMove> {
     protected void saveMove(DigitalBattleShipsGameMove move, MoveProgress rec) {

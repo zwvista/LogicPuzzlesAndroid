@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesOb
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class LighthousesDocument extends GameDocument<LighthousesGame, LighthousesGameMove> {
     protected void saveMove(LighthousesGameMove move, MoveProgress rec) {

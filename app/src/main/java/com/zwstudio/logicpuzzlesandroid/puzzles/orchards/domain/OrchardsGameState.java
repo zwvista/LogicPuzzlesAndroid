@@ -17,10 +17,6 @@ import fj.F;
 
 import static fj.data.HashMap.fromMap;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class OrchardsGameState extends CellsGameState<OrchardsGame, OrchardsGameMove, OrchardsGameState> {
     public OrchardsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

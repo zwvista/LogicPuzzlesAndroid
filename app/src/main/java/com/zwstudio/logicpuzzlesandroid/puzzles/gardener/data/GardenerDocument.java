@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class GardenerDocument extends GameDocument<GardenerGame, GardenerGameMove> {
     protected void saveMove(GardenerGameMove move, MoveProgress rec) {

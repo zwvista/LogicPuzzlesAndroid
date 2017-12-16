@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintThe
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class PaintTheNurikabeDocument extends GameDocument<PaintTheNurikabeGame, PaintTheNurikabeGameMove> {
     protected void saveMove(PaintTheNurikabeGameMove move, MoveProgress rec) {

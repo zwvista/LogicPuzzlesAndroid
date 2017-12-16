@@ -15,10 +15,6 @@ import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 import static fj.function.Integers.add;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMove, BridgesGameState> {
     public BridgesObject[] objArray;
 

@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class RoomsDocument extends GameDocument<RoomsGame, RoomsGameMove> {
     protected void saveMove(RoomsGameMove move, MoveProgress rec) {

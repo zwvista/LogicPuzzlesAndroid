@@ -7,10 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class SkyscrapersGameState extends CellsGameState<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> {
     private int[] objArray;
     public HintState[] row2state;

@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class SnakeDocument extends GameDocument<SnakeGame, SnakeGameMove> {
     protected void saveMove(SnakeGameMove move, MoveProgress rec) {

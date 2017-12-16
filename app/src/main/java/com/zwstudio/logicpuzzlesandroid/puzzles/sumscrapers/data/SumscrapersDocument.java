@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGa
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class SumscrapersDocument extends GameDocument<SumscrapersGame, SumscrapersGameMove> {
     protected void saveMove(SumscrapersGameMove move, MoveProgress rec) {

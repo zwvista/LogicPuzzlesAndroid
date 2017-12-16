@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsObject
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class MineShipsDocument extends GameDocument<MineShipsGame, MineShipsGameMove> {
     protected void saveMove(MineShipsGameMove move, MoveProgress rec) {

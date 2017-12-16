@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100GameMo
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class Square100Document extends GameDocument<Square100Game, Square100GameMove> {
     protected void saveMove(Square100GameMove move, MoveProgress rec) {

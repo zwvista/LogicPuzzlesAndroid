@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TapARowDocument extends GameDocument<TapARowGame, TapARowGameMove> {
     protected void saveMove(TapARowGameMove move, MoveProgress rec) {

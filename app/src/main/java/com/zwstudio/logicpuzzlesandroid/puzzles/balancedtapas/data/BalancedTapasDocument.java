@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTap
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class BalancedTapasDocument extends GameDocument<BalancedTapasGame, BalancedTapasGameMove> {
     protected void saveMove(BalancedTapasGameMove move, MoveProgress rec) {

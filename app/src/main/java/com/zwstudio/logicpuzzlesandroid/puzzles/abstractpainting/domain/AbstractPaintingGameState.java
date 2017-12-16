@@ -9,10 +9,6 @@ import java.util.Arrays;
 
 import fj.F;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState> {
     public AbstractPaintingObject[] objArray;
     public HintState[] row2state;

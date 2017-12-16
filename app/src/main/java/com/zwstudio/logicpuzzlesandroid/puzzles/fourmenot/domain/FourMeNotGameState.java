@@ -21,10 +21,6 @@ import fj.function.Effect2;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.arrayList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class FourMeNotGameState extends CellsGameState<FourMeNotGame, FourMeNotGameMove, FourMeNotGameState> {
     public FourMeNotObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

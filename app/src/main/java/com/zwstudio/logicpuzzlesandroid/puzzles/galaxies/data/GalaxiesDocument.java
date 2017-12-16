@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGameMove
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class GalaxiesDocument extends GameDocument<GalaxiesGame, GalaxiesGameMove> {
     protected void saveMove(GalaxiesGameMove move, MoveProgress rec) {

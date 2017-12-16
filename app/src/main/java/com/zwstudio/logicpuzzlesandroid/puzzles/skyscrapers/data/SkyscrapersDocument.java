@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGa
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class SkyscrapersDocument extends GameDocument<SkyscrapersGame, SkyscrapersGameMove> {
     protected void saveMove(SkyscrapersGameMove move, MoveProgress rec) {

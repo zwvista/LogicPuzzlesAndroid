@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIsla
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class HolidayIslandDocument extends GameDocument<HolidayIslandGame, HolidayIslandGameMove> {
     protected void saveMove(HolidayIslandGameMove move, MoveProgress rec) {

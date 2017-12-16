@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGa
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class LineSweeperDocument extends GameDocument<LineSweeperGame, LineSweeperGameMove> {
     protected void saveMove(LineSweeperGameMove move, MoveProgress rec) {

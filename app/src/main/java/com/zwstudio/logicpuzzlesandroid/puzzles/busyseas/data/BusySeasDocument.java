@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class BusySeasDocument extends GameDocument<BusySeasGame, BusySeasGameMove> {
     protected void saveMove(BusySeasGameMove move, MoveProgress rec) {

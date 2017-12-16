@@ -22,10 +22,6 @@ import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.Stream.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class BWTapaGameState extends CellsGameState<BWTapaGame, BWTapaGameMove, BWTapaGameState> {
     public BWTapaObject[] objArray;
 

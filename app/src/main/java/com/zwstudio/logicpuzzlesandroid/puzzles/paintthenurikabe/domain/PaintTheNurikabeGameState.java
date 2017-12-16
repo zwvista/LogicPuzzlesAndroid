@@ -19,10 +19,6 @@ import fj.F;
 import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGame, PaintTheNurikabeGameMove, PaintTheNurikabeGameState> {
     public PaintTheNurikabeObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

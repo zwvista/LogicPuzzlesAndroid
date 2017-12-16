@@ -9,10 +9,6 @@ import java.util.List;
 
 import fj.F2;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class Square100Game extends CellsGame<Square100Game, Square100GameMove, Square100GameState> {
     public static Position offset[] = {
             new Position(-1, 0),

@@ -1,9 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.common.domain;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class Position implements Comparable {
     public int row, col;
     public Position(int row, int col) {

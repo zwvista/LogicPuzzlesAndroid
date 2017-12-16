@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class SnailDocument extends GameDocument<SnailGame, SnailGameMove> {
     protected void saveMove(SnailGameMove move, MoveProgress rec) {

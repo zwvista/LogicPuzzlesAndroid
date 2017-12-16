@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import fj.F;
 import fj.F0;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class TentsGameState extends CellsGameState<TentsGame, TentsGameMove, TentsGameState> {
     public TentsObject[] objArray;
     public HintState[] row2state;

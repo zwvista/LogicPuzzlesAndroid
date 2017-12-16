@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup.domain.FenceItUpGameMo
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class FenceItUpDocument extends GameDocument<FenceItUpGame, FenceItUpGameMove> {
     protected void saveMove(FenceItUpGameMove move, MoveProgress rec) {

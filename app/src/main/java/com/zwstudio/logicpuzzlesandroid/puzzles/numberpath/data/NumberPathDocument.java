@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.domain.NumberPathGame
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class NumberPathDocument extends GameDocument<NumberPathGame, NumberPathGameMove> {
     protected void saveMove(NumberPathGameMove move, MoveProgress rec) {

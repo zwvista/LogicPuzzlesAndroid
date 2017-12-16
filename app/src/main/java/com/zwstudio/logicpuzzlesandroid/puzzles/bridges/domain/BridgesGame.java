@@ -9,10 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class BridgesGame extends CellsGame<BridgesGame, BridgesGameMove, BridgesGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

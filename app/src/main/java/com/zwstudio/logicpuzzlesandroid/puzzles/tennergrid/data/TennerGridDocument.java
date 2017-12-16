@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGame
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TennerGridDocument extends GameDocument<TennerGridGame, TennerGridGameMove> {
     protected void saveMove(TennerGridGameMove move, MoveProgress rec) {

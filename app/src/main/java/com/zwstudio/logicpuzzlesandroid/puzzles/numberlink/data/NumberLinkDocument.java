@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.domain.NumberLinkGame
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class NumberLinkDocument extends GameDocument<NumberLinkGame, NumberLinkGameMove> {
     protected void saveMove(NumberLinkGameMove move, MoveProgress rec) {

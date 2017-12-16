@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class MosaikDocument extends GameDocument<MosaikGame, MosaikGameMove> {
     protected void saveMove(MosaikGameMove move, MoveProgress rec) {

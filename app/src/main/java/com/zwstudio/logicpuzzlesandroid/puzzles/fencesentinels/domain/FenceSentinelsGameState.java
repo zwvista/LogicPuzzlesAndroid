@@ -18,10 +18,6 @@ import fj.F;
 import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class FenceSentinelsGameState extends CellsGameState<FenceSentinelsGame, FenceSentinelsGameMove, FenceSentinelsGameState> {
     public GridLineObject[][] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

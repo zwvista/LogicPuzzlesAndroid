@@ -1,10 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain;
 
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public abstract class LightBattleShipsObject {
     public abstract String objAsString();
     public static LightBattleShipsObject objFromString(String str) {

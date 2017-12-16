@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.Abstract
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class AbstractPaintingDocument extends GameDocument<AbstractPaintingGame, AbstractPaintingGameMove> {
     protected void saveMove(AbstractPaintingGameMove move, MoveProgress rec) {

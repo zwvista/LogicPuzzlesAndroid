@@ -16,10 +16,6 @@ import java.util.Map;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class TataminoGameState extends CellsGameState<TataminoGame, TataminoGameMove, TataminoGameState> {
     protected Cloner cloner = new Cloner();
 

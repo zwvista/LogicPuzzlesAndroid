@@ -20,10 +20,6 @@ import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class MineShipsGameState extends CellsGameState<MineShipsGame, MineShipsGameMove, MineShipsGameState> {
     public MineShipsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

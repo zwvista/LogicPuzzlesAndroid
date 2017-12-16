@@ -24,10 +24,6 @@ import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class TapDifferentlyGameState extends CellsGameState<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState> {
     public TapDifferentlyObject[] objArray;
 

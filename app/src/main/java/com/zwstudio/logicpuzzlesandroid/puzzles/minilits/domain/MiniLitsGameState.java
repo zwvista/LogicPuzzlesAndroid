@@ -26,10 +26,6 @@ import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState> {
     public MiniLitsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

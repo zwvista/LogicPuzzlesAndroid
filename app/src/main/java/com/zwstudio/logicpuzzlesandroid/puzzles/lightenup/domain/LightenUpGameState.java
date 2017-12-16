@@ -10,10 +10,6 @@ import java.util.Map;
 
 import fj.F;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class LightenUpGameState extends CellsGameState<LightenUpGame, LightenUpGameMove, LightenUpGameState> {
     public LightenUpObject[] objArray;
 

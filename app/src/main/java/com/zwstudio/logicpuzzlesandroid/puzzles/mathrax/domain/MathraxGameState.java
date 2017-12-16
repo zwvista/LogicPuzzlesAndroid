@@ -16,10 +16,6 @@ import static fj.data.Array.array;
 import static fj.data.Set.iterableSet;
 import static fj.data.Stream.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class MathraxGameState extends CellsGameState<MathraxGame, MathraxGameMove, MathraxGameState> {
     public int[] objArray;
     public HintState[] row2state;

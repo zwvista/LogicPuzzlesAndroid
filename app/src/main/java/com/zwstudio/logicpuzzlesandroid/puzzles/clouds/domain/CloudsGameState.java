@@ -17,10 +17,6 @@ import fj.F;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class CloudsGameState extends CellsGameState<CloudsGame, CloudsGameMove, CloudsGameState> {
     public CloudsObject[] objArray;
     public HintState[] row2state;

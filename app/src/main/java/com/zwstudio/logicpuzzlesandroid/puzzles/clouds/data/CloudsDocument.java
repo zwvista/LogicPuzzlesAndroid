@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class CloudsDocument extends GameDocument<CloudsGame, CloudsGameMove> {
     protected void saveMove(CloudsGameMove move, MoveProgress rec) {

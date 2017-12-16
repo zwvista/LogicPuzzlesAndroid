@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TentsDocument extends GameDocument<TentsGame, TentsGameMove> {
     protected void saveMove(TentsGameMove move, MoveProgress rec) {

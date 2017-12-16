@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsObject
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class SentinelsDocument extends GameDocument<SentinelsGame, SentinelsGameMove> {
     protected void saveMove(SentinelsGameMove move, MoveProgress rec) {

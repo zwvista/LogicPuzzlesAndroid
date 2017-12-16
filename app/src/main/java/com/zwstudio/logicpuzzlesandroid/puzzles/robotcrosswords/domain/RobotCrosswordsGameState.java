@@ -13,10 +13,6 @@ import fj.Ord;
 import static fj.data.List.iterableList;
 import static fj.data.Set.iterableSet;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class RobotCrosswordsGameState extends CellsGameState<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState> {
     public int[] objArray;
     public Map<Position, HintState> pos2horzState = new HashMap<>();

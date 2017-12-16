@@ -17,10 +17,6 @@ import fj.F;
 
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, SnakeGameState> {
     public SnakeObject[] objArray;
     public HintState[] row2state;

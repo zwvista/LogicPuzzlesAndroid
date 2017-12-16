@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.domain.BWTapaObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class BWTapaDocument extends GameDocument<BWTapaGame, BWTapaGameMove> {
     protected void saveMove(BWTapaGameMove move, MoveProgress rec) {

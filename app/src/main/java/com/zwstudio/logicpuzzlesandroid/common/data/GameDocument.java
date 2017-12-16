@@ -28,10 +28,6 @@ import static fj.data.Array.range;
 import static fj.data.List.iterableList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean(scope = EBean.Scope.Singleton)
 public abstract class GameDocument<G extends Game, GM> implements GameDocumentInterface {
     public String gameID() {

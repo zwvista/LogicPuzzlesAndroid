@@ -15,10 +15,6 @@ import fj.F0;
 
 import static fj.data.Array.array;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class ParksGameState extends CellsGameState<ParksGame, ParksGameMove, ParksGameState> {
     public ParksObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

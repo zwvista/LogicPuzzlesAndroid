@@ -23,10 +23,6 @@ import fj.P2;
 
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class GardenerGame extends CellsGame<GardenerGame, GardenerGameMove, GardenerGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

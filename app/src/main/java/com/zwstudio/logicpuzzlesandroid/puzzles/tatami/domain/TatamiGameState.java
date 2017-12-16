@@ -15,10 +15,6 @@ import fj.Ord;
 import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class TatamiGameState extends CellsGameState<TatamiGame, TatamiGameMove, TatamiGameState> {
     public char[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

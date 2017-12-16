@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fencesentinels.domain.FenceSenti
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class FenceSentinelsDocument extends GameDocument<FenceSentinelsGame, FenceSentinelsGameMove> {
     protected void saveMove(FenceSentinelsGameMove move, MoveProgress rec) {

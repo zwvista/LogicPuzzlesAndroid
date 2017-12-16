@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.domain.Noughts
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class NoughtsAndCrossesDocument extends GameDocument<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove> {
     protected void saveMove(NoughtsAndCrossesGameMove move, MoveProgress rec) {

@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandOb
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class BootyIslandDocument extends GameDocument<BootyIslandGame, BootyIslandGameMove> {
     protected void saveMove(BootyIslandGameMove move, MoveProgress rec) {

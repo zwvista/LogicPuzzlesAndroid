@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGa
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class SlitherLinkDocument extends GameDocument<SlitherLinkGame, SlitherLinkGameMove> {
     protected void saveMove(SlitherLinkGameMove move, MoveProgress rec) {

@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffect
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class RippleEffectDocument extends GameDocument<RippleEffectGame, RippleEffectGameMove> {
     protected void saveMove(RippleEffectGameMove move, MoveProgress rec) {

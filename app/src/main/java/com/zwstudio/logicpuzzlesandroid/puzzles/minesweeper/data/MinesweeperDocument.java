@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperOb
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class MinesweeperDocument extends GameDocument<MinesweeperGame, MinesweeperGameMove> {
     protected void saveMove(MinesweeperGameMove move, MoveProgress rec) {

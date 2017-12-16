@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class MiniLitsDocument extends GameDocument<MiniLitsGame, MiniLitsGameMove> {
     protected void saveMove(MiniLitsGameMove move, MoveProgress rec) {

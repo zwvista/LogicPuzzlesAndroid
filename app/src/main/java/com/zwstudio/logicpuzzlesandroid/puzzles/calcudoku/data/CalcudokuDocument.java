@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku.domain.CalcudokuGameMo
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class CalcudokuDocument extends GameDocument<CalcudokuGame, CalcudokuGameMove> {
     protected void saveMove(CalcudokuGameMove move, MoveProgress rec) {

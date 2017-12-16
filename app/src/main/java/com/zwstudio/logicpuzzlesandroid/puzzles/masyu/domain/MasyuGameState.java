@@ -13,10 +13,6 @@ import java.util.Map;
 
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class MasyuGameState extends CellsGameState<MasyuGame, MasyuGameMove, MasyuGameState> {
     public Boolean[][] objArray;
 

@@ -12,10 +12,6 @@ import java.util.Map;
 
 import fj.F2;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class BalancedTapasGame extends CellsGame<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

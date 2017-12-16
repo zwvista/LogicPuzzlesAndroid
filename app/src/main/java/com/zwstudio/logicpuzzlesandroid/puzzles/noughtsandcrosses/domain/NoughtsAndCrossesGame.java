@@ -13,10 +13,6 @@ import fj.F2;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class NoughtsAndCrossesGame extends CellsGame<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

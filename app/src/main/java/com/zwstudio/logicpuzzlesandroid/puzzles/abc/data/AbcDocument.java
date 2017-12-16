@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class AbcDocument extends GameDocument<AbcGame, AbcGameMove> {
     protected void saveMove(AbcGameMove move, MoveProgress rec) {

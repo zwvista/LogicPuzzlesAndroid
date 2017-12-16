@@ -16,10 +16,6 @@ import java.util.Set;
 import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class NumberPathGameState extends CellsGameState<NumberPathGame, NumberPathGameMove, NumberPathGameState> {
     public Boolean[][] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

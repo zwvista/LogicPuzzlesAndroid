@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class HitoriDocument extends GameDocument<HitoriGame, HitoriGameMove> {
     protected void saveMove(HitoriGameMove move, MoveProgress rec) {

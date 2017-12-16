@@ -22,10 +22,6 @@ import fj.data.Stream;
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class PataGameState extends CellsGameState<PataGame, PataGameMove, PataGameState> {
     public PataObject[] objArray;
 

@@ -11,10 +11,6 @@ import java.util.List;
 
 import fj.F2;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

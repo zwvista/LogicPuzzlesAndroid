@@ -11,10 +11,6 @@ import java.util.Map;
 
 import fj.F2;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class ParkLakesGame extends CellsGame<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

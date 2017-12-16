@@ -18,10 +18,6 @@ import fj.F;
 
 import static fj.data.HashMap.fromMap;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class ParkLakesGameState extends CellsGameState<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState> {
     public ParkLakesObject[] objArray;
 

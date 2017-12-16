@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TatamiDocument extends GameDocument<TatamiGame, TatamiGameMove> {
     protected void saveMove(TatamiGameMove move, MoveProgress rec) {

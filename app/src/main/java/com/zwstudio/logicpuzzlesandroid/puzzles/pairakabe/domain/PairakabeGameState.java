@@ -17,10 +17,6 @@ import fj.F;
 
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class PairakabeGameState extends CellsGameState<PairakabeGame, PairakabeGameMove, PairakabeGameState> {
     public PairakabeObject[] objArray;
 

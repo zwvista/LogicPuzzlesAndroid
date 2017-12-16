@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class LightenUpDocument extends GameDocument<LightenUpGame, LightenUpGameMove> {
     protected void saveMove(LightenUpGameMove move, MoveProgress rec) {

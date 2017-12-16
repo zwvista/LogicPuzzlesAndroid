@@ -7,10 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class WallsGameState extends CellsGameState<WallsGame, WallsGameMove, WallsGameState> {
     public WallsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

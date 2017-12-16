@@ -13,10 +13,6 @@ import java.util.Set;
 
 import fj.function.Effect1;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class RippleEffectGameState extends CellsGameState<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState> {
     public int[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

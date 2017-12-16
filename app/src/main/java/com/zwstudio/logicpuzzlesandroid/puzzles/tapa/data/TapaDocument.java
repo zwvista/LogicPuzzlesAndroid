@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TapaDocument extends GameDocument<TapaGame, TapaGameMove> {
     protected void saveMove(TapaGameMove move, MoveProgress rec) {

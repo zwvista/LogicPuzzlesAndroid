@@ -19,10 +19,6 @@ import fj.F0;
 
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class ProductSentinelsGameState extends CellsGameState<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState> {
     public ProductSentinelsObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

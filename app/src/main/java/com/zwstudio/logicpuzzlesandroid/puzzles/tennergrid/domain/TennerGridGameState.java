@@ -12,10 +12,6 @@ import static fj.Ord.intOrd;
 import static fj.data.Array.array;
 import static fj.data.List.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class TennerGridGameState extends CellsGameState<TennerGridGame, TennerGridGameMove, TennerGridGameState> {
     public int[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGa
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class RobotFencesDocument extends GameDocument<RobotFencesGame, RobotFencesGameMove> {
     protected void saveMove(RobotFencesGameMove move, MoveProgress rec) {

@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.domain.TataminoGameMove
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TataminoDocument extends GameDocument<TataminoGame, TataminoGameMove> {
     protected void saveMove(TataminoGameMove move, MoveProgress rec) {

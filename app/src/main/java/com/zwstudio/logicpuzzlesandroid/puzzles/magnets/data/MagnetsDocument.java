@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class MagnetsDocument extends GameDocument<MagnetsGame, MagnetsGameMove> {
     protected void saveMove(MagnetsGameMove move, MoveProgress rec) {

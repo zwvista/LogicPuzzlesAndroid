@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain.PataObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class PataDocument extends GameDocument<PataGame, PataGameMove> {
     protected void saveMove(PataGameMove move, MoveProgress rec) {

@@ -11,10 +11,6 @@ import java.util.Map;
 
 import fj.function.Effect0;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class DisconnectFourGameState extends CellsGameState<DisconnectFourGame, DisconnectFourGameMove, DisconnectFourGameState> {
     public DisconnectFourObject[] objArray;
     public Map<Position, AllowedObjectState> pos2state = new HashMap<>();

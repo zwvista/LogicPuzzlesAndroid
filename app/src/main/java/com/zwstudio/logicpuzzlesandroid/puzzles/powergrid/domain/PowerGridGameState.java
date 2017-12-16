@@ -12,10 +12,6 @@ import java.util.List;
 
 import fj.F;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class PowerGridGameState extends CellsGameState<PowerGridGame, PowerGridGameMove, PowerGridGameState> {
     public PowerGridObject[] objArray;
     public HintState[] row2state;

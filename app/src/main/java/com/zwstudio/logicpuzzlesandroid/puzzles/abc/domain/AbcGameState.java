@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class AbcGameState extends CellsGameState<AbcGame, AbcGameMove, AbcGameState> {
     private char[] objArray;
     public HintState[] row2state;

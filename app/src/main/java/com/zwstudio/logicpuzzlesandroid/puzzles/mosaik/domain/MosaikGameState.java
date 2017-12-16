@@ -11,10 +11,6 @@ import java.util.Map;
 
 import fj.F;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, MosaikGameState> {
     public MosaikObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

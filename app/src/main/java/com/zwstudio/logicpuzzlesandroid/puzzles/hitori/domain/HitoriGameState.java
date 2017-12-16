@@ -16,10 +16,6 @@ import fj.F;
 
 import static fj.data.List.iterableList;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class HitoriGameState extends CellsGameState<HitoriGame, HitoriGameMove, HitoriGameState> {
     private HitoriObject[] objArray;
     public String[] row2hint;

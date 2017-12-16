@@ -7,10 +7,6 @@ import org.androidannotations.annotations.EBean;
 
 import java.sql.SQLException;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class HomeDocument {
     @App

@@ -10,10 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class SnailGameState extends CellsGameState<SnailGame, SnailGameMove, SnailGameState> {
     private char[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

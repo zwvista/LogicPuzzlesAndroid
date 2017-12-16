@@ -10,10 +10,6 @@ import java.util.List;
 
 import fj.F2;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState> {
     public static Position offset[] = {
             new Position(-1, 0),

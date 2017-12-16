@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain.RobotCros
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class RobotCrosswordsDocument extends GameDocument<RobotCrosswordsGame, RobotCrosswordsGameMove> {
     protected void saveMove(RobotCrosswordsGameMove move, MoveProgress rec) {

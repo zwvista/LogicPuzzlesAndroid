@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.TapAlikeObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TapAlikeDocument extends GameDocument<TapAlikeGame, TapAlikeGameMove> {
     protected void saveMove(TapAlikeGameMove move, MoveProgress rec) {

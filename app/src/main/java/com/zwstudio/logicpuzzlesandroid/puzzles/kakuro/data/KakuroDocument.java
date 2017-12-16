@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class KakuroDocument extends GameDocument<KakuroGame, KakuroGameMove> {
     protected void saveMove(KakuroGameMove move, MoveProgress rec) {

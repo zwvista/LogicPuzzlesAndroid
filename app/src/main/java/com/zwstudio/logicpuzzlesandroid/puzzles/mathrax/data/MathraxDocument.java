@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mathrax.domain.MathraxGameMove;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class MathraxDocument extends GameDocument<MathraxGame, MathraxGameMove> {
     protected void saveMove(MathraxGameMove move, MoveProgress rec) {

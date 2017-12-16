@@ -1,9 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public abstract class MineShipsObject {
     public abstract String objAsString();
     public static MineShipsObject objFromString(String str) {

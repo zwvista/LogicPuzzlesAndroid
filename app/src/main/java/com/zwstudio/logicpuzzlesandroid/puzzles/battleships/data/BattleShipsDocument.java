@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsOb
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class BattleShipsDocument extends GameDocument<BattleShipsGame, BattleShipsGameMove> {
     protected void saveMove(BattleShipsGameMove move, MoveProgress rec) {

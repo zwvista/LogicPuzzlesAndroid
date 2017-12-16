@@ -13,10 +13,6 @@ import java.util.Map;
 import fj.F;
 import fj.F0;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class BootyIslandGameState extends CellsGameState<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState> {
     public BootyIslandObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

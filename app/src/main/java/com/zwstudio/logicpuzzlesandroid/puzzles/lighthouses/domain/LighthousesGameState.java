@@ -15,10 +15,6 @@ import java.util.Map;
 import fj.F;
 import fj.F0;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class LighthousesGameState extends CellsGameState<LighthousesGame, LighthousesGameMove, LighthousesGameState> {
     public LighthousesObject[] objArray;
     public Map<Position, HintState> pos2state = new HashMap<>();

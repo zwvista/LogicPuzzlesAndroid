@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain.OrchardsObject;
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class OrchardsDocument extends GameDocument<OrchardsGame, OrchardsGameMove> {
     protected void saveMove(OrchardsGameMove move, MoveProgress rec) {

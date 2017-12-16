@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBat
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class LightBattleShipsDocument extends GameDocument<LightBattleShipsGame, LightBattleShipsGameMove> {
     protected void saveMove(LightBattleShipsGameMove move, MoveProgress rec) {

@@ -15,10 +15,6 @@ import fj.F;
 import static fj.data.List.iterableList;
 import static fj.data.Stream.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class NoughtsAndCrossesGameState extends CellsGameState<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState> {
     public char[] objArray;
     public HintState[] row2state;

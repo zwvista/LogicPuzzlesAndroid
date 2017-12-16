@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour.domain.Disconnect
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class DisconnectFourDocument extends GameDocument<DisconnectFourGame, DisconnectFourGameMove> {
     protected void saveMove(DisconnectFourGameMove move, MoveProgress rec) {

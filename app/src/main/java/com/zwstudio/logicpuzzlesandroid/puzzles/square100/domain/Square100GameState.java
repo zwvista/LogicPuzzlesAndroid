@@ -6,10 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 
 import fj.F2;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class Square100GameState extends CellsGameState<Square100Game, Square100GameMove, Square100GameState> {
     public String[] objArray;
     public int[] row2hint;

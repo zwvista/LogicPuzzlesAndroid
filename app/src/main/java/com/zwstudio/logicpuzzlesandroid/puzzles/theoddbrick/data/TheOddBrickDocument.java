@@ -8,10 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.domain.TheOddBrickGa
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class TheOddBrickDocument extends GameDocument<TheOddBrickGame, TheOddBrickGameMove> {
     protected void saveMove(TheOddBrickGameMove move, MoveProgress rec) {

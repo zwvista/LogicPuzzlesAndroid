@@ -13,10 +13,6 @@ import static fj.data.List.iterableList;
 import static fj.data.Set.iterableSet;
 import static fj.data.Stream.range;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class RobotFencesGameState extends CellsGameState<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState> {
     public int[] objArray;
     public HintState[] row2state;

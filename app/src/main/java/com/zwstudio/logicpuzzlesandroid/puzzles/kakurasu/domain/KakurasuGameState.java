@@ -9,10 +9,6 @@ import java.util.Arrays;
 
 import fj.F;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 public class KakurasuGameState extends CellsGameState<KakurasuGame, KakurasuGameMove, KakurasuGameState> {
     public KakurasuObject[] objArray;
     public HintState[] row2state;

@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.overunder.domain.OverUnderGameMo
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class OverUnderDocument extends GameDocument<OverUnderGame, OverUnderGameMove> {
     protected void saveMove(OverUnderGameMove move, MoveProgress rec) {

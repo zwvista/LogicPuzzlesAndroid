@@ -9,10 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.Carpenters
 
 import org.androidannotations.annotations.EBean;
 
-/**
- * Created by zwvista on 2016/09/29.
- */
-
 @EBean
 public class CarpentersWallDocument extends GameDocument<CarpentersWallGame, CarpentersWallGameMove> {
     protected void saveMove(CarpentersWallGameMove move, MoveProgress rec) {
