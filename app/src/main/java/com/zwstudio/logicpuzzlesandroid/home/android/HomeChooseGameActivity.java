@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fj.Ord;
+
 import static fj.data.Array.array;
 import static fj.data.List.iterableList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
@@ -80,6 +82,7 @@ public class HomeChooseGameActivity extends BaseActivity {
             try {
                 lstGameNames = array(app.getApplicationContext().getAssets().list("xml"))
                         .map(f -> f.substring(0, f.length() - ".xml".length()))
+                        .toStream().sort(Ord.stringOrd.contramap(s -> s.toUpperCase()))
                         .toJavaList();
             } catch (IOException e) {
                 e.printStackTrace();

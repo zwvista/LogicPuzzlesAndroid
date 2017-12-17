@@ -131,6 +131,7 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
             if (rec == null) {
                 rec = new GameProgress();
                 rec.gameID = gameID();
+                rec.levelID = levels.get(0).id;
                 app.daoGameProgress.create(rec);
             }
             return rec;

@@ -37,6 +37,18 @@
         <activity android:name=".puzzles.abc.android.AbcOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.abcpath.android.ABCPathMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.abcpath.android.ABCPathGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.abcpath.android.ABCPathHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.abcpath.android.ABCPathOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.abstractpainting.android.AbstractPaintingMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
