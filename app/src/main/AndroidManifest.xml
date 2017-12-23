@@ -313,6 +313,18 @@
         <activity android:name=".puzzles.fourmenot.android.FourMeNotOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.futoshiki.android.FutoshikiMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.futoshiki.android.FutoshikiGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.futoshiki.android.FutoshikiHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.futoshiki.android.FutoshikiOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.galaxies.android.GalaxiesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
