@@ -117,11 +117,11 @@ public class OrchardsGame extends CellsGame<OrchardsGame, OrchardsGameMove, Orch
    }
 
     public boolean switchObject(OrchardsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, OrchardsGameState::switchObject);
     }
 
     public boolean setObject(OrchardsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, OrchardsGameState::setObject);
     }
 
     public OrchardsObject getObject(Position p) {

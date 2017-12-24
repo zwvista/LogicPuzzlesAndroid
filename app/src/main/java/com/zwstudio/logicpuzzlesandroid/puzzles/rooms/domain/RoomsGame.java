@@ -93,11 +93,11 @@ public class RoomsGame extends CellsGame<RoomsGame, RoomsGameMove, RoomsGameStat
    }
 
     public boolean switchObject(RoomsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, RoomsGameState::switchObject);
     }
 
     public boolean setObject(RoomsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, RoomsGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

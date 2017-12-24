@@ -64,11 +64,11 @@ public class PowerGridGame extends CellsGame<PowerGridGame, PowerGridGameMove, P
    }
 
     public boolean switchObject(PowerGridGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, PowerGridGameState::switchObject);
     }
 
     public boolean setObject(PowerGridGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, PowerGridGameState::setObject);
     }
 
     public PowerGridObject getObject(Position p) {

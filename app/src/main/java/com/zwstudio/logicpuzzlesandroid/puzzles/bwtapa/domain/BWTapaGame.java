@@ -74,11 +74,11 @@ public class BWTapaGame extends CellsGame<BWTapaGame, BWTapaGameMove, BWTapaGame
    }
 
     public boolean switchObject(BWTapaGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, BWTapaGameState::switchObject);
     }
 
     public boolean setObject(BWTapaGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, BWTapaGameState::setObject);
     }
 
     public BWTapaObject getObject(Position p) {

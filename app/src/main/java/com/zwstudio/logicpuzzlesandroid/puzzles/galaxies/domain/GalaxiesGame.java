@@ -121,11 +121,11 @@ public class GalaxiesGame extends CellsGame<GalaxiesGame, GalaxiesGameMove, Gala
    }
 
     public boolean switchObject(GalaxiesGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, GalaxiesGameState::switchObject);
     }
 
     public boolean setObject(GalaxiesGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, GalaxiesGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

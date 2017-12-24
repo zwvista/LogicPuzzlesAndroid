@@ -58,11 +58,11 @@ public class LightenUpGame extends CellsGame<LightenUpGame, LightenUpGameMove, L
    }
 
     public boolean switchObject(LightenUpGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, LightenUpGameState::switchObject);
     }
 
     public boolean setObject(LightenUpGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, LightenUpGameState::setObject);
     }
 
     public LightenUpObject getObject(Position p) {

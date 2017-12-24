@@ -67,11 +67,11 @@ public class SlitherLinkGame extends CellsGame<SlitherLinkGame, SlitherLinkGameM
    }
 
     public boolean switchObject(SlitherLinkGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, SlitherLinkGameState::switchObject);
     }
 
     public boolean setObject(SlitherLinkGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, SlitherLinkGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

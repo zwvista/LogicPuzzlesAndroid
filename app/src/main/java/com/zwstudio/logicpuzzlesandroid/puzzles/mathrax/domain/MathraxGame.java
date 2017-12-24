@@ -89,11 +89,11 @@ public class MathraxGame extends CellsGame<MathraxGame, MathraxGameMove, Mathrax
    }
 
     public boolean switchObject(MathraxGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, MathraxGameState::switchObject);
     }
 
     public boolean setObject(MathraxGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, MathraxGameState::setObject);
     }
 
     public int getObject(Position p) {

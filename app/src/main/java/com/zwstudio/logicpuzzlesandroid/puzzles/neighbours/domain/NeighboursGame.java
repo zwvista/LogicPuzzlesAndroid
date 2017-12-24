@@ -100,11 +100,11 @@ public class NeighboursGame extends CellsGame<NeighboursGame, NeighboursGameMove
    }
 
     public boolean switchObject(NeighboursGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, NeighboursGameState::switchObject);
     }
 
     public boolean setObject(NeighboursGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, NeighboursGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

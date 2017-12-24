@@ -100,11 +100,11 @@ public class OverUnderGame extends CellsGame<OverUnderGame, OverUnderGameMove, O
    }
 
     public boolean switchObject(OverUnderGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, OverUnderGameState::switchObject);
     }
 
     public boolean setObject(OverUnderGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, OverUnderGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

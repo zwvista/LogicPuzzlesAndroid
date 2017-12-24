@@ -67,11 +67,11 @@ public class Square100Game extends CellsGame<Square100Game, Square100GameMove, S
    }
 
     public boolean switchObject(Square100GameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, Square100GameState::switchObject);
     }
 
     public boolean setObject(Square100GameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, Square100GameState::setObject);
     }
 
     public String getObject(Position p) {

@@ -74,11 +74,11 @@ public class TapAlikeGame extends CellsGame<TapAlikeGame, TapAlikeGameMove, TapA
    }
 
     public boolean switchObject(TapAlikeGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TapAlikeGameState::switchObject);
     }
 
     public boolean setObject(TapAlikeGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TapAlikeGameState::setObject);
     }
 
     public TapAlikeObject getObject(Position p) {

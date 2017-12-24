@@ -91,11 +91,11 @@ public class CarpentersWallGame extends CellsGame<CarpentersWallGame, Carpenters
    }
 
     public boolean switchObject(CarpentersWallGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, CarpentersWallGameState::switchObject);
     }
 
     public boolean setObject(CarpentersWallGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, CarpentersWallGameState::setObject);
     }
 
     public CarpentersWallObject getObject(Position p) {

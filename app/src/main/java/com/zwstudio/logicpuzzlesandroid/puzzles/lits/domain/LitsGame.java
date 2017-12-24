@@ -152,11 +152,11 @@ public class LitsGame extends CellsGame<LitsGame, LitsGameMove, LitsGameState> {
    }
 
     public boolean switchObject(LitsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, LitsGameState::switchObject);
     }
 
     public boolean setObject(LitsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, LitsGameState::setObject);
     }
 
     public LitsObject getObject(Position p) {

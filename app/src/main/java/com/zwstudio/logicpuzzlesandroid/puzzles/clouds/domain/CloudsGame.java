@@ -69,11 +69,11 @@ public class CloudsGame extends CellsGame<CloudsGame, CloudsGameMove, CloudsGame
    }
 
     public boolean switchObject(CloudsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, CloudsGameState::switchObject);
     }
 
     public boolean setObject(CloudsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, CloudsGameState::setObject);
     }
 
     public CloudsObject getObject(Position p) {

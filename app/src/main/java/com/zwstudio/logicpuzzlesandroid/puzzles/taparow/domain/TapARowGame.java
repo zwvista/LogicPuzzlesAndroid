@@ -74,11 +74,11 @@ public class TapARowGame extends CellsGame<TapARowGame, TapARowGameMove, TapARow
    }
 
     public boolean switchObject(TapARowGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TapARowGameState::switchObject);
     }
 
     public boolean setObject(TapARowGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TapARowGameState::setObject);
     }
 
     public TapARowObject getObject(Position p) {

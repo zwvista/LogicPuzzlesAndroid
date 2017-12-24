@@ -90,11 +90,11 @@ public class BattleShipsGame extends CellsGame<BattleShipsGame, BattleShipsGameM
    }
 
     public boolean switchObject(BattleShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, BattleShipsGameState::switchObject);
     }
 
     public boolean setObject(BattleShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, BattleShipsGameState::setObject);
     }
 
     public BattleShipsObject getObject(Position p) {

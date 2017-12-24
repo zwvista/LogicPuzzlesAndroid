@@ -56,11 +56,11 @@ public class WallsGame extends CellsGame<WallsGame, WallsGameMove, WallsGameStat
    }
 
     public boolean switchObject(WallsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, WallsGameState::switchObject);
     }
 
     public boolean setObject(WallsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, WallsGameState::setObject);
     }
 
     public WallsObject getObject(Position p) {

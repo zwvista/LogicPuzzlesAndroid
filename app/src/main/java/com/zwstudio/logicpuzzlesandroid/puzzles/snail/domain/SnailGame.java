@@ -100,11 +100,11 @@ public class SnailGame extends CellsGame<SnailGame, SnailGameMove, SnailGameStat
    }
 
     public boolean switchObject(SnailGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, SnailGameState::switchObject);
     }
 
     public boolean setObject(SnailGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, SnailGameState::setObject);
     }
 
     public char getObject(Position p) {

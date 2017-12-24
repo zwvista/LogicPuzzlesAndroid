@@ -64,11 +64,11 @@ public class MosaikGame extends CellsGame<MosaikGame, MosaikGameMove, MosaikGame
    }
 
     public boolean switchObject(MosaikGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, MosaikGameState::switchObject);
     }
 
     public boolean setObject(MosaikGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, MosaikGameState::setObject);
     }
 
     public MosaikObject getObject(Position p) {

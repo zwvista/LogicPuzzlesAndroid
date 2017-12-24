@@ -71,11 +71,11 @@ public class FourMeNotGame extends CellsGame<FourMeNotGame, FourMeNotGameMove, F
    }
 
     public boolean switchObject(FourMeNotGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, FourMeNotGameState::switchObject);
     }
 
     public boolean setObject(FourMeNotGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, FourMeNotGameState::setObject);
     }
 
     public FourMeNotObject getObject(Position p) {

@@ -63,11 +63,11 @@ public class LighthousesGame extends CellsGame<LighthousesGame, LighthousesGameM
    }
 
     public boolean switchObject(LighthousesGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, LighthousesGameState::switchObject);
     }
 
     public boolean setObject(LighthousesGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, LighthousesGameState::setObject);
     }
 
     public LighthousesObject getObject(Position p) {

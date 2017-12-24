@@ -84,11 +84,11 @@ public class DigitalBattleShipsGame extends CellsGame<DigitalBattleShipsGame, Di
    }
 
     public boolean switchObject(DigitalBattleShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, DigitalBattleShipsGameState::switchObject);
     }
 
     public boolean setObject(DigitalBattleShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, DigitalBattleShipsGameState::setObject);
     }
 
     public DigitalBattleShipsObject getObject(Position p) {

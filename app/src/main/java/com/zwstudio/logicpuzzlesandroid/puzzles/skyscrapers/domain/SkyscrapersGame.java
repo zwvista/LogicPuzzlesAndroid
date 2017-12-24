@@ -74,11 +74,11 @@ public class SkyscrapersGame extends CellsGame<SkyscrapersGame, SkyscrapersGameM
    }
 
     public boolean switchObject(SkyscrapersGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, SkyscrapersGameState::switchObject);
     }
 
     public boolean setObject(SkyscrapersGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, SkyscrapersGameState::setObject);
     }
 
     public int getObject(Position p) {

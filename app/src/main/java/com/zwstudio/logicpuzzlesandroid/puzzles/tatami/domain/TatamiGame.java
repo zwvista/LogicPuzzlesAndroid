@@ -135,11 +135,11 @@ public class TatamiGame extends CellsGame<TatamiGame, TatamiGameMove, TatamiGame
    }
 
     public boolean switchObject(TatamiGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TatamiGameState::switchObject);
     }
 
     public boolean setObject(TatamiGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TatamiGameState::setObject);
     }
 
     public char getObject(Position p) {

@@ -77,11 +77,11 @@ public class BalancedTapasGame extends CellsGame<BalancedTapasGame, BalancedTapa
    }
 
     public boolean switchObject(BalancedTapasGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, BalancedTapasGameState::switchObject);
     }
 
     public boolean setObject(BalancedTapasGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, BalancedTapasGameState::setObject);
     }
 
     public BalancedTapasObject getObject(Position p) {

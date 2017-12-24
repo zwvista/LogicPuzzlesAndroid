@@ -66,11 +66,11 @@ public class HitoriGame extends CellsGame<HitoriGame, HitoriGameMove, HitoriGame
    }
 
     public boolean switchObject(HitoriGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, HitoriGameState::switchObject);
     }
 
     public boolean setObject(HitoriGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, HitoriGameState::setObject);
     }
 
     public HitoriObject getObject(Position p) {

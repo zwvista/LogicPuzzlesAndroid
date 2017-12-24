@@ -74,11 +74,11 @@ public class TapDifferentlyGame extends CellsGame<TapDifferentlyGame, TapDiffere
    }
 
     public boolean switchObject(TapDifferentlyGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TapDifferentlyGameState::switchObject);
     }
 
     public boolean setObject(TapDifferentlyGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TapDifferentlyGameState::setObject);
     }
 
     public TapDifferentlyObject getObject(Position p) {

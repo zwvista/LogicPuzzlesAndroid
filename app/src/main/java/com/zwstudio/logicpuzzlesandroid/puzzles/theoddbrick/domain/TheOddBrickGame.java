@@ -135,11 +135,11 @@ public class TheOddBrickGame extends CellsGame<TheOddBrickGame, TheOddBrickGameM
    }
 
     public boolean switchObject(TheOddBrickGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TheOddBrickGameState::switchObject);
     }
 
     public boolean setObject(TheOddBrickGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TheOddBrickGameState::setObject);
     }
 
     public int getObject(Position p) {

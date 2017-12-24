@@ -83,11 +83,11 @@ public class NoughtsAndCrossesGame extends CellsGame<NoughtsAndCrossesGame, Noug
    }
 
     public boolean switchObject(NoughtsAndCrossesGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, NoughtsAndCrossesGameState::switchObject);
     }
 
     public boolean setObject(NoughtsAndCrossesGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, NoughtsAndCrossesGameState::setObject);
     }
 
     public char getObject(Position p) {

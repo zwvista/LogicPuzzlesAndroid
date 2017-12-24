@@ -59,11 +59,11 @@ public class SentinelsGame extends CellsGame<SentinelsGame, SentinelsGameMove, S
    }
 
     public boolean switchObject(SentinelsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, SentinelsGameState::switchObject);
     }
 
     public boolean setObject(SentinelsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, SentinelsGameState::setObject);
     }
 
     public SentinelsObject getObject(Position p) {

@@ -103,11 +103,11 @@ public class RobotCrosswordsGame extends CellsGame<RobotCrosswordsGame, RobotCro
    }
 
     public boolean switchObject(RobotCrosswordsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, RobotCrosswordsGameState::switchObject);
     }
 
     public boolean setObject(RobotCrosswordsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, RobotCrosswordsGameState::setObject);
     }
 
     public int getObject(Position p) {

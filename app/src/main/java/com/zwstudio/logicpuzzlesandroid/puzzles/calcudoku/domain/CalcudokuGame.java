@@ -145,11 +145,11 @@ public class CalcudokuGame extends CellsGame<CalcudokuGame, CalcudokuGameMove, C
    }
 
     public boolean switchObject(CalcudokuGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, CalcudokuGameState::switchObject);
     }
 
     public boolean setObject(CalcudokuGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, CalcudokuGameState::setObject);
     }
 
     public int getObject(Position p) {

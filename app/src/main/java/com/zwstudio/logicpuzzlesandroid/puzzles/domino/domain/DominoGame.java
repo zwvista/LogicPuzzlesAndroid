@@ -93,11 +93,11 @@ public class DominoGame extends CellsGame<DominoGame, DominoGameMove, DominoGame
    }
 
     public boolean switchObject(DominoGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, DominoGameState::switchObject);
     }
 
     public boolean setObject(DominoGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, DominoGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

@@ -92,11 +92,11 @@ public class BoxItAgainGame extends CellsGame<BoxItAgainGame, BoxItAgainGameMove
    }
 
     public boolean switchObject(BoxItAgainGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, BoxItAgainGameState::switchObject);
     }
 
     public boolean setObject(BoxItAgainGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, BoxItAgainGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

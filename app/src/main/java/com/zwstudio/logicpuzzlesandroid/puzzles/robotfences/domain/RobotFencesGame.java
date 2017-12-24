@@ -135,11 +135,11 @@ public class RobotFencesGame extends CellsGame<RobotFencesGame, RobotFencesGameM
    }
 
     public boolean switchObject(RobotFencesGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, RobotFencesGameState::switchObject);
     }
 
     public boolean setObject(RobotFencesGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, RobotFencesGameState::setObject);
     }
 
     public int getObject(Position p) {

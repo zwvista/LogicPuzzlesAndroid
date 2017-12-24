@@ -92,11 +92,11 @@ public class TataminoGame extends CellsGame<TataminoGame, TataminoGameMove, Tata
    }
 
     public boolean switchObject(TataminoGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TataminoGameState::switchObject);
     }
 
     public boolean setObject(TataminoGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TataminoGameState::setObject);
     }
 
     public char getObject(Position p) {

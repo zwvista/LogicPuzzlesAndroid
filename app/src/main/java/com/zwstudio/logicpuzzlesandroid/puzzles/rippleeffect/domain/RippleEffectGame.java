@@ -136,11 +136,11 @@ public class RippleEffectGame extends CellsGame<RippleEffectGame, RippleEffectGa
    }
 
     public boolean switchObject(RippleEffectGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, RippleEffectGameState::switchObject);
     }
 
     public boolean setObject(RippleEffectGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, RippleEffectGameState::setObject);
     }
 
     public int getObject(Position p) {

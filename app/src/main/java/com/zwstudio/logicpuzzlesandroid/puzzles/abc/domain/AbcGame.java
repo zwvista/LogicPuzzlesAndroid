@@ -74,11 +74,11 @@ public class AbcGame extends CellsGame<AbcGame, AbcGameMove, AbcGameState> {
    }
 
     public boolean switchObject(AbcGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, AbcGameState::switchObject);
     }
 
     public boolean setObject(AbcGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, AbcGameState::setObject);
     }
 
     public char getObject(Position p) {

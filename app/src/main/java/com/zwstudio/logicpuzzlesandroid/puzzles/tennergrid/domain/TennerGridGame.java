@@ -68,11 +68,11 @@ public class TennerGridGame extends CellsGame<TennerGridGame, TennerGridGameMove
    }
 
     public boolean switchObject(TennerGridGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TennerGridGameState::switchObject);
     }
 
     public boolean setObject(TennerGridGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TennerGridGameState::setObject);
     }
 
     public int getObject(Position p) {

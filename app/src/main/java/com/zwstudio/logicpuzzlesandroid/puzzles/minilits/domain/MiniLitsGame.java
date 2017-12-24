@@ -134,11 +134,11 @@ public class MiniLitsGame extends CellsGame<MiniLitsGame, MiniLitsGameMove, Mini
    }
 
     public boolean switchObject(MiniLitsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, MiniLitsGameState::switchObject);
     }
 
     public boolean setObject(MiniLitsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, MiniLitsGameState::setObject);
     }
 
     public MiniLitsObject getObject(Position p) {

@@ -124,11 +124,11 @@ public class PaintTheNurikabeGame extends CellsGame<PaintTheNurikabeGame, PaintT
    }
 
     public boolean switchObject(PaintTheNurikabeGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, PaintTheNurikabeGameState::switchObject);
     }
 
     public boolean setObject(PaintTheNurikabeGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, PaintTheNurikabeGameState::setObject);
     }
 
     public PaintTheNurikabeObject getObject(Position p) {

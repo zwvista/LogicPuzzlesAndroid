@@ -105,11 +105,11 @@ public class CarpentersSquareGame extends CellsGame<CarpentersSquareGame, Carpen
    }
 
     public boolean switchObject(CarpentersSquareGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, CarpentersSquareGameState::switchObject);
     }
 
     public boolean setObject(CarpentersSquareGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, CarpentersSquareGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

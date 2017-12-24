@@ -130,11 +130,11 @@ public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, Abstra
    }
 
     public boolean switchObject(AbstractPaintingGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, AbstractPaintingGameState::switchObject);
     }
 
     public boolean setObject(AbstractPaintingGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, AbstractPaintingGameState::setObject);
     }
 
     public AbstractPaintingObject getObject(Position p) {

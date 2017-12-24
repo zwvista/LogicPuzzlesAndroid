@@ -81,11 +81,11 @@ public class MagnetsGame extends CellsGame<MagnetsGame, MagnetsGameMove, Magnets
    }
 
     public boolean switchObject(MagnetsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, MagnetsGameState::switchObject);
     }
 
     public boolean setObject(MagnetsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, MagnetsGameState::setObject);
     }
 
     public MagnetsObject getObject(Position p) {

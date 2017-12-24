@@ -63,11 +63,11 @@ public class MinesweeperGame extends CellsGame<MinesweeperGame, MinesweeperGameM
    }
 
     public boolean switchObject(MinesweeperGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, MinesweeperGameState::switchObject);
     }
 
     public boolean setObject(MinesweeperGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, MinesweeperGameState::setObject);
     }
 
     public MinesweeperObject getObject(Position p) {

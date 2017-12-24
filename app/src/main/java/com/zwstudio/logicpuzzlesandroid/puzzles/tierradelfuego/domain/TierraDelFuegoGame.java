@@ -57,11 +57,11 @@ public class TierraDelFuegoGame extends CellsGame<TierraDelFuegoGame, TierraDelF
    }
 
     public boolean switchObject(TierraDelFuegoGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TierraDelFuegoGameState::switchObject);
     }
 
     public boolean setObject(TierraDelFuegoGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TierraDelFuegoGameState::setObject);
     }
 
     public TierraDelFuegoObject getObject(Position p) {

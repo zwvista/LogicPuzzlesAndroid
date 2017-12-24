@@ -63,11 +63,11 @@ public class BootyIslandGame extends CellsGame<BootyIslandGame, BootyIslandGameM
    }
 
     public boolean switchObject(BootyIslandGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, BootyIslandGameState::switchObject);
     }
 
     public boolean setObject(BootyIslandGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, BootyIslandGameState::setObject);
     }
 
     public BootyIslandObject getObject(Position p) {

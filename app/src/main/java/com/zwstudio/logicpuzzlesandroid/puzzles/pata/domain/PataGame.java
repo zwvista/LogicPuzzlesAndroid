@@ -74,11 +74,11 @@ public class PataGame extends CellsGame<PataGame, PataGameMove, PataGameState> {
    }
 
     public boolean switchObject(PataGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, PataGameState::switchObject);
     }
 
     public boolean setObject(PataGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, PataGameState::setObject);
     }
 
     public PataObject getObject(Position p) {

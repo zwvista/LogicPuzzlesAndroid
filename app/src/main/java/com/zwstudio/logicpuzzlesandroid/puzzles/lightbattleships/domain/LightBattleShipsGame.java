@@ -84,11 +84,11 @@ public class LightBattleShipsGame extends CellsGame<LightBattleShipsGame, LightB
    }
 
     public boolean switchObject(LightBattleShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, LightBattleShipsGameState::switchObject);
     }
 
     public boolean setObject(LightBattleShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, LightBattleShipsGameState::setObject);
     }
 
     public LightBattleShipsObject getObject(Position p) {

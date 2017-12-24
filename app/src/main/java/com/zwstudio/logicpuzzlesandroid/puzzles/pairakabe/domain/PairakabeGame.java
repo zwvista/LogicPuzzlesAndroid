@@ -64,11 +64,11 @@ public class PairakabeGame extends CellsGame<PairakabeGame, PairakabeGameMove, P
    }
 
     public boolean switchObject(PairakabeGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, PairakabeGameState::switchObject);
     }
 
     public boolean setObject(PairakabeGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, PairakabeGameState::setObject);
     }
 
     public PairakabeObject getObject(Position p) {

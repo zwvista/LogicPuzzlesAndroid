@@ -68,11 +68,11 @@ public class KakurasuGame extends CellsGame<KakurasuGame, KakurasuGameMove, Kaku
    }
 
     public boolean switchObject(KakurasuGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, KakurasuGameState::switchObject);
     }
 
     public boolean setObject(KakurasuGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, KakurasuGameState::setObject);
     }
 
     public KakurasuObject getObject(Position p) {

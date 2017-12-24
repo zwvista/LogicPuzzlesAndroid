@@ -74,11 +74,11 @@ public class FutoshikiGame extends CellsGame<FutoshikiGame, FutoshikiGameMove, F
    }
 
     public boolean switchObject(FutoshikiGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, FutoshikiGameState::switchObject);
     }
 
     public boolean setObject(FutoshikiGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, FutoshikiGameState::setObject);
     }
 
     public char getObject(Position p) {

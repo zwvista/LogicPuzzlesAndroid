@@ -74,11 +74,11 @@ public class TapaGame extends CellsGame<TapaGame, TapaGameMove, TapaGameState> {
    }
 
     public boolean switchObject(TapaGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TapaGameState::switchObject);
     }
 
     public boolean setObject(TapaGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TapaGameState::setObject);
     }
 
     public TapaObject getObject(Position p) {

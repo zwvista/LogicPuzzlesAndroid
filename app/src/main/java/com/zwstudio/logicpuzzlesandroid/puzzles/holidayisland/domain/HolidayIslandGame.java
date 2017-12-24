@@ -57,11 +57,11 @@ public class HolidayIslandGame extends CellsGame<HolidayIslandGame, HolidayIslan
    }
 
     public boolean switchObject(HolidayIslandGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, HolidayIslandGameState::switchObject);
     }
 
     public boolean setObject(HolidayIslandGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, HolidayIslandGameState::setObject);
     }
 
     public HolidayIslandObject getObject(Position p) {

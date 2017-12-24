@@ -128,11 +128,11 @@ public class GardenerGame extends CellsGame<GardenerGame, GardenerGameMove, Gard
    }
 
     public boolean switchObject(GardenerGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, GardenerGameState::switchObject);
     }
 
     public boolean setObject(GardenerGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, GardenerGameState::setObject);
     }
 
     public GardenerObject getObject(Position p) {

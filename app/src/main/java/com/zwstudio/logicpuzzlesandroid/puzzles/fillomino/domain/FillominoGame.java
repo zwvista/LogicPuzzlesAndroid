@@ -94,11 +94,11 @@ public class FillominoGame extends CellsGame<FillominoGame, FillominoGameMove, F
    }
 
     public boolean switchObject(FillominoGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, FillominoGameState::switchObject);
     }
 
     public boolean setObject(FillominoGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, FillominoGameState::setObject);
     }
 
     public char getObject(Position p) {

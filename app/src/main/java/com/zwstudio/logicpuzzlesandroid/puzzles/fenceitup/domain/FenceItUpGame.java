@@ -92,11 +92,11 @@ public class FenceItUpGame extends CellsGame<FenceItUpGame, FenceItUpGameMove, F
    }
 
     public boolean switchObject(FenceItUpGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, FenceItUpGameState::switchObject);
     }
 
     public boolean setObject(FenceItUpGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, FenceItUpGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

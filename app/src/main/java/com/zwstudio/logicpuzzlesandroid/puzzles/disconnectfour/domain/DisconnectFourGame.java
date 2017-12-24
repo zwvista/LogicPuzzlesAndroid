@@ -71,11 +71,11 @@ public class DisconnectFourGame extends CellsGame<DisconnectFourGame, Disconnect
    }
 
     public boolean switchObject(DisconnectFourGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, DisconnectFourGameState::switchObject);
     }
 
     public boolean setObject(DisconnectFourGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, DisconnectFourGameState::setObject);
     }
 
     public DisconnectFourObject getObject(Position p) {

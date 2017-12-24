@@ -133,11 +133,11 @@ public class KropkiGame extends CellsGame<KropkiGame, KropkiGameMove, KropkiGame
    }
 
     public boolean switchObject(KropkiGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, KropkiGameState::switchObject);
     }
 
     public boolean setObject(KropkiGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, KropkiGameState::setObject);
     }
 
     public int getObject(Position p) {

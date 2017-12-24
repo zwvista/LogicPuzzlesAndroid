@@ -65,11 +65,11 @@ public class MineShipsGame extends CellsGame<MineShipsGame, MineShipsGameMove, M
    }
 
     public boolean switchObject(MineShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, MineShipsGameState::switchObject);
     }
 
     public boolean setObject(MineShipsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, MineShipsGameState::setObject);
     }
 
     public MineShipsObject getObject(Position p) {

@@ -59,11 +59,11 @@ public class BusySeasGame extends CellsGame<BusySeasGame, BusySeasGameMove, Busy
    }
 
     public boolean switchObject(BusySeasGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, BusySeasGameState::switchObject);
     }
 
     public boolean setObject(BusySeasGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, BusySeasGameState::setObject);
     }
 
     public BusySeasObject getObject(Position p) {

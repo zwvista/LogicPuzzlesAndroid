@@ -69,11 +69,11 @@ public class SnakeGame extends CellsGame<SnakeGame, SnakeGameMove, SnakeGameStat
    }
 
     public boolean switchObject(SnakeGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, SnakeGameState::switchObject);
     }
 
     public boolean setObject(SnakeGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, SnakeGameState::setObject);
     }
 
     public SnakeObject getObject(Position p) {

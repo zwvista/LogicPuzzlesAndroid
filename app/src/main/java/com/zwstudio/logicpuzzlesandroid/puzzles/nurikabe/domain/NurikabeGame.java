@@ -64,11 +64,11 @@ public class NurikabeGame extends CellsGame<NurikabeGame, NurikabeGameMove, Nuri
    }
 
     public boolean switchObject(NurikabeGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, NurikabeGameState::switchObject);
     }
 
     public boolean setObject(NurikabeGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, NurikabeGameState::setObject);
     }
 
     public NurikabeObject getObject(Position p) {

@@ -72,11 +72,11 @@ public class LoopyGame extends CellsGame<LoopyGame, LoopyGameMove, LoopyGameStat
    }
 
     public boolean switchObject(LoopyGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, LoopyGameState::switchObject);
     }
 
     public boolean setObject(LoopyGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, LoopyGameState::setObject);
     }
 
     public GridLineObject[] getObject(Position p) {

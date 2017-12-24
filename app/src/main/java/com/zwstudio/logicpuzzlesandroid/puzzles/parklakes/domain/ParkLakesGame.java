@@ -58,11 +58,11 @@ public class ParkLakesGame extends CellsGame<ParkLakesGame, ParkLakesGameMove, P
    }
 
     public boolean switchObject(ParkLakesGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, ParkLakesGameState::switchObject);
     }
 
     public boolean setObject(ParkLakesGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, ParkLakesGameState::setObject);
     }
 
     public ParkLakesObject getObject(Position p) {

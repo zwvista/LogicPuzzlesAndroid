@@ -74,11 +74,11 @@ public class TapaIslandsGame extends CellsGame<TapaIslandsGame, TapaIslandsGameM
    }
 
     public boolean switchObject(TapaIslandsGameMove move) {
-        return changeObject(move, (state, move2) -> state.switchObject(move2));
+        return changeObject(move, TapaIslandsGameState::switchObject);
     }
 
     public boolean setObject(TapaIslandsGameMove move) {
-        return changeObject(move, (state, move2) -> state.setObject(move2));
+        return changeObject(move, TapaIslandsGameState::setObject);
     }
 
     public TapaIslandsObject getObject(Position p) {
