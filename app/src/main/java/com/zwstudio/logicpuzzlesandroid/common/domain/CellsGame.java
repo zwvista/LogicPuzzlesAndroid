@@ -2,10 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.common.domain;
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 
-/**
- * Created by TCC-2-9002 on 2016/10/27.
- */
-
 public class CellsGame<G extends Game<G, GM, GS>, GM, GS extends GameState> extends Game<G, GM, GS> {
 
     public Position size;

@@ -6,10 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by TCC-2-9002 on 2016/10/27.
- */
-
 public class Game<G extends Game<G, GM, GS>, GM, GS extends GameState> {
     protected Cloner cloner = new Cloner();
     protected int stateIndex = 0;
