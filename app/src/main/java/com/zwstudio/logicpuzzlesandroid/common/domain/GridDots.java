@@ -2,10 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.common.domain;
 
 import java.util.Arrays;
 
-/**
- * Created by zhaowei on 2016/12/23.
- */
-
 public class GridDots {
     public int rows = 0;
     public int cols = 0;

@@ -15,10 +15,6 @@ import org.androidannotations.annotations.EBean;
 
 import static android.content.Context.AUDIO_SERVICE;
 
-/**
- * Created by zwvista on 2016/10/28.
- */
-
 @EBean
 public class SoundManager {
     @App

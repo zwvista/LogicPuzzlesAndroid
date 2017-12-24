@@ -11,10 +11,6 @@ import android.widget.Toast;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 
-/**
- * Created by zwvista on 2016/10/09.
- */
-
 // http://stackoverflow.com/questions/27579765/play-background-music-in-all-activities-of-android-app
 // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
 public class MusicService extends Service  implements MediaPlayer.OnErrorListener {

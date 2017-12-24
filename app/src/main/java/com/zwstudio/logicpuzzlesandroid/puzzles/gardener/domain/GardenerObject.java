@@ -1,9 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain;
 
-/**
- * Created by TCC-2-9002 on 2016/10/20.
- */
-
 public abstract class GardenerObject {
     public abstract String objAsString();
     public static GardenerObject objFromString(String str) {
