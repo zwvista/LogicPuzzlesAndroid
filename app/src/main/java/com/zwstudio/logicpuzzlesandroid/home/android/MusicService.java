@@ -10,10 +10,17 @@ import android.widget.Toast;
 
 import com.zwstudio.logicpuzzlesandroid.R;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Random;
+
+import static fj.data.Stream.range;
 
 // http://stackoverflow.com/questions/27579765/play-background-music-in-all-activities-of-android-app
 // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
+// https://stackoverflow.com/questions/31419328/is-it-possible-to-have-mediaplayer-play-one-audio-file-and-when-it-finishes-play
 public class MusicService extends Service  implements MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
     private final IBinder mBinder = new ServiceBinder();
@@ -27,6 +34,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        stopMusic();
         createMediaPlayer();
     }
 
@@ -49,8 +57,16 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     private void createMediaPlayer() {
-        int n = rand.nextInt() % 2;
-        mPlayer = MediaPlayer.create(this, n == 0 ? R.raw.music1 : R.raw.music2);
+        // https://stackoverflow.com/questions/6539715/android-how-do-can-i-get-a-list-of-all-files-in-a-folder
+        Field[] fields = R.raw.class.getFields();
+        List<Integer> indexes = range(0, fields.length)
+                .filter(i -> StringUtils.startsWith(fields[i].getName(), "music")).toJavaList();
+        int n = rand.nextInt() % indexes.size();
+        try {
+            mPlayer = MediaPlayer.create(this, fields[indexes.get(n)].getInt(fields[indexes.get(n)]));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         mPlayer.setVolume(100, 100);
         mPlayer.setOnErrorListener(this);
         mPlayer.setOnCompletionListener(this);
@@ -103,6 +119,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }
     }
 
+    @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
 
         Toast.makeText(this, "music player failed", Toast.LENGTH_SHORT).show();

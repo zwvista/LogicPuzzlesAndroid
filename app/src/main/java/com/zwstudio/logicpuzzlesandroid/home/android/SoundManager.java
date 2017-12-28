@@ -35,7 +35,7 @@ public class SoundManager {
         }
     };
 
-    void doBindService(){
+    private void doBindService(){
         app.bindService(new Intent(app, MusicService.class),
                 Scon, Context.BIND_AUTO_CREATE);
         mIsBound = true;
@@ -54,7 +54,7 @@ public class SoundManager {
     // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
     private SoundPool soundPool;
     private int soundIDTap, soundIDSolved;
-    boolean loaded = false;
+    private boolean loaded = false;
 
     // http://stackoverflow.com/questions/3667022/checking-if-an-android-application-is-running-in-the-background/13809991#13809991
     private int stateCounter;
@@ -82,7 +82,7 @@ public class SoundManager {
         stateCounter = 0;
     }
 
-    public void playOrPauseMusic() {
+    void playOrPauseMusic() {
         if (mServ == null) return;
         if (app.homeDocument.gameProgress().playMusic)
             mServ.resumeMusic();
@@ -104,10 +104,8 @@ public class SoundManager {
 
     private void playSound(int soundID) {
         AudioManager audioManager = (AudioManager) app.getSystemService(AUDIO_SERVICE);
-        float actualVolume = (float) audioManager
-                .getStreamVolume(AudioManager.STREAM_MUSIC);
-        float maxVolume = (float) audioManager
-                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        float actualVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         float volume = actualVolume / maxVolume;
         // Is the sound loaded already?
         if (loaded && app.homeDocument.gameProgress().playSound)
