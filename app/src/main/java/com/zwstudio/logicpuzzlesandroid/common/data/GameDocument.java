@@ -9,6 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
+import org.apache.commons.lang3.StringUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -24,7 +25,6 @@ import java.util.Map;
 import fj.F;
 
 import static fj.data.Array.array;
-import static fj.data.Array.range;
 import static fj.data.List.iterableList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
@@ -81,11 +81,7 @@ public abstract class GameDocument<G extends Game, GM> implements GameDocumentIn
     private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
         int eventType = parser.getEventType();
-        F<List<String>, List<String>> getCdata = strs -> {
-            int a = range(0, strs.size()).find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
-            int b = range(0, strs.size()).reverse().find(i -> !strs.get(i).trim().isEmpty()).orSome(-1);
-            return a == -1 || b == -1 ? strs : strs.subList(a, b + 1);
-        };
+        F<List<String>, List<String>> getCdata = strs -> iterableList(strs).filter(s -> !StringUtils.isAllBlank(s)).toJavaList();
         while (eventType != XmlPullParser.END_DOCUMENT){
             switch (eventType){
             case XmlPullParser.START_DOCUMENT:
