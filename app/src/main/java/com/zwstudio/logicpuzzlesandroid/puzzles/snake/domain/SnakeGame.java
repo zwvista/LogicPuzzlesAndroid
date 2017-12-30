@@ -42,6 +42,13 @@ public class SnakeGame extends CellsGame<SnakeGame, SnakeGameMove, SnakeGameStat
                         col2hint[c] = n;
                     else if (c == cols())
                         row2hint[r] = n;
+                } else {
+                    if (r == rows() && c == cols()) {
+                        //
+                    } else if (r == rows())
+                        col2hint[c] = -1;
+                    else if (c == cols())
+                        row2hint[r] = -1;
                 }
             }
         }

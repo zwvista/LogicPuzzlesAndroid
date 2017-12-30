@@ -28,6 +28,7 @@ public class SnakeGameView extends CellsGameView {
     @Override protected int colsInView() {return cols() + 1;}
     private Paint gridPaint = new Paint();
     private Paint wallPaint = new Paint();
+    private Paint grayPaint = new Paint();
     private Paint lightPaint = new Paint();
     private Paint forbiddenPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
@@ -52,6 +53,8 @@ public class SnakeGameView extends CellsGameView {
         gridPaint.setStyle(Paint.Style.STROKE);
         wallPaint.setColor(Color.WHITE);
         wallPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        grayPaint.setColor(Color.GRAY);
+        grayPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         lightPaint.setColor(Color.YELLOW);
         lightPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         forbiddenPaint.setColor(Color.RED);
@@ -67,10 +70,12 @@ public class SnakeGameView extends CellsGameView {
             for (int c = 0; c < cols(); c++) {
                 canvas.drawRect(cwc(c), chr(r), cwc(c + 1), chr(r + 1), gridPaint);
                 if (isInEditMode()) continue;
-                SnakeObject o = game().getObject(r, c);
+                Position p = new Position(r, c);
+                SnakeObject o = game().getObject(p);
                 switch (o) {
                 case Snake:
-                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4, wallPaint);
+                    canvas.drawRect(cwc(c) + 4, chr(r) + 4, cwc(c + 1) - 4, chr(r + 1) - 4,
+                            game().pos2snake.contains(p) ? grayPaint : wallPaint);
                     break;
                 case Marker:
                     canvas.drawArc(cwc2(c) - 20, chr2(r) - 20, cwc2(c) + 20, chr2(r) + 20, 0, 360, true, wallPaint);
@@ -89,6 +94,7 @@ public class SnakeGameView extends CellsGameView {
                     Color.WHITE
             );
             int n = game().row2hint[r];
+            if (n < 0) continue;
             String text = String.valueOf(n);
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
         }
@@ -100,6 +106,7 @@ public class SnakeGameView extends CellsGameView {
                     Color.WHITE
             );
             int n = game().col2hint[c];
+            if (n < 0) continue;
             String text = String.valueOf(n);
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
         }

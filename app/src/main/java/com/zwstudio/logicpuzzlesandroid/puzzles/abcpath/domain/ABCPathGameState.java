@@ -64,7 +64,7 @@ public class ABCPathGameState extends CellsGameState<ABCPathGame, ABCPathGameMov
                 if (!p2.equals(p)) chars.remove(Character.valueOf(get(p2)));
             }
         int i = chars.contains(o) ? chars.indexOf(o) : chars.size() - 1;
-        move.obj = o == ' ' ? chars.get(0) : i == chars.size() - 1 ? ' ' : chars.get(chars.size() - 1);
+        move.obj = o == ' ' ? chars.get(0) : i == chars.size() - 1 ? ' ' : chars.get(i + 1);
         return setObject(move);
     }
 

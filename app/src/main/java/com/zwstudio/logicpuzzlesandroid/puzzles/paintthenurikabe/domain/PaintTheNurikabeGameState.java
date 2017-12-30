@@ -72,7 +72,9 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
             }
             return obj;
         };
-        PaintTheNurikabeObject o = get(move.p);
+        Position p = move.p;
+        if (!isValid(p)) return false;
+        PaintTheNurikabeObject o = get(p);
         move.obj = f.f(o);
         return setObject(move);
     }
@@ -119,7 +121,7 @@ public class PaintTheNurikabeGameState extends CellsGameState<PaintTheNurikabeGa
             pos2state.put(p, s);
             if (s != HintState.Complete)
                 isSolved = false;
-            else
+            else if (allowedObjectsOnly)
                 for (Position p2 : rng)
                     set(p2, PaintTheNurikabeObject.Forbidden);
         }

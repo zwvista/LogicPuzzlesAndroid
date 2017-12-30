@@ -61,7 +61,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         Field[] fields = R.raw.class.getFields();
         List<Integer> indexes = range(0, fields.length)
                 .filter(i -> StringUtils.startsWith(fields[i].getName(), "music")).toJavaList();
-        int n = rand.nextInt() % indexes.size();
+        int n = rand.nextInt(indexes.size());
         try {
             mPlayer = MediaPlayer.create(this, fields[indexes.get(n)].getInt(fields[indexes.get(n)]));
         } catch (IllegalAccessException e) {

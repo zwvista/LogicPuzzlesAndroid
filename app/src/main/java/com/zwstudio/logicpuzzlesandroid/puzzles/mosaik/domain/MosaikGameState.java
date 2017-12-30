@@ -85,6 +85,10 @@ public class MosaikGameState extends CellsGameState<MosaikGame, MosaikGameMove, 
     */
     private void updateIsSolved() {
         isSolved = true;
+        for (int r = 0; r < rows(); r++)
+            for (int c = 0; c < cols(); c++)
+                if (get(r, c) == MosaikObject.Forbidden)
+                    set(r, c, MosaikObject.Empty);
         for (Map.Entry<Position, Integer> entry : game.pos2hint.entrySet()) {
             Position p = entry.getKey();
             int n2 = entry.getValue();

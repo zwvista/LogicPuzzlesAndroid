@@ -48,7 +48,7 @@ public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, Sna
 
     public boolean setObject(SnakeGameMove move) {
         Position p = move.p;
-        if (!isValid(p) || get(p) == move.obj) return false;
+        if (!isValid(p) || game.pos2snake.contains(p) || get(p) == move.obj) return false;
         set(p, move.obj);
         updateIsSolved();
         return true;
@@ -71,7 +71,7 @@ public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, Sna
             return obj;
         };
         Position p = move.p;
-        if (!isValid(p)) return false;
+        if (!isValid(p) || game.pos2snake.contains(p))  return false;
         move.obj = f.f(get(p));
         return setObject(move);
     }
@@ -103,8 +103,9 @@ public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, Sna
             for (int c = 0; c < cols(); c++)
                 if (get(r, c) == SnakeObject.Snake)
                     n1++;
-            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 || n2 == -1 ? HintState.Complete : HintState.Error;
+            row2state[r] = s;
+            if (s != HintState.Complete) isSolved = false;
         }
         // 3. Numbers on the border tell you how many tiles the snake occupies in that column.
         for (int c = 0; c < cols(); c++) {
@@ -112,14 +113,16 @@ public class SnakeGameState extends CellsGameState<SnakeGame, SnakeGameMove, Sna
             for (int r = 0; r < rows(); r++)
                 if (get(r, c) == SnakeObject.Snake)
                     n1++;
-            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 || n2 == -1 ? HintState.Complete : HintState.Error;
+            col2state[c] = s;
+            if (s != HintState.Complete) isSolved = false;
         }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 SnakeObject o = get(r, c);
                 if ((o == SnakeObject.Empty || o == SnakeObject.Marker) && allowedObjectsOnly && (
-                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
+                        row2state[r] != HintState.Normal && game.row2hint[r] != -1 ||
+                        col2state[c] != HintState.Normal && game.col2hint[c] != -1))
                     set(r, c, SnakeObject.Forbidden);
             }
         Graph g = new Graph();
