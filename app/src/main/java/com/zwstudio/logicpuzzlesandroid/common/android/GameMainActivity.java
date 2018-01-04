@@ -24,6 +24,10 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
     protected TextView tvGame;
     @ViewById
     protected Button btnResumeLevel;
+    @ViewById
+    protected Button btnPrevPage;
+    @ViewById
+    protected Button btnNextPage;
 
     int currentPage = 0;
     int countPerPage = 12;
@@ -48,6 +52,10 @@ public abstract class GameMainActivity<G extends Game<G, GM, GS>, GD extends Gam
         numPages = (doc().levels.size() + countPerPage - 1) / countPerPage;
         int index = iterableList(doc().levels).toStream().indexOf(o -> o.id.equals(doc().selectedLevelID)).orSome(0);
         currentPage = index / countPerPage;
+        if (numPages == 1) {
+            btnPrevPage.setVisibility(View.INVISIBLE);
+            btnNextPage.setVisibility(View.INVISIBLE);
+        }
         showCurrentPage();
 
         tvGame.setText(doc().gameTitle());
