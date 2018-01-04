@@ -45,10 +45,11 @@ public class ParksGame extends CellsGame<ParksGame, ParksGameMove, ParksGameStat
     public GridDots dots;
     public int treesInEachArea = 1;
 
-    public ParksGame(List<String> layout, GameInterface<ParksGame, ParksGameMove, ParksGameState> gi, GameDocumentInterface gdi) {
+    public ParksGame(List<String> layout, int treesInEachArea, GameInterface<ParksGame, ParksGameMove, ParksGameState> gi, GameDocumentInterface gdi) {
         super(gi, gdi);
         size = new Position(layout.size() / 2, layout.get(0).length() / 2);
         dots = new GridDots(rows() + 1, cols() + 1);
+        this.treesInEachArea = treesInEachArea;
         for (int r = 0; r < rows() + 1; r++) {
             String str = layout.get(r * 2);
             for (int c = 0; c < cols(); c++) {

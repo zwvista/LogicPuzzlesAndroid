@@ -17,6 +17,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import static fj.data.List.iterableList;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 @EActivity(R.layout.activity_game_game)
 public class ParksGameActivity extends GameGameActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState> {
@@ -40,7 +41,8 @@ public class ParksGameActivity extends GameGameActivity<ParksGame, ParksDocument
         updateSolutionUI();
 
         levelInitilizing = true;
-        game = new ParksGame(level.layout, this, doc());
+        int treesInEachArea = Integer.parseInt(defaultIfNull(level.settings.get("TreesInEachArea"), "1"));
+        game = new ParksGame(level.layout, treesInEachArea, this, doc());
         try {
             // restore game state
             for (MoveProgress rec : doc().moveProgress()) {

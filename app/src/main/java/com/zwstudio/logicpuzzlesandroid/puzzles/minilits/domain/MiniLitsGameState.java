@@ -25,6 +25,7 @@ import fj.function.Effect1;
 import static fj.data.Array.array;
 import static fj.data.HashMap.fromMap;
 import static fj.data.List.iterableList;
+import static fj.data.Stream.range;
 
 public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState> {
     public MiniLitsObject[] objArray;
@@ -137,9 +138,7 @@ public class MiniLitsGameState extends CellsGameState<MiniLitsGame, MiniLitsGame
         }
         // 4. All the shaded cells should form a valid Nurikabe.
         if (blocks.size() != 1) isSolved = false;
-        List<MiniLitsAreaInfo> infos = new ArrayList<>();
-        for (int i = 0; i < game.areas.size(); i++)
-            infos.add(new MiniLitsAreaInfo());
+        List<MiniLitsAreaInfo> infos = range(0, game.areas.size()).map(i -> new MiniLitsAreaInfo()).toJavaList();
         for (int i = 0; i < blocks.size(); i++) {
             List<Position> block = blocks.get(i);
             for (Position p : block) {
