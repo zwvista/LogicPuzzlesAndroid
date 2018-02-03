@@ -91,8 +91,9 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
                 if (get(r, c) == AbstractPaintingObject.Painting)
                     n1++;
             // 2. Outer numbers tell how many tiles form the painting on the row.
-            row2state[r] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            row2state[r] = s;
+            if (s != HintState.Complete) isSolved = false;
         }
         for (int c = 0; c < cols(); c++) {
             int n1 = 0, n2 = game.col2hint[c];
@@ -100,14 +101,15 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
                 if (get(r, c) == AbstractPaintingObject.Painting)
                     n1++;
             // 2. Outer numbers tell how many tiles form the painting on the column.
-            col2state[c] = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
-            if (n1 != n2) isSolved = false;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            col2state[c] = s;
+            if (s != HintState.Complete) isSolved = false;
         }
         for (int r = 0; r < rows(); r++)
             for (int c = 0; c < cols(); c++) {
                 AbstractPaintingObject o = get(r, c);
                 if ((o == AbstractPaintingObject.Empty || o == AbstractPaintingObject.Marker) && allowedObjectsOnly && (
-                        row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
+                        row2state[r] != HintState.Normal && game.row2hint[r] != -1 || col2state[c] != HintState.Normal && game.col2hint[c] != -1 ))
                     set(r, c, AbstractPaintingObject.Forbidden);
             }
     }

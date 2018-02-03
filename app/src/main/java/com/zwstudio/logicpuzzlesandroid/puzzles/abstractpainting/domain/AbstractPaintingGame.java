@@ -99,13 +99,11 @@ public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, Abstra
         }
         for (int r = 0; r < rows() + 1; r++) {
             char ch = layout.get(2 * r + 1).charAt(2 * cols() + 1);
-            if (ch >= '0' && ch <= '9')
-                row2hint[r] = ch - '0';
+            row2hint[r] = ch >= '0' && ch <= '9' ? ch - '0': -1;
         }
         for (int c = 0; c < cols(); c++) {
             char ch = layout.get(2 * rows() + 1).charAt(2 * c + 1);
-            if (ch >= '0' && ch <= '9')
-                col2hint[c] = ch - '0';
+            col2hint[c] = ch >= '0' && ch <= '9' ? ch - '0': -1;
         }
         AbstractPaintingGameState state = new AbstractPaintingGameState(this);
         states.add(state);
