@@ -105,6 +105,7 @@ public class AbstractPaintingGameView extends CellsGameView {
                     Color.WHITE
             );
             int n = game().row2hint[r];
+            if (n < 0) continue;
             String text = String.valueOf(n);
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint);
         }
@@ -116,6 +117,7 @@ public class AbstractPaintingGameView extends CellsGameView {
                     Color.WHITE
             );
             int n = game().col2hint[c];
+            if (n < 0) continue;
             String text = String.valueOf(n);
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint);
         }

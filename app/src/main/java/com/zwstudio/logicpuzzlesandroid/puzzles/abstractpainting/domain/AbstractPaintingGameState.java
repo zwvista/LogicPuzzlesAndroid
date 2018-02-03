@@ -91,7 +91,7 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
                 if (get(r, c) == AbstractPaintingObject.Painting)
                     n1++;
             // 2. Outer numbers tell how many tiles form the painting on the row.
-            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 || n2 == -1 ? HintState.Complete : HintState.Error;
             row2state[r] = s;
             if (s != HintState.Complete) isSolved = false;
         }
@@ -101,7 +101,7 @@ public class AbstractPaintingGameState extends CellsGameState<AbstractPaintingGa
                 if (get(r, c) == AbstractPaintingObject.Painting)
                     n1++;
             // 2. Outer numbers tell how many tiles form the painting on the column.
-            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 ? HintState.Complete : HintState.Error;
+            HintState s = n1 < n2 ? HintState.Normal : n1 == n2 || n2 == -1 ? HintState.Complete : HintState.Error;
             col2state[c] = s;
             if (s != HintState.Complete) isSolved = false;
         }

@@ -97,7 +97,7 @@ public class AbstractPaintingGame extends CellsGame<AbstractPaintingGame, Abstra
             areas.add(area);
             rng.removeAll(area);
         }
-        for (int r = 0; r < rows() + 1; r++) {
+        for (int r = 0; r < rows(); r++) {
             char ch = layout.get(2 * r + 1).charAt(2 * cols() + 1);
             row2hint[r] = ch >= '0' && ch <= '9' ? ch - '0': -1;
         }
