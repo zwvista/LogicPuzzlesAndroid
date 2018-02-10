@@ -20,10 +20,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.Carpente
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareLeftHint;
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareRightHint;
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareUpHint;
-import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallDownObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallLeftObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallRightObject;
-import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallUpObject;
 
 /**
  * TODO: document your custom view class.
