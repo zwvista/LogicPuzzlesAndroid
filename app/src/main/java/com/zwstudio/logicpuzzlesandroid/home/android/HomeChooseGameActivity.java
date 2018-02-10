@@ -73,6 +73,7 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("TennerGrid", "Tenner Grid");
         put("TheOddBrick", "The Odd Brick");
         put("TierraDelFuego", "Tierra Del Fuego");
+        put("WallSentinels", "Wall Sentinels");
     }};
     private static final int UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
 
