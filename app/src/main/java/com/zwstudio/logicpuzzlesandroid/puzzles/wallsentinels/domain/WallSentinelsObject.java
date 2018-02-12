@@ -2,7 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain;
 
 
 public abstract class WallSentinelsObject {
-    public abstract String objAsString();
+    public String objAsString() {
+        return "empty";
+    }
     public static WallSentinelsObject objFromString(String str) {
         switch (str) {
             case "marker":
@@ -10,7 +12,7 @@ public abstract class WallSentinelsObject {
             case "wall":
                 return new WallSentinelsWallObject();
             default:
-                return new WallSentinelsMarkerObject();
+                return new WallSentinelsEmptyObject();
         }
     }
 }

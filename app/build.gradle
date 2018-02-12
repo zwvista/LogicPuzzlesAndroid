@@ -1,12 +1,7 @@
 apply plugin: 'com.android.application'
-def AAVersion = '4.4.0'
-
-dependencies {
-    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-    annotationProcessor "org.androidannotations:ormlite:$AAVersion"
-    compile "org.androidannotations:ormlite-api:$AAVersion"
-}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-allopen'
+apply plugin: "kotlin-kapt"
 
 android {
     compileSdkVersion 27
@@ -71,16 +66,17 @@ android {
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
-    }
+allOpen {
+    annotation("org.androidannotations.api.KotlinOpen")
 }
 
+def AAVersion = '4.4.0'
 dependencies {
+    kapt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    kapt "org.androidannotations:ormlite:$AAVersion"
+    compile "org.androidannotations:ormlite-api:$AAVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

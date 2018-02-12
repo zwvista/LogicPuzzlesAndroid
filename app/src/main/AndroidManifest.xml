@@ -1021,6 +1021,18 @@
         <activity android:name=".puzzles.wallsentinels.android.WallSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.wallsentinels2.android.WallSentinels2MainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wallsentinels2.android.WallSentinels2GameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wallsentinels2.android.WallSentinels2HelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wallsentinels2.android.WallSentinels2OptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

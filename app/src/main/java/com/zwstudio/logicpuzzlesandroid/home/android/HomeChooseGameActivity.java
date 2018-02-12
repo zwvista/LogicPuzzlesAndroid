@@ -74,6 +74,7 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("TheOddBrick", "The Odd Brick");
         put("TierraDelFuego", "Tierra Del Fuego");
         put("WallSentinels", "Wall Sentinels");
+        put("WallSentinels2", "Wall Sentinels 2");
     }};
     private static final int UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
 
