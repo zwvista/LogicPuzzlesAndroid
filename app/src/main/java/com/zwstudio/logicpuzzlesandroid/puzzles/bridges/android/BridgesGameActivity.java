@@ -48,9 +48,9 @@ public class BridgesGameActivity extends GameGameActivity<BridgesGame, BridgesDo
                 game.switchBridges(move);
             }
             int moveIndex = doc().levelProgress().moveIndex;
-            if (!(moveIndex >= 0 && moveIndex < game.moveCount())) return;
-            while (moveIndex != game.moveIndex())
-                game.undo();
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo();
         } finally {
             levelInitilizing = false;
         }

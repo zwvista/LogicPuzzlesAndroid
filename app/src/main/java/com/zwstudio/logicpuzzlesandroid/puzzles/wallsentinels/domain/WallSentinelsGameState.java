@@ -100,16 +100,9 @@ public class WallSentinelsGameState extends CellsGameState<WallSentinelsGame, Wa
                     for (Position os : WallSentinelsGame.offset)
                         for (Position p2 = p.add(os); isValid(p2); p2.addBy(os)) {
                             WallSentinelsObject o2 = get(p2);
-                            if (o2 instanceof WallSentinelsWallObject || o2 instanceof WallSentinelsHintWallObject)
-                                if (isWall)
-                                    n1++;
-                                else
-                                    break;
-                            else
-                                if (!isWall)
-                                    n1++;
-                                else
-                                    break;
+                            boolean isWall2 = o2 instanceof WallSentinelsWallObject || o2 instanceof WallSentinelsHintWallObject;
+                            if (isWall2 != isWall) break;
+                            n1++;
                         }
                     // 3. The number tells you how many tiles that Sentinel can control (see)
                     // from there vertically and horizontally - of his type of tile.
