@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>, gdi: GameDocumentInterface) : CellsGame<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>(gi, gdi) {
 
@@ -18,7 +17,7 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
     init {
         size = Position(layout.size, layout[0].length / 2)
         // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-        objArray = MutableList(rows() * cols()) {WallSentinels2EmptyObject()}
+        objArray = MutableList(rows() * cols()) { WallSentinels2EmptyObject() }
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols()) {
@@ -27,10 +26,8 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
                 if (s != "  ") {
                     val n = s[1] - '0'
                     val o =
-                        if (s[0] == '.')
-                            WallSentinels2HintLandObject(n, HintState.Normal)
-                        else
-                            WallSentinels2HintWallObject(n, HintState.Normal)
+                        if (s[0] == '.') WallSentinels2HintLandObject(n)
+                        else WallSentinels2HintWallObject(n)
                     this[p] = o
                 }
             }

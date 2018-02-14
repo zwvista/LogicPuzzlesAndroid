@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.data.WallSentinel
 import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2Game
 import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameState
-import fj.data.List.iterableList
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
@@ -29,7 +28,7 @@ class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSent
 
     override fun startGame() {
         val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[iterableList(doc().levels).toStream().indexOf { o -> o.id == selectedLevelID }.orSome(0)]
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
 
@@ -51,7 +50,5 @@ class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSent
     }
 
     @Click
-    protected fun btnHelp() {
-        WallSentinels2HelpActivity_.intent(this).start()
-    }
+    protected fun btnHelp() = WallSentinels2HelpActivity_.intent(this).start()
 }

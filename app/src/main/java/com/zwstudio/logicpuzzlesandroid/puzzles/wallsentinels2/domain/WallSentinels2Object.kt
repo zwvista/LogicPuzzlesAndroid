@@ -26,8 +26,8 @@ class WallSentinels2MarkerObject : WallSentinels2Object() {
     override fun objAsString() = "marker"
 }
 
-class WallSentinels2HintWallObject(val tiles: Int = 0, var state: HintState = HintState.Normal) : WallSentinels2Object()
+class WallSentinels2HintWallObject(val tiles: Int, var state: HintState = HintState.Normal) : WallSentinels2Object()
 
-class WallSentinels2HintLandObject(val tiles: Int = 0, var state: HintState = HintState.Normal) : WallSentinels2Object()
+class WallSentinels2HintLandObject(val tiles: Int, var state: HintState = HintState.Normal) : WallSentinels2Object()
 
-class WallSentinels2GameMove(val p: Position = Position(), var obj: WallSentinels2Object = WallSentinels2EmptyObject())
+class WallSentinels2GameMove(val p: Position, var obj: WallSentinels2Object = WallSentinels2EmptyObject())

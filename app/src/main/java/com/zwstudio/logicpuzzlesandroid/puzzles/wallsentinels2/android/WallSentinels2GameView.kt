@@ -64,16 +64,12 @@ class WallSentinels2GameView : CellsGameView {
                 if (o is WallSentinels2WallObject || o is WallSentinels2HintWallObject)
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
                 if (o is WallSentinels2HintLandObject || o is WallSentinels2HintWallObject) {
-                    val n = (o as? WallSentinels2HintLandObject)?.tiles
-                            ?: (o as WallSentinels2HintWallObject).tiles
-                    val state = (o as? WallSentinels2HintLandObject)?.state
-                            ?: (o as WallSentinels2HintWallObject).state
-                    textPaint.color = if (state == HintState.Complete)
-                        Color.GREEN
-                    else if (state == HintState.Error)
-                        Color.RED
-                    else
-                        Color.WHITE
+                    val n = (o as? WallSentinels2HintLandObject)?.tiles ?: (o as WallSentinels2HintWallObject).tiles
+                    val state = (o as? WallSentinels2HintLandObject)?.state ?: (o as WallSentinels2HintWallObject).state
+                    textPaint.color =
+                        if (state == HintState.Complete) Color.GREEN
+                        else if (state == HintState.Error) Color.RED
+                        else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
@@ -85,7 +81,7 @@ class WallSentinels2GameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = WallSentinels2GameMove(Position(row, col), WallSentinels2EmptyObject())
+            val move = WallSentinels2GameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

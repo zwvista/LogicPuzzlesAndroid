@@ -31,20 +31,14 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
         fun f(obj: WallSentinels2Object): WallSentinels2Object =
             when (obj) {
                 is WallSentinels2EmptyObject ->
-                    if (markerOption == MarkerOptions.MarkerFirst)
-                        WallSentinels2MarkerObject()
-                    else
-                        WallSentinels2WallObject()
+                    if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2MarkerObject()
+                    else WallSentinels2WallObject()
                 is WallSentinels2WallObject ->
-                    if (markerOption == MarkerOptions.MarkerLast)
-                        WallSentinels2MarkerObject()
-                    else
-                        WallSentinels2EmptyObject()
+                    if (markerOption == MarkerOptions.MarkerLast) WallSentinels2MarkerObject()
+                    else WallSentinels2EmptyObject()
                 is WallSentinels2MarkerObject ->
-                    if (markerOption == MarkerOptions.MarkerFirst)
-                        WallSentinels2WallObject()
-                    else
-                        WallSentinels2EmptyObject()
+                    if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2WallObject()
+                    else WallSentinels2EmptyObject()
                 else -> obj
             }
         val o = this[move.p]
@@ -121,18 +115,17 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
                     if (WallSentinels2Game.offset2.all(fun(os: Position): Boolean {
                         val p2 = p.add(os)
                         if (!isValid(p2)) return false
-                        val o2 = get(p2)
+                        val o2 = this[p2]
                         return o2 is WallSentinels2WallObject || o2 is WallSentinels2HintWallObject
                     })) { isSolved = false; return }
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in WallSentinels2Game.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)
             }
-        }
         // 7. Lastly there is a single, orthogonally contiguous, Wall - just like Nurikabe.
         g.setRootNode(iterableList(pos2node.values).head())
         val nodeList = g.bfs()
