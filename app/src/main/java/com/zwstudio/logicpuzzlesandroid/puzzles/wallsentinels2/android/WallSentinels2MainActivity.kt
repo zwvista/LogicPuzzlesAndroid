@@ -20,7 +20,9 @@ class WallSentinels2MainActivity : GameMainActivity<WallSentinels2Game, WallSent
     override fun doc() = document
 
     @Click
-    fun btnOptions() = WallSentinels2OptionsActivity_.intent(this).start()
+    fun btnOptions() {
+        WallSentinels2OptionsActivity_.intent(this).start()
+    }
 
     override fun resumeGame() {
         doc().resumeGame()

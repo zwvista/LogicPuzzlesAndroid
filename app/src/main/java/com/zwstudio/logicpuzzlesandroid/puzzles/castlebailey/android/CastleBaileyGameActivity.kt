@@ -1,28 +1,28 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.android
+package com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.data.WallSentinels2Document
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2Game
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameMove
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameState
+import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.data.CastleBaileyDocument
+import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyGameState
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSentinels2Document, WallSentinels2GameMove, WallSentinels2GameState>() {
+class CastleBaileyGameActivity : GameGameActivity<CastleBaileyGame, CastleBaileyDocument, CastleBaileyGameMove, CastleBaileyGameState>() {
     @Bean
-    protected lateinit var document: WallSentinels2Document
+    protected lateinit var document: CastleBaileyDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: WallSentinels2GameView
+    protected lateinit var gameView2: CastleBaileyGameView
     override fun getGameView() = gameView2
 
     @AfterViews
     override fun init() {
-        gameView2 = WallSentinels2GameView(this)
+        gameView2 = CastleBaileyGameView(this)
         super.init()
     }
 
@@ -33,7 +33,7 @@ class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSent
         updateSolutionUI()
 
         levelInitilizing = true
-        game = WallSentinels2Game(level.layout, this, doc())
+        game = CastleBaileyGame(level.layout, this, doc())
         try {
             // restore game state
             for (rec in doc().moveProgress()) {
@@ -51,6 +51,6 @@ class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSent
 
     @Click
     protected fun btnHelp() {
-        WallSentinels2HelpActivity_.intent(this).start()
+        CastleBaileyHelpActivity_.intent(this).start()
     }
 }

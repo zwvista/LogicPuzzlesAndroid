@@ -7,6 +7,21 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>, gdi: GameDocumentInterface) : CellsGame<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>(gi, gdi) {
 
+    companion object {
+        val offset = arrayOf(
+                Position(-1, 0),
+                Position(0, 1),
+                Position(1, 0),
+                Position(0, -1)
+        )
+        val offset2 = arrayOf(
+                Position(0, 0),
+                Position(0, 1),
+                Position(1, 0),
+                Position(1, 1)
+        )
+    }
+
     var objArray: MutableList<WallSentinels2Object>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -59,9 +74,4 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
 
     fun getObject(p: Position): WallSentinels2Object = state()[p]
     fun getObject(row: Int, col: Int): WallSentinels2Object = state()[row, col]
-
-    companion object {
-        var offset = listOf(Position(-1, 0), Position(0, 1), Position(1, 0), Position(0, -1))
-        var offset2 = listOf(Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1))
-    }
 }

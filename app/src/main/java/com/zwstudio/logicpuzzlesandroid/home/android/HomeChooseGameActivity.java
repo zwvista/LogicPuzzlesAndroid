@@ -46,6 +46,7 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("BWTapa", "B&W Tapa");
         put("CarpentersSquare", "Carpenter's Square");
         put("CarpentersWall", "Carpenter's Wall");
+        put("CastleBailey", "Castle Bailey");
         put("DigitalBattleShips", "Digital Battle Ships");
         put("DisconnectFour", "Disconnect Four");
         put("FenceItUp", "Fence It Up");

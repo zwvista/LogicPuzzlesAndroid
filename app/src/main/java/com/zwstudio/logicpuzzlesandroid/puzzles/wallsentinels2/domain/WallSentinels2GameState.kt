@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.data.List.iterableList
 import java.util.*
 
 class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>(game) {
@@ -112,12 +111,15 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
                     g.addNode(node)
                     pos2node[p] = node
                     // 7. The Wall cannot contain 2*2 Wall tiles.
-                    if (WallSentinels2Game.offset2.all(fun(os: Position): Boolean {
-                        val p2 = p.add(os)
-                        if (!isValid(p2)) return false
-                        val o2 = this[p2]
-                        return o2 is WallSentinels2WallObject || o2 is WallSentinels2HintWallObject
-                    })) { isSolved = false; return }
+                    if (WallSentinels2Game.offset2.all {
+                        val p2 = p.add(it)
+                        if (!isValid(p2))
+                            false
+                        else {
+                            val o2 = this[p2]
+                            o2 is WallSentinels2WallObject || o2 is WallSentinels2HintWallObject
+                        }
+                    }) { isSolved = false; return }
                 }
             }
         for ((p, node) in pos2node)
@@ -127,7 +129,7 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
                 if (node2 != null) g.connectNode(node, node2)
             }
         // 7. Lastly there is a single, orthogonally contiguous, Wall - just like Nurikabe.
-        g.setRootNode(iterableList(pos2node.values).head())
+        g.setRootNode(pos2node.values.elementAt(0))
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

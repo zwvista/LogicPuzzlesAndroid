@@ -205,6 +205,18 @@
         <activity android:name=".puzzles.carpenterswall.android.CarpentersWallOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.castlebailey.android.CastleBaileyMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.castlebailey.android.CastleBaileyGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.castlebailey.android.CastleBaileyHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.castlebailey.android.CastleBaileyOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
