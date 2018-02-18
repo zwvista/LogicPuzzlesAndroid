@@ -27,7 +27,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
 
     fun switchObject(move: CastleBaileyGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        fun f(obj: CastleBaileyObject): CastleBaileyObject =
+        fun f(obj: CastleBaileyObject) =
             when (obj) {
                 CastleBaileyObject.Empty ->
                     if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Marker
@@ -65,20 +65,35 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
            continuous area (Garden).
     */
     private fun updateIsSolved() {
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for ((p, n2) in game.pos2hint) {
-            val n1 = CastleBaileyGame.offset2.fold(0) { acc, os ->
+            var n1 = 0
+            val rng = mutableListOf<Position>()
+            for (os in CastleBaileyGame.offset2) {
                 val p2 = p.add(os)
-                acc + (if (isValid(p2) && this[p2] == CastleBaileyObject.Wall) 1 else 0)
+                if (!isValid(p2)) continue
+                n1++
+                when (this[p2]) {
+                    CastleBaileyObject.Empty, CastleBaileyObject.Marker -> rng.add(p2)
+                    else -> {}
+                }
             }
             // 3. The number tells you how many pieces (squares) of wall it touches.
             // 4. So the number can go from 0 (no walls around the tower) to 4 (tower
             // entirely surrounded by walls).
             // 5. Board borders don't count as walls, so there you'll have two walls
             // at most (or one in corners).
-            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            val s = when {
+                n1 < n2 -> HintState.Normal
+                n1 == n2 -> HintState.Complete
+                else -> HintState.Error
+            }
             pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
+            if (s != HintState.Normal && allowedObjectsOnly)
+                for (p2 in rng)
+                    this[p2] = CastleBaileyObject.Forbidden
         }
         if (!isSolved) return
         val g = Graph()

@@ -66,11 +66,12 @@ class WallSentinels2GameView : CellsGameView {
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
                 if (o is WallSentinels2HintLandObject || o is WallSentinels2HintWallObject) {
                     val n = (o as? WallSentinels2HintLandObject)?.tiles ?: (o as WallSentinels2HintWallObject).tiles
-                    val state = (o as? WallSentinels2HintLandObject)?.state ?: (o as WallSentinels2HintWallObject).state
-                    textPaint.color =
-                        if (state == HintState.Complete) Color.GREEN
-                        else if (state == HintState.Error) Color.RED
-                        else Color.WHITE
+                    val s = (o as? WallSentinels2HintLandObject)?.state ?: (o as WallSentinels2HintWallObject).state
+                    textPaint.color = when (s) {
+                        HintState.Complete -> Color.GREEN
+                        HintState.Error -> Color.RED
+                        else -> Color.WHITE
+                    }
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }

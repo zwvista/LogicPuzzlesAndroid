@@ -27,7 +27,7 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
 
     fun switchObject(move: WallSentinels2GameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        fun f(obj: WallSentinels2Object): WallSentinels2Object =
+        fun f(obj: WallSentinels2Object) =
             when (obj) {
                 is WallSentinels2EmptyObject ->
                     if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2MarkerObject()
@@ -87,7 +87,11 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
                     }
                     // 3. The number tells you how many tiles that Sentinel can control (see)
                     // from there vertically and horizontally - of his type of tile.
-                    val s = if (if (isWall) n1 < n2 else n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+                    val s = when {
+                        if (isWall) n1 < n2 else n1 > n2 -> HintState.Normal
+                        n1 == n2 -> HintState.Complete
+                        else -> HintState.Error
+                    }
                     if (isWall)
                         (o as WallSentinels2HintWallObject).state = s
                     else
