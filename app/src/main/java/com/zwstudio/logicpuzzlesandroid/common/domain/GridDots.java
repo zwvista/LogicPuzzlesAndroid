@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class GridDots {
     public int rows = 0;
     public int cols = 0;
-    private GridLineObject[][] objArray;
+    public GridLineObject[][] objArray;
 
     public GridDots(int rows, int cols) {
         this.rows = rows;

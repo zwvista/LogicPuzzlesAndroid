@@ -57,6 +57,7 @@ public class HomeChooseGameActivity extends BaseActivity {
         put("LightenUp", "Lighten Up");
         put("MineShips", "Mine Ships");
         put("MiniLits", "Mini-Lits");
+        put("NorthPoleFishing", "North Pole Fishing");
         put("NoughtsAndCrosses", "Noughts & Crosses");
         put("NumberPath", "Number Path");
         put("OverUnder", "Over Under");

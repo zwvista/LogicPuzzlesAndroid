@@ -67,15 +67,21 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                if (this[p] == CastleBaileyObject.Forbidden)
+                    this[p] = CastleBaileyObject.Empty
+            }
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             val rng = mutableListOf<Position>()
             for (os in CastleBaileyGame.offset2) {
                 val p2 = p.add(os)
                 if (!isValid(p2)) continue
-                n1++
                 when (this[p2]) {
                     CastleBaileyObject.Empty, CastleBaileyObject.Marker -> rng.add(p2)
+                    CastleBaileyObject.Wall -> n1++
                     else -> {}
                 }
             }

@@ -589,6 +589,18 @@
         <activity android:name=".puzzles.neighbours.android.NeighboursOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingMainActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingGameActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingHelpActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingOptionsActivity_"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
