@@ -57,7 +57,7 @@ public class BridgesGameState extends CellsGameState<BridgesGame, BridgesGameMov
                 if (!(o instanceof BridgesEmptyObject)) return false;
                 set(p, new BridgesBridgeObject());
                 break;
-            case 1:
+            case 2:
                 set(p, new BridgesEmptyObject());
                 break;
             }

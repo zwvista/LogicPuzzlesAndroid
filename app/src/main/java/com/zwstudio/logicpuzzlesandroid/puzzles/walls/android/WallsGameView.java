@@ -77,7 +77,7 @@ public class WallsGameView extends CellsGameView {
                     boolean isHorz = o instanceof WallsHorzObject;
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                     dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                    if (isHorz) { canvas.save(Canvas.MATRIX_SAVE_FLAG); canvas.rotate(90, cwc2(c), chr2(r)); }
+                    if (isHorz) { canvas.save(); canvas.rotate(90, cwc2(c), chr2(r)); }
                     dTree.draw(canvas);
                     if (isHorz) canvas.restore();
                 } else if (o instanceof WallsHintObject) {

@@ -80,7 +80,7 @@ public class DisconnectFourGameView extends CellsGameView {
                 dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1));
                 int alpaha = game().pos2State(p) == AllowedObjectState.Error ? 50 : 0;
                 dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP);
-                if (o == DisconnectFourObject.Red) { canvas.save(Canvas.MATRIX_SAVE_FLAG); canvas.rotate(180, cwc2(c), chr2(r)); }
+                if (o == DisconnectFourObject.Red) { canvas.save(); canvas.rotate(180, cwc2(c), chr2(r)); }
                 dTree.draw(canvas);
                 if (o == DisconnectFourObject.Red) canvas.restore();
                 if (game().get(p) != DisconnectFourObject.Empty)
