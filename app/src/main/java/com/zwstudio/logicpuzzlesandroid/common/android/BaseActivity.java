@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.common.android;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication;
 
