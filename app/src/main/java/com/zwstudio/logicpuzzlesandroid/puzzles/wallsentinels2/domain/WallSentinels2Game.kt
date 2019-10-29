@@ -9,25 +9,25 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
 
     companion object {
         val offset = arrayOf(
-                Position(-1, 0),
-                Position(0, 1),
-                Position(1, 0),
-                Position(0, -1)
+            Position(-1, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(0, -1)
         )
         val offset2 = arrayOf(
-                Position(0, 0),
-                Position(0, 1),
-                Position(1, 0),
-                Position(1, 1)
-        )
+            Position(0, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(1, 1)
+    )
     }
 
     var objArray: MutableList<WallSentinels2Object>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun get(p: Position) = get(p.row, p.col)
     operator fun set(row: Int, col: Int, obj: WallSentinels2Object) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: WallSentinels2Object) {this[p.row, p.col] = obj}
+    operator fun set(p: Position, obj: WallSentinels2Object) {set(p.row, p.col, obj)}
 
     init {
         size = Position(layout.size, layout[0].length / 2)
@@ -52,7 +52,7 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
         levelInitilized(state)
     }
 
-    private fun changeObject(move: WallSentinels2GameMove, f: ((WallSentinels2GameState, WallSentinels2GameMove) -> Boolean)): Boolean {
+    private fun changeObject(move: WallSentinels2GameMove, f: (WallSentinels2GameState, WallSentinels2GameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()

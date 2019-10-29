@@ -6,7 +6,7 @@ import java.util.*
 
 class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>(game) {
     // https://stackoverflow.com/questions/46846025/how-to-clone-or-copy-a-list-in-kotlin
-    var objArray = game.objArray.toMutableList()
+    private var objArray = game.objArray.toMutableList()
     var pos2state: Map<Position, HintState> = HashMap()
 
     init {
@@ -14,9 +14,9 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
     }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun get(p: Position) = get(p.row, p.col)
     operator fun set(row: Int, col: Int, obj: WallSentinels2Object) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: WallSentinels2Object) {this[p.row, p.col] = obj}
+    operator fun set(p: Position, obj: WallSentinels2Object) {set(p.row, p.col, obj)}
 
     fun setObject(move: WallSentinels2GameMove): Boolean {
         if (this[move.p] == move.obj) return false
