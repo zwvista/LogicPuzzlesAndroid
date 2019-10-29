@@ -7,13 +7,10 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
-
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.android.WallSentinels2GameActivity
 
 /**
  * TODO: document your custom view class.

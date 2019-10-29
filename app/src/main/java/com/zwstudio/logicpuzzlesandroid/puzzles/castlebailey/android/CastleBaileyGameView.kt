@@ -10,7 +10,8 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyObject
 
 /**
  * TODO: document your custom view class.

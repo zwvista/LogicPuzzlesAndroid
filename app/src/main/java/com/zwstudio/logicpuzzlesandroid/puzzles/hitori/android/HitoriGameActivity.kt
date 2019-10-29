@@ -1,22 +1,15 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.android
 
-import android.view.View
-
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.data.HitoriDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameState
-
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
-
-import fj.data.List.iterableList
 
 @EActivity(R.layout.activity_game_game)
 open class HitoriGameActivity : GameGameActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState>() {

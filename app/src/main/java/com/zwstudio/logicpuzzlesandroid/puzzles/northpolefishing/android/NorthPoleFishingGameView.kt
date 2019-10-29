@@ -4,15 +4,14 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain.*
-import com.zwstudio.logicpuzzlesandroid.puzzles.overunder.domain.OverUnderGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain.NorthPoleFishingGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain.NorthPoleFishingObject
 
 /**
  * TODO: document your custom view class.

@@ -4,11 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameMove
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameState
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2Object
-
-import fj.F2
 
 class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameMove, HitoriGameState>, gdi: GameDocumentInterface) : CellsGame<HitoriGame, HitoriGameMove, HitoriGameState>(gi, gdi) {
 
