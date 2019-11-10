@@ -14,9 +14,9 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
     }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: WallSentinels2Object) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: WallSentinels2Object) {set(p.row, p.col, obj)}
+    operator fun set(p: Position, obj: WallSentinels2Object) {this[p.row, p.col] = obj}
 
     fun setObject(move: WallSentinels2GameMove): Boolean {
         if (this[move.p] == move.obj) return false
@@ -26,22 +26,20 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
     }
 
     fun switchObject(move: WallSentinels2GameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        fun f(obj: WallSentinels2Object) =
-            when (obj) {
-                is WallSentinels2EmptyObject ->
-                    if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2MarkerObject()
-                    else WallSentinels2WallObject()
-                is WallSentinels2WallObject ->
-                    if (markerOption == MarkerOptions.MarkerLast) WallSentinels2MarkerObject()
-                    else WallSentinels2EmptyObject()
-                is WallSentinels2MarkerObject ->
-                    if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2WallObject()
-                    else WallSentinels2EmptyObject()
-                else -> obj
-            }
         val o = this[move.p]
-        move.obj = f(o)
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        move.obj = when(o) {
+            is WallSentinels2EmptyObject ->
+                if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2MarkerObject()
+                else WallSentinels2WallObject()
+            is WallSentinels2WallObject ->
+                if (markerOption == MarkerOptions.MarkerLast) WallSentinels2MarkerObject()
+                else WallSentinels2EmptyObject()
+            is WallSentinels2MarkerObject ->
+                if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2WallObject()
+                else WallSentinels2EmptyObject()
+            else -> o
+        }
         return setObject(move)
     }
 

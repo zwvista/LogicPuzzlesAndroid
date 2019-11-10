@@ -19,15 +19,15 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
             Position(0, 1),
             Position(1, 0),
             Position(1, 1)
-    )
+        )
     }
 
     var objArray: MutableList<WallSentinels2Object>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: WallSentinels2Object) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: WallSentinels2Object) {set(p.row, p.col, obj)}
+    operator fun set(p: Position, obj: WallSentinels2Object) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length / 2)
@@ -72,6 +72,6 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
     fun switchObject(move: WallSentinels2GameMove) = changeObject(move, WallSentinels2GameState::switchObject)
     fun setObject(move: WallSentinels2GameMove) = changeObject(move, WallSentinels2GameState::setObject)
 
-    fun getObject(p: Position): WallSentinels2Object = state()[p]
-    fun getObject(row: Int, col: Int): WallSentinels2Object = state()[row, col]
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
 }

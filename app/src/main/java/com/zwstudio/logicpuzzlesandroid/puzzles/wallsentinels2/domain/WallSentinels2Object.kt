@@ -7,12 +7,11 @@ sealed class WallSentinels2Object {
     open fun objAsString() = "empty"
 
     companion object {
-        fun objFromString(str: String) =
-            when (str) {
-                "marker" -> WallSentinels2MarkerObject()
-                "wall" -> WallSentinels2WallObject()
-                else -> WallSentinels2EmptyObject()
-            }
+        fun objFromString(str: String) = when (str) {
+            "marker" -> WallSentinels2MarkerObject()
+            "wall" -> WallSentinels2WallObject()
+            else -> WallSentinels2EmptyObject()
+        }
     }
 }
 
