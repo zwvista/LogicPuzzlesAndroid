@@ -9,16 +9,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentin
 import java.util.ArrayList
 
 class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGameState>(game) {
-    private val objArray = CharArray(rows() * cols())
-    var row2state: Array<HintState>
-    var col2state: Array<HintState>
+    private val objArray = game.objArray
+    var row2state = Array(rows() * 2) { HintState.Normal }
+    var col2state = Array(cols() * 2) { HintState.Normal }
 
     init {
-        for (r in 0 until rows())
-            for (c in 0 until cols())
-                this[r, c] = game[r, c]
-        row2state = Array(rows() * 2) { HintState.Normal }
-        col2state = Array(cols() * 2) { HintState.Normal }
         updateIsSolved()
     }
 
@@ -77,14 +72,14 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
         isSolved = true
         val chars = ArrayList<Char>()
         for (r in 1 until rows() - 1) {
-            val h1 = get(r, 0)
-            val h2 = get(r, cols() - 1)
+            val h1 = this[r, 0]
+            val h2 = this[r, cols() - 1]
             var ch11 = ' '
             var ch21 = ' '
             chars.clear()
             for (c in 1 until cols() - 1) {
-                val ch12 = get(r, c)
-                val ch22 = get(r, cols() - 1 - c)
+                val ch12 = this[r, c]
+                val ch22 = this[r, cols() - 1 - c]
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
                 if (ch12 == ' ') continue
@@ -104,14 +99,14 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
             if (chars.size != game.chMax - 'A' + 1) isSolved = false
         }
         for (c in 1 until cols() - 1) {
-            val h1 = get(0, c)
-            val h2 = get(rows() - 1, c)
+            val h1 = this[0, c]
+            val h2 = this[rows() - 1, c]
             var ch11 = ' '
             var ch21 = ' '
             chars.clear()
             for (r in 1 until rows() - 1) {
-                val ch12 = get(r, c)
-                val ch22 = get(rows() - 1 - r, c)
+                val ch12 = this[r, c]
+                val ch22 = this[rows() - 1 - r, c]
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
                 if (ch12 == ' ') continue

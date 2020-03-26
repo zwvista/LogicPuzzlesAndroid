@@ -1,0 +1,40 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain
+
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+
+
+sealed class BootyIslandObject {
+    open fun objAsString() = "empty"
+
+    companion object {
+        fun objFromString(str: String) = when (str) {
+            "marker" -> BootyIslandMarkerObject()
+            "treasure" -> BootyIslandTreasureObject()
+            else -> BootyIslandEmptyObject()
+        }
+    }
+}
+
+class BootyIslandEmptyObject : BootyIslandObject() {
+    override fun objAsString() = "empty"
+}
+
+class BootyIslandForbiddenObject : BootyIslandObject() {
+    override fun objAsString() = "forbidden"
+}
+
+class BootyIslandHintObject(var state: HintState = HintState.Normal) : BootyIslandObject() {
+    override fun objAsString() = "hint"
+}
+
+class BootyIslandMarkerObject : BootyIslandObject() {
+    override fun objAsString() = "marker"
+}
+
+class BootyIslandTreasureObject(var state: AllowedObjectState = AllowedObjectState.Normal) : BootyIslandObject() {
+    override fun objAsString() = "treasure"
+}
+
+class BootyIslandGameMove(val p: Position, var obj: BootyIslandObject)

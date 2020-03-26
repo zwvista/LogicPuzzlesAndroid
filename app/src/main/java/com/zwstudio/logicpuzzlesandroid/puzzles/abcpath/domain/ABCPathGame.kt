@@ -1,29 +1,32 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain
+package com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameMove
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameState
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2Object
+
+import java.util.HashMap
 
 import fj.F2
 
-class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcGameState>, gdi: GameDocumentInterface) : CellsGame<AbcGame, AbcGameMove, AbcGameState>(gi, gdi) {
+class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGameMove, ABCPathGameState>, gdi: GameDocumentInterface) : CellsGame<ABCPathGame, ABCPathGameMove, ABCPathGameState>(gi, gdi) {
 
     companion object {
         val offset = arrayOf(
             Position(-1, 0),
+            Position(-1, 1),
             Position(0, 1),
+            Position(1, 1),
             Position(1, 0),
-            Position(0, -1)
+            Position(1, -1),
+            Position(0, -1),
+            Position(-1, -1)
         )
     }
 
+    var ch2pos = mutableMapOf<Char, Position>()
     var objArray: CharArray
-    var chMax = 'A'
 
     override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -38,18 +41,20 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols()) {
+                val p = Position(r, c)
                 val ch = str[c]
-                set(r, c, ch)
-                if (chMax < ch) chMax = ch
+                this[p] = ch
+                if (r == 0 || r == rows() - 1 || c == 0 || c == cols() - 1)
+                    ch2pos[ch] = p
             }
         }
 
-        val state = AbcGameState(this)
+        val state = ABCPathGameState(this)
         states.add(state)
         levelInitilized(state)
     }
 
-    private fun changeObject(move: AbcGameMove, f: (AbcGameState, AbcGameMove) -> Boolean): Boolean {
+    private fun changeObject(move: ABCPathGameMove, f: (ABCPathGameState, ABCPathGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -66,10 +71,9 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
         return changed
     }
 
-    fun switchObject(move: AbcGameMove) = changeObject(move, AbcGameState::switchObject)
-    fun setObject(move: AbcGameMove) = changeObject(move, AbcGameState::setObject)
-
+    fun switchObject(move: ABCPathGameMove) = changeObject(move, ABCPathGameState::switchObject)
+    fun setObject(move: ABCPathGameMove) = changeObject(move, ABCPathGameState::setObject)
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
-    fun getState(row: Int, col: Int) = state().getState(row, col)
+    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getState(row: Int, col: Int) = state().pos2state[Position(row, col)]
 }
