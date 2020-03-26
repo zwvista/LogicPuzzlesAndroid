@@ -1,0 +1,31 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.loopy.android
+
+import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.data.LoopyDocument
+import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameState
+import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
+import org.androidannotations.annotations.EActivity
+
+@EActivity(R.layout.activity_game_main)
+open class LoopyMainActivity : GameMainActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: LoopyDocument? = null
+    override fun doc(): LoopyDocument {
+        return document!!
+    }
+
+    @Click
+    fun btnOptions() {
+        LoopyOptionsActivity_.intent(this).start()
+    }
+
+    override fun resumeGame() {
+        doc().resumeGame()
+        LoopyGameActivity_.intent(this).start()
+    }
+}
