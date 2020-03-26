@@ -22,9 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasLighthou
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class BusySeasGameView extends CellsGameView {
 
     private BusySeasGameActivity activity() {return (BusySeasGameActivity)getContext();}

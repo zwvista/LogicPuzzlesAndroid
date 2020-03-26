@@ -25,9 +25,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBat
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBattleShipsObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class LightBattleShipsGameView extends CellsGameView {
 
     private LightBattleShipsGameActivity activity() {return (LightBattleShipsGameActivity)getContext();}

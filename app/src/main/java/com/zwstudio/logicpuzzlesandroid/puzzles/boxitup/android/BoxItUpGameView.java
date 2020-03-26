@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class BoxItUpGameView extends CellsGameView {
 
     private BoxItUpGameActivity activity() {return (BoxItUpGameActivity)getContext();}

@@ -18,9 +18,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class MagnetsGameView extends CellsGameView {
 
     private MagnetsGameActivity activity() {return (MagnetsGameActivity)getContext();}

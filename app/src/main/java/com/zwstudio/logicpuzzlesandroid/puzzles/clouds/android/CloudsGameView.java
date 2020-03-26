@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class CloudsGameView extends CellsGameView {
 
     private CloudsGameActivity activity() {return (CloudsGameActivity)getContext();}

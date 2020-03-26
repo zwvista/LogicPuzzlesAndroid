@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain.BoxItAgainGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain.BoxItAgainGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class BoxItAgainGameView extends CellsGameView {
 
     private BoxItAgainGameActivity activity() {return (BoxItAgainGameActivity)getContext();}

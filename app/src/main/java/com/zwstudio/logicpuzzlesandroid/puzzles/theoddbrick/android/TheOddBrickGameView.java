@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.domain.TheOddBrickGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.domain.TheOddBrickGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class TheOddBrickGameView extends CellsGameView {
 
     private TheOddBrickGameActivity activity() {return (TheOddBrickGameActivity)getContext();}

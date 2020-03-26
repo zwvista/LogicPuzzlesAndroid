@@ -14,6 +14,7 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.android.ABCPathGameActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandEmptyObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandForbiddenObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGame
@@ -22,39 +23,20 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandMa
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandTreasureObject
 
-/**
- * TODO: document your custom view class.
- */
 class BootyIslandGameView : CellsGameView {
+
+    private fun activity() = context as BootyIslandGameActivity
+    private fun game() = activity().game
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
+
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private var dTreasure: Drawable? = null
-
-    private fun activity(): BootyIslandGameActivity {
-        return context as BootyIslandGameActivity
-    }
-
-    private fun game(): BootyIslandGame {
-        return activity().game
-    }
-
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game().rows()
-    }
-
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game().cols()
-    }
-
-    override fun rowsInView(): Int {
-        return rows()
-    }
-
-    override fun colsInView(): Int {
-        return cols()
-    }
+    private lateinit var dTreasure: Drawable
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -90,10 +72,10 @@ class BootyIslandGameView : CellsGameView {
                 val p = Position(r, c)
                 val o = game().getObject(p)
                 if (o is BootyIslandTreasureObject) {
-                    dTreasure!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dTreasure.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                    dTreasure!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    dTreasure!!.draw(canvas)
+                    dTreasure.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                    dTreasure.draw(canvas)
                 } else if (o is BootyIslandMarkerObject)
                     canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
                 else if (o is BootyIslandForbiddenObject)
@@ -118,12 +100,7 @@ class BootyIslandGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = object : BootyIslandGameMove() {
-                init {
-                    p = Position(row, col)
-                    obj = BootyIslandEmptyObject()
-                }
-            }
+            val move = BootyIslandGameMove(Position(row, col), BootyIslandEmptyObject())
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

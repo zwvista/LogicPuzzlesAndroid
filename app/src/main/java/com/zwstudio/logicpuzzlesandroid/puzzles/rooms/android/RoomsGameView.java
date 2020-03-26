@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class RoomsGameView extends CellsGameView {
 
     private RoomsGameActivity activity() {return (RoomsGameActivity)getContext();}

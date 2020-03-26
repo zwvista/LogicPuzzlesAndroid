@@ -23,9 +23,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelF
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class TierraDelFuegoGameView extends CellsGameView {
 
     private TierraDelFuegoGameActivity activity() {return (TierraDelFuegoGameActivity)getContext();}

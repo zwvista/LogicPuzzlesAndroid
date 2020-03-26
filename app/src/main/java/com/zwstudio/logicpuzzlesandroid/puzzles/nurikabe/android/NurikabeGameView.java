@@ -19,9 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerOb
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class NurikabeGameView extends CellsGameView {
 
     private NurikabeGameActivity activity() {return (NurikabeGameActivity)getContext();}

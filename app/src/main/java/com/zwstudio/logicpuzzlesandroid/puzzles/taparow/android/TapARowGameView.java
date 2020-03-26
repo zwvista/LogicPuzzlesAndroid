@@ -23,9 +23,6 @@ import java.util.List;
 
 import fj.F;
 
-/**
- * TODO: document your custom view class.
- */
 public class TapARowGameView extends CellsGameView {
 
     private TapARowGameActivity activity() {return (TapARowGameActivity)getContext();}

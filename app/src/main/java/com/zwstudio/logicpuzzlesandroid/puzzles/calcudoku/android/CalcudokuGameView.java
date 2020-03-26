@@ -18,9 +18,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku.domain.CalcudokuHint;
 
 import java.util.Map;
 
-/**
- * TODO: document your custom view class.
- */
 public class CalcudokuGameView extends CellsGameView {
 
     private CalcudokuGameActivity activity() {return (CalcudokuGameActivity)getContext();}

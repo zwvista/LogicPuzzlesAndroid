@@ -27,9 +27,6 @@ import java.util.Map;
 
 import fj.P2;
 
-/**
- * TODO: document your custom view class.
- */
 public class GardenerGameView extends CellsGameView {
 
     private GardenerGameActivity activity() {return (GardenerGameActivity)getContext();}

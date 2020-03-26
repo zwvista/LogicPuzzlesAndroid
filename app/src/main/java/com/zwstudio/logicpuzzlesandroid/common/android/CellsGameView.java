@@ -13,9 +13,6 @@ import android.view.View;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * TODO: document your custom view class.
- */
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 public abstract class CellsGameView extends View {
 

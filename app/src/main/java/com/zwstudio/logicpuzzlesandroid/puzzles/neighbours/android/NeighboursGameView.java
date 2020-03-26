@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class NeighboursGameView extends CellsGameView {
 
     private NeighboursGameActivity activity() {return (NeighboursGameActivity)getContext();}

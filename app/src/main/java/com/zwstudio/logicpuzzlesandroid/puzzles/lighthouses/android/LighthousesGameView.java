@@ -22,9 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesLi
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class LighthousesGameView extends CellsGameView {
 
     private LighthousesGameActivity activity() {return (LighthousesGameActivity)getContext();}

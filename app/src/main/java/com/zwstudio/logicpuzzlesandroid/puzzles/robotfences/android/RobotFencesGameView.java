@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class RobotFencesGameView extends CellsGameView {
 
     private RobotFencesGameActivity activity() {return (RobotFencesGameActivity)getContext();}

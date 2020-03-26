@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperMa
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperMineObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class MinesweeperGameView extends CellsGameView {
 
     private MinesweeperGameActivity activity() {return (MinesweeperGameActivity)getContext();}

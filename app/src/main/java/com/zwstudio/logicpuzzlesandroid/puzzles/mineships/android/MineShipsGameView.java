@@ -25,9 +25,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsGameMo
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class MineShipsGameView extends CellsGameView {
 
     private MineShipsGameActivity activity() {return (MineShipsGameActivity)getContext();}

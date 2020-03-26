@@ -14,9 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class TennerGridGameView extends CellsGameView {
 
     private TennerGridGameActivity activity() {return (TennerGridGameActivity)getContext();}

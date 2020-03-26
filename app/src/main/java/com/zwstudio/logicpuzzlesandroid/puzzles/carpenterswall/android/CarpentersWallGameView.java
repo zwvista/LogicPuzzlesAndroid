@@ -23,9 +23,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.Carpenters
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallUpObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.CarpentersWallWallObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class CarpentersWallGameView extends CellsGameView {
 
     private CarpentersWallGameActivity activity() {return (CarpentersWallGameActivity)getContext();}

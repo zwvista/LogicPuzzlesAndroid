@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class FenceLitsGameView extends CellsGameView {
 
     private FenceLitsGameActivity activity() {return (FenceLitsGameActivity)getContext();}

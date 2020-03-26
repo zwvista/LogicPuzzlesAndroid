@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.android.WallSentinels2GameActivity
 
-/**
- * TODO: document your custom view class.
- */
 class AbcGameView : CellsGameView {
 
     private fun activity() = context as AbcGameActivity

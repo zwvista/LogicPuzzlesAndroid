@@ -16,9 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain.RobotCros
 
 import java.util.List;
 
-/**
- * TODO: document your custom view class.
- */
 public class RobotCrosswordsGameView extends CellsGameView {
 
     private RobotCrosswordsGameActivity activity() {return (RobotCrosswordsGameActivity)getContext();}

@@ -16,9 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGameMo
 
 import java.util.Map;
 
-/**
- * TODO: document your custom view class.
- */
 public class FutoshikiGameView extends CellsGameView {
 
     private FutoshikiGameActivity activity() {return (FutoshikiGameActivity)getContext();}

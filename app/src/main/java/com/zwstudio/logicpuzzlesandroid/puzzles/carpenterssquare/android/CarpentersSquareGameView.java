@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.Carpente
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareRightHint;
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.CarpentersSquareUpHint;
 
-/**
- * TODO: document your custom view class.
- */
 public class CarpentersSquareGameView extends CellsGameView {
 
     private CarpentersSquareGameActivity activity() {return (CarpentersSquareGameActivity)getContext();}

@@ -13,9 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class LoopyGameView extends CellsGameView {
 
     private LoopyGameActivity activity() {return (LoopyGameActivity)getContext();}

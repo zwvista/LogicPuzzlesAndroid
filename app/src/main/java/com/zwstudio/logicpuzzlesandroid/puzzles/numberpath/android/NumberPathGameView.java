@@ -18,9 +18,6 @@ import fj.function.Effect0;
 import static fj.data.List.range;
 import static java.lang.Math.abs;
 
-/**
- * TODO: document your custom view class.
- */
 public class NumberPathGameView extends CellsGameView {
 
     private NumberPathGameActivity activity() {return (NumberPathGameActivity)getContext();}

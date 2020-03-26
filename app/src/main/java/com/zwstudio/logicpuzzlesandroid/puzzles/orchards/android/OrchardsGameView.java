@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain.OrchardsMarkerOb
 import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain.OrchardsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain.OrchardsTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class OrchardsGameView extends CellsGameView {
 
     private OrchardsGameActivity activity() {return (OrchardsGameActivity)getContext();}

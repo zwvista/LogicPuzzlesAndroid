@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.data.AbstractPaintingDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.AbstractPaintingGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.AbstractPaintingGameMove
@@ -14,19 +16,30 @@ import org.androidannotations.annotations.EActivity
 @EActivity(R.layout.activity_game_main)
 open class AbstractPaintingMainActivity : GameMainActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
-    protected var document: AbstractPaintingDocument? = null
-
-    override fun doc(): AbstractPaintingDocument? {
-        return document
-    }
+    protected lateinit var document: AbstractPaintingDocument
+    override fun doc() = document
 
     @Click
-    internal fun btnOptions() {
+    fun btnOptions() {
         AbstractPaintingOptionsActivity_.intent(this).start()
     }
 
     override fun resumeGame() {
-        doc()!!.resumeGame()
+        doc().resumeGame()
         AbstractPaintingGameActivity_.intent(this).start()
     }
+}
+
+@EActivity(R.layout.activity_game_help)
+open class AbstractPaintingHelpActivity : GameHelpActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
+    @Bean
+    protected lateinit var document: AbstractPaintingDocument
+    override fun doc() = document
+}
+
+@EActivity(R.layout.activity_game_options)
+open class AbstractPaintingOptionsActivity : GameOptionsActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
+    @Bean
+    protected lateinit var document: AbstractPaintingDocument
+    override fun doc() = document
 }

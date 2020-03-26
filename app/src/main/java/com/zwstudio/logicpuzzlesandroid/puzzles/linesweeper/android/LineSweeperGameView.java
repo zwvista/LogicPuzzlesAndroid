@@ -19,9 +19,6 @@ import fj.function.Effect0;
 import static fj.data.Stream.range;
 import static java.lang.Math.abs;
 
-/**
- * TODO: document your custom view class.
- */
 public class LineSweeperGameView extends CellsGameView {
 
     private LineSweeperGameActivity activity() {return (LineSweeperGameActivity)getContext();}

@@ -14,9 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class SkyscrapersGameView extends CellsGameView {
 
     private SkyscrapersGameActivity activity() {return (SkyscrapersGameActivity)getContext();}

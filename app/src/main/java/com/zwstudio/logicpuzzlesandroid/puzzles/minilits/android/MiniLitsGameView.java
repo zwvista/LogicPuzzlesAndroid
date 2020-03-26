@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsMarkerOb
 import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class MiniLitsGameView extends CellsGameView {
 
     private MiniLitsGameActivity activity() {return (MiniLitsGameActivity)getContext();}

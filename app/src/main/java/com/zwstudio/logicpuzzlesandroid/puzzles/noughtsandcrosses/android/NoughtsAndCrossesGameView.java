@@ -14,9 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.domain.NoughtsAndCrossesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.domain.NoughtsAndCrossesGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class NoughtsAndCrossesGameView extends CellsGameView {
 
     private NoughtsAndCrossesGameActivity activity() {return (NoughtsAndCrossesGameActivity)getContext();}

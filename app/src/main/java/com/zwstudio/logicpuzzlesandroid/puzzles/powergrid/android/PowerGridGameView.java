@@ -22,9 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridMarker
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridPostObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class PowerGridGameView extends CellsGameView {
 
     private PowerGridGameActivity activity() {return (PowerGridGameActivity)getContext();}

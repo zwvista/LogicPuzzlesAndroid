@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class RippleEffectGameView extends CellsGameView {
 
     private RippleEffectGameActivity activity() {return (RippleEffectGameActivity)getContext();}

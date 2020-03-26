@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.overunder.domain.OverUnderGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.overunder.domain.OverUnderGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class OverUnderGameView extends CellsGameView {
 
     private OverUnderGameActivity activity() {return (OverUnderGameActivity)getContext();}

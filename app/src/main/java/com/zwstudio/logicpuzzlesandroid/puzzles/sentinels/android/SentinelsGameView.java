@@ -22,9 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsMarker
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsTowerObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class SentinelsGameView extends CellsGameView {
 
     private SentinelsGameActivity activity() {return (SentinelsGameActivity)getContext();}

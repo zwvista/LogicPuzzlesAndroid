@@ -17,9 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.Abstract
 import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.AbstractPaintingGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.AbstractPaintingObject
 
-/**
- * TODO: document your custom view class.
- */
 class AbstractPaintingGameView : CellsGameView {
 
     private fun activity() = context as AbstractPaintingGameActivity

@@ -23,9 +23,6 @@ import java.util.List;
 
 import fj.F;
 
-/**
- * TODO: document your custom view class.
- */
 public class TapaIslandsGameView extends CellsGameView {
 
     private TapaIslandsGameActivity activity() {return (TapaIslandsGameActivity)getContext();}

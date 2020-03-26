@@ -21,9 +21,6 @@ import fj.function.Effect0;
 import static fj.data.List.range;
 import static java.lang.Math.abs;
 
-/**
- * TODO: document your custom view class.
- */
 public class NumberLinkGameView extends CellsGameView {
 
     private NumberLinkGameActivity activity() {return (NumberLinkGameActivity)getContext();}

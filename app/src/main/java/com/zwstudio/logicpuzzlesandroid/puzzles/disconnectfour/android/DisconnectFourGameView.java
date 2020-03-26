@@ -16,9 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour.domain.Disconnect
 import com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour.domain.DisconnectFourGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour.domain.DisconnectFourObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class DisconnectFourGameView extends CellsGameView {
 
     private DisconnectFourGameActivity activity() {return (DisconnectFourGameActivity)getContext();}

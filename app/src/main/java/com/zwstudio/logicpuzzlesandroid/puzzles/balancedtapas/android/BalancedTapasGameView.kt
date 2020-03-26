@@ -22,9 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTap
 
 import fj.F
 
-/**
- * TODO: document your custom view class.
- */
 class BalancedTapasGameView : CellsGameView {
 
     private fun activity() = context as BalancedTapasGameActivity

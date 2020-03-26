@@ -22,9 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductS
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductSentinelsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductSentinelsTowerObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class ProductSentinelsGameView extends CellsGameView {
 
     private ProductSentinelsGameActivity activity() {return (ProductSentinelsGameActivity)getContext();}

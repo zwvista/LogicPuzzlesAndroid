@@ -13,9 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyObject
 
-/**
- * TODO: document your custom view class.
- */
 class CastleBaileyGameView : CellsGameView {
 
     private fun activity() = context as CastleBaileyGameActivity

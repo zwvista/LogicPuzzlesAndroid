@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class DominoGameView extends CellsGameView {
 
     private DominoGameActivity activity() {return (DominoGameActivity)getContext();}

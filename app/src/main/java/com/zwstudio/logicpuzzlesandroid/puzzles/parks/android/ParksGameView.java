@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class ParksGameView extends CellsGameView {
 
     private ParksGameActivity activity() {return (ParksGameActivity)getContext();}

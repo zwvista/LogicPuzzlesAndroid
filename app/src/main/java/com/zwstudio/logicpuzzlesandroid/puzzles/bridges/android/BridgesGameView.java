@@ -20,9 +20,6 @@ import java.util.Map;
 
 import fj.function.Effect0;
 
-/**
- * TODO: document your custom view class.
- */
 public class BridgesGameView extends CellsGameView {
 
     private BridgesGameActivity activity() {return (BridgesGameActivity)getContext();}

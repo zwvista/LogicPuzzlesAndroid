@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain.KakurasuGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain.KakurasuGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain.KakurasuObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class KakurasuGameView extends CellsGameView {
 
     private KakurasuGameActivity activity() {return (KakurasuGameActivity)getContext();}

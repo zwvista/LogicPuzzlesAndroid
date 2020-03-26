@@ -14,9 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class SumscrapersGameView extends CellsGameView {
 
     private SumscrapersGameActivity activity() {return (SumscrapersGameActivity)getContext();}

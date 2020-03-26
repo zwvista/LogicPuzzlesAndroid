@@ -18,9 +18,6 @@ import fj.function.Effect0;
 import static fj.data.Stream.range;
 import static java.lang.Math.abs;
 
-/**
- * TODO: document your custom view class.
- */
 public class MasyuGameView extends CellsGameView {
 
     private MasyuGameActivity activity() {return (MasyuGameActivity)getContext();}

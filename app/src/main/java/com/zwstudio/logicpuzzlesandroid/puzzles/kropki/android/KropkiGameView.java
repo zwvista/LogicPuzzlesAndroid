@@ -16,9 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiHint;
 
-/**
- * TODO: document your custom view class.
- */
 public class KropkiGameView extends CellsGameView {
 
     private KropkiGameActivity activity() {return (KropkiGameActivity)getContext();}

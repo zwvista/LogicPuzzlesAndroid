@@ -16,9 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintThe
 import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintTheNurikabeGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintTheNurikabeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class PaintTheNurikabeGameView extends CellsGameView {
 
     private PaintTheNurikabeGameActivity activity() {return (PaintTheNurikabeGameActivity)getContext();}

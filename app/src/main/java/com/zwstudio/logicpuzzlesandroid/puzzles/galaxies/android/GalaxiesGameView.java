@@ -14,9 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class GalaxiesGameView extends CellsGameView {
 
     private GalaxiesGameActivity activity() {return (GalaxiesGameActivity)getContext();}

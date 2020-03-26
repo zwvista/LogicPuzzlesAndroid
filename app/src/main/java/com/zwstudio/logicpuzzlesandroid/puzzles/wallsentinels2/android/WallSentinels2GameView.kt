@@ -12,9 +12,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.*
 
-/**
- * TODO: document your custom view class.
- */
 class WallSentinels2GameView : CellsGameView {
 
     private fun activity() = context as WallSentinels2GameActivity

@@ -22,9 +22,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarker
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpWallObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class LightenUpGameView extends CellsGameView {
 
     private LightenUpGameActivity activity() {return (LightenUpGameActivity)getContext();}

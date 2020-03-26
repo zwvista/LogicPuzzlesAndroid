@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain.FourMeNotMarker
 import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain.FourMeNotObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain.FourMeNotTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class FourMeNotGameView extends CellsGameView {
 
     private FourMeNotGameActivity activity() {return (FourMeNotGameActivity)getContext();}

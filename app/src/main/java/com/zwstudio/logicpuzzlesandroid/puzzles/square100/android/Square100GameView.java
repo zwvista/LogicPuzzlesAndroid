@@ -13,9 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position;
 import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100Game;
 import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100GameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class Square100GameView extends CellsGameView {
 
     private Square100GameActivity activity() {return (Square100GameActivity)getContext();}

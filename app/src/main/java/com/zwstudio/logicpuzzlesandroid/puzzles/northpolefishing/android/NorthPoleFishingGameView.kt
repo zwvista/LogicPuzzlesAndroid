@@ -13,9 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain.NorthPoleFishingGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain.NorthPoleFishingObject
 
-/**
- * TODO: document your custom view class.
- */
 class NorthPoleFishingGameView : CellsGameView {
 
     private fun activity() = context as NorthPoleFishingGameActivity

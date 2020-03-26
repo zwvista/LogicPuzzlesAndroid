@@ -12,9 +12,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject
 
-/**
- * TODO: document your custom view class.
- */
 class HitoriGameView : CellsGameView {
 
     private fun activity() = context as HitoriGameActivity

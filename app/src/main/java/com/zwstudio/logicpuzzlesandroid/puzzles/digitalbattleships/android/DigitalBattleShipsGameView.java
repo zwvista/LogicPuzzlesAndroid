@@ -16,9 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.Digita
 import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.DigitalBattleShipsGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.DigitalBattleShipsObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class DigitalBattleShipsGameView extends CellsGameView {
 
     private DigitalBattleShipsGameActivity activity() {return (DigitalBattleShipsGameActivity)getContext();}

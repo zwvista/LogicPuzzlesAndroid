@@ -17,9 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mathrax.domain.MathraxHint;
 
 import java.util.Map;
 
-/**
- * TODO: document your custom view class.
- */
 public class MathraxGameView extends CellsGameView {
 
     private MathraxGameActivity activity() {return (MathraxGameActivity)getContext();}

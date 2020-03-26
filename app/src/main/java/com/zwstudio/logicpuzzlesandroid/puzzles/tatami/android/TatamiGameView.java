@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class TatamiGameView extends CellsGameView {
 
     private TatamiGameActivity activity() {return (TatamiGameActivity)getContext();}

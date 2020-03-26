@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class SlitherLinkGameView extends CellsGameView {
 
     private SlitherLinkGameActivity activity() {return (SlitherLinkGameActivity)getContext();}

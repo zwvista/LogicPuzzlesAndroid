@@ -20,9 +20,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain.WallSentine
 import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain.WallSentinelsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain.WallSentinelsWallObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class WallSentinelsGameView extends CellsGameView {
 
     private WallSentinelsGameActivity activity() {return (WallSentinelsGameActivity)getContext();}

@@ -23,9 +23,6 @@ import java.util.List;
 
 import fj.F;
 
-/**
- * TODO: document your custom view class.
- */
 public class BWTapaGameView extends CellsGameView {
 
     private BWTapaGameActivity activity() {return (BWTapaGameActivity)getContext();}

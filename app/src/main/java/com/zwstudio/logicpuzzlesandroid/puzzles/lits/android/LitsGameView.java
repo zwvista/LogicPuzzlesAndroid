@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsMarkerObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class LitsGameView extends CellsGameView {
 
     private LitsGameActivity activity() {return (LitsGameActivity)getContext();}

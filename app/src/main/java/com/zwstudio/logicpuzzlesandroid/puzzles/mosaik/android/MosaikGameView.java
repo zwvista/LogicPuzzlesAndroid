@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class MosaikGameView extends CellsGameView {
 
     private MosaikGameActivity activity() {return (MosaikGameActivity)getContext();}

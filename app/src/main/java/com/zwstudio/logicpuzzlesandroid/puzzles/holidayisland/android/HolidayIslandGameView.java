@@ -23,9 +23,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIsla
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class HolidayIslandGameView extends CellsGameView {
 
     private HolidayIslandGameActivity activity() {return (HolidayIslandGameActivity)getContext();}

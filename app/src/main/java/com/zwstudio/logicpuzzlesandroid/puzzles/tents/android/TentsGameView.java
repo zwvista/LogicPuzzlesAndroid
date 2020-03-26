@@ -23,9 +23,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsTentObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsTreeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class TentsGameView extends CellsGameView {
 
     private TentsGameActivity activity() {return (TentsGameActivity)getContext();}

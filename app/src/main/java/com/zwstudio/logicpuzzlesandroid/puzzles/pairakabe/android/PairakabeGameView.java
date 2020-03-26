@@ -19,9 +19,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeMarker
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeWallObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class PairakabeGameView extends CellsGameView {
 
     private PairakabeGameActivity activity() {return (PairakabeGameActivity)getContext();}

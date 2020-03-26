@@ -21,9 +21,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsHorzObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsObject;
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsVertObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class WallsGameView extends CellsGameView {
 
     private WallsGameActivity activity() {return (WallsGameActivity)getContext();}

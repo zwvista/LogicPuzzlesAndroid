@@ -16,9 +16,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameMove;
 
 import java.util.Map;
 
-/**
- * TODO: document your custom view class.
- */
 public class KakuroGameView extends CellsGameView {
 
     private KakuroGameActivity activity() {return (KakuroGameActivity)getContext();}

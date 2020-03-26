@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGameMove;
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeObject;
 
-/**
- * TODO: document your custom view class.
- */
 public class SnakeGameView extends CellsGameView {
 
     private SnakeGameActivity activity() {return (SnakeGameActivity)getContext();}

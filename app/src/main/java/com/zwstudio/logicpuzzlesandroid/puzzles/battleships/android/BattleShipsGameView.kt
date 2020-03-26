@@ -17,9 +17,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGa
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsObject
 
-/**
- * TODO: document your custom view class.
- */
 class BattleShipsGameView : CellsGameView {
 
     private fun activity() = context as BattleShipsGameActivity

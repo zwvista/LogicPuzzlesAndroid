@@ -14,9 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class SnailGameView extends CellsGameView {
 
     private SnailGameActivity activity() {return (SnailGameActivity)getContext();}

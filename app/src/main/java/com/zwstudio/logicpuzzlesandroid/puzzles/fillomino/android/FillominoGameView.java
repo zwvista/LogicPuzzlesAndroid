@@ -15,9 +15,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fillomino.domain.FillominoGame;
 import com.zwstudio.logicpuzzlesandroid.puzzles.fillomino.domain.FillominoGameMove;
 
-/**
- * TODO: document your custom view class.
- */
 public class FillominoGameView extends CellsGameView {
 
     private FillominoGameActivity activity() {return (FillominoGameActivity)getContext();}

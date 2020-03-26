@@ -7,17 +7,11 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
-
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.android.AbcGameActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGameMove
 
-/**
- * TODO: document your custom view class.
- */
 class ABCPathGameView : CellsGameView {
 
     private fun activity() = context as ABCPathGameActivity
