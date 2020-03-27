@@ -7,7 +7,7 @@ import fj.F2
 import fj.P2
 import java.util.*
 
-class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame?, CalcudokuGameMove?, CalcudokuGameState?>?, gdi: GameDocumentInterface?) : CellsGame<CalcudokuGame?, CalcudokuGameMove?, CalcudokuGameState?>(gi, gdi) {
+class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>, gdi: GameDocumentInterface) : CellsGame<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(gi, gdi) {
     var areas: MutableList<List<Position>> = ArrayList()
     var pos2area: MutableMap<Position?, Int?> = HashMap()
     var dots: GridDots

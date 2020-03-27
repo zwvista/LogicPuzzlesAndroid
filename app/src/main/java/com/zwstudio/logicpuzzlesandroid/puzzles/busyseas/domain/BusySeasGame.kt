@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame?, BusySeasGameMove?, BusySeasGameState?>?, gdi: GameDocumentInterface?) : CellsGame<BusySeasGame?, BusySeasGameMove?, BusySeasGameState?>(gi, gdi) {
+class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame, BusySeasGameMove, BusySeasGameState>, gdi: GameDocumentInterface) : CellsGame<BusySeasGame, BusySeasGameMove, BusySeasGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, Int> = HashMap()
     private fun changeObject(move: BusySeasGameMove?, f: F2<BusySeasGameState?, BusySeasGameMove?, Boolean>): Boolean {
         if (canRedo()) {

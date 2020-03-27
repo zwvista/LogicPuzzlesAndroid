@@ -5,9 +5,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F2
-import java.util.*
 
 class BoxItAgainGame(layout: List<String>, gi: GameInterface<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState>, gdi: GameDocumentInterface) : CellsGame<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState>(gi, gdi) {
 
@@ -27,7 +24,7 @@ class BoxItAgainGame(layout: List<String>, gi: GameInterface<BoxItAgainGame, Box
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var objArray: Array<Array<GridLineObject>>
+    var objArray: MutableList<MutableList<GridLineObject>>
     var pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -35,11 +32,7 @@ class BoxItAgainGame(layout: List<String>, gi: GameInterface<BoxItAgainGame, Box
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
-        objArray = arrayOfNulls(rows() * cols())
-        for (i in objArray.indices) {
-            objArray[i] = arrayOfNulls(4)
-            Arrays.fill(objArray[i], GridLineObject.Empty)
-        }
+        objArray = MutableList(rows() * cols()) { MutableList(4) { GridLineObject.Empty } }
         for (r in 0 until rows() - 1) {
             val str = layout[r]
             for (c in 0 until cols() - 1) {
@@ -51,16 +44,16 @@ class BoxItAgainGame(layout: List<String>, gi: GameInterface<BoxItAgainGame, Box
             }
         }
         for (r in 0 until rows() - 1) {
-            get(r, 0)[2] = GridLineObject.Line
-            get(r + 1, 0)[0] = GridLineObject.Line
-            get(r, cols() - 1)[2] = GridLineObject.Line
-            get(r + 1, cols() - 1)[0] = GridLineObject.Line
+            this[r, 0][2] = GridLineObject.Line
+            this[r + 1, 0][0] = GridLineObject.Line
+            this[r, cols() - 1][2] = GridLineObject.Line
+            this[r + 1, cols() - 1][0] = GridLineObject.Line
         }
         for (c in 0 until cols() - 1) {
-            get(0, c)[1] = GridLineObject.Line
-            get(0, c + 1)[3] = GridLineObject.Line
-            get(rows() - 1, c)[1] = GridLineObject.Line
-            get(rows() - 1, c + 1)[3] = GridLineObject.Line
+            this[0, c][1] = GridLineObject.Line
+            this[0, c + 1][3] = GridLineObject.Line
+            this[rows() - 1, c][1] = GridLineObject.Line
+            this[rows() - 1, c + 1][3] = GridLineObject.Line
         }
         val state = BoxItAgainGameState(this)
         states.add(state)

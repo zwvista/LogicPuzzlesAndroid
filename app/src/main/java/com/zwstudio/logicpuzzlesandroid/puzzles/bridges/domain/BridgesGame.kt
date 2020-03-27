@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 
-class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame?, BridgesGameMove?, BridgesGameState?>?, gdi: GameDocumentInterface?) : CellsGame<BridgesGame?, BridgesGameMove?, BridgesGameState?>(gi, gdi) {
+class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGameMove, BridgesGameState>, gdi: GameDocumentInterface) : CellsGame<BridgesGame, BridgesGameMove, BridgesGameState>(gi, gdi) {
     var islandsInfo: MutableMap<Position, BridgesIslandInfo> = HashMap()
     fun isIsland(p: Position): Boolean {
         return islandsInfo.containsKey(p)

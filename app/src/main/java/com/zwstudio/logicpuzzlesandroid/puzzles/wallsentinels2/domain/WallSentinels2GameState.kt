@@ -29,15 +29,9 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
         val o = this[move.p]
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         move.obj = when(o) {
-            is WallSentinels2EmptyObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2MarkerObject()
-                else WallSentinels2WallObject()
-            is WallSentinels2WallObject ->
-                if (markerOption == MarkerOptions.MarkerLast) WallSentinels2MarkerObject()
-                else WallSentinels2EmptyObject()
-            is WallSentinels2MarkerObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2WallObject()
-                else WallSentinels2EmptyObject()
+            is WallSentinels2EmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2MarkerObject() else WallSentinels2WallObject()
+            is WallSentinels2WallObject -> if (markerOption == MarkerOptions.MarkerLast) WallSentinels2MarkerObject() else WallSentinels2EmptyObject()
+            is WallSentinels2MarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2WallObject() else WallSentinels2EmptyObject()
             else -> o
         }
         return setObject(move)

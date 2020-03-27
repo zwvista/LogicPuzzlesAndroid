@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import fj.F2
 import java.util.*
 
-class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame?, BWTapaGameMove?, BWTapaGameState?>?, gdi: GameDocumentInterface?) : CellsGame<BWTapaGame?, BWTapaGameMove?, BWTapaGameState?>(gi, gdi) {
+class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameMove, BWTapaGameState>, gdi: GameDocumentInterface) : CellsGame<BWTapaGame, BWTapaGameMove, BWTapaGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, List<Int>> = HashMap()
     private fun changeObject(move: BWTapaGameMove?, f: F2<BWTapaGameState?, BWTapaGameMove?, Boolean>): Boolean {
         if (canRedo()) {
