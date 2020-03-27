@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 
-class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallGame?, CarpentersWallGameMove?, CarpentersWallGameState?>?, gdi: GameDocumentInterface?) : CellsGame<CarpentersWallGame?, CarpentersWallGameMove?, CarpentersWallGameState?>(gi, gdi) {
+class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallGame, CarpentersWallGameMove, CarpentersWallGameState>, gdi: GameDocumentInterface) : CellsGame<CarpentersWallGame, CarpentersWallGameMove, CarpentersWallGameState>(gi, gdi) {
     var objArray: Array<CarpentersWallObject?>
     operator fun get(row: Int, col: Int): CarpentersWallObject? {
         return objArray[row * cols() + col]

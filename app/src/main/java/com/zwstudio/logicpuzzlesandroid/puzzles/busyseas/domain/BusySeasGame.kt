@@ -4,56 +4,19 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F2
-import java.util.*
 
 class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame, BusySeasGameMove, BusySeasGameState>, gdi: GameDocumentInterface) : CellsGame<BusySeasGame, BusySeasGameMove, BusySeasGameState>(gi, gdi) {
-    var pos2hint: MutableMap<Position?, Int> = HashMap()
-    private fun changeObject(move: BusySeasGameMove?, f: F2<BusySeasGameState?, BusySeasGameMove?, Boolean>): Boolean {
-        if (canRedo()) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(state())
-        val changed = f.f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
-    fun switchObject(move: BusySeasGameMove?): Boolean {
-        return changeObject(move, F2 { obj: BusySeasGameState?, move: BusySeasGameMove? -> obj!!.switchObject(move) })
-    }
-
-    fun setObject(move: BusySeasGameMove?): Boolean {
-        return changeObject(move, F2 { obj: BusySeasGameState?, move: BusySeasGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): BusySeasObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): BusySeasObject? {
-        return state()!![row, col]
-    }
-
-    fun pos2State(p: Position?): HintState? {
-        return state()!!.pos2state[p]
-    }
 
     companion object {
         var offset = arrayOf(
-                Position(-1, 0),
-                Position(0, 1),
-                Position(1, 0),
-                Position(0, -1))
+            Position(-1, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(0, -1)
+        )
     }
+    
+    var pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)
@@ -72,4 +35,28 @@ class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame, BusySea
         states.add(state)
         levelInitilized(state)
     }
+
+    private fun changeObject(move: BusySeasGameMove, f: (BusySeasGameState, BusySeasGameMove) -> Boolean): Boolean {
+        if (canRedo()) {
+            states.subList(stateIndex + 1, states.size).clear()
+            moves.subList(stateIndex, states.size).clear()
+        }
+        val state = cloner.deepClone(state())
+        val changed = f(state, move)
+        if (changed) {
+            states.add(state)
+            stateIndex++
+            moves.add(move)
+            moveAdded(move)
+            levelUpdated(states[stateIndex - 1], state)
+        }
+        return changed
+    }
+
+    fun switchObject(move: BusySeasGameMove) = changeObject(move, BusySeasGameState::switchObject)
+    fun setObject(move: BusySeasGameMove) = changeObject(move, BusySeasGameState::setObject)
+
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun pos2State(p: Position) = state().pos2state[p]
 }

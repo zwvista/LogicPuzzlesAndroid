@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSquareGame?, CarpentersSquareGameMove?, CarpentersSquareGameState?>?, gdi: GameDocumentInterface?) : CellsGame<CarpentersSquareGame?, CarpentersSquareGameMove?, CarpentersSquareGameState?>(gi, gdi) {
+class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSquareGame, CarpentersSquareGameMove, CarpentersSquareGameState>, gdi: GameDocumentInterface) : CellsGame<CarpentersSquareGame, CarpentersSquareGameMove, CarpentersSquareGameState>(gi, gdi) {
     var objArray: Array<Array<GridLineObject?>>
     var pos2hint: MutableMap<Position?, CarpenterSquareHint?> = HashMap()
     operator fun get(row: Int, col: Int): Array<GridLineObject?> {

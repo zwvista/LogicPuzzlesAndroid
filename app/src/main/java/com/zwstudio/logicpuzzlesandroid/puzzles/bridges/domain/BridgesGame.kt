@@ -4,49 +4,20 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGameMove, BridgesGameState>, gdi: GameDocumentInterface) : CellsGame<BridgesGame, BridgesGameMove, BridgesGameState>(gi, gdi) {
-    var islandsInfo: MutableMap<Position, BridgesIslandInfo> = HashMap()
-    fun isIsland(p: Position): Boolean {
-        return islandsInfo.containsKey(p)
-    }
-
-    fun switchBridges(move: BridgesGameMove?): Boolean {
-        if (canRedo()) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(state())
-        if (move!!.pTo!!.compareTo(move.pFrom) < 0) {
-            val t = move.pFrom
-            move.pFrom = move.pTo
-            move.pTo = t
-        }
-        if (!state!!.switchBridges(move)) return false
-        states.add(state)
-        stateIndex++
-        moves.add(move)
-        moveAdded(move)
-        levelUpdated(states[stateIndex - 1], state)
-        return true
-    }
-
-    fun getObject(p: Position?): BridgesObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): BridgesObject? {
-        return state()!![row, col]
-    }
 
     companion object {
         var offset = arrayOf(
-                Position(-1, 0),
-                Position(0, 1),
-                Position(1, 0),
-                Position(0, -1))
+            Position(-1, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(0, -1)
+        )
     }
+
+    var islandsInfo = mutableMapOf<Position, BridgesIslandInfo>()
+    fun isIsland(p: Position) = islandsInfo.containsKey(p)
 
     init {
         size = Position(layout.size, layout[0].length)
@@ -79,4 +50,27 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
         states.add(state)
         levelInitilized(state)
     }
+
+    fun switchBridges(move: BridgesGameMove): Boolean {
+        if (canRedo()) {
+            states.subList(stateIndex + 1, states.size).clear()
+            moves.subList(stateIndex, states.size).clear()
+        }
+        val state = cloner.deepClone(state())
+        if (move.pTo.compareTo(move.pFrom) < 0) {
+            val t = move.pFrom
+            move.pFrom = move.pTo
+            move.pTo = t
+        }
+        if (!state!!.switchBridges(move)) return false
+        states.add(state)
+        stateIndex++
+        moves.add(move)
+        moveAdded(move)
+        levelUpdated(states[stateIndex - 1], state)
+        return true
+    }
+
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
 }
