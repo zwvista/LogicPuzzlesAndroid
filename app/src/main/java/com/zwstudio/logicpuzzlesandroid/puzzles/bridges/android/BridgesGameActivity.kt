@@ -15,7 +15,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class BridgesGameActivity : GameGameActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
+class BridgesGameActivity : GameGameActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BridgesDocument? = null

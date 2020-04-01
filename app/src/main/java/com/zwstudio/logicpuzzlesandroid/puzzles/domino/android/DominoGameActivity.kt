@@ -15,7 +15,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class DominoGameActivity : GameGameActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
+class DominoGameActivity : GameGameActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DominoDocument? = null

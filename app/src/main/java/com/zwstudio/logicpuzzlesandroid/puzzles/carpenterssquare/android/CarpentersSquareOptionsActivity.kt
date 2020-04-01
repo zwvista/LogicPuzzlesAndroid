@@ -18,7 +18,7 @@ import org.androidannotations.annotations.ItemSelect
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_options)
-open class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame?, CarpentersSquareDocument?, CarpentersSquareGameMove?, CarpentersSquareGameState?>() {
+class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame?, CarpentersSquareDocument?, CarpentersSquareGameMove?, CarpentersSquareGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CarpentersSquareDocument? = null

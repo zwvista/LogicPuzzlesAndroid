@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGameMove
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class GalaxiesDocument : GameDocument<GalaxiesGame?, GalaxiesGameMove?>() {
+class GalaxiesDocument : GameDocument<GalaxiesGame?, GalaxiesGameMove?>() {
     protected override fun saveMove(move: GalaxiesGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

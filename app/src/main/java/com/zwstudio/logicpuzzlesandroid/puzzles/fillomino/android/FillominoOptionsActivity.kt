@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class FillominoOptionsActivity : GameOptionsActivity<FillominoGame?, FillominoDocument?, FillominoGameMove?, FillominoGameState?>() {
+class FillominoOptionsActivity : GameOptionsActivity<FillominoGame?, FillominoDocument?, FillominoGameMove?, FillominoGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FillominoDocument? = null

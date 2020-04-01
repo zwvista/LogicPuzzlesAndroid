@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class BridgesHelpActivity : GameHelpActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
+class BridgesHelpActivity : GameHelpActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BridgesDocument? = null

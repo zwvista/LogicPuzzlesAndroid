@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class DisconnectFourHelpActivity : GameHelpActivity<DisconnectFourGame?, DisconnectFourDocument?, DisconnectFourGameMove?, DisconnectFourGameState?>() {
+class DisconnectFourHelpActivity : GameHelpActivity<DisconnectFourGame?, DisconnectFourDocument?, DisconnectFourGameMove?, DisconnectFourGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DisconnectFourDocument? = null

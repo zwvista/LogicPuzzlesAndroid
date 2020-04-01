@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class GardenerOptionsActivity : GameOptionsActivity<GardenerGame?, GardenerDocument?, GardenerGameMove?, GardenerGameState?>() {
+class GardenerOptionsActivity : GameOptionsActivity<GardenerGame?, GardenerDocument?, GardenerGameMove?, GardenerGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GardenerDocument? = null

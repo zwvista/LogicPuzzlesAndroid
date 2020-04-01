@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class RippleEffectOptionsActivity : GameOptionsActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
+class RippleEffectOptionsActivity : GameOptionsActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
     @Bean
     protected var document: RippleEffectDocument? = null
     override fun doc(): RippleEffectDocument {

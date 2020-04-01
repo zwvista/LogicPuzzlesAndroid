@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class LoopyMainActivity : GameMainActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
+class LoopyMainActivity : GameMainActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LoopyDocument? = null

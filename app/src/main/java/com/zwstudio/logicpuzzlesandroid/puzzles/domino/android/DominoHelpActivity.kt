@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class DominoHelpActivity : GameHelpActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
+class DominoHelpActivity : GameHelpActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DominoDocument? = null

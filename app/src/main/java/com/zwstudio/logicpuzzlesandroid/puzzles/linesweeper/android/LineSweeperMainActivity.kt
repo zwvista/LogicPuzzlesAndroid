@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class LineSweeperMainActivity : GameMainActivity<LineSweeperGame?, LineSweeperDocument?, LineSweeperGameMove?, LineSweeperGameState?>() {
+class LineSweeperMainActivity : GameMainActivity<LineSweeperGame?, LineSweeperDocument?, LineSweeperGameMove?, LineSweeperGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LineSweeperDocument? = null

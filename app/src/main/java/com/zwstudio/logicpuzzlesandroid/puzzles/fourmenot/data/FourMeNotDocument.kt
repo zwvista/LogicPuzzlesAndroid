@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain.FourMeNotObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class FourMeNotDocument : GameDocument<FourMeNotGame?, FourMeNotGameMove?>() {
+class FourMeNotDocument : GameDocument<FourMeNotGame?, FourMeNotGameMove?>() {
     protected override fun saveMove(move: FourMeNotGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

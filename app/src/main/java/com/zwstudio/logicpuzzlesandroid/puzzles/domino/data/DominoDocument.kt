@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameMove
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class DominoDocument : GameDocument<DominoGame?, DominoGameMove?>() {
+class DominoDocument : GameDocument<DominoGame?, DominoGameMove?>() {
     protected override fun saveMove(move: DominoGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

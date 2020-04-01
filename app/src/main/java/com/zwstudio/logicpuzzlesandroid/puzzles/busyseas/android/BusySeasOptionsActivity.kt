@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class BusySeasOptionsActivity : GameOptionsActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
+class BusySeasOptionsActivity : GameOptionsActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BusySeasDocument? = null

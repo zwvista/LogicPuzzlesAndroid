@@ -14,7 +14,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class AbstractPaintingMainActivity : GameMainActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
+class AbstractPaintingMainActivity : GameMainActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
     protected lateinit var document: AbstractPaintingDocument
     override fun doc() = document
@@ -31,14 +31,14 @@ open class AbstractPaintingMainActivity : GameMainActivity<AbstractPaintingGame,
 }
 
 @EActivity(R.layout.activity_game_help)
-open class AbstractPaintingHelpActivity : GameHelpActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
+class AbstractPaintingHelpActivity : GameHelpActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
     protected lateinit var document: AbstractPaintingDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_options)
-open class AbstractPaintingOptionsActivity : GameOptionsActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
+class AbstractPaintingOptionsActivity : GameOptionsActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
     protected lateinit var document: AbstractPaintingDocument
     override fun doc() = document

@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class BoxItUpHelpActivity : GameHelpActivity<BoxItUpGame?, BoxItUpDocument?, BoxItUpGameMove?, BoxItUpGameState?>() {
+class BoxItUpHelpActivity : GameHelpActivity<BoxItUpGame?, BoxItUpDocument?, BoxItUpGameMove?, BoxItUpGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItUpDocument? = null

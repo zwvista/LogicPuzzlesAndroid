@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class KakurasuOptionsActivity : GameOptionsActivity<KakurasuGame?, KakurasuDocument?, KakurasuGameMove?, KakurasuGameState?>() {
+class KakurasuOptionsActivity : GameOptionsActivity<KakurasuGame?, KakurasuDocument?, KakurasuGameMove?, KakurasuGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KakurasuDocument? = null

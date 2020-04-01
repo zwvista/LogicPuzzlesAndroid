@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class LightBattleShipsOptionsActivity : GameOptionsActivity<LightBattleShipsGame?, LightBattleShipsDocument?, LightBattleShipsGameMove?, LightBattleShipsGameState?>() {
+class LightBattleShipsOptionsActivity : GameOptionsActivity<LightBattleShipsGame?, LightBattleShipsDocument?, LightBattleShipsGameMove?, LightBattleShipsGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightBattleShipsDocument? = null

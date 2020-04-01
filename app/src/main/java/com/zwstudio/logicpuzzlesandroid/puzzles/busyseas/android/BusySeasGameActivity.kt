@@ -15,7 +15,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class BusySeasGameActivity : GameGameActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
+class BusySeasGameActivity : GameGameActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BusySeasDocument? = null

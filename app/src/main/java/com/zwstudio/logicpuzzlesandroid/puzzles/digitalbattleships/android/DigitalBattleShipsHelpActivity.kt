@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class DigitalBattleShipsHelpActivity : GameHelpActivity<DigitalBattleShipsGame?, DigitalBattleShipsDocument?, DigitalBattleShipsGameMove?, DigitalBattleShipsGameState?>() {
+class DigitalBattleShipsHelpActivity : GameHelpActivity<DigitalBattleShipsGame?, DigitalBattleShipsDocument?, DigitalBattleShipsGameMove?, DigitalBattleShipsGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DigitalBattleShipsDocument? = null

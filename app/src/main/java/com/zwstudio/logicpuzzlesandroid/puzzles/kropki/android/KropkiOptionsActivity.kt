@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class KropkiOptionsActivity : GameOptionsActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
+class KropkiOptionsActivity : GameOptionsActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KropkiDocument? = null

@@ -9,21 +9,14 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain.BoxItAgainGame
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class BoxItAgainDocument : GameDocument<BoxItAgainGame?, BoxItAgainGameMove?>() {
-    protected override fun saveMove(move: BoxItAgainGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
+class BoxItAgainDocument : GameDocument<BoxItAgainGame, BoxItAgainGameMove>() {
+    override fun saveMove(move: BoxItAgainGameMove, rec: MoveProgress) {
+        rec.row = move.p.row
+        rec.col = move.p.col
         rec.intValue1 = move.dir
-        rec.intValue2 = move.obj!!.ordinal
+        rec.intValue2 = move.obj.ordinal
     }
 
-    override fun loadMove(rec: MoveProgress): BoxItAgainGameMove {
-        return object : BoxItAgainGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                dir = rec.intValue1
-                obj = GridLineObject.values()[rec.intValue2]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        BoxItAgainGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
 }

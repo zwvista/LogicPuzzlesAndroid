@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class LightenUpMainActivity : GameMainActivity<LightenUpGame?, LightenUpDocument?, LightenUpGameMove?, LightenUpGameState?>() {
+class LightenUpMainActivity : GameMainActivity<LightenUpGame?, LightenUpDocument?, LightenUpGameMove?, LightenUpGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightenUpDocument? = null

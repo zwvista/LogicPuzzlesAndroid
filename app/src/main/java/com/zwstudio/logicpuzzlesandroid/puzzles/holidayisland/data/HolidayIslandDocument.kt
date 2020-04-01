@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIsla
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class HolidayIslandDocument : GameDocument<HolidayIslandGame?, HolidayIslandGameMove?>() {
+class HolidayIslandDocument : GameDocument<HolidayIslandGame?, HolidayIslandGameMove?>() {
     protected override fun saveMove(move: HolidayIslandGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

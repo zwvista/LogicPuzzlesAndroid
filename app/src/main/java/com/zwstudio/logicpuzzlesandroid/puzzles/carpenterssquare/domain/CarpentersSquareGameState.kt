@@ -9,7 +9,7 @@ import fj.P2
 import fj.data.List
 import java.util.*
 
-class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<CarpentersSquareGame?, CarpentersSquareGameMove?, CarpentersSquareGameState?>(game) {
+class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<CarpentersSquareGame, CarpentersSquareGameMove, CarpentersSquareGameState>(game) {
     var objArray: Array<Array<GridLineObject?>?>?
     var pos2state: MutableMap<Position?, HintState?> = HashMap()
     operator fun get(row: Int, col: Int): Array<GridLineObject?>? {

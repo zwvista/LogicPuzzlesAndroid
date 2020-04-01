@@ -18,7 +18,7 @@ import org.androidannotations.annotations.ItemSelect
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_options)
-open class FenceSentinelsOptionsActivity : GameOptionsActivity<FenceSentinelsGame?, FenceSentinelsDocument?, FenceSentinelsGameMove?, FenceSentinelsGameState?>() {
+class FenceSentinelsOptionsActivity : GameOptionsActivity<FenceSentinelsGame?, FenceSentinelsDocument?, FenceSentinelsGameMove?, FenceSentinelsGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FenceSentinelsDocument? = null

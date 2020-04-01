@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class GalaxiesHelpActivity : GameHelpActivity<GalaxiesGame?, GalaxiesDocument?, GalaxiesGameMove?, GalaxiesGameState?>() {
+class GalaxiesHelpActivity : GameHelpActivity<GalaxiesGame?, GalaxiesDocument?, GalaxiesGameMove?, GalaxiesGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GalaxiesDocument? = null

@@ -14,7 +14,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class BalancedTapasMainActivity : GameMainActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
+class BalancedTapasMainActivity : GameMainActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
     @Bean
     protected lateinit var document: BalancedTapasDocument
     override fun doc() = document
@@ -31,14 +31,14 @@ open class BalancedTapasMainActivity : GameMainActivity<BalancedTapasGame, Balan
 }
 
 @EActivity(R.layout.activity_game_options)
-open class BalancedTapasOptionsActivity : GameOptionsActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
+class BalancedTapasOptionsActivity : GameOptionsActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
     @Bean
     protected lateinit var document: BalancedTapasDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-open class BalancedTapasHelpActivity : GameHelpActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
+class BalancedTapasHelpActivity : GameHelpActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
     @Bean
     protected lateinit var document: BalancedTapasDocument
     override fun doc() = document

@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class BWTapaMainActivity : GameMainActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
+class BWTapaMainActivity : GameMainActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BWTapaDocument? = null

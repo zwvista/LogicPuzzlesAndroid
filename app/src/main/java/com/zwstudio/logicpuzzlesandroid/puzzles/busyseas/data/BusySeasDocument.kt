@@ -9,19 +9,13 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain.BusySeasObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class BusySeasDocument : GameDocument<BusySeasGame?, BusySeasGameMove?>() {
+class BusySeasDocument : GameDocument<BusySeasGame, BusySeasGameMove>() {
     protected override fun saveMove(move: BusySeasGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
-        rec.strValue1 = move.obj!!.objAsString()
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.strValue1 = move.obj.objAsString()
     }
 
-    override fun loadMove(rec: MoveProgress): BusySeasGameMove {
-        return object : BusySeasGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = BusySeasObject.Companion.objFromString(rec.strValue1)
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        BusySeasGameMove(Position(rec.row, rec.col), BusySeasObject.Companion.objFromString(rec.strValue1))
 }

@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class HolidayIslandOptionsActivity : GameOptionsActivity<HolidayIslandGame?, HolidayIslandDocument?, HolidayIslandGameMove?, HolidayIslandGameState?>() {
+class HolidayIslandOptionsActivity : GameOptionsActivity<HolidayIslandGame?, HolidayIslandDocument?, HolidayIslandGameMove?, HolidayIslandGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: HolidayIslandDocument? = null

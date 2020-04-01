@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fillomino.domain.FillominoGameMo
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class FillominoDocument : GameDocument<FillominoGame?, FillominoGameMove?>() {
+class FillominoDocument : GameDocument<FillominoGame?, FillominoGameMove?>() {
     protected override fun saveMove(move: FillominoGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class TapARowOptionsActivity : GameOptionsActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
+class TapARowOptionsActivity : GameOptionsActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
     @Bean
     protected var document: TapARowDocument? = null
     override fun doc(): TapARowDocument {

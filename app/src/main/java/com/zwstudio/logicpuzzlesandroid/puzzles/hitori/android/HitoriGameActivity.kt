@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class HitoriGameActivity : GameGameActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState>() {
+class HitoriGameActivity : GameGameActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState>() {
     @Bean
     protected lateinit var document: HitoriDocument
     override fun doc() = document

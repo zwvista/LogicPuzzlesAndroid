@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class TapARowMainActivity : GameMainActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
+class TapARowMainActivity : GameMainActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
     @Bean
     protected var document: TapARowDocument? = null
     override fun doc(): TapARowDocument {

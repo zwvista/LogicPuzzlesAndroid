@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class LineSweeperOptionsActivity : GameOptionsActivity<LineSweeperGame?, LineSweeperDocument?, LineSweeperGameMove?, LineSweeperGameState?>() {
+class LineSweeperOptionsActivity : GameOptionsActivity<LineSweeperGame?, LineSweeperDocument?, LineSweeperGameMove?, LineSweeperGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LineSweeperDocument? = null

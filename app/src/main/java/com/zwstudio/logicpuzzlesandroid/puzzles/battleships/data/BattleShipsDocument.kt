@@ -10,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsOb
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class BattleShipsDocument : GameDocument<BattleShipsGame, BattleShipsGameMove>() {
+class BattleShipsDocument : GameDocument<BattleShipsGame, BattleShipsGameMove>() {
     override fun saveMove(move: BattleShipsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

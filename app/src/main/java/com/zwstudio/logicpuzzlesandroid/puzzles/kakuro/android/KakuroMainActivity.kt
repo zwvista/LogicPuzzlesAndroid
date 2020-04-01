@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class KakuroMainActivity : GameMainActivity<KakuroGame?, KakuroDocument?, KakuroGameMove?, KakuroGameState?>() {
+class KakuroMainActivity : GameMainActivity<KakuroGame?, KakuroDocument?, KakuroGameMove?, KakuroGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KakuroDocument? = null

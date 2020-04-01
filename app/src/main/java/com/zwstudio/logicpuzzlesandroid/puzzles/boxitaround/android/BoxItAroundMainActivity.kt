@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class BoxItAroundMainActivity : GameMainActivity<BoxItAroundGame?, BoxItAroundDocument?, BoxItAroundGameMove?, BoxItAroundGameState?>() {
+class BoxItAroundMainActivity : GameMainActivity<BoxItAroundGame?, BoxItAroundDocument?, BoxItAroundGameMove?, BoxItAroundGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItAroundDocument? = null

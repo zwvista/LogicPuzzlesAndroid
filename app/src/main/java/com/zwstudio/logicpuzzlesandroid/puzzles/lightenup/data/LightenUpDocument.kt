@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class LightenUpDocument : GameDocument<LightenUpGame?, LightenUpGameMove?>() {
+class LightenUpDocument : GameDocument<LightenUpGame?, LightenUpGameMove?>() {
     protected override fun saveMove(move: LightenUpGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

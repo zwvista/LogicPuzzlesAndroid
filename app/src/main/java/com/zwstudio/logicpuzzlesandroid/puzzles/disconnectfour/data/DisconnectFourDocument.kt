@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour.domain.Disconnect
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class DisconnectFourDocument : GameDocument<DisconnectFourGame?, DisconnectFourGameMove?>() {
+class DisconnectFourDocument : GameDocument<DisconnectFourGame?, DisconnectFourGameMove?>() {
     protected override fun saveMove(move: DisconnectFourGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

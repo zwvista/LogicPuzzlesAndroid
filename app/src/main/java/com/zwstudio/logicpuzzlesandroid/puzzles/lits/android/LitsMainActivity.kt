@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class LitsMainActivity : GameMainActivity<LitsGame?, LitsDocument?, LitsGameMove?, LitsGameState?>() {
+class LitsMainActivity : GameMainActivity<LitsGame?, LitsDocument?, LitsGameMove?, LitsGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LitsDocument? = null

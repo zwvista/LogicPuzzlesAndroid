@@ -18,7 +18,7 @@ import org.androidannotations.annotations.ItemSelect
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_options)
-open class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame?, GalaxiesDocument?, GalaxiesGameMove?, GalaxiesGameState?>() {
+class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame?, GalaxiesDocument?, GalaxiesGameMove?, GalaxiesGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GalaxiesDocument? = null

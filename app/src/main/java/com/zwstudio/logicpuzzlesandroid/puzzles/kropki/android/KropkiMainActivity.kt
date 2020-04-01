@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class KropkiMainActivity : GameMainActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
+class KropkiMainActivity : GameMainActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KropkiDocument? = null

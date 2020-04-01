@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class FutoshikiMainActivity : GameMainActivity<FutoshikiGame?, FutoshikiDocument?, FutoshikiGameMove?, FutoshikiGameState?>() {
+class FutoshikiMainActivity : GameMainActivity<FutoshikiGame?, FutoshikiDocument?, FutoshikiGameMove?, FutoshikiGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FutoshikiDocument? = null

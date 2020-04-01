@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameMove
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class KakuroDocument : GameDocument<KakuroGame?, KakuroGameMove?>() {
+class KakuroDocument : GameDocument<KakuroGame?, KakuroGameMove?>() {
     protected override fun saveMove(move: KakuroGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.Abstract
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class AbstractPaintingDocument : GameDocument<AbstractPaintingGame, AbstractPaintingGameMove>() {
+class AbstractPaintingDocument : GameDocument<AbstractPaintingGame, AbstractPaintingGameMove>() {
     override fun saveMove(move: AbstractPaintingGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

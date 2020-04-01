@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class FourMeNotHelpActivity : GameHelpActivity<FourMeNotGame?, FourMeNotDocument?, FourMeNotGameMove?, FourMeNotGameState?>() {
+class FourMeNotHelpActivity : GameHelpActivity<FourMeNotGame?, FourMeNotDocument?, FourMeNotGameMove?, FourMeNotGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FourMeNotDocument? = null

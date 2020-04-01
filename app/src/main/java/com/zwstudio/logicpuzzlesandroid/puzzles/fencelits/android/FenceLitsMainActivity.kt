@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class FenceLitsMainActivity : GameMainActivity<FenceLitsGame?, FenceLitsDocument?, FenceLitsGameMove?, FenceLitsGameState?>() {
+class FenceLitsMainActivity : GameMainActivity<FenceLitsGame?, FenceLitsDocument?, FenceLitsGameMove?, FenceLitsGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FenceLitsDocument? = null

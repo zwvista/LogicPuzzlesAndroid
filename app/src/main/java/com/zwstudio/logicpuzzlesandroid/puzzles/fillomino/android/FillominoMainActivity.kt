@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class FillominoMainActivity : GameMainActivity<FillominoGame?, FillominoDocument?, FillominoGameMove?, FillominoGameState?>() {
+class FillominoMainActivity : GameMainActivity<FillominoGame?, FillominoDocument?, FillominoGameMove?, FillominoGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FillominoDocument? = null

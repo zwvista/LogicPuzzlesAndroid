@@ -19,7 +19,7 @@ import org.androidannotations.annotations.EActivity
 import fj.data.List.iterableList
 
 @EActivity(R.layout.activity_game_game)
-open class AbstractPaintingGameActivity : GameGameActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
+class AbstractPaintingGameActivity : GameGameActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
     protected lateinit var document: AbstractPaintingDocument
     override fun doc() = document

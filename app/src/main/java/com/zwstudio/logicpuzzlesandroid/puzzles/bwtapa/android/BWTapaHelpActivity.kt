@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class BWTapaHelpActivity : GameHelpActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
+class BWTapaHelpActivity : GameHelpActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BWTapaDocument? = null

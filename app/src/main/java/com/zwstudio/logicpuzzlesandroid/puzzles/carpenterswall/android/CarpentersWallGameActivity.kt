@@ -15,7 +15,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class CarpentersWallGameActivity : GameGameActivity<CarpentersWallGame?, CarpentersWallDocument?, CarpentersWallGameMove?, CarpentersWallGameState?>() {
+class CarpentersWallGameActivity : GameGameActivity<CarpentersWallGame?, CarpentersWallDocument?, CarpentersWallGameMove?, CarpentersWallGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CarpentersWallDocument? = null

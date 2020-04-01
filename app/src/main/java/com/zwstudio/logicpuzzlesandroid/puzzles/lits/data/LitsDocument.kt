@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class LitsDocument : GameDocument<LitsGame?, LitsGameMove?>() {
+class LitsDocument : GameDocument<LitsGame?, LitsGameMove?>() {
     protected override fun saveMove(move: LitsGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class LoopyOptionsActivity : GameOptionsActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
+class LoopyOptionsActivity : GameOptionsActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LoopyDocument? = null

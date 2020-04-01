@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameMove
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class BoxItUpDocument : GameDocument<BoxItUpGame?, BoxItUpGameMove?>() {
+class BoxItUpDocument : GameDocument<BoxItUpGame?, BoxItUpGameMove?>() {
     protected override fun saveMove(move: BoxItUpGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

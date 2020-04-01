@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class CloudsMainActivity : GameMainActivity<CloudsGame?, CloudsDocument?, CloudsGameMove?, CloudsGameState?>() {
+class CloudsMainActivity : GameMainActivity<CloudsGame?, CloudsDocument?, CloudsGameMove?, CloudsGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CloudsDocument? = null

@@ -1,3 +1,0 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain
-
-abstract class CarpenterSquareHint

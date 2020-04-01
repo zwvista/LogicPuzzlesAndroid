@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall.domain.Carpenters
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class CarpentersWallDocument : GameDocument<CarpentersWallGame?, CarpentersWallGameMove?>() {
+class CarpentersWallDocument : GameDocument<CarpentersWallGame?, CarpentersWallGameMove?>() {
     protected override fun saveMove(move: CarpentersWallGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

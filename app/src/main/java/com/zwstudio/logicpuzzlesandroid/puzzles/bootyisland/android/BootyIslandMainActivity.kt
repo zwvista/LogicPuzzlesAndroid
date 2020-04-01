@@ -14,7 +14,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class BootyIslandMainActivity : GameMainActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
+class BootyIslandMainActivity : GameMainActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
     @Bean
     protected lateinit var document: BootyIslandDocument
     override fun doc() = document
@@ -31,14 +31,14 @@ open class BootyIslandMainActivity : GameMainActivity<BootyIslandGame, BootyIsla
 }
 
 @EActivity(R.layout.activity_game_options)
-open class BootyIslandOptionsActivity : GameOptionsActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
+class BootyIslandOptionsActivity : GameOptionsActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
     @Bean
     protected lateinit var document: BootyIslandDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-open class BootyIslandHelpActivity : GameHelpActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
+class BootyIslandHelpActivity : GameHelpActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
     @Bean
     protected lateinit var document: BootyIslandDocument
     override fun doc() = document

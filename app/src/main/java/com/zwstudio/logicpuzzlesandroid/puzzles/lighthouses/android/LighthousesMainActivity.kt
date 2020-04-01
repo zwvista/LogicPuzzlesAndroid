@@ -11,7 +11,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class LighthousesMainActivity : GameMainActivity<LighthousesGame?, LighthousesDocument?, LighthousesGameMove?, LighthousesGameState?>() {
+class LighthousesMainActivity : GameMainActivity<LighthousesGame?, LighthousesDocument?, LighthousesGameMove?, LighthousesGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LighthousesDocument? = null

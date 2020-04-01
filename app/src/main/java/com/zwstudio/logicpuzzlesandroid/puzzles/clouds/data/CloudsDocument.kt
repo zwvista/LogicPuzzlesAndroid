@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class CloudsDocument : GameDocument<CloudsGame?, CloudsGameMove?>() {
+class CloudsDocument : GameDocument<CloudsGame?, CloudsGameMove?>() {
     protected override fun saveMove(move: CloudsGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

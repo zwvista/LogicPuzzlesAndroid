@@ -10,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class HitoriDocument : GameDocument<HitoriGame, HitoriGameMove>() {
+class HitoriDocument : GameDocument<HitoriGame, HitoriGameMove>() {
     override fun saveMove(move: HitoriGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

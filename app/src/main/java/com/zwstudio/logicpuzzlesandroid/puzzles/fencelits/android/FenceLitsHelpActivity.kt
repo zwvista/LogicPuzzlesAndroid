@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class FenceLitsHelpActivity : GameHelpActivity<FenceLitsGame?, FenceLitsDocument?, FenceLitsGameMove?, FenceLitsGameState?>() {
+class FenceLitsHelpActivity : GameHelpActivity<FenceLitsGame?, FenceLitsDocument?, FenceLitsGameMove?, FenceLitsGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FenceLitsDocument? = null

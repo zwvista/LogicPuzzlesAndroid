@@ -15,7 +15,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class RippleEffectGameActivity : GameGameActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
+class RippleEffectGameActivity : GameGameActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
     @Bean
     protected var document: RippleEffectDocument? = null
     override fun doc(): RippleEffectDocument {

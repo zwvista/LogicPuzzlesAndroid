@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class DisconnectFourOptionsActivity : GameOptionsActivity<DisconnectFourGame?, DisconnectFourDocument?, DisconnectFourGameMove?, DisconnectFourGameState?>() {
+class DisconnectFourOptionsActivity : GameOptionsActivity<DisconnectFourGame?, DisconnectFourDocument?, DisconnectFourGameMove?, DisconnectFourGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DisconnectFourDocument? = null

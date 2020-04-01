@@ -15,7 +15,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class GardenerGameActivity : GameGameActivity<GardenerGame?, GardenerDocument?, GardenerGameMove?, GardenerGameState?>() {
+class GardenerGameActivity : GameGameActivity<GardenerGame?, GardenerDocument?, GardenerGameMove?, GardenerGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GardenerDocument? = null

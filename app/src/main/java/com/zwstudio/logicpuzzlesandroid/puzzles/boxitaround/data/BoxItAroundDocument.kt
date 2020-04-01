@@ -9,21 +9,14 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGa
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class BoxItAroundDocument : GameDocument<BoxItAroundGame?, BoxItAroundGameMove?>() {
+class BoxItAroundDocument : GameDocument<BoxItAroundGame, BoxItAroundGameMove>() {
     protected override fun saveMove(move: BoxItAroundGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
+        rec.row = move.p.row
+        rec.col = move.p.col
         rec.intValue1 = move.dir
-        rec.intValue2 = move.obj!!.ordinal
+        rec.intValue2 = move.obj.ordinal
     }
 
-    override fun loadMove(rec: MoveProgress): BoxItAroundGameMove {
-        return object : BoxItAroundGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                dir = rec.intValue1
-                obj = GridLineObject.values()[rec.intValue2]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        BoxItAroundGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
 }

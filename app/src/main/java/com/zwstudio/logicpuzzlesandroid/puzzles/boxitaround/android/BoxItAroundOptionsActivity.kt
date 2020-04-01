@@ -18,7 +18,7 @@ import org.androidannotations.annotations.ItemSelect
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_options)
-open class BoxItAroundOptionsActivity : GameOptionsActivity<BoxItAroundGame?, BoxItAroundDocument?, BoxItAroundGameMove?, BoxItAroundGameState?>() {
+class BoxItAroundOptionsActivity : GameOptionsActivity<BoxItAroundGame?, BoxItAroundDocument?, BoxItAroundGameMove?, BoxItAroundGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItAroundDocument? = null

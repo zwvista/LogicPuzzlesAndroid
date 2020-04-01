@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class FutoshikiOptionsActivity : GameOptionsActivity<FutoshikiGame?, FutoshikiDocument?, FutoshikiGameMove?, FutoshikiGameState?>() {
+class FutoshikiOptionsActivity : GameOptionsActivity<FutoshikiGame?, FutoshikiDocument?, FutoshikiGameMove?, FutoshikiGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FutoshikiDocument? = null

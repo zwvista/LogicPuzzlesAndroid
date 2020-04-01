@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class KakuroOptionsActivity : GameOptionsActivity<KakuroGame?, KakuroDocument?, KakuroGameMove?, KakuroGameState?>() {
+class KakuroOptionsActivity : GameOptionsActivity<KakuroGame?, KakuroDocument?, KakuroGameMove?, KakuroGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KakuroDocument? = null

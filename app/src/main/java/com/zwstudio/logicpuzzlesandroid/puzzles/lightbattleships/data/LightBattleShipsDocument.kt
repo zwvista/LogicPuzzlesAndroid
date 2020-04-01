@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain.LightBat
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class LightBattleShipsDocument : GameDocument<LightBattleShipsGame?, LightBattleShipsGameMove?>() {
+class LightBattleShipsDocument : GameDocument<LightBattleShipsGame?, LightBattleShipsGameMove?>() {
     protected override fun saveMove(move: LightBattleShipsGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_help)
-open class LighthousesHelpActivity : GameHelpActivity<LighthousesGame?, LighthousesDocument?, LighthousesGameMove?, LighthousesGameState?>() {
+class LighthousesHelpActivity : GameHelpActivity<LighthousesGame?, LighthousesDocument?, LighthousesGameMove?, LighthousesGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LighthousesDocument? = null

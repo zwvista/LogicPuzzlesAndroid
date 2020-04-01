@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fencesentinels.domain.FenceSenti
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class FenceSentinelsDocument : GameDocument<FenceSentinelsGame?, FenceSentinelsGameMove?>() {
+class FenceSentinelsDocument : GameDocument<FenceSentinelsGame?, FenceSentinelsGameMove?>() {
     protected override fun saveMove(move: FenceSentinelsGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

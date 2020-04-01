@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku.domain.CalcudokuGameMo
 import org.androidannotations.annotations.EBean
 
 @EBean
-open class CalcudokuDocument : GameDocument<CalcudokuGame?, CalcudokuGameMove?>() {
+class CalcudokuDocument : GameDocument<CalcudokuGame?, CalcudokuGameMove?>() {
     protected override fun saveMove(move: CalcudokuGameMove, rec: MoveProgress) {
         rec.row = move.p!!.row
         rec.col = move.p!!.col

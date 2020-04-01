@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class DominoOptionsActivity : GameOptionsActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
+class DominoOptionsActivity : GameOptionsActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DominoDocument? = null

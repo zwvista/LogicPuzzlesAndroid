@@ -14,7 +14,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class ABCPathMainActivity : GameMainActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
+class ABCPathMainActivity : GameMainActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
     @Bean
     protected lateinit var document: ABCPathDocument
     override fun doc() = document
@@ -31,14 +31,14 @@ open class ABCPathMainActivity : GameMainActivity<ABCPathGame, ABCPathDocument, 
 }
 
 @EActivity(R.layout.activity_game_options)
-open class ABCPathOptionsActivity : GameOptionsActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
+class ABCPathOptionsActivity : GameOptionsActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
     @Bean
     protected lateinit var document: ABCPathDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-open class ABCPathHelpActivity : GameHelpActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
+class ABCPathHelpActivity : GameHelpActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
     @Bean
     protected lateinit var document: ABCPathDocument
     override fun doc() = document

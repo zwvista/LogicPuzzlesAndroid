@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_options)
-open class LightenUpOptionsActivity : GameOptionsActivity<LightenUpGame?, LightenUpDocument?, LightenUpGameMove?, LightenUpGameState?>() {
+class LightenUpOptionsActivity : GameOptionsActivity<LightenUpGame?, LightenUpDocument?, LightenUpGameMove?, LightenUpGameState?>() {
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightenUpDocument? = null

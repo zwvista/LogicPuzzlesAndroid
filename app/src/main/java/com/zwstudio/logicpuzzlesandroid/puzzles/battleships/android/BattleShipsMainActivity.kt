@@ -14,7 +14,7 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class BattleShipsMainActivity : GameMainActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState>() {
+class BattleShipsMainActivity : GameMainActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState>() {
     @Bean
     protected lateinit var document: BattleShipsDocument
     override fun doc() = document
@@ -31,14 +31,14 @@ open class BattleShipsMainActivity : GameMainActivity<BattleShipsGame, BattleShi
 }
 
 @EActivity(R.layout.activity_game_options)
-open class BattleShipsOptionsActivity : GameOptionsActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState>() {
+class BattleShipsOptionsActivity : GameOptionsActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState>() {
     @Bean
     protected lateinit var document: BattleShipsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-open class BattleShipsHelpActivity : GameHelpActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState>() {
+class BattleShipsHelpActivity : GameHelpActivity<BattleShipsGame, BattleShipsDocument, BattleShipsGameMove, BattleShipsGameState>() {
     @Bean
     protected lateinit var document: BattleShipsDocument
     override fun doc() = document
