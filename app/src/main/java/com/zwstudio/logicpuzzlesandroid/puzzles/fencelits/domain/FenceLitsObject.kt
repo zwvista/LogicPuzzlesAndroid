@@ -3,8 +3,4 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class FenceLitsGameMove {
-    var p: Position? = null
-    var dir = 0
-    var obj: GridLineObject? = null
-}
+class FenceLitsGameMove(val p: Position, var dir: Int = 0, var obj: GridLineObject = GridLineObject.Empty)

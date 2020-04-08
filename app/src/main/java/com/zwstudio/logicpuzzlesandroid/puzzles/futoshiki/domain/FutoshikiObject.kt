@@ -2,7 +2,4 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class FutoshikiGameMove {
-    var p: Position? = null
-    var obj = 0.toChar()
-}
+class FutoshikiGameMove(val p: Position, var obj: Char = '0')

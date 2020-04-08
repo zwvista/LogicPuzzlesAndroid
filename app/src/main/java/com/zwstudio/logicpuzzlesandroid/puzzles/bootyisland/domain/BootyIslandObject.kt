@@ -17,9 +17,7 @@ sealed class BootyIslandObject {
     }
 }
 
-class BootyIslandEmptyObject : BootyIslandObject() {
-    override fun objAsString() = "empty"
-}
+class BootyIslandEmptyObject : BootyIslandObject()
 
 class BootyIslandForbiddenObject : BootyIslandObject() {
     override fun objAsString() = "forbidden"
@@ -37,4 +35,4 @@ class BootyIslandTreasureObject(var state: AllowedObjectState = AllowedObjectSta
     override fun objAsString() = "treasure"
 }
 
-class BootyIslandGameMove(val p: Position, var obj: BootyIslandObject)
+class BootyIslandGameMove(val p: Position, var obj: BootyIslandObject = BootyIslandEmptyObject())
