@@ -2,7 +2,4 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class KakuroGameMove {
-    var p: Position? = null
-    var obj = 0
-}
+class KakuroGameMove(val p: Position, var obj: Int = 0)

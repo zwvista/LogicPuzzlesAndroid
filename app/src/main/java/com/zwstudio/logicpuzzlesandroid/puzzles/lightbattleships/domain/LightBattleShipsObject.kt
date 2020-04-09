@@ -1,20 +1,62 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.domain
 
-abstract class LightBattleShipsObject {
-    abstract fun objAsString(): String
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+
+sealed class LightBattleShipsObject {
+    open fun objAsString() = "empty"
 
     companion object {
-        fun objFromString(str: String?): LightBattleShipsObject {
-            return when (str) {
-                "marker" -> LightBattleShipsMarkerObject()
-                "battleShipTop" -> LightBattleShipsBattleShipTopObject()
-                "battleShipBottom" -> LightBattleShipsBattleShipBottomObject()
-                "battleShipLeft" -> LightBattleShipsBattleShipLeftObject()
-                "battleShipRight" -> LightBattleShipsBattleShipRightObject()
-                "battleShipMiddle" -> LightBattleShipsBattleShipMiddleObject()
-                "battleShipUnit" -> LightBattleShipsBattleShipUnitObject()
-                else -> LightBattleShipsEmptyObject()
-            }
+        fun objFromString(str: String) = when (str) {
+            "marker" -> LightBattleShipsMarkerObject()
+            "battleShipTop" -> LightBattleShipsBattleShipTopObject()
+            "battleShipBottom" -> LightBattleShipsBattleShipBottomObject()
+            "battleShipLeft" -> LightBattleShipsBattleShipLeftObject()
+            "battleShipRight" -> LightBattleShipsBattleShipRightObject()
+            "battleShipMiddle" -> LightBattleShipsBattleShipMiddleObject()
+            "battleShipUnit" -> LightBattleShipsBattleShipUnitObject()
+            else -> LightBattleShipsEmptyObject()
         }
     }
 }
+
+class LightBattleShipsBattleShipBottomObject : LightBattleShipsObject() {
+    override fun objAsString() = "battleShipBottom"
+}
+
+class LightBattleShipsBattleShipLeftObject : LightBattleShipsObject() {
+    override fun objAsString() = "battleShipLeft"
+}
+
+class LightBattleShipsBattleShipMiddleObject : LightBattleShipsObject() {
+    override fun objAsString() = "battleShipMiddle"
+}
+
+class LightBattleShipsBattleShipRightObject : LightBattleShipsObject() {
+    override fun objAsString() = "battleShipRight"
+}
+
+class LightBattleShipsBattleShipTopObject : LightBattleShipsObject() {
+    override fun objAsString() = "battleShipTop"
+}
+
+class LightBattleShipsBattleShipUnitObject : LightBattleShipsObject() {
+    override fun objAsString() = "battleShipUnit"
+}
+
+class LightBattleShipsEmptyObject : LightBattleShipsObject()
+
+
+class LightBattleShipsForbiddenObject : LightBattleShipsObject() {
+    override fun objAsString() = "forbidden"
+}
+
+class LightBattleShipsHintObject(var state: HintState = HintState.Normal) : LightBattleShipsObject() {
+    override fun objAsString() = "hint"
+}
+
+class LightBattleShipsMarkerObject : LightBattleShipsObject() {
+    override fun objAsString() = "marker"
+}
+
+class LightBattleShipsGameMove(val p: Position, var obj: LightBattleShipsObject = LightBattleShipsEmptyObject())
