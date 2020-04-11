@@ -6,4 +6,4 @@ enum class DigitalBattleShipsObject {
     Empty, Forbidden, Marker, BattleShipTop, BattleShipBottom, BattleShipLeft, BattleShipRight, BattleShipMiddle, BattleShipUnit
 }
 
-class DigitalBattleShipsGameMove(val p: Position, var obj: DigitalBattleShipsObject)
+class DigitalBattleShipsGameMove(val p: Position, var obj: DigitalBattleShipsObject = DigitalBattleShipsObject.Empty)

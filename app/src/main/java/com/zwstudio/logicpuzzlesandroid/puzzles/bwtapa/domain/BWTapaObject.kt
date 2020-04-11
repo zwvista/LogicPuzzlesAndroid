@@ -7,7 +7,7 @@ sealed class BWTapaObject {
     open fun objTypeAsString() = "empty"
 
     companion object {
-        fun objTypeFromString(str: String?) = when (str)  {
+        fun objTypeFromString(str: String) = when (str)  {
             "marker" -> BWTapaMarkerObject()
             "wall" -> BWTapaWallObject()
             else -> BWTapaEmptyObject()

@@ -7,4 +7,5 @@ enum class BattleShipsObject {
     BattleShipTop, BattleShipBottom, BattleShipLeft, BattleShipRight, BattleShipMiddle, BattleShipUnit
 }
 
-class BattleShipsGameMove(val p: Position, var obj: BattleShipsObject)
+class BattleShipsGameMove(val p: Position, var obj: BattleShipsObject = BattleShipsObject.Empty)
+

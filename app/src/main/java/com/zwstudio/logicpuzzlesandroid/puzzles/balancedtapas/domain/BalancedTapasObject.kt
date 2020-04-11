@@ -29,4 +29,4 @@ class BalancedTapasHintObject(var state: HintState = HintState.Normal) : Balance
     override fun objTypeAsString() = "hint"
 }
 
-class BalancedTapasGameMove(val p: Position, var obj: BalancedTapasObject)
+class BalancedTapasGameMove(val p: Position, var obj: BalancedTapasObject = BalancedTapasEmptyObject())

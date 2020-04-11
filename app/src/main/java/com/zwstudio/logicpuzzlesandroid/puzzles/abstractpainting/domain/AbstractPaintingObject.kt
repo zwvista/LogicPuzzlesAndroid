@@ -6,4 +6,5 @@ enum class AbstractPaintingObject {
     Empty, Forbidden, Marker, Painting
 }
 
-class AbstractPaintingGameMove(val p: Position, var obj: AbstractPaintingObject)
+class AbstractPaintingGameMove(val p: Position, var obj: AbstractPaintingObject = AbstractPaintingObject.Empty)
+

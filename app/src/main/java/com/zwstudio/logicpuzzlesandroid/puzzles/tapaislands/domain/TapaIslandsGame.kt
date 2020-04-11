@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domainimport
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 

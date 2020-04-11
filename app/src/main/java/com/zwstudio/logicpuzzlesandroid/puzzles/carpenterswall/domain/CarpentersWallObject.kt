@@ -7,12 +7,10 @@ sealed class CarpentersWallObject(val isHint: Boolean = false) {
     open fun objAsString() = "empty"
 
     companion object {
-        fun objTypeFromString(str: String?): CarpentersWallObject {
-            return when (str) {
-                "wall" -> CarpentersWallWallObject()
-                "marker" -> CarpentersWallMarkerObject()
-                else -> CarpentersWallEmptyObject()
-            }
+        fun objTypeFromString(str: String) = when (str) {
+            "wall" -> CarpentersWallWallObject()
+            "marker" -> CarpentersWallMarkerObject()
+            else -> CarpentersWallEmptyObject()
         }
     }
 }
@@ -47,4 +45,4 @@ class CarpentersWallWallObject : CarpentersWallObject() {
     override fun objAsString() = "wall"
 }
 
-class CarpentersWallGameMove(val p: Position, var obj: CarpentersWallObject)
+class CarpentersWallGameMove(val p: Position, var obj: CarpentersWallObject = CarpentersWallEmptyObject())

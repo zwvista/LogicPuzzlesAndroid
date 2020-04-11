@@ -15,4 +15,4 @@ class CarpentersSquareRightHint : CarpenterSquareHint()
 
 class CarpentersSquareUpHint : CarpenterSquareHint()
 
-class CarpentersSquareGameMove(val p: Position, var dir: Int, var obj: GridLineObject)
+class CarpentersSquareGameMove(val p: Position, var dir: Int = 0, var obj: GridLineObject = GridLineObject.Empty)

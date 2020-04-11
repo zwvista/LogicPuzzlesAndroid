@@ -6,4 +6,4 @@ enum class CloudsObject {
     Empty, Forbidden, Marker, Cloud
 }
 
-class CloudsGameMove(val p: Position, var obj: CloudsObject)
+class CloudsGameMove(val p: Position, var obj: CloudsObject = CloudsObject.Empty)
