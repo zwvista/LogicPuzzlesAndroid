@@ -17,16 +17,16 @@ sealed class BalancedTapasObject {
 
 class BalancedTapasEmptyObject : BalancedTapasObject()
 
-class BalancedTapasWallObject(var state: HintState = HintState.Normal) : BalancedTapasObject() {
-    override fun objTypeAsString() = "wall"
+class BalancedTapasHintObject(var state: HintState = HintState.Normal) : BalancedTapasObject() {
+    override fun objTypeAsString() = "hint"
 }
 
 class BalancedTapasMarkerObject : BalancedTapasObject() {
     override fun objTypeAsString() = "marker"
 }
 
-class BalancedTapasHintObject(var state: HintState = HintState.Normal) : BalancedTapasObject() {
-    override fun objTypeAsString() = "hint"
+class BalancedTapasWallObject(var state: HintState = HintState.Normal) : BalancedTapasObject() {
+    override fun objTypeAsString() = "wall"
 }
 
 class BalancedTapasGameMove(val p: Position, var obj: BalancedTapasObject = BalancedTapasEmptyObject())

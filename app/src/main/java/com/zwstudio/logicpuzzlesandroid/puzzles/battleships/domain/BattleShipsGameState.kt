@@ -1,21 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-
-import java.util.Arrays
-import java.util.Collections
-import java.util.HashMap
-
-import fj.F
-
-import fj.data.HashMap.fromMap
-import fj.data.List.iterableList
-import fj.data.Stream.range
 
 class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>(game) {
     var objArray = Array(rows() * cols()) { BattleShipsObject.Empty }
@@ -48,25 +34,16 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         val o = this[p]
         move.obj = when (o) {
             BattleShipsObject.Empty ->
-                if (markerOption == MarkerOptions.MarkerFirst)
-                    BattleShipsObject.Marker
-                else
-                    BattleShipsObject.BattleShipUnit
+                if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.Marker else BattleShipsObject.BattleShipUnit
             BattleShipsObject.BattleShipUnit -> BattleShipsObject.BattleShipMiddle
             BattleShipsObject.BattleShipMiddle -> BattleShipsObject.BattleShipLeft
             BattleShipsObject.BattleShipLeft -> BattleShipsObject.BattleShipTop
             BattleShipsObject.BattleShipTop -> BattleShipsObject.BattleShipRight
             BattleShipsObject.BattleShipRight -> BattleShipsObject.BattleShipBottom
             BattleShipsObject.BattleShipBottom ->
-                if (markerOption == MarkerOptions.MarkerLast)
-                    BattleShipsObject.Marker
-                else
-                    BattleShipsObject.Empty
+                if (markerOption == MarkerOptions.MarkerLast) BattleShipsObject.Marker else BattleShipsObject.Empty
             BattleShipsObject.Marker ->
-                if (markerOption == MarkerOptions.MarkerFirst)
-                    BattleShipsObject.BattleShipUnit
-                else
-                    BattleShipsObject.Empty
+                if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.BattleShipUnit else BattleShipsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -106,13 +83,9 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         for (r in 0 until rows()) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols()) {
-                val o = this[r, c]
-                if (o == BattleShipsObject.BattleShipTop || o == BattleShipsObject.BattleShipBottom ||
-                    o == BattleShipsObject.BattleShipLeft || o == BattleShipsObject.BattleShipRight ||
-                    o == BattleShipsObject.BattleShipMiddle || o == BattleShipsObject.BattleShipUnit)
+            for (c in 0 until cols())
+                if (this[r, c].isShipPiece())
                     n1++
-            }
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
@@ -120,20 +93,17 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         for (c in 0 until cols()) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows()) {
-                val o = this[r, c]
-                if (o == BattleShipsObject.BattleShipTop || o == BattleShipsObject.BattleShipBottom ||
-                    o == BattleShipsObject.BattleShipLeft || o == BattleShipsObject.BattleShipRight ||
-                    o == BattleShipsObject.BattleShipMiddle || o == BattleShipsObject.BattleShipUnit)
+            for (r in 0 until rows())
+                if (this[r, c].isShipPiece())
                     n1++
-            }
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
         for (r in 0 until rows())
             for (c in 0 until cols()) {
                 val o = this[r, c]
-                if ((o == BattleShipsObject.Empty || o == BattleShipsObject.Marker) && allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
+                if ((o == BattleShipsObject.Empty || o == BattleShipsObject.Marker) &&
+                    allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
                     this[r, c] = BattleShipsObject.Forbidden
             }
         val g = Graph()
@@ -141,10 +111,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         for (r in 0 until rows())
             for (c in 0 until cols()) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o == BattleShipsObject.BattleShipTop || o == BattleShipsObject.BattleShipBottom ||
-                    o == BattleShipsObject.BattleShipLeft || o == BattleShipsObject.BattleShipRight ||
-                    o == BattleShipsObject.BattleShipMiddle || o == BattleShipsObject.BattleShipUnit) {
+                if (this[p].isShipPiece()) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -157,18 +124,17 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                 if (node2 != null) g.connectNode(node, node2)
             }
         val shipNumbers = arrayOf(0, 0, 0, 0, 0)
-        val shipNumbers2 = arrayOf(0, 4, 3, 2, 1)
         while (pos2node.isNotEmpty()) {
             g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
             val area = pos2node.filter { (_, node) -> nodeList.contains(node) }.keys.toList().sorted()
             for (p in area)
                 pos2node.remove(p)
-            if (!(area.size == 1 && this[area[0]] == BattleShipsObject.BattleShipUnit || area.size > 1 && area.size < 5 && (area.all { it.row == area[0].row } &&
-                    this[area[0]] == BattleShipsObject.BattleShipLeft &&
-                    this[area[area.size - 1]] == BattleShipsObject.BattleShipRight || area.all { it.col == area[0].col } &&
-                    this[area[0]] == BattleShipsObject.BattleShipTop &&
-                    this[area[area.size - 1]] == BattleShipsObject.BattleShipBottom) &&
+            if (!(area.size == 1 && this[area[0]] == BattleShipsObject.BattleShipUnit || area.size in 2..4 && (
+                    area.all { it.row == area[0].row } &&
+                        this[area[0]] == BattleShipsObject.BattleShipLeft && this[area[area.size - 1]] == BattleShipsObject.BattleShipRight ||
+                    area.all { it.col == area[0].col } &&
+                        this[area[0]] == BattleShipsObject.BattleShipTop && this[area[area.size - 1]] == BattleShipsObject.BattleShipBottom) &&
                     (1 until area.size - 1).all { this[area[it]] == BattleShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue
@@ -178,8 +144,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                     // 3. A ship or piece of ship can't touch another, not even diagonally.
                     val p2 = p.add(os)
                     if (!isValid(p2) || area.contains(p2)) continue
-                    val o = this[p2]
-                    if (!(o == BattleShipsObject.Empty || o == BattleShipsObject.Forbidden || o == BattleShipsObject.Marker))
+                    if (this[p2].isShipPiece())
                         isSolved = false
                     else if (allowedObjectsOnly)
                         this[p] = BattleShipsObject.Forbidden
@@ -191,6 +156,6 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         //    2 Destroyers (3 squares)
         //    3 Submarines (2 squares)
         //    4 Patrol boats (1 square)
-        if (!Arrays.equals(shipNumbers, shipNumbers2)) isSolved = false
+        if (!shipNumbers.contentEquals(arrayOf(0, 4, 3, 2, 1))) isSolved = false
     }
 }

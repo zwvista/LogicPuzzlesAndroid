@@ -1,30 +1,15 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
-import java.util.ArrayList
-import java.util.Collections
-import java.util.HashMap
-import java.util.HashSet
-
-import fj.F
-import fj.F2
-
-import fj.data.Array.array
-import fj.data.HashMap.fromMap
-import fj.data.Stream.range
-
 class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(game) {
-    var objArray = Array(rows() * cols()) { BalancedTapasEmptyObject() as BalancedTapasObject }
+    var objArray = Array<BalancedTapasObject>(rows() * cols()) { BalancedTapasEmptyObject() }
 
     init {
         for (p in game.pos2hint.keys)
             this[p] = BalancedTapasHintObject()
+        updateIsSolved()
     }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -34,8 +19,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
 
     fun setObject(move: BalancedTapasGameMove): Boolean {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
+        val (objOld, objNew) = listOf(this[p], move.obj)
         if (objOld is BalancedTapasHintObject || objOld == objNew)
             return false
         this[p] = objNew
@@ -48,20 +32,11 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         val o = this[move.p]
         move.obj = when (o) {
             is BalancedTapasEmptyObject ->
-                if (markerOption == MarkerOptions.MarkerFirst)
-                    BalancedTapasMarkerObject()
-                else
-                    BalancedTapasWallObject()
+                if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasMarkerObject() else BalancedTapasWallObject()
             is BalancedTapasWallObject ->
-                if (markerOption == MarkerOptions.MarkerLast)
-                    BalancedTapasMarkerObject()
-                else
-                    BalancedTapasEmptyObject()
+                if (markerOption == MarkerOptions.MarkerLast) BalancedTapasMarkerObject() else BalancedTapasEmptyObject()
             is BalancedTapasMarkerObject ->
-                if (markerOption == MarkerOptions.MarkerFirst)
-                    BalancedTapasWallObject()
-                else
-                    BalancedTapasEmptyObject()
+                if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasWallObject() else BalancedTapasEmptyObject()
             else -> o
         }
         return setObject(move)
@@ -81,28 +56,25 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
     private fun updateIsSolved() {
         isSolved = true
         fun computeHint(filled: List<Int>): List<Int> {
+            if (filled.isEmpty()) return listOf(0)
             val hint = mutableListOf<Int>()
-            if (filled.isEmpty())
-                hint.add(0)
-            else {
-                for (j in filled.indices)
-                    if (j == 0 || filled[j] - filled[j - 1] != 1)
-                        hint.add(1)
-                    else
-                        hint[hint.size - 1]++
-                if (filled.size > 1 && hint.size > 1 && filled.last() - filled.first() == 7) {
-                    hint[0] += hint.last()
-                    hint.removeAt(hint.size - 1)
-                }
-                hint.sort()
+            for (j in filled.indices)
+                if (j == 0 || filled[j] - filled[j - 1] != 1)
+                    hint.add(1)
+                else
+                    hint[hint.size - 1]++
+            if (filled.size > 1 && hint.size > 1 && filled.last() - filled.first() == 7) {
+                hint[0] += hint.last()
+                hint.removeAt(hint.size - 1)
             }
+            hint.sort()
             return hint
         }
         fun isCompatible(computedHint: List<Int>, givenHint: List<Int>): Boolean {
             if (computedHint == givenHint) return true
             if (computedHint.size != givenHint.size) return false
-            val h1 = HashSet(computedHint)
-            val h2 = HashSet(givenHint)
+            val h1 = computedHint.toHashSet()
+            val h2 = givenHint.toHashSet()
             h2.remove(-1)
             return h1.containsAll(h2)
         }
@@ -112,11 +84,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
                 isValid(p2) && this[p2] is BalancedTapasWallObject
             }
             val arr = computeHint(filled)
-            val s = when {
-                arr.size == 1 && arr[0] == 0 -> HintState.Normal
-                isCompatible(arr, arr2) -> HintState.Complete
-                else -> HintState.Error
-            }
+            val s = if (arr == listOf(0)) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
             this[p] = BalancedTapasHintObject(s)
             if (s != HintState.Complete) isSolved = false
         }
@@ -124,9 +92,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         for (r in 0 until rows() - 1)
             for (c in 0 until cols() - 1) {
                 val p = Position(r, c)
-                if (BalancedTapasGame.offset2.all { this[p.add(it)] is BalancedTapasWallObject }) {
+                if (BalancedTapasGame.offset2.all { this[p.add(it)] is BalancedTapasWallObject })
                     isSolved = false
-                }
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()

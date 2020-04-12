@@ -5,16 +5,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
-import java.util.Arrays
-
-import fj.F
-
 class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>(game) {
     var objArray = Array(rows() * cols()) { AbstractPaintingObject.Empty }
     var row2state = Array(rows()) { HintState.Normal }
     var col2state = Array(cols()) { HintState.Normal }
 
     init {
+        updateIsSolved()
     }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -39,20 +36,11 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
         val o = this[p]
         move.obj = when (o) {
             AbstractPaintingObject.Empty ->
-                if (markerOption == MarkerOptions.MarkerFirst)
-                    AbstractPaintingObject.Marker
-                else
-                    AbstractPaintingObject.Painting
+                if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Marker else AbstractPaintingObject.Painting
             AbstractPaintingObject.Painting ->
-                if (markerOption == MarkerOptions.MarkerLast)
-                    AbstractPaintingObject.Marker
-                else
-                    AbstractPaintingObject.Empty
+                if (markerOption == MarkerOptions.MarkerLast) AbstractPaintingObject.Marker else AbstractPaintingObject.Empty
             AbstractPaintingObject.Marker ->
-                if (markerOption == MarkerOptions.MarkerFirst)
-                    AbstractPaintingObject.Painting
-                else
-                    AbstractPaintingObject.Empty
+                if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Painting else AbstractPaintingObject.Empty
             else -> o
         }
         return setObject(move)
@@ -101,7 +89,9 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
         for (r in 0 until rows())
             for (c in 0 until cols()) {
                 val o = this[r, c]
-                if ((o == AbstractPaintingObject.Empty || o == AbstractPaintingObject.Marker) && allowedObjectsOnly && (row2state[r] != HintState.Normal && game.row2hint[r] != -1 || col2state[c] != HintState.Normal && game.col2hint[c] != -1))
+                if ((o == AbstractPaintingObject.Empty || o == AbstractPaintingObject.Marker) &&
+                        allowedObjectsOnly && (row2state[r] != HintState.Normal && game.row2hint[r] != -1 ||
+                        col2state[c] != HintState.Normal && game.col2hint[c] != -1))
                     this[r, c] = AbstractPaintingObject.Forbidden
             }
     }

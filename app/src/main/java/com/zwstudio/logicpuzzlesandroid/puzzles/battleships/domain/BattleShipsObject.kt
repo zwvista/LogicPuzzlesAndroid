@@ -4,8 +4,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 enum class BattleShipsObject {
     Empty, Forbidden, Marker,
-    BattleShipTop, BattleShipBottom, BattleShipLeft, BattleShipRight, BattleShipMiddle, BattleShipUnit
+    BattleShipTop, BattleShipBottom, BattleShipLeft, BattleShipRight, BattleShipMiddle, BattleShipUnit;
+
+    fun isShipPiece() = when (this) {
+        Empty, Forbidden, Marker -> false
+        else -> true
+    }
 }
 
 class BattleShipsGameMove(val p: Position, var obj: BattleShipsObject = BattleShipsObject.Empty)
-

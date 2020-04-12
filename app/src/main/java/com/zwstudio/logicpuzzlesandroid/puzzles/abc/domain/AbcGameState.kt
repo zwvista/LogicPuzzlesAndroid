@@ -4,9 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2Object
-
-import java.util.ArrayList
 
 class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGameState>(game) {
     private val objArray = game.objArray
@@ -70,16 +67,13 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
     */
     private fun updateIsSolved() {
         isSolved = true
-        val chars = ArrayList<Char>()
+        val chars = mutableListOf<Char>()
         for (r in 1 until rows() - 1) {
-            val h1 = this[r, 0]
-            val h2 = this[r, cols() - 1]
-            var ch11 = ' '
-            var ch21 = ' '
+            val (h1, h2) = listOf(this[r, 0], this[r, cols() - 1])
+            var (ch11, ch21) = listOf(' ', ' ')
             chars.clear()
             for (c in 1 until cols() - 1) {
-                val ch12 = this[r, c]
-                val ch22 = this[r, cols() - 1 - c]
+                val (ch12, ch22) = listOf(this[r, c], this[r, cols() - 1 - c])
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
                 if (ch12 == ' ') continue
@@ -92,21 +86,17 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
             // 3. The letters on the borders tell you what letter you see from there.
             val s1 = if (ch11 == ' ') HintState.Normal else if (ch11 == h1) HintState.Complete else HintState.Error
             val s2 = if (ch21 == ' ') HintState.Normal else if (ch21 == h2) HintState.Complete else HintState.Error
-            row2state[r * 2] = s1
-            row2state[r * 2 + 1] = s2
+            row2state[r * 2] = s1; row2state[r * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
             // 2. Each letter appears once in every row.
             if (chars.size != game.chMax - 'A' + 1) isSolved = false
         }
         for (c in 1 until cols() - 1) {
-            val h1 = this[0, c]
-            val h2 = this[rows() - 1, c]
-            var ch11 = ' '
-            var ch21 = ' '
+            val (h1, h2) = listOf(this[0, c], this[rows() - 1, c])
+            var (ch11, ch21) = listOf(' ', ' ')
             chars.clear()
             for (r in 1 until rows() - 1) {
-                val ch12 = this[r, c]
-                val ch22 = this[rows() - 1 - r, c]
+                val (ch12, ch22) = listOf(this[r, c], this[rows() - 1 - r, c])
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
                 if (ch12 == ' ') continue
@@ -119,8 +109,7 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
             // 3. The letters on the borders tell you what letter you see from there.
             val s1 = if (ch11 == ' ') HintState.Normal else if (ch11 == h1) HintState.Complete else HintState.Error
             val s2 = if (ch21 == ' ') HintState.Normal else if (ch21 == h2) HintState.Complete else HintState.Error
-            col2state[c * 2] = s1
-            col2state[c * 2 + 1] = s2
+            col2state[c * 2] = s1; col2state[c * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
             // 2. Each letter appears once in every column.
             if (chars.size != game.chMax - 'A' + 1) isSolved = false

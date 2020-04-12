@@ -4,19 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
-import java.util.ArrayList
-import java.util.HashMap
-
-import fj.Ord
-import fj.P
-import fj.P2
-import fj.data.Stream
-
-import fj.data.Array.array
-import fj.data.List.iterableList
-import fj.data.TreeMap.iterableTreeMap
-import java.nio.file.Files.exists
-
 class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathGameMove, ABCPathGameState>(game) {
     private val objArray = game.objArray
     var pos2state = mutableMapOf<Position, HintState>()
@@ -76,14 +63,14 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
                 if (ch == ' ')
                     isSolved = false
                 else {
-                    val rng = ch2rng[ch] ?: mutableListOf();
-                    rng.add(p);
+                    val rng = ch2rng[ch] ?: mutableListOf()
+                    rng.add(p)
                     ch2rng[ch] = rng
                 }
             }
         ch2rng = ch2rng.filter { (_, rng) -> rng.size > 1 }.toMutableMap()
         if (!ch2rng.isEmpty()) isSolved = false
-        for (rng in ch2rng.values)
+        for ((_, rng) in ch2rng)
             for (p in rng)
                 pos2state[p] = HintState.Error
         // 2.  Each letter is next to the previous letter either horizontally, vertically or diagonally.
@@ -91,18 +78,17 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
             for (c in 1 until cols() - 1) {
                 val p = Position(r, c)
                 val ch = this[p]
-                if (pos2state[p] == HintState.Normal && ch == 'A' || ABCPathGame.offset.any {
+                if (pos2state[p] == HintState.Normal && (ch == 'A' || ABCPathGame.offset.any {
                         val p2 = p.add(it)
                         isValid(p2) && this[p2] == ch - 1
-                    })
+                    }))
                     pos2state[p] = HintState.Complete
                 else
                     isSolved = false
             }
         // 3.  The clues around the edge tell you which row, column or diagonal each letter is in.
         for ((ch, p) in game.ch2pos) {
-            val r = p.row
-            val c = p.col
+            val (r, c) = listOf(p.row, p.col)
             if ((r == 0 || r == rows() - 1) && r == c && (1 until rows() - 1).any { this[it, it] == ch } ||
                 (r == 0 || r == rows() - 1) && r == rows() - 1 - c && (1 until rows() - 1).any { this[it, rows() - 1 - it] == ch } ||
                 (r == 0 || r == rows() - 1) && (1 until rows() - 1).any { this[it, c] == ch } ||
@@ -112,5 +98,4 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
                 isSolved = false
         }
     }
-
 }
