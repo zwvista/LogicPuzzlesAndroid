@@ -4,21 +4,54 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F2
 import java.util.*
 
-class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame?, CloudsGameMove?, CloudsGameState?>?, gdi: GameDocumentInterface?) : CellsGame<CloudsGame?, CloudsGameMove?, CloudsGameState?>(gi, gdi) {
+class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameMove, CloudsGameState>, gdi: GameDocumentInterface) : CellsGame<CloudsGame, CloudsGameMove, CloudsGameState>(gi, gdi) {
+    companion object {
+        var offset = arrayOf(
+            Position(-1, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(0, -1)
+        )
+    }
+
     var row2hint: IntArray
     var col2hint: IntArray
     var pos2cloud: MutableList<Position> = ArrayList()
-    private fun changeObject(move: CloudsGameMove?, f: F2<CloudsGameState?, CloudsGameMove?, Boolean>): Boolean {
+
+    init {
+        size = Position(layout.size - 1, layout[0].length - 1)
+        row2hint = IntArray(rows())
+        col2hint = IntArray(cols())
+        for (r in 0 until rows() + 1) {
+            val str = layout[r]
+            for (c in 0 until cols() + 1) {
+                val p = Position(r, c)
+                when (val ch = str[c]) {
+                    'C' -> pos2cloud.add(p)
+                    in '0'..'9' -> {
+                        val n = ch - '0'
+                        if (r == rows())
+                            col2hint[c] = n
+                        else if (c == cols())
+                            row2hint[r] = n
+                    }
+                }
+            }
+        }
+        val state = CloudsGameState(this)
+        states.add(state)
+        levelInitilized(state)
+    }
+
+    private fun changeObject(move: CloudsGameMove, f: (CloudsGameState, CloudsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state = cloner.deepClone(state())
-        val changed = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -29,55 +62,11 @@ class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame?, CloudsGame
         return changed
     }
 
-    fun switchObject(move: CloudsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: CloudsGameState?, move: CloudsGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: CloudsGameMove) = changeObject(move, CloudsGameState::switchObject)
+    fun setObject(move: CloudsGameMove) = changeObject(move, CloudsGameState::setObject)
 
-    fun setObject(move: CloudsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: CloudsGameState?, move: CloudsGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): CloudsObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): CloudsObject? {
-        return state()!![row, col]
-    }
-
-    fun getRowState(row: Int): HintState? {
-        return state()!!.row2state[row]
-    }
-
-    fun getColState(col: Int): HintState? {
-        return state()!!.col2state[col]
-    }
-
-    companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1))
-    }
-
-    init {
-        size = Position(layout.size - 1, layout[0].length - 1)
-        row2hint = IntArray(rows())
-        col2hint = IntArray(cols())
-        for (r in 0 until rows() + 1) {
-            val str = layout[r]
-            for (c in 0 until cols() + 1) {
-                val p = Position(r, c)
-                val ch = str[c]
-                if (ch == 'C') pos2cloud.add(p) else if (ch >= '0' && ch <= '9') {
-                    val n = ch - '0'
-                    if (r == rows()) col2hint[c] = n else if (c == cols()) row2hint[r] = n
-                }
-            }
-        }
-        val state = CloudsGameState(this)
-        states.add(state)
-        levelInitilized(state)
-    }
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getRowState(row: Int) = state().row2state[row]
+    fun getColState(col: Int) = state().col2state[col]
 }
