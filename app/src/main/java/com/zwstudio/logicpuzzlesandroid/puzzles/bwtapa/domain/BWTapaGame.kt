@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameMove, BWTapaGameState>, gdi: GameDocumentInterface) : CellsGame<BWTapaGame, BWTapaGameMove, BWTapaGameState>(gi, gdi) {
-
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
@@ -38,7 +37,7 @@ class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameM
                 if (s.isEmpty()) continue
                 val hint: MutableList<Int> = ArrayList()
                 for (ch in s.toCharArray()) {
-                    if (ch == '?' || ch >= '0' && ch <= '9') {
+                    if (ch == '?' || ch in '0'..'9') {
                         val n = if (ch == '?') -1 else ch - '0'
                         hint.add(n)
                     }

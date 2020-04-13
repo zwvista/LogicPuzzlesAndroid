@@ -15,7 +15,7 @@ sealed class CarpentersWallObject(val isHint: Boolean = false) {
     }
 }
 
-class CarpentersWallCornerObject(var state: HintState = HintState.Normal, var tiles: Int = 0) : CarpentersWallObject(true) {
+class CarpentersWallCornerObject(var tiles: Int = 0, var state: HintState = HintState.Normal) : CarpentersWallObject(true) {
     override fun objAsString() = "corner"
 }
 

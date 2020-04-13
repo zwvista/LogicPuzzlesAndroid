@@ -32,14 +32,14 @@ class CalcudokuGameState(game: CalcudokuGame?) : CellsGameState<CalcudokuGame?, 
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: CalcudokuGameMove?): Boolean {
+    fun setObject(move: CalcudokuGameMove): Boolean {
         if (!isValid(move!!.p) || get(move.p) == move.obj) return false
         set(move.p, move.obj)
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: CalcudokuGameMove?): Boolean {
+    fun switchObject(move: CalcudokuGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p)) return false
         val o = get(p)

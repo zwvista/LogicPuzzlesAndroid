@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>, gdi: GameDocumentInterface) : CellsGame<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>(gi, gdi) {
-
     companion object {
         val offset = arrayOf(
                 Position(-1, 0),

@@ -1,25 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.HashSet
-
-import fj.F2
-
+import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import fj.data.List.iterableList
+import java.util.*
 
 class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>, gdi: GameDocumentInterface) : CellsGame<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>(gi, gdi) {
-
     companion object {
         val offset = arrayOf(
             Position(-1, 0),

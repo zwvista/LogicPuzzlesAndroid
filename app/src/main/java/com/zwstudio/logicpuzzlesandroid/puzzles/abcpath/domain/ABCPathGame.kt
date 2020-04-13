@@ -4,14 +4,8 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-
-import java.util.HashMap
-
-import fj.F2
 
 class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGameMove, ABCPathGameState>, gdi: GameDocumentInterface) : CellsGame<ABCPathGame, ABCPathGameMove, ABCPathGameState>(gi, gdi) {
-
     companion object {
         val offset = arrayOf(
             Position(-1, 0),

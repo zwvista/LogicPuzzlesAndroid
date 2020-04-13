@@ -4,14 +4,9 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-
-import java.util.ArrayList
-import java.util.HashMap
-
-import fj.F2
+import java.util.*
 
 class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterface<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>, gdi: GameDocumentInterface) : CellsGame<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(gi, gdi) {
-
     companion object {
         val offset = arrayOf(
             Position(-1, 0),
