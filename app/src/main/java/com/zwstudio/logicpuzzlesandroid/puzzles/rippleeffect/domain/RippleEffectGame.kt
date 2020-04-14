@@ -9,7 +9,7 @@ import java.util.*
 
 class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>, gdi: GameDocumentInterface) : CellsGame<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(gi, gdi) {
     var areas: MutableList<List<Position>> = ArrayList()
-    var pos2area: MutableMap<Position?, Int?> = HashMap()
+    var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var objArray: IntArray
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -94,9 +94,9 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
                 set(Position(r, c), n)
             }
         }
-        val rng: MutableSet<Position> = HashSet()
+        val rng = mutableSetOf<Position>()
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             rng.add(p.plus())

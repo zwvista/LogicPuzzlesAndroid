@@ -62,8 +62,8 @@ class NumberLinkGameState(game: NumberLinkGame?) : CellsGameState<NumberLinkGame
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
-        val pos2indexes: MutableMap<Position, MutableList<Int>> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
+        val pos2indexes = mutableMapOf<Position, MutableList<Int>>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val n = fj.data.Array.array(*get(p)).filter(F<Boolean, Boolean> { o: Boolean? -> o }).length()

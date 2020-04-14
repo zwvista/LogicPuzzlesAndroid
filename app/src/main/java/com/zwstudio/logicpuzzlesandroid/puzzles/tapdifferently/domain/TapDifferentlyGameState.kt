@@ -109,7 +109,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
             }
         }
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             if (get(p) is TapDifferentlyWallObject) {
@@ -131,7 +131,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
         // 2. Each row must have a different number of filled cells.
-        val nums: MutableSet<Int> = HashSet()
+        val nums = mutableSetOf<Int>()
         for (r in 0 until rows()) {
             var n = 0
             for (c in 0 until cols()) if (get(r, c) is TapDifferentlyWallObject) n++

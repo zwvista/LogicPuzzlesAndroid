@@ -7,7 +7,7 @@ import java.util.*
 
 class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<NorthPoleFishingGame, NorthPoleFishingGameMove, NorthPoleFishingGameState>(game) {
     var objArray = Cloner().deepClone(game.dots.objArray)
-    var pos2state: MutableMap<Position, HintState> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

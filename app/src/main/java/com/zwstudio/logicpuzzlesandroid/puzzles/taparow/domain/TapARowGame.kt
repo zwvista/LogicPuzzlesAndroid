@@ -8,7 +8,7 @@ import fj.F2
 import java.util.*
 
 class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGameMove, TapARowGameState>, gdi: GameDocumentInterface) : CellsGame<TapARowGame, TapARowGameMove, TapARowGameState>(gi, gdi) {
-    var pos2hint: MutableMap<Position?, List<Int>> = HashMap()
+    var pos2hint = mutableMapOf<Position, List<Int>>()
     private fun changeObject(move: TapARowGameMove, f: (TapARowGameState, TapARowGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()

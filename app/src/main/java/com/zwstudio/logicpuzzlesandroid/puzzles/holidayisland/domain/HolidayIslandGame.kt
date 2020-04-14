@@ -8,7 +8,7 @@ import fj.F2
 import java.util.*
 
 class HolidayIslandGame(layout: List<String>, gi: GameInterface<HolidayIslandGame, HolidayIslandGameMove, HolidayIslandGameState>, gdi: GameDocumentInterface) : CellsGame<HolidayIslandGame, HolidayIslandGameMove, HolidayIslandGameState>(gi, gdi) {
-    var pos2hint: MutableMap<Position?, Int> = HashMap()
+    var pos2hint = mutableMapOf<Position, Int>()
     private fun changeObject(move: HolidayIslandGameMove, f: (HolidayIslandGameState, HolidayIslandGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()

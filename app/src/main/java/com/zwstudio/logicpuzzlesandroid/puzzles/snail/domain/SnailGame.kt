@@ -71,7 +71,7 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         }
         val snailPath: F<Int, List<Position>> = F<Int, List<Position>> { n: Int ->
             val path: MutableList<Position> = ArrayList()
-            val rng: MutableSet<Position> = HashSet()
+            val rng = mutableSetOf<Position>()
             for (r in 0 until n) for (c in 0 until n) rng.add(Position(r, c))
             var p = Position(0, -1)
             var dir = 1

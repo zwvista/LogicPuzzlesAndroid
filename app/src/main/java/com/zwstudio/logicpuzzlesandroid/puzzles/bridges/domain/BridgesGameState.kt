@@ -77,7 +77,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame?, Bridges
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         // 3. The number on each island tells you how many Bridges are touching
         // that island.
         for ((p, info) in game!!.islandsInfo) {

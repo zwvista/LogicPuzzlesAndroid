@@ -8,7 +8,7 @@ import java.util.*
 
 class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, LitsGameState>, gdi: GameDocumentInterface) : CellsGame<LitsGame, LitsGameMove, LitsGameState>(gi, gdi) {
     var areas: MutableList<List<Position>> = ArrayList()
-    var pos2area: MutableMap<Position?, Int?> = HashMap()
+    var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var treesInEachArea = 1
     private fun changeObject(move: LitsGameMove, f: (LitsGameState, LitsGameMove) -> Boolean): Boolean {
@@ -79,9 +79,9 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
                 }
             }
         }
-        val rng: MutableSet<Position> = HashSet()
+        val rng = mutableSetOf<Position>()
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             rng.add(p.plus())

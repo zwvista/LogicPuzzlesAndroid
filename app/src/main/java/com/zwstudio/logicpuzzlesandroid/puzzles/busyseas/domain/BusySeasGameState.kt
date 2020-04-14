@@ -11,7 +11,7 @@ import java.util.*
 
 class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame?, BusySeasGameMove?, BusySeasGameState?>(game) {
     var objArray: Array<BusySeasObject?>
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)

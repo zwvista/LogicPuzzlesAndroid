@@ -38,7 +38,7 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
         return changed
     }
 
-    fun setObject(move: NumberPathGameMove) = changeObject(move, F2<NumberPathGameState, NumberPathGameMove, Boolean> { state: NumberPathGameState, move2: NumberPathGameMove -> state.setObject(move2) })
+    fun setObject(move: NumberPathGameMove) = changeObject(move, NumberPathGameState::setObject)
 
     fun getObject(p: Position?) = state().get(p)
 

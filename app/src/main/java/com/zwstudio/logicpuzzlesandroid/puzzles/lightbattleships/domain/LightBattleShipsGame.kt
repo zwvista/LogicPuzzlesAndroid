@@ -9,8 +9,8 @@ import fj.F2
 import java.util.*
 
 class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>, gdi: GameDocumentInterface) : CellsGame<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>(gi, gdi) {
-    var pos2hint: MutableMap<Position?, Int> = HashMap()
-    var pos2obj: MutableMap<Position?, LightBattleShipsObject?> = HashMap()
+    var pos2hint = mutableMapOf<Position, Int>()
+    var pos2obj = mutableMapOf<Position, LightBattleShipsObject>()
     private fun changeObject(move: LightBattleShipsGameMove, f: (LightBattleShipsGameState, LightBattleShipsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()

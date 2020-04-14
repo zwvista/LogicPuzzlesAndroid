@@ -112,7 +112,7 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame?, BWTapaGame
             }
         }
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         val rngWalls: MutableList<Position> = ArrayList()
         val rngEmpty: MutableList<Position> = ArrayList()
         for (r in 0 until rows()) for (c in 0 until cols()) {

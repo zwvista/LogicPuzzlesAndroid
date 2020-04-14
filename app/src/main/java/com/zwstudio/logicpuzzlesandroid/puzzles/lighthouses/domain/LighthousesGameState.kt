@@ -11,7 +11,7 @@ import java.util.*
 
 class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGame?, LighthousesGameMove?, LighthousesGameState?>(game) {
     var objArray: Array<LighthousesObject?>
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)

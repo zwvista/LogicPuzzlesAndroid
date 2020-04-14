@@ -21,7 +21,7 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
     }
 
     var areas: MutableList<List<Position>> = ArrayList()
-    var pos2area: MutableMap<Position, Int> = HashMap()
+    var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     private fun changeObject(move: TheOddBrickGameMove, f: (TheOddBrickGameState, TheOddBrickGameMove) -> Boolean): Boolean {
         if (canRedo()) {
@@ -95,9 +95,9 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
                 set(r, c, if (ch2 == ' ') 0 else ch2 - '0')
             }
         }
-        val rng: MutableSet<Position> = HashSet()
+        val rng = mutableSetOf<Position>()
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             rng.add(p.plus())

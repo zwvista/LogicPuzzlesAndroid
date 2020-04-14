@@ -11,7 +11,7 @@ import java.util.*
 
 class OverUnderGame(layout: List<String>, gi: GameInterface<OverUnderGame, OverUnderGameMove, OverUnderGameState>, gdi: GameDocumentInterface) : CellsGame<OverUnderGame, OverUnderGameMove, OverUnderGameState>(gi, gdi) {
     var objArray: Array<Array<GridLineObject?>>
-    var pos2hint: MutableMap<Position, Int> = HashMap()
+    var pos2hint = mutableMapOf<Position, Int>()
     var areaSize = 0
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 

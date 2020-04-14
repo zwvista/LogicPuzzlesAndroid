@@ -8,7 +8,7 @@ import java.util.*
 
 class FenceSentinelsGameState(game: FenceSentinelsGame?) : CellsGameState<FenceSentinelsGame?, FenceSentinelsGameMove?, FenceSentinelsGameState?>(game) {
     var objArray: Array<Array<GridLineObject?>>
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)
@@ -90,7 +90,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame?) : CellsGameState<FenceS
         }
         if (!isSolved) return
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val n = fj.data.Array.array(*get(p)).filter { o: GridLineObject -> o == GridLineObject.Line }.length()

@@ -26,8 +26,8 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
 
     private inner class LitsAreaInfo {
         var trees: MutableList<Position> = ArrayList()
-        var blockIndexes: MutableSet<Int> = HashSet()
-        var neighborIndexes: MutableSet<Int> = HashSet()
+        var blockIndexes = mutableSetOf<Int>()
+        var neighborIndexes = mutableSetOf<Int>()
         var tetrominoIndex = -1
     }
 
@@ -71,7 +71,7 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
         val allowedObjectsOnly = game!!.gdi.isAllowedObjectsOnly
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o = get(p)

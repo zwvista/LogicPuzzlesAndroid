@@ -9,7 +9,7 @@ import java.util.*
 
 class KropkiGameState(game: KropkiGame?) : CellsGameState<KropkiGame?, KropkiGameMove?, KropkiGameState?>(game) {
     var objArray: IntArray
-    var pos2horzHint: MutableMap<Position?, HintState?> = HashMap()
+    var pos2horzHint = mutableMapOf<Position, HintState>()
     var pos2vertHint: Map<Position?, HintState?> = HashMap()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 

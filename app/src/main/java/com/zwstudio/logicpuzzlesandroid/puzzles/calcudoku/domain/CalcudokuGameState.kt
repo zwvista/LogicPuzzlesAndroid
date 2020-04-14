@@ -15,7 +15,7 @@ class CalcudokuGameState(game: CalcudokuGame?) : CellsGameState<CalcudokuGame?, 
     var objArray: IntArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)

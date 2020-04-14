@@ -21,7 +21,7 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
         )
     }
 
-    var pos2hint: MutableMap<Position, Int> = HashMap();
+    var pos2hint = mutableMapOf<Position, Int>();
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

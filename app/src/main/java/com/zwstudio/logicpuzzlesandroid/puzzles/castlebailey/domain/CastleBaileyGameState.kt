@@ -7,7 +7,7 @@ import java.util.*
 class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
     var objArray = MutableList(rows() * cols()) { CastleBaileyObject.Empty }
-    var pos2state: MutableMap<Position, HintState> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

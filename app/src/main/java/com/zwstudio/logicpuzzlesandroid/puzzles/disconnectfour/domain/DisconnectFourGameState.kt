@@ -8,7 +8,7 @@ import java.util.*
 
 class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<DisconnectFourGame?, DisconnectFourGameMove?, DisconnectFourGameState?>(game) {
     var objArray: Array<DisconnectFourObject?>
-    var pos2state: MutableMap<Position?, AllowedObjectState?> = HashMap()
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)

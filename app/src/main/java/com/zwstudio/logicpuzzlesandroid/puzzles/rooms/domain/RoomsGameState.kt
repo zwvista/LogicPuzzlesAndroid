@@ -77,9 +77,9 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame?, RoomsGameMove
             pos2state[p] = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        val rng: MutableSet<Position> = HashSet()
+        val rng = mutableSetOf<Position>()
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
             rng.add(p.plus())

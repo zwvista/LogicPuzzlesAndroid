@@ -9,7 +9,7 @@ import java.util.*
 
 class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, GalaxiesGameMove?, GalaxiesGameState?>(game) {
     var objArray: Array<Array<GridLineObject?>?>?
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)
@@ -70,7 +70,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, Gala
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
             val node = Node(p.toString())
@@ -82,7 +82,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, Gala
             for (i in 0..3) if (get(p.add(GalaxiesGame.Companion.offset2.get(i)))!![GalaxiesGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(GalaxiesGame.Companion.offset.get(i))])
         }
         val areas: MutableList<List<Position>> = ArrayList()
-        val pos2area: MutableMap<Position, Int> = HashMap()
+        val pos2area = mutableMapOf<Position, Int>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.List.iterableList(pos2node.values).head())
             val nodeList = g.bfs()

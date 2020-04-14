@@ -11,7 +11,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame?, F
     protected var cloner = Cloner()
     var objArray: CharArray
     var dots: GridDots? = null
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)
@@ -69,7 +69,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame?, F
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             if (get(p) == ' ') isSolved = false else {

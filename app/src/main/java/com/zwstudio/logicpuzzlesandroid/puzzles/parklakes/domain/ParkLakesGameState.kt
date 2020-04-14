@@ -60,7 +60,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame?, P
     private fun updateIsSolved() {
         isSolved = true
         var g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o: ParkLakesObject? = get(p)
@@ -79,7 +79,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame?, P
             }
         }
         val areas: MutableList<List<Position>> = ArrayList()
-        val pos2area: MutableMap<Position, Int> = HashMap()
+        val pos2area = mutableMapOf<Position, Int>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.HashMap.fromMap(pos2node).values().head())
             val nodeList = g.bfs()

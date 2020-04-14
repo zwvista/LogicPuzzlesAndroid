@@ -8,7 +8,7 @@ import fj.F2
 import java.util.*
 
 class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, LightenUpGameMove, LightenUpGameState>, gdi: GameDocumentInterface) : CellsGame<LightenUpGame, LightenUpGameMove, LightenUpGameState>(gi, gdi) {
-    var pos2hint: MutableMap<Position?, Int> = HashMap()
+    var pos2hint = mutableMapOf<Position, Int>()
     private fun changeObject(move: LightenUpGameMove, f: (LightenUpGameState, LightenUpGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()

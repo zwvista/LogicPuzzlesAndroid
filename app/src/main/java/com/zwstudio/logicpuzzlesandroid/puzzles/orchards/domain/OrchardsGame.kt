@@ -9,7 +9,7 @@ import java.util.*
 
 class OrchardsGame(layout: List<String>, gi: GameInterface<OrchardsGame, OrchardsGameMove, OrchardsGameState>, gdi: GameDocumentInterface) : CellsGame<OrchardsGame, OrchardsGameMove, OrchardsGameState>(gi, gdi) {
     var areas: MutableList<List<Position>> = ArrayList()
-    var pos2area: MutableMap<Position, Int> = HashMap()
+    var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var treesInEachArea = 1
     private fun changeObject(move: OrchardsGameMove, f: (OrchardsGameState, OrchardsGameMove) -> Boolean): Boolean {
@@ -76,9 +76,9 @@ class OrchardsGame(layout: List<String>, gi: GameInterface<OrchardsGame, Orchard
                 }
             }
         }
-        val rng: MutableSet<Position> = HashSet()
+        val rng = mutableSetOf<Position>()
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             rng.add(p.plus())

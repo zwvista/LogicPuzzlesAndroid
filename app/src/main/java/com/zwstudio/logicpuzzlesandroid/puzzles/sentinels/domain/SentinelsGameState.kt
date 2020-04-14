@@ -65,7 +65,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame?, S
         val allowedObjectsOnly: Boolean = game.gdi.isAllowedObjectsOnly()
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val o: SentinelsObject? = get(r, c)
             if (o is SentinelsTowerObject) o.state = AllowedObjectState.Normal else {

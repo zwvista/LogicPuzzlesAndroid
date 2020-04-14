@@ -27,7 +27,7 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
 
     var row2hint: IntArray
     var col2hint: IntArray
-    var pos2obj: MutableMap<Position, BattleShipsObject> = HashMap()
+    var pos2obj = mutableMapOf<Position, BattleShipsObject>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

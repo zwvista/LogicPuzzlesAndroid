@@ -23,7 +23,7 @@ class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsG
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var pos2hint: MutableMap<Position?, Int> = HashMap()
+    var pos2hint = mutableMapOf<Position, Int>()
 
     override fun isValid(row: Int, col: Int) = row >= 0 && col >= 0 && row < size.row - 1 && col < size.col - 1
 

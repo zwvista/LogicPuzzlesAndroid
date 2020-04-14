@@ -11,9 +11,9 @@ import java.util.*
 
 class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, GardenerGameMove?, GardenerGameState?>(game) {
     var objArray: Array<GardenerObject?>
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
-    var invalidSpacesHorz: MutableSet<Position> = HashSet()
-    var invalidSpacesVert: MutableSet<Position> = HashSet()
+    var pos2state = mutableMapOf<Position, HintState>()
+    var invalidSpacesHorz = mutableSetOf<Position>()
+    var invalidSpacesVert = mutableSetOf<Position>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)
@@ -73,7 +73,7 @@ class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, Gar
         isSolved = true
         for (r in 0 until rows()) for (c in 0 until cols()) if (get(r, c) is GardenerForbiddenObject) set(r, c, GardenerEmptyObject())
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o = get(p)

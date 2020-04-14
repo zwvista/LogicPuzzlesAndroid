@@ -8,7 +8,7 @@ import java.util.*
 
 class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffectGame?, RippleEffectGameMove?, RippleEffectGameState?>(game) {
     var objArray: IntArray
-    var pos2state: MutableMap<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
     operator fun get(p: Position?) = get(p!!.row, p.col)
@@ -53,10 +53,10 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
     private fun updateIsSolved() {
         isSolved = true
         for (r in 0 until rows()) for (c in 0 until cols()) pos2state[Position(r, c)] = HintState.Normal
-        val num2rng: MutableMap<Int, MutableList<Position?>> = HashMap()
+        val num2rng = mutableMapOf<Int, MutableList<Position?>>()
         val f = Effect1 { sameRow: Boolean ->
             for ((n, rng) in num2rng) {
-                val indexes: MutableSet<Int> = HashSet()
+                val indexes = mutableSetOf<Int>()
                 for (i in 0 until rng.size - 1) if (if (sameRow) rng[i + 1]!!.col - rng[i]!!.col <= n else rng[i + 1]!!.row - rng[i]!!.row <= n) {
                     indexes.add(n)
                     indexes.add(n + 1)

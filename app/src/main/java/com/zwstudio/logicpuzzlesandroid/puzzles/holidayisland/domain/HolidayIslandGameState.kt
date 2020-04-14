@@ -64,7 +64,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         isSolved = true
         val rngHints: MutableList<Position> = ArrayList()
         var g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o = get(p)
@@ -112,7 +112,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             }
         }
         val areas: MutableList<List<Position>> = ArrayList()
-        val pos2area: MutableMap<Position, Int> = HashMap()
+        val pos2area = mutableMapOf<Position, Int>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.HashMap.fromMap(pos2node).values().head())
             val nodeList = g.bfs()
@@ -127,7 +127,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         }
         for (p in rngHints) {
             val n2 = game!!.pos2hint[p]!!
-            val rng: MutableSet<Position> = HashSet()
+            val rng = mutableSetOf<Position>()
             for (os in HolidayIslandGame.Companion.offset) {
                 val p2 = p.add(os)
                 val i = pos2area[p2] ?: continue

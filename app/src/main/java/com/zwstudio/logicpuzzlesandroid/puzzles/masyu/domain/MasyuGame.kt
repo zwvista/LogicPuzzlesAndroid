@@ -38,7 +38,7 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
         return changed
     }
 
-    fun setObject(move: MasyuGameMove) = changeObject(move, F2<MasyuGameState, MasyuGameMove, Boolean> { state: MasyuGameState, move2: MasyuGameMove -> state.setObject(move2) })
+    fun setObject(move: MasyuGameMove) = changeObject(move, MasyuGameState::setObject)
 
     fun getObject(p: Position?) = state().get(p)
 

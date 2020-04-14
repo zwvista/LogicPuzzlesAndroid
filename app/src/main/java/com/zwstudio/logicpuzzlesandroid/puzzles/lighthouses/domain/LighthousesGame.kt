@@ -9,7 +9,7 @@ import fj.F2
 import java.util.*
 
 class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, LighthousesGameMove, LighthousesGameState>, gdi: GameDocumentInterface) : CellsGame<LighthousesGame, LighthousesGameMove, LighthousesGameState>(gi, gdi) {
-    var pos2hint: MutableMap<Position?, Int> = HashMap()
+    var pos2hint = mutableMapOf<Position, Int>()
     private fun changeObject(move: LighthousesGameMove, f: (LighthousesGameState, LighthousesGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()

@@ -7,10 +7,10 @@ import fj.F2
 import java.util.*
 
 class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<KropkiGame, KropkiGameMove, KropkiGameState>, gdi: GameDocumentInterface) : CellsGame<KropkiGame, KropkiGameMove, KropkiGameState>(gi, gdi) {
-    var pos2horzHint: MutableMap<Position?, KropkiHint?> = HashMap()
+    var pos2horzHint = mutableMapOf<Position, KropkiHint>()
     var pos2vertHint: Map<Position, KropkiHint> = HashMap()
     var areas: MutableList<List<Position>> = ArrayList()
-    var pos2area: MutableMap<Position, Int> = HashMap()
+    var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots? = null
     var bordered: Boolean
     private fun changeObject(move: KropkiGameMove, f: (KropkiGameState, KropkiGameMove) -> Boolean): Boolean {
@@ -88,9 +88,9 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
                     }
                 }
             }
-            val rng: MutableSet<Position> = HashSet()
+            val rng = mutableSetOf<Position>()
             val g = Graph()
-            val pos2node: MutableMap<Position, Node> = HashMap()
+            val pos2node = mutableMapOf<Position, Node>()
             for (r in 0 until rows()) for (c in 0 until cols()) {
                 val p = Position(r, c)
                 rng.add(p.plus())

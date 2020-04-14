@@ -111,7 +111,7 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame?) : CellsGameStat
             if ((o == DigitalBattleShipsObject.Empty || o == DigitalBattleShipsObject.Marker) && allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal)) set(r, c, DigitalBattleShipsObject.Forbidden)
         }
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o = get(p)

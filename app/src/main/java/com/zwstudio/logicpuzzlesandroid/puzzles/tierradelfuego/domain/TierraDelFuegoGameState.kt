@@ -62,7 +62,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         val allowedObjectsOnly: Boolean = game.gdi.isAllowedObjectsOnly()
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o: TierraDelFuegoObject? = get(p)
@@ -98,7 +98,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
             } else {
                 // 2. Being organized in tribes, each tribe, marked with a different letter,
                 // has occupied an island in the archipelago.
-                val ids: MutableSet<Char> = HashSet()
+                val ids = mutableSetOf<Char>()
                 for (p in area) {
                     val o: TierraDelFuegoObject? = get(p)
                     if (o is TierraDelFuegoHintObject) ids.add(o.id)

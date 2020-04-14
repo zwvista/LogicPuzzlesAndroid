@@ -64,7 +64,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame?, O
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
             val node = Node(p.toString())

@@ -26,7 +26,7 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
         )
     }
 
-    var pos2hint: MutableMap<Position, List<Int>> = HashMap()
+    var pos2hint = mutableMapOf<Position, List<Int>>()
     var left: Int = 0
     var right: Int = 0
 

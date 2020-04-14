@@ -47,7 +47,7 @@ class NumberPathGameState(game: NumberPathGame?) : CellsGameState<NumberPathGame
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         val pStart = Position(0, 0)
         val pEnd = Position(rows() - 1, cols() - 1)
         for (r in 0 until rows()) for (c in 0 until cols()) {
@@ -77,7 +77,7 @@ class NumberPathGameState(game: NumberPathGame?) : CellsGameState<NumberPathGame
                 }
             }
         }
-        val nums: MutableSet<Int> = HashSet()
+        val nums = mutableSetOf<Int>()
         for (p in pos2node.keys) {
             val o = get(p)
             nums.add(game.get(p))

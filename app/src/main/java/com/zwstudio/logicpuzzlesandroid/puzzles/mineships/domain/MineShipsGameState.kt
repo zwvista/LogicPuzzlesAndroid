@@ -79,7 +79,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame?, M
         }
         if (!isSolved) return
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o: MineShipsObject? = get(p)

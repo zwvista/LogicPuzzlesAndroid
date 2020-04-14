@@ -9,7 +9,7 @@ import fj.F2
 import java.util.*
 
 class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>, gdi: GameDocumentInterface) : CellsGame<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(gi, gdi) {
-    var pos2hint: MutableMap<Position?, Int> = HashMap()
+    var pos2hint = mutableMapOf<Position, Int>()
     fun isHint(p: Position?) = pos2hint.containsKey(p)
 
     private fun changeObject(move: LineSweeperGameMove, f: (LineSweeperGameState, LineSweeperGameMove) -> Boolean): Boolean {

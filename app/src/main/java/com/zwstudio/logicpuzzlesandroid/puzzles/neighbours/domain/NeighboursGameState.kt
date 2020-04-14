@@ -71,7 +71,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame?
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node: MutableMap<Position, Node> = HashMap()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
             val node = Node(p.toString())
@@ -83,7 +83,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame?
             for (i in 0..3) if (get(p.add(NeighboursGame.Companion.offset2.get(i)))[NeighboursGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(NeighboursGame.Companion.offset.get(i))])
         }
         val areas: MutableList<List<Position>> = ArrayList()
-        val pos2area: MutableMap<Position, Int> = HashMap()
+        val pos2area = mutableMapOf<Position, Int>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.List.iterableList(pos2node.values).head())
             val nodeList = g.bfs()
@@ -106,7 +106,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame?
             val n1 = area.size
             val n3: Int = game.pos2hint.get(p3)
             val neighbours: F0<Int> = label@ F0<Int> {
-                val indexes: MutableSet<Int> = HashSet()
+                val indexes = mutableSetOf<Int>()
                 val idx = pos2area[area[0]]
                 for (p in area) {
                     var i = 0
