@@ -34,7 +34,7 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
             moves.subList(stateIndex, states.size).clear()
         }
         val state = cloner.deepClone(state())
-        val changed = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++

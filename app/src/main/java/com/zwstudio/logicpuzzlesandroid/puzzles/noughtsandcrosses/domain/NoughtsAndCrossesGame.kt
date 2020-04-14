@@ -23,13 +23,13 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
     }
 
     var noughts: MutableList<Position> = ArrayList()
-    private fun changeObject(move: NoughtsAndCrossesGameMove, f: F2<NoughtsAndCrossesGameState, NoughtsAndCrossesGameMove, Boolean>): Boolean {
+    private fun changeObject(move: NoughtsAndCrossesGameMove, f: (NoughtsAndCrossesGameState, NoughtsAndCrossesGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: NoughtsAndCrossesGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -40,13 +40,8 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
         return changed
     }
 
-    fun switchObject(move: NoughtsAndCrossesGameMove): Boolean {
-        return changeObject(move, F2<NoughtsAndCrossesGameState, NoughtsAndCrossesGameMove, Boolean> { obj: NoughtsAndCrossesGameState, move: NoughtsAndCrossesGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: NoughtsAndCrossesGameMove): Boolean {
-        return changeObject(move, F2<NoughtsAndCrossesGameState, NoughtsAndCrossesGameMove, Boolean> { obj: NoughtsAndCrossesGameState, move: NoughtsAndCrossesGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: NoughtsAndCrossesGameMove) = changeObject(move, NoughtsAndCrossesGameState::switchObject)
+    fun setObject(move: NoughtsAndCrossesGameMove) = changeObject(move, NoughtsAndCrossesGameState::setObject)
 
     fun getObject(p: Position?): Char {
         return state().get(p)

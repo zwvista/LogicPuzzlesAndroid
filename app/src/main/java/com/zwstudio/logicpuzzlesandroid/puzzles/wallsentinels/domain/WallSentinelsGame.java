@@ -70,7 +70,7 @@ public class WallSentinelsGame extends CellsGame<WallSentinelsGame, WallSentinel
             moves.subList(stateIndex, states.size()).clear();
         }
         WallSentinelsGameState state = cloner.deepClone(state());
-        boolean changed = f.f(state, move);
+        boolean changed = f(state, move);
         if (changed) {
             states.add(state);
             stateIndex++;

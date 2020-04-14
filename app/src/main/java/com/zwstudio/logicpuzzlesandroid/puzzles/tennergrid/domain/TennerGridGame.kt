@@ -21,13 +21,13 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: TennerGridGameMove, f: F2<TennerGridGameState, TennerGridGameMove, Boolean>): Boolean {
+    private fun changeObject(move: TennerGridGameMove, f: (TennerGridGameState, TennerGridGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: TennerGridGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -38,13 +38,8 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
         return changed
     }
 
-    fun switchObject(move: TennerGridGameMove): Boolean {
-        return changeObject(move, F2<TennerGridGameState, TennerGridGameMove, Boolean> { obj: TennerGridGameState, move: TennerGridGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: TennerGridGameMove): Boolean {
-        return changeObject(move, F2<TennerGridGameState, TennerGridGameMove, Boolean> { obj: TennerGridGameState, move: TennerGridGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::switchObject)
+    fun setObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::setObject)
 
     fun getObject(p: Position?): Int {
         return state().get(p)

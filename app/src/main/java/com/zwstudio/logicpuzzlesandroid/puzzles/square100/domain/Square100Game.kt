@@ -21,13 +21,13 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: Square100GameMove, f: F2<Square100GameState, Square100GameMove, Boolean>): Boolean {
+    private fun changeObject(move: Square100GameMove, f: (Square100GameState, Square100GameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: Square100GameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -38,13 +38,8 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
         return changed
     }
 
-    fun switchObject(move: Square100GameMove): Boolean {
-        return changeObject(move, F2<Square100GameState, Square100GameMove, Boolean> { obj: Square100GameState, move: Square100GameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: Square100GameMove): Boolean {
-        return changeObject(move, F2<Square100GameState, Square100GameMove, Boolean> { obj: Square100GameState, move: Square100GameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: Square100GameMove) = changeObject(move, Square100GameState::switchObject)
+    fun setObject(move: Square100GameMove) = changeObject(move, Square100GameState::setObject)
 
     fun getObject(p: Position?): String {
         return state().get(p)

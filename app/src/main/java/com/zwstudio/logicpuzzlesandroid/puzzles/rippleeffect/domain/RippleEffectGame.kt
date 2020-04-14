@@ -34,7 +34,7 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
             moves.subList(stateIndex, states.size).clear()
         }
         val state = cloner.deepClone(state())
-        val changed = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++

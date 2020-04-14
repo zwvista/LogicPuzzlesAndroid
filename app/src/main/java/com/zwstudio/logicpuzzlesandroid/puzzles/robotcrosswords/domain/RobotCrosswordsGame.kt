@@ -24,13 +24,13 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
 
     var areas: MutableList<List<Position>> = ArrayList()
     var horzAreaCount = 0
-    private fun changeObject(move: RobotCrosswordsGameMove, f: F2<RobotCrosswordsGameState, RobotCrosswordsGameMove, Boolean>): Boolean {
+    private fun changeObject(move: RobotCrosswordsGameMove, f: (RobotCrosswordsGameState, RobotCrosswordsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: RobotCrosswordsGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -41,13 +41,8 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
         return changed
     }
 
-    fun switchObject(move: RobotCrosswordsGameMove): Boolean {
-        return changeObject(move, F2<RobotCrosswordsGameState, RobotCrosswordsGameMove, Boolean> { obj: RobotCrosswordsGameState, move: RobotCrosswordsGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: RobotCrosswordsGameMove): Boolean {
-        return changeObject(move, F2<RobotCrosswordsGameState, RobotCrosswordsGameMove, Boolean> { obj: RobotCrosswordsGameState, move: RobotCrosswordsGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::switchObject)
+    fun setObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::setObject)
 
     fun getObject(p: Position?): Int {
         return state().get(p)

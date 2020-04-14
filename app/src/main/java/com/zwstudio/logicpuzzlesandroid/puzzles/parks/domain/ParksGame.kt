@@ -11,13 +11,13 @@ class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<Pa
     var pos2area: MutableMap<Position, Int> = HashMap()
     var dots: GridDots
     var treesInEachArea = 1
-    private fun changeObject(move: ParksGameMove, f: F2<ParksGameState, ParksGameMove, Boolean>): Boolean {
+    private fun changeObject(move: ParksGameMove, f: (ParksGameState, ParksGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: ParksGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -28,13 +28,8 @@ class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<Pa
         return changed
     }
 
-    fun switchObject(move: ParksGameMove): Boolean {
-        return changeObject(move, F2<ParksGameState, ParksGameMove, Boolean> { obj: ParksGameState, move: ParksGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: ParksGameMove): Boolean {
-        return changeObject(move, F2<ParksGameState, ParksGameMove, Boolean> { obj: ParksGameState, move: ParksGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: ParksGameMove) = changeObject(move, ParksGameState::switchObject)
+    fun setObject(move: ParksGameMove) = changeObject(move, ParksGameState::setObject)
 
     fun getObject(p: Position?): ParksObject {
         return state().get(p)

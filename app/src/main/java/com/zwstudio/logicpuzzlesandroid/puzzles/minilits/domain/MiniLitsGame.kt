@@ -11,13 +11,13 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
     var pos2area: MutableMap<Position, Int> = HashMap()
     var dots: GridDots
     var treesInEachArea = 1
-    private fun changeObject(move: MiniLitsGameMove, f: F2<MiniLitsGameState, MiniLitsGameMove, Boolean>): Boolean {
+    private fun changeObject(move: MiniLitsGameMove, f: (MiniLitsGameState, MiniLitsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: MiniLitsGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -28,13 +28,8 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
         return changed
     }
 
-    fun switchObject(move: MiniLitsGameMove): Boolean {
-        return changeObject(move, F2<MiniLitsGameState, MiniLitsGameMove, Boolean> { obj: MiniLitsGameState, move: MiniLitsGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: MiniLitsGameMove): Boolean {
-        return changeObject(move, F2<MiniLitsGameState, MiniLitsGameMove, Boolean> { obj: MiniLitsGameState, move: MiniLitsGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::switchObject)
+    fun setObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::setObject)
 
     fun getObject(p: Position?): MiniLitsObject {
         return state().get(p)

@@ -25,13 +25,13 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: MasyuGameMove, f: F2<MasyuGameState, MasyuGameMove, Boolean>): Boolean {
+    private fun changeObject(move: MasyuGameMove, f: (MasyuGameState, MasyuGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: MasyuGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++

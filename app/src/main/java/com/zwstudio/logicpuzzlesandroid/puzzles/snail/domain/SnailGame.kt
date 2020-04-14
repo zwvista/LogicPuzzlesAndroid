@@ -24,13 +24,13 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: SnailGameMove, f: F2<SnailGameState, SnailGameMove, Boolean>): Boolean {
+    private fun changeObject(move: SnailGameMove, f: (SnailGameState, SnailGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: SnailGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -41,13 +41,8 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         return changed
     }
 
-    fun switchObject(move: SnailGameMove): Boolean {
-        return changeObject(move, F2<SnailGameState, SnailGameMove, Boolean> { obj: SnailGameState, move: SnailGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: SnailGameMove): Boolean {
-        return changeObject(move, F2<SnailGameState, SnailGameMove, Boolean> { obj: SnailGameState, move: SnailGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: SnailGameMove) = changeObject(move, SnailGameState::switchObject)
+    fun setObject(move: SnailGameMove) = changeObject(move, SnailGameState::setObject)
 
     fun getObject(p: Position?): Char {
         return state().get(p)

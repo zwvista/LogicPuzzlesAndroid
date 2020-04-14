@@ -23,13 +23,13 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: MathraxGameMove, f: F2<MathraxGameState, MathraxGameMove, Boolean>): Boolean {
+    private fun changeObject(move: MathraxGameMove, f: (MathraxGameState, MathraxGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: MathraxGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -40,13 +40,8 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
         return changed
     }
 
-    fun switchObject(move: MathraxGameMove): Boolean {
-        return changeObject(move, F2<MathraxGameState, MathraxGameMove, Boolean> { obj: MathraxGameState, move: MathraxGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: MathraxGameMove): Boolean {
-        return changeObject(move, F2<MathraxGameState, MathraxGameMove, Boolean> { obj: MathraxGameState, move: MathraxGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::switchObject)
+    fun setObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::setObject)
 
     fun getObject(p: Position?): Int {
         return state().get(p)

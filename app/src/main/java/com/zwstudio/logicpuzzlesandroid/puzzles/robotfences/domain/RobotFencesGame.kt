@@ -27,13 +27,13 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
     var areas: MutableList<List<Position>> = ArrayList()
     var pos2area: MutableMap<Position, Int> = HashMap()
     var dots: GridDots
-    private fun changeObject(move: RobotFencesGameMove, f: F2<RobotFencesGameState, RobotFencesGameMove, Boolean>): Boolean {
+    private fun changeObject(move: RobotFencesGameMove, f: (RobotFencesGameState, RobotFencesGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: RobotFencesGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -44,13 +44,8 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
         return changed
     }
 
-    fun switchObject(move: RobotFencesGameMove): Boolean {
-        return changeObject(move, F2<RobotFencesGameState, RobotFencesGameMove, Boolean> { obj: RobotFencesGameState, move: RobotFencesGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: RobotFencesGameMove): Boolean {
-        return changeObject(move, F2<RobotFencesGameState, RobotFencesGameMove, Boolean> { obj: RobotFencesGameState, move: RobotFencesGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: RobotFencesGameMove) = changeObject(move, RobotFencesGameState::switchObject)
+    fun setObject(move: RobotFencesGameMove) = changeObject(move, RobotFencesGameState::setObject)
 
     fun getObject(p: Position?): Int {
         return state().get(p)

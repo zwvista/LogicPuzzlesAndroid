@@ -27,13 +27,13 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
     var areas: MutableList<List<Position>> = ArrayList()
     var pos2area: MutableMap<Position, Int> = HashMap()
     var dots: GridDots
-    private fun changeObject(move: TheOddBrickGameMove, f: F2<TheOddBrickGameState, TheOddBrickGameMove, Boolean>): Boolean {
+    private fun changeObject(move: TheOddBrickGameMove, f: (TheOddBrickGameState, TheOddBrickGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: TheOddBrickGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -44,13 +44,8 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
         return changed
     }
 
-    fun switchObject(move: TheOddBrickGameMove): Boolean {
-        return changeObject(move, F2<TheOddBrickGameState, TheOddBrickGameMove, Boolean> { obj: TheOddBrickGameState, move: TheOddBrickGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: TheOddBrickGameMove): Boolean {
-        return changeObject(move, F2<TheOddBrickGameState, TheOddBrickGameMove, Boolean> { obj: TheOddBrickGameState, move: TheOddBrickGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: TheOddBrickGameMove) = changeObject(move, TheOddBrickGameState::switchObject)
+    fun setObject(move: TheOddBrickGameMove) = changeObject(move, TheOddBrickGameState::setObject)
 
     fun getObject(p: Position?): Int {
         return state().get(p)

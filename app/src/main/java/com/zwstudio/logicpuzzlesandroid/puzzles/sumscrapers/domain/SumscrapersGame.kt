@@ -29,13 +29,13 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: SumscrapersGameMove, f: F2<SumscrapersGameState, SumscrapersGameMove, Boolean>): Boolean {
+    private fun changeObject(move: SumscrapersGameMove, f: (SumscrapersGameState, SumscrapersGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: SumscrapersGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -46,13 +46,8 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
         return changed
     }
 
-    fun switchObject(move: SumscrapersGameMove): Boolean {
-        return changeObject(move, F2<SumscrapersGameState, SumscrapersGameMove, Boolean> { obj: SumscrapersGameState, move: SumscrapersGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: SumscrapersGameMove): Boolean {
-        return changeObject(move, F2<SumscrapersGameState, SumscrapersGameMove, Boolean> { obj: SumscrapersGameState, move: SumscrapersGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: SumscrapersGameMove) = changeObject(move, SumscrapersGameState::switchObject)
+    fun setObject(move: SumscrapersGameMove) = changeObject(move, SumscrapersGameState::setObject)
 
     fun getObject(p: Position?): Int {
         return state().get(p)

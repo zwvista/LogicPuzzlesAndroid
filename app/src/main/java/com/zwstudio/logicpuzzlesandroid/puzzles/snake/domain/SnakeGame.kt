@@ -8,13 +8,13 @@ class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove
     var row2hint: IntArray
     var col2hint: IntArray
     var pos2snake: MutableList<Position> = ArrayList()
-    private fun changeObject(move: SnakeGameMove, f: F2<SnakeGameState, SnakeGameMove, Boolean>): Boolean {
+    private fun changeObject(move: SnakeGameMove, f: (SnakeGameState, SnakeGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: SnakeGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -25,13 +25,8 @@ class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove
         return changed
     }
 
-    fun switchObject(move: SnakeGameMove): Boolean {
-        return changeObject(move, F2<SnakeGameState, SnakeGameMove, Boolean> { obj: SnakeGameState, move: SnakeGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: SnakeGameMove): Boolean {
-        return changeObject(move, F2<SnakeGameState, SnakeGameMove, Boolean> { obj: SnakeGameState, move: SnakeGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: SnakeGameMove) = changeObject(move, SnakeGameState::switchObject)
+    fun setObject(move: SnakeGameMove) = changeObject(move, SnakeGameState::setObject)
 
     fun getObject(p: Position?): SnakeObject {
         return state().get(p)

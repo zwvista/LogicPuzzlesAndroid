@@ -7,13 +7,13 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, NumberLinkGameMove, NumberLinkGameState>, gdi: GameDocumentInterface) : CellsGame<NumberLinkGame, NumberLinkGameMove, NumberLinkGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position, Int> = HashMap()
     var pos2rng: MutableMap<Int, MutableList<Position>> = HashMap()
-    private fun changeObject(move: NumberLinkGameMove, f: F2<NumberLinkGameState, NumberLinkGameMove, Boolean>): Boolean {
+    private fun changeObject(move: NumberLinkGameMove, f: (NumberLinkGameState, NumberLinkGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: NumberLinkGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++

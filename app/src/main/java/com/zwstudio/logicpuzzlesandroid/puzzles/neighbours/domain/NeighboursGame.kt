@@ -24,13 +24,13 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: NeighboursGameMove, f: F2<NeighboursGameState, NeighboursGameMove, Boolean>): Boolean {
+    private fun changeObject(move: NeighboursGameMove, f: (NeighboursGameState, NeighboursGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: NeighboursGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -41,13 +41,8 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
         return changed
     }
 
-    fun switchObject(move: NeighboursGameMove): Boolean {
-        return changeObject(move, F2<NeighboursGameState, NeighboursGameMove, Boolean> { obj: NeighboursGameState, move: NeighboursGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: NeighboursGameMove): Boolean {
-        return changeObject(move, F2<NeighboursGameState, NeighboursGameMove, Boolean> { obj: NeighboursGameState, move: NeighboursGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::switchObject)
+    fun setObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::setObject)
 
     fun getObject(p: Position?): Array<GridLineObject> {
         return state().get(p)

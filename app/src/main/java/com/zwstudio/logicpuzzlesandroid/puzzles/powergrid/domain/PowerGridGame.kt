@@ -6,13 +6,13 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, PowerGridGameMove, PowerGridGameState>, gdi: GameDocumentInterface) : CellsGame<PowerGridGame, PowerGridGameMove, PowerGridGameState>(gi, gdi) {
     var row2hint: IntArray
     var col2hint: IntArray
-    private fun changeObject(move: PowerGridGameMove, f: F2<PowerGridGameState, PowerGridGameMove, Boolean>): Boolean {
+    private fun changeObject(move: PowerGridGameMove, f: (PowerGridGameState, PowerGridGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: PowerGridGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -23,13 +23,8 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
         return changed
     }
 
-    fun switchObject(move: PowerGridGameMove): Boolean {
-        return changeObject(move, F2<PowerGridGameState, PowerGridGameMove, Boolean> { obj: PowerGridGameState, move: PowerGridGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: PowerGridGameMove): Boolean {
-        return changeObject(move, F2<PowerGridGameState, PowerGridGameMove, Boolean> { obj: PowerGridGameState, move: PowerGridGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: PowerGridGameMove) = changeObject(move, PowerGridGameState::switchObject)
+    fun setObject(move: PowerGridGameMove) = changeObject(move, PowerGridGameState::setObject)
 
     fun getObject(p: Position?): PowerGridObject {
         return state().get(p)

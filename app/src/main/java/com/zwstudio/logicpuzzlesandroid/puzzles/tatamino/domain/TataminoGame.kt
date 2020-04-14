@@ -25,13 +25,13 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: TataminoGameMove, f: F2<TataminoGameState, TataminoGameMove, Boolean>): Boolean {
+    private fun changeObject(move: TataminoGameMove, f: (TataminoGameState, TataminoGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: TataminoGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -42,13 +42,8 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
         return changed
     }
 
-    fun switchObject(move: TataminoGameMove): Boolean {
-        return changeObject(move, F2<TataminoGameState, TataminoGameMove, Boolean> { obj: TataminoGameState, move: TataminoGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: TataminoGameMove): Boolean {
-        return changeObject(move, F2<TataminoGameState, TataminoGameMove, Boolean> { obj: TataminoGameState, move: TataminoGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::switchObject)
+    fun setObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::setObject)
 
     fun getObject(p: Position?): Char {
         return state().get(p)

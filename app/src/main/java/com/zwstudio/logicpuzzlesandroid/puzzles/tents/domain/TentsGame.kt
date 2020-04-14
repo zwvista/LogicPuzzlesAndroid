@@ -8,13 +8,13 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
     var row2hint: IntArray
     var col2hint: IntArray
     var pos2tree: MutableList<Position> = ArrayList()
-    private fun changeObject(move: TentsGameMove, f: F2<TentsGameState, TentsGameMove, Boolean>): Boolean {
+    private fun changeObject(move: TentsGameMove, f: (TentsGameState, TentsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
         val state: TentsGameState = cloner.deepClone(state())
-        val changed: Boolean = f.f(state, move)
+        val changed = f(state, move)
         if (changed) {
             states.add(state)
             stateIndex++
@@ -25,13 +25,8 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
         return changed
     }
 
-    fun switchObject(move: TentsGameMove): Boolean {
-        return changeObject(move, F2<TentsGameState, TentsGameMove, Boolean> { obj: TentsGameState, move: TentsGameMove -> obj.switchObject(move) })
-    }
-
-    fun setObject(move: TentsGameMove): Boolean {
-        return changeObject(move, F2<TentsGameState, TentsGameMove, Boolean> { obj: TentsGameState, move: TentsGameMove -> obj.setObject(move) })
-    }
+    fun switchObject(move: TentsGameMove) = changeObject(move, TentsGameState::switchObject)
+    fun setObject(move: TentsGameMove) = changeObject(move, TentsGameState::setObject)
 
     fun getObject(p: Position?): TentsObject {
         return state().get(p)
