@@ -14,7 +14,5 @@ class FutoshikiOptionsActivity : GameOptionsActivity<FutoshikiGame?, FutoshikiDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FutoshikiDocument? = null
-    override fun doc(): FutoshikiDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

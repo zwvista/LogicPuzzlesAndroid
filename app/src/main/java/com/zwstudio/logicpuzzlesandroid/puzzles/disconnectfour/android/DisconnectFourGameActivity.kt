@@ -19,14 +19,10 @@ class DisconnectFourGameActivity : GameGameActivity<DisconnectFourGame?, Disconn
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DisconnectFourDocument? = null
-    override fun doc(): DisconnectFourDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: DisconnectFourGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

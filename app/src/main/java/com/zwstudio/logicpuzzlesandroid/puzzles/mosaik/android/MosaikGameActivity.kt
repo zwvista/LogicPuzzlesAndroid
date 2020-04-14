@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MosaikGameActivity : GameGameActivity<MosaikGame?, MosaikDocument?, MosaikGameMove?, MosaikGameState?>() {
     @Bean
     protected var document: MosaikDocument? = null
-    override fun doc(): MosaikDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: MosaikGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

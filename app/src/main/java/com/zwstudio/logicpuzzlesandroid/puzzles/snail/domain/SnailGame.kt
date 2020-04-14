@@ -8,13 +8,9 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
     var objArray: CharArray
     var snailPathGrid: List<Position>
     var snailPathLine: List<Position>
-    operator fun get(row: Int, col: Int): Char {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position): Char {
-        return get(p.row, p.col)
-    }
+    operator fun get(p: Position) = get(p.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Char) {
         objArray[row * cols() + col] = obj
@@ -44,25 +40,15 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
     fun switchObject(move: SnailGameMove) = changeObject(move, SnailGameState::switchObject)
     fun setObject(move: SnailGameMove) = changeObject(move, SnailGameState::setObject)
 
-    fun getObject(p: Position?): Char {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Char {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun getRowState(row: Int): HintState {
-        return state().row2state.get(row)
-    }
+    fun getRowState(row: Int) = state().row2state.get(row)
 
-    fun getColState(col: Int): HintState {
-        return state().col2state.get(col)
-    }
+    fun getColState(col: Int) = state().col2state.get(col)
 
-    fun getPositionState(row: Int, col: Int): HintState {
-        return state().pos2state.get(Position(row, col))
-    }
+    fun getPositionState(row: Int, col: Int) = state().pos2state.get(Position(row, col))
 
     companion object {
         var offset = arrayOf(

@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class RobotCrosswordsHelpActivity : GameHelpActivity<RobotCrosswordsGame?, RobotCrosswordsDocument?, RobotCrosswordsGameMove?, RobotCrosswordsGameState?>() {
     @Bean
     protected var document: RobotCrosswordsDocument? = null
-    override fun doc(): RobotCrosswordsDocument {
-        return document
-    }
+    override fun doc() = document
 }

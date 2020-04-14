@@ -19,14 +19,10 @@ class BridgesGameActivity : GameGameActivity<BridgesGame?, BridgesDocument?, Bri
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BridgesDocument? = null
-    override fun doc(): BridgesDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: BridgesGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PowerGridHelpActivity : GameHelpActivity<PowerGridGame?, PowerGridDocument?, PowerGridGameMove?, PowerGridGameState?>() {
     @Bean
     protected var document: PowerGridDocument? = null
-    override fun doc(): PowerGridDocument {
-        return document
-    }
+    override fun doc() = document
 }

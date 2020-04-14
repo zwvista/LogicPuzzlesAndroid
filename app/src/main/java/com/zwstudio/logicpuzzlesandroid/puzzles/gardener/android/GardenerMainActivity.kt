@@ -15,9 +15,7 @@ class GardenerMainActivity : GameMainActivity<GardenerGame?, GardenerDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GardenerDocument? = null
-    override fun doc(): GardenerDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

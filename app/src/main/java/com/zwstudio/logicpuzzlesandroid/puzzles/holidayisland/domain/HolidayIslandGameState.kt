@@ -9,13 +9,9 @@ import java.util.*
 
 class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIslandGame?, HolidayIslandGameMove?, HolidayIslandGameState?>(game) {
     var objArray: Array<HolidayIslandObject?>
-    operator fun get(row: Int, col: Int): HolidayIslandObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): HolidayIslandObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: HolidayIslandObject?) {
         objArray[row * cols() + col] = dotObj

@@ -28,21 +28,13 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
     fun switchObject(move: TentsGameMove) = changeObject(move, TentsGameState::switchObject)
     fun setObject(move: TentsGameMove) = changeObject(move, TentsGameState::setObject)
 
-    fun getObject(p: Position?): TentsObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): TentsObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun getRowState(row: Int): HintState {
-        return state().row2state.get(row)
-    }
+    fun getRowState(row: Int) = state().row2state.get(row)
 
-    fun getColState(col: Int): HintState {
-        return state().col2state.get(col)
-    }
+    fun getColState(col: Int) = state().col2state.get(col)
 
     companion object {
         var offset = arrayOf(

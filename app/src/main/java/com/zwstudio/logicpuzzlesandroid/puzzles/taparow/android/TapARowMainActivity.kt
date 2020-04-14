@@ -14,9 +14,7 @@ import org.androidannotations.annotations.EActivity
 class TapARowMainActivity : GameMainActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
     @Bean
     protected var document: TapARowDocument? = null
-    override fun doc(): TapARowDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

@@ -19,14 +19,10 @@ class FillominoGameActivity : GameGameActivity<FillominoGame?, FillominoDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FillominoDocument? = null
-    override fun doc(): FillominoDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: FillominoGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

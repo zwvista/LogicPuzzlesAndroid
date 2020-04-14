@@ -14,13 +14,9 @@ class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, Gar
     var pos2state: MutableMap<Position?, HintState?> = HashMap()
     var invalidSpacesHorz: MutableSet<Position> = HashSet()
     var invalidSpacesVert: MutableSet<Position> = HashSet()
-    operator fun get(row: Int, col: Int): GardenerObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): GardenerObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: GardenerObject?) {
         objArray[row * cols() + col] = dotObj

@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class ParkLakesGameActivity : GameGameActivity<ParkLakesGame?, ParkLakesDocument?, ParkLakesGameMove?, ParkLakesGameState?>() {
     @Bean
     protected var document: ParkLakesDocument? = null
-    override fun doc(): ParkLakesDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: ParkLakesGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

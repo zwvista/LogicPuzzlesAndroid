@@ -11,13 +11,9 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame?, Mathrax
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
-    operator fun get(row: Int, col: Int): Int {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Int {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Int) {
         objArray[row * cols() + col] = dotObj

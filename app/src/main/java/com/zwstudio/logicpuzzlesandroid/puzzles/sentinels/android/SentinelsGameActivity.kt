@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SentinelsGameActivity : GameGameActivity<SentinelsGame?, SentinelsDocument?, SentinelsGameMove?, SentinelsGameState?>() {
     @Bean
     protected var document: SentinelsDocument? = null
-    override fun doc(): SentinelsDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: SentinelsGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

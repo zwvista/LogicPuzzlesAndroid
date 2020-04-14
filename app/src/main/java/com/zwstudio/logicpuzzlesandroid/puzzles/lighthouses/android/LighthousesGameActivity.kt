@@ -19,14 +19,10 @@ class LighthousesGameActivity : GameGameActivity<LighthousesGame?, LighthousesDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LighthousesDocument? = null
-    override fun doc(): LighthousesDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: LighthousesGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SentinelsOptionsActivity : GameOptionsActivity<SentinelsGame?, SentinelsDocument?, SentinelsGameMove?, SentinelsGameState?>() {
     @Bean
     protected var document: SentinelsDocument? = null
-    override fun doc(): SentinelsDocument {
-        return document
-    }
+    override fun doc() = document
 }

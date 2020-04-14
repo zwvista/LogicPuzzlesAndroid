@@ -11,13 +11,9 @@ import java.util.*
 class DominoGameState(game: DominoGame) : CellsGameState<DominoGame?, DominoGameMove?, DominoGameState?>(game) {
     var objArray: Array<Array<GridLineObject?>?>?
     var pos2state: Map<Position?, HintState?> = HashMap()
-    operator fun get(row: Int, col: Int): Array<GridLineObject?>? {
-        return objArray!![row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
-    operator fun get(p: Position?): Array<GridLineObject?>? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     fun setObject(move: DominoGameMove?): Boolean {
         val p1 = move!!.p

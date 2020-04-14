@@ -14,7 +14,5 @@ class BusySeasOptionsActivity : GameOptionsActivity<BusySeasGame?, BusySeasDocum
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BusySeasDocument? = null
-    override fun doc(): BusySeasDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

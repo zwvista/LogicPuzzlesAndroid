@@ -15,29 +15,17 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.*
 
 class LitsGameView : CellsGameView {
-    private fun activity(): LitsGameActivity {
-        return context as LitsGameActivity
-    }
+    private fun activity() = context as LitsGameActivity
 
-    private fun game(): LitsGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val linePaint = Paint()

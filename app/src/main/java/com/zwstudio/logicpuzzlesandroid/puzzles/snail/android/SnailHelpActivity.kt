@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SnailHelpActivity : GameHelpActivity<SnailGame?, SnailDocument?, SnailGameMove?, SnailGameState?>() {
     @Bean
     protected var document: SnailDocument? = null
-    override fun doc(): SnailDocument {
-        return document
-    }
+    override fun doc() = document
 }

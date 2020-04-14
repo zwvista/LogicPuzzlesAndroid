@@ -31,17 +31,11 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
     fun switchObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::switchObject)
     fun setObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::setObject)
 
-    fun getObject(p: Position?): MiniLitsObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): MiniLitsObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

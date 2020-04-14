@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NurikabeOptionsActivity : GameOptionsActivity<NurikabeGame?, NurikabeDocument?, NurikabeGameMove?, NurikabeGameState?>() {
     @Bean
     protected var document: NurikabeDocument? = null
-    override fun doc(): NurikabeDocument {
-        return document
-    }
+    override fun doc() = document
 }

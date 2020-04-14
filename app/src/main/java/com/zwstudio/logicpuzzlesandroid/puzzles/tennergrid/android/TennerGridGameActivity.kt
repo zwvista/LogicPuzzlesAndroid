@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TennerGridGameActivity : GameGameActivity<TennerGridGame?, TennerGridDocument?, TennerGridGameMove?, TennerGridGameState?>() {
     @Bean
     protected var document: TennerGridDocument? = null
-    override fun doc(): TennerGridDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: TennerGridGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

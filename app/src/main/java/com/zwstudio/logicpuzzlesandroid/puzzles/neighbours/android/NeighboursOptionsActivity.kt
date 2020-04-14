@@ -10,9 +10,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame?, NeighboursDocument?, NeighboursGameMove?, NeighboursGameState?>() {
     @Bean
     protected var document: NeighboursDocument? = null
-    override fun doc(): NeighboursDocument {
-        return document
-    }
+    override fun doc() = document
 
     @AfterViews
     protected override fun init() {

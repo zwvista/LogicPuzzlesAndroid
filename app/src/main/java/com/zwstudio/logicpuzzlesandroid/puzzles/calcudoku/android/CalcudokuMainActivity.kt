@@ -15,9 +15,7 @@ class CalcudokuMainActivity : GameMainActivity<CalcudokuGame?, CalcudokuDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CalcudokuDocument? = null
-    override fun doc(): CalcudokuDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

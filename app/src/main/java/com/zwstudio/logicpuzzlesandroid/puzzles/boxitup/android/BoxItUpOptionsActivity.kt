@@ -22,9 +22,7 @@ class BoxItUpOptionsActivity : GameOptionsActivity<BoxItUpGame?, BoxItUpDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItUpDocument? = null
-    override fun doc(): BoxItUpDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @AfterViews
     override fun init() {

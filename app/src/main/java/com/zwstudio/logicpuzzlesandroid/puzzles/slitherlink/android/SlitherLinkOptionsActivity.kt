@@ -10,9 +10,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame?, SlitherLinkDocument?, SlitherLinkGameMove?, SlitherLinkGameState?>() {
     @Bean
     protected var document: SlitherLinkDocument? = null
-    override fun doc(): SlitherLinkDocument {
-        return document
-    }
+    override fun doc() = document
 
     @AfterViews
     protected override fun init() {

@@ -14,7 +14,5 @@ class LighthousesHelpActivity : GameHelpActivity<LighthousesGame?, LighthousesDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LighthousesDocument? = null
-    override fun doc(): LighthousesDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TapAlikeGameActivity : GameGameActivity<TapAlikeGame?, TapAlikeDocument?, TapAlikeGameMove?, TapAlikeGameState?>() {
     @Bean
     protected var document: TapAlikeDocument? = null
-    override fun doc(): TapAlikeDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: TapAlikeGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

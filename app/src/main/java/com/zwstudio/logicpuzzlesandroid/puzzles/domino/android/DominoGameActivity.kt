@@ -19,14 +19,10 @@ class DominoGameActivity : GameGameActivity<DominoGame?, DominoDocument?, Domino
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DominoDocument? = null
-    override fun doc(): DominoDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: DominoGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

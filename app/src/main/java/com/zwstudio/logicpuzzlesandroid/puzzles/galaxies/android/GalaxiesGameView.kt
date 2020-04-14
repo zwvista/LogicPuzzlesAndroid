@@ -14,29 +14,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGameMove
 
 class GalaxiesGameView : CellsGameView {
-    private fun activity(): GalaxiesGameActivity {
-        return context as GalaxiesGameActivity
-    }
+    private fun activity() = context as GalaxiesGameActivity
 
-    private fun game(): GalaxiesGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows() - 1
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows() - 1
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols() - 1
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols() - 1
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val line1Paint = Paint()

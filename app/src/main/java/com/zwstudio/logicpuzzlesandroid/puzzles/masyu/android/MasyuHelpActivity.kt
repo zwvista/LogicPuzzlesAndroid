@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MasyuHelpActivity : GameHelpActivity<MasyuGame?, MasyuDocument?, MasyuGameMove?, MasyuGameState?>() {
     @Bean
     protected var document: MasyuDocument? = null
-    override fun doc(): MasyuDocument {
-        return document
-    }
+    override fun doc() = document
 }

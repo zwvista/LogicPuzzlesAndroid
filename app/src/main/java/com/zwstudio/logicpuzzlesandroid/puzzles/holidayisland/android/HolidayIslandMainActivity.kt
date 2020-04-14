@@ -15,9 +15,7 @@ class HolidayIslandMainActivity : GameMainActivity<HolidayIslandGame?, HolidayIs
     @kotlin.jvm.JvmField
     @Bean
     protected var document: HolidayIslandDocument? = null
-    override fun doc(): HolidayIslandDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

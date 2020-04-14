@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MasyuOptionsActivity : GameOptionsActivity<MasyuGame?, MasyuDocument?, MasyuGameMove?, MasyuGameState?>() {
     @Bean
     protected var document: MasyuDocument? = null
-    override fun doc(): MasyuDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected fun onDefault() {}
 }

@@ -14,7 +14,5 @@ class CarpentersWallOptionsActivity : GameOptionsActivity<CarpentersWallGame?, C
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CarpentersWallDocument? = null
-    override fun doc(): CarpentersWallDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

@@ -32,9 +32,7 @@ class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, L
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int)  = state()[row, col]
-    fun pos2State(p: Position?): HintState? {
-        return state()!!.pos2state[p]
-    }
+    fun pos2State(p: Position?) = state()!!.pos2state[p]
 
     companion object {
         var offset = arrayOf(

@@ -19,14 +19,10 @@ class CarpentersSquareGameActivity : GameGameActivity<CarpentersSquareGame?, Car
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CarpentersSquareDocument? = null
-    override fun doc(): CarpentersSquareDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: CarpentersSquareGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

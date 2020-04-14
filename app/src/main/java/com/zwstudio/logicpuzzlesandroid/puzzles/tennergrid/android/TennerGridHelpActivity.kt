@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TennerGridHelpActivity : GameHelpActivity<TennerGridGame?, TennerGridDocument?, TennerGridGameMove?, TennerGridGameState?>() {
     @Bean
     protected var document: TennerGridDocument? = null
-    override fun doc(): TennerGridDocument {
-        return document
-    }
+    override fun doc() = document
 }

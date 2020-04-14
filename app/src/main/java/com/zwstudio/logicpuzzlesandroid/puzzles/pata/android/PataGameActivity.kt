@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PataGameActivity : GameGameActivity<PataGame?, PataDocument?, PataGameMove?, PataGameState?>() {
     @Bean
     protected var document: PataDocument? = null
-    override fun doc(): PataDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: PataGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

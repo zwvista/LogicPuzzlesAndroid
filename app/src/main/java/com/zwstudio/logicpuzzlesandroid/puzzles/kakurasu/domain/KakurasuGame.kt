@@ -8,9 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 
 class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, KakurasuGameMove, KakurasuGameState>, gdi: GameDocumentInterface) : CellsGame<KakurasuGame, KakurasuGameMove, KakurasuGameState>(gi, gdi) {
-    override fun isValid(row: Int, col: Int): Boolean {
-        return row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1
-    }
+    override fun isValid(row: Int, col: Int) = row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1
 
     var row2hint: IntArray
     var col2hint: IntArray
@@ -36,13 +34,9 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int)  = state()[row, col]
-    fun getRowState(row: Int): HintState? {
-        return state()!!.row2state[row]
-    }
+    fun getRowState(row: Int) = state()!!.row2state[row]
 
-    fun getColState(col: Int): HintState? {
-        return state()!!.col2state[col]
-    }
+    fun getColState(col: Int) = state()!!.col2state[col]
 
     companion object {
         var offset = arrayOf(

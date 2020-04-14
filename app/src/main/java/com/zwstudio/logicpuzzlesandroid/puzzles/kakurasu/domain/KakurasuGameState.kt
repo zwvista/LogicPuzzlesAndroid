@@ -11,13 +11,9 @@ class KakurasuGameState(game: KakurasuGame?) : CellsGameState<KakurasuGame?, Kak
     var objArray: Array<KakurasuObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    operator fun get(row: Int, col: Int): KakurasuObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): KakurasuObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: KakurasuObject?) {
         objArray[row * cols() + col] = obj

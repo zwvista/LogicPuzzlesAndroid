@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class RoomsMainActivity : GameMainActivity<RoomsGame?, RoomsDocument?, RoomsGameMove?, RoomsGameState?>() {
     @Bean
     protected var document: RoomsDocument? = null
-    override fun doc(): RoomsDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

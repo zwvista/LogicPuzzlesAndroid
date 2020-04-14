@@ -16,29 +16,17 @@ import fj.data.Stream
 import fj.function.Effect0
 
 class LineSweeperGameView : CellsGameView {
-    private fun activity(): LineSweeperGameActivity {
-        return context as LineSweeperGameActivity
-    }
+    private fun activity() = context as LineSweeperGameActivity
 
-    private fun game(): LineSweeperGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows() - 1
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows() - 1
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols() - 1
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols() - 1
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val linePaint = Paint()

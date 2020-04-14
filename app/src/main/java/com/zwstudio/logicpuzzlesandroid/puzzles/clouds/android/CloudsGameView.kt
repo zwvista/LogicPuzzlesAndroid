@@ -15,29 +15,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsObject
 
 class CloudsGameView : CellsGameView {
-    private fun activity(): CloudsGameActivity {
-        return context as CloudsGameActivity
-    }
+    private fun activity() = context as CloudsGameActivity
 
-    private fun game(): CloudsGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows() + 1
-    }
+    override fun rowsInView() = rows() + 1
 
-    override fun colsInView(): Int {
-        return cols() + 1
-    }
+    override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()

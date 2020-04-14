@@ -15,29 +15,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain.KakurasuGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain.KakurasuObject
 
 class KakurasuGameView : CellsGameView {
-    private fun activity(): KakurasuGameActivity {
-        return context as KakurasuGameActivity
-    }
+    private fun activity() = context as KakurasuGameActivity
 
-    private fun game(): KakurasuGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()

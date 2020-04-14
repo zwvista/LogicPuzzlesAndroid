@@ -11,13 +11,9 @@ import java.util.*
 
 class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame?, BWTapaGameMove?, BWTapaGameState?>(game) {
     var objArray: Array<BWTapaObject?>
-    operator fun get(row: Int, col: Int): BWTapaObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): BWTapaObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: BWTapaObject?) {
         objArray[row * cols() + col] = obj

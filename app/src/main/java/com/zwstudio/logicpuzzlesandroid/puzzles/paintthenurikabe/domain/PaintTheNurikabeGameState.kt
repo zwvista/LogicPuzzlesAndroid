@@ -10,13 +10,9 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<PaintTheNurikabeGame?, PaintTheNurikabeGameMove?, PaintTheNurikabeGameState?>(game) {
     var objArray: Array<PaintTheNurikabeObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
-    operator fun get(row: Int, col: Int): PaintTheNurikabeObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): PaintTheNurikabeObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: PaintTheNurikabeObject?) {
         objArray[row * cols() + col] = obj

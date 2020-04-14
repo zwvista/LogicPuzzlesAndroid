@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class ProductSentinelsOptionsActivity : GameOptionsActivity<ProductSentinelsGame?, ProductSentinelsDocument?, ProductSentinelsGameMove?, ProductSentinelsGameState?>() {
     @Bean
     protected var document: ProductSentinelsDocument? = null
-    override fun doc(): ProductSentinelsDocument {
-        return document
-    }
+    override fun doc() = document
 }

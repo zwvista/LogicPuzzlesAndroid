@@ -14,7 +14,5 @@ class DisconnectFourOptionsActivity : GameOptionsActivity<DisconnectFourGame?, D
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DisconnectFourDocument? = null
-    override fun doc(): DisconnectFourDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

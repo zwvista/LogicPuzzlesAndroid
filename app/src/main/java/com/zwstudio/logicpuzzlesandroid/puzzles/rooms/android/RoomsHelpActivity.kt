@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class RoomsHelpActivity : GameHelpActivity<RoomsGame?, RoomsDocument?, RoomsGameMove?, RoomsGameState?>() {
     @Bean
     protected var document: RoomsDocument? = null
-    override fun doc(): RoomsDocument {
-        return document
-    }
+    override fun doc() = document
 }

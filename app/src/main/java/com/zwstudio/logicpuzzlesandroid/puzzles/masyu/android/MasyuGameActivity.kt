@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MasyuGameActivity : GameGameActivity<MasyuGame?, MasyuDocument?, MasyuGameMove?, MasyuGameState?>() {
     @Bean
     protected var document: MasyuDocument? = null
-    override fun doc(): MasyuDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: MasyuGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

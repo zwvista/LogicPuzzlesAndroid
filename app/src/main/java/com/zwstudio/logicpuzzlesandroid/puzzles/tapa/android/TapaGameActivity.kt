@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TapaGameActivity : GameGameActivity<TapaGame?, TapaDocument?, TapaGameMove?, TapaGameState?>() {
     @Bean
     protected var document: TapaDocument? = null
-    override fun doc(): TapaDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: TapaGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

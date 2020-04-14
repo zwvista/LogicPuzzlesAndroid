@@ -14,9 +14,7 @@ class BridgesOptionsActivity : GameOptionsActivity<BridgesGame?, BridgesDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BridgesDocument? = null
-    override fun doc(): BridgesDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected fun onDefault() {}
 }

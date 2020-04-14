@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TapaOptionsActivity : GameOptionsActivity<TapaGame?, TapaDocument?, TapaGameMove?, TapaGameState?>() {
     @Bean
     protected var document: TapaDocument? = null
-    override fun doc(): TapaDocument {
-        return document
-    }
+    override fun doc() = document
 }

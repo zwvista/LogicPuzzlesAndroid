@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PairakabeGameActivity : GameGameActivity<PairakabeGame?, PairakabeDocument?, PairakabeGameMove?, PairakabeGameState?>() {
     @Bean
     protected var document: PairakabeDocument? = null
-    override fun doc(): PairakabeDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: PairakabeGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

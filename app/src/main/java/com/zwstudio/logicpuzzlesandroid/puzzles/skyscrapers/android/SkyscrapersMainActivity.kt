@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SkyscrapersMainActivity : GameMainActivity<SkyscrapersGame?, SkyscrapersDocument?, SkyscrapersGameMove?, SkyscrapersGameState?>() {
     @Bean
     protected var document: SkyscrapersDocument? = null
-    override fun doc(): SkyscrapersDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

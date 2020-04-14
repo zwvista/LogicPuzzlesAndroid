@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TapAlikeMainActivity : GameMainActivity<TapAlikeGame?, TapAlikeDocument?, TapAlikeGameMove?, TapAlikeGameState?>() {
     @Bean
     protected var document: TapAlikeDocument? = null
-    override fun doc(): TapAlikeDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

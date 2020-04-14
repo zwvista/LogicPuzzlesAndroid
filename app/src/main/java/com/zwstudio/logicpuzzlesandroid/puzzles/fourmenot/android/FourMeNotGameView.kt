@@ -14,29 +14,17 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain.*
 
 class FourMeNotGameView : CellsGameView {
-    private fun activity(): FourMeNotGameActivity {
-        return context as FourMeNotGameActivity
-    }
+    private fun activity() = context as FourMeNotGameActivity
 
-    private fun game(): FourMeNotGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()

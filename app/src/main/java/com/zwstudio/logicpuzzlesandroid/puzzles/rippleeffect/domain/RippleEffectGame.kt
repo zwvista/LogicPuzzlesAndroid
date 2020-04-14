@@ -12,13 +12,9 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
     var pos2area: MutableMap<Position?, Int?> = HashMap()
     var dots: GridDots
     var objArray: IntArray
-    operator fun get(row: Int, col: Int): Int {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Int {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
@@ -45,25 +41,15 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
         return changed
     }
 
-    fun switchObject(move: RippleEffectGameMove): Boolean {
-        return changeObject(move, F2 { obj: RippleEffectGameState?, move: RippleEffectGameMove -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: RippleEffectGameMove) = changeObject(move, F2 { obj: RippleEffectGameState?, move: RippleEffectGameMove -> obj!!.switchObject(move) })
 
-    fun setObject(move: RippleEffectGameMove): Boolean {
-        return changeObject(move, F2 { obj: RippleEffectGameState?, move: RippleEffectGameMove -> obj!!.setObject(move) })
-    }
+    fun setObject(move: RippleEffectGameMove) = changeObject(move, F2 { obj: RippleEffectGameState?, move: RippleEffectGameMove -> obj!!.setObject(move) })
 
-    fun getObject(p: Position?): Int {
-        return state()!![p]
-    }
+    fun getObject(p: Position?) = state()!![p]
 
-    fun getObject(row: Int, col: Int): Int {
-        return state()!![row, col]
-    }
+    fun getObject(row: Int, col: Int) = state()!![row, col]
 
-    fun pos2State(p: Position?): HintState? {
-        return state()!!.pos2state[p]
-    }
+    fun pos2State(p: Position?) = state()!!.pos2state[p]
 
     companion object {
         var offset = arrayOf(

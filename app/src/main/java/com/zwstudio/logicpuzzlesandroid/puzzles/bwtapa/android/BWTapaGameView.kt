@@ -14,29 +14,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.domain.*
 import fj.F
 
 class BWTapaGameView : CellsGameView {
-    private fun activity(): BWTapaGameActivity {
-        return context as BWTapaGameActivity
-    }
+    private fun activity() = context as BWTapaGameActivity
 
-    private fun game(): BWTapaGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()

@@ -26,17 +26,11 @@ class MineShipsGame(layout: List<String>, gi: GameInterface<MineShipsGame, MineS
     fun switchObject(move: MineShipsGameMove) = changeObject(move, MineShipsGameState::switchObject)
     fun setObject(move: MineShipsGameMove) = changeObject(move, MineShipsGameState::setObject)
 
-    fun getObject(p: Position?): MineShipsObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): MineShipsObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

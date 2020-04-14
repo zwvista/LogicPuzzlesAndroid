@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TatamiHelpActivity : GameHelpActivity<TatamiGame?, TatamiDocument?, TatamiGameMove?, TatamiGameState?>() {
     @Bean
     protected var document: TatamiDocument? = null
-    override fun doc(): TatamiDocument {
-        return document
-    }
+    override fun doc() = document
 }

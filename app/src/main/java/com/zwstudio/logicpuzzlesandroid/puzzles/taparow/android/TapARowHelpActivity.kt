@@ -13,7 +13,5 @@ import org.androidannotations.annotations.EActivity
 class TapARowHelpActivity : GameHelpActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
     @Bean
     protected var document: TapARowDocument? = null
-    override fun doc(): TapARowDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

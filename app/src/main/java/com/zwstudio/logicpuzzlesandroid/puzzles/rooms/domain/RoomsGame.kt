@@ -7,13 +7,9 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class RoomsGame(layout: List<String>, gi: GameInterface<RoomsGame, RoomsGameMove, RoomsGameState>, gdi: GameDocumentInterface) : CellsGame<RoomsGame, RoomsGameMove, RoomsGameState>(gi, gdi) {
     var objArray: Array<Array<GridLineObject?>>
     var pos2hint: MutableMap<Position, Int> = HashMap()
-    operator fun get(row: Int, col: Int): Array<GridLineObject?> {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position): Array<GridLineObject?> {
-        return get(p.row, p.col)
-    }
+    operator fun get(p: Position) = get(p.row, p.col)
 
     private fun changeObject(move: RoomsGameMove, f: (RoomsGameState, RoomsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
@@ -35,17 +31,11 @@ class RoomsGame(layout: List<String>, gi: GameInterface<RoomsGame, RoomsGameMove
     fun switchObject(move: RoomsGameMove) = changeObject(move, RoomsGameState::switchObject)
     fun setObject(move: RoomsGameMove) = changeObject(move, RoomsGameState::setObject)
 
-    fun getObject(p: Position?): Array<GridLineObject> {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Array<GridLineObject> {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

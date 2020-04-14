@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PairakabeMainActivity : GameMainActivity<PairakabeGame?, PairakabeDocument?, PairakabeGameMove?, PairakabeGameState?>() {
     @Bean
     protected var document: PairakabeDocument? = null
-    override fun doc(): PairakabeDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

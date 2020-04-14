@@ -14,7 +14,5 @@ class FenceLitsOptionsActivity : GameOptionsActivity<FenceLitsGame?, FenceLitsDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FenceLitsDocument? = null
-    override fun doc(): FenceLitsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

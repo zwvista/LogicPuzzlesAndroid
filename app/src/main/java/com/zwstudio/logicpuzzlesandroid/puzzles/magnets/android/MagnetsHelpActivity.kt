@@ -14,7 +14,5 @@ open class MagnetsHelpActivity : GameHelpActivity<MagnetsGame?, MagnetsDocument?
     @JvmField
     @Bean
     protected var document: MagnetsDocument? = null
-    override fun doc(): MagnetsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

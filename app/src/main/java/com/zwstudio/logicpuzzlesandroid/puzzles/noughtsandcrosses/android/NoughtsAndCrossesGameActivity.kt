@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame?, NoughtsAndCrossesDocument?, NoughtsAndCrossesGameMove?, NoughtsAndCrossesGameState?>() {
     @Bean
     protected var document: NoughtsAndCrossesDocument? = null
-    override fun doc(): NoughtsAndCrossesDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: NoughtsAndCrossesGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

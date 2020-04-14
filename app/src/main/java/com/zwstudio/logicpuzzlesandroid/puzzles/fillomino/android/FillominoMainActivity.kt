@@ -15,9 +15,7 @@ class FillominoMainActivity : GameMainActivity<FillominoGame?, FillominoDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FillominoDocument? = null
-    override fun doc(): FillominoDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MiniLitsMainActivity : GameMainActivity<MiniLitsGame?, MiniLitsDocument?, MiniLitsGameMove?, MiniLitsGameState?>() {
     @Bean
     protected var document: MiniLitsDocument? = null
-    override fun doc(): MiniLitsDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

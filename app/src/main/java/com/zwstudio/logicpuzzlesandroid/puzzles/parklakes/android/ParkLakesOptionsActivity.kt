@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class ParkLakesOptionsActivity : GameOptionsActivity<ParkLakesGame?, ParkLakesDocument?, ParkLakesGameMove?, ParkLakesGameState?>() {
     @Bean
     protected var document: ParkLakesDocument? = null
-    override fun doc(): ParkLakesDocument {
-        return document
-    }
+    override fun doc() = document
 }

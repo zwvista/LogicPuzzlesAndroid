@@ -14,7 +14,5 @@ class DominoOptionsActivity : GameOptionsActivity<DominoGame?, DominoDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DominoDocument? = null
-    override fun doc(): DominoDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

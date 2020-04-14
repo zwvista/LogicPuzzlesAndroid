@@ -22,9 +22,7 @@ class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame?, GalaxiesDocum
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GalaxiesDocument? = null
-    override fun doc(): GalaxiesDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @AfterViews
     override fun init() {

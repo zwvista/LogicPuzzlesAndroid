@@ -14,7 +14,5 @@ class KakuroOptionsActivity : GameOptionsActivity<KakuroGame?, KakuroDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KakuroDocument? = null
-    override fun doc(): KakuroDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

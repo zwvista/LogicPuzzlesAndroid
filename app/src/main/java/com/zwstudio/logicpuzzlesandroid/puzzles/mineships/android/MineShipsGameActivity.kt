@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MineShipsGameActivity : GameGameActivity<MineShipsGame?, MineShipsDocument?, MineShipsGameMove?, MineShipsGameState?>() {
     @Bean
     protected var document: MineShipsDocument? = null
-    override fun doc(): MineShipsDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: MineShipsGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

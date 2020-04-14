@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SlitherLinkMainActivity : GameMainActivity<SlitherLinkGame?, SlitherLinkDocument?, SlitherLinkGameMove?, SlitherLinkGameState?>() {
     @Bean
     protected var document: SlitherLinkDocument? = null
-    override fun doc(): SlitherLinkDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PaintTheNurikabeOptionsActivity : GameOptionsActivity<PaintTheNurikabeGame?, PaintTheNurikabeDocument?, PaintTheNurikabeGameMove?, PaintTheNurikabeGameState?>() {
     @Bean
     protected var document: PaintTheNurikabeDocument? = null
-    override fun doc(): PaintTheNurikabeDocument {
-        return document
-    }
+    override fun doc() = document
 }

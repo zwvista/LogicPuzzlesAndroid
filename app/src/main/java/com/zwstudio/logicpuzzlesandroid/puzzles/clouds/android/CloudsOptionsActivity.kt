@@ -14,7 +14,5 @@ class CloudsOptionsActivity : GameOptionsActivity<CloudsGame?, CloudsDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CloudsDocument? = null
-    override fun doc(): CloudsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

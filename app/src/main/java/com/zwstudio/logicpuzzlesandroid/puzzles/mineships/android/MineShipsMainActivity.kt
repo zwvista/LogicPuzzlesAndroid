@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MineShipsMainActivity : GameMainActivity<MineShipsGame?, MineShipsDocument?, MineShipsGameMove?, MineShipsGameState?>() {
     @Bean
     protected var document: MineShipsDocument? = null
-    override fun doc(): MineShipsDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

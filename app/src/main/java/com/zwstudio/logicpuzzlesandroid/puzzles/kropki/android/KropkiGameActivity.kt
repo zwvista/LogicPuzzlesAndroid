@@ -19,14 +19,10 @@ class KropkiGameActivity : GameGameActivity<KropkiGame?, KropkiDocument?, Kropki
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KropkiDocument? = null
-    override fun doc(): KropkiDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: KropkiGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

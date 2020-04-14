@@ -16,29 +16,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandObje
 import fj.function.Effect0
 
 class BridgesGameView : CellsGameView {
-    private fun activity(): BridgesGameActivity {
-        return context as BridgesGameActivity
-    }
+    private fun activity() = context as BridgesGameActivity
 
-    private fun game(): BridgesGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val islandPaint = Paint()
     private val bridgePaint = Paint()

@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TheOddBrickGameActivity : GameGameActivity<TheOddBrickGame?, TheOddBrickDocument?, TheOddBrickGameMove?, TheOddBrickGameState?>() {
     @Bean
     protected var document: TheOddBrickDocument? = null
-    override fun doc(): TheOddBrickDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: TheOddBrickGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

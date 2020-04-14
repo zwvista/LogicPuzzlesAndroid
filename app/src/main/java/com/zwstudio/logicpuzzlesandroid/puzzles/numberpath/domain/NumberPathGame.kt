@@ -9,13 +9,9 @@ import fj.F2
 
 class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, NumberPathGameMove, NumberPathGameState>, gdi: GameDocumentInterface) : CellsGame<NumberPathGame, NumberPathGameMove, NumberPathGameState>(gi, gdi) {
     var objArray: IntArray
-    operator fun get(row: Int, col: Int): Int {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position): Int {
-        return get(p.row, p.col)
-    }
+    operator fun get(p: Position) = get(p.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
@@ -42,21 +38,13 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
         return changed
     }
 
-    fun setObject(move: NumberPathGameMove): Boolean {
-        return changeObject(move, F2<NumberPathGameState, NumberPathGameMove, Boolean> { state: NumberPathGameState, move2: NumberPathGameMove -> state.setObject(move2) })
-    }
+    fun setObject(move: NumberPathGameMove) = changeObject(move, F2<NumberPathGameState, NumberPathGameMove, Boolean> { state: NumberPathGameState, move2: NumberPathGameMove -> state.setObject(move2) })
 
-    fun getObject(p: Position?): Array<Boolean> {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Array<Boolean> {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

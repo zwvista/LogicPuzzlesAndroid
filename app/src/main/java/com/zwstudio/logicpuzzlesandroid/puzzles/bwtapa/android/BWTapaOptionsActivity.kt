@@ -14,7 +14,5 @@ class BWTapaOptionsActivity : GameOptionsActivity<BWTapaGame?, BWTapaDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BWTapaDocument? = null
-    override fun doc(): BWTapaDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

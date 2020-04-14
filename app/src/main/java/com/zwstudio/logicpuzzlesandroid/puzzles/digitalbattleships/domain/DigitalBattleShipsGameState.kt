@@ -12,13 +12,9 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame?) : CellsGameStat
     var objArray: Array<DigitalBattleShipsObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    operator fun get(row: Int, col: Int): DigitalBattleShipsObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): DigitalBattleShipsObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: DigitalBattleShipsObject?) {
         objArray[row * cols() + col] = obj

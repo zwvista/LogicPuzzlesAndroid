@@ -14,29 +14,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameMove
 
 class KakuroGameView : CellsGameView {
-    private fun activity(): KakuroGameActivity {
-        return context as KakuroGameActivity
-    }
+    private fun activity() = context as KakuroGameActivity
 
-    private fun game(): KakuroGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()

@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TapaMainActivity : GameMainActivity<TapaGame?, TapaDocument?, TapaGameMove?, TapaGameState?>() {
     @Bean
     protected var document: TapaDocument? = null
-    override fun doc(): TapaDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

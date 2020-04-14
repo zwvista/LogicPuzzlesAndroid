@@ -14,7 +14,5 @@ class BoxItAgainHelpActivity : GameHelpActivity<BoxItAgainGame?, BoxItAgainDocum
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItAgainDocument? = null
-    override fun doc(): BoxItAgainDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

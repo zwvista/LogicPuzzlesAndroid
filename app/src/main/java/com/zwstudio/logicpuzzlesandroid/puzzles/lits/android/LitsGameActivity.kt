@@ -19,14 +19,10 @@ class LitsGameActivity : GameGameActivity<LitsGame?, LitsDocument?, LitsGameMove
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LitsDocument? = null
-    override fun doc(): LitsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: LitsGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

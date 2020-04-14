@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NoughtsAndCrossesMainActivity : GameMainActivity<NoughtsAndCrossesGame?, NoughtsAndCrossesDocument?, NoughtsAndCrossesGameMove?, NoughtsAndCrossesGameState?>() {
     @Bean
     protected var document: NoughtsAndCrossesDocument? = null
-    override fun doc(): NoughtsAndCrossesDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

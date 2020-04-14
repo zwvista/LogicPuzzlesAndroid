@@ -7,13 +7,9 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class WallsGameState(game: WallsGame) : CellsGameState<WallsGame?, WallsGameMove?, WallsGameState?>(game) {
     var objArray: Array<WallsObject?>
     var pos2state: Map<Position, HintState> = HashMap<Position, HintState>()
-    operator fun get(row: Int, col: Int): WallsObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): WallsObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: WallsObject?) {
         objArray[row * cols() + col] = dotObj

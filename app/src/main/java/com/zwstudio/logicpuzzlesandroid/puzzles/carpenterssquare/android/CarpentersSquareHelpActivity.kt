@@ -14,7 +14,5 @@ class CarpentersSquareHelpActivity : GameHelpActivity<CarpentersSquareGame?, Car
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CarpentersSquareDocument? = null
-    override fun doc(): CarpentersSquareDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

@@ -14,7 +14,5 @@ class FourMeNotHelpActivity : GameHelpActivity<FourMeNotGame?, FourMeNotDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FourMeNotDocument? = null
-    override fun doc(): FourMeNotDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

@@ -16,29 +16,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.Digita
 import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.DigitalBattleShipsObject
 
 class DigitalBattleShipsGameView : CellsGameView {
-    private fun activity(): DigitalBattleShipsGameActivity {
-        return context as DigitalBattleShipsGameActivity
-    }
+    private fun activity() = context as DigitalBattleShipsGameActivity
 
-    private fun game(): DigitalBattleShipsGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows() + 1
-    }
+    override fun rowsInView() = rows() + 1
 
-    override fun colsInView(): Int {
-        return cols() + 1
-    }
+    override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
     private val grayPaint = Paint()

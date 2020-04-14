@@ -16,29 +16,17 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.*
 
 class HolidayIslandGameView : CellsGameView {
-    private fun activity(): HolidayIslandGameActivity {
-        return context as HolidayIslandGameActivity
-    }
+    private fun activity() = context as HolidayIslandGameActivity
 
-    private fun game(): HolidayIslandGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()

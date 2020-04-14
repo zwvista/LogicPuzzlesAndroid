@@ -19,14 +19,10 @@ class LoopyGameActivity : GameGameActivity<LoopyGame?, LoopyDocument?, LoopyGame
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LoopyDocument? = null
-    override fun doc(): LoopyDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: LoopyGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

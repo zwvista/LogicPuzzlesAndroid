@@ -14,7 +14,5 @@ class LightenUpOptionsActivity : GameOptionsActivity<LightenUpGame?, LightenUpDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightenUpDocument? = null
-    override fun doc(): LightenUpDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NumberLinkGameActivity : GameGameActivity<NumberLinkGame?, NumberLinkDocument?, NumberLinkGameMove?, NumberLinkGameState?>() {
     @Bean
     protected var document: NumberLinkDocument? = null
-    override fun doc(): NumberLinkDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: NumberLinkGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

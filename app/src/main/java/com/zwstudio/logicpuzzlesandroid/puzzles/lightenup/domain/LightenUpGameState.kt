@@ -9,13 +9,9 @@ import fj.F
 
 class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame?, LightenUpGameMove?, LightenUpGameState?>(game) {
     var objArray: Array<LightenUpObject?>
-    operator fun get(row: Int, col: Int): LightenUpObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): LightenUpObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: LightenUpObject?) {
         objArray[row * cols() + col] = obj

@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TentsOptionsActivity : GameOptionsActivity<TentsGame?, TentsDocument?, TentsGameMove?, TentsGameState?>() {
     @Bean
     protected var document: TentsDocument? = null
-    override fun doc(): TentsDocument {
-        return document
-    }
+    override fun doc() = document
 }

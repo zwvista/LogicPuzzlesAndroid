@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MosaikHelpActivity : GameHelpActivity<MosaikGame?, MosaikDocument?, MosaikGameMove?, MosaikGameState?>() {
     @Bean
     protected var document: MosaikDocument? = null
-    override fun doc(): MosaikDocument {
-        return document
-    }
+    override fun doc() = document
 }

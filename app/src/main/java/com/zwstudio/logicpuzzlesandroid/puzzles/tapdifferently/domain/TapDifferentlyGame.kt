@@ -26,13 +26,9 @@ class TapDifferentlyGame(layout: List<String>, gi: GameInterface<TapDifferentlyG
     fun switchObject(move: TapDifferentlyGameMove) = changeObject(move, TapDifferentlyGameState::switchObject)
     fun setObject(move: TapDifferentlyGameMove) = changeObject(move, TapDifferentlyGameState::setObject)
 
-    fun getObject(p: Position?): TapDifferentlyObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): TapDifferentlyObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
     companion object {
         var offset = arrayOf(

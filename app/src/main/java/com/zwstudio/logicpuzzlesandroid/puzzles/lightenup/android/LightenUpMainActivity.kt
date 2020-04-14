@@ -15,9 +15,7 @@ class LightenUpMainActivity : GameMainActivity<LightenUpGame?, LightenUpDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightenUpDocument? = null
-    override fun doc(): LightenUpDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

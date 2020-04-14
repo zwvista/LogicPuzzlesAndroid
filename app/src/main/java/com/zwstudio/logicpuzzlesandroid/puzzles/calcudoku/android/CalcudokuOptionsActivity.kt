@@ -14,7 +14,5 @@ class CalcudokuOptionsActivity : GameOptionsActivity<CalcudokuGame?, CalcudokuDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CalcudokuDocument? = null
-    override fun doc(): CalcudokuDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

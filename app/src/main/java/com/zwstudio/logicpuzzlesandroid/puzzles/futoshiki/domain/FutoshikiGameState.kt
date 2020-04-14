@@ -15,13 +15,9 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame?, F
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
     var pos2state: MutableMap<Position?, HintState?> = HashMap()
-    operator fun get(row: Int, col: Int): Char {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Char {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Char) {
         objArray[row * cols() + col] = dotObj
@@ -104,9 +100,7 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame?, F
     }
 
     companion object {
-        private fun range(from: Int, to: Int, step: Int): Stream<Int> {
-            return if (from >= to) Stream.nil() else Stream.cons(from, { range(from + step, to, step) })
-        }
+        private fun range(from: Int, to: Int, step: Int) = if (from >= to) Stream.nil() else Stream.cons(from, { range(from + step, to, step) })
     }
 
     init {

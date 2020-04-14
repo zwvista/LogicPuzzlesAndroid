@@ -35,13 +35,9 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int)  = state()[row, col]
-    fun pos2State(p: Position?): HintState? {
-        return state()!!.pos2state[p]
-    }
+    fun pos2State(p: Position?) = state()!!.pos2state[p]
 
-    fun invalidSpaces(p: Position?, isHorz: Boolean): Boolean {
-        return (if (isHorz) state()!!.invalidSpacesHorz else state()!!.invalidSpacesVert).contains(p)
-    }
+    fun invalidSpaces(p: Position?, isHorz: Boolean) = (if (isHorz) state()!!.invalidSpacesHorz else state()!!.invalidSpacesVert).contains(p)
 
     companion object {
         var offset = arrayOf(

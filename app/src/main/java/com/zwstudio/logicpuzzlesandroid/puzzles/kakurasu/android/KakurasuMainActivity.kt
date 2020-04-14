@@ -15,9 +15,7 @@ class KakurasuMainActivity : GameMainActivity<KakurasuGame?, KakurasuDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KakurasuDocument? = null
-    override fun doc(): KakurasuDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

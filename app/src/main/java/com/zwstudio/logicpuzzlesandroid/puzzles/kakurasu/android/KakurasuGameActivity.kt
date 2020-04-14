@@ -19,14 +19,10 @@ class KakurasuGameActivity : GameGameActivity<KakurasuGame?, KakurasuDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KakurasuDocument? = null
-    override fun doc(): KakurasuDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: KakurasuGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

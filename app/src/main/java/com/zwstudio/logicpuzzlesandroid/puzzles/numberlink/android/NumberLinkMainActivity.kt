@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NumberLinkMainActivity : GameMainActivity<NumberLinkGame?, NumberLinkDocument?, NumberLinkGameMove?, NumberLinkGameState?>() {
     @Bean
     protected var document: NumberLinkDocument? = null
-    override fun doc(): NumberLinkDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

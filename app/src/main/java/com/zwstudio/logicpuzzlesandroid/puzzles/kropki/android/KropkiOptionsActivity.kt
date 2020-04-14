@@ -14,7 +14,5 @@ class KropkiOptionsActivity : GameOptionsActivity<KropkiGame?, KropkiDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: KropkiDocument? = null
-    override fun doc(): KropkiDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

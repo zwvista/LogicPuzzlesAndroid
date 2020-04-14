@@ -26,13 +26,9 @@ class ParkLakesGame(layout: List<String>, gi: GameInterface<ParkLakesGame, ParkL
     fun switchObject(move: ParkLakesGameMove) = changeObject(move, ParkLakesGameState::switchObject)
     fun setObject(move: ParkLakesGameMove) = changeObject(move, ParkLakesGameState::setObject)
 
-    fun getObject(p: Position?): ParkLakesObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): ParkLakesObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
     companion object {
         var offset = arrayOf(

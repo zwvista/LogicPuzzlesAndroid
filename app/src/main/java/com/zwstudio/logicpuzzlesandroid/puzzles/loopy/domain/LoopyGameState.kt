@@ -8,17 +8,11 @@ import java.util.*
 
 class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame?, LoopyGameMove?, LoopyGameState?>(game) {
     var objArray: Array<Array<GridLineObject?>?>?
-    operator fun get(row: Int, col: Int): Array<GridLineObject?>? {
-        return objArray!![row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
-    operator fun get(p: Position?): Array<GridLineObject?>? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
-    private fun isValidMove(move: LoopyGameMove?): Boolean {
-        return !(move!!.p!!.row == rows() - 1 && move.dir == 2 || move.p!!.col == cols() - 1 && move.dir == 1)
-    }
+    private fun isValidMove(move: LoopyGameMove?) = !(move!!.p!!.row == rows() - 1 && move.dir == 2 || move.p!!.col == cols() - 1 && move.dir == 1)
 
     fun setObject(move: LoopyGameMove?): Boolean {
         if (!isValidMove(move)) return false

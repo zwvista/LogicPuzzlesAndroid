@@ -13,7 +13,5 @@ import org.androidannotations.annotations.EActivity
 class RippleEffectHelpActivity : GameHelpActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
     @Bean
     protected var document: RippleEffectDocument? = null
-    override fun doc(): RippleEffectDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

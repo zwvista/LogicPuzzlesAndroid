@@ -1,5 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domainimport
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 
@@ -26,17 +29,11 @@ class ProductSentinelsGame(layout: List<String>, gi: GameInterface<ProductSentin
     fun switchObject(move: ProductSentinelsGameMove) = changeObject(move, ProductSentinelsGameState::switchObject)
     fun setObject(move: ProductSentinelsGameMove) = changeObject(move, ProductSentinelsGameState::setObject)
 
-    fun getObject(p: Position?): ProductSentinelsObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): ProductSentinelsObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

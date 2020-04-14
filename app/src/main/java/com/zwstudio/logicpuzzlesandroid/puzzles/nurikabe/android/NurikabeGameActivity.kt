@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NurikabeGameActivity : GameGameActivity<NurikabeGame?, NurikabeDocument?, NurikabeGameMove?, NurikabeGameState?>() {
     @Bean
     protected var document: NurikabeDocument? = null
-    override fun doc(): NurikabeDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: NurikabeGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

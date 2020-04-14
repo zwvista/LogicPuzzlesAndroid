@@ -18,14 +18,10 @@ import org.androidannotations.annotations.EActivity
 class RippleEffectGameActivity : GameGameActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
     @Bean
     protected var document: RippleEffectDocument? = null
-    override fun doc(): RippleEffectDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: RippleEffectGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

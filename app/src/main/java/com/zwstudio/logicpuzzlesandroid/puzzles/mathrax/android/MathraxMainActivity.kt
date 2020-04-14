@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MathraxMainActivity : GameMainActivity<MathraxGame?, MathraxDocument?, MathraxGameMove?, MathraxGameState?>() {
     @Bean
     protected var document: MathraxDocument? = null
-    override fun doc(): MathraxDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

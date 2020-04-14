@@ -18,29 +18,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsObject
 
 class MagnetsGameView : CellsGameView {
-    private fun activity(): MagnetsGameActivity {
-        return context as MagnetsGameActivity
-    }
+    private fun activity() = context as MagnetsGameActivity
 
-    private fun game(): MagnetsGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows() + 2
-    }
+    override fun rowsInView() = rows() + 2
 
-    override fun colsInView(): Int {
-        return cols() + 2
-    }
+    override fun colsInView() = cols() + 2
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()

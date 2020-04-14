@@ -19,14 +19,10 @@ class GardenerGameActivity : GameGameActivity<GardenerGame?, GardenerDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GardenerDocument? = null
-    override fun doc(): GardenerDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: GardenerGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

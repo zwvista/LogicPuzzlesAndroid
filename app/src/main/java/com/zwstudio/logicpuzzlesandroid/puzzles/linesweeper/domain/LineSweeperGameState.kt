@@ -11,13 +11,9 @@ import java.util.*
 class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame?, LineSweeperGameMove?, LineSweeperGameState?>(game) {
     var objArray: Array<Array<Boolean?>>
     var pos2state: MutableMap<Position?, HintState?> = HashMap()
-    operator fun get(row: Int, col: Int): Array<Boolean> {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Array<Boolean> {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Array<Boolean?>) {
         objArray[row * cols() + col] = obj

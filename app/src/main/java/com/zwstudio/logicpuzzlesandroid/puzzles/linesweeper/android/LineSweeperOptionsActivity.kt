@@ -14,9 +14,7 @@ class LineSweeperOptionsActivity : GameOptionsActivity<LineSweeperGame?, LineSwe
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LineSweeperDocument? = null
-    override fun doc(): LineSweeperDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected fun onDefault() {}
 }

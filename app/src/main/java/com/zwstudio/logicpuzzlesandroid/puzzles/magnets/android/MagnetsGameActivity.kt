@@ -19,14 +19,10 @@ open class MagnetsGameActivity : GameGameActivity<MagnetsGame?, MagnetsDocument?
     @JvmField
     @Bean
     protected var document: MagnetsDocument? = null
-    override fun doc(): MagnetsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: MagnetsGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

@@ -9,9 +9,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame?, KakuroGame
     var pos2num: MutableMap<Position?, Int?> = HashMap()
     var pos2horzHint: MutableMap<Position?, HintState?> = HashMap()
     var pos2vertHint: MutableMap<Position?, HintState?> = HashMap()
-    operator fun get(p: Position?): Int {
-        return pos2num[p]!!
-    }
+    operator fun get(p: Position?) = pos2num[p]!!
 
     operator fun set(p: Position?, obj: Int?) {
         pos2num[p] = obj

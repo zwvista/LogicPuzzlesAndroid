@@ -19,14 +19,10 @@ class FutoshikiGameActivity : GameGameActivity<FutoshikiGame?, FutoshikiDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FutoshikiDocument? = null
-    override fun doc(): FutoshikiDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: FutoshikiGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NumberPathGameActivity : GameGameActivity<NumberPathGame?, NumberPathDocument?, NumberPathGameMove?, NumberPathGameState?>() {
     @Bean
     protected var document: NumberPathDocument? = null
-    override fun doc(): NumberPathDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: NumberPathGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

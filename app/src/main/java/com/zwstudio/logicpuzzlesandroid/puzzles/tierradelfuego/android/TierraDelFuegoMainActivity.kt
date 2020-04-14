@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TierraDelFuegoMainActivity : GameMainActivity<TierraDelFuegoGame?, TierraDelFuegoDocument?, TierraDelFuegoGameMove?, TierraDelFuegoGameState?>() {
     @Bean
     protected var document: TierraDelFuegoDocument? = null
-    override fun doc(): TierraDelFuegoDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

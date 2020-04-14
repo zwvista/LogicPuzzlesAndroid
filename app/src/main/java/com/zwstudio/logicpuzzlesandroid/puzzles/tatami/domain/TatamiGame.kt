@@ -11,13 +11,9 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
     var pos2area: MutableMap<Position, Int> = HashMap()
     var dots: GridDots
     var objArray: CharArray
-    operator fun get(row: Int, col: Int): Char {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position): Char {
-        return get(p.row, p.col)
-    }
+    operator fun get(p: Position) = get(p.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Char) {
         objArray[row * cols() + col] = obj
@@ -47,17 +43,11 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
     fun switchObject(move: TatamiGameMove) = changeObject(move, TatamiGameState::switchObject)
     fun setObject(move: TatamiGameMove) = changeObject(move, TatamiGameState::setObject)
 
-    fun getObject(p: Position?): Char {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Char {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

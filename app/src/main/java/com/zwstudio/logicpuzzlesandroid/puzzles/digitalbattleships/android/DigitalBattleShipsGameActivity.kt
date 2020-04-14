@@ -19,14 +19,10 @@ class DigitalBattleShipsGameActivity : GameGameActivity<DigitalBattleShipsGame?,
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DigitalBattleShipsDocument? = null
-    override fun doc(): DigitalBattleShipsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: DigitalBattleShipsGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

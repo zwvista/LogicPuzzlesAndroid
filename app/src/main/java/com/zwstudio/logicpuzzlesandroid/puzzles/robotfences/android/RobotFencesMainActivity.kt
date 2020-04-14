@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class RobotFencesMainActivity : GameMainActivity<RobotFencesGame?, RobotFencesDocument?, RobotFencesGameMove?, RobotFencesGameState?>() {
     @Bean
     protected var document: RobotFencesDocument? = null
-    override fun doc(): RobotFencesDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

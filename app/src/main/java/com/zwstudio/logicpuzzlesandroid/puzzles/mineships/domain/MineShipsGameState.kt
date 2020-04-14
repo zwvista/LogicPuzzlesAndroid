@@ -11,13 +11,9 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame?, MineShipsGameMove?, MineShipsGameState?>(game) {
     var objArray: Array<MineShipsObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
-    operator fun get(row: Int, col: Int): MineShipsObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): MineShipsObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: MineShipsObject?) {
         objArray[row * cols() + col] = obj

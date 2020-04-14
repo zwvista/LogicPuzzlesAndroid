@@ -26,17 +26,11 @@ class SentinelsGame(layout: List<String>, gi: GameInterface<SentinelsGame, Senti
     fun switchObject(move: SentinelsGameMove) = changeObject(move, SentinelsGameState::switchObject)
     fun setObject(move: SentinelsGameMove) = changeObject(move, SentinelsGameState::setObject)
 
-    fun getObject(p: Position?): SentinelsObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): SentinelsObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

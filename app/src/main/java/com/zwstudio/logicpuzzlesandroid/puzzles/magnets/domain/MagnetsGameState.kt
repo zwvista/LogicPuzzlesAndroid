@@ -11,13 +11,9 @@ class MagnetsGameState(game: MagnetsGame?) : CellsGameState<MagnetsGame?, Magnet
     var objArray: Array<MagnetsObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    operator fun get(row: Int, col: Int): MagnetsObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): MagnetsObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: MagnetsObject?) {
         objArray[row * cols() + col] = obj

@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class RobotFencesGameActivity : GameGameActivity<RobotFencesGame?, RobotFencesDocument?, RobotFencesGameMove?, RobotFencesGameState?>() {
     @Bean
     protected var document: RobotFencesDocument? = null
-    override fun doc(): RobotFencesDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: RobotFencesGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

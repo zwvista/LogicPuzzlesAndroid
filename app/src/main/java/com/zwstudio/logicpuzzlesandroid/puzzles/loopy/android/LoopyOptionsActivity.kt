@@ -14,9 +14,7 @@ class LoopyOptionsActivity : GameOptionsActivity<LoopyGame?, LoopyDocument?, Loo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LoopyDocument? = null
-    override fun doc(): LoopyDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected fun onDefault() {}
 }

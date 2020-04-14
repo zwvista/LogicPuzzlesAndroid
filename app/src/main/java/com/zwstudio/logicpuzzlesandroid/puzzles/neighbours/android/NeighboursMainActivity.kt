@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NeighboursMainActivity : GameMainActivity<NeighboursGame?, NeighboursDocument?, NeighboursGameMove?, NeighboursGameState?>() {
     @Bean
     protected var document: NeighboursDocument? = null
-    override fun doc(): NeighboursDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

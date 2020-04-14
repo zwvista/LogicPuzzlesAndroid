@@ -19,14 +19,10 @@ class CloudsGameActivity : GameGameActivity<CloudsGame?, CloudsDocument?, Clouds
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CloudsDocument? = null
-    override fun doc(): CloudsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: CloudsGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

@@ -7,13 +7,9 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame?, MosaikGameMove?, MosaikGameState?>(game) {
     var objArray: Array<MosaikObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
-    operator fun get(row: Int, col: Int): MosaikObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): MosaikObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: MosaikObject?) {
         objArray[row * cols() + col] = obj

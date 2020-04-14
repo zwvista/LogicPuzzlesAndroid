@@ -19,14 +19,10 @@ class BWTapaGameActivity : GameGameActivity<BWTapaGame?, BWTapaDocument?, BWTapa
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BWTapaDocument? = null
-    override fun doc(): BWTapaDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: BWTapaGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

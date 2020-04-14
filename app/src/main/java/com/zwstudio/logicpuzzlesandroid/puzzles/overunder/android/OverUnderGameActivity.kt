@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class OverUnderGameActivity : GameGameActivity<OverUnderGame?, OverUnderDocument?, OverUnderGameMove?, OverUnderGameState?>() {
     @Bean
     protected var document: OverUnderDocument? = null
-    override fun doc(): OverUnderDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: OverUnderGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

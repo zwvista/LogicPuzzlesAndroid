@@ -14,7 +14,5 @@ class LitsHelpActivity : GameHelpActivity<LitsGame?, LitsDocument?, LitsGameMove
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LitsDocument? = null
-    override fun doc(): LitsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

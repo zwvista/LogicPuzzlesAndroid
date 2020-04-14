@@ -15,29 +15,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fillomino.domain.FillominoGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.fillomino.domain.FillominoGameMove
 
 class FillominoGameView : CellsGameView {
-    private fun activity(): FillominoGameActivity {
-        return context as FillominoGameActivity
-    }
+    private fun activity() = context as FillominoGameActivity
 
-    private fun game(): FillominoGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val linePaint = Paint()

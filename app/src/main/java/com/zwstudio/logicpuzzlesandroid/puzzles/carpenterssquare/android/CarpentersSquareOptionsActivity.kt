@@ -22,9 +22,7 @@ class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CarpentersSquareDocument? = null
-    override fun doc(): CarpentersSquareDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @AfterViews
     override fun init() {

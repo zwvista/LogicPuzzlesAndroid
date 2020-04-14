@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TataminoGameActivity : GameGameActivity<TataminoGame?, TataminoDocument?, TataminoGameMove?, TataminoGameState?>() {
     @Bean
     protected var document: TataminoDocument? = null
-    override fun doc(): TataminoDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: TataminoGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

@@ -14,7 +14,5 @@ class LitsOptionsActivity : GameOptionsActivity<LitsGame?, LitsDocument?, LitsGa
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LitsDocument? = null
-    override fun doc(): LitsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

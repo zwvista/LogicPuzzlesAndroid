@@ -19,14 +19,10 @@ class FenceItUpGameActivity : GameGameActivity<FenceItUpGame?, FenceItUpDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FenceItUpDocument? = null
-    override fun doc(): FenceItUpDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: FenceItUpGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

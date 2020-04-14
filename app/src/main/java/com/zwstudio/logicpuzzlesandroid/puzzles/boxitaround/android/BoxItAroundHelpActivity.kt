@@ -14,7 +14,5 @@ class BoxItAroundHelpActivity : GameHelpActivity<BoxItAroundGame?, BoxItAroundDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItAroundDocument? = null
-    override fun doc(): BoxItAroundDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

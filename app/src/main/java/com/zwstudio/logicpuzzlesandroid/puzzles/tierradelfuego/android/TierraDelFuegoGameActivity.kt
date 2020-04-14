@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TierraDelFuegoGameActivity : GameGameActivity<TierraDelFuegoGame?, TierraDelFuegoDocument?, TierraDelFuegoGameMove?, TierraDelFuegoGameState?>() {
     @Bean
     protected var document: TierraDelFuegoDocument? = null
-    override fun doc(): TierraDelFuegoDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: TierraDelFuegoGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

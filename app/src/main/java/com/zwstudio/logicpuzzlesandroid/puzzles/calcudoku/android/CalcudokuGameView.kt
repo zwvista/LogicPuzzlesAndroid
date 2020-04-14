@@ -15,29 +15,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku.domain.CalcudokuGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku.domain.CalcudokuGameMove
 
 class CalcudokuGameView : CellsGameView {
-    private fun activity(): CalcudokuGameActivity {
-        return context as CalcudokuGameActivity
-    }
+    private fun activity() = context as CalcudokuGameActivity
 
-    private fun game(): CalcudokuGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows()
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols()
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val linePaint = Paint()

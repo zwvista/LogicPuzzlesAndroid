@@ -19,14 +19,10 @@ class HolidayIslandGameActivity : GameGameActivity<HolidayIslandGame?, HolidayIs
     @kotlin.jvm.JvmField
     @Bean
     protected var document: HolidayIslandDocument? = null
-    override fun doc(): HolidayIslandDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: HolidayIslandGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

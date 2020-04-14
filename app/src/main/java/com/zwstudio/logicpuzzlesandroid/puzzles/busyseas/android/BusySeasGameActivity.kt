@@ -19,14 +19,10 @@ class BusySeasGameActivity : GameGameActivity<BusySeasGame?, BusySeasDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BusySeasDocument? = null
-    override fun doc(): BusySeasDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: BusySeasGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

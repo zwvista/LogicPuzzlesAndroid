@@ -7,13 +7,9 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGameMove, MathraxGameState>, gdi: GameDocumentInterface) : CellsGame<MathraxGame, MathraxGameMove, MathraxGameState>(gi, gdi) {
     var objArray: IntArray
     var pos2hint: MutableMap<Position, MathraxHint> = HashMap<Position, MathraxHint>()
-    operator fun get(row: Int, col: Int): Int {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position): Int {
-        return get(p.row, p.col)
-    }
+    operator fun get(p: Position) = get(p.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
@@ -43,25 +39,15 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
     fun switchObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::switchObject)
     fun setObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::setObject)
 
-    fun getObject(p: Position?): Int {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Int {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun getRowState(row: Int): HintState {
-        return state().row2state.get(row)
-    }
+    fun getRowState(row: Int) = state().row2state.get(row)
 
-    fun getColState(col: Int): HintState {
-        return state().col2state.get(col)
-    }
+    fun getColState(col: Int) = state().col2state.get(col)
 
-    fun getPosState(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun getPosState(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

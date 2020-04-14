@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PataHelpActivity : GameHelpActivity<PataGame?, PataDocument?, PataGameMove?, PataGameState?>() {
     @Bean
     protected var document: PataDocument? = null
-    override fun doc(): PataDocument {
-        return document
-    }
+    override fun doc() = document
 }

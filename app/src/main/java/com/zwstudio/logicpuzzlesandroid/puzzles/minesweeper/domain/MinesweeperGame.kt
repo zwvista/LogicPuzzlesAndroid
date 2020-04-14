@@ -26,17 +26,11 @@ class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, M
     fun switchObject(move: MinesweeperGameMove) = changeObject(move, MinesweeperGameState::switchObject)
     fun setObject(move: MinesweeperGameMove) = changeObject(move, MinesweeperGameState::setObject)
 
-    fun getObject(p: Position?): MinesweeperObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): MinesweeperObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

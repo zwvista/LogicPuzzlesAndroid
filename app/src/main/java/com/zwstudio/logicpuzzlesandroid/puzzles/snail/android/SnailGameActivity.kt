@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SnailGameActivity : GameGameActivity<SnailGame?, SnailDocument?, SnailGameMove?, SnailGameState?>() {
     @Bean
     protected var document: SnailDocument? = null
-    override fun doc(): SnailDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: SnailGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

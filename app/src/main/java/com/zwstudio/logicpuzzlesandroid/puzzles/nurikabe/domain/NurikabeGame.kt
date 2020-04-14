@@ -1,5 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domainimport
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 
@@ -26,13 +29,9 @@ class NurikabeGame(layout: List<String>, gi: GameInterface<NurikabeGame, Nurikab
     fun switchObject(move: NurikabeGameMove) = changeObject(move, NurikabeGameState::switchObject)
     fun setObject(move: NurikabeGameMove) = changeObject(move, NurikabeGameState::setObject)
 
-    fun getObject(p: Position?): NurikabeObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): NurikabeObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
     companion object {
         var offset = arrayOf(

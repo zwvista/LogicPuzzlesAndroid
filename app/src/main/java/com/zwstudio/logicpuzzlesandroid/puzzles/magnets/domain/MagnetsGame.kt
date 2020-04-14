@@ -35,13 +35,9 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int)  = state()[row, col]
-    fun getRowState(id: Int): HintState? {
-        return state()!!.row2state[id]
-    }
+    fun getRowState(id: Int) = state()!!.row2state[id]
 
-    fun getColState(id: Int): HintState? {
-        return state()!!.col2state[id]
-    }
+    fun getColState(id: Int) = state()!!.col2state[id]
 
     companion object {
         var offset = arrayOf(

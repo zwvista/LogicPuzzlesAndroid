@@ -11,13 +11,9 @@ class CloudsGameState(game: CloudsGame?) : CellsGameState<CloudsGame?, CloudsGam
     var objArray: Array<CloudsObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    operator fun get(row: Int, col: Int): CloudsObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): CloudsObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: CloudsObject?) {
         objArray[row * cols() + col] = obj

@@ -14,7 +14,5 @@ class LightBattleShipsOptionsActivity : GameOptionsActivity<LightBattleShipsGame
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightBattleShipsDocument? = null
-    override fun doc(): LightBattleShipsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

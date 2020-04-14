@@ -19,14 +19,10 @@ class LineSweeperGameActivity : GameGameActivity<LineSweeperGame?, LineSweeperDo
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LineSweeperDocument? = null
-    override fun doc(): LineSweeperDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: LineSweeperGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

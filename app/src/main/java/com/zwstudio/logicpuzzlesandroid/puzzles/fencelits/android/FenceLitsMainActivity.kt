@@ -15,9 +15,7 @@ class FenceLitsMainActivity : GameMainActivity<FenceLitsGame?, FenceLitsDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FenceLitsDocument? = null
-    override fun doc(): FenceLitsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

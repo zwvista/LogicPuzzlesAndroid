@@ -9,13 +9,9 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
     var pos2area: Map<Position, Int> = HashMap()
     var dots: GridDots
     var objArray: CharArray
-    operator fun get(row: Int, col: Int): Char {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position): Char {
-        return get(p.row, p.col)
-    }
+    operator fun get(p: Position) = get(p.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Char) {
         objArray[row * cols() + col] = obj
@@ -45,21 +41,13 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
     fun switchObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::switchObject)
     fun setObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::setObject)
 
-    fun getObject(p: Position?): Char {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Char {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun getPosState(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun getPosState(p: Position?) = state().pos2state.get(p)
 
-    fun getDots(): GridDots {
-        return state().dots
-    }
+    fun getDots() = state().dots
 
     companion object {
         var offset = arrayOf(

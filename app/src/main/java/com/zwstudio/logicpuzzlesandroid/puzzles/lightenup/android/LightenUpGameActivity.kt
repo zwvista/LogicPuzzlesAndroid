@@ -19,14 +19,10 @@ class LightenUpGameActivity : GameGameActivity<LightenUpGame?, LightenUpDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightenUpDocument? = null
-    override fun doc(): LightenUpDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: LightenUpGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

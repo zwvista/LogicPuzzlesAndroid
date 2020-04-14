@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class Square100GameActivity : GameGameActivity<Square100Game?, Square100Document?, Square100GameMove?, Square100GameState?>() {
     @Bean
     protected var document: Square100Document? = null
-    override fun doc(): Square100Document {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: Square100GameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PowerGridGameActivity : GameGameActivity<PowerGridGame?, PowerGridDocument?, PowerGridGameMove?, PowerGridGameState?>() {
     @Bean
     protected var document: PowerGridDocument? = null
-    override fun doc(): PowerGridDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: PowerGridGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

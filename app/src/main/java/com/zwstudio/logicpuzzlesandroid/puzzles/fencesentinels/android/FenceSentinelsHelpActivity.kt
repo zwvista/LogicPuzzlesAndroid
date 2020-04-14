@@ -14,7 +14,5 @@ class FenceSentinelsHelpActivity : GameHelpActivity<FenceSentinelsGame?, FenceSe
     @kotlin.jvm.JvmField
     @Bean
     protected var document: FenceSentinelsDocument? = null
-    override fun doc(): FenceSentinelsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

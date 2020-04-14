@@ -26,13 +26,9 @@ class TierraDelFuegoGame(layout: List<String>, gi: GameInterface<TierraDelFuegoG
     fun switchObject(move: TierraDelFuegoGameMove) = changeObject(move, TierraDelFuegoGameState::switchObject)
     fun setObject(move: TierraDelFuegoGameMove) = changeObject(move, TierraDelFuegoGameState::setObject)
 
-    fun getObject(p: Position?): TierraDelFuegoObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): TierraDelFuegoObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
     companion object {
         var offset = arrayOf(

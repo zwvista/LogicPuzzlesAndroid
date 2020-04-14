@@ -7,13 +7,9 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame?, TentsGameMove
     var objArray: Array<TentsObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    operator fun get(row: Int, col: Int): TentsObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): TentsObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: TentsObject?) {
         objArray[row * cols() + col] = obj

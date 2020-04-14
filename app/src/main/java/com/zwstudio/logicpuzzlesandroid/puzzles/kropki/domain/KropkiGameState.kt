@@ -11,13 +11,9 @@ class KropkiGameState(game: KropkiGame?) : CellsGameState<KropkiGame?, KropkiGam
     var objArray: IntArray
     var pos2horzHint: MutableMap<Position?, HintState?> = HashMap()
     var pos2vertHint: Map<Position?, HintState?> = HashMap()
-    operator fun get(row: Int, col: Int): Int {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Int {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj

@@ -14,9 +14,7 @@ import org.androidannotations.annotations.EActivity
 class RippleEffectMainActivity : GameMainActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
     @Bean
     protected var document: RippleEffectDocument? = null
-    override fun doc(): RippleEffectDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

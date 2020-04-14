@@ -10,9 +10,7 @@ import java.util.*
 
 class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>, gdi: GameDocumentInterface) : CellsGame<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, Int> = HashMap()
-    fun isHint(p: Position?): Boolean {
-        return pos2hint.containsKey(p)
-    }
+    fun isHint(p: Position?) = pos2hint.containsKey(p)
 
     private fun changeObject(move: LineSweeperGameMove, f: (LineSweeperGameState, LineSweeperGameMove) -> Boolean): Boolean {
         if (canRedo()) {
@@ -31,21 +29,13 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
         return changed
     }
 
-    fun setObject(move: LineSweeperGameMove?): Boolean {
-        return changeObject(move, F2 { state: LineSweeperGameState?, move2: LineSweeperGameMove? -> state!!.setObject(move2) })
-    }
+    fun setObject(move: LineSweeperGameMove?) = changeObject(move, F2 { state: LineSweeperGameState?, move2: LineSweeperGameMove? -> state!!.setObject(move2) })
 
-    fun getObject(p: Position?): Array<Boolean?>? {
-        return state()!![p]
-    }
+    fun getObject(p: Position?) = state()!![p]
 
-    fun getObject(row: Int, col: Int): Array<Boolean>? {
-        return state()!![row, col]
-    }
+    fun getObject(row: Int, col: Int) = state()!![row, col]
 
-    fun pos2State(p: Position?): HintState? {
-        return state()!!.pos2state[p]
-    }
+    fun pos2State(p: Position?) = state()!!.pos2state[p]
 
     companion object {
         var offset = arrayOf(

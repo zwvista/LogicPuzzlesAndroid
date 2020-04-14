@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NeighboursGameActivity : GameGameActivity<NeighboursGame?, NeighboursDocument?, NeighboursGameMove?, NeighboursGameState?>() {
     @Bean
     protected var document: NeighboursDocument? = null
-    override fun doc(): NeighboursDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: NeighboursGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

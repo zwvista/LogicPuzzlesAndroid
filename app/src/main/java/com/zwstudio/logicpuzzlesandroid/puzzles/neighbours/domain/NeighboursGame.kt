@@ -8,13 +8,9 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
     var objArray: Array<Array<GridLineObject?>>
     var pos2hint: MutableMap<Position, Int> = HashMap()
     var areaSize = 0
-    operator fun get(row: Int, col: Int): Array<GridLineObject?> {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position): Array<GridLineObject?> {
-        return get(p.row, p.col)
-    }
+    operator fun get(p: Position) = get(p.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>) {
         objArray[row * cols() + col] = dotObj
@@ -44,17 +40,11 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
     fun switchObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::switchObject)
     fun setObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::setObject)
 
-    fun getObject(p: Position?): Array<GridLineObject> {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Array<GridLineObject> {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

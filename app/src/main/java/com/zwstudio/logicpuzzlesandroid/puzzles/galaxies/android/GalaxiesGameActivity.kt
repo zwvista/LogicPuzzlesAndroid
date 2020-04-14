@@ -19,14 +19,10 @@ class GalaxiesGameActivity : GameGameActivity<GalaxiesGame?, GalaxiesDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GalaxiesDocument? = null
-    override fun doc(): GalaxiesDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: GalaxiesGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

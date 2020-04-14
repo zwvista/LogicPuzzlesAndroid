@@ -19,14 +19,10 @@ class BoxItAgainGameActivity : GameGameActivity<BoxItAgainGame?, BoxItAgainDocum
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItAgainDocument? = null
-    override fun doc(): BoxItAgainDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: BoxItAgainGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

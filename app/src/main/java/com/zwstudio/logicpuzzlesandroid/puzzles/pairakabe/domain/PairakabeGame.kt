@@ -26,13 +26,9 @@ class PairakabeGame(layout: List<String>, gi: GameInterface<PairakabeGame, Paira
     fun switchObject(move: PairakabeGameMove) = changeObject(move, PairakabeGameState::switchObject)
     fun setObject(move: PairakabeGameMove) = changeObject(move, PairakabeGameState::setObject)
 
-    fun getObject(p: Position?): PairakabeObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): PairakabeObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
     companion object {
         var offset = arrayOf(

@@ -11,13 +11,9 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame?, SnakeGameMove
     var objArray: Array<SnakeObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    operator fun get(row: Int, col: Int): SnakeObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): SnakeObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: SnakeObject?) {
         objArray[row * cols() + col] = obj

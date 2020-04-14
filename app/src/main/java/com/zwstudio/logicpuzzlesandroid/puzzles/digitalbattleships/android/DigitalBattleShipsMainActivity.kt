@@ -15,9 +15,7 @@ class DigitalBattleShipsMainActivity : GameMainActivity<DigitalBattleShipsGame?,
     @kotlin.jvm.JvmField
     @Bean
     protected var document: DigitalBattleShipsDocument? = null
-    override fun doc(): DigitalBattleShipsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

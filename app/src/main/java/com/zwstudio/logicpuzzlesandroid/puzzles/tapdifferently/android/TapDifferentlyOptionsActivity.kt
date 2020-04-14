@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TapDifferentlyOptionsActivity : GameOptionsActivity<TapDifferentlyGame?, TapDifferentlyDocument?, TapDifferentlyGameMove?, TapDifferentlyGameState?>() {
     @Bean
     protected var document: TapDifferentlyDocument? = null
-    override fun doc(): TapDifferentlyDocument {
-        return document
-    }
+    override fun doc() = document
 }

@@ -18,14 +18,10 @@ import org.androidannotations.annotations.EActivity
 class TapARowGameActivity : GameGameActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
     @Bean
     protected var document: TapARowDocument? = null
-    override fun doc(): TapARowDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: TapARowGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

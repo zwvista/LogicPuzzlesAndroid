@@ -10,13 +10,9 @@ import java.util.*
 
 class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove, LoopyGameState>, gdi: GameDocumentInterface) : CellsGame<LoopyGame, LoopyGameMove, LoopyGameState>(gi, gdi) {
     var objArray: Array<Array<GridLineObject?>>
-    operator fun get(row: Int, col: Int): Array<GridLineObject?> {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Array<GridLineObject?> {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     private fun changeObject(move: LoopyGameMove, f: (LoopyGameState, LoopyGameMove) -> Boolean): Boolean {
         if (canRedo()) {

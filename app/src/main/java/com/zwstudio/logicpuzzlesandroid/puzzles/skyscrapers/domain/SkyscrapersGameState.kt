@@ -8,13 +8,9 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
     private val objArray: IntArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
-    operator fun get(row: Int, col: Int): Int {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Int {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
@@ -24,9 +20,7 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
         set(p!!.row, p.col, obj)
     }
 
-    fun getState(row: Int, col: Int): HintState? {
-        return if (row == 0 && col >= 1 && col < cols() - 1) col2state[col * 2] else if (row == rows() - 1 && col >= 1 && col < cols() - 1) col2state[col * 2 + 1] else if (col == 0 && row >= 1 && row < rows() - 1) row2state[row * 2] else if (col == cols() - 1 && row >= 1 && row < rows() - 1) row2state[row * 2 + 1] else HintState.Normal
-    }
+    fun getState(row: Int, col: Int) = if (row == 0 && col >= 1 && col < cols() - 1) col2state[col * 2] else if (row == rows() - 1 && col >= 1 && col < cols() - 1) col2state[col * 2 + 1] else if (col == 0 && row >= 1 && row < rows() - 1) row2state[row * 2] else if (col == cols() - 1 && row >= 1 && row < rows() - 1) row2state[row * 2 + 1] else HintState.Normal
 
     fun setObject(move: SkyscrapersGameMove): Boolean {
         val p: Position = move.p

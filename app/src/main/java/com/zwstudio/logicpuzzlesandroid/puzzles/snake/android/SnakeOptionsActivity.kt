@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SnakeOptionsActivity : GameOptionsActivity<SnakeGame?, SnakeDocument?, SnakeGameMove?, SnakeGameState?>() {
     @Bean
     protected var document: SnakeDocument? = null
-    override fun doc(): SnakeDocument {
-        return document
-    }
+    override fun doc() = document
 }

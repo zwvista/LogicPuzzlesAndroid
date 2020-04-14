@@ -24,21 +24,13 @@ class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, Num
         return changed
     }
 
-    fun setObject(move: NumberLinkGameMove): Boolean {
-        return changeObject(move, F2<NumberLinkGameState, NumberLinkGameMove, Boolean> { state: NumberLinkGameState, move2: NumberLinkGameMove -> state.setObject(move2) })
-    }
+    fun setObject(move: NumberLinkGameMove) = changeObject(move, F2<NumberLinkGameState, NumberLinkGameMove, Boolean> { state: NumberLinkGameState, move2: NumberLinkGameMove -> state.setObject(move2) })
 
-    fun getObject(p: Position?): Array<Boolean> {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): Array<Boolean> {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?): HintState {
-        return state().pos2state.get(p)
-    }
+    fun pos2State(p: Position?) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

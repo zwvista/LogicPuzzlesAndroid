@@ -9,14 +9,10 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class MathraxGameActivity : GameGameActivity<MathraxGame?, MathraxDocument?, MathraxGameMove?, MathraxGameState?>() {
     @Bean
     protected var document: MathraxDocument? = null
-    override fun doc(): MathraxDocument {
-        return document
-    }
+    override fun doc() = document
 
     protected var gameView: MathraxGameView? = null
-    protected override fun getGameView(): View {
-        return gameView
-    }
+    protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {

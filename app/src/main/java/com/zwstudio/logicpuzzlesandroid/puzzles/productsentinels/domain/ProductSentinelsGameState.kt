@@ -10,13 +10,9 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<ProductSentinelsGame?, ProductSentinelsGameMove?, ProductSentinelsGameState?>(game) {
     var objArray: Array<ProductSentinelsObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
-    operator fun get(row: Int, col: Int): ProductSentinelsObject? {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): ProductSentinelsObject? {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: ProductSentinelsObject?) {
         objArray[row * cols() + col] = obj

@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class NumberPathHelpActivity : GameHelpActivity<NumberPathGame?, NumberPathDocument?, NumberPathGameMove?, NumberPathGameState?>() {
     @Bean
     protected var document: NumberPathDocument? = null
-    override fun doc(): NumberPathDocument {
-        return document
-    }
+    override fun doc() = document
 }

@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class Square100MainActivity : GameMainActivity<Square100Game?, Square100Document?, Square100GameMove?, Square100GameState?>() {
     @Bean
     protected var document: Square100Document? = null
-    override fun doc(): Square100Document {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

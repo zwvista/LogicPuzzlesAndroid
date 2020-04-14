@@ -19,14 +19,10 @@ class CalcudokuGameActivity : GameGameActivity<CalcudokuGame?, CalcudokuDocument
     @kotlin.jvm.JvmField
     @Bean
     protected var document: CalcudokuDocument? = null
-    override fun doc(): CalcudokuDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: CalcudokuGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

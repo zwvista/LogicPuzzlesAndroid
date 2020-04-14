@@ -1,5 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pata.domainimport
 
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 
@@ -26,13 +29,9 @@ class PataGame(layout: List<String>, gi: GameInterface<PataGame, PataGameMove, P
     fun switchObject(move: PataGameMove) = changeObject(move, PataGameState::switchObject)
     fun setObject(move: PataGameMove) = changeObject(move, PataGameState::setObject)
 
-    fun getObject(p: Position?): PataObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): PataObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
     companion object {
         var offset = arrayOf(

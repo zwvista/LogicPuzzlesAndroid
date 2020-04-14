@@ -19,9 +19,7 @@ class TapaIslandsEmptyObject : TapaIslandsObject()
 
 class TapaIslandsHintObject : TapaIslandsObject() {
     var state: HintState = HintState.Normal
-    override fun objTypeAsString(): String {
-        return "hint"
-    }
+    override fun objTypeAsString() = "hint"
 }
 
 class TapaIslandsMarkerObject : TapaIslandsObject() {

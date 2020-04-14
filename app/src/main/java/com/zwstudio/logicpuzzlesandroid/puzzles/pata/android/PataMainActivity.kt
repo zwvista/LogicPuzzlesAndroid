@@ -7,9 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class PataMainActivity : GameMainActivity<PataGame?, PataDocument?, PataGameMove?, PataGameState?>() {
     @Bean
     protected var document: PataDocument? = null
-    override fun doc(): PataDocument {
-        return document
-    }
+    override fun doc() = document
 
     @Click
     fun btnOptions() {

@@ -15,9 +15,7 @@ class BoxItAgainMainActivity : GameMainActivity<BoxItAgainGame?, BoxItAgainDocum
     @kotlin.jvm.JvmField
     @Bean
     protected var document: BoxItAgainDocument? = null
-    override fun doc(): BoxItAgainDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     @Click
     fun btnOptions() {

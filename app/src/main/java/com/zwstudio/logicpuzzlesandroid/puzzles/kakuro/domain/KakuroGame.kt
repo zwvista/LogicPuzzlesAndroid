@@ -29,25 +29,15 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
         return changed
     }
 
-    fun switchObject(move: KakuroGameMove?): Boolean {
-        return changeObject(move, F2 { obj: KakuroGameState?, move: KakuroGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: KakuroGameMove?) = changeObject(move, F2 { obj: KakuroGameState?, move: KakuroGameMove? -> obj!!.switchObject(move) })
 
-    fun setObject(move: KakuroGameMove?): Boolean {
-        return changeObject(move, F2 { obj: KakuroGameState?, move: KakuroGameMove? -> obj!!.setObject(move) })
-    }
+    fun setObject(move: KakuroGameMove?) = changeObject(move, F2 { obj: KakuroGameState?, move: KakuroGameMove? -> obj!!.setObject(move) })
 
-    fun getObject(p: Position?): Int? {
-        return state()!![p]
-    }
+    fun getObject(p: Position?) = state()!![p]
 
-    fun getHorzState(p: Position?): HintState? {
-        return state()!!.pos2horzHint[p]
-    }
+    fun getHorzState(p: Position?) = state()!!.pos2horzHint[p]
 
-    fun getVertState(p: Position?): HintState? {
-        return state()!!.pos2vertHint[p]
-    }
+    fun getVertState(p: Position?) = state()!!.pos2vertHint[p]
 
     companion object {
         var offset = arrayOf(

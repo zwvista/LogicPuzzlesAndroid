@@ -12,13 +12,9 @@ import java.util.*
 class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>, gdi: GameDocumentInterface) : CellsGame<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>(gi, gdi) {
     var objArray: Array<Array<GridLineObject?>>
     var galaxies: MutableSet<Position> = HashSet()
-    operator fun get(row: Int, col: Int): Array<GridLineObject?> {
-        return objArray[row * cols() + col]
-    }
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?): Array<GridLineObject?> {
-        return get(p!!.row, p.col)
-    }
+    operator fun get(p: Position?) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>) {
         objArray[row * cols() + col] = dotObj
@@ -50,9 +46,7 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int)  = state()[row, col]
-    fun pos2State(p: Position?): HintState? {
-        return state()!!.pos2state[p]
-    }
+    fun pos2State(p: Position?) = state()!!.pos2state[p]
 
     companion object {
         var offset = arrayOf(

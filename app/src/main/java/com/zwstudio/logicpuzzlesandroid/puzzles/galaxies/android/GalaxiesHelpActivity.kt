@@ -14,7 +14,5 @@ class GalaxiesHelpActivity : GameHelpActivity<GalaxiesGame?, GalaxiesDocument?, 
     @kotlin.jvm.JvmField
     @Bean
     protected var document: GalaxiesDocument? = null
-    override fun doc(): GalaxiesDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 }

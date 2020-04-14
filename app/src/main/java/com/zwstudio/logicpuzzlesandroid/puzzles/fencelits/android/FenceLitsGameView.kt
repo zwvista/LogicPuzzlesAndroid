@@ -15,29 +15,17 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameMove
 
 class FenceLitsGameView : CellsGameView {
-    private fun activity(): FenceLitsGameActivity {
-        return context as FenceLitsGameActivity
-    }
+    private fun activity() = context as FenceLitsGameActivity
 
-    private fun game(): FenceLitsGame? {
-        return activity().game
-    }
+    private fun game() = activity().game
 
-    private fun rows(): Int {
-        return if (isInEditMode) 5 else game()!!.rows() - 1
-    }
+    private fun rows() = if (isInEditMode) 5 else game()!!.rows() - 1
 
-    private fun cols(): Int {
-        return if (isInEditMode) 5 else game()!!.cols() - 1
-    }
+    private fun cols() = if (isInEditMode) 5 else game()!!.cols() - 1
 
-    override fun rowsInView(): Int {
-        return rows()
-    }
+    override fun rowsInView() = rows()
 
-    override fun colsInView(): Int {
-        return cols()
-    }
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val line1Paint = Paint()

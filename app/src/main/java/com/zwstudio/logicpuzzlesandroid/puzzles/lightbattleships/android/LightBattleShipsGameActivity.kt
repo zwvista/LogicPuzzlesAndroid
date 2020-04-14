@@ -19,14 +19,10 @@ class LightBattleShipsGameActivity : GameGameActivity<LightBattleShipsGame?, Lig
     @kotlin.jvm.JvmField
     @Bean
     protected var document: LightBattleShipsDocument? = null
-    override fun doc(): LightBattleShipsDocument {
-        return document!!
-    }
+    override fun doc() = document!!
 
     protected var gameView: LightBattleShipsGameView? = null
-    override fun getGameView(): View {
-        return gameView!!
-    }
+    override fun getGameView() = gameView!!
 
     @AfterViews
     override fun init() {

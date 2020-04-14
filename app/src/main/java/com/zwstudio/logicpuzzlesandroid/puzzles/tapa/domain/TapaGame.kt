@@ -26,13 +26,9 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
     fun switchObject(move: TapaGameMove) = changeObject(move, TapaGameState::switchObject)
     fun setObject(move: TapaGameMove) = changeObject(move, TapaGameState::setObject)
 
-    fun getObject(p: Position?): TapaObject {
-        return state().get(p)
-    }
+    fun getObject(p: Position?) = state().get(p)
 
-    fun getObject(row: Int, col: Int): TapaObject {
-        return state().get(row, col)
-    }
+    fun getObject(row: Int, col: Int) = state().get(row, col)
 
     companion object {
         var offset = arrayOf(

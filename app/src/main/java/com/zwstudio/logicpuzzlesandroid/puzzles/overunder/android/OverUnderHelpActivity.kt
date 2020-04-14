@@ -7,7 +7,5 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class OverUnderHelpActivity : GameHelpActivity<OverUnderGame?, OverUnderDocument?, OverUnderGameMove?, OverUnderGameState?>() {
     @Bean
     protected var document: OverUnderDocument? = null
-    override fun doc(): OverUnderDocument {
-        return document
-    }
+    override fun doc() = document
 }
