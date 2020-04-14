@@ -54,7 +54,7 @@ class TapaIslandsGame(layout: List<String>, gi: GameInterface<TapaIslandsGame, T
             val str = layout[r]
             for (c in 0 until cols()) {
                 val p = Position(r, c)
-                val s = str.substring(c * 4, c * 4 + 4).trim { it <= ' ' }
+                val s = str.substring(c * 4, c * 4 + 4).trim(' ')
                 if (s.isEmpty()) continue
                 val hint = mutableListOf<Int>()
                 for (ch in s.toCharArray()) {

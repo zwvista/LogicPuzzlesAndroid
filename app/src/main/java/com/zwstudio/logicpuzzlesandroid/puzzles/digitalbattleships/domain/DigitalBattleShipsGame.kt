@@ -38,7 +38,7 @@ class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBatt
             for (c in 0 until cols() + 1) {
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue
-                val n = s.trim { it <= ' ' }.toInt()
+                val n = s.trim(' ').toInt()
                 if (r == rows())
                     col2hint[c] = n
                 else if (c == cols())

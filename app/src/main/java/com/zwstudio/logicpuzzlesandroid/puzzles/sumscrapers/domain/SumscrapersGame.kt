@@ -61,7 +61,7 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols()) {
-                val s = str.substring(c * 2, c * 2 + 2).trim { it <= ' ' }
+                val s = str.substring(c * 2, c * 2 + 2).trim(' ')
                 val n = if (s == "") 0 else s.toInt()
                 set(r, c, n)
             }

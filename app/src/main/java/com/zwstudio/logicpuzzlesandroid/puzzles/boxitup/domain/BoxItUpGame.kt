@@ -39,7 +39,7 @@ class BoxItUpGame(layout: List<String>, gi: GameInterface<BoxItUpGame, BoxItUpGa
                 val p = Position(r, c)
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue
-                val n = s.trim { it <= ' ' }.toInt()
+                val n = s.trim(' ').toInt()
                 pos2hint[p] = n
             }
         }

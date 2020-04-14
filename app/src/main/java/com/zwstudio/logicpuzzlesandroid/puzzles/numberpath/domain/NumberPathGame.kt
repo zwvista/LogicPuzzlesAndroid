@@ -61,7 +61,7 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
             val str = layout[r]
             for (c in 0 until cols()) {
                 val p = Position(r, c)
-                val s = str.substring(c * 2, c * 2 + 2).trim { it <= ' ' }
+                val s = str.substring(c * 2, c * 2 + 2).trim(' ')
                 set(p, Integer.valueOf(s))
             }
         }

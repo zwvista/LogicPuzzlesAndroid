@@ -49,7 +49,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 g.addNode(node)
                 pos2node[p] = node
                 if (s == "  ") continue
-                pos2hint[p] = CalcudokuHint(ch2, if (s == "  ") 0 else s.trim { it <= ' ' }.toInt())
+                pos2hint[p] = CalcudokuHint(ch2, if (s == "  ") 0 else s.trim(' ').toInt())
             }
         }
         for (r in 0 until rows()) for (c in 0 until cols()) {

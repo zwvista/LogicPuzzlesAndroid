@@ -57,7 +57,7 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
             val str = layout[r]
             for (c in 0 until cols()) {
                 val s = str.substring(c * 2, c * 2 + 2)
-                val n = if (s == "  ") -1 else s.trim { it <= ' ' }.toInt()
+                val n = if (s == "  ") -1 else s.trim(' ').toInt()
                 set(r, c, n)
             }
         }

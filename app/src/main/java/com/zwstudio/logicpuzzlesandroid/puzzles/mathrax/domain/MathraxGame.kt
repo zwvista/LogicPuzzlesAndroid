@@ -47,7 +47,7 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
                 val s = str.substring(c * 3, c * 3 + 2)
                 val ch = str[c * 3 + 2]
                 if (ch == ' ') continue
-                pos2hint[p] = MathraxHint(ch, if (s == "  ") 0 else s.trim { it <= ' ' }.toInt())
+                pos2hint[p] = MathraxHint(ch, if (s == "  ") 0 else s.trim(' ').toInt())
             }
         }
         val state = MathraxGameState(this)
