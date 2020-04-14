@@ -12,13 +12,13 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
     var area2state: Array<HintState?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: Int) {
+    operator fun set(p: Position, obj: Int) {
         set(p!!.row, p.col, obj)
     }
 
@@ -64,7 +64,7 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
         Stream.range(0, rows().toLong()).foreachDoEffect(Effect1<Int> { r: Int -> row2state[r] = f.f(Stream.range(0, cols().toLong()).map<Int>(F<Int, Int> { c: Int -> get(r, c) }).toJavaList()) })
         Stream.range(0, cols().toLong()).foreachDoEffect(Effect1<Int> { c: Int -> col2state[c] = f.f(Stream.range(0, rows().toLong()).map<Int>(F<Int, Int> { r: Int -> get(r, c) }).toJavaList()) })
         Stream.range(0, game.areas.size.toLong()).foreachDoEffect(Effect1<Int> { i: Int? ->
-            val nums = fj.data.List.iterableList<Position>(game.areas.get(i)).map<Int>(F<Position, Int> { p: Position? -> get(p) }).toJavaList()
+            val nums = fj.data.List.iterableList<Position>(game.areas.get(i)).map<Int>(F<Position, Int> { p: Position -> get(p) }).toJavaList()
             // 2. Each 2*1 brick contains and odd and an even number, while 1*1 bricks
             // can contain any number.
             area2state[i!!] = if (nums.contains(0)) HintState.Normal else if (nums.size == 1 || nums[0] % 2 == 0 && nums[1] % 2 == 1 || nums[0] % 2 == 1 && nums[1] % 2 == 0) HintState.Complete else HintState.Error

@@ -18,7 +18,7 @@ class WallsGame(layout: List<String>, gi: GameInterface<WallsGame, WallsGameMove
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -26,11 +26,11 @@ class WallsGame(layout: List<String>, gi: GameInterface<WallsGame, WallsGameMove
     fun switchObject(move: WallsGameMove) = changeObject(move, WallsGameState::switchObject)
     fun setObject(move: WallsGameMove) = changeObject(move, WallsGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?) = state().pos2state.get(p)
+    fun pos2State(p: Position) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

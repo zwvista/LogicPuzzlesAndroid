@@ -13,13 +13,13 @@ class KropkiGameState(game: KropkiGame?) : CellsGameState<KropkiGame?, KropkiGam
     var pos2vertHint: Map<Position?, HintState?> = HashMap()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: Int) {
+    operator fun set(p: Position, obj: Int) {
         set(p!!.row, p.col, obj)
     }
 
@@ -75,7 +75,7 @@ class KropkiGameState(game: KropkiGame?) : CellsGameState<KropkiGame?, KropkiGam
         // 7. In later 9*9 levels you will also have bordered and coloured areas,
         // which must also contain all the numbers 1 to 9.
         if (game!!.bordered) fj.data.List.iterableList(game!!.areas).foreachDoEffect { a: List<Position?>? ->
-            val nums = HashSet.iterableHashSet(fj.data.List.iterableList(a).map { p: Position? -> get(p) })
+            val nums = HashSet.iterableHashSet(fj.data.List.iterableList(a).map { p: Position -> get(p) })
             if (nums.contains(0) || nums.size() != a!!.size) isSolved = false
         }
         for (r in 0 until rows()) for (c in 0 until cols()) {

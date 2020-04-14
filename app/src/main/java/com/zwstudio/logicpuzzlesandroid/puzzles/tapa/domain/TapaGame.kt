@@ -18,7 +18,7 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -26,7 +26,7 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
     fun switchObject(move: TapaGameMove) = changeObject(move, TapaGameState::switchObject)
     fun setObject(move: TapaGameMove) = changeObject(move, TapaGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 

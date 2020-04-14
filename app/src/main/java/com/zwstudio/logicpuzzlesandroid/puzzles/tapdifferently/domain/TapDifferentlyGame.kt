@@ -18,7 +18,7 @@ class TapDifferentlyGame(layout: List<String>, gi: GameInterface<TapDifferentlyG
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -26,7 +26,7 @@ class TapDifferentlyGame(layout: List<String>, gi: GameInterface<TapDifferentlyG
     fun switchObject(move: TapDifferentlyGameMove) = changeObject(move, TapDifferentlyGameState::switchObject)
     fun setObject(move: TapDifferentlyGameMove) = changeObject(move, TapDifferentlyGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 

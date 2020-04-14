@@ -29,7 +29,7 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -37,11 +37,11 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
     fun switchObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::switchObject)
     fun setObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun getPosState(p: Position?) = state().pos2state.get(p)
+    fun getPosState(p: Position) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

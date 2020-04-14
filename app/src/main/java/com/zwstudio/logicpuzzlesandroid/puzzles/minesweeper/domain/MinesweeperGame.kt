@@ -51,7 +51,7 @@ class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, M
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -59,7 +59,7 @@ class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, M
     fun switchObject(move: MinesweeperGameMove) = changeObject(move, MinesweeperGameState::switchObject)
     fun setObject(move: MinesweeperGameMove) = changeObject(move, MinesweeperGameState::setObject)
 
-    fun getObject(p: Position?) = state()[p]
+    fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
     fun pos2State(p: Position) = state().pos2state[p]
 }

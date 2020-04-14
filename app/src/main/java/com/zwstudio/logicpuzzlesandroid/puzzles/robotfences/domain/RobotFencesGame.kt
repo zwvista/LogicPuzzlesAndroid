@@ -35,7 +35,7 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -43,7 +43,7 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
     fun switchObject(move: RobotFencesGameMove) = changeObject(move, RobotFencesGameState::switchObject)
     fun setObject(move: RobotFencesGameMove) = changeObject(move, RobotFencesGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 

@@ -11,7 +11,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame?, O
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>) {
         objArray[row * cols() + col] = dotObj
@@ -84,7 +84,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame?, O
             for (p in area) pos2node.remove(p)
         }
         for (area in areas) {
-            val rng = fj.data.List.iterableList(area).filter(F<Position, Boolean> { p: Position? -> game.pos2hint.containsKey(p) }).toJavaList()
+            val rng = fj.data.List.iterableList(area).filter(F<Position, Boolean> { p: Position -> game.pos2hint.containsKey(p) }).toJavaList()
             // 2. Each region must contain two numbers.
             if (rng.size != 2) {
                 for (p in rng) pos2state[p] = HintState.Normal

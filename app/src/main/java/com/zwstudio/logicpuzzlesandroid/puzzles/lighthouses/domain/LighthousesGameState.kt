@@ -14,13 +14,13 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: LighthousesObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: LighthousesObject?) {
+    operator fun set(p: Position, obj: LighthousesObject?) {
         set(p!!.row, p.col, obj)
     }
 

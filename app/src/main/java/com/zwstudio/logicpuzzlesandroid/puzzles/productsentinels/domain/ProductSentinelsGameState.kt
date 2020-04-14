@@ -12,13 +12,13 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: ProductSentinelsObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: ProductSentinelsObject?) {
+    operator fun set(p: Position, obj: ProductSentinelsObject?) {
         set(p!!.row, p.col, obj)
     }
 

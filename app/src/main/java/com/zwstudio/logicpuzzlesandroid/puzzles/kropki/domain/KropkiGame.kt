@@ -118,6 +118,6 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getHorzState(p: Position?) = state().pos2horzHint[p]
-    fun getVertState(p: Position?) = state().pos2vertHint[p]
+    fun getHorzState(p: Position) = state().pos2horzHint[p]
+    fun getVertState(p: Position) = state().pos2vertHint[p]
 }

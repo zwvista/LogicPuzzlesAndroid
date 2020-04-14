@@ -17,13 +17,13 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame?, F
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Char) {
         objArray[row * cols() + col] = dotObj
     }
 
-    operator fun set(p: Position?, obj: Char) {
+    operator fun set(p: Position, obj: Char) {
         set(p!!.row, p.col, obj)
     }
 

@@ -11,13 +11,13 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
     var pos2state = mutableMapOf<Position, AllowedObjectState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: DisconnectFourObject?) {
         objArray[row * cols() + col] = dotObj
     }
 
-    operator fun set(p: Position?, obj: DisconnectFourObject?) {
+    operator fun set(p: Position, obj: DisconnectFourObject?) {
         set(p!!.row, p.col, obj)
     }
 

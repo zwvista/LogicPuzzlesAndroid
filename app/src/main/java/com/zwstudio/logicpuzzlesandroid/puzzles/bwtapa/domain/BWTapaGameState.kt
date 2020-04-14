@@ -13,13 +13,13 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame?, BWTapaGame
     var objArray: Array<BWTapaObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: BWTapaObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: BWTapaObject?) {
+    operator fun set(p: Position, obj: BWTapaObject?) {
         set(p!!.row, p.col, obj)
     }
 

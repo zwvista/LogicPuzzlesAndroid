@@ -12,13 +12,13 @@ class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGa
     var area2state: Array<HintState?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: Int) {
+    operator fun set(p: Position, obj: Int) {
         set(p!!.row, p.col, obj)
     }
 
@@ -64,7 +64,7 @@ class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGa
         // 3. No same number can appear in the same column.
         Stream.range(0, cols().toLong()).foreachDoEffect(Effect1<Int> { c: Int -> col2state[c] = f.f(Stream.range(0, rows().toLong()).map<Int>(F<Int, Int> { r: Int -> get(r, c) }).toJavaList()) })
         // 1. You need to fill each region with a randomly ordered sequence of numbers.
-        Stream.range(0, game.areas.size.toLong()).foreachDoEffect(Effect1<Int> { i: Int? -> area2state[i!!] = f.f(fj.data.List.iterableList<Position>(game.areas.get(i)).map<Int>(F<Position, Int> { p: Position? -> get(p) }).toJavaList()) })
+        Stream.range(0, game.areas.size.toLong()).foreachDoEffect(Effect1<Int> { i: Int? -> area2state[i!!] = f.f(fj.data.List.iterableList<Position>(game.areas.get(i)).map<Int>(F<Position, Int> { p: Position -> get(p) }).toJavaList()) })
     }
 
     init {

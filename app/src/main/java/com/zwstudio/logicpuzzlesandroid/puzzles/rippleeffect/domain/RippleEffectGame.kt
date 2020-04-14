@@ -14,7 +14,7 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
     var objArray: IntArray
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
@@ -45,11 +45,11 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
 
     fun setObject(move: RippleEffectGameMove) = changeObject(move, F2 { obj: RippleEffectGameState?, move: RippleEffectGameMove -> obj!!.setObject(move) })
 
-    fun getObject(p: Position?) = state()!![p]
+    fun getObject(p: Position) = state()!![p]
 
     fun getObject(row: Int, col: Int) = state()!![row, col]
 
-    fun pos2State(p: Position?) = state()!!.pos2state[p]
+    fun pos2State(p: Position) = state()!!.pos2state[p]
 
     companion object {
         var offset = arrayOf(

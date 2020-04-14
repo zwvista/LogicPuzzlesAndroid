@@ -81,7 +81,7 @@ class MasyuGameView : CellsGameView {
         val col = (event.getX() / cellWidth) as Int
         val row = (event.getY() / cellHeight) as Int
         if (col >= cols() || row >= rows()) return true
-        var p: Position? = Position(row, col)
+        var p: Position = Position(row, col)
         val f = Effect0 { activity().app.soundManager.playSoundTap() }
         when (event.getAction()) {
             MotionEvent.ACTION_DOWN -> {

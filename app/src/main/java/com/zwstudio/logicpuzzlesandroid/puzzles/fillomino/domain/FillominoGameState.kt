@@ -14,13 +14,13 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame?, F
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Char) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: Char) {
+    operator fun set(p: Position, obj: Char) {
         set(p!!.row, p.col, obj)
     }
 

@@ -9,9 +9,9 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame?, KakuroGame
     var pos2num = mutableMapOf<Position, Int>()
     var pos2horzHint = mutableMapOf<Position, HintState>()
     var pos2vertHint = mutableMapOf<Position, HintState>()
-    operator fun get(p: Position?) = pos2num[p]!!
+    operator fun get(p: Position) = pos2num[p]!!
 
-    operator fun set(p: Position?, obj: Int?) {
+    operator fun set(p: Position, obj: Int?) {
         pos2num[p] = obj
     }
 

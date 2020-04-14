@@ -8,13 +8,13 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame?, Nuri
     var objArray: Array<NurikabeObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: NurikabeObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: NurikabeObject?) {
+    operator fun set(p: Position, obj: NurikabeObject?) {
         set(p!!.row, p.col, obj)
     }
 

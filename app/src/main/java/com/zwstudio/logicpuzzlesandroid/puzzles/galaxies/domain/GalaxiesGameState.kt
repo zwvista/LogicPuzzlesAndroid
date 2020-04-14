@@ -12,7 +12,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, Gala
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>?) {
         objArray!![row * cols() + col] = dotObj
@@ -95,7 +95,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, Gala
         }
         var n1 = 0
         for (area in areas) {
-            val rng = fj.data.List.iterableList(game!!.galaxies).filter { p: Position? -> area.contains(Position(p!!.row / 2, p.col / 2)) }.toJavaList()
+            val rng = fj.data.List.iterableList(game!!.galaxies).filter { p: Position -> area.contains(Position(p!!.row / 2, p.col / 2)) }.toJavaList()
             if (rng.size != 1) {
                 // 3. Galaxies can't overlap.
                 for (p in rng) pos2state[p] = HintState.Normal

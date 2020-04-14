@@ -14,7 +14,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame?, F
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     fun setObject(move: FenceLitsGameMove?): Boolean {
         val p1 = move!!.p

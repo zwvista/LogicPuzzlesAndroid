@@ -14,7 +14,7 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     fun setObject(move: CarpentersSquareGameMove?): Boolean {
         val p1 = move!!.p
@@ -81,7 +81,7 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
             val nodeList = g.bfs()
             val area = fj.data.HashMap.fromMap(pos2node).toStream().filter { e: P2<Position, Node> -> nodeList.contains(e._2()) }.map { e: P2<Position, Node> -> e._1() }.toJavaList()
             for (p in area) pos2node.remove(p)
-            val rngHint = List.iterableList(area).filter { p: Position? -> game!!.pos2hint.containsKey(p) }.toJavaList()
+            val rngHint = List.iterableList(area).filter { p: Position -> game!!.pos2hint.containsKey(p) }.toJavaList()
             val n1 = nodeList.size
             var r2 = 0
             var r1 = rows()

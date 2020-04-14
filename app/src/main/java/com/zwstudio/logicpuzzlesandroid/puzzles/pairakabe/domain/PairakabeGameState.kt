@@ -9,13 +9,13 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame?, P
     var objArray: Array<PairakabeObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: PairakabeObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: PairakabeObject?) {
+    operator fun set(p: Position, obj: PairakabeObject?) {
         set(p!!.row, p.col, obj)
     }
 

@@ -14,13 +14,13 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
     var pos2state: Map<Position?, HintState?> = HashMap()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: LitsObject?) {
         objArray[row * cols() + col] = dotObj
     }
 
-    operator fun set(p: Position?, obj: LitsObject?) {
+    operator fun set(p: Position, obj: LitsObject?) {
         set(p!!.row, p.col, obj)
     }
 

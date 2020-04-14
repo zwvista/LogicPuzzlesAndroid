@@ -9,13 +9,13 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame?, PataGameMove?, P
     var objArray: Array<PataObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: PataObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: PataObject?) {
+    operator fun set(p: Position, obj: PataObject?) {
         set(p!!.row, p.col, obj)
     }
 

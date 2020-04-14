@@ -10,7 +10,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame?, LoopyGameMove
     var objArray: Array<Array<GridLineObject?>?>?
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     private fun isValidMove(move: LoopyGameMove?) = !(move!!.p!!.row == rows() - 1 && move.dir == 2 || move.p!!.col == cols() - 1 && move.dir == 1)
 

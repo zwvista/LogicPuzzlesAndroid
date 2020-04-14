@@ -11,13 +11,13 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame?, L
     var objArray: Array<LightenUpObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: LightenUpObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: LightenUpObject?) {
+    operator fun set(p: Position, obj: LightenUpObject?) {
         set(p!!.row, p.col, obj)
     }
 

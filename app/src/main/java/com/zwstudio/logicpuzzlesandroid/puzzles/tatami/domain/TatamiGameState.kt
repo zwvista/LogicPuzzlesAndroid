@@ -11,13 +11,13 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame?, TatamiGame
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Char) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: Char) {
+    operator fun set(p: Position, obj: Char) {
         set(p!!.row, p.col, obj)
     }
 
@@ -109,7 +109,7 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame?, TatamiGame
         }
         // 2. Each number can appear only once in each Tatami.
         for (a in game.areas) {
-            val chars = List.iterableList<Position>(a).map<Char>(F<Position, Char> { p: Position? -> get(p) }).sort(Ord.charOrd).toJavaList()
+            val chars = List.iterableList<Position>(a).map<Char>(F<Position, Char> { p: Position -> get(p) }).sort(Ord.charOrd).toJavaList()
             if (chars[0] != ' ' && chars != chars2) {
                 isSolved = false
                 for (p in a) pos2state[p] = HintState.Error

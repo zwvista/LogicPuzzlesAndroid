@@ -14,7 +14,7 @@ class NumberPathGameState(game: NumberPathGame?) : CellsGameState<NumberPathGame
     var pos2state: Map<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Array<Boolean?>) {
         objArray[row * cols() + col] = obj

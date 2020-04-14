@@ -11,7 +11,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame?) : CellsGameState<FenceS
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>) {
         objArray[row * cols() + col] = dotObj

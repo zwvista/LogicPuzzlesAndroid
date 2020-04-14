@@ -12,13 +12,13 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
     var objArray: Array<TapaIslandsObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: TapaIslandsObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: TapaIslandsObject?) {
+    operator fun set(p: Position, obj: TapaIslandsObject?) {
         set(p!!.row, p.col, obj)
     }
 

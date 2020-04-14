@@ -12,13 +12,13 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
     var objArray: Array<CarpentersWallObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: CarpentersWallObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: CarpentersWallObject?) {
+    operator fun set(p: Position, obj: CarpentersWallObject?) {
         set(p!!.row, p.col, obj)
     }
 
@@ -108,7 +108,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
             val nodeList = g.bfs()
             val area = fj.data.HashMap.fromMap(pos2node).toStream().filter { e: P2<Position, Node> -> nodeList.contains(e._2()) }.map { e: P2<Position, Node> -> e._1() }.toJavaList()
             rngEmpty = List.iterableList(rngEmpty).removeAll { p: Position -> nodeList.contains(pos2node[p]) }.toJavaList()
-            val rngHint = List.iterableList(area).filter { p: Position? -> get(p)!!.isHint }.toJavaList()
+            val rngHint = List.iterableList(area).filter { p: Position -> get(p)!!.isHint }.toJavaList()
             val n1 = nodeList.size
             var r2 = 0
             var r1 = rows()

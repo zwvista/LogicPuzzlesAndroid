@@ -33,18 +33,18 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
 
     fun setObject(move: NumberPathGameMove) = changeObject(move, NumberPathGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun pos2State(p: Position?) = state().pos2state.get(p)
+    fun pos2State(p: Position) = state().pos2state.get(p)
 
     companion object {
         var offset = arrayOf(

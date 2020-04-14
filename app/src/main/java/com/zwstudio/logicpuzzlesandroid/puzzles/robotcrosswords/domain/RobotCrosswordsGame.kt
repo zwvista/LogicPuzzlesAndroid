@@ -32,7 +32,7 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -40,13 +40,13 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
     fun switchObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::switchObject)
     fun setObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 
-    fun getHorzState(p: Position?) = state().pos2horzState.get(p)
+    fun getHorzState(p: Position) = state().pos2horzState.get(p)
 
-    fun getVertState(p: Position?) = state().pos2vertState.get(p)
+    fun getVertState(p: Position) = state().pos2vertState.get(p)
 
     companion object {
         var offset = arrayOf(

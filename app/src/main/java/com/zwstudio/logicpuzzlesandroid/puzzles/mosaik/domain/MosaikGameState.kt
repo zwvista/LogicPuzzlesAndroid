@@ -9,13 +9,13 @@ class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame?, MosaikGame
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: MosaikObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: MosaikObject?) {
+    operator fun set(p: Position, obj: MosaikObject?) {
         set(p!!.row, p.col, obj)
     }
 

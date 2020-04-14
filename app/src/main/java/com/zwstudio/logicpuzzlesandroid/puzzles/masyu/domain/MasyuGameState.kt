@@ -10,7 +10,7 @@ class MasyuGameState(game: MasyuGame?) : CellsGameState<MasyuGame?, MasyuGameMov
     var objArray: Array<Array<Boolean?>>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<Boolean?>) {
         objArray[row * cols() + col] = dotObj

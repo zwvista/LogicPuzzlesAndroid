@@ -50,12 +50,12 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
 
     fun setObject(move: MasyuGameMove) = changeObject(move, MasyuGameState::setObject)
-    fun getObject(p: Position?) = state()[p]
+    fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
 }

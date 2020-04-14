@@ -11,7 +11,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame?
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>) {
         objArray[row * cols() + col] = dotObj
@@ -96,7 +96,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame?
         }
         val n2: Int = game.areaSize
         for (area in areas) {
-            val rng = fj.data.List.iterableList(area).filter(F<Position, Boolean> { p: Position? -> game.pos2hint.containsKey(p) }).toJavaList()
+            val rng = fj.data.List.iterableList(area).filter(F<Position, Boolean> { p: Position -> game.pos2hint.containsKey(p) }).toJavaList()
             if (rng.size != 1) {
                 for (p in rng) pos2state[p] = HintState.Normal
                 isSolved = false

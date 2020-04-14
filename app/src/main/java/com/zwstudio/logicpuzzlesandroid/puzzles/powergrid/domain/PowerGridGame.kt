@@ -53,7 +53,7 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }

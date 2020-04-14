@@ -13,13 +13,13 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame?, M
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: MineShipsObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: MineShipsObject?) {
+    operator fun set(p: Position, obj: MineShipsObject?) {
         set(p!!.row, p.col, obj)
     }
 

@@ -58,7 +58,7 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
     }
 
     fun setObject(move: LineSweeperGameMove) = changeObject(move, LineSweeperGameState::setObject)
-    fun getObject(p: Position?) = state()[p]
+    fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
-    fun pos2State(p: Position?) = state().pos2state[p]
+    fun pos2State(p: Position) = state().pos2state[p]
 }

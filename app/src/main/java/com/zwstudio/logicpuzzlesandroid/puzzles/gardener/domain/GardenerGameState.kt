@@ -16,13 +16,13 @@ class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, Gar
     var invalidSpacesVert = mutableSetOf<Position>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: GardenerObject?) {
         objArray[row * cols() + col] = dotObj
     }
 
-    operator fun set(p: Position?, obj: GardenerObject?) {
+    operator fun set(p: Position, obj: GardenerObject?) {
         set(p!!.row, p.col, obj)
     }
 
@@ -135,7 +135,7 @@ class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, Gar
         // 7. In other words, a straight path of empty space can't pass through
         // three or more Flowerbeds.
         val checkSpaces = Effect1 { isHorz: Boolean ->
-            if (HashSet(List.iterableList(spaces).map { p: Position? -> game!!.pos2area[p] }.toJavaList()).size > 2) {
+            if (HashSet(List.iterableList(spaces).map { p: Position -> game!!.pos2area[p] }.toJavaList()).size > 2) {
                 isSolved = false
                 (if (isHorz) invalidSpacesHorz else invalidSpacesVert).addAll(spaces)
             }

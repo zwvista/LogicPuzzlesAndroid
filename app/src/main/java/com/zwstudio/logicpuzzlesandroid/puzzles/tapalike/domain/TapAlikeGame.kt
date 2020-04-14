@@ -18,7 +18,7 @@ class TapAlikeGame(layout: List<String>, gi: GameInterface<TapAlikeGame, TapAlik
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -26,7 +26,7 @@ class TapAlikeGame(layout: List<String>, gi: GameInterface<TapAlikeGame, TapAlik
     fun switchObject(move: TapAlikeGameMove) = changeObject(move, TapAlikeGameState::switchObject)
     fun setObject(move: TapAlikeGameMove) = changeObject(move, TapAlikeGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 

@@ -33,7 +33,7 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -41,7 +41,7 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
     fun switchObject(move: SkyscrapersGameMove) = changeObject(move, SkyscrapersGameState::switchObject)
     fun setObject(move: SkyscrapersGameMove) = changeObject(move, SkyscrapersGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 

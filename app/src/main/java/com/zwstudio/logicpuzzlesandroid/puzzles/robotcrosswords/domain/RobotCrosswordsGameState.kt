@@ -11,13 +11,13 @@ class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<Robot
     var pos2vertState: Map<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Int) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: Int) {
+    operator fun set(p: Position, obj: Int) {
         set(p!!.row, p.col, obj)
     }
 
@@ -52,7 +52,7 @@ class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<Robot
         isSolved = true
         for (i in game.areas.indices) {
             val a: List<Position> = game.areas.get(i)
-            val nums = fj.data.List.iterableList(a).map<Int>(F<Position, Int> { p: Position? -> get(p) }).toJavaList()
+            val nums = fj.data.List.iterableList(a).map<Int>(F<Position, Int> { p: Position -> get(p) }).toJavaList()
             val nums2 = Set.iterableSet(Ord.intOrd, nums).toJavaList()
             // 2. Each 'word' is formed by an uninterrupted sequence of numbers,
             // but in any order.

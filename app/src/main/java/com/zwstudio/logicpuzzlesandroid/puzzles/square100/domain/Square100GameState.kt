@@ -9,13 +9,13 @@ class Square100GameState(game: Square100Game) : CellsGameState<Square100Game?, S
     var col2hint: IntArray
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: String?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: String?) {
+    operator fun set(p: Position, obj: String?) {
         set(p!!.row, p.col, obj)
     }
 

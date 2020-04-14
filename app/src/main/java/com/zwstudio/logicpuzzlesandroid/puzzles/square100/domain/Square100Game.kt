@@ -29,7 +29,7 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -37,7 +37,7 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
     fun switchObject(move: Square100GameMove) = changeObject(move, Square100GameState::switchObject)
     fun setObject(move: Square100GameMove) = changeObject(move, Square100GameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 

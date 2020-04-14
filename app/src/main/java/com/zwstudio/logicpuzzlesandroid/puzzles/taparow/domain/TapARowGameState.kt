@@ -15,13 +15,13 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame?, TapARow
     var objArray: Array<TapARowObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: TapARowObject?) {
         objArray[row * cols() + col] = obj
     }
 
-    operator fun set(p: Position?, obj: TapARowObject?) {
+    operator fun set(p: Position, obj: TapARowObject?) {
         set(p!!.row, p.col, obj)
     }
 

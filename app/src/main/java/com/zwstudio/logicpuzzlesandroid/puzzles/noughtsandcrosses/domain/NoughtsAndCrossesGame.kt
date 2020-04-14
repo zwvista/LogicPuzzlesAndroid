@@ -61,7 +61,7 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -69,7 +69,7 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
     fun switchObject(move: NoughtsAndCrossesGameMove) = changeObject(move, NoughtsAndCrossesGameState::switchObject)
     fun setObject(move: NoughtsAndCrossesGameMove) = changeObject(move, NoughtsAndCrossesGameState::setObject)
 
-    fun getObject(p: Position?) = state()[p]
+    fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
     fun getRowState(row: Int) = state().row2state[row]
     fun getColState(col: Int) = state().col2state[col]

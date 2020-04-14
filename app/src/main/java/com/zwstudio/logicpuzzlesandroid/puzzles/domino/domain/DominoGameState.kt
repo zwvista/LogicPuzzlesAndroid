@@ -13,7 +13,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame?, DominoGame
     var pos2state: Map<Position?, HintState?> = HashMap()
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     fun setObject(move: DominoGameMove?): Boolean {
         val p1 = move!!.p
@@ -86,7 +86,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame?, DominoGame
                 isSolved = false
                 return
             }
-            val domino = fj.data.List.iterableList(area).map { p: Position? -> game!!.pos2hint[p] }.sort(Ord.intOrd).toJavaList()
+            val domino = fj.data.List.iterableList(area).map { p: Position -> game!!.pos2hint[p] }.sort(Ord.intOrd).toJavaList()
             // 2. In early levels the board contains a smaller Domino set, of numbers ranging from 0 to 3.
             // 3. This means you will be looking for a Domino set composed of these combinations.
             if (dominoes.contains(domino)) {

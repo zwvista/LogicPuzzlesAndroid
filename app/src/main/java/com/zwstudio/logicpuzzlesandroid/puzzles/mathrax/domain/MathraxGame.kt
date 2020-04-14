@@ -67,7 +67,7 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -75,7 +75,7 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
     fun switchObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::switchObject)
     fun setObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
     fun getObject(row: Int, col: Int) = state()[row, col]
     fun getRowState(row: Int) = state().row2state[row]
     fun getColState(col: Int) = state().col2state[col]

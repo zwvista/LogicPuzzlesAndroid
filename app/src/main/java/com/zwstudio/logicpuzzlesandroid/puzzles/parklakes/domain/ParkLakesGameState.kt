@@ -10,13 +10,13 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame?, P
     var objArray: Array<ParkLakesObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: ParkLakesObject?) {
         objArray[row * cols() + col] = dotObj
     }
 
-    operator fun set(p: Position?, obj: ParkLakesObject?) {
+    operator fun set(p: Position, obj: ParkLakesObject?) {
         set(p!!.row, p.col, obj)
     }
 

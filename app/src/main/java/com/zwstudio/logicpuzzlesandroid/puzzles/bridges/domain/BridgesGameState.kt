@@ -13,7 +13,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame?, Bridges
     var objArray: Array<BridgesObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: BridgesObject?) {
         objArray[row * cols() + col] = obj

@@ -13,7 +13,7 @@ class NumberLinkGameState(game: NumberLinkGame?) : CellsGameState<NumberLinkGame
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, obj: Array<Boolean?>) {
         objArray[row * cols() + col] = obj
@@ -111,7 +111,7 @@ class NumberLinkGameState(game: NumberLinkGame?) : CellsGameState<NumberLinkGame
             val nodeList = g.bfs()
             val area = fj.data.HashMap.fromMap(pos2node).toStream().filter(F<P2<Position, Node>, Boolean> { e: P2<Position?, Node?> -> nodeList.contains(e._2()) }).map<Position>(F<P2<Position, Node>, Position> { e: P2<Position?, Node?> -> e._1() }).toJavaList()
             for (p in area) pos2node.remove(p)
-            val rng1 = fj.data.List.iterableList(area).filter(F<Position, Boolean> { p: Position? -> game.pos2hint.get(p) != null }).toJavaList()
+            val rng1 = fj.data.List.iterableList(area).filter(F<Position, Boolean> { p: Position -> game.pos2hint.get(p) != null }).toJavaList()
             if (rng1.isEmpty()) {
                 isSolved = false
                 continue

@@ -67,5 +67,5 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
-    fun pos2State(p: Position?) = state().pos2state[p]
+    fun pos2State(p: Position) = state().pos2state[p]
 }

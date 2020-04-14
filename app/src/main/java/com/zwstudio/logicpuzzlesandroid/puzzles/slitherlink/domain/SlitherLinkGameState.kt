@@ -12,7 +12,7 @@ class SlitherLinkGameState(game: SlitherLinkGame?) : CellsGameState<SlitherLinkG
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    operator fun get(p: Position) = get(p!!.row, p.col)
 
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>) {
         objArray[row * cols() + col] = dotObj

@@ -20,7 +20,7 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
             stateIndex++
             moves.add(move)
             moveAdded(move)
-            levelUpdated(states.get(stateIndex - 1), state)
+            levelUpdated(states[stateIndex - 1], state)
         }
         return changed
     }
@@ -28,7 +28,7 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
     fun switchObject(move: TentsGameMove) = changeObject(move, TentsGameState::switchObject)
     fun setObject(move: TentsGameMove) = changeObject(move, TentsGameState::setObject)
 
-    fun getObject(p: Position?) = state().get(p)
+    fun getObject(p: Position) = state().get(p)
 
     fun getObject(row: Int, col: Int) = state().get(row, col)
 
