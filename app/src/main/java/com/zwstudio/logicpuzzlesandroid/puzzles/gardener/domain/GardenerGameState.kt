@@ -126,7 +126,7 @@ class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, Gar
                 if (o is GardenerEmptyObject || o is GardenerMarkerObject) set(p2, GardenerForbiddenObject())
             }
         }
-        val spaces: MutableList<Position> = ArrayList()
+        val spaces = mutableListOf<Position>()
         invalidSpacesHorz.clear()
         invalidSpacesVert.clear()
         // 6. Lastly, there must be enough balance in the Garden, so a straight

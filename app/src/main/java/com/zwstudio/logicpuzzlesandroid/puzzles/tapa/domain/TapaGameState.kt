@@ -79,7 +79,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame?, TapaGameMove?, T
         // tile has more than one number, it hints at multiple separated groups
         // of filled tiles.
         val computeHint: F<List<Int>, List<Int>> = F<List<Int>, List<Int>> { filled: List<Int> ->
-            val hint: MutableList<Int> = ArrayList()
+            val hint = mutableListOf<Int>()
             if (filled.isEmpty()) hint.add(0) else {
                 for (j in filled.indices) if (j == 0 || filled[j] - filled[j - 1] != 1) hint.add(1) else hint[hint.size - 1] = hint[hint.size - 1] + 1
                 if (filled.size > 1 && hint.size > 1 && filled[filled.size - 1] - filled[0] == 7) {

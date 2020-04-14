@@ -55,7 +55,7 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
                 val p = Position(r, c)
                 val s = str.substring(c * 4, c * 4 + 4).trim { it <= ' ' }
                 if (s.isEmpty()) continue
-                val hint: MutableList<Int> = ArrayList()
+                val hint = mutableListOf<Int>()
                 for (ch in s.toCharArray()) {
                     if (ch == '?' || ch >= '0' && ch <= '9') {
                         val n = if (ch == '?') -1 else ch - '0'

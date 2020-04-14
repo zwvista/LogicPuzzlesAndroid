@@ -18,7 +18,7 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
         set(p.row, p.col, obj)
     }
 
-    var areas: MutableList<List<Position>> = ArrayList()
+    var areas = mutableListOf<List<Position>>()
     var horzAreaCount = 0
     private fun changeObject(move: RobotCrosswordsGameMove, f: (RobotCrosswordsGameState, RobotCrosswordsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
@@ -66,7 +66,7 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
                 set(r, c, if (ch == '.') -1 else if (ch == ' ') 0 else ch - '0')
             }
         }
-        val area: MutableList<Position> = ArrayList()
+        val area = mutableListOf<Position>()
         val f: Effect1<Boolean> = label@ Effect1<Boolean> { isHorz: Boolean ->
             if (area.isEmpty()) return@label
             if (area.size > 1) {

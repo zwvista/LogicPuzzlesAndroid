@@ -30,8 +30,8 @@ class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGa
     fun setObject(move: TapARowGameMove) = changeObject(move, TapARowGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
->companion object {
+    fun getObject(row: Int, col: Int) = state()[row, col]
+companion object {
         var offset = arrayOf(
             Position(-1, 0),
             Position(-1, 1),
@@ -56,7 +56,7 @@ class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGa
                 val p = Position(r, c)
                 val s = str.substring(c * 4, c * 4 + 4).trim { it <= ' ' }
                 if (s.isEmpty()) continue
-                val hint: MutableList<Int> = ArrayList()
+                val hint = mutableListOf<Int>()
                 for (ch in s.toCharArray()) {
                     if (ch == '?' || ch >= '0' && ch <= '9') {
                         val n = if (ch == '?') -1 else ch - '0'

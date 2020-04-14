@@ -81,6 +81,6 @@ class BoxItUpGame(layout: List<String>, gi: GameInterface<BoxItUpGame, BoxItUpGa
     fun setObject(move: BoxItUpGameMove) = changeObject(move, BoxItUpGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun getState(p: Position) = state().pos2state[p]
 }

@@ -7,7 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove, TentsGameState>, gdi: GameDocumentInterface) : CellsGame<TentsGame, TentsGameMove, TentsGameState>(gi, gdi) {
     var row2hint: IntArray
     var col2hint: IntArray
-    var pos2tree: MutableList<Position> = ArrayList()
+    var pos2tree = mutableListOf<Position>()
     private fun changeObject(move: TentsGameMove, f: (TentsGameState, TentsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()

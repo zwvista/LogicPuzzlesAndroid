@@ -78,7 +78,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame?, P
                 if (node2 != null) g.connectNode(node, node2)
             }
         }
-        val areas: MutableList<List<Position>> = ArrayList()
+        val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.HashMap.fromMap(pos2node).values().head())

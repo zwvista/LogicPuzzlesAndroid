@@ -55,7 +55,7 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
             pos2state[p] = AllowedObjectState.Normal
         }
         var oLast: DisconnectFourObject? = DisconnectFourObject.Empty
-        val trees: MutableList<Position> = ArrayList()
+        val trees = mutableListOf<Position>()
         val checkTrees = Effect0 {
             if (trees.size > 3) {
                 isSolved = false

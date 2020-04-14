@@ -20,7 +20,7 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
         set(p.row, p.col, obj)
     }
 
-    var areas: MutableList<List<Position>> = ArrayList()
+    var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     private fun changeObject(move: RobotFencesGameMove, f: (RobotFencesGameState, RobotFencesGameMove) -> Boolean): Boolean {
@@ -77,8 +77,8 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
                 val p = Position(r, c)
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
-                    dots.set(r, c, 1, GridLineObject.Line)
-                    dots.set(r, c + 1, 3, GridLineObject.Line)
+                    dots[r, c, 1] = GridLineObject.Line
+                    dots[r, c + 1, 3] = GridLineObject.Line
                 }
             }
             if (r == rows()) break
@@ -87,8 +87,8 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
                 val p = Position(r, c)
                 val ch = str[c * 2]
                 if (ch == '|') {
-                    dots.set(r, c, 2, GridLineObject.Line)
-                    dots.set(r + 1, c, 0, GridLineObject.Line)
+                    dots[r, c, 2] = GridLineObject.Line
+                    dots[r + 1, c, 0] = GridLineObject.Line
                 }
                 if (c == cols()) break
                 val ch2 = str[c * 2 + 1]

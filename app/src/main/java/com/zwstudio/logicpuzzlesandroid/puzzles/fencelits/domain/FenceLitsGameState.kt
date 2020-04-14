@@ -92,7 +92,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame?, F
                 return
             }
             Collections.sort(area) { obj: Position, other: Position? -> obj.compareTo(other) }
-            val treeOffsets: MutableList<Position> = ArrayList()
+            val treeOffsets = mutableListOf<Position>()
             val p2 = Position(List.iterableList(area).map { p: Position -> p.row }.minimum(Ord.intOrd),
                 List.iterableList(area).map { p: Position -> p.col }.minimum(Ord.intOrd))
             for (p in area) treeOffsets.add(p.subtract(p2))

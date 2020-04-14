@@ -75,12 +75,12 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
             }
         }
         for (r in 0 until rows()) {
-            dots.set(r, 0, 2, GridLineObject.Line)
-            dots.set(r, cols(), 2, GridLineObject.Line)
+            dots[r, 0, 2] = GridLineObject.Line
+            dots[r, cols(), 2] = GridLineObject.Line
         }
         for (c in 0 until cols()) {
-            dots.set(0, c, 1, GridLineObject.Line)
-            dots.set(rows(), c, 1, GridLineObject.Line)
+            dots[0, c, 1] = GridLineObject.Line
+            dots[rows(), c, 1] = GridLineObject.Line
         }
         val state = TataminoGameState(this)
         states.add(state)

@@ -99,7 +99,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         // there are in that row and column, summed together.
         for ((p, n2) in game!!.pos2hint) {
             val nums = arrayOf(0, 0, 0, 0)
-            val rng: MutableList<Position> = ArrayList()
+            val rng = mutableListOf<Position>()
             for (i in 0..3) {
                 val os: Position = LightBattleShipsGame.Companion.offset.get(i * 2)
                 val p2 = p!!.add(os)

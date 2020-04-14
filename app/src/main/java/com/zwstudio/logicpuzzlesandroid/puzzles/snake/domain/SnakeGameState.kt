@@ -107,8 +107,8 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame?, SnakeGameMove
         val n2 = pos2node.values.size
         if (n1 != n2) isSolved = false
         for (p in pos2node.keys) {
-            val rngEmpty: MutableList<Position> = ArrayList()
-            val rngSnake: MutableList<Position> = ArrayList()
+            val rngEmpty = mutableListOf<Position>()
+            val rngSnake = mutableListOf<Position>()
             for (os in SnakeGame.Companion.offset) {
                 val p2 = p.add(os)
                 if (!isValid(p2)) continue

@@ -98,7 +98,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame?, S
         // located.
         for ((p, n2) in game.pos2hint.entries) {
             val nums = intArrayOf(0, 0, 0, 0)
-            val rng: MutableList<Position> = ArrayList()
+            val rng = mutableListOf<Position>()
             next@ for (i in 0..3) {
                 val os: Position = SentinelsGame.Companion.offset.get(i)
                 val p2 = p.add(os)

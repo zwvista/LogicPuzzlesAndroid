@@ -62,7 +62,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
     private fun updateIsSolved() {
         val allowedObjectsOnly = game!!.gdi.isAllowedObjectsOnly
         isSolved = true
-        val rngHints: MutableList<Position> = ArrayList()
+        val rngHints = mutableListOf<Position>()
         var g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
@@ -111,7 +111,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
                 g.connectNode(node, node2)
             }
         }
-        val areas: MutableList<List<Position>> = ArrayList()
+        val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.HashMap.fromMap(pos2node).values().head())

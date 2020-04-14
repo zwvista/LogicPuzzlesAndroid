@@ -77,7 +77,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame?, DominoGame
             val p = Position(r, c)
             for (i in 0..3) if (get(p.add(DominoGame.Companion.offset2.get(i)))!![DominoGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(DominoGame.Companion.offset.get(i))])
         }
-        val dominoes: MutableList<List<Int?>> = ArrayList()
+        val dominoes = mutableListOf<List<Int?>>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.HashMap.fromMap(pos2node).values().head())
             val nodeList = g.bfs()

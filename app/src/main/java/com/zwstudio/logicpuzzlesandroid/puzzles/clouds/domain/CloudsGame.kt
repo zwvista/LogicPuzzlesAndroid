@@ -18,7 +18,7 @@ class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameM
 
     var row2hint: IntArray
     var col2hint: IntArray
-    var pos2cloud: MutableList<Position> = ArrayList()
+    var pos2cloud = mutableListOf<Position>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

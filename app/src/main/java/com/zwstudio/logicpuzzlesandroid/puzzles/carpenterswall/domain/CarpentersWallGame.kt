@@ -42,7 +42,6 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
                     'v' -> this[p] = CarpentersWallDownObject()
                     '<' -> this[p] = CarpentersWallLeftObject()
                     '>' -> this[p] = CarpentersWallRightObject()
-                    else -> {}
                 }
             }
         }

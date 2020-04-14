@@ -22,7 +22,7 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
         val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var areas: MutableList<List<Position>> = ArrayList()
+    var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var row2hint: IntArray
@@ -39,8 +39,8 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
                 val p = Position(r, c)
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
-                    dots.set(r, c, 1, GridLineObject.Line)
-                    dots.set(r, c + 1, 3, GridLineObject.Line)
+                    dots[r, c, 1] = GridLineObject.Line
+                    dots[r, c + 1, 3] = GridLineObject.Line
                 }
             }
             if (r == rows()) break
@@ -49,8 +49,8 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
                 val p = Position(r, c)
                 val ch = str[c * 2]
                 if (ch == '|') {
-                    dots.set(r, c, 2, GridLineObject.Line)
-                    dots.set(r + 1, c, 0, GridLineObject.Line)
+                    dots[r, c, 2] = GridLineObject.Line
+                    dots[r + 1, c, 0] = GridLineObject.Line
                 }
             }
         }

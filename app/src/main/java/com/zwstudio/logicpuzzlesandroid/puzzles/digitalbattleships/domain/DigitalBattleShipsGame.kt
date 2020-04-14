@@ -73,7 +73,7 @@ class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBatt
     fun setObject(move: DigitalBattleShipsGameMove) = changeObject(move, DigitalBattleShipsGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun getRowState(row: Int) = state().row2state[row]
     fun getColState(col: Int) = state().col2state[col]
 }

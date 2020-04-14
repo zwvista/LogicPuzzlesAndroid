@@ -61,7 +61,7 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
     fun setObject(move: FutoshikiGameMove) = changeObject(move, FutoshikiGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun getRowState(row: Int) = state().row2state[row]
     fun getColState(col: Int) = state().col2state[col]
     fun getPosState(p: Position) = state().pos2state[p]

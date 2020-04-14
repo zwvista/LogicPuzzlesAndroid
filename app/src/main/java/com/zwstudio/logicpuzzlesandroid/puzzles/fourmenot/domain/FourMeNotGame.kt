@@ -31,7 +31,6 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
                 when (str[c]) {
                     'F' -> this[r, c] = FourMeNotTreeObject()
                     'B' -> this[r, c] = FourMeNotBlockObject()
-                    else -> {}
                 }
         }
         val state = FourMeNotGameState(this)
@@ -60,6 +59,6 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
     fun setObject(move: FourMeNotGameMove) = changeObject(move, FourMeNotGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun pos2State(p: Position) = state().pos2state[p]
 }

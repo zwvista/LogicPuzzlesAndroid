@@ -8,7 +8,7 @@ import fj.F2
 import java.util.*
 
 class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>, gdi: GameDocumentInterface) : CellsGame<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(gi, gdi) {
-    var areas: MutableList<List<Position>> = ArrayList()
+    var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var objArray: IntArray

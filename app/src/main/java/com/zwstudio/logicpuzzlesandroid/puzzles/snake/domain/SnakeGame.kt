@@ -7,7 +7,7 @@ org.androidannotations.annotations.EBeanimport com.zwstudio.logicpuzzlesandroid.
 class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove, SnakeGameState>, gdi: GameDocumentInterface) : CellsGame<SnakeGame, SnakeGameMove, SnakeGameState>(gi, gdi) {
     var row2hint: IntArray
     var col2hint: IntArray
-    var pos2snake: MutableList<Position> = ArrayList()
+    var pos2snake = mutableListOf<Position>()
     private fun changeObject(move: SnakeGameMove, f: (SnakeGameState, SnakeGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()

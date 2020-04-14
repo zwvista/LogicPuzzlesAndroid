@@ -64,7 +64,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         // tile has more than one number, it hints at multiple separated groups
         // of filled tiles.
         val computeHint: F<List<Int>, List<Int>> = F<List<Int>, List<Int>> { filled: List<Int> ->
-            val hint: MutableList<Int> = ArrayList()
+            val hint = mutableListOf<Int>()
             if (filled.isEmpty()) hint.add(0) else {
                 for (j in filled.indices) if (j == 0 || filled[j] - filled[j - 1] != 1) hint.add(1) else hint[hint.size - 1] = hint[hint.size - 1] + 1
                 if (filled.size > 1 && hint.size > 1 && filled[filled.size - 1] - filled[0] == 7) {
@@ -113,8 +113,8 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        val rngWalls: MutableList<Position> = ArrayList()
-        var rngEmpty: MutableList<Position> = ArrayList()
+        val rngWalls = mutableListOf<Position>()
+        var rngEmpty = mutableListOf<Position>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val node = Node(p.toString())
@@ -150,7 +150,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             val nodeList = g.bfs()
             rngEmpty = fj.data.List.iterableList(rngEmpty).filter(F<Position, Boolean> { p: Position -> !nodeList.contains(pos2node[p]) }).toJavaList()
             val n2 = nodeList.size
-            val rng: MutableList<Position> = ArrayList()
+            val rng = mutableListOf<Position>()
             for (p in game.pos2hint.keys) if (nodeList.contains(pos2node[p])) rng.add(p)
             when (rng.size) {
                 0 -> isSolved = false

@@ -4,11 +4,37 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import fj.F2
-import java.util.*
 
 class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, LightenUpGameMove, LightenUpGameState>, gdi: GameDocumentInterface) : CellsGame<LightenUpGame, LightenUpGameMove, LightenUpGameState>(gi, gdi) {
+    companion object {
+        var offset = arrayOf(
+            Position(-1, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(0, -1)
+        )
+    }
+
     var pos2hint = mutableMapOf<Position, Int>()
+
+    init {
+        size = Position(layout.size, layout[0].length)
+        for (r in 0 until rows()) {
+            val str = layout[r]
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val ch = str[c]
+                if (ch == 'W' || ch in '0'..'9') {
+                    val n = if (ch == 'W') -1 else ch - '0'
+                    pos2hint[p] = n
+                }
+            }
+        }
+        val state = LightenUpGameState(this)
+        states.add(state)
+        levelInitilized(state)
+    }
+
     private fun changeObject(move: LightenUpGameMove, f: (LightenUpGameState, LightenUpGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
@@ -30,30 +56,5 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
     fun setObject(move: LightenUpGameMove) = changeObject(move, LightenUpGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
->companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1))
-    }
-
-    init {
-        size = Position(layout.size, layout[0].length)
-        for (r in 0 until rows()) {
-            val str = layout[r]
-            for (c in 0 until cols()) {
-                val p = Position(r, c)
-                val ch = str[c]
-                if (ch == 'W' || ch >= '0' && ch <= '9') {
-                    val n = if (ch == 'W') -1 else ch - '0'
-                    pos2hint[p] = n
-                }
-            }
-        }
-        val state = LightenUpGameState(this)
-        states.add(state)
-        levelInitilized(state)
-    }
+    fun getObject(row: Int, col: Int) = state()[row, col]
 }

@@ -43,7 +43,6 @@ class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSqu
                     'v' -> pos2hint[p] = CarpentersSquareDownHint()
                     '<' -> pos2hint[p] = CarpentersSquareLeftHint()
                     '>' -> pos2hint[p] = CarpentersSquareRightHint()
-                    else -> {}
                 }
             }
         }

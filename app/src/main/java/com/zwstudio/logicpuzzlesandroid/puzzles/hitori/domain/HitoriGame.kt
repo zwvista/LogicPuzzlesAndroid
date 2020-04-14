@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameMove, HitoriGameState>, gdi: GameDocumentInterface) : CellsGame<HitoriGame, HitoriGameMove, HitoriGameState>(gi, gdi) {
-
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
@@ -19,9 +18,9 @@ class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameM
     var objArray: CharArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: Char) {set(p.row, p.col, obj)}
+    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
@@ -31,7 +30,7 @@ class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameM
             for (c in 0 until cols()) {
                 val ch = str[c]
                 if (ch in '0'..'9')
-                    set(r, c, ch)
+                    this[r, c] = ch
             }
         }
         val state = HitoriGameState(this)

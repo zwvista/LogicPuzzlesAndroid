@@ -75,7 +75,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame?, O
             val p = Position(r, c)
             for (i in 0..3) if (get(p.add(OverUnderGame.Companion.offset2.get(i)))[OverUnderGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(OverUnderGame.Companion.offset.get(i))])
         }
-        val areas: MutableList<List<Position>> = ArrayList()
+        val areas = mutableListOf<List<Position>>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.List.iterableList(pos2node.values).head())
             val nodeList = g.bfs()

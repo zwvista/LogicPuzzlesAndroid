@@ -79,6 +79,6 @@ class DominoGame(layout: List<String>, gi: GameInterface<DominoGame, DominoGameM
     fun setObject(move: DominoGameMove) = changeObject(move, DominoGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun pos2State(p: Position) = state().pos2state[p]
 }

@@ -2,56 +2,31 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F2
 import java.util.*
 
 class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<KropkiGame, KropkiGameMove, KropkiGameState>, gdi: GameDocumentInterface) : CellsGame<KropkiGame, KropkiGameMove, KropkiGameState>(gi, gdi) {
-    var pos2horzHint = mutableMapOf<Position, KropkiHint>()
-    var pos2vertHint: Map<Position, KropkiHint> = HashMap()
-    var areas: MutableList<List<Position>> = ArrayList()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots? = null
-    var bordered: Boolean
-    private fun changeObject(move: KropkiGameMove, f: (KropkiGameState, KropkiGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(state())
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
-    fun switchObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::switchObject)
-    fun setObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::setObject)
-
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
-    fun getHorzState(p: Position?) = state()!!.pos2horzHint[p]
-
-    fun getVertState(p: Position?) = state()!!.pos2vertHint[p]
-
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
             Position(0, 1),
             Position(1, 0),
-            Position(0, -1))
+            Position(0, -1)
+        )
         var offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),
-            Position(0, 0))
+            Position(0, 0)
+        )
         var dirs = intArrayOf(1, 0, 3, 2)
     }
+
+    var pos2horzHint = mutableMapOf<Position, KropkiHint>()
+    var pos2vertHint = mutableMapOf<Position, KropkiHint>()
+    var areas = mutableListOf<List<Position>>()
+    var pos2area = mutableMapOf<Position, Int>()
+    var dots: GridDots? = null
+    var bordered: Boolean
 
     init {
         size = Position(if (bordered) layout.size / 4 else layout.size / 2 + 1, layout[0].length)
@@ -62,7 +37,7 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
                 val p = Position(r / 2, c)
                 val ch = str[c]
                 val kh = if (ch == 'W') KropkiHint.Consecutive else if (ch == 'B') KropkiHint.Twice else KropkiHint.None
-                (if (r % 2 == 0) pos2horzHint else pos2vertHint).put(p, kh)
+                (if (r % 2 == 0) pos2horzHint else pos2vertHint)[p] = kh
             }
         }
         if (bordered) {
@@ -91,21 +66,25 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
             val rng = mutableSetOf<Position>()
             val g = Graph()
             val pos2node = mutableMapOf<Position, Node>()
-            for (r in 0 until rows()) for (c in 0 until cols()) {
-                val p = Position(r, c)
-                rng.add(p.plus())
-                val node = Node(p.toString())
-                g.addNode(node)
-                pos2node[p] = node
-            }
-            for (r in 0 until rows()) for (c in 0 until cols()) {
-                val p = Position(r, c)
-                for (i in 0..3) if (dots!![p.add(offset2[i]), dirs[i]] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(offset[i])])
-            }
-            while (!rng.isEmpty()) {
-                g.setRootNode(pos2node[fj.data.List.iterableList(rng).head()])
+            for (r in 0 until rows())
+                for (c in 0 until cols()) {
+                    val p = Position(r, c)
+                    rng.add(p.plus())
+                    val node = Node(p.toString())
+                    g.addNode(node)
+                    pos2node[p] = node
+                }
+            for (r in 0 until rows())
+                for (c in 0 until cols()) {
+                    val p = Position(r, c)
+                    for (i in 0..3)
+                        if (dots!![p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
+                            g.connectNode(pos2node[p], pos2node[p.add(offset[i])])
+                }
+            while (rng.isNotEmpty()) {
+                g.setRootNode(pos2node[rng.first()])
                 val nodeList = g.bfs()
-                val area = fj.data.List.iterableList(rng).filter { p: Position -> nodeList.contains(pos2node[p]) }.toJavaList()
+                val area = rng.filter { nodeList.contains(pos2node[it]) }
                 val n = areas.size
                 for (p in area) pos2area[p] = n
                 areas.add(area)
@@ -116,4 +95,29 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
         states.add(state)
         levelInitilized(state)
     }
+
+    private fun changeObject(move: KropkiGameMove, f: (KropkiGameState, KropkiGameMove) -> Boolean): Boolean {
+        if (canRedo()) {
+            states.subList(stateIndex + 1, states.size).clear()
+            moves.subList(stateIndex, states.size).clear()
+        }
+        val state = cloner.deepClone(state())
+        val changed = f(state, move)
+        if (changed) {
+            states.add(state)
+            stateIndex++
+            moves.add(move)
+            moveAdded(move)
+            levelUpdated(states[stateIndex - 1], state)
+        }
+        return changed
+    }
+
+    fun switchObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::switchObject)
+    fun setObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::setObject)
+
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getHorzState(p: Position?) = state().pos2horzHint[p]
+    fun getVertState(p: Position?) = state().pos2vertHint[p]
 }

@@ -81,7 +81,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, Gala
             val p = Position(r, c)
             for (i in 0..3) if (get(p.add(GalaxiesGame.Companion.offset2.get(i)))!![GalaxiesGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(GalaxiesGame.Companion.offset.get(i))])
         }
-        val areas: MutableList<List<Position>> = ArrayList()
+        val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.List.iterableList(pos2node.values).head())

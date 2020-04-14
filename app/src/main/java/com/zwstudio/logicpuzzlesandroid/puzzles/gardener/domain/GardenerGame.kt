@@ -21,7 +21,7 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var areas: MutableList<List<Position>> = ArrayList()
+    var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var pos2hint = mutableMapOf<Position, Pair<Int, Int>>()
@@ -112,7 +112,7 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
     fun setObject(move: GardenerGameMove) = changeObject(move, GardenerGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun pos2State(p: Position) = state().pos2state[p]
     fun invalidSpaces(p: Position, isHorz: Boolean) = (if (isHorz) state().invalidSpacesHorz else state().invalidSpacesVert).contains(p)
 }

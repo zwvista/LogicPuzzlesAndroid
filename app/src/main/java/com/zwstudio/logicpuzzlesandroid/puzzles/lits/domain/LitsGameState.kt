@@ -25,7 +25,7 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
     }
 
     private inner class LitsAreaInfo {
-        var trees: MutableList<Position> = ArrayList()
+        var trees = mutableListOf<Position>()
         var blockIndexes = mutableSetOf<Int>()
         var neighborIndexes = mutableSetOf<Int>()
         var tetrominoIndex = -1
@@ -89,7 +89,7 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
                 if (node2 != null) g.connectNode(node, node2)
             }
         }
-        val blocks: MutableList<List<Position>> = ArrayList()
+        val blocks = mutableListOf<List<Position>>()
         while (!pos2node.isEmpty()) {
             g.setRootNode(fj.data.List.iterableList(pos2node.values).head())
             val nodeList = g.bfs()
@@ -136,7 +136,7 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
             // into each area.
             if (treeCount == 4 && info.blockIndexes.size == 1) {
                 Collections.sort(info.trees) { obj: Position, other: Position? -> obj.compareTo(other) }
-                val treeOffsets: MutableList<Position> = ArrayList()
+                val treeOffsets = mutableListOf<Position>()
                 val p2 = Position(fj.data.List.iterableList(info.trees).map { p: Position -> p.row }.minimum(Ord.intOrd),
                     fj.data.List.iterableList(info.trees).map { p: Position -> p.col }.minimum(Ord.intOrd))
                 for (p in info.trees) treeOffsets.add(p.subtract(p2))

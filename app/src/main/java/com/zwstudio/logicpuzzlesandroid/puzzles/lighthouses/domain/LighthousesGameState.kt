@@ -89,7 +89,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
         }
         for ((p, n2) in game!!.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
-            val rng: MutableList<Position> = ArrayList()
+            val rng = mutableListOf<Position>()
             next@ for (i in 0..3) {
                 val os: Position = LighthousesGame.Companion.offset.get(i * 2)
                 val p2 = p!!.add(os)

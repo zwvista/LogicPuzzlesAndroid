@@ -88,7 +88,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame?, F
         g.setRootNode(fj.data.HashMap.fromMap(pos2node).values().head())
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
-        val trees: MutableList<Position> = ArrayList()
+        val trees = mutableListOf<Position>()
         // 3. At the same time, you can't line up horizontally or vertically more
         // than 3 flowers (thus Forbidden Four).
         val areTreesInvalid = F0 { trees.size > 3 }

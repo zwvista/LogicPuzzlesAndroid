@@ -5,14 +5,48 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import fj.F2
-import java.util.*
 
 class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove, LoopyGameState>, gdi: GameDocumentInterface) : CellsGame<LoopyGame, LoopyGameMove, LoopyGameState>(gi, gdi) {
-    var objArray: Array<Array<GridLineObject?>>
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    companion object {
+        var offset = arrayOf(
+            Position(-1, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(0, -1)
+        )
+    }
 
-    operator fun get(p: Position?) = get(p!!.row, p.col)
+    var objArray: Array<Array<GridLineObject>>
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+
+    init {
+        size = Position(layout.size / 2 + 1, layout[0].length / 2 + 1)
+        objArray = Array(rows() * cols()) { Array(4) { GridLineObject.Empty } }
+        for (r in 0 until rows()) {
+            var str = layout[2 * r]
+            for (c in 0 until cols() - 1) {
+                val ch = str[2 * c + 1]
+                if (ch == '-') {
+                    this[r, c + 1][3] = GridLineObject.Line
+                    this[r, c][1] = this[r, c + 1][3]
+                }
+            }
+            if (r == rows() - 1) break
+            str = layout[2 * r + 1]
+            for (c in 0 until cols()) {
+                val ch = str[2 * c]
+                if (ch == '|') {
+                    this[r + 1, c][0] = GridLineObject.Line
+                    this[r, c][2] = this[r + 1, c][0]
+                }
+            }
+        }
+        val state = LoopyGameState(this)
+        states.add(state)
+        levelInitilized(state)
+    }
 
     private fun changeObject(move: LoopyGameMove, f: (LoopyGameState, LoopyGameMove) -> Boolean): Boolean {
         if (canRedo()) {
@@ -35,43 +69,5 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
     fun setObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
->companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1))
-    }
-
-    init {
-        size = Position(layout.size / 2 + 1, layout[0].length / 2 + 1)
-        objArray = arrayOfNulls(rows() * cols())
-        for (i in objArray.indices) {
-            objArray[i] = arrayOfNulls(4)
-            Arrays.fill(objArray[i], GridLineObject.Empty)
-        }
-        for (r in 0 until rows()) {
-            var str = layout[2 * r]
-            for (c in 0 until cols() - 1) {
-                val ch = str[2 * c + 1]
-                if (ch == '-') {
-                    get(r, c + 1)[3] = GridLineObject.Line
-                    get(r, c)[1] = get(r, c + 1)[3]
-                }
-            }
-            if (r == rows() - 1) break
-            str = layout[2 * r + 1]
-            for (c in 0 until cols()) {
-                val ch = str[2 * c]
-                if (ch == '|') {
-                    get(r + 1, c)[0] = GridLineObject.Line
-                    get(r, c)[2] = get(r + 1, c)[0]
-                }
-            }
-        }
-        val state = LoopyGameState(this)
-        states.add(state)
-        levelInitilized(state)
-    }
+    fun getObject(row: Int, col: Int) = state()[row, col]
 }

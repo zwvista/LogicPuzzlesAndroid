@@ -100,6 +100,6 @@ class FenceLitsGame(layout: List<String>, gi: GameInterface<FenceLitsGame, Fence
     fun setObject(move: FenceLitsGameMove) = changeObject(move, FenceLitsGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun pos2State(p: Position) = state().pos2state[p]
 }

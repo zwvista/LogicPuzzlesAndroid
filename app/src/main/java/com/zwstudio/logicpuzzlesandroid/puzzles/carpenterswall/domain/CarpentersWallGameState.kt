@@ -75,8 +75,8 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        val rngWalls: MutableList<Position> = ArrayList()
-        var rngEmpty: MutableList<Position> = ArrayList()
+        val rngWalls = mutableListOf<Position>()
+        var rngEmpty = mutableListOf<Position>()
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val node = Node(p.toString())

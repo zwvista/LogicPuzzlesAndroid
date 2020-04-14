@@ -4,12 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameMove
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameState
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2Object
-
-import fj.F2
 
 class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcGameState>, gdi: GameDocumentInterface) : CellsGame<AbcGame, AbcGameMove, AbcGameState>(gi, gdi) {
 
@@ -70,6 +64,6 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
     fun setObject(move: AbcGameMove) = changeObject(move, AbcGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun getState(row: Int, col: Int) = state().getState(row, col)
 }

@@ -56,8 +56,8 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
     */
     private fun updateIsSolved() {
         isSolved = true
-        val numss: MutableList<List<Int>> = ArrayList()
-        val nums: MutableList<Int> = ArrayList()
+        val numss = mutableListOf<List<Int>>()
+        val nums = mutableListOf<Int>()
         for (r in 1 until rows() - 1) {
             val h1 = get(r, 0)
             val h2 = get(r, cols() - 1)

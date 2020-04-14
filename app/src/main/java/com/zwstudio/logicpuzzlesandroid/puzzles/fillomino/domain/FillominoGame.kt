@@ -78,7 +78,7 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
     fun setObject(move: FillominoGameMove) = changeObject(move, FillominoGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int)  = state()[row, col]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun getPosState(p: Position) = state().pos2state[p]
     fun getDots() = state().dots
 }

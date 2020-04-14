@@ -84,7 +84,7 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame?, SnailGameMove
                 isSolved = false
             }
         }
-        val rng: MutableList<Position> = ArrayList()
+        val rng = mutableListOf<Position>()
         chars = ""
         for (p in game.snailPathGrid) {
             val ch = get(p)
