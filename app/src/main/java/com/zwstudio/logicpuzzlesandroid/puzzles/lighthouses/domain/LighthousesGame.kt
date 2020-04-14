@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame?, LighthousesGameMove?, LighthousesGameState?>?, gdi: GameDocumentInterface?) : CellsGame<LighthousesGame?, LighthousesGameMove?, LighthousesGameState?>(gi, gdi) {
+class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, LighthousesGameMove, LighthousesGameState>, gdi: GameDocumentInterface) : CellsGame<LighthousesGame, LighthousesGameMove, LighthousesGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, Int> = HashMap()
-    private fun changeObject(move: LighthousesGameMove?, f: F2<LighthousesGameState?, LighthousesGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: LighthousesGameMove, f: (LighthousesGameState, LighthousesGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -27,22 +27,11 @@ class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame?, 
         return changed
     }
 
-    fun switchObject(move: LighthousesGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LighthousesGameState?, move: LighthousesGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: LighthousesGameMove) = changeObject(move, LighthousesGameState::switchObject)
+    fun setObject(move: LighthousesGameMove) = changeObject(move, LighthousesGameState::setObject)
 
-    fun setObject(move: LighthousesGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LighthousesGameState?, move: LighthousesGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): LighthousesObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): LighthousesObject? {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun pos2State(p: Position?): HintState? {
         return state()!!.pos2state[p]
     }

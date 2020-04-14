@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGame
 import fj.F2
 import java.util.*
 
-class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame?, RippleEffectGameMove?, RippleEffectGameState?>?, gdi: GameDocumentInterface?) : CellsGame<RippleEffectGame?, RippleEffectGameMove?, RippleEffectGameState?>(gi, gdi) {
+class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>, gdi: GameDocumentInterface) : CellsGame<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(gi, gdi) {
     var areas: MutableList<List<Position>> = ArrayList()
     var pos2area: MutableMap<Position?, Int?> = HashMap()
     var dots: GridDots

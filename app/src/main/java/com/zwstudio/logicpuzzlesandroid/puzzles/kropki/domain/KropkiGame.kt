@@ -6,14 +6,14 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<KropkiGame?, KropkiGameMove?, KropkiGameState?>?, gdi: GameDocumentInterface?) : CellsGame<KropkiGame?, KropkiGameMove?, KropkiGameState?>(gi, gdi) {
+class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<KropkiGame, KropkiGameMove, KropkiGameState>, gdi: GameDocumentInterface) : CellsGame<KropkiGame, KropkiGameMove, KropkiGameState>(gi, gdi) {
     var pos2horzHint: MutableMap<Position?, KropkiHint?> = HashMap()
     var pos2vertHint: Map<Position, KropkiHint> = HashMap()
     var areas: MutableList<List<Position>> = ArrayList()
     var pos2area: MutableMap<Position, Int> = HashMap()
     var dots: GridDots? = null
     var bordered: Boolean
-    private fun changeObject(move: KropkiGameMove?, f: F2<KropkiGameState?, KropkiGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: KropkiGameMove, f: (KropkiGameState, KropkiGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -30,22 +30,11 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
         return changed
     }
 
-    fun switchObject(move: KropkiGameMove?): Boolean {
-        return changeObject(move, F2 { obj: KropkiGameState?, move: KropkiGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::switchObject)
+    fun setObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::setObject)
 
-    fun setObject(move: KropkiGameMove?): Boolean {
-        return changeObject(move, F2 { obj: KropkiGameState?, move: KropkiGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): Int {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): Int {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun getHorzState(p: Position?): HintState? {
         return state()!!.pos2horzHint[p]
     }

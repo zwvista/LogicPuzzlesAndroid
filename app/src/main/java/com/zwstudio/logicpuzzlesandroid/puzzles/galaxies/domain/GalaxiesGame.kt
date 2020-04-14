@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame?, GalaxiesGameMove?, GalaxiesGameState?>?, gdi: GameDocumentInterface?) : CellsGame<GalaxiesGame?, GalaxiesGameMove?, GalaxiesGameState?>(gi, gdi) {
+class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>, gdi: GameDocumentInterface) : CellsGame<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>(gi, gdi) {
     var objArray: Array<Array<GridLineObject?>>
     var galaxies: MutableSet<Position> = HashSet()
     operator fun get(row: Int, col: Int): Array<GridLineObject?> {
@@ -28,7 +28,7 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame?, Galaxi
         set(p.row, p.col, obj)
     }
 
-    private fun changeObject(move: GalaxiesGameMove?, f: F2<GalaxiesGameState?, GalaxiesGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: GalaxiesGameMove, f: (GalaxiesGameState, GalaxiesGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -45,22 +45,11 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame?, Galaxi
         return changed
     }
 
-    fun switchObject(move: GalaxiesGameMove?): Boolean {
-        return changeObject(move, F2 { obj: GalaxiesGameState?, move: GalaxiesGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: GalaxiesGameMove) = changeObject(move, GalaxiesGameState::switchObject)
+    fun setObject(move: GalaxiesGameMove) = changeObject(move, GalaxiesGameState::setObject)
 
-    fun setObject(move: GalaxiesGameMove?): Boolean {
-        return changeObject(move, F2 { obj: GalaxiesGameState?, move: GalaxiesGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): Array<GridLineObject?>? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): Array<GridLineObject?>? {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun pos2State(p: Position?): HintState? {
         return state()!!.pos2state[p]
     }

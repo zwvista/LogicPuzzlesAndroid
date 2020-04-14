@@ -7,9 +7,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import fj.F2
 import java.util.*
 
-class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame?, TapARowGameMove?, TapARowGameState?>?, gdi: GameDocumentInterface?) : CellsGame<TapARowGame?, TapARowGameMove?, TapARowGameState?>(gi, gdi) {
+class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGameMove, TapARowGameState>, gdi: GameDocumentInterface) : CellsGame<TapARowGame, TapARowGameMove, TapARowGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, List<Int>> = HashMap()
-    private fun changeObject(move: TapARowGameMove?, f: F2<TapARowGameState?, TapARowGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: TapARowGameMove, f: (TapARowGameState, TapARowGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -26,23 +26,12 @@ class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame?, TapARowG
         return changed
     }
 
-    fun switchObject(move: TapARowGameMove?): Boolean {
-        return changeObject(move, F2 { obj: TapARowGameState?, move: TapARowGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: TapARowGameMove) = changeObject(move, TapARowGameState::switchObject)
+    fun setObject(move: TapARowGameMove) = changeObject(move, TapARowGameState::setObject)
 
-    fun setObject(move: TapARowGameMove?): Boolean {
-        return changeObject(move, F2 { obj: TapARowGameState?, move: TapARowGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): TapARowObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): TapARowObject? {
-        return state()!![row, col]
-    }
-
-    companion object {
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
+>companion object {
         var offset = arrayOf(
             Position(-1, 0),
             Position(-1, 1),

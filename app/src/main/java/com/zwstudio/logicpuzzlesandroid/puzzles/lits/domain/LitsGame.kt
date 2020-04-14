@@ -6,12 +6,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class LitsGame(layout: List<String>, gi: GameInterface<LitsGame?, LitsGameMove?, LitsGameState?>?, gdi: GameDocumentInterface?) : CellsGame<LitsGame?, LitsGameMove?, LitsGameState?>(gi, gdi) {
+class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, LitsGameState>, gdi: GameDocumentInterface) : CellsGame<LitsGame, LitsGameMove, LitsGameState>(gi, gdi) {
     var areas: MutableList<List<Position>> = ArrayList()
     var pos2area: MutableMap<Position?, Int?> = HashMap()
     var dots: GridDots
     var treesInEachArea = 1
-    private fun changeObject(move: LitsGameMove?, f: F2<LitsGameState?, LitsGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: LitsGameMove, f: (LitsGameState, LitsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -28,22 +28,11 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame?, LitsGameMove?,
         return changed
     }
 
-    fun switchObject(move: LitsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LitsGameState?, move: LitsGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: LitsGameMove) = changeObject(move, LitsGameState::switchObject)
+    fun setObject(move: LitsGameMove) = changeObject(move, LitsGameState::setObject)
 
-    fun setObject(move: LitsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LitsGameState?, move: LitsGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): LitsObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): LitsObject? {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun pos2State(p: Position?): HintState? {
         return state()!!.pos2state[p]
     }

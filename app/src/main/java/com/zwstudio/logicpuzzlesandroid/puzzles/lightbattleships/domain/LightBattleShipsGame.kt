@@ -8,10 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleShipsGame?, LightBattleShipsGameMove?, LightBattleShipsGameState?>?, gdi: GameDocumentInterface?) : CellsGame<LightBattleShipsGame?, LightBattleShipsGameMove?, LightBattleShipsGameState?>(gi, gdi) {
+class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>, gdi: GameDocumentInterface) : CellsGame<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, Int> = HashMap()
     var pos2obj: MutableMap<Position?, LightBattleShipsObject?> = HashMap()
-    private fun changeObject(move: LightBattleShipsGameMove?, f: F2<LightBattleShipsGameState?, LightBattleShipsGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: LightBattleShipsGameMove, f: (LightBattleShipsGameState, LightBattleShipsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -28,22 +28,11 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
         return changed
     }
 
-    fun switchObject(move: LightBattleShipsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LightBattleShipsGameState?, move: LightBattleShipsGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: LightBattleShipsGameMove) = changeObject(move, LightBattleShipsGameState::switchObject)
+    fun setObject(move: LightBattleShipsGameMove) = changeObject(move, LightBattleShipsGameState::setObject)
 
-    fun setObject(move: LightBattleShipsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LightBattleShipsGameState?, move: LightBattleShipsGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): LightBattleShipsObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): LightBattleShipsObject? {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun pos2State(p: Position?): HintState? {
         return state()!!.pos2state[p]
     }

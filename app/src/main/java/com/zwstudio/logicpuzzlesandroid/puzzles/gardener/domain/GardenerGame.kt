@@ -8,12 +8,12 @@ import fj.P
 import fj.P2
 import java.util.*
 
-class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame?, GardenerGameMove?, GardenerGameState?>?, gdi: GameDocumentInterface?) : CellsGame<GardenerGame?, GardenerGameMove?, GardenerGameState?>(gi, gdi) {
+class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, GardenerGameMove, GardenerGameState>, gdi: GameDocumentInterface) : CellsGame<GardenerGame, GardenerGameMove, GardenerGameState>(gi, gdi) {
     var areas: MutableList<List<Position>> = ArrayList()
     var pos2area: MutableMap<Position?, Int?> = HashMap()
     var dots: GridDots
     var pos2hint: MutableMap<Position, P2<Int, Int?>> = HashMap()
-    private fun changeObject(move: GardenerGameMove?, f: F2<GardenerGameState?, GardenerGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: GardenerGameMove, f: (GardenerGameState, GardenerGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -30,22 +30,11 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame?, Garden
         return changed
     }
 
-    fun switchObject(move: GardenerGameMove?): Boolean {
-        return changeObject(move, F2 { obj: GardenerGameState?, move: GardenerGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: GardenerGameMove) = changeObject(move, GardenerGameState::switchObject)
+    fun setObject(move: GardenerGameMove) = changeObject(move, GardenerGameState::setObject)
 
-    fun setObject(move: GardenerGameMove?): Boolean {
-        return changeObject(move, F2 { obj: GardenerGameState?, move: GardenerGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): GardenerObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): GardenerObject? {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun pos2State(p: Position?): HintState? {
         return state()!!.pos2state[p]
     }

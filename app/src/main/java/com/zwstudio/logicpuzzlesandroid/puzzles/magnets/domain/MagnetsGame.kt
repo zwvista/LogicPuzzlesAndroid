@@ -8,12 +8,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame?, MagnetsGameMove?, MagnetsGameState?>?, gdi: GameDocumentInterface?) : CellsGame<MagnetsGame?, MagnetsGameMove?, MagnetsGameState?>(gi, gdi) {
+class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGameMove, MagnetsGameState>, gdi: GameDocumentInterface) : CellsGame<MagnetsGame, MagnetsGameMove, MagnetsGameState>(gi, gdi) {
     var row2hint: IntArray
     var col2hint: IntArray
     var areas: MutableList<MagnetsArea> = ArrayList()
     var singles: MutableList<Position> = ArrayList()
-    private fun changeObject(move: MagnetsGameMove?, f: F2<MagnetsGameState?, MagnetsGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: MagnetsGameMove, f: (MagnetsGameState, MagnetsGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -30,22 +30,11 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame?, MagnetsG
         return changed
     }
 
-    fun switchObject(move: MagnetsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: MagnetsGameState?, move: MagnetsGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: MagnetsGameMove) = changeObject(move, MagnetsGameState::switchObject)
+    fun setObject(move: MagnetsGameMove) = changeObject(move, MagnetsGameState::setObject)
 
-    fun setObject(move: MagnetsGameMove?): Boolean {
-        return changeObject(move, F2 { obj: MagnetsGameState?, move: MagnetsGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): MagnetsObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): MagnetsObject? {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun getRowState(id: Int): HintState? {
         return state()!!.row2state[id]
     }

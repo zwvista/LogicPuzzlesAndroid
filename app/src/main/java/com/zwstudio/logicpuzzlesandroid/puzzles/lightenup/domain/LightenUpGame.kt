@@ -7,9 +7,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import fj.F2
 import java.util.*
 
-class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame?, LightenUpGameMove?, LightenUpGameState?>?, gdi: GameDocumentInterface?) : CellsGame<LightenUpGame?, LightenUpGameMove?, LightenUpGameState?>(gi, gdi) {
+class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, LightenUpGameMove, LightenUpGameState>, gdi: GameDocumentInterface) : CellsGame<LightenUpGame, LightenUpGameMove, LightenUpGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, Int> = HashMap()
-    private fun changeObject(move: LightenUpGameMove?, f: F2<LightenUpGameState?, LightenUpGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: LightenUpGameMove, f: (LightenUpGameState, LightenUpGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -26,23 +26,12 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame?, Ligh
         return changed
     }
 
-    fun switchObject(move: LightenUpGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LightenUpGameState?, move: LightenUpGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: LightenUpGameMove) = changeObject(move, LightenUpGameState::switchObject)
+    fun setObject(move: LightenUpGameMove) = changeObject(move, LightenUpGameState::setObject)
 
-    fun setObject(move: LightenUpGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LightenUpGameState?, move: LightenUpGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): LightenUpObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): LightenUpObject? {
-        return state()!![row, col]
-    }
-
-    companion object {
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
+>companion object {
         var offset = arrayOf(
             Position(-1, 0),
             Position(0, 1),

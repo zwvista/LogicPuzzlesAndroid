@@ -8,11 +8,11 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame?, KakuroGameMove?, KakuroGameState?>?, gdi: GameDocumentInterface?) : CellsGame<KakuroGame?, KakuroGameMove?, KakuroGameState?>(gi, gdi) {
+class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameMove, KakuroGameState>, gdi: GameDocumentInterface) : CellsGame<KakuroGame, KakuroGameMove, KakuroGameState>(gi, gdi) {
     var pos2horzHint: MutableMap<Position, Int> = HashMap()
     var pos2vertHint: MutableMap<Position, Int> = HashMap()
     var pos2num: MutableMap<Position, Int> = HashMap()
-    private fun changeObject(move: KakuroGameMove?, f: F2<KakuroGameState?, KakuroGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: KakuroGameMove, f: (KakuroGameState, KakuroGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()

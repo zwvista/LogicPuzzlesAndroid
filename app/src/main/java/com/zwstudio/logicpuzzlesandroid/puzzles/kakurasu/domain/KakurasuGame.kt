@@ -7,14 +7,14 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 
-class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame?, KakurasuGameMove?, KakurasuGameState?>?, gdi: GameDocumentInterface?) : CellsGame<KakurasuGame?, KakurasuGameMove?, KakurasuGameState?>(gi, gdi) {
+class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, KakurasuGameMove, KakurasuGameState>, gdi: GameDocumentInterface) : CellsGame<KakurasuGame, KakurasuGameMove, KakurasuGameState>(gi, gdi) {
     override fun isValid(row: Int, col: Int): Boolean {
         return row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1
     }
 
     var row2hint: IntArray
     var col2hint: IntArray
-    private fun changeObject(move: KakurasuGameMove?, f: F2<KakurasuGameState?, KakurasuGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: KakurasuGameMove, f: (KakurasuGameState, KakurasuGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -31,22 +31,11 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame?, Kakura
         return changed
     }
 
-    fun switchObject(move: KakurasuGameMove?): Boolean {
-        return changeObject(move, F2 { obj: KakurasuGameState?, move: KakurasuGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: KakurasuGameMove) = changeObject(move, KakurasuGameState::switchObject)
+    fun setObject(move: KakurasuGameMove) = changeObject(move, KakurasuGameState::setObject)
 
-    fun setObject(move: KakurasuGameMove?): Boolean {
-        return changeObject(move, F2 { obj: KakurasuGameState?, move: KakurasuGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): KakurasuObject? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): KakurasuObject? {
-        return state()!![row, col]
-    }
-
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
     fun getRowState(row: Int): HintState? {
         return state()!!.row2state[row]
     }

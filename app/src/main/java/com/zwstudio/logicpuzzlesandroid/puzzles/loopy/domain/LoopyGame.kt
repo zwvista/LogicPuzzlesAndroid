@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import fj.F2
 import java.util.*
 
-class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame?, LoopyGameMove?, LoopyGameState?>?, gdi: GameDocumentInterface?) : CellsGame<LoopyGame?, LoopyGameMove?, LoopyGameState?>(gi, gdi) {
+class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove, LoopyGameState>, gdi: GameDocumentInterface) : CellsGame<LoopyGame, LoopyGameMove, LoopyGameState>(gi, gdi) {
     var objArray: Array<Array<GridLineObject?>>
     operator fun get(row: Int, col: Int): Array<GridLineObject?> {
         return objArray[row * cols() + col]
@@ -18,7 +18,7 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame?, LoopyGameMov
         return get(p!!.row, p.col)
     }
 
-    private fun changeObject(move: LoopyGameMove?, f: F2<LoopyGameState?, LoopyGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: LoopyGameMove, f: (LoopyGameState, LoopyGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -35,23 +35,12 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame?, LoopyGameMov
         return changed
     }
 
-    fun switchObject(move: LoopyGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LoopyGameState?, move: LoopyGameMove? -> obj!!.switchObject(move) })
-    }
+    fun switchObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::switchObject)
+    fun setObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::setObject)
 
-    fun setObject(move: LoopyGameMove?): Boolean {
-        return changeObject(move, F2 { obj: LoopyGameState?, move: LoopyGameMove? -> obj!!.setObject(move) })
-    }
-
-    fun getObject(p: Position?): Array<GridLineObject?>? {
-        return state()!![p]
-    }
-
-    fun getObject(row: Int, col: Int): Array<GridLineObject?>? {
-        return state()!![row, col]
-    }
-
-    companion object {
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int)  = state()[row, col]
+>companion object {
         var offset = arrayOf(
             Position(-1, 0),
             Position(0, 1),

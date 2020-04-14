@@ -8,13 +8,13 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F2
 import java.util.*
 
-class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame?, LineSweeperGameMove?, LineSweeperGameState?>?, gdi: GameDocumentInterface?) : CellsGame<LineSweeperGame?, LineSweeperGameMove?, LineSweeperGameState?>(gi, gdi) {
+class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>, gdi: GameDocumentInterface) : CellsGame<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(gi, gdi) {
     var pos2hint: MutableMap<Position?, Int> = HashMap()
     fun isHint(p: Position?): Boolean {
         return pos2hint.containsKey(p)
     }
 
-    private fun changeObject(move: LineSweeperGameMove?, f: F2<LineSweeperGameState?, LineSweeperGameMove?, Boolean>): Boolean {
+    private fun changeObject(move: LineSweeperGameMove, f: (LineSweeperGameState, LineSweeperGameMove) -> Boolean): Boolean {
         if (canRedo()) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
