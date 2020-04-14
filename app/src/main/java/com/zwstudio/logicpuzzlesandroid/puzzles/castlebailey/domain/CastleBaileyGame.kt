@@ -8,16 +8,16 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>, gdi: GameDocumentInterface) : CellsGame<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>(gi, gdi) {
     companion object {
         val offset = arrayOf(
-                Position(-1, 0),
-                Position(0, 1),
-                Position(1, 0),
-                Position(0, -1)
+            Position(-1, 0),
+            Position(0, 1),
+            Position(1, 0),
+            Position(0, -1)
         )
         val offset2 = arrayOf(
-                Position(-1, -1),
-                Position(-1, 0),
-                Position(0, 0),
-                Position(0, -1)
+            Position(-1, -1),
+            Position(-1, 0),
+            Position(0, 0),
+            Position(0, -1)
         )
     }
 
