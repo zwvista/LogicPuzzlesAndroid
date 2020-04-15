@@ -2,68 +2,33 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGame
-import fj.F2
-import java.util.*
 
 class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>, gdi: GameDocumentInterface) : CellsGame<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(gi, gdi) {
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var objArray: IntArray
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, obj: Int) {
-        objArray[row * cols() + col] = obj
-    }
-
-    operator fun set(p: Position, obj: Int) {
-        set(p.row, p.col, obj)
-    }
-
-    private fun changeObject(move: RippleEffectGameMove, f: F2<RippleEffectGameState?, RippleEffectGameMove, Boolean>): Boolean {
-        if (canRedo()) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(state())
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
-    fun switchObject(move: RippleEffectGameMove) = changeObject(move, F2 { obj: RippleEffectGameState?, move: RippleEffectGameMove -> obj!!.switchObject(move) })
-
-    fun setObject(move: RippleEffectGameMove) = changeObject(move, F2 { obj: RippleEffectGameState?, move: RippleEffectGameMove -> obj!!.setObject(move) })
-
-    fun getObject(p: Position) = state()!![p]
-
-    fun getObject(row: Int, col: Int) = state()!![row, col]
-
-    fun pos2State(p: Position) = state()!!.pos2state[p]
-
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
             Position(0, 1),
             Position(1, 0),
-            Position(0, -1))
+            Position(0, -1)
+        )
         var offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),
-            Position(0, 0))
+            Position(0, 0)
+        )
         var dirs = intArrayOf(1, 0, 3, 2)
     }
+
+    var areas = mutableListOf<List<Position>>()
+    var pos2area = mutableMapOf<Position, Int>()
+    var dots: GridDots
+    var objArray: IntArray
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
@@ -90,7 +55,7 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
                 }
                 if (c == cols()) break
                 val ch2 = str[c * 2 + 1]
-                val n = if (ch2 >= '0' && ch2 <= '9') ch2 - '0' else 0
+                val n = if (ch2 in '0'..'9') ch2 - '0' else 0
                 set(Position(r, c), n)
             }
         }
@@ -106,14 +71,17 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
         }
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
-            for (i in 0..3) if (dots[p.add(ParksGame.Companion.offset2.get(i)), ParksGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(ParksGame.Companion.offset.get(i * 2))])
+            for (i in 0..3)
+                if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
+                    g.connectNode(pos2node[p], pos2node[p.add(offset[i * 2])])
         }
         while (!rng.isEmpty()) {
-            g.setRootNode(pos2node[fj.data.List.iterableList(rng).head()])
+            g.setRootNode(pos2node[rng.first()])
             val nodeList = g.bfs()
-            val area = fj.data.List.iterableList(rng).filter { p: Position -> nodeList.contains(pos2node[p]) }.toJavaList()
+            val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size
-            for (p in area) pos2area[p] = n
+            for (p in area)
+                pos2area[p] = n
             areas.add(area)
             rng.removeAll(area)
         }
@@ -121,4 +89,28 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
         states.add(state)
         levelInitilized(state)
     }
+
+    private fun changeObject(move: RippleEffectGameMove, f: (RippleEffectGameState, RippleEffectGameMove) -> Boolean): Boolean {
+        if (canRedo()) {
+            states.subList(stateIndex + 1, states.size).clear()
+            moves.subList(stateIndex, states.size).clear()
+        }
+        val state = cloner.deepClone(state())
+        val changed = f(state, move)
+        if (changed) {
+            states.add(state)
+            stateIndex++
+            moves.add(move)
+            moveAdded(move)
+            levelUpdated(states[stateIndex - 1], state)
+        }
+        return changed
+    }
+
+    fun switchObject(move: RippleEffectGameMove) = changeObject(move, RippleEffectGameState::switchObject)
+    fun setObject(move: RippleEffectGameMove) = changeObject(move, RippleEffectGameState::setObject)
+
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun pos2State(p: Position) = state().pos2state[p]
 }
