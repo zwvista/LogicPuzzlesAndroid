@@ -2,8 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import fj.data.List.iterableList
-import java.util.*
 
 class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>, gdi: GameDocumentInterface) : CellsGame<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>(gi, gdi) {
     companion object {
@@ -22,11 +20,11 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
         val dirs = intArrayOf(1, 0, 3, 2)
     }
 
+    var row2hint: IntArray
+    var col2hint: IntArray
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    var row2hint: IntArray
-    var col2hint: IntArray
 
     init {
         size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)
@@ -36,7 +34,6 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
         for (r in 0 until rows() + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols()) {
-                val p = Position(r, c)
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
                     dots[r, c, 1] = GridLineObject.Line
@@ -46,7 +43,6 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
             if (r == rows()) break
             str = layout[r * 2 + 1]
             for (c in 0 until cols() + 1) {
-                val p = Position(r, c)
                 val ch = str[c * 2]
                 if (ch == '|') {
                     dots[r, c, 2] = GridLineObject.Line
@@ -54,9 +50,9 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
                 }
             }
         }
-        val rng = HashSet<Position>()
+        val rng = mutableSetOf<Position>()
         val g = Graph()
-        val pos2node = HashMap<Position, Node>()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows())
             for (c in 0 until cols()) {
                 val p = Position(r, c)
@@ -69,13 +65,13 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
             for (c in 0 until cols()) {
                 val p = Position(r, c)
                 for (i in 0..3)
-                    if (dots.get(p.add(AbstractPaintingGame.offset2[i]), AbstractPaintingGame.dirs[i]) != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(AbstractPaintingGame.offset[i])])
+                    if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p], pos2node[p.add(offset[i])])
             }
-        while (!rng.isEmpty()) {
-            g.setRootNode(pos2node[iterableList(rng).head()])
+        while (rng.isNotEmpty()) {
+            g.setRootNode(pos2node[rng.first()])
             val nodeList = g.bfs()
-            val area = iterableList(rng).filter { p -> nodeList.contains(pos2node[p]) }.toJavaList()
+            val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size
             for (p in area)
                 pos2area[p] = n
@@ -84,11 +80,11 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
         }
         for (r in 0 until rows()) {
             val ch = layout[2 * r + 1][2 * cols() + 1]
-            row2hint[r] = if (ch >= '0' && ch <= '9') ch - '0' else -1
+            row2hint[r] = if (ch in '0'..'9') ch - '0' else -1
         }
         for (c in 0 until cols()) {
             val ch = layout[2 * rows() + 1][2 * c + 1]
-            col2hint[c] = if (ch >= '0' && ch <= '9') ch - '0' else -1
+            col2hint[c] = if (ch in '0'..'9') ch - '0' else -1
         }
         val state = AbstractPaintingGameState(this)
         states.add(state)

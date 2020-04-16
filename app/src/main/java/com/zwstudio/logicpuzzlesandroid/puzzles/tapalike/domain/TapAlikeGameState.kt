@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domainimport
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import fj.F
 import fj.data.HashMap
 import fj.data.Stream
 import java.util.*

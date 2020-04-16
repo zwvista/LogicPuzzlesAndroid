@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterface<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>, gdi: GameDocumentInterface) : CellsGame<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(gi, gdi) {
     companion object {
@@ -27,13 +26,13 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
     }
 
     var pos2hint = mutableMapOf<Position, List<Int>>()
-    var left: Int = 0
-    var right: Int = 0
+    var left = 0
+    var right = 0
 
     init {
         size = Position(layout.size, layout[0].length / 4)
-        right = leftPart[0] - '0'
-        left = right
+        left = leftPart[0] - '0'
+        right = left
         if (leftPart.length > 1) left++
         for (r in 0 until rows()) {
             val str = layout[r]
@@ -41,13 +40,12 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
                 val p = Position(r, c)
                 val s = str.substring(c * 4, c * 4 + 4).trim(' ')
                 if (s.isEmpty()) continue
-                val hint = ArrayList<Int>()
-                for (ch in s.toCharArray()) {
-                    if (ch == '?' || ch in '0'..'9') {
-                        val n = if (ch == '?') -1 else ch - '0'
-                        hint.add(n)
+                val hint = mutableListOf<Int>()
+                for (ch in s)
+                    when (ch) {
+                        in '0'..'9' -> hint.add(ch - '0')
+                        '?' -> hint.add(-1)
                     }
-                }
                 pos2hint[p] = hint
             }
         }

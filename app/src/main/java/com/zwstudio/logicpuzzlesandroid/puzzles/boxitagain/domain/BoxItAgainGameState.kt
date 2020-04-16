@@ -5,11 +5,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState>(game) {
-    var objArray = Cloner().deepClone(game.objArray)
+    var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
 
     init {
         for ((p, _) in game.pos2hint)
@@ -18,8 +18,10 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
     }
 
     fun setObject(move: BoxItAgainGameMove): Boolean {
-        val dir = move.dir; val dir2 = (dir + 2) % 4
-        val p1 = move.p; val p2 = p1.add(BoxItAgainGame.offset[dir])
+        val dir = move.dir
+        val dir2 = (dir + 2) % 4
+        val p1 = move.p
+        val p2 = p1.add(BoxItAgainGame.offset[dir])
         if (game[p1][dir] != GridLineObject.Empty || !isValid(p2)) return false
         val o = this[p1][dir]
         if (o == move.obj) return false
@@ -58,12 +60,13 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
-            val p = Position(r, c)
-            val node = Node(p.toString())
-            g.addNode(node)
-            pos2node[p] = node
-        }
+        for (r in 0 until rows() - 1)
+            for (c in 0 until cols() - 1) {
+                val p = Position(r, c)
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
         for (r in 0 until rows() - 1)
             for (c in 0 until cols() - 1) {
                 val p = Position(r, c)
@@ -72,7 +75,7 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
                         g.connectNode(pos2node[p], pos2node[p.add(BoxItAgainGame.offset[i])])
             }
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.elementAt(0))
+            g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
@@ -88,15 +91,20 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
                 continue
             }
             val p2 = rng[0]
-            val n1 = area.size; val n2 = game.pos2hint[p2]
-            var r2 = 0; var r1 = rows(); var c2 = 0; var c1 = cols()
+            val n1 = area.size
+            val n2 = game.pos2hint[p2]
+            var r2 = 0
+            var r1 = rows()
+            var c2 = 0
+            var c1 = cols()
             for (p in area) {
                 if (r2 < p.row) r2 = p.row
                 if (r1 > p.row) r1 = p.row
                 if (c2 < p.col) c2 = p.col
                 if (c1 > p.col) c1 = p.col
             }
-            val rs = r2 - r1 + 1; val cs = c2 - c1 + 1
+            val rs = r2 - r1 + 1
+            val cs = c2 - c1 + 1
             fun hasLine(): Boolean {
                 for (r in r1..r2)
                     for (c in c1..c2) {

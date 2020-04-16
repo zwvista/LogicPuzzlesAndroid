@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathGameMove, ABCPathGameState>(game) {
-    private val objArray = game.objArray
+    private val objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
@@ -69,7 +69,7 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
                 }
             }
         ch2rng = ch2rng.filter { (_, rng) -> rng.size > 1 }.toMutableMap()
-        if (!ch2rng.isEmpty()) isSolved = false
+        if (ch2rng.isNotEmpty()) isSolved = false
         for ((_, rng) in ch2rng)
             for (p in rng)
                 pos2state[p] = HintState.Error

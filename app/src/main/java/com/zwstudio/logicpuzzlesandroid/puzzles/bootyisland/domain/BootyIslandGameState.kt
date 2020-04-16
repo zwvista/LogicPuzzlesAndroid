@@ -22,8 +22,12 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
     operator fun set(p: Position, obj: BootyIslandObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: BootyIslandGameMove): Boolean {
-        if (this[move.p] == move.obj) return false
-        this[move.p] = move.obj
+        val p = move.p
+        val objOld = this[p]
+        val objNew = move.obj
+        if (objOld is BootyIslandHintObject || objOld == objNew)
+            return false
+        this[p] = objNew
         updateIsSolved()
         return true
     }
@@ -100,9 +104,9 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         for (r in 0 until rows()) {
             var n1 = 0
             val n2 = 1
-            for (c in 0 until cols()) {
-                if (this[r, c] is BootyIslandTreasureObject) n1++
-            }
+            for (c in 0 until cols())
+                if (this[r, c] is BootyIslandTreasureObject)
+                    n1++
             if (n1 != n2) isSolved = false
             for (c in 0 until cols()) {
                 val o = this[r, c]
@@ -116,9 +120,9 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         for (c in 0 until cols()) {
             var n1 = 0
             val n2 = 1
-            for (r in 0 until rows()) {
-                if (this[r, c] is BootyIslandTreasureObject) n1++
-            }
+            for (r in 0 until rows())
+                if (this[r, c] is BootyIslandTreasureObject)
+                    n1++
             if (n1 != n2) isSolved = false
             for (r in 0 until rows()) {
                 val o = this[r, c]
@@ -144,8 +148,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                         if (o2 is BootyIslandTreasureObject) {
                             if (n1 == n2) return HintState.Complete
                             continue@next
-                        }
-                        if (o2 is BootyIslandEmptyObject) {
+                        } else if (o2 is BootyIslandEmptyObject) {
                             if (n1 == n2) possible2 = true
                         } else if (n1 == n2)
                             continue@next

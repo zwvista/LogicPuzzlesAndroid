@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BoxItAgainGame(layout: List<String>, gi: GameInterface<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState>, gdi: GameDocumentInterface) : CellsGame<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState>(gi, gdi) {
-
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
@@ -28,7 +27,7 @@ class BoxItAgainGame(layout: List<String>, gi: GameInterface<BoxItAgainGame, Box
     var pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
@@ -39,8 +38,7 @@ class BoxItAgainGame(layout: List<String>, gi: GameInterface<BoxItAgainGame, Box
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                val n = ch - '0'
-                pos2hint[p] = n
+                pos2hint[p] = ch - '0'
             }
         }
         for (r in 0 until rows() - 1) {

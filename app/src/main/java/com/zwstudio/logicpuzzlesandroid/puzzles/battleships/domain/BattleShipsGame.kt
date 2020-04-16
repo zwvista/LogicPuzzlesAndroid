@@ -4,14 +4,8 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-
-import java.util.HashMap
-
-import fj.F2
 
 class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>, gdi: GameDocumentInterface) : CellsGame<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>(gi, gdi) {
-
     companion object {
         val offset = arrayOf(
             Position(-1, 0),
@@ -38,8 +32,7 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
             val str = layout[r]
             for (c in 0 until cols() + 1) {
                 val p = Position(r, c)
-                val ch = str[c]
-                when (ch) {
+                when (val ch = str[c]) {
                     '^' -> pos2obj[p] = BattleShipsObject.BattleShipTop
                     'v' -> pos2obj[p] = BattleShipsObject.BattleShipBottom
                     '<' -> pos2obj[p] = BattleShipsObject.BattleShipLeft

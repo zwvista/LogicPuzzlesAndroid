@@ -4,14 +4,8 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-
-import java.util.HashMap
-
-import fj.F2
 
 class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>, gdi: GameDocumentInterface) : CellsGame<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(gi, gdi) {
-
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
@@ -34,10 +28,8 @@ class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, B
             for (c in 0 until cols()) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch in '0'..'9') {
-                    val n = ch - '0'
-                    pos2hint[p] = n
-                }
+                if (ch in '0'..'9')
+                    pos2hint[p] = ch - '0'
             }
         }
         val state = BootyIslandGameState(this)

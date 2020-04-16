@@ -19,10 +19,11 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
         )
     }
 
-    var ch2pos = mutableMapOf<Char, Position>()
-    var objArray: CharArray
-
     override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
+
+    var objArray: CharArray
+    var ch2pos = mutableMapOf<Char, Position>()
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
@@ -30,7 +31,7 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows() * cols())
+        objArray = CharArray(rows() * cols()) { ' ' }
 
         for (r in 0 until rows()) {
             val str = layout[r]

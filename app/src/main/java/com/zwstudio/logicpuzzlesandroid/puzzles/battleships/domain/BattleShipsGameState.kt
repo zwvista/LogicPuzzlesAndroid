@@ -123,7 +123,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)
             }
-        val shipNumbers = arrayOf(0, 0, 0, 0, 0)
+        val shipNumbers = mutableListOf(0, 0, 0, 0, 0)
         while (pos2node.isNotEmpty()) {
             g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
@@ -156,6 +156,6 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         //    2 Destroyers (3 squares)
         //    3 Submarines (2 squares)
         //    4 Patrol boats (1 square)
-        if (!shipNumbers.contentEquals(arrayOf(0, 4, 3, 2, 1))) isSolved = false
+        if (shipNumbers != listOf(0, 4, 3, 2, 1)) isSolved = false
     }
 }

@@ -19,7 +19,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
 
     fun setObject(move: BalancedTapasGameMove): Boolean {
         val p = move.p
-        val (objOld, objNew) = listOf(this[p], move.obj)
+        val objOld = this[p]
+        val objNew = move.obj
         if (objOld is BalancedTapasHintObject || objOld == objNew)
             return false
         this[p] = objNew
@@ -92,8 +93,10 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         for (r in 0 until rows() - 1)
             for (c in 0 until cols() - 1) {
                 val p = Position(r, c)
-                if (BalancedTapasGame.offset2.all { this[p.add(it)] is BalancedTapasWallObject })
+                if (BalancedTapasGame.offset2.all { this[p.add(it)] is BalancedTapasWallObject }) {
                     isSolved = false
+                    return
+                }
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
@@ -121,11 +124,10 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         }
         fun computeWalls(from: Int, to: Int): Int {
             var n = 0
-            for (c in 0 until cols()) {
+            for (c in 0 until cols())
                 for (r in 0 until rows())
                     if (this[r, c] is BalancedTapasWallObject)
                         n++
-            }
             return n
         }
         val n1 = computeWalls(0, game.left)
