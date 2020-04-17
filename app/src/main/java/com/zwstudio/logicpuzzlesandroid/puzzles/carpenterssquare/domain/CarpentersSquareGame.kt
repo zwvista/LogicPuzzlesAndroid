@@ -27,7 +27,7 @@ class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSqu
     var pos2hint = mutableMapOf<Position, CarpenterSquareHint>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)

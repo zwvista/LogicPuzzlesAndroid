@@ -5,46 +5,40 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.data.List
-import fj.function.Integers
-import java.util.*
 
-class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame?, BridgesGameMove?, BridgesGameState?>(game) {
-    var objArray: Array<BridgesObject?>
+class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesGameMove, BridgesGameState>(game) {
+    var objArray = Array<BridgesObject>(rows() * cols()) { BridgesEmptyObject() }
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: BridgesObject) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: BridgesObject) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, obj: BridgesObject?) {
-        objArray[row * cols() + col] = obj
+    init {
+        for (p in game.islandsInfo.keys)
+            this[p] = BridgesIslandObject()
     }
 
-    operator fun set(p: Position, obj: BridgesObject?) {
-        set(p.row, p.col, obj)
-    }
-
-    fun switchBridges(move: BridgesGameMove?): Boolean {
-        val pFrom = move!!.pFrom
+    fun switchBridges(move: BridgesGameMove): Boolean {
+        val pFrom = move.pFrom
         val pTo = move.pTo
         // 4. Bridges can only run horizontally or vertically.
-        if (!(pFrom!!.compareTo(pTo) < 0 && (pFrom.row == pTo!!.row || pFrom.col == pTo.col))) return false
-        val o11 = get(pFrom)
-        val o22 = get(pTo)
-        if (!(o11 is BridgesIslandObject && o22 is BridgesIslandObject)) return false
-        val o1 = o11
-        val o2 = o22
+        if (!(pFrom < pTo && (pFrom.row == pTo.row || pFrom.col == pTo.col))) return false
+        val o1 = this[pFrom]
+        val o2 = this[pTo]
+        if (!(o1 is BridgesIslandObject && o2 is BridgesIslandObject)) return false
         val n1 = if (pFrom.row == pTo.row) 1 else 2
         val n2 = (n1 + 2) % 4
-        val os: Position = BridgesGame.Companion.offset.get(n1)
+        val os = BridgesGame.offset[n1]
         val p = pFrom.add(os)
         while (p != pTo) {
             when (o1.bridges[n1]) {
                 0 -> {
                     // 4. Bridges can't cross each other.
-                    val o = get(p) as? BridgesEmptyObject ?: return false
-                    set(p, BridgesBridgeObject())
+                    if (this[p] !is BridgesEmptyObject) return false
+                    this[p] = BridgesBridgeObject()
                 }
-                2 -> set(p, BridgesEmptyObject())
+                2 -> this[p] = BridgesEmptyObject()
             }
             p.addBy(os)
         }
@@ -80,9 +74,9 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame?, Bridges
         val pos2node = mutableMapOf<Position, Node>()
         // 3. The number on each island tells you how many Bridges are touching
         // that island.
-        for ((p, info) in game!!.islandsInfo) {
-            val o = get(p) as BridgesIslandObject?
-            val n1 = fj.data.Array.array(*o!!.bridges).foldLeft(Integers.add, 0)
+        for ((p, info) in game.islandsInfo) {
+            val o = this[p] as BridgesIslandObject
+            val n1 = o.bridges.sum()
             val n2 = info.bridges
             o.state = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
@@ -92,7 +86,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame?, Bridges
             g.addNode(node)
         }
         if (!isSolved) return
-        for ((p, info) in game!!.islandsInfo) {
+        for ((p, info) in game.islandsInfo) {
             for (p2 in info.neighbors) {
                 if (p2 == null) continue
                 g.connectNode(pos2node[p], pos2node[p2])
@@ -100,14 +94,8 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame?, Bridges
         }
         // 2. You must connect all the islands with Bridges, making sure every
         // island is connected to each other with a Bridges path.
-        g.setRootNode(List.iterableList(pos2node.values).head())
+        g.setRootNode(pos2node.values.first())
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
-    }
-
-    init {
-        objArray = arrayOfNulls(rows() * cols())
-        Arrays.fill(objArray, BridgesEmptyObject())
-        for (p in game.islandsInfo.keys) set(p, BridgesIslandObject())
     }
 }

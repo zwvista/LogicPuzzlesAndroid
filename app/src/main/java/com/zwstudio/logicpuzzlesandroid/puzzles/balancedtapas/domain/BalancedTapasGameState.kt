@@ -6,16 +6,16 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(game) {
     var objArray = Array<BalancedTapasObject>(rows() * cols()) { BalancedTapasEmptyObject() }
 
+    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: BalancedTapasObject) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: BalancedTapasObject) {this[p.row, p.col] = obj}
+
     init {
         for (p in game.pos2hint.keys)
             this[p] = BalancedTapasHintObject()
         updateIsSolved()
     }
-
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: BalancedTapasObject) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: BalancedTapasObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: BalancedTapasGameMove): Boolean {
         val p = move.p

@@ -24,9 +24,9 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
     var objArray: Array<CarpentersWallObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: CarpentersWallObject) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: CarpentersWallObject) {set(p.row, p.col, obj)}
+    operator fun set(p: Position, obj: CarpentersWallObject) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)

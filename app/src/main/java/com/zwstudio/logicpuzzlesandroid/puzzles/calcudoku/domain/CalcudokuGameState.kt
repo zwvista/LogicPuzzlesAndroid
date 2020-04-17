@@ -3,40 +3,32 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku.domain
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F
-import fj.F0
-import fj.Ord
-import fj.data.Set
-import fj.data.Stream
-import fj.function.Integers
-import java.util.*
 
-class CalcudokuGameState(game: CalcudokuGame?) : CellsGameState<CalcudokuGame?, CalcudokuGameMove?, CalcudokuGameState?>(game) {
-    var objArray: IntArray
-    var row2state: Array<HintState?>
-    var col2state: Array<HintState?>
+class CalcudokuGameState(game: CalcudokuGame?) : CellsGameState<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(game) {
+    var objArray = IntArray(rows() * cols())
+    var row2state = Array<HintState>(rows()) { HintState.Normal }
+    var col2state = Array<HintState>(cols()) { HintState.Normal }
     var pos2state = mutableMapOf<Position, HintState>()
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, dotObj: Int) {objArray[row * cols() + col] = dotObj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, dotObj: Int) {
-        objArray[row * cols() + col] = dotObj
-    }
-
-    operator fun set(p: Position, obj: Int) {
-        set(p!!.row, p.col, obj)
+    init {
+        updateIsSolved()
     }
 
     fun setObject(move: CalcudokuGameMove): Boolean {
-        if (!isValid(move!!.p) || get(move.p) == move.obj) return false
-        set(move.p, move.obj)
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return false
+        this[p] = move.obj
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: CalcudokuGameMove): Boolean {
-        val p = move!!.p
+        val p = move.p
         if (!isValid(p)) return false
         val o = get(p)
         move.obj = (o + 1) % (cols() + 1)
@@ -68,48 +60,43 @@ class CalcudokuGameState(game: CalcudokuGame?) : CellsGameState<CalcudokuGame?, 
     */
     private fun updateIsSolved() {
         isSolved = true
-        val f = F { nums: List<Int> ->
-            val nums2 = Set.iterableSet(Ord.intOrd, nums).toJavaList()
+        fun f(nums: List<Int>): HintState {
+            val nums2 = nums.toSortedSet()
             // 1. Write numbers ranging from 1 to board size.
-            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
+            val s = if (nums2.first() == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
-            s
+            return s
         }
         // 6. All the numbers appear just one time in each row.
-        Stream.range(0, rows().toLong()).foreachDoEffect { r: Int -> row2state[r] = f.f(Stream.range(0, cols().toLong()).map { c: Int -> get(r, c) }.toJavaList()) }
+        for (r in 0 until rows())
+            row2state[r] = f((0 until cols()).map { this[r, it] })
         // 6. All the numbers appear just one time in each column.
-        Stream.range(0, cols().toLong()).foreachDoEffect { c: Int -> col2state[c] = f.f(Stream.range(0, rows().toLong()).map { r: Int -> get(r, c) }.toJavaList()) }
-        for ((p, h) in game!!.pos2hint) {
-            val nums = fj.data.List.iterableList(game!!.areas[game!!.pos2area[p]!!]).map { p2: Position? -> get(p2) }.toJavaList()
-            val g = label@ F0 {
-                if (nums.contains(0)) return@label HintState.Normal
+        for (c in 0 until cols())
+            col2state[c] = f((0 until rows()).map { this[it, c] })
+        for ((p, h) in game.pos2hint) {
+            val nums = game.areas[game.pos2area[p]!!].map { this[it] }
+            fun g(): HintState {
+                if (nums.contains(0)) return HintState.Normal
                 val n = h.result
-                when (h.op) {
-                    '+' -> return@label if (fj.data.List.iterableList(nums).foldLeft(Integers.add, 0) == n) HintState.Complete else HintState.Error
+                return when (h.op) {
+                    '+' -> if (nums.sum() == n) HintState.Complete else HintState.Error
                     '-' -> {
                         val n1 = nums[0]
                         val n2 = nums[1]
-                        return@label if (n1 - n2 == n || n2 - n1 == n) HintState.Complete else HintState.Error
+                        if (n1 - n2 == n || n2 - n1 == n) HintState.Complete else HintState.Error
                     }
-                    '*' -> return@label if (fj.data.List.iterableList(nums).foldLeft(Integers.multiply, 1) == n) HintState.Complete else HintState.Error
+                    '*' -> if (nums.fold(1) { acc, v -> acc * v } == n) HintState.Complete else HintState.Error
                     '/' -> {
                         val n1 = nums[0]
                         val n2 = nums[1]
-                        return@label if (n1 / n2 * n2 == n * n2 || n2 / n1 * n1 == n * n1) HintState.Complete else HintState.Error
+                        if (n1 / n2 * n2 == n * n2 || n2 / n1 * n1 == n * n1) HintState.Complete else HintState.Error
                     }
+                    else -> HintState.Normal
                 }
-                HintState.Normal
             }
-            val s = g.f()
+            val s = g()
             pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
-    }
-
-    init {
-        objArray = IntArray(rows() * cols())
-        row2state = arrayOfNulls(rows())
-        col2state = arrayOfNulls(cols())
-        updateIsSolved()
     }
 }

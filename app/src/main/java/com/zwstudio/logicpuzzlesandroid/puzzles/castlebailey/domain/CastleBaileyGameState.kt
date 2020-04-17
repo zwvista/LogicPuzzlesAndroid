@@ -6,7 +6,7 @@ import java.util.*
 
 class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-    var objArray = MutableList(rows() * cols()) { CastleBaileyObject.Empty }
+    var objArray = Array(rows() * cols()) { CastleBaileyObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
@@ -19,29 +19,22 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
     operator fun set(p: Position, obj: CastleBaileyObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: CastleBaileyGameMove): Boolean {
-        if (this[move.p] == move.obj) return false
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return false
+        this[p] = move.obj
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: CastleBaileyGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        fun f(obj: CastleBaileyObject) =
-            when (obj) {
-                CastleBaileyObject.Empty ->
-                    if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Marker
-                    else CastleBaileyObject.Wall
-                CastleBaileyObject.Wall ->
-                    if (markerOption == MarkerOptions.MarkerLast) CastleBaileyObject.Marker
-                    else CastleBaileyObject.Empty
-                CastleBaileyObject.Marker ->
-                    if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Wall
-                    else CastleBaileyObject.Empty
-                else -> obj
-            }
         val o = this[move.p]
-        move.obj = f(o)
+        move.obj = when (o) {
+            CastleBaileyObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Marker else CastleBaileyObject.Wall
+            CastleBaileyObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) CastleBaileyObject.Marker else CastleBaileyObject.Empty
+            CastleBaileyObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Wall else CastleBaileyObject.Empty
+            else -> o
+        }
         return setObject(move)
     }
 
@@ -90,11 +83,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
             // entirely surrounded by walls).
             // 5. Board borders don't count as walls, so there you'll have two walls
             // at most (or one in corners).
-            val s = when {
-                n1 < n2 -> HintState.Normal
-                n1 == n2 -> HintState.Complete
-                else -> HintState.Error
-            }
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
             if (s != HintState.Normal && allowedObjectsOnly)

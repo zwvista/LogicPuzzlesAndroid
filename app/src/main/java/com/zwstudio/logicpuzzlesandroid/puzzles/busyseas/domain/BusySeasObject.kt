@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.domain
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
@@ -25,7 +26,7 @@ class BusySeasHintObject(var state: HintState = HintState.Normal) : BusySeasObje
     override fun objAsString() = "hint"
 }
 
-class BusySeasLighthouseObject(var state: HintState = HintState.Normal) : BusySeasObject() {
+class BusySeasLighthouseObject(var state: AllowedObjectState = AllowedObjectState.Normal) : BusySeasObject() {
     override fun objAsString() = "lighthouse"
 }
 

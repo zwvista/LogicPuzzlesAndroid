@@ -27,9 +27,9 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
     var pos2hint = mutableMapOf<Position, CalcudokuHint>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position): Char = get(p.row, p.col)
+    operator fun get(p: Position): Char = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: Char) {set(p.row, p.col, obj)}
+    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length / 4)
@@ -52,17 +52,19 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 pos2hint[p] = CalcudokuHint(ch2, if (s == "  ") 0 else s.trim(' ').toInt())
             }
         }
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val ch = this[p]
-            if (ch == ' ') continue
-            for (os in offset) {
-                val p2 = p.add(os)
-                if (isValid(p2) && get(p2) == ch) g.connectNode(pos2node[p], pos2node[p2])
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val ch = this[p]
+                if (ch == ' ') continue
+                for (os in offset) {
+                    val p2 = p.add(os)
+                    if (isValid(p2) && get(p2) == ch)
+                        g.connectNode(pos2node[p], pos2node[p2])
+                }
             }
-        }
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(pos2node.values.elementAt(0))
+        while (pos2node.isNotEmpty()) {
+            g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             val n = areas.size
@@ -73,7 +75,8 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 for (i in 0..3) {
                     val p2 = p.add(offset[i])
                     val ch2 = if (!isValid(p2)) '.' else this[p2]
-                    if (ch2 != ch) dots[p.add(offset2[i]), dirs[i]] = GridLineObject.Line
+                    if (ch2 != ch)
+                        dots[p.add(offset2[i]), dirs[i]] = GridLineObject.Line
                 }
             }
             areas.add(area)
@@ -117,7 +120,6 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
-
     fun getRowState(row: Int) = state().row2state[row]
     fun getColState(col: Int) = state().col2state[col]
     fun getPosState(p: Position) = state().pos2state[p]
