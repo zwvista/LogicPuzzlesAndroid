@@ -28,7 +28,7 @@ class DisconnectFourGame(layout: List<String>, gi: GameInterface<DisconnectFourG
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols())
-                when (val ch = str[c]) {
+                when (str[c]) {
                     'Y' -> this[r, c] = DisconnectFourObject.Yellow
                     'R' -> this[r, c] = DisconnectFourObject.Red
                 }
