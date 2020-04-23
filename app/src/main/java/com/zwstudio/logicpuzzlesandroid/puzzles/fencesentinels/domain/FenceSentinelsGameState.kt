@@ -23,7 +23,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame?) : CellsGameState<FenceS
 
     private fun isValidMove(move: FenceSentinelsGameMove?) = !(move!!.p!!.row == rows() - 1 && move.dir == 2 || move.p!!.col == cols() - 1 && move.dir == 1)
 
-    fun setObject(move: FenceSentinelsGameMove?): Boolean {
+    fun setObject(move: FenceSentinelsGameMove): Boolean {
         if (!isValidMove(move)) return false
         val p1 = move!!.p
         val dir = move.dir
@@ -37,7 +37,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame?) : CellsGameState<FenceS
         return true
     }
 
-    fun switchObject(move: FenceSentinelsGameMove?): Boolean {
+    fun switchObject(move: FenceSentinelsGameMove): Boolean {
         if (!isValidMove(move)) return false
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: GridLineObject? ->

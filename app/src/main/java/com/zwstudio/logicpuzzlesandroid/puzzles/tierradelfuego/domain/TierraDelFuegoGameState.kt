@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 
-class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraDelFuegoGame?, TierraDelFuegoGameMove?, TierraDelFuegoGameState?>(game) {
+class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState>(game) {
     var objArray: Array<TierraDelFuegoObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 

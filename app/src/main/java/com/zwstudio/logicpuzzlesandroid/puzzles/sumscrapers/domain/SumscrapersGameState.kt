@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
-class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGame?, SumscrapersGameMove?, SumscrapersGameState?>(game) {
+class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGame, SumscrapersGameMove, SumscrapersGameState>(game) {
     private val objArray: IntArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>

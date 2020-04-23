@@ -7,7 +7,7 @@ import fj.F
 import fj.P2
 import java.util.*
 
-class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, GalaxiesGameMove?, GalaxiesGameState?>(game) {
+class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>(game) {
     var objArray: Array<Array<GridLineObject?>?>?
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
@@ -22,7 +22,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, Gala
         set(p.row, p.col, obj)
     }
 
-    fun setObject(move: GalaxiesGameMove?): Boolean {
+    fun setObject(move: GalaxiesGameMove): Boolean {
         val p1 = move!!.p
         val dir = move.dir
         val dir2 = (dir + 2) % 4
@@ -36,7 +36,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame?, Gala
         return true
     }
 
-    fun switchObject(move: GalaxiesGameMove?): Boolean {
+    fun switchObject(move: GalaxiesGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: GridLineObject? ->
             when (obj) {

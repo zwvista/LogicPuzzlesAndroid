@@ -6,7 +6,7 @@ import fj.data.HashMap
 import fj.data.Stream
 import java.util.*
 
-class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame?, TapAlikeGameMove?, TapAlikeGameState?>(game) {
+class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAlikeGameMove, TapAlikeGameState>(game) {
     var objArray: Array<TapAlikeObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 

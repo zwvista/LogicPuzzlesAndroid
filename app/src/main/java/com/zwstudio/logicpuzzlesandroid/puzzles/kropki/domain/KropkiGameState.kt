@@ -23,7 +23,7 @@ class KropkiGameState(game: KropkiGame?) : CellsGameState<KropkiGame?, KropkiGam
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: KropkiGameMove?): Boolean {
+    fun setObject(move: KropkiGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || get(p) == move.obj) return false
         set(p, move.obj)
@@ -31,7 +31,7 @@ class KropkiGameState(game: KropkiGame?) : CellsGameState<KropkiGame?, KropkiGam
         return true
     }
 
-    fun switchObject(move: KropkiGameMove?): Boolean {
+    fun switchObject(move: KropkiGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p)) return false
         val o = get(p)

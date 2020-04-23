@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tents.domainimport
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class TentsGameState(game: TentsGame) : CellsGameState<TentsGame?, TentsGameMove?, TentsGameState?>(game) {
+class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove, TentsGameState>(game) {
     var objArray: Array<TentsObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>

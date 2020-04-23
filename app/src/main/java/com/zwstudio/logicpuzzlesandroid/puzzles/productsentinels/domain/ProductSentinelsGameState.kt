@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.data.List
 import java.util.*
 
-class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<ProductSentinelsGame?, ProductSentinelsGameMove?, ProductSentinelsGameState?>(game) {
+class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState>(game) {
     var objArray: Array<ProductSentinelsObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

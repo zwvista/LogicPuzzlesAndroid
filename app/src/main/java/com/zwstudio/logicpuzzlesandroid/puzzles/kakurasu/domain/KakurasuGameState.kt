@@ -23,7 +23,7 @@ class KakurasuGameState(game: KakurasuGame?) : CellsGameState<KakurasuGame?, Kak
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: KakurasuGameMove?): Boolean {
+    fun setObject(move: KakurasuGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || get(p) == move.obj) return false
         set(p, move.obj)
@@ -31,7 +31,7 @@ class KakurasuGameState(game: KakurasuGame?) : CellsGameState<KakurasuGame?, Kak
         return true
     }
 
-    fun switchObject(move: KakurasuGameMove?): Boolean {
+    fun switchObject(move: KakurasuGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: KakurasuObject? ->
             when (obj) {

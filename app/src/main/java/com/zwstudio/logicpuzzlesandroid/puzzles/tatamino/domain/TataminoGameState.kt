@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import fj.data.List
 import java.util.*
 
-class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame?, TataminoGameMove?, TataminoGameState?>(game) {
+class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, TataminoGameMove, TataminoGameState>(game) {
     protected var cloner: Cloner = Cloner()
     var objArray: CharArray
     var dots: GridDots? = null

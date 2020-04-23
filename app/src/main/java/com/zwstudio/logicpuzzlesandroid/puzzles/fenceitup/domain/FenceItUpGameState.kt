@@ -8,14 +8,14 @@ import fj.P2
 import fj.data.List
 import java.util.*
 
-class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame?, FenceItUpGameMove?, FenceItUpGameState?>(game) {
+class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame, FenceItUpGameMove, FenceItUpGameState>(game) {
     var objArray: Array<Array<GridLineObject?>?>?
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
     operator fun get(p: Position) = get(p!!.row, p.col)
 
-    fun setObject(move: FenceItUpGameMove?): Boolean {
+    fun setObject(move: FenceItUpGameMove): Boolean {
         val p1 = move!!.p
         val dir = move.dir
         val dir2 = (dir + 2) % 4
@@ -29,7 +29,7 @@ class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame?, F
         return true
     }
 
-    fun switchObject(move: FenceItUpGameMove?): Boolean {
+    fun switchObject(move: FenceItUpGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: GridLineObject? ->
             when (obj) {

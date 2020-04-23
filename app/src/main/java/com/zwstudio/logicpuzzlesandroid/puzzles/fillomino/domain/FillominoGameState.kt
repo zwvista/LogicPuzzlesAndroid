@@ -7,7 +7,7 @@ import fj.P2
 import fj.data.List
 import java.util.*
 
-class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame?, FillominoGameMove?, FillominoGameState?>(game) {
+class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, FillominoGameMove, FillominoGameState>(game) {
     protected var cloner = Cloner()
     var objArray: CharArray
     var dots: GridDots? = null
@@ -24,7 +24,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame?, F
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: FillominoGameMove?): Boolean {
+    fun setObject(move: FillominoGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || get(p) == move.obj) return false
         set(p, move.obj)
@@ -32,7 +32,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame?, F
         return true
     }
 
-    fun switchObject(move: FillominoGameMove?): Boolean {
+    fun switchObject(move: FillominoGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || game!![p] != ' ') return false
         val o = get(p)

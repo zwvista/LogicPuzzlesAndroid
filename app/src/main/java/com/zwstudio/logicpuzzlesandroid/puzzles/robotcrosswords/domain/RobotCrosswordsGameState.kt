@@ -7,7 +7,7 @@ import fj.F
 import fj.data.Set
 import java.util.*
 
-class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<RobotCrosswordsGame?, RobotCrosswordsGameMove?, RobotCrosswordsGameState?>(game) {
+class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState>(game) {
     var objArray: IntArray
     var pos2horzState: Map<Position, HintState> = HashMap<Position, HintState>()
     var pos2vertState: Map<Position, HintState> = HashMap<Position, HintState>()

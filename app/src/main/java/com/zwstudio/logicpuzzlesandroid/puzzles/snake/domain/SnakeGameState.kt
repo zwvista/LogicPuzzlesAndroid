@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.data.List
 import java.util.*
 
-class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame?, SnakeGameMove?, SnakeGameState?>(game) {
+class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove, SnakeGameState>(game) {
     var objArray: Array<SnakeObject?>
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>

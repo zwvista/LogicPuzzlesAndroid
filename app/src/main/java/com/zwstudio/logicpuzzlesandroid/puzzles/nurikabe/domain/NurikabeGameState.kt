@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import fj.data.List
 import java.util.*
 
-class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame?, NurikabeGameMove?, NurikabeGameState?>(game) {
+class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
     var objArray: Array<NurikabeObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 

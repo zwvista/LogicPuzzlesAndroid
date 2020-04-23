@@ -26,14 +26,14 @@ class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, Gar
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: GardenerGameMove?): Boolean {
+    fun setObject(move: GardenerGameMove): Boolean {
         if (!isValid(move!!.p) || get(move.p) == move.obj) return false
         set(move.p, move.obj)
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: GardenerGameMove?): Boolean {
+    fun switchObject(move: GardenerGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: GardenerObject? ->
             if (obj is GardenerEmptyObject) return@label if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject() else GardenerTreeObject()

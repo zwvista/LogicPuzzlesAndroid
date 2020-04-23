@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F
 
-class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame?, LightenUpGameMove?, LightenUpGameState?>(game) {
+class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, LightenUpGameMove, LightenUpGameState>(game) {
     var objArray: Array<LightenUpObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
@@ -42,7 +42,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame?, L
         return true
     }
 
-    fun setObject(move: LightenUpGameMove?): Boolean {
+    fun setObject(move: LightenUpGameMove): Boolean {
         val p = move!!.p
         val objOld = get(p)
         val objNew = move.obj
@@ -57,7 +57,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame?, L
         return false
     }
 
-    fun switchObject(move: LightenUpGameMove?): Boolean {
+    fun switchObject(move: LightenUpGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val allowedObjectsOnly = game!!.gdi.isAllowedObjectsOnly
         val f = label@ F { obj: LightenUpObject? ->

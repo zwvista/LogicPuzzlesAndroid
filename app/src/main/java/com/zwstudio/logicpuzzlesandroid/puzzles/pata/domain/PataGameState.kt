@@ -5,7 +5,7 @@ import fj.data.HashMap
 import fj.data.Stream
 import java.util.*
 
-class PataGameState(game: PataGame) : CellsGameState<PataGame?, PataGameMove?, PataGameState?>(game) {
+class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, PataGameState>(game) {
     var objArray: Array<PataObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 

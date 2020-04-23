@@ -23,7 +23,7 @@ class MagnetsGameState(game: MagnetsGame?) : CellsGameState<MagnetsGame?, Magnet
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: MagnetsGameMove?): Boolean {
+    fun setObject(move: MagnetsGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || game!!.singles.contains(p) || get(p) === move.obj) return false
         set(p, move.obj)
@@ -31,7 +31,7 @@ class MagnetsGameState(game: MagnetsGame?) : CellsGameState<MagnetsGame?, Magnet
         return true
     }
 
-    fun switchObject(move: MagnetsGameMove?): Boolean {
+    fun switchObject(move: MagnetsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: MagnetsObject? ->
             when (obj) {

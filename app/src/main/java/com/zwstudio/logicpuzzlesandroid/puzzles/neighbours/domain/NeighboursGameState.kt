@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 
-class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame?, NeighboursGameMove?, NeighboursGameState?>(game) {
+class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame, NeighboursGameMove, NeighboursGameState>(game) {
     var objArray: Array<Array<GridLineObject?>>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

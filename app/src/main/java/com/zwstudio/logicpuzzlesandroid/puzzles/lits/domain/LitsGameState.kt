@@ -31,14 +31,14 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
         var tetrominoIndex = -1
     }
 
-    fun setObject(move: LitsGameMove?): Boolean {
+    fun setObject(move: LitsGameMove): Boolean {
         if (!isValid(move!!.p) || get(move.p) == move.obj) return false
         set(move.p, move.obj)
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: LitsGameMove?): Boolean {
+    fun switchObject(move: LitsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: LitsObject? ->
             if (obj is LitsEmptyObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LitsMarkerObject() else LitsTreeObject()

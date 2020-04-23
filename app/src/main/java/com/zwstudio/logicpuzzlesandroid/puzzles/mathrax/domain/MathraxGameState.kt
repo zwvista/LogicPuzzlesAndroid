@@ -7,7 +7,7 @@ import fj.data.Set
 import fj.data.Stream
 import java.util.*
 
-class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame?, MathraxGameMove?, MathraxGameState?>(game) {
+class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxGameMove, MathraxGameState>(game) {
     var objArray: IntArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>

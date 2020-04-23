@@ -6,7 +6,7 @@ import fj.F
 import fj.data.List
 import java.util.*
 
-class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame?, LoopyGameMove?, LoopyGameState?>(game) {
+class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove, LoopyGameState>(game) {
     var objArray: Array<Array<GridLineObject?>?>?
     operator fun get(row: Int, col: Int) = objArray!![row * cols() + col]
 
@@ -14,7 +14,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame?, LoopyGameMove
 
     private fun isValidMove(move: LoopyGameMove?) = !(move!!.p!!.row == rows() - 1 && move.dir == 2 || move.p!!.col == cols() - 1 && move.dir == 1)
 
-    fun setObject(move: LoopyGameMove?): Boolean {
+    fun setObject(move: LoopyGameMove): Boolean {
         if (!isValidMove(move)) return false
         val dir = move!!.dir
         val dir2 = (dir + 2) % 4
@@ -27,7 +27,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame?, LoopyGameMove
         return true
     }
 
-    fun switchObject(move: LoopyGameMove?): Boolean {
+    fun switchObject(move: LoopyGameMove): Boolean {
         if (!isValidMove(move)) return false
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: GridLineObject? ->

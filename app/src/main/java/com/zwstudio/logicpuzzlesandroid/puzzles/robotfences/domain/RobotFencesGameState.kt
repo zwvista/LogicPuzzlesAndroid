@@ -7,7 +7,7 @@ import fj.F
 import fj.data.Set
 import fj.data.Stream
 
-class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGame?, RobotFencesGameMove?, RobotFencesGameState?>(game) {
+class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState>(game) {
     var objArray: IntArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>

@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.data.List
 import java.util.*
 
-class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<PaintTheNurikabeGame?, PaintTheNurikabeGameMove?, PaintTheNurikabeGameState?>(game) {
+class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<PaintTheNurikabeGame, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>(game) {
     var objArray: Array<PaintTheNurikabeObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

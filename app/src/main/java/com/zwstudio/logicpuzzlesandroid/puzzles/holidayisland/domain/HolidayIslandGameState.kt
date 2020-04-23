@@ -7,7 +7,7 @@ import fj.F
 import fj.P2
 import java.util.*
 
-class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIslandGame?, HolidayIslandGameMove?, HolidayIslandGameState?>(game) {
+class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIslandGame, HolidayIslandGameMove, HolidayIslandGameState>(game) {
     var objArray: Array<HolidayIslandObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
@@ -21,14 +21,14 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: HolidayIslandGameMove?): Boolean {
+    fun setObject(move: HolidayIslandGameMove): Boolean {
         if (!isValid(move!!.p) || game!!.pos2hint[move.p] != null || get(move.p) == move.obj) return false
         set(move.p, move.obj)
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: HolidayIslandGameMove?): Boolean {
+    fun switchObject(move: HolidayIslandGameMove): Boolean {
         if (!isValid(move!!.p) || game!!.pos2hint[move.p] != null) return false
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: HolidayIslandObject? ->

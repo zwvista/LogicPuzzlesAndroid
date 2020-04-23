@@ -8,7 +8,7 @@ import fj.data.List
 import fj.data.Stream
 import java.util.*
 
-class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame?, TatamiGameMove?, TatamiGameState?>(game) {
+class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameMove, TatamiGameState>(game) {
     var objArray: CharArray
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

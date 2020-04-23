@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.data.Stream
 import java.util.*
 
-class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<NoughtsAndCrossesGame?, NoughtsAndCrossesGameMove?, NoughtsAndCrossesGameState?>(game) {
+class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>(game) {
     var objArray: CharArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>

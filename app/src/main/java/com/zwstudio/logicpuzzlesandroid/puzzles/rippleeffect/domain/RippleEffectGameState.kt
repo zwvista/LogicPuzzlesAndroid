@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.function.Effect1
 import java.util.*
 
-class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffectGame?, RippleEffectGameMove?, RippleEffectGameState?>(game) {
+class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(game) {
     var objArray: IntArray
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

@@ -8,7 +8,7 @@ import fj.function.Effect0
 import fj.function.Effect2
 import java.util.*
 
-class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame?, FourMeNotGameMove?, FourMeNotGameState?>(game) {
+class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, FourMeNotGameMove, FourMeNotGameState>(game) {
     var objArray: Array<FourMeNotObject?>
     var pos2state: Map<Position?, HintState?> = HashMap()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -23,14 +23,14 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame?, F
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: FourMeNotGameMove?): Boolean {
+    fun setObject(move: FourMeNotGameMove): Boolean {
         if (!isValid(move!!.p) || game!![move.p] !is FourMeNotEmptyObject || get(move.p) == move.obj) return false
         set(move.p, move.obj)
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: FourMeNotGameMove?): Boolean {
+    fun switchObject(move: FourMeNotGameMove): Boolean {
         if (!isValid(move!!.p) || game!![move.p] !is FourMeNotEmptyObject) return false
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: FourMeNotObject? ->

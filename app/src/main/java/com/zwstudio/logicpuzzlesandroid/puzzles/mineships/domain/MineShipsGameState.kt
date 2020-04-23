@@ -8,7 +8,7 @@ import fj.data.List
 import fj.data.Stream
 import java.util.*
 
-class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame?, MineShipsGameMove?, MineShipsGameState?>(game) {
+class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, MineShipsGameMove, MineShipsGameState>(game) {
     var objArray: Array<MineShipsObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

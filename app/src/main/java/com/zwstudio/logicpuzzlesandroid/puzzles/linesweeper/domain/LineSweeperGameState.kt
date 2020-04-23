@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.data.List
 import java.util.*
 
-class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame?, LineSweeperGameMove?, LineSweeperGameState?>(game) {
+class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(game) {
     var objArray: Array<Array<Boolean?>>
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -23,7 +23,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         set(p.row, p.col, obj)
     }
 
-    fun setObject(move: LineSweeperGameMove?): Boolean {
+    fun setObject(move: LineSweeperGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || game!!.isHint(p)) return false
         val dir = move.dir

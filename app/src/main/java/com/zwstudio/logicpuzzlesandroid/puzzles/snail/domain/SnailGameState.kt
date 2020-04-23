@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.*
 
-class SnailGameState(game: SnailGame) : CellsGameState<SnailGame?, SnailGameMove?, SnailGameState?>(game) {
+class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove, SnailGameState>(game) {
     private val objArray: CharArray
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     var row2state: Array<HintState?>

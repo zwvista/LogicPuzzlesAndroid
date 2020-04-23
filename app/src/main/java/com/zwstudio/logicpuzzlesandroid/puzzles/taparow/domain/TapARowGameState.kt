@@ -11,7 +11,7 @@ import fj.data.Stream
 import fj.function.Integers
 import java.util.*
 
-class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame?, TapARowGameMove?, TapARowGameState?>(game) {
+class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowGameMove, TapARowGameState>(game) {
     var objArray: Array<TapARowObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 
@@ -25,7 +25,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame?, TapARow
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: TapARowGameMove?): Boolean {
+    fun setObject(move: TapARowGameMove): Boolean {
         val p = move!!.p
         val objOld = get(p)
         val objNew = move.obj
@@ -35,7 +35,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame?, TapARow
         return true
     }
 
-    fun switchObject(move: TapARowGameMove?): Boolean {
+    fun switchObject(move: TapARowGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: TapARowObject? ->
             if (obj is TapARowEmptyObject) return@label if (markerOption == MarkerOptions.MarkerFirst) TapARowMarkerObject() else TapARowWallObject()

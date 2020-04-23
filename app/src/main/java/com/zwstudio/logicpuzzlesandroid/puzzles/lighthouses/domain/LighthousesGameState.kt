@@ -9,7 +9,7 @@ import fj.F
 import fj.F0
 import java.util.*
 
-class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGame?, LighthousesGameMove?, LighthousesGameState?>(game) {
+class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGame, LighthousesGameMove, LighthousesGameState>(game) {
     var objArray: Array<LighthousesObject?>
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -24,14 +24,14 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: LighthousesGameMove?): Boolean {
+    fun setObject(move: LighthousesGameMove): Boolean {
         if (get(move!!.p) == move.obj) return false
         set(move.p, move.obj)
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: LighthousesGameMove?): Boolean {
+    fun switchObject(move: LighthousesGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: LighthousesObject? ->
             if (obj is LighthousesEmptyObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LighthousesMarkerObject() else LighthousesLighthouseObject()

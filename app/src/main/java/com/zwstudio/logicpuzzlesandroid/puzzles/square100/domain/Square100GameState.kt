@@ -3,8 +3,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.square100.domainimport
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import fj.F2
 
-class Square100GameState(game: Square100Game) : CellsGameState<Square100Game?, Square100GameMove?, Square100GameState?>(game) {
+class Square100GameState(game: Square100Game) : CellsGameState<Square100Game, Square100GameMove, Square100GameState>(game) {
     var objArray: Array<String?>
     var row2hint: IntArray
     var col2hint: IntArray

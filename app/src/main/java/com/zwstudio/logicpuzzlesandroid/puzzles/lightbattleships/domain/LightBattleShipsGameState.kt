@@ -9,7 +9,7 @@ import fj.data.Stream
 import fj.function.Integers
 import java.util.*
 
-class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<LightBattleShipsGame?, LightBattleShipsGameMove?, LightBattleShipsGameState?>(game) {
+class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>(game) {
     var objArray: Array<LightBattleShipsObject?>
     var pos2state = mutableMapOf<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
@@ -24,7 +24,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: LightBattleShipsGameMove?): Boolean {
+    fun setObject(move: LightBattleShipsGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || game!!.pos2obj.containsKey(p) || get(p) === move.obj) return false
         set(p, move.obj)
@@ -32,7 +32,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         return true
     }
 
-    fun switchObject(move: LightBattleShipsGameMove?): Boolean {
+    fun switchObject(move: LightBattleShipsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val f = label@ F { obj: LightBattleShipsObject? ->
             if (obj is LightBattleShipsEmptyObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsMarkerObject() else LightBattleShipsBattleShipUnitObject() else if (obj is LightBattleShipsBattleShipUnitObject) return@label LightBattleShipsBattleShipMiddleObject() else if (obj is LightBattleShipsBattleShipMiddleObject) return@label LightBattleShipsBattleShipLeftObject() else if (obj is LightBattleShipsBattleShipLeftObject) return@label LightBattleShipsBattleShipTopObject() else if (obj is LightBattleShipsBattleShipTopObject) return@label LightBattleShipsBattleShipRightObject() else if (obj is LightBattleShipsBattleShipRightObject) return@label LightBattleShipsBattleShipBottomObject() else if (obj is LightBattleShipsBattleShipBottomObject) return@label if (markerOption == MarkerOptions.MarkerLast) LightBattleShipsMarkerObject() else LightBattleShipsEmptyObject() else if (obj is LightBattleShipsMarkerObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsBattleShipUnitObject() else LightBattleShipsEmptyObject()

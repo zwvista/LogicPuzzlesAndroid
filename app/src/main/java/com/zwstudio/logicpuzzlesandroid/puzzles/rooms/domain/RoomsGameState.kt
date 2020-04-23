@@ -6,7 +6,7 @@ import fj.F
 import fj.data.List
 import java.util.*
 
-class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame?, RoomsGameMove?, RoomsGameState?>(game) {
+class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove, RoomsGameState>(game) {
     var objArray: Array<Array<GridLineObject?>>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

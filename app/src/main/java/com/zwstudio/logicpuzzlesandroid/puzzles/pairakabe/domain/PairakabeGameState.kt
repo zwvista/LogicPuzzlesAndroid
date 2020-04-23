@@ -5,7 +5,7 @@ import fj.F
 import fj.data.List
 import java.util.*
 
-class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame?, PairakabeGameMove?, PairakabeGameState?>(game) {
+class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, PairakabeGameMove, PairakabeGameState>(game) {
     var objArray: Array<PairakabeObject?>
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
 

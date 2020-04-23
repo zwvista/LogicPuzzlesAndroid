@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.F
 import java.util.*
 
-class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGame?, MinesweeperGameMove?, MinesweeperGameState?>(game) {
+class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGame, MinesweeperGameMove, MinesweeperGameState>(game) {
     var objArray: Array<MinesweeperObject?>
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

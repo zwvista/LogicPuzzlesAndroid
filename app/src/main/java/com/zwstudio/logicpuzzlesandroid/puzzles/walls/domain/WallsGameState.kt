@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
-class WallsGameState(game: WallsGame) : CellsGameState<WallsGame?, WallsGameMove?, WallsGameState?>(game) {
+class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove, WallsGameState>(game) {
     var objArray: Array<WallsObject?>
     var pos2state: Map<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

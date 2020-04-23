@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.data.Set
 import fj.data.Stream
 
-class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGame?, TheOddBrickGameMove?, TheOddBrickGameState?>(game) {
+class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGame, TheOddBrickGameMove, TheOddBrickGameState>(game) {
     var objArray: IntArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>

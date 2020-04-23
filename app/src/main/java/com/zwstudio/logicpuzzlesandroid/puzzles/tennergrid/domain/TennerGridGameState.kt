@@ -7,7 +7,7 @@ import fj.data.List
 import fj.data.Stream
 import java.util.*
 
-class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame?, TennerGridGameMove?, TennerGridGameState?>(game) {
+class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame, TennerGridGameMove, TennerGridGameState>(game) {
     var objArray: IntArray
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

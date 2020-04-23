@@ -10,7 +10,7 @@ import fj.data.Set
 import fj.data.Stream
 import java.util.*
 
-class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame?, FutoshikiGameMove?, FutoshikiGameState?>(game) {
+class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, FutoshikiGameMove, FutoshikiGameState>(game) {
     var objArray: CharArray
     var row2state: Array<HintState?>
     var col2state: Array<HintState?>
@@ -27,7 +27,7 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame?, F
         set(p!!.row, p.col, obj)
     }
 
-    fun setObject(move: FutoshikiGameMove?): Boolean {
+    fun setObject(move: FutoshikiGameMove): Boolean {
         val p = move!!.p
         if (!(isValid(p) && p!!.row % 2 == 0 && p.col % 2 == 0 && game!![p] == ' ') || get(move.p) == move.obj) return false
         set(move.p, move.obj)
@@ -35,7 +35,7 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame?, F
         return true
     }
 
-    fun switchObject(move: FutoshikiGameMove?): Boolean {
+    fun switchObject(move: FutoshikiGameMove): Boolean {
         val p = move!!.p
         if (!(isValid(p) && p!!.row % 2 == 0 && p.col % 2 == 0 && game!![p] == ' ')) return false
         val o = get(p).toInt()

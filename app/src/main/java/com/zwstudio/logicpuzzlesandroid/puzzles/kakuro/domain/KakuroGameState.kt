@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
-class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame?, KakuroGameMove?, KakuroGameState?>(game) {
+class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameMove, KakuroGameState>(game) {
     var pos2num = mutableMapOf<Position, Int>()
     var pos2horzHint = mutableMapOf<Position, HintState>()
     var pos2vertHint = mutableMapOf<Position, HintState>()
@@ -15,7 +15,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame?, KakuroGame
         pos2num[p] = obj
     }
 
-    fun setObject(move: KakuroGameMove?): Boolean {
+    fun setObject(move: KakuroGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || get(p) == null || get(p) == move.obj) return false
         set(p, move.obj)
@@ -23,7 +23,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame?, KakuroGame
         return true
     }
 
-    fun switchObject(move: KakuroGameMove?): Boolean {
+    fun switchObject(move: KakuroGameMove): Boolean {
         val p = move!!.p
         if (!isValid(p) || get(p) == null) return false
         val o = get(p)
