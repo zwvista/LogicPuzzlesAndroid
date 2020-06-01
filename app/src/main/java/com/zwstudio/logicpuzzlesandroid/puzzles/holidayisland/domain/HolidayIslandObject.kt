@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 sealed class HolidayIslandObject {
     open fun objAsString() = "empty"
@@ -22,7 +23,7 @@ class HolidayIslandForbiddenObject : HolidayIslandObject() {
 
 }
 
-class HolidayIslandHintObject(var state: AllowedObjectState = AllowedObjectState.Normal, var tiles: Int = 0) : HolidayIslandObject() {
+class HolidayIslandHintObject(var state: HintState = HintState.Normal, var tiles: Int = 0) : HolidayIslandObject() {
     override fun objAsString() = "hint"
 }
 

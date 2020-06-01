@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 sealed class GardenerObject {
     open fun objAsString() = "empty"
@@ -25,7 +25,7 @@ class GardenerMarkerObject : GardenerObject() {
     override fun objAsString() = "marker"
 }
 
-class GardenerTreeObject(var state: HintState = HintState.Normal) : GardenerObject() {
+class GardenerTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : GardenerObject() {
     override fun objAsString() = "tree"
 }
 

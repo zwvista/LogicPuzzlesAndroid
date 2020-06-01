@@ -4,18 +4,18 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import java.util.*
 
 class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameMove, HitoriGameState>(game) {
-    private var objArray = Array(rows() * cols(), {HitoriObject.Normal})
-    var row2hint = Array(rows(), {""})
-    var col2hint = Array(cols(), {""})
+    private var objArray = Array(rows() * cols()) { HitoriObject.Normal }
+    var row2hint = Array(rows()) { "" }
+    var col2hint = Array(cols()) { "" }
 
     init {
         updateIsSolved()
     }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-    operator fun get(p: Position) = get(p.row, p.col)
+    operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: HitoriObject) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: HitoriObject) {set(p.row, p.col, obj)}
+    operator fun set(p: Position, obj: HitoriObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: HitoriGameMove): Boolean {
         val p = move.p
