@@ -100,7 +100,7 @@ class MagnetsGameState(game: MagnetsGame?) : CellsGameState<MagnetsGame?, Magnet
         for (a in game!!.areas) when (a!!.type) {
             MagnetsAreaType.Single -> continue
             MagnetsAreaType.Horizontal, MagnetsAreaType.Vertical -> {
-                val os: Position = MagnetsGame.Companion.offset.get(if (a.type == MagnetsAreaType.Horizontal) 1 else 2)
+                val os: Position = MagnetsGame.offset.get(if (a.type == MagnetsAreaType.Horizontal) 1 else 2)
                 val o1 = get(a.p)
                 val o2 = get(a.p!!.add(os))
                 if (o1.isEmpty() != o2.isEmpty()) {
@@ -115,7 +115,7 @@ class MagnetsGameState(game: MagnetsGame?) : CellsGameState<MagnetsGame?, Magnet
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o = get(r, c)
-            for (os in MagnetsGame.Companion.offset) {
+            for (os in MagnetsGame.offset) {
                 val p2 = p.add(os)
                 if (!isValid(p2)) continue
                 val o2 = get(p2)

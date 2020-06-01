@@ -15,7 +15,7 @@ class TapDifferentlyDocument : GameDocument<TapDifferentlyGame?, TapDifferentlyG
         return object : TapDifferentlyGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = TapDifferentlyObject.Companion.objTypeFromString(rec.strValue1)
+                obj = TapDifferentlyObject.objTypeFromString(rec.strValue1)
             }
         }
     }

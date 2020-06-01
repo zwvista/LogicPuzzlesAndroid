@@ -50,7 +50,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
         isSolved = true
         for ((p, n2) in game!!.pos2horzHint) {
             var n1 = 0
-            val os: Position = KakuroGame.Companion.offset.get(1)
+            val os: Position = KakuroGame.offset.get(1)
             var n: Int
             val lastN = 0
             val p2 = p.add(os)
@@ -73,7 +73,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
         }
         for ((p, n2) in game!!.pos2vertHint) {
             var n1 = 0
-            val os: Position = KakuroGame.Companion.offset.get(2)
+            val os: Position = KakuroGame.offset.get(2)
             var n: Int
             val lastN = 0
             val p2 = p.add(os)

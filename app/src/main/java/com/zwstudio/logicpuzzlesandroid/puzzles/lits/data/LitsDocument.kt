@@ -20,7 +20,7 @@ class LitsDocument : GameDocument<LitsGame?, LitsGameMove?>() {
         return object : LitsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = LitsObject.Companion.objFromString(rec.strValue1)
+                obj = LitsObject.objFromString(rec.strValue1)
             }
         }
     }

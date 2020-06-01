@@ -85,14 +85,14 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
             val p = Position(r, c)
             val o: TentsObject? = get(r, c)
             val hasTree: F0<Boolean> = label@ F0<Boolean> {
-                for (os in TentsGame.Companion.offset) {
+                for (os in TentsGame.offset) {
                     val p2 = p.add(os)
                     if (isValid(p2) && get(p2) is TentsTreeObject) return@label true
                 }
                 false
             }
             val hasTent: F<Boolean, Boolean> = label@ F<Boolean, Boolean> { isTree: Boolean ->
-                for (os in if (isTree) TentsGame.Companion.offset else TentsGame.Companion.offset2) {
+                for (os in if (isTree) TentsGame.offset else TentsGame.offset2) {
                     val p2 = p.add(os)
                     if (isValid(p2) && get(p2) is TentsTentObject) return@label true
                 }

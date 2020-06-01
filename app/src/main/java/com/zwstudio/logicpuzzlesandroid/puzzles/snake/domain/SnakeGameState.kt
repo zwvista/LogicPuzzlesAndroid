@@ -98,7 +98,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
             g.addNode(node)
             pos2node[p] = node
         }
-        for (p in pos2node.keys) for (os in SnakeGame.Companion.offset) {
+        for (p in pos2node.keys) for (os in SnakeGame.offset) {
             val p2 = p.add(os)
             if (pos2node.containsKey(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }
@@ -110,7 +110,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
         for (p in pos2node.keys) {
             val rngEmpty = mutableListOf<Position>()
             val rngSnake = mutableListOf<Position>()
-            for (os in SnakeGame.Companion.offset) {
+            for (os in SnakeGame.offset) {
                 val p2 = p.add(os)
                 if (!isValid(p2)) continue
                 val o: SnakeObject? = get(p2)

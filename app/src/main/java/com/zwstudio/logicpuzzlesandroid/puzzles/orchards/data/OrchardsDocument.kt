@@ -15,7 +15,7 @@ class OrchardsDocument : GameDocument<OrchardsGame?, OrchardsGameMove?>() {
         return object : OrchardsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = OrchardsObject.Companion.objFromString(rec.strValue1)
+                obj = OrchardsObject.objFromString(rec.strValue1)
             }
         }
     }

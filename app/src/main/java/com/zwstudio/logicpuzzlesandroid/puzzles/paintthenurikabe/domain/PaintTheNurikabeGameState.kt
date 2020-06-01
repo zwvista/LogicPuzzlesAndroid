@@ -72,7 +72,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         for ((p, n2) in game.pos2hint.entries) {
             val rng = mutableListOf<Position>()
             var n1 = 0
-            for (os in PaintTheNurikabeGame.Companion.offset) {
+            for (os in PaintTheNurikabeGame.offset) {
                 val p2 = p.add(os)
                 if (!isValid(p2)) continue
                 val o: PaintTheNurikabeObject? = get(p2)
@@ -85,8 +85,8 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         // 4. There can't be any 2*2 area of the same color(painted or empty).
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            if (fj.data.Array.array<Position>(*NurikabeGame.Companion.offset2).forall(F<Position, Boolean> { os: Position? -> get(p.add(os)) == PaintTheNurikabeObject.Painted }) ||
-                fj.data.Array.array<Position>(*NurikabeGame.Companion.offset2).forall(F<Position, Boolean> { os: Position? -> get(p.add(os)) == PaintTheNurikabeObject.Empty })) {
+            if (fj.data.Array.array<Position>(*NurikabeGame.offset2).forall(F<Position, Boolean> { os: Position? -> get(p.add(os)) == PaintTheNurikabeObject.Painted }) ||
+                fj.data.Array.array<Position>(*NurikabeGame.offset2).forall(F<Position, Boolean> { os: Position? -> get(p.add(os)) == PaintTheNurikabeObject.Empty })) {
                 isSolved = false
                 return
             }
@@ -102,7 +102,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
                 pos2node[p] = node
             }
         }
-        for (p in pos2node.keys) for (os in NurikabeGame.Companion.offset) {
+        for (p in pos2node.keys) for (os in NurikabeGame.offset) {
             val p2 = p.add(os)
             if (pos2node.containsKey(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }

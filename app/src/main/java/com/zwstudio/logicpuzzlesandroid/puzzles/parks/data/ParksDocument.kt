@@ -15,7 +15,7 @@ class ParksDocument : GameDocument<ParksGame?, ParksGameMove?>() {
         return object : ParksGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = ParksObject.Companion.objFromString(rec.strValue1)
+                obj = ParksObject.objFromString(rec.strValue1)
             }
         }
     }

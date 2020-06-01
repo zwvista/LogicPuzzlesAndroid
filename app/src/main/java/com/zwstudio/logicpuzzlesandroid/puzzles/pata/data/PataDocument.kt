@@ -15,7 +15,7 @@ class PataDocument : GameDocument<PataGame?, PataGameMove?>() {
         return object : PataGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = PataObject.Companion.objTypeFromString(rec.strValue1)
+                obj = PataObject.objTypeFromString(rec.strValue1)
             }
         }
     }

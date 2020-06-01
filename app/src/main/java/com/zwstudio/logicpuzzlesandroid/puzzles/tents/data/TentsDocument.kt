@@ -15,7 +15,7 @@ class TentsDocument : GameDocument<TentsGame?, TentsGameMove?>() {
         return object : TentsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = TentsObject.Companion.objFromString(rec.strValue1)
+                obj = TentsObject.objFromString(rec.strValue1)
             }
         }
     }

@@ -69,7 +69,7 @@ class ParksGameState(game: ParksGame?) : CellsGameState<ParksGame?, ParksGameMov
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val hasNeighbor: F0<Boolean> = F0<Boolean> {
-                fj.data.Array.array<Position>(*ParksGame.Companion.offset).exists(F<Position, Boolean> { os: Position? ->
+                fj.data.Array.array<Position>(*ParksGame.offset).exists(F<Position, Boolean> { os: Position? ->
                     val p2 = p.add(os)
                     isValid(p2) && get(p2) is ParksTreeObject
                 })

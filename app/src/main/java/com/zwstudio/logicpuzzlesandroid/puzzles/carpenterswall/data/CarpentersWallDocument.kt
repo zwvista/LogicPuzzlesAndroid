@@ -20,7 +20,7 @@ class CarpentersWallDocument : GameDocument<CarpentersWallGame?, CarpentersWallG
         return object : CarpentersWallGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = CarpentersWallObject.Companion.objTypeFromString(rec.strValue1)
+                obj = CarpentersWallObject.objTypeFromString(rec.strValue1)
             }
         }
     }

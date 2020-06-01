@@ -95,8 +95,8 @@ class LineSweeperGameView : CellsGameView {
                 f.f()
             }
             MotionEvent.ACTION_MOVE -> if (!isH && pLastMove != null && p != pLastMove) {
-                val n = Stream.range(0, LineSweeperGame.Companion.offset.size.toLong())
-                    .filter { i: Int? -> LineSweeperGame.Companion.offset.get(i!!) == p.subtract(pLastMove) }
+                val n = Stream.range(0, LineSweeperGame.offset.size.toLong())
+                    .filter { i: Int? -> LineSweeperGame.offset.get(i!!) == p.subtract(pLastMove) }
                     .orHead { -1 }
                 if (n != -1) {
                     val move: LineSweeperGameMove = object : LineSweeperGameMove() {

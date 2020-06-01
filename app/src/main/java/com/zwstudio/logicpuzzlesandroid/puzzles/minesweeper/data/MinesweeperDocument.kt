@@ -15,7 +15,7 @@ class MinesweeperDocument : GameDocument<MinesweeperGame?, MinesweeperGameMove?>
         return object : MinesweeperGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = MinesweeperObject.Companion.objFromString(rec.strValue1)
+                obj = MinesweeperObject.objFromString(rec.strValue1)
             }
         }
     }

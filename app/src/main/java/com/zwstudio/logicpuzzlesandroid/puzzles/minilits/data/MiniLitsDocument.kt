@@ -15,7 +15,7 @@ class MiniLitsDocument : GameDocument<MiniLitsGame?, MiniLitsGameMove?>() {
         return object : MiniLitsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = MiniLitsObject.Companion.objFromString(rec.strValue1)
+                obj = MiniLitsObject.objFromString(rec.strValue1)
             }
         }
     }

@@ -20,7 +20,7 @@ class LightenUpDocument : GameDocument<LightenUpGame?, LightenUpGameMove?>() {
         return object : LightenUpGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = LightenUpObject.Companion.objTypeFromString(rec.strValue1)
+                obj = LightenUpObject.objTypeFromString(rec.strValue1)
             }
         }
     }

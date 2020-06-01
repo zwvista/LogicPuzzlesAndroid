@@ -15,7 +15,7 @@ class PairakabeDocument : GameDocument<PairakabeGame?, PairakabeGameMove?>() {
         return object : PairakabeGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = PairakabeObject.Companion.objTypeFromString(rec.strValue1)
+                obj = PairakabeObject.objTypeFromString(rec.strValue1)
             }
         }
     }

@@ -78,7 +78,7 @@ class GardenerGameState(game: GardenerGame?) : CellsGameState<GardenerGame?, Gar
             val p = Position(r, c)
             val o = get(p)
             val hasNeighbor = F0 {
-                fj.data.Array.array<Position>(*GardenerGame.Companion.offset).exists { os: Position? ->
+                fj.data.Array.array<Position>(*GardenerGame.offset).exists { os: Position? ->
                     val p2 = p.add(os)
                     isValid(p2) && get(p2) is GardenerTreeObject
                 }

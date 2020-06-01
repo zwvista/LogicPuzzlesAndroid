@@ -83,7 +83,7 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
                 }
                 HintState.Normal
             }
-            val nums: List<Int> = fj.data.Array.array<Position>(*MathraxGame.Companion.offset2).map<Int>(F<Position, Int> { os: Position? -> get(p.add(os)) }).toJavaList()
+            val nums: List<Int> = fj.data.Array.array<Position>(*MathraxGame.offset2).map<Int>(F<Position, Int> { os: Position? -> get(p.add(os)) }).toJavaList()
             // 3. This is valid for both pairs of numbers surrounding the hint.
             val s1: HintState = g.f(nums[0], nums[1])
             val s2: HintState = g.f(nums[2], nums[3])

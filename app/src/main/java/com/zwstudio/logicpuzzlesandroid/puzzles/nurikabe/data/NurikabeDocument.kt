@@ -15,7 +15,7 @@ class NurikabeDocument : GameDocument<NurikabeGame?, NurikabeGameMove?>() {
         return object : NurikabeGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = NurikabeObject.Companion.objTypeFromString(rec.strValue1)
+                obj = NurikabeObject.objTypeFromString(rec.strValue1)
             }
         }
     }

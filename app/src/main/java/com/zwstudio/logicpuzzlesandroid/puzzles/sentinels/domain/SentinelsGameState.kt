@@ -78,7 +78,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val hasNeighbor: F0<Boolean> = label@ F0<Boolean> {
-                for (os in SentinelsGame.Companion.offset) {
+                for (os in SentinelsGame.offset) {
                     val p2 = p.add(os)
                     if (isValid(p2) && get(p2) is SentinelsTowerObject) return@label true
                 }
@@ -98,7 +98,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             next@ for (i in 0..3) {
-                val os: Position = SentinelsGame.Companion.offset.get(i)
+                val os: Position = SentinelsGame.offset.get(i)
                 val p2 = p.add(os)
                 while (isValid(p2)) {
                     val o2: SentinelsObject? = get(p2)
@@ -114,7 +114,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         }
         if (!isSolved) return
         for ((p, node) in pos2node) {
-            for (os in SentinelsGame.Companion.offset) {
+            for (os in SentinelsGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)

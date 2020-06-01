@@ -73,7 +73,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         }
         for ((p, node) in pos2node) {
             val b1 = get(p) is TierraDelFuegoTreeObject
-            for (os in TierraDelFuegoGame.Companion.offset) {
+            for (os in TierraDelFuegoGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2] ?: continue
                 val b2 = get(p2) is TierraDelFuegoTreeObject
@@ -88,7 +88,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
                 // 3. The archipelago is peculiar because all bodies of water separating the
                 // islands are identical in shape and occupied a 2*1 or 1*2 space.
                 // 4. These bodies of water can only touch diagonally.
-                if (area.size != 2) isSolved = false else if (allowedObjectsOnly) for (p in area) for (os in TierraDelFuegoGame.Companion.offset) {
+                if (area.size != 2) isSolved = false else if (allowedObjectsOnly) for (p in area) for (os in TierraDelFuegoGame.offset) {
                     val p2 = p.add(os)
                     if (!isValid(p2)) continue
                     val o: TierraDelFuegoObject? = get(p2)

@@ -27,7 +27,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         val p = move!!.p
         if (!isValid(p) || game!!.isHint(p)) return false
         val dir = move.dir
-        val p2 = p!!.add(LineSweeperGame.Companion.offset.get(dir * 2))
+        val p2 = p!!.add(LineSweeperGame.offset.get(dir * 2))
         if (!isValid(p2) || game!!.isHint(p2)) return false
         val dir2 = (dir + 2) % 4
         get(p)[dir] = !get(p)[dir]
@@ -56,7 +56,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         // by the loop.
         for ((p, n2) in game!!.pos2hint) {
             var n1 = 0
-            for (os in LineSweeperGame.Companion.offset) {
+            for (os in LineSweeperGame.offset) {
                 val p2 = p!!.add(os)
                 if (!isValid(p2)) continue
                 var hasLine = false
@@ -90,7 +90,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
             val o = get(p)
             for (i in 0..3) {
                 if (!o[i]) continue
-                val p2 = p.add(LineSweeperGame.Companion.offset.get(i * 2))
+                val p2 = p.add(LineSweeperGame.offset.get(i * 2))
                 g.connectNode(pos2node[p], pos2node[p2])
             }
         }

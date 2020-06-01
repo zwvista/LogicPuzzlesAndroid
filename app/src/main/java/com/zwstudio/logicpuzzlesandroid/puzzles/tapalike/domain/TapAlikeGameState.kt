@@ -85,7 +85,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
             val p: Position = kv._1()
             val arr2: List<Int> = kv._2()
             val filled = Stream.range(0, 8).filter(F<Int, Boolean> { i: Int? ->
-                val p2 = p.add(TapAlikeGame.Companion.offset.get(i!!))
+                val p2 = p.add(TapAlikeGame.offset.get(i!!))
                 isValid(p2) && get(p2) is TapAlikeWallObject
             }).toJavaList()
             val arr: List<Int> = computeHint.f(filled)
@@ -100,7 +100,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         // Tiles with numbers can be considered 'empty'.
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            if (fj.data.Array.array<Position>(*TapAlikeGame.Companion.offset2).forall(F<Position, Boolean> { os: Position? ->
+            if (fj.data.Array.array<Position>(*TapAlikeGame.offset2).forall(F<Position, Boolean> { os: Position? ->
                     val o: TapAlikeObject? = get(p.add(os))
                     o is TapAlikeWallObject
                 })) {
@@ -119,7 +119,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
             }
         }
         for ((p, node) in pos2node) {
-            for (os in TapaGame.Companion.offset) {
+            for (os in TapaGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)

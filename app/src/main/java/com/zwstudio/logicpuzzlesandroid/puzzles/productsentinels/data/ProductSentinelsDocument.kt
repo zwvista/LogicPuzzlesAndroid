@@ -16,7 +16,7 @@ class ProductSentinelsDocument : GameDocument<ProductSentinelsGame?, ProductSent
         return object : ProductSentinelsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = ProductSentinelsObject.Companion.objFromString(rec.strValue1)
+                obj = ProductSentinelsObject.objFromString(rec.strValue1)
             }
         }
     }

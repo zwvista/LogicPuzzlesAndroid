@@ -15,7 +15,7 @@ class SentinelsDocument : GameDocument<SentinelsGame?, SentinelsGameMove?>() {
         return object : SentinelsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = SentinelsObject.Companion.objFromString(rec.strValue1)
+                obj = SentinelsObject.objFromString(rec.strValue1)
             }
         }
     }

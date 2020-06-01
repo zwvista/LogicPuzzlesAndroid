@@ -15,7 +15,7 @@ class MineShipsDocument : GameDocument<MineShipsGame?, MineShipsGameMove?>() {
         return object : MineShipsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = MineShipsObject.Companion.objFromString(rec.strValue1)
+                obj = MineShipsObject.objFromString(rec.strValue1)
             }
         }
     }

@@ -20,7 +20,7 @@ class LighthousesDocument : GameDocument<LighthousesGame?, LighthousesGameMove?>
         return object : LighthousesGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = LighthousesObject.Companion.objFromString(rec.strValue1)
+                obj = LighthousesObject.objFromString(rec.strValue1)
             }
         }
     }

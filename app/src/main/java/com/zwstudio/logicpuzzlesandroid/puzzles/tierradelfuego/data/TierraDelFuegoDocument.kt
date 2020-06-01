@@ -15,7 +15,7 @@ class TierraDelFuegoDocument : GameDocument<TierraDelFuegoGame?, TierraDelFuegoG
         return object : TierraDelFuegoGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = TierraDelFuegoObject.Companion.objFromString(rec.strValue1)
+                obj = TierraDelFuegoObject.objFromString(rec.strValue1)
             }
         }
     }

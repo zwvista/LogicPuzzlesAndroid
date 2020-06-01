@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 sealed class FourMeNotObject {
     open fun objAsString() = "empty"
@@ -30,7 +30,7 @@ class FourMeNotMarkerObject : FourMeNotObject() {
     override fun objAsString() = "marker"
 }
 
-class FourMeNotTreeObject(var state: HintState = HintState.Normal) : FourMeNotObject() {
+class FourMeNotTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : FourMeNotObject() {
     override fun objAsString() = "tree"
 }
 

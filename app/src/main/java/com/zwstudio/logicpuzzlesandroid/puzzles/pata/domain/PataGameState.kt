@@ -85,14 +85,14 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
             val p: Position = kv._1()
             val arr2: List<Int> = kv._2()
             val emptied = Stream.range(0, 8).filter(F<Int, Boolean> { i: Int? ->
-                val p2 = p.add(PataGame.Companion.offset.get(i!!))
+                val p2 = p.add(PataGame.offset.get(i!!))
                 if (!isValid(p2)) return@filter false
                 val o: PataObject? = get(p2)
                 o is PataEmptyObject || o is PataHintObject
             }).toJavaList()
             val arr: List<Int> = computeHint.f(emptied)
             val filled = Stream.range(0, 8).filter(F<Int, Boolean> { i: Int? ->
-                val p2 = p.add(PataGame.Companion.offset.get(i!!))
+                val p2 = p.add(PataGame.offset.get(i!!))
                 isValid(p2) && get(p2) is PataWallObject
             }).toJavaList()
             val arr3: List<Int> = computeHint.f(filled)
@@ -106,7 +106,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         // 6. You can't have a 2*2 space of filled tiles.
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            if (fj.data.Array.array<Position>(*PataGame.Companion.offset2).forall(F<Position, Boolean> { os: Position? ->
+            if (fj.data.Array.array<Position>(*PataGame.offset2).forall(F<Position, Boolean> { os: Position? ->
                     val o: PataObject? = get(p.add(os))
                     o is PataWallObject
                 })) {
@@ -124,7 +124,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
             pos2node[p] = node
             if (get(p) is PataWallObject) rngWalls.add(p)
         }
-        for (p in rngWalls) for (os in PataGame.Companion.offset) {
+        for (p in rngWalls) for (os in PataGame.offset) {
             val p2 = p.add(os)
             if (rngWalls.contains(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }

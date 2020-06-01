@@ -15,7 +15,7 @@ class TapaIslandsDocument : GameDocument<TapaIslandsGame?, TapaIslandsGameMove?>
         return object : TapaIslandsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = TapaIslandsObject.Companion.objTypeFromString(rec.strValue1)
+                obj = TapaIslandsObject.objTypeFromString(rec.strValue1)
             }
         }
     }

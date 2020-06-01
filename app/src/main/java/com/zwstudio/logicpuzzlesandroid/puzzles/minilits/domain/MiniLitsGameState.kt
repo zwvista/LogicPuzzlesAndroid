@@ -78,7 +78,7 @@ class MiniLitsGameState(game: MiniLitsGame?) : CellsGameState<MiniLitsGame?, Min
             }
         }
         for ((p, node) in pos2node) {
-            for (os in MiniLitsGame.Companion.offset) {
+            for (os in MiniLitsGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)
@@ -106,7 +106,7 @@ class MiniLitsGameState(game: MiniLitsGame?) : CellsGameState<MiniLitsGame?, Min
         }
         for (i in infos.indices) {
             val info = infos[i]
-            for (p in info.trees) for (os in MiniLitsGame.Companion.offset) {
+            for (p in info.trees) for (os in MiniLitsGame.offset) {
                 val p2 = p.add(os)
                 val index = fj.data.List.iterableList(infos).toStream().indexOf(F<MiniLitsAreaInfo, Boolean> { info2: MiniLitsAreaInfo -> info2.trees.contains(p2) })
                 if (index.isSome && index.some() != i) info.neighborIndexes.add(index.some())
@@ -135,7 +135,7 @@ class MiniLitsGameState(game: MiniLitsGame?) : CellsGameState<MiniLitsGame?, Min
                 val p2 = Position(fj.data.List.iterableList(info.trees).map<Int>(F<Position, Int> { p: Position -> p.row }).minimum(Ord.intOrd),
                     fj.data.List.iterableList(info.trees).map<Int>(F<Position, Int> { p: Position -> p.col }).minimum(Ord.intOrd))
                 for (p in info.trees) treeOffsets.add(p.subtract(p2))
-                info.tetrominoIndex = fj.data.Array.array<Array<Position>>(*MiniLitsGame.Companion.triominos).toStream()
+                info.tetrominoIndex = fj.data.Array.array<Array<Position>>(*MiniLitsGame.triominos).toStream()
                     .indexOf(F<Array<Position>, Boolean> { arr: Array<Position?>? -> Arrays.equals(arr, treeOffsets.toTypedArray()) }).orSome(-1)
                 if (info.tetrominoIndex == -1) notSolved.f(info)
             }
@@ -153,9 +153,9 @@ class MiniLitsGameState(game: MiniLitsGame?) : CellsGameState<MiniLitsGame?, Min
         // 4. All the shaded cells should form a valid Nurikabe.
         val block = blocks[0]
         rule2x2@ for (p in block) {
-            for (os in MiniLitsGame.Companion.offset3) if (block.contains(p.add(os))) continue@rule2x2
+            for (os in MiniLitsGame.offset3) if (block.contains(p.add(os))) continue@rule2x2
             isSolved = false
-            for (os in MiniLitsGame.Companion.offset3) {
+            for (os in MiniLitsGame.offset3) {
                 val o = MiniLitsTreeObject()
                 o.state = AllowedObjectState.Error
                 set(p.add(os), o)

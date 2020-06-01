@@ -15,7 +15,7 @@ class WallsDocument : GameDocument<WallsGame?, WallsGameMove?>() {
         return object : WallsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = WallsObject.Companion.objFromString(rec.strValue1)
+                obj = WallsObject.objFromString(rec.strValue1)
             }
         }
     }

@@ -15,7 +15,7 @@ class ParkLakesDocument : GameDocument<ParkLakesGame?, ParkLakesGameMove?>() {
         return object : ParkLakesGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = ParkLakesObject.Companion.objFromString(rec.strValue1)
+                obj = ParkLakesObject.objFromString(rec.strValue1)
             }
         }
     }

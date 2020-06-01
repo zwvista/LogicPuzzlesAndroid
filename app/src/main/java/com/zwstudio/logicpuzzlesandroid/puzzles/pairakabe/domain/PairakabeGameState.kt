@@ -57,7 +57,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
         // The wall can't form 2*2 squares.
         for (r in 0 until rows() - 1) rule2x2@ for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            for (os in PairakabeGame.Companion.offset2) if (get(p.add(os)) !is PairakabeWallObject) continue@rule2x2
+            for (os in PairakabeGame.offset2) if (get(p.add(os)) !is PairakabeWallObject) continue@rule2x2
             isSolved = false
         }
         val g = Graph()
@@ -71,11 +71,11 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             pos2node[p] = node
             if (get(p) is PairakabeWallObject) rngWalls.add(p) else rngEmpty.add(p)
         }
-        for (p in rngWalls) for (os in PairakabeGame.Companion.offset) {
+        for (p in rngWalls) for (os in PairakabeGame.offset) {
             val p2 = p.add(os)
             if (rngWalls.contains(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }
-        for (p in rngEmpty) for (os in PairakabeGame.Companion.offset) {
+        for (p in rngEmpty) for (os in PairakabeGame.offset) {
             val p2 = p.add(os)
             if (rngEmpty.contains(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }

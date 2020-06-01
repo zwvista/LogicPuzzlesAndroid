@@ -20,7 +20,7 @@ class LightBattleShipsDocument : GameDocument<LightBattleShipsGame?, LightBattle
         return object : LightBattleShipsGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = LightBattleShipsObject.Companion.objFromString(rec.strValue1)
+                obj = LightBattleShipsObject.objFromString(rec.strValue1)
             }
         }
     }

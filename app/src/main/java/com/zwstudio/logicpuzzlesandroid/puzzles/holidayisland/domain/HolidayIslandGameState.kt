@@ -128,7 +128,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         for (p in rngHints) {
             val n2 = game!!.pos2hint[p]!!
             val rng = mutableSetOf<Position>()
-            for (os in HolidayIslandGame.Companion.offset) {
+            for (os in HolidayIslandGame.offset) {
                 val p2 = p.add(os)
                 val i = pos2area[p2] ?: continue
                 rng.addAll(areas[i])

@@ -78,7 +78,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             next@ for (i in 0..3) {
-                val os: Position = BusySeasGame.Companion.offset.get(i)
+                val os: Position = BusySeasGame.offset.get(i)
                 val p2 = p.add(os)
                 while (isValid(p2)) {
                     val o2 = this[p2]

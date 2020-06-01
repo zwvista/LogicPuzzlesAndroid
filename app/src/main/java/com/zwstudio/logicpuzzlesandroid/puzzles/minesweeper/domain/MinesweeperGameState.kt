@@ -58,7 +58,7 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
         for ((p, n2) in game.pos2hint.entries) {
             var n1 = 0
             val rng = mutableListOf<Position>()
-            for (os in MinesweeperGame.Companion.offset) {
+            for (os in MinesweeperGame.offset) {
                 val p2 = p.add(os)
                 if (!isValid(p2)) continue
                 val o: MinesweeperObject? = get(p2)

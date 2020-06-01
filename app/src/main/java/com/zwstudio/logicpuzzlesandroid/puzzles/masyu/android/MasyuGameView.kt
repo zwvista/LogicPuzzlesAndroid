@@ -92,8 +92,8 @@ class MasyuGameView : CellsGameView {
                 f.f()
             }
             MotionEvent.ACTION_MOVE -> if (p != pLastMove) {
-                val n = Stream.range(0, MasyuGame.Companion.offset.size.toLong())
-                    .filter(F<Int, Boolean> { i: Int? -> MasyuGame.Companion.offset.get(i) == p!!.subtract(pLastMove) })
+                val n = Stream.range(0, MasyuGame.offset.size.toLong())
+                    .filter(F<Int, Boolean> { i: Int? -> MasyuGame.offset.get(i) == p!!.subtract(pLastMove) })
                     .orHead(F0<Int> { -1 })
                 if (n != -1) {
                     val move: MasyuGameMove = object : MasyuGameMove() {

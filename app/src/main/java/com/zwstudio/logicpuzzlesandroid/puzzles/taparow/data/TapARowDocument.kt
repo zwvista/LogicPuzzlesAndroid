@@ -20,7 +20,7 @@ class TapARowDocument : GameDocument<TapARowGame?, TapARowGameMove?>() {
         return object : TapARowGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = TapARowObject.Companion.objTypeFromString(rec.strValue1)
+                obj = TapARowObject.objTypeFromString(rec.strValue1)
             }
         }
     }

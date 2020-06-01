@@ -62,7 +62,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                 val n2: Int = o.walls
                 var n1 = 0
                 for (i in 0..3) {
-                    val os: Position = WallsGame.Companion.offset.get(i)
+                    val os: Position = WallsGame.offset.get(i)
                     val p2 = p.add(os)
                     while (isValid(p2)) {
                         if (i % 2 == 0) // 3. Wall pieces have two ways to be put, horizontally or vertically.

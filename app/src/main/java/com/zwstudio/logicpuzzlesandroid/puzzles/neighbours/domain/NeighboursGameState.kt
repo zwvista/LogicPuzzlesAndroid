@@ -28,7 +28,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
         if (game.get(p1).get(dir) != GridLineObject.Empty) return false
         val o: GridLineObject? = get(p1)[dir]
         if (o == move.obj) return false
-        val p2 = p1.add(NeighboursGame.Companion.offset.get(dir))
+        val p2 = p1.add(NeighboursGame.offset.get(dir))
         get(p1)[dir] = move.obj
         get(p2)[dir2] = get(p1)[dir]
         updateIsSolved()
@@ -80,7 +80,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
         }
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            for (i in 0..3) if (get(p.add(NeighboursGame.Companion.offset2.get(i)))[NeighboursGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(NeighboursGame.Companion.offset.get(i))])
+            for (i in 0..3) if (get(p.add(NeighboursGame.offset2.get(i)))[NeighboursGame.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(NeighboursGame.offset.get(i))])
         }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
@@ -111,11 +111,11 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
                 for (p in area) {
                     var i = 0
                     while (i < 4) {
-                        if (get(p.add(NeighboursGame.Companion.offset2.get(i)))[NeighboursGame.Companion.dirs.get(i)] != GridLineObject.Line) {
+                        if (get(p.add(NeighboursGame.offset2.get(i)))[NeighboursGame.dirs.get(i)] != GridLineObject.Line) {
                             i++
                             continue
                         }
-                        val p2 = p.add(NeighboursGame.Companion.offset.get(i))
+                        val p2 = p.add(NeighboursGame.offset.get(i))
                         val idx2 = pos2area[p2]
                         if (idx2 == null) {
                             i++

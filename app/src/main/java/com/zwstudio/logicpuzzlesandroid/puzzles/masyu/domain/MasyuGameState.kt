@@ -23,7 +23,7 @@ class MasyuGameState(game: MasyuGame?) : CellsGameState<MasyuGame?, MasyuGameMov
     fun setObject(move: MasyuGameMove): Boolean {
         val p: Position = move.p
         val dir: Int = move.dir
-        val p2 = p.add(MasyuGame.Companion.offset.get(dir))
+        val p2 = p.add(MasyuGame.offset.get(dir))
         val dir2 = (dir + 2) % 4
         get(p)[dir] = !get(p)[dir]!!
         get(p2)[dir2] = !get(p2)[dir2]!!
@@ -96,7 +96,7 @@ class MasyuGameState(game: MasyuGame?) : CellsGameState<MasyuGame?, MasyuGameMov
             val ch: Char = game.get(p)
             var bW = ch != 'W'
             for (i in dirs) {
-                val p2 = p.add(MasyuGame.Companion.offset.get(i))
+                val p2 = p.add(MasyuGame.offset.get(i))
                 val node2 = pos2node[p2]
                 if (node2 == null) {
                     isSolved = false

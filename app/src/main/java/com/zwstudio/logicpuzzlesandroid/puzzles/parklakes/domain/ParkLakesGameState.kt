@@ -72,7 +72,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             } else if (o is ParkLakesHintObject) o.state = HintState.Normal
         }
         for ((p, node) in pos2node) {
-            for (os in TierraDelFuegoGame.Companion.offset) {
+            for (os in TierraDelFuegoGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)
@@ -108,7 +108,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         }
         for ((p, n2) in game.pos2hint.entries) {
             var n1 = 0
-            for (os in ParkLakesGame.Companion.offset) {
+            for (os in ParkLakesGame.offset) {
                 val i = pos2area[p.add(os)] ?: continue
                 n1 += areas[i].size
             }
@@ -129,7 +129,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             }
         }
         for ((p, node) in pos2node) {
-            for (os in TierraDelFuegoGame.Companion.offset) {
+            for (os in TierraDelFuegoGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2] ?: continue
                 g.connectNode(node, node2)

@@ -89,7 +89,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             val p = kv._1()
             val arr2 = kv._2()
             val filled = Stream.range(0, 8).filter { i: Int? ->
-                val p2 = p!!.add(TapARowGame.Companion.offset.get(i!!))
+                val p2 = p!!.add(TapARowGame.offset.get(i!!))
                 isValid(p2) && get(p2) is TapARowWallObject
             }.toJavaList()
             val arr = computeHint.f(filled)
@@ -104,7 +104,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         // Tiles with numbers can be considered 'empty'.
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            if (fj.data.Array.array<Position>(*TapARowGame.Companion.offset2).forall { os: Position? ->
+            if (fj.data.Array.array<Position>(*TapARowGame.offset2).forall { os: Position? ->
                     val o = get(p.add(os))
                     o is TapARowWallObject
                 }) {
@@ -124,7 +124,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             }
         }
         for ((p, node) in pos2node) {
-            for (os in TapaGame.Companion.offset) {
+            for (os in TapaGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)

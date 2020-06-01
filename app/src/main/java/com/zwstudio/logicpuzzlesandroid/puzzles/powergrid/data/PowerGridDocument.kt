@@ -15,7 +15,7 @@ class PowerGridDocument : GameDocument<PowerGridGame?, PowerGridGameMove?>() {
         return object : PowerGridGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = PowerGridObject.Companion.objFromString(rec.strValue1)
+                obj = PowerGridObject.objFromString(rec.strValue1)
             }
         }
     }

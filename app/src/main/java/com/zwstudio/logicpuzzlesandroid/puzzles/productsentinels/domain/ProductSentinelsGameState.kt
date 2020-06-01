@@ -77,7 +77,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
                 pos2node[p] = node
             }
         }
-        for (p in pos2node.keys) for (os in ProductSentinelsGame.Companion.offset) {
+        for (p in pos2node.keys) for (os in ProductSentinelsGame.offset) {
             val p2 = p.add(os)
             if (pos2node.containsKey(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }
@@ -85,7 +85,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val hasNeighbor: F0<Boolean> = label@ F0<Boolean> {
-                for (os in ProductSentinelsGame.Companion.offset) {
+                for (os in ProductSentinelsGame.offset) {
                     val p2 = p.add(os)
                     if (isValid(p2) && get(p2) is ProductSentinelsTowerObject) return@label true
                 }
@@ -105,7 +105,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             next@ for (i in 0..3) {
-                val os: Position = ProductSentinelsGame.Companion.offset.get(i)
+                val os: Position = ProductSentinelsGame.offset.get(i)
                 val p2 = p.add(os)
                 while (isValid(p2)) {
                     val o2: ProductSentinelsObject? = get(p2)

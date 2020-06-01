@@ -20,7 +20,7 @@ class GardenerDocument : GameDocument<GardenerGame?, GardenerGameMove?>() {
         return object : GardenerGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = GardenerObject.Companion.objFromString(rec.strValue1)
+                obj = GardenerObject.objFromString(rec.strValue1)
             }
         }
     }

@@ -28,7 +28,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
             val f = F { n: Int -> if (tolighten) n + 1 else if (n > 0) n - 1 else n }
             var obj = get(p)
             obj!!.lightness = f.f(obj.lightness)
-            for (os in LightenUpGame.Companion.offset) {
+            for (os in LightenUpGame.offset) {
                 val p2 = p!!.add(os)
                 while (isValid(p2)) {
                     obj = get(p2)
@@ -109,7 +109,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
                 val n2 = game!!.pos2hint[p]!!
                 if (n2 < 0) continue
                 var n1 = 0
-                for (os in LightenUpGame.Companion.offset) {
+                for (os in LightenUpGame.offset) {
                     val p2 = p.add(os)
                     if (!isValid(p2)) continue
                     if (get(p2) is LightenUpLightbulbObject) n1++

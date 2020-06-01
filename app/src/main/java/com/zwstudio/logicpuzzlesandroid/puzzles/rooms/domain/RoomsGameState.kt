@@ -19,7 +19,7 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
         val dir2 = (dir + 2) % 4
         val o: GridLineObject? = get(p1)[dir]
         if (o == move.obj) return false
-        val p2 = p1.add(RoomsGame.Companion.offset.get(dir))
+        val p2 = p1.add(RoomsGame.offset.get(dir))
         get(p1)[dir] = move.obj
         get(p2)[dir2] = get(p1)[dir]
         updateIsSolved()
@@ -68,9 +68,9 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
             var n1 = 0
             for (i in 0..3) {
                 val p2 = p.plus()
-                while (get(p2.add(RoomsGame.Companion.offset2.get(i)))[RoomsGame.Companion.dirs.get(i)] != GridLineObject.Line) {
+                while (get(p2.add(RoomsGame.offset2.get(i)))[RoomsGame.dirs.get(i)] != GridLineObject.Line) {
                     n1++
-                    p2.addBy(RoomsGame.Companion.offset.get(i))
+                    p2.addBy(RoomsGame.offset.get(i))
                 }
             }
             pos2state[p] = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -88,7 +88,7 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
         }
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            for (i in 0..3) if (get(p.add(RoomsGame.Companion.offset2.get(i)))[RoomsGame.Companion.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(ParksGame.Companion.offset.get(i))])
+            for (i in 0..3) if (get(p.add(RoomsGame.offset2.get(i)))[RoomsGame.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(ParksGame.offset.get(i))])
         }
         // 3. At the end of the solution, each Room must be reachable from the others.
         // That means no single Room or group of Rooms can be divided by the others.

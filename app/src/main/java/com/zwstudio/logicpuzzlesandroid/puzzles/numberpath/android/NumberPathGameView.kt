@@ -86,8 +86,8 @@ class NumberPathGameView : CellsGameView {
                 f.f()
             }
             MotionEvent.ACTION_MOVE -> if (pLastMove != null && p != pLastMove) {
-                val n = List.range(0, NumberPathGame.Companion.offset.size)
-                    .filter(F<Int, Boolean> { i: Int? -> NumberPathGame.Companion.offset.get(i) == p.subtract(pLastMove) })
+                val n = List.range(0, NumberPathGame.offset.size)
+                    .filter(F<Int, Boolean> { i: Int? -> NumberPathGame.offset.get(i) == p.subtract(pLastMove) })
                     .orHead(F0<Int> { -1 })
                 if (n != -1) {
                     val move: NumberPathGameMove = object : NumberPathGameMove() {

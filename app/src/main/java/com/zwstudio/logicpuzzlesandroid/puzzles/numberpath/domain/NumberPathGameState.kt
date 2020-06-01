@@ -27,7 +27,7 @@ class NumberPathGameState(game: NumberPathGame?) : CellsGameState<NumberPathGame
     fun setObject(move: NumberPathGameMove): Boolean {
         val p: Position = move.p
         val dir: Int = move.dir
-        val p2 = p.add(NumberPathGame.Companion.offset.get(dir))
+        val p2 = p.add(NumberPathGame.offset.get(dir))
         val dir2 = (dir + 2) % 4
         if (!isValid(p2)) return false
         get(p)[dir] = !get(p)[dir]!!
@@ -85,7 +85,7 @@ class NumberPathGameState(game: NumberPathGame?) : CellsGameState<NumberPathGame
             nums.add(game.get(p))
             for (i in 0..3) {
                 if (!o[i]!!) continue
-                val p2 = p.add(NumberPathGame.Companion.offset.get(i))
+                val p2 = p.add(NumberPathGame.offset.get(i))
                 g.connectNode(pos2node[p], pos2node[p2])
             }
         }

@@ -81,7 +81,7 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
                 // 3. Digit can repeat on the same column, however digits in contiguous tiles
                 // must be different, even diagonally.
                 if (r < rows() - 2) {
-                    val rng = Array.array<Position>(*TennerGridGame.Companion.offset).toStream()
+                    val rng = Array.array<Position>(*TennerGridGame.offset).toStream()
                         .map<Position>(F<Position, Position> { os: Position? -> p.add(os) }).filter(F<Position, Boolean> { p2: Position? -> isValid(p2) && o2 == get(p2) }).toJavaList()
                     if (!rng.isEmpty()) {
                         isSolved = false

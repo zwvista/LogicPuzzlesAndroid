@@ -20,7 +20,7 @@ class HolidayIslandDocument : GameDocument<HolidayIslandGame?, HolidayIslandGame
         return object : HolidayIslandGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = HolidayIslandObject.Companion.objFromString(rec.strValue1)
+                obj = HolidayIslandObject.objFromString(rec.strValue1)
             }
         }
     }

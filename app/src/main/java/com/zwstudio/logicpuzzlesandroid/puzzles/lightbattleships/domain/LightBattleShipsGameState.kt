@@ -74,7 +74,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val hasNeighbor = label@ F { isHint: Boolean ->
-                for (os in LightBattleShipsGame.Companion.offset) {
+                for (os in LightBattleShipsGame.offset) {
                     val p2 = p.add(os)
                     if (!isValid(p2)) continue
                     val o = get(p2)
@@ -101,7 +101,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             val nums = arrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             for (i in 0..3) {
-                val os: Position = LightBattleShipsGame.Companion.offset.get(i * 2)
+                val os: Position = LightBattleShipsGame.offset.get(i * 2)
                 val p2 = p!!.add(os)
                 while (game!!.isValid(p2)) {
                     val o = get(p2)
@@ -129,7 +129,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             }
         }
         for ((p, node) in pos2node) {
-            for (os in LightBattleShipsGame.Companion.offset) {
+            for (os in LightBattleShipsGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)
@@ -154,7 +154,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                 isSolved = false
                 continue
             }
-            for (p in area) for (os in LightBattleShipsGame.Companion.offset) {
+            for (p in area) for (os in LightBattleShipsGame.offset) {
                 // 3. Ships cannot touch each other. Not even diagonally.
                 val p2 = p.add(os)
                 if (!isValid(p2) || area.contains(p2)) continue

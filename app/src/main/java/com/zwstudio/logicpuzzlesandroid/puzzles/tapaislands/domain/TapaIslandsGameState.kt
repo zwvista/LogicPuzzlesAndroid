@@ -88,7 +88,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             val p: Position = kv._1()
             val arr2: List<Int> = kv._2()
             val filled = Stream.range(0, 8).filter(F<Int, Boolean> { i: Int? ->
-                val p2 = p.add(TapaIslandsGame.Companion.offset.get(i!!))
+                val p2 = p.add(TapaIslandsGame.offset.get(i!!))
                 isValid(p2) && get(p2) is TapaIslandsWallObject
             }).toJavaList()
             val arr: List<Int> = computeHint.f(filled)
@@ -103,7 +103,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         // Tiles with numbers can be considered 'empty'.
         for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
             val p = Position(r, c)
-            if (fj.data.Array.array<Position>(*TapaIslandsGame.Companion.offset2).forall(F<Position, Boolean> { os: Position? ->
+            if (fj.data.Array.array<Position>(*TapaIslandsGame.offset2).forall(F<Position, Boolean> { os: Position? ->
                     val o: TapaIslandsObject? = get(p.add(os))
                     o is TapaIslandsWallObject
                 })) {
@@ -122,11 +122,11 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             pos2node[p] = node
             if (get(p) is TapaIslandsWallObject) rngWalls.add(p) else rngEmpty.add(p)
         }
-        for (p in rngWalls) for (os in TapaIslandsGame.Companion.offset) {
+        for (p in rngWalls) for (os in TapaIslandsGame.offset) {
             val p2 = p.add(os)
             if (rngWalls.contains(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }
-        for (p in rngEmpty) for (os in TapaIslandsGame.Companion.offset) {
+        for (p in rngEmpty) for (os in TapaIslandsGame.offset) {
             val p2 = p.add(os)
             if (rngEmpty.contains(p2)) g.connectNode(pos2node[p], pos2node[p2])
         }

@@ -20,7 +20,7 @@ class FourMeNotDocument : GameDocument<FourMeNotGame?, FourMeNotGameMove?>() {
         return object : FourMeNotGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = FourMeNotObject.Companion.objFromString(rec.strValue1)
+                obj = FourMeNotObject.objFromString(rec.strValue1)
             }
         }
     }

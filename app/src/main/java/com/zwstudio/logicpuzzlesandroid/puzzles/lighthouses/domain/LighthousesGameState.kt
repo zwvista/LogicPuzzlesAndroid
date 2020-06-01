@@ -68,7 +68,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val hasNeighbor = label@ F0 {
-                for (os in LighthousesGame.Companion.offset) {
+                for (os in LighthousesGame.offset) {
                     val p2 = p.add(os)
                     if (!isValid(p2)) continue
                     val o2 = get(p2)
@@ -91,7 +91,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             next@ for (i in 0..3) {
-                val os: Position = LighthousesGame.Companion.offset.get(i * 2)
+                val os: Position = LighthousesGame.offset.get(i * 2)
                 val p2 = p!!.add(os)
                 while (isValid(p2)) {
                     val o2 = get(p2)

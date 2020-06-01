@@ -26,7 +26,7 @@ class NumberLinkGameState(game: NumberLinkGame?) : CellsGameState<NumberLinkGame
     fun setObject(move: NumberLinkGameMove): Boolean {
         val p: Position = move.p
         val dir: Int = move.dir
-        val p2 = p.add(NumberLinkGame.Companion.offset.get(dir))
+        val p2 = p.add(NumberLinkGame.offset.get(dir))
         val dir2 = (dir + 2) % 4
         if (!isValid(p2)) return false
         get(p)[dir] = !get(p)[dir]!!
@@ -79,7 +79,7 @@ class NumberLinkGameState(game: NumberLinkGame?) : CellsGameState<NumberLinkGame
             pos2state[p] = HintState.Normal
             val indexes = pos2indexes[p] ?: continue
             for (i in indexes) {
-                val p2 = p.add(NumberLinkGame.Companion.offset.get(i))
+                val p2 = p.add(NumberLinkGame.offset.get(i))
                 val node2 = pos2node[p2]
                 g.connectNode(node, node2)
             }
@@ -90,7 +90,7 @@ class NumberLinkGameState(game: NumberLinkGame?) : CellsGameState<NumberLinkGame
             // 5. In other words you can't turn right and immediately right again. The
             // same happens on the left, obviously. Be careful not to miss this rule.
             val f: Effect2<Int, Boolean> = label@ Effect2<Int, Boolean> { i: Int, isRight: Boolean ->
-                val p2 = p.add(NumberLinkGame.Companion.offset.get(i))
+                val p2 = p.add(NumberLinkGame.offset.get(i))
                 val indexes2 = pos2indexes[p2]
                 if (indexes2 == null || indexes2.size != 2) return@label
                 val i3 = (i + 2) % 4

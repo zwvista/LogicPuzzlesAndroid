@@ -15,7 +15,7 @@ class TapAlikeDocument : GameDocument<TapAlikeGame?, TapAlikeGameMove?>() {
         return object : TapAlikeGameMove() {
             init {
                 p = Position(rec.row, rec.col)
-                obj = TapAlikeObject.Companion.objTypeFromString(rec.strValue1)
+                obj = TapAlikeObject.objTypeFromString(rec.strValue1)
             }
         }
     }

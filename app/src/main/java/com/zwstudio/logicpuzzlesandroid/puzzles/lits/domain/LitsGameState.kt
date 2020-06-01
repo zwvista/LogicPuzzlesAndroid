@@ -83,7 +83,7 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
             }
         }
         for ((p, node) in pos2node) {
-            for (os in LitsGame.Companion.offset) {
+            for (os in LitsGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null) g.connectNode(node, node2)
@@ -111,7 +111,7 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
         }
         for (i in infos.indices) {
             val info = infos[i]
-            for (p in info.trees) for (os in LitsGame.Companion.offset) {
+            for (p in info.trees) for (os in LitsGame.offset) {
                 val p2 = p.add(os)
                 val index = fj.data.List.iterableList(infos).toStream().indexOf { info2: LitsAreaInfo -> info2.trees.contains(p2) }
                 if (index.isSome && index.some() != i) info.neighborIndexes.add(index.some())
@@ -140,7 +140,7 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
                 val p2 = Position(fj.data.List.iterableList(info.trees).map { p: Position -> p.row }.minimum(Ord.intOrd),
                     fj.data.List.iterableList(info.trees).map { p: Position -> p.col }.minimum(Ord.intOrd))
                 for (p in info.trees) treeOffsets.add(p.subtract(p2))
-                info.tetrominoIndex = fj.data.Array.array<Array<Array<Position>>>(*LitsGame.Companion.tetrominoes).toStream()
+                info.tetrominoIndex = fj.data.Array.array<Array<Array<Position>>>(*LitsGame.tetrominoes).toStream()
                     .indexOf { arr: Array<Array<Position>> -> fj.data.Array.array(*arr).exists { arr2: Array<Position>? -> Arrays.equals(arr2, treeOffsets.toTypedArray()) } }.orSome(-1)
                 if (info.tetrominoIndex == -1) notSolved.f(info)
             }
@@ -158,9 +158,9 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
         val block = blocks[0]
         // 5. All the shaded cells should form a valid Nurikabe.
         rule2x2@ for (p in block) {
-            for (os in LitsGame.Companion.offset3) if (block.contains(p.add(os))) continue@rule2x2
+            for (os in LitsGame.offset3) if (block.contains(p.add(os))) continue@rule2x2
             isSolved = false
-            for (os in LitsGame.Companion.offset3) {
+            for (os in LitsGame.offset3) {
                 val o = LitsTreeObject()
                 o.state = AllowedObjectState.Error
                 set(p.add(os), o)
