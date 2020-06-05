@@ -6,27 +6,29 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
 class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameMove, KakuroGameState>(game) {
-    var pos2num = mutableMapOf<Position, Int>()
+    var pos2num = LinkedHashMap(game.pos2num)
     var pos2horzHint = mutableMapOf<Position, HintState>()
     var pos2vertHint = mutableMapOf<Position, HintState>()
-    operator fun get(p: Position) = pos2num[p]!!
 
-    operator fun set(p: Position, obj: Int?) {
-        pos2num[p] = obj
+    operator fun get(p: Position) = pos2num[p]
+    operator fun set(p: Position, obj: Int) {pos2num[p] = obj}
+
+    init {
+        updateIsSolved()
     }
 
     fun setObject(move: KakuroGameMove): Boolean {
-        val p = move!!.p
-        if (!isValid(p) || get(p) == null || get(p) == move.obj) return false
-        set(p, move.obj)
+        val p = move.p
+        if (!isValid(p) || this[p] == null || this[p] == move.obj) return false
+        this[p] = move.obj
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: KakuroGameMove): Boolean {
-        val p = move!!.p
-        if (!isValid(p) || get(p) == null) return false
-        val o = get(p)
+        val p = move.p
+        if (!isValid(p) || this[p] == null) return false
+        val o = this[p]!!
         move.obj = (o + 1) % 10
         return setObject(move)
     }
@@ -48,9 +50,9 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
     */
     private fun updateIsSolved() {
         isSolved = true
-        for ((p, n2) in game!!.pos2horzHint) {
+        for ((p, n2) in game.pos2horzHint) {
             var n1 = 0
-            val os: Position = KakuroGame.offset.get(1)
+            val os = KakuroGame.offset[1]
             var n: Int
             val lastN = 0
             val p2 = p.add(os)
@@ -73,7 +75,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
         }
         for ((p, n2) in game!!.pos2vertHint) {
             var n1 = 0
-            val os: Position = KakuroGame.offset.get(2)
+            val os = KakuroGame.offset[2]
             var n: Int
             val lastN = 0
             val p2 = p.add(os)
@@ -94,10 +96,5 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
             pos2vertHint[p] = s
             if (s != HintState.Complete) isSolved = false
         }
-    }
-
-    init {
-        pos2num = HashMap(game.pos2num)
-        updateIsSolved()
     }
 }

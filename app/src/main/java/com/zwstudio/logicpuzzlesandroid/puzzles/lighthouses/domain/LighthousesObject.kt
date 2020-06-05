@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
@@ -25,7 +26,7 @@ class LighthousesHintObject(var state: HintState = HintState.Normal) : Lighthous
     override fun objAsString() = "hint"
 }
 
-class LighthousesLighthouseObject(var state: HintState = HintState.Normal) : LighthousesObject() {
+class LighthousesLighthouseObject(var state: AllowedObjectState = AllowedObjectState.Normal) : LighthousesObject() {
     override fun objAsString() = "lighthouse"
 }
 

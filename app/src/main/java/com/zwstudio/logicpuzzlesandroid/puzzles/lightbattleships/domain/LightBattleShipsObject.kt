@@ -6,6 +6,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 sealed class LightBattleShipsObject {
     open fun objAsString() = "empty"
 
+    fun isShipPiece() = when (this) {
+        is LightBattleShipsEmptyObject, is LightBattleShipsForbiddenObject,
+        is LightBattleShipsHintObject, is LightBattleShipsMarkerObject -> false
+        else -> true
+    }
+
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> LightBattleShipsMarkerObject()

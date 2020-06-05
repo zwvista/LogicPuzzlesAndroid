@@ -5,35 +5,33 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F
 
 class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, LightenUpGameMove, LightenUpGameState>(game) {
-    var objArray: Array<LightenUpObject?>
+    var objArray = Array<LightenUpObject>(rows() * cols()) { LightenUpEmptyObject() }
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: LightenUpObject) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: LightenUpObject) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, obj: LightenUpObject?) {
-        objArray[row * cols() + col] = obj
+    init {
+        for ((p, n) in game.pos2hint)
+            this[p] = LightenUpWallObject(if (n <= 0) HintState.Complete else HintState.Normal)
     }
 
-    operator fun set(p: Position, obj: LightenUpObject?) {
-        set(p!!.row, p.col, obj)
-    }
-
-    private fun objChanged(move: LightenUpGameMove?, toajust: Boolean, tolighten: Boolean): Boolean {
-        val p = move!!.p
-        set(p, move.obj)
+    private fun objChanged(move: LightenUpGameMove, toajust: Boolean, tolighten: Boolean): Boolean {
+        val p = move.p
+        this[p] = move.obj
         if (toajust) {
-            val f = F { n: Int -> if (tolighten) n + 1 else if (n > 0) n - 1 else n }
-            var obj = get(p)
-            obj!!.lightness = f.f(obj.lightness)
+            fun f(n: Int) = if (tolighten) n + 1 else if (n > 0) n - 1 else n
+            var obj = this[p]
+            obj.lightness = f(obj.lightness)
             for (os in LightenUpGame.offset) {
-                val p2 = p!!.add(os)
+                val p2 = p.add(os)
                 while (isValid(p2)) {
-                    obj = get(p2)
+                    obj = this[p2]
                     if (obj is LightenUpWallObject) break
-                    obj!!.lightness = f.f(obj.lightness)
+                    obj.lightness = f(obj.lightness)
                     p2.addBy(os)
                 }
             }
@@ -43,37 +41,37 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
     }
 
     fun setObject(move: LightenUpGameMove): Boolean {
-        val p = move!!.p
-        val objOld = get(p)
+        val p = move.p
+        val objOld = this[p]
         val objNew = move.obj
-        objNew!!.lightness = objOld!!.lightness
+        objNew.lightness = objOld.lightness
         if (objOld is LightenUpEmptyObject && objNew is LightenUpMarkerObject ||
             objOld is LightenUpMarkerObject && objNew is LightenUpEmptyObject) return objChanged(move, false, false)
         if (objOld is LightenUpEmptyObject && objNew is LightenUpLightbulbObject ||
             objOld is LightenUpMarkerObject && objNew is LightenUpLightbulbObject) return objChanged(move, true, true)
         if (objOld is LightenUpLightbulbObject && objNew is LightenUpEmptyObject ||
             objOld is LightenUpLightbulbObject && objNew is LightenUpMarkerObject) return objChanged(move, true, false)
-        (objNew as? LightenUpWallObject)?.let { set(p, it) }
+        this[p] = LightenUpWallObject()
         return false
     }
 
     fun switchObject(move: LightenUpGameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
-        val allowedObjectsOnly = game!!.gdi.isAllowedObjectsOnly
-        val f = label@ F { obj: LightenUpObject? ->
-            if (obj is LightenUpEmptyObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LightenUpMarkerObject() else LightenUpLightbulbObject()
-            if (obj is LightenUpLightbulbObject) return@label if (markerOption == MarkerOptions.MarkerLast) LightenUpMarkerObject() else LightenUpEmptyObject()
-            if (obj is LightenUpMarkerObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LightenUpLightbulbObject() else LightenUpEmptyObject()
-            obj
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
+        fun f(obj: LightenUpObject) = when(obj) {
+            is LightenUpEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LightenUpMarkerObject() else LightenUpLightbulbObject()
+            is LightenUpLightbulbObject -> if (markerOption == MarkerOptions.MarkerLast) LightenUpMarkerObject() else LightenUpEmptyObject()
+            is LightenUpMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LightenUpLightbulbObject() else LightenUpEmptyObject()
+            else -> obj
         }
-        val objOld = get(move!!.p)
-        val objNew = f.f(objOld)
+        val objOld = this[move.p]
+        val objNew = f(objOld)
         if (objNew is LightenUpEmptyObject || objNew is LightenUpMarkerObject) {
             move.obj = objNew
             return setObject(move)
         }
         if (objNew is LightenUpLightbulbObject) {
-            move.obj = if (allowedObjectsOnly && objOld!!.lightness > 0) f.f(objNew) else objNew
+            move.obj = if (allowedObjectsOnly && objOld.lightness > 0) f(objNew) else objNew
             return setObject(move)
         }
         return false
@@ -98,35 +96,27 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val o = get(r, c)
-            if (o is LightenUpEmptyObject && o.lightness == 0 ||
-                o is LightenUpMarkerObject && o.lightness == 0) isSolved = false else if (o is LightenUpLightbulbObject) {
-                o.state = if (o.lightness == 1) AllowedObjectState.Normal else AllowedObjectState.Error
-                if (o.lightness > 1) isSolved = false
-            } else if (o is LightenUpWallObject) {
-                val n2 = game!!.pos2hint[p]!!
-                if (n2 < 0) continue
-                var n1 = 0
-                for (os in LightenUpGame.offset) {
-                    val p2 = p.add(os)
-                    if (!isValid(p2)) continue
-                    if (get(p2) is LightenUpLightbulbObject) n1++
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val o = this[r, c]
+                if (o is LightenUpEmptyObject && o.lightness == 0 || o is LightenUpMarkerObject && o.lightness == 0)
+                    isSolved = false
+                else if (o is LightenUpLightbulbObject) {
+                    o.state = if (o.lightness == 1) AllowedObjectState.Normal else AllowedObjectState.Error
+                    if (o.lightness > 1) isSolved = false
+                } else if (o is LightenUpWallObject) {
+                    val n2 = game.pos2hint[p]!!
+                    if (n2 < 0) continue
+                    var n1 = 0
+                    for (os in LightenUpGame.offset) {
+                        val p2 = p.add(os)
+                        if (!isValid(p2)) continue
+                        if (this[p2] is LightenUpLightbulbObject) n1++
+                    }
+                    o.state = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+                    if (n1 != n2) isSolved = false
                 }
-                o.state = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-                if (n1 != n2) isSolved = false
             }
-        }
-    }
-
-    init {
-        objArray = arrayOfNulls(rows() * cols())
-        for (i in objArray.indices) objArray[i] = LightenUpEmptyObject()
-        for ((p, n) in game.pos2hint) {
-            val o = LightenUpWallObject()
-            o.state = if (n <= 0) HintState.Complete else HintState.Normal
-            set(p, o)
-        }
     }
 }
