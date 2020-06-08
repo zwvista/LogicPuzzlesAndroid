@@ -76,29 +76,30 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                 if (this[r, c] is LightBattleShipsForbiddenObject)
                     this[r, c] = LightBattleShipsEmptyObject()
         // 3. Ships cannot touch Lighthouses. Not even diagonally.
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            fun hasNeighbor(isHint: Boolean): Boolean {
-                for (os in LightBattleShipsGame.offset) {
-                    val p2 = p.add(os)
-                    if (!isValid(p2)) continue
-                    val o = this[p2]
-                    if (o is LightBattleShipsHintObject) {
-                        if (!isHint) return true
-                    } else if (o.isShipPiece()) {
-                        if (isHint) return true
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                fun hasNeighbor(isHint: Boolean): Boolean {
+                    for (os in LightBattleShipsGame.offset) {
+                        val p2 = p.add(os)
+                        if (!isValid(p2)) continue
+                        val o = this[p2]
+                        if (o is LightBattleShipsHintObject) {
+                            if (!isHint) return true
+                        } else if (o.isShipPiece()) {
+                            if (isHint) return true
+                        }
                     }
+                    return false
                 }
-                return false
+                val o = get(r, c)
+                if (o is LightBattleShipsHintObject) {
+                    val s = if (!hasNeighbor(true)) HintState.Normal else HintState.Error
+                    o.state = s
+                    if (s == HintState.Error) isSolved = false
+                } else if ((o is LightBattleShipsEmptyObject || o is LightBattleShipsMarkerObject) && allowedObjectsOnly && hasNeighbor(false))
+                    this[r, c] = LightBattleShipsForbiddenObject()
             }
-            val o = get(r, c)
-            if (o is LightBattleShipsHintObject) {
-                val s = if (!hasNeighbor(true)) HintState.Normal else HintState.Error
-                o.state = s
-                if (s == HintState.Error) isSolved = false
-            } else if ((o is LightBattleShipsEmptyObject || o is LightBattleShipsMarkerObject) && allowedObjectsOnly && hasNeighbor(false))
-                this[r, c] = LightBattleShipsForbiddenObject()
-        }
         // 2. Each number is a Lighthouse, telling you how many pieces of ship
         // there are in that row and column, summed together.
         for ((p, n2) in game!!.pos2hint) {
@@ -167,7 +168,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                     if (this[p2].isShipPiece())
                         isSolved = false
                     else if (allowedObjectsOnly)
-                        this[p] = LightBattleShipsForbiddenObject()
+                        this[p2] = LightBattleShipsForbiddenObject()
                 }
             shipNumbers[area.size]++
         }

@@ -152,7 +152,7 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
                     if (this[p2].isShipPiece())
                         isSolved = false
                     else if (allowedObjectsOnly)
-                        this[p] = DigitalBattleShipsObject.Forbidden
+                        this[p2] = DigitalBattleShipsObject.Forbidden
             }
             shipNumbers[area.size]++
         }

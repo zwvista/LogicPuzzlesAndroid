@@ -1,42 +1,44 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.domainimport
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.data.Stream
-import java.util.*
 
 class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>(game) {
-    var objArray: CharArray
-    var row2state: Array<HintState?>
-    var col2state: Array<HintState?>
-    var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
+    var objArray = game.objArray.copyOf()
+    var row2state = Array(rows()) { HintState.Normal }
+    var col2state = Array(cols()) { HintState.Normal }
+    var pos2state = mutableMapOf<Position, HintState>()
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, obj: Char) {
-        objArray[row * cols() + col] = obj
-    }
-
-    operator fun set(p: Position, obj: Char) {
-        set(p!!.row, p.col, obj)
+    init {
+        updateIsSolved()
     }
 
     fun setObject(move: NoughtsAndCrossesGameMove): Boolean {
-        val p: Position = move.p
-        if (!isValid(p) || game.get(p) != ' ' || get(p) == move.obj) return false
-        set(p, move.obj)
+        val p = move.p
+        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return false
+        this[p] = move.obj
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: NoughtsAndCrossesGameMove): Boolean {
-        val markerOption: MarkerOptions = MarkerOptions.values().get(game.gdi.getMarkerOption())
-        val p: Position = move.p
-        if (!isValid(p) || game.get(p) != ' ') return false
-        val o = get(p).toInt()
-        move.obj = if (o == ' '.toInt()) if (markerOption == MarkerOptions.MarkerFirst) '.' else '1' else if (o == '.'.toInt()) if (markerOption == MarkerOptions.MarkerFirst) '1' else ' ' else if (o == game.chMax.toInt()) if (markerOption == MarkerOptions.MarkerLast) '.' else ' ' else (o + 1).toChar()
+        val markerOption: MarkerOptions = MarkerOptions.values()[game.gdi.markerOption]
+        val p = move.p
+        if (!isValid(p) || game[p] != ' ') return false
+        val o = this[p]
+        move.obj = when (o) {
+            ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else '1'
+            '.' -> if (markerOption == MarkerOptions.MarkerFirst) '1' else ' '
+            game.chMax -> if (markerOption == MarkerOptions.MarkerLast) '.' else ' '
+            else -> o + 1
+        }
         return setObject(move)
     }
 
@@ -56,34 +58,27 @@ class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<N
     */
     private fun updateIsSolved() {
         isSolved = true
-        val f: F<List<Char>, HintState> = F<List<Char>, HintState> { nums: List<Char>? ->
+        fun f(nums: List<Char>): HintState {
             // 4. A cross marks where no number can go.
             // 5. All other cells can contain a number or be empty.
-            val nums2 = fj.data.List.iterableList(nums).filter(F<Char, Boolean> { ch: Char -> !" .X".contains(ch.toString()) }).toJavaList()
+            val nums2 = nums.filter { !" .X".contains(it) }
             // 2. All numbers must appear just once.
-            val s: HintState = if (nums2.size == game.chMax - '0' &&
-                nums2.size == HashSet(nums2).size) HintState.Complete else HintState.Error
+            val s = if (nums2.size == game.chMax - '0' && nums2.size == nums2.toSet().size) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
-            s
+            return s
         }
         // 2. All numbers must appear just once on each row.
-        Stream.range(0, rows().toLong()).foreachDoEffect(Effect1<Int> { r: Int -> row2state[r] = f.f(Stream.range(0, cols().toLong()).map<Char>(F<Int, Char> { c: Int -> get(r, c) }).toJavaList()) })
+        for (r in 0 until rows())
+            row2state[r] = f((0 until cols()).map { this[r, it] })
         // 2. All numbers must appear just once on each column.
-        Stream.range(0, cols().toLong()).foreachDoEffect(Effect1<Int> { c: Int -> col2state[c] = f.f(Stream.range(0, rows().toLong()).map<Char>(F<Int, Char> { r: Int -> get(r, c) }).toJavaList()) })
+        for (c in 0 until cols())
+            col2state[c] = f((0 until rows()).map{ this[it, c] })
         // 3. A circle marks where a number must go.
         for (p in game.noughts) {
-            val ch = get(p)
-            val s: HintState = if (ch == ' ' || ch == '.') HintState.Normal else HintState.Complete
+            val ch = this[p]
+            val s = if (ch == ' ' || ch == '.') HintState.Normal else HintState.Complete
             pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
-    }
-
-    init {
-        objArray = CharArray(rows() * cols())
-        System.arraycopy(game.objArray, 0, objArray, 0, objArray.size)
-        row2state = arrayOfNulls<HintState>(rows())
-        col2state = arrayOfNulls<HintState>(cols())
-        updateIsSolved()
     }
 }

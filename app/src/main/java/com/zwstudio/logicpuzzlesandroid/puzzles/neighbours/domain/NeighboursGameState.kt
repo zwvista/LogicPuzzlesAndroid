@@ -1,52 +1,45 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domainimport
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
+import com.rits.cloning.Cloner
+import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame, NeighboursGameMove, NeighboursGameState>(game) {
-    var objArray: Array<Array<GridLineObject?>>
-    var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
+    var objArray = Cloner().deepClone(game.objArray)
+    var pos2state = mutableMapOf<Position, HintState>()
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols() + col] = dotObj}
+    operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject?>) {
-        objArray[row * cols() + col] = dotObj
-    }
-
-    operator fun set(p: Position, obj: Array<GridLineObject?>) {
-        set(p.row, p.col, obj)
+    init {
+        updateIsSolved()
     }
 
     fun setObject(move: NeighboursGameMove): Boolean {
-        val p1: Position = move.p
-        val dir: Int = move.dir
+        val dir = move.dir
         val dir2 = (dir + 2) % 4
-        if (game.get(p1).get(dir) != GridLineObject.Empty) return false
-        val o: GridLineObject? = get(p1)[dir]
+        val p1 = move.p
+        val p2 = p1.add(NeighboursGame.offset[dir])
+        if (game[p1][dir] != GridLineObject.Empty) return false
+        val o = this[p1][dir]
         if (o == move.obj) return false
-        val p2 = p1.add(NeighboursGame.offset.get(dir))
-        get(p1)[dir] = move.obj
-        get(p2)[dir2] = get(p1)[dir]
+        this[p1][dir] = move.obj
+        this[p2][dir2] = this[p1][dir]
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: NeighboursGameMove): Boolean {
-        val markerOption: MarkerOptions = MarkerOptions.values().get(game.gdi.getMarkerOption())
-        val f: F<GridLineObject, GridLineObject> = label@ F<GridLineObject, GridLineObject> { obj: GridLineObject? ->
-            when (obj) {
-                GridLineObject.Empty -> return@label if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
-                GridLineObject.Line -> return@label if (markerOption == MarkerOptions.MarkerLast) GridLineObject.Marker else GridLineObject.Empty
-                GridLineObject.Marker -> return@label if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Line else GridLineObject.Empty
-            }
-            obj
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val o = this[move.p][move.dir]
+        move.obj = when (o) {
+            GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
+            GridLineObject.Line -> if (markerOption == MarkerOptions.MarkerLast) GridLineObject.Marker else GridLineObject.Empty
+            GridLineObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Line else GridLineObject.Empty
+            else -> o
         }
-        val dotObj: Array<GridLineObject?> = get(move.p)
-        move.obj = f.f(dotObj[move.dir])
         return setObject(move)
     }
 
@@ -72,74 +65,74 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
-            val p = Position(r, c)
-            val node = Node(p.toString())
-            g.addNode(node)
-            pos2node[p] = node
-        }
-        for (r in 0 until rows() - 1) for (c in 0 until cols() - 1) {
-            val p = Position(r, c)
-            for (i in 0..3) if (get(p.add(NeighboursGame.offset2.get(i)))[NeighboursGame.dirs.get(i)] != GridLineObject.Line) g.connectNode(pos2node[p], pos2node[p.add(NeighboursGame.offset.get(i))])
-        }
+        for (r in 0 until rows() - 1)
+            for (c in 0 until cols() - 1) {
+                val p = Position(r, c)
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for (r in 0 until rows() - 1)
+            for (c in 0 until cols() - 1) {
+                val p = Position(r, c)
+                for (i in 0..3)
+                    if (this[p.add(NeighboursGame.offset2[i])][NeighboursGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p], pos2node[p.add(NeighboursGame.offset[i])])
+            }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(fj.data.List.iterableList(pos2node.values).head())
+        while (pos2node.isNotEmpty()) {
+            g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
-            val area = fj.data.HashMap.fromMap(pos2node).toStream().filter(F<P2<Position, Node>, Boolean> { e: P2<Position?, Node?> -> nodeList.contains(e._2()) }).map<Position>(F<P2<Position, Node>, Position> { e: P2<Position?, Node?> -> e._1() }).toJavaList()
+            val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             areas.add(area)
             for (p in area) {
                 pos2area[p] = areas.size
                 pos2node.remove(p)
             }
         }
-        val n2: Int = game.areaSize
+        val n2 = game.areaSize
         for (area in areas) {
-            val rng = fj.data.List.iterableList(area).filter(F<Position, Boolean> { p: Position -> game.pos2hint.containsKey(p) }).toJavaList()
+            val rng = area.filter { game.pos2hint.containsKey(it) }
             if (rng.size != 1) {
-                for (p in rng) pos2state[p] = HintState.Normal
+                for (p in rng)
+                    pos2state[p] = HintState.Normal
                 isSolved = false
                 continue
             }
             val p3 = rng[0]
             val n1 = area.size
-            val n3: Int = game.pos2hint.get(p3)
-            val neighbours: F0<Int> = label@ F0<Int> {
+            val n3 = game.pos2hint[p3]!!
+            fun neighbours(): Int {
                 val indexes = mutableSetOf<Int>()
                 val idx = pos2area[area[0]]
                 for (p in area) {
                     var i = 0
                     while (i < 4) {
-                        if (get(p.add(NeighboursGame.offset2.get(i)))[NeighboursGame.dirs.get(i)] != GridLineObject.Line) {
+                        if (this[p.add(NeighboursGame.offset2[i])][NeighboursGame.dirs[i]] != GridLineObject.Line) {
                             i++
                             continue
                         }
-                        val p2 = p.add(NeighboursGame.offset.get(i))
+                        val p2 = p.add(NeighboursGame.offset[i])
                         val idx2 = pos2area[p2]
                         if (idx2 == null) {
                             i++
                             continue
                         }
-                        if (idx == idx2) return@label -1
+                        if (idx == idx2) return -1
                         indexes.add(idx2)
                         i++
                     }
                 }
-                indexes.size
+                return indexes.size
             }
             // 3. Each number on the board represents an owner house and the number of
             // neighbours he desires.
             // 4. Divide the land so that each one has an equal number of squares and
             // the requested number of neighbours.
-            val s: HintState = if (n1 == n2 && n3 == neighbours.f()) HintState.Complete else HintState.Error
+            val s = if (n1 == n2 && n3 == neighbours()) HintState.Complete else HintState.Error
             pos2state[p3] = s
             if (s != HintState.Complete) isSolved = false
         }
-    }
-
-    init {
-        objArray = Cloner().deepClone(game.objArray)
-        updateIsSolved()
     }
 }

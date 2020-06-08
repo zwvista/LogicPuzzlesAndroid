@@ -2,26 +2,19 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F
-import fj.Ord
-import fj.P2
-import fj.data.Stream
-import fj.function.Effect1
 import java.util.*
 
-class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, LitsGameState?>(game) {
-    var objArray: Array<LitsObject?>
-    var pos2state: Map<Position?, HintState?> = HashMap()
+class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, LitsGameState>(game) {
+    var objArray = Array<LitsObject>(rows() * cols()) { LitsEmptyObject() }
+    var pos2state: Map<Position, HintState> = HashMap()
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, dotObj: LitsObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(p: Position, obj: LitsObject) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, dotObj: LitsObject?) {
-        objArray[row * cols() + col] = dotObj
-    }
-
-    operator fun set(p: Position, obj: LitsObject?) {
-        set(p!!.row, p.col, obj)
+    init {
+        updateIsSolved()
     }
 
     private inner class LitsAreaInfo {
@@ -32,22 +25,21 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
     }
 
     fun setObject(move: LitsGameMove): Boolean {
-        if (!isValid(move!!.p) || get(move.p) == move.obj) return false
-        set(move.p, move.obj)
+        if (!isValid(move.p) || this[move.p] == move.obj) return false
+        this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: LitsGameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
-        val f = label@ F { obj: LitsObject? ->
-            if (obj is LitsEmptyObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LitsMarkerObject() else LitsTreeObject()
-            if (obj is LitsTreeObject) return@label if (markerOption == MarkerOptions.MarkerLast) LitsMarkerObject() else LitsEmptyObject()
-            if (obj is LitsMarkerObject) return@label if (markerOption == MarkerOptions.MarkerFirst) LitsTreeObject() else LitsEmptyObject()
-            obj
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val o = this[move.p]
+        move.obj = when(o) {
+            is LitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsMarkerObject() else LitsTreeObject()
+            is LitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) LitsMarkerObject() else LitsEmptyObject()
+            is LitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsTreeObject() else LitsEmptyObject()
+            else -> o
         }
-        val o = get(move!!.p)
-        move.obj = f.f(o)
         return setObject(move)
     }
 
@@ -68,81 +60,90 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
         5. All the shaded cells should form a valid Nurikabe (hence no fat guy).
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game!!.gdi.isAllowedObjectsOnly
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val o = get(p)
-            if (o is LitsForbiddenObject) set(r, c, LitsEmptyObject()) else if (o is LitsTreeObject) {
-                o.state = AllowedObjectState.Normal
-                val node = Node(p.toString())
-                g.addNode(node)
-                pos2node[p] = node
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val o = this[p]
+                if (o is LitsForbiddenObject)
+                    this[r, c] = LitsEmptyObject()
+                else if (o is LitsTreeObject) {
+                    o.state = AllowedObjectState.Normal
+                    val node = Node(p.toString())
+                    g.addNode(node)
+                    pos2node[p] = node
+                }
             }
-        }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in LitsGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
-                if (node2 != null) g.connectNode(node, node2)
+                if (node2 != null)
+                    g.connectNode(node, node2)
             }
-        }
         val blocks = mutableListOf<List<Position>>()
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(fj.data.List.iterableList(pos2node.values).head())
+        while (pos2node.isNotEmpty()) {
+            g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
-            val block = fj.data.HashMap.fromMap(pos2node).toStream().filter { e: P2<Position, Node> -> nodeList.contains(e._2()) }.map { e: P2<Position, Node> -> e._1() }.toJavaList()
+            val block = pos2node.filter { nodeList.contains(it.value) }.keys.toList()
             blocks.add(block)
-            for (p in block) pos2node.remove(p)
+            for (p in block)
+                pos2node.remove(p)
         }
         // 5. All the shaded cells should form a valid Nurikabe.
         if (blocks.size != 1) isSolved = false
-        val infos = Stream.range(0, game!!.areas.size.toLong()).map { i: Int? -> LitsAreaInfo() }.toJavaList()
+        val infos = (0 until game.areas.size).map { _ -> LitsAreaInfo() }
         for (i in blocks.indices) {
             val block = blocks[i]
             for (p in block) {
-                val n = game!!.pos2area[p]
-                val info = infos[n!!]
+                val n = game.pos2area[p]!!
+                val info = infos[n]
                 info.trees.add(p)
                 info.blockIndexes.add(i)
             }
         }
         for (i in infos.indices) {
             val info = infos[i]
-            for (p in info.trees) for (os in LitsGame.offset) {
-                val p2 = p.add(os)
-                val index = fj.data.List.iterableList(infos).toStream().indexOf { info2: LitsAreaInfo -> info2.trees.contains(p2) }
-                if (index.isSome && index.some() != i) info.neighborIndexes.add(index.some())
-            }
+            for (p in info.trees)
+                for (os in LitsGame.offset) {
+                    val p2 = p.add(os)
+                    val index = infos.indexOfFirst { it.trees.contains(p2) }
+                    if (index != -1 && index != i)
+                        info.neighborIndexes.add(index)
+                }
         }
-        val notSolved = Effect1 { info: LitsAreaInfo ->
+        fun notSolved(info: LitsAreaInfo) {
             isSolved = false
             for (p in info.trees) {
-                val o = get(p) as LitsTreeObject?
-                o!!.state = AllowedObjectState.Error
+                val o = this[p] as LitsTreeObject
+                o.state = AllowedObjectState.Error
             }
         }
         for (i in infos.indices) {
             val info = infos[i]
             val treeCount = info.trees.size
-            if (treeCount >= 4 && allowedObjectsOnly) for (p in game!!.areas[i]) {
-                val o = get(p)
-                if (o is LitsEmptyObject || o is LitsMarkerObject) set(p, LitsForbiddenObject())
-            }
-            if (treeCount > 4 || treeCount == 4 && info.blockIndexes.size > 1) notSolved.f(info)
+            if (treeCount >= 4 && allowedObjectsOnly)
+                for (p in game.areas[i]) {
+                    val o = this[p]
+                    if (o is LitsEmptyObject || o is LitsMarkerObject)
+                        this[p] = LitsForbiddenObject()
+                }
+            if (treeCount > 4 || treeCount == 4 && info.blockIndexes.size > 1)
+                notSolved(info)
             // 3. The board is divided into many areas. You have to place a tetromino
             // into each area.
             if (treeCount == 4 && info.blockIndexes.size == 1) {
-                Collections.sort(info.trees) { obj: Position, other: Position? -> obj.compareTo(other) }
+                info.trees.sort()
                 val treeOffsets = mutableListOf<Position>()
-                val p2 = Position(fj.data.List.iterableList(info.trees).map { p: Position -> p.row }.minimum(Ord.intOrd),
-                    fj.data.List.iterableList(info.trees).map { p: Position -> p.col }.minimum(Ord.intOrd))
-                for (p in info.trees) treeOffsets.add(p.subtract(p2))
-                info.tetrominoIndex = fj.data.Array.array<Array<Array<Position>>>(*LitsGame.tetrominoes).toStream()
-                    .indexOf { arr: Array<Array<Position>> -> fj.data.Array.array(*arr).exists { arr2: Array<Position>? -> Arrays.equals(arr2, treeOffsets.toTypedArray()) } }.orSome(-1)
-                if (info.tetrominoIndex == -1) notSolved.f(info)
+                val p2 = Position(info.trees.map { it.row }.min()!!, info.trees.map { it.col }.min()!!)
+                for (p in info.trees)
+                    treeOffsets.add(p.subtract(p2))
+                info.tetrominoIndex = LitsGame.tetrominoes.indexOfFirst { it.any { it == treeOffsets } }
+                if (info.tetrominoIndex == -1)
+                    notSolved(info)
             }
             if (treeCount < 4) isSolved = false
         }
@@ -152,25 +153,19 @@ class LitsGameState(game: LitsGame?) : CellsGameState<LitsGame?, LitsGameMove?, 
             val info = infos[i]
             val index = info.tetrominoIndex
             if (index == -1) continue
-            if (fj.data.List.iterableList(info.neighborIndexes).exists { j: Int? -> infos[j!!].tetrominoIndex == index }) notSolved.f(info)
+            if (info.neighborIndexes.any {infos[it].tetrominoIndex == index })
+                notSolved(info)
         }
         if (!isSolved) return
         val block = blocks[0]
         // 5. All the shaded cells should form a valid Nurikabe.
         rule2x2@ for (p in block) {
-            for (os in LitsGame.offset3) if (block.contains(p.add(os))) continue@rule2x2
+            for (os in LitsGame.offset3)
+                if (block.contains(p.add(os)))
+                    continue@rule2x2
             isSolved = false
-            for (os in LitsGame.offset3) {
-                val o = LitsTreeObject()
-                o.state = AllowedObjectState.Error
-                set(p.add(os), o)
-            }
+            for (os in LitsGame.offset3)
+                this[p.add(os)] = LitsTreeObject(AllowedObjectState.Error)
         }
-    }
-
-    init {
-        objArray = arrayOfNulls(rows() * cols())
-        for (i in objArray.indices) objArray[i] = LitsEmptyObject()
-        updateIsSolved()
     }
 }

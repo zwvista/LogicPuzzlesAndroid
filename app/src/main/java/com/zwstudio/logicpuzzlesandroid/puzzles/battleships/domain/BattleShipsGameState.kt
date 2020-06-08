@@ -127,7 +127,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         while (pos2node.isNotEmpty()) {
             g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
-            val area = pos2node.filter { (_, node) -> nodeList.contains(node) }.keys.toList().sorted()
+            val area = pos2node.filter { nodeList.contains(it.value) }.keys.toList().sorted()
             for (p in area)
                 pos2node.remove(p)
             if (!(area.size == 1 && this[area[0]] == BattleShipsObject.BattleShipUnit || area.size in 2..4 && (
@@ -147,7 +147,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                     if (this[p2].isShipPiece())
                         isSolved = false
                     else if (allowedObjectsOnly)
-                        this[p] = BattleShipsObject.Forbidden
+                        this[p2] = BattleShipsObject.Forbidden
                 }
             shipNumbers[area.size]++
         }

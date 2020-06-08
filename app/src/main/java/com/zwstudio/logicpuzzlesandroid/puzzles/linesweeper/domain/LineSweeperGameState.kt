@@ -6,32 +6,30 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import fj.data.List
-import java.util.*
 
 class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(game) {
-    var objArray: Array<Array<Boolean?>>
+    var objArray = Array(rows() * cols()) { Array(4) { false } }
     var pos2state = mutableMapOf<Position, HintState>()
+
+    init {
+        for ((p, n) in game.pos2hint)
+            pos2state[p] = if (n == 0) HintState.Complete else HintState.Normal
+    }
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
-
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, obj: Array<Boolean?>) {
-        objArray[row * cols() + col] = obj
-    }
-
-    operator fun set(p: Position, obj: Array<Boolean?>) {
-        set(p.row, p.col, obj)
-    }
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
     fun setObject(move: LineSweeperGameMove): Boolean {
-        val p = move!!.p
-        if (!isValid(p) || game!!.isHint(p)) return false
+        val p = move.p
+        if (!isValid(p) || game.isHint(p)) return false
         val dir = move.dir
-        val p2 = p!!.add(LineSweeperGame.offset.get(dir * 2))
-        if (!isValid(p2) || game!!.isHint(p2)) return false
+        val p2 = p.add(LineSweeperGame.offset[dir * 2])
+        if (!isValid(p2) || game.isHint(p2)) return false
         val dir2 = (dir + 2) % 4
-        get(p)[dir] = !get(p)[dir]
-        get(p2)[dir2] = !get(p2)[dir2]
+        this[p][dir] = !this[p][dir]
+        this[p2][dir2] = !this[p2][dir2]
         updateIsSolved()
         return true
     }
@@ -54,13 +52,15 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         isSolved = true
         // 2. A number in a cell denotes how many of the 8 adjacent cells are passed
         // by the loop.
-        for ((p, n2) in game!!.pos2hint) {
+        for ((p, n2) in game.pos2hint) {
             var n1 = 0
             for (os in LineSweeperGame.offset) {
-                val p2 = p!!.add(os)
+                val p2 = p.add(os)
                 if (!isValid(p2)) continue
                 var hasLine = false
-                for (b in get(p2)) if (b) hasLine = true
+                for (b in this[p2])
+                    if (b)
+                        hasLine = true
                 if (hasLine) n1++
             }
             pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -69,28 +69,29 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val n = fj.data.Array.array(*get(p)).filter { o: Boolean? -> o }.length()
-            when (n) {
-                0 -> continue
-                2 -> {
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
-                }
-                else -> {
-                    // 1. Draw a single closed looping path that never crosses itself or branches off.
-                    isSolved = false
-                    return
+        for (r in 0 until rows())
+            loop@ for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val n = this[p].filter { it }.size
+                when (n) {
+                    0 -> continue@loop
+                    2 -> {
+                        val node = Node(p.toString())
+                        g.addNode(node)
+                        pos2node[p] = node
+                    }
+                    else -> {
+                        // 1. Draw a single closed looping path that never crosses itself or branches off.
+                        isSolved = false
+                        return
+                    }
                 }
             }
-        }
         for (p in pos2node.keys) {
             val o = get(p)
             for (i in 0..3) {
                 if (!o[i]) continue
-                val p2 = p.add(LineSweeperGame.offset.get(i * 2))
+                val p2 = p.add(LineSweeperGame.offset[i * 2])
                 g.connectNode(pos2node[p], pos2node[p2])
             }
         }
@@ -98,16 +99,5 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         g.setRootNode(List.iterableList(pos2node.values).head())
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
-    }
-
-    init {
-        objArray = arrayOfNulls(rows() * cols())
-        for (i in objArray.indices) {
-            objArray[i] = arrayOfNulls(4)
-            Arrays.fill(objArray[i], false)
-        }
-        for ((p, n) in game.pos2hint) {
-            pos2state[p] = if (n == 0) HintState.Complete else HintState.Normal
-        }
     }
 }

@@ -34,20 +34,13 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
 
     fun switchObject(move: NorthPoleFishingGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        fun f(obj: GridLineObject) =
-            when (obj) {
-                GridLineObject.Empty ->
-                    if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker
-                    else GridLineObject.Line
-                GridLineObject.Line ->
-                    if (markerOption == MarkerOptions.MarkerLast) GridLineObject.Marker
-                    else GridLineObject.Empty
-                GridLineObject.Marker ->
-                    if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Line
-                    else GridLineObject.Empty
-                else -> obj
-            }
-        move.obj = f(this[move.p, move.dir])
+        val o = this[move.p, move.dir]
+        move.obj = when (o) {
+            GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
+            GridLineObject.Line -> if (markerOption == MarkerOptions.MarkerLast) GridLineObject.Marker else GridLineObject.Empty
+            GridLineObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Line else GridLineObject.Empty
+            else -> o
+        }
         return setObject(move)
     }
 
@@ -82,10 +75,11 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
             for (i in 0 until 4) {
                 if (this[p.add(NorthPoleFishingGame.offset2[i]), NorthPoleFishingGame.dirs[i]] == GridLineObject.Line) continue
                 val node2 = pos2node[p.add(NorthPoleFishingGame.offset[i])]
-                if (node2 != null) g.connectNode(node, node2)
+                if (node2 != null)
+                    g.connectNode(node, node2)
             }
-        while (!pos2node.isEmpty()) {
-            g.setRootNode(pos2node.values.elementAt(0))
+        while (pos2node.isNotEmpty()) {
+            g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
@@ -96,10 +90,12 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
             if (rng.size != 1) {
                 for (p in rng)
                     pos2state[p] = HintState.Normal
-                isSolved = false; continue
+                isSolved = false
+                continue
             }
             val p2 = rng[0]
-            val n1 = area.size; val n2 = 4
+            val n1 = area.size
+            val n2 = 4
             val s = if (n1 == n2) HintState.Complete else HintState.Error
             pos2state[p2] = s
             if (s != HintState.Complete) isSolved = false

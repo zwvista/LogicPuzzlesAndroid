@@ -4,29 +4,26 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
-class MasyuGameState(game: MasyuGame?) : CellsGameState<MasyuGame?, MasyuGameMove?, MasyuGameState?>(game) {
-    var objArray: Array<Array<Boolean?>>
+class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove, MasyuGameState>(game) {
+    var objArray = Array(rows() * cols()) { Array(4) { false } }
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, dotObj: Array<Boolean>) {objArray[row * cols() + col] = dotObj}
+    operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, dotObj: Array<Boolean?>) {
-        objArray[row * cols() + col] = dotObj
-    }
-
-    operator fun set(p: Position, obj: Array<Boolean?>) {
-        set(p.row, p.col, obj)
+    init {
+        updateIsSolved()
     }
 
     fun setObject(move: MasyuGameMove): Boolean {
         val p: Position = move.p
         val dir: Int = move.dir
-        val p2 = p.add(MasyuGame.offset.get(dir))
+        val p2 = p.add(MasyuGame.offset[dir])
         val dir2 = (dir + 2) % 4
-        get(p)[dir] = !get(p)[dir]!!
-        get(p2)[dir2] = !get(p2)[dir2]!!
+        this[p][dir] = !this[p][dir]
+        this[p2][dir2] = !this[p2][dir2]
         updateIsSolved()
         return true
     }
@@ -53,50 +50,53 @@ class MasyuGameState(game: MasyuGame?) : CellsGameState<MasyuGame?, MasyuGameMov
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val pos2Dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val o = get(r, c)
-            val ch: Char = game.get(r, c)
-            val dirs = mutableListOf<Int>()
-            for (i in 0..3) if (o[i]!!) dirs.add(i)
-            when (dirs.size) {
-                0 ->                     // 1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
-                    if (ch != ' ') {
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val o = get(r, c)
+                val ch = game[r, c]
+                val dirs = mutableListOf<Int>()
+                for (i in 0..3)
+                    if (o[i])
+                        dirs.add(i)
+                when (dirs.size) {
+                    0 ->                     // 1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
+                        if (ch != ' ') {
+                            isSolved = false
+                            return
+                        }
+                    2 -> {
+                        val node = Node(p.toString())
+                        g.addNode(node)
+                        pos2node[p] = node
+                        pos2Dirs[p] = dirs
+                        when (ch) {
+                            'B' ->                         // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
+                                if (dirs[1] - dirs[0] == 2) {
+                                    isSolved = false
+                                    return
+                                }
+                            'W' ->                         // 3. Lines passing through White Pearls must go straight through them.
+                                if (dirs[1] - dirs[0] != 2) {
+                                    isSolved = false
+                                    return
+                                }
+                        }
+                    }
+                    else -> {
+                        // 1. The goal is to draw a single Loop(Necklace)
+                        // that never branches-off or crosses itself.
                         isSolved = false
                         return
                     }
-                2 -> {
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
-                    pos2Dirs[p] = dirs
-                    when (ch) {
-                        'B' ->                         // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
-                            if (dirs[1] - dirs[0] == 2) {
-                                isSolved = false
-                                return
-                            }
-                        'W' ->                         // 3. Lines passing through White Pearls must go straight through them.
-                            if (dirs[1] - dirs[0] != 2) {
-                                isSolved = false
-                                return
-                            }
-                    }
-                }
-                else -> {
-                    // 1. The goal is to draw a single Loop(Necklace)
-                    // that never branches-off or crosses itself.
-                    isSolved = false
-                    return
                 }
             }
-        }
         for ((p, node) in pos2node) {
             val dirs = pos2Dirs[p]!!
-            val ch: Char = game.get(p)
+            val ch = game[p]
             var bW = ch != 'W'
             for (i in dirs) {
-                val p2 = p.add(MasyuGame.offset.get(i))
+                val p2 = p.add(MasyuGame.offset[i])
                 val node2 = pos2node[p2]
                 if (node2 == null) {
                     isSolved = false
@@ -131,16 +131,8 @@ class MasyuGameState(game: MasyuGame?) : CellsGameState<MasyuGame?, MasyuGameMov
             }
         }
         // 1. The goal is to draw a single Loop(Necklace).
-        g.setRootNode(fj.data.List.iterableList(pos2node.values).head())
+        g.setRootNode(pos2node.values.first())
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
-    }
-
-    init {
-        objArray = arrayOfNulls(rows() * cols())
-        for (i in objArray.indices) {
-            objArray[i] = arrayOfNulls(4)
-            Arrays.fill(objArray[i], false)
-        }
     }
 }

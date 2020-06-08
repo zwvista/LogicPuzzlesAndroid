@@ -24,7 +24,7 @@ enum class MagnetsObject {
     abstract val isPole: Boolean
 }
 
-class MagnetsArea(val p: Position, var obj: MagnetsAreaType = MagnetsAreaType.Single)
+class MagnetsArea(val p: Position, var type: MagnetsAreaType = MagnetsAreaType.Single)
 
 enum class MagnetsAreaType {
     Single, Horizontal, Vertical
