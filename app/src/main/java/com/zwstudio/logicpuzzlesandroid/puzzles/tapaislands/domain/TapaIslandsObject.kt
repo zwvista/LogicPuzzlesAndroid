@@ -17,8 +17,7 @@ sealed class TapaIslandsObject {
 
 class TapaIslandsEmptyObject : TapaIslandsObject()
 
-class TapaIslandsHintObject : TapaIslandsObject() {
-    var state: HintState = HintState.Normal
+class TapaIslandsHintObject(var state: HintState = HintState.Normal) : TapaIslandsObject() {
     override fun objTypeAsString() = "hint"
 }
 

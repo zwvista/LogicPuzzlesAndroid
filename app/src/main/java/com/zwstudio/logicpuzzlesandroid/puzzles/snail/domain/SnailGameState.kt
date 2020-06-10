@@ -1,40 +1,44 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snail.domainimport
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove, SnailGameState>(game) {
-    private val objArray: CharArray
-    var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
-    var row2state: Array<HintState?>
-    var col2state: Array<HintState?>
+    val objArray = game.objArray.copyOf()
+    var pos2state = mutableMapOf<Position, HintState>()
+    var row2state = Array(rows()) { HintState.Normal }
+    var col2state = Array(cols()) { HintState.Normal }
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, obj: Char) {
-        objArray[row * cols() + col] = obj
-    }
-
-    operator fun set(p: Position, obj: Char) {
-        set(p!!.row, p.col, obj)
+    init {
+        updateIsSolved()
     }
 
     fun setObject(move: SnailGameMove): Boolean {
-        val p: Position = move.p
-        if (!isValid(p) || get(p) == move.obj) return false
-        set(p, move.obj)
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return false
+        this[p] = move.obj
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: SnailGameMove): Boolean {
-        val markerOption: MarkerOptions = MarkerOptions.values().get(game.gdi.getMarkerOption())
-        val p: Position = move.p
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val p = move.p
         if (!isValid(p)) return false
-        val o = get(p)
-        move.obj = if (o == ' ') if (markerOption == MarkerOptions.MarkerFirst) '.' else '1' else if (o == '.') if (markerOption == MarkerOptions.MarkerFirst) '1' else ' ' else if (o == '3') if (markerOption == MarkerOptions.MarkerLast) '.' else ' ' else (o.toInt() + 1).toChar()
+        val o = this[p]
+        move.obj = when (o) {
+            ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else '1'
+            '.' -> if (markerOption == MarkerOptions.MarkerFirst) '1' else ' '
+            '3' -> if (markerOption == MarkerOptions.MarkerLast) '.' else ' '
+            else -> o + 1
+        }
         return setObject(move)
     }
 
@@ -60,9 +64,9 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
             chars = ""
             row2state[r] = HintState.Complete
             for (c in 0 until cols()) {
-                val ch = get(r, c)
+                val ch = this[r, c]
                 if (ch == ' ') continue
-                chars += if (chars.contains(ch.toString())) break else ch
+                chars += if (chars.contains(ch)) break else ch
             }
             if (chars.length != 3) {
                 row2state[r] = HintState.Error
@@ -75,9 +79,9 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
             chars = ""
             col2state[c] = HintState.Complete
             for (r in 0 until rows()) {
-                val ch = get(r, c)
+                val ch = this[r, c]
                 if (ch == ' ') continue
-                chars += if (chars.contains(ch.toString())) break else ch
+                chars += if (chars.contains(ch)) break else ch
             }
             if (chars.length != 3) {
                 col2state[c] = HintState.Error
@@ -87,7 +91,7 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         val rng = mutableListOf<Position>()
         chars = ""
         for (p in game.snailPathGrid) {
-            val ch = get(p)
+            val ch = this[p]
             pos2state[p] = HintState.Error
             if (ch == ' ') continue
             rng.add(p)
@@ -115,13 +119,5 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
                 isSolved = false
             }
         }
-    }
-
-    init {
-        objArray = CharArray(rows() * cols())
-        System.arraycopy(game.objArray, 0, objArray, 0, objArray.size)
-        row2state = arrayOfNulls<HintState>(rows())
-        col2state = arrayOfNulls<HintState>(cols())
-        updateIsSolved()
     }
 }

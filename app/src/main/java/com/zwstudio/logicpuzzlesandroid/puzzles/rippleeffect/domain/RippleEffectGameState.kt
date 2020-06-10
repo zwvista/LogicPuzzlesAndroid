@@ -3,36 +3,33 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.function.Effect1
 import java.util.*
 
 class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(game) {
-    var objArray: IntArray
+    var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
+
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
-    operator fun get(p: Position) = get(p!!.row, p.col)
-
-    operator fun set(row: Int, col: Int, obj: Int) {
-        objArray[row * cols() + col] = obj
-    }
-
-    operator fun set(p: Position, obj: Int) {
-        set(p!!.row, p.col, obj)
+    init {
+        updateIsSolved()
     }
 
     fun setObject(move: RippleEffectGameMove): Boolean {
         val p = move.p
-        if (!isValid(p) || game!![p] != 0 || get(p) == move.obj) return false
-        set(p, move.obj)
+        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return false
+        this[p] = move.obj
         updateIsSolved()
         return true
     }
 
     fun switchObject(move: RippleEffectGameMove): Boolean {
         val p = move.p
-        if (!isValid(p) || game!![p] != 0) return false
-        move.obj = (get(p) + 1) % (game!!.areas[game!!.pos2area[p]!!].size + 1)
+        if (!isValid(p) || game[p] != 0) return false
+        move.obj = (this[p] + 1) % (game.areas[game.pos2area[p]!!].size + 1)
         return setObject(move)
     }
 
@@ -52,17 +49,22 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows()) for (c in 0 until cols()) pos2state[Position(r, c)] = HintState.Normal
-        val num2rng = mutableMapOf<Int, MutableList<Position?>>()
-        val f = Effect1 { sameRow: Boolean ->
+        for (r in 0 until rows())
+            for (c in 0 until cols())
+                pos2state[Position(r, c)] = HintState.Normal
+        val num2rng = mutableMapOf<Int, MutableList<Position>>()
+        fun f(sameRow: Boolean) {
             for ((n, rng) in num2rng) {
                 val indexes = mutableSetOf<Int>()
-                for (i in 0 until rng.size - 1) if (if (sameRow) rng[i + 1]!!.col - rng[i]!!.col <= n else rng[i + 1]!!.row - rng[i]!!.row <= n) {
+                for (i in 0 until rng.size - 1)
+                    if (if (sameRow) rng[i + 1].col - rng[i].col <= n else rng[i + 1].row - rng[i].row <= n) {
                     indexes.add(n)
                     indexes.add(n + 1)
                 }
-                if (!indexes.isEmpty()) isSolved = false
-                for (i in rng.indices) if (indexes.contains(i)) pos2state[rng[i]] = HintState.Error
+                if (indexes.isNotEmpty()) isSolved = false
+                for (i in rng.indices)
+                    if (indexes.contains(i))
+                        pos2state[rng[i]] = HintState.Error
             }
         }
         for (r in 0 until rows()) {
@@ -75,11 +77,12 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
                     continue
                 }
                 var rng = num2rng[n]
-                if (rng == null) rng = ArrayList()
+                if (rng == null)
+                    rng = ArrayList()
                 rng.add(p)
                 num2rng[n] = rng
             }
-            f.f(true)
+            f(true)
         }
         for (c in 0 until cols()) {
             num2rng.clear()
@@ -91,19 +94,21 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
                     continue
                 }
                 var rng = num2rng[n]
-                if (rng == null) rng = ArrayList()
+                if (rng == null)
+                    rng = ArrayList()
                 rng.add(p)
                 num2rng[n] = rng
             }
-            f.f(false)
+            f(false)
         }
-        for (area in game!!.areas) {
+        for (area in game.areas) {
             num2rng.clear()
-            for (p in area!!) {
-                val n = get(p)
+            for (p in area) {
+                val n = this[p]
                 if (n == 0) continue
                 var rng = num2rng[n]
-                if (rng == null) rng = ArrayList()
+                if (rng == null)
+                    rng = ArrayList()
                 rng.add(p)
                 num2rng[n] = rng
             }
@@ -112,15 +117,13 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
                 if (rng.size <= 1) continue
                 anySame = true
                 isSolved = false
-                for (p in rng) pos2state[p] = HintState.Error
+                for (p in rng)
+                    pos2state[p] = HintState.Error
             }
-            if (!anySame) for (p in area) if (pos2state[p] != HintState.Error) pos2state[p] = HintState.Complete
+            if (!anySame)
+                for (p in area)
+                    if (pos2state[p] != HintState.Error)
+                        pos2state[p] = HintState.Complete
         }
-    }
-
-    init {
-        objArray = IntArray(rows() * cols())
-        System.arraycopy(game.objArray, 0, objArray, 0, objArray.size)
-        updateIsSolved()
     }
 }
