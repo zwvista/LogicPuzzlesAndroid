@@ -55,9 +55,9 @@ class FillominoGameView : CellsGameView {
         if (isInEditMode) return
         for (r in 0 until rows() + 1)
             for (c in 0 until cols() + 1) {
-                if (game().getDots()[r, c, 1] == GridLineObject.Line)
+                if (game().getStateDots()[r, c, 1] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-                if (game().getDots()[r, c, 2] == GridLineObject.Line)
+                if (game().getStateDots()[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
     }
