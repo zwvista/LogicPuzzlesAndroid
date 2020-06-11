@@ -17,11 +17,5 @@ class TapARowDocument : GameDocument<TapARowGame, TapARowGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TapARowGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = TapARowObject.objTypeFromString(rec.strValue1)
-            }
-        }
-    }
+        TapARowGameMove(Position(rec.row, rec.col), TapARowObject.objTypeFromString(rec.strValue1))
 }
