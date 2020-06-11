@@ -24,8 +24,8 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
     }
 
     fun setObject(move: MiniLitsGameMove): Boolean {
-        if (!isValid(move.p) || this.get(move.p) == move.obj) return false
-        this.set(move.p, move.obj)
+        if (!isValid(move.p) || this[move.p] == move.obj) return false
+        this[move.p] = move.obj
         updateIsSolved()
         return true
     }

@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EActivity
 class RippleEffectGameActivity : GameGameActivity<RippleEffectGame, RippleEffectDocument, RippleEffectGameMove, RippleEffectGameState>() {
     @Bean
     protected lateinit var document: RippleEffectDocument
-    override fun doc() = document!!
+    override fun doc() = document
 
     protected lateinit var gameView2: RippleEffectGameView
     override fun getGameView() = gameView2

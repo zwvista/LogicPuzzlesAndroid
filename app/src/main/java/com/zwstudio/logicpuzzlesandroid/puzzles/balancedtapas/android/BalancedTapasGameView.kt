@@ -50,10 +50,9 @@ class BalancedTapasGameView : CellsGameView {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val o = game().getObject(r, c)
-                if (o is BalancedTapasWallObject) {
-                    val o2 = o
+                if (o is BalancedTapasWallObject)
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
-                } else if (o is BalancedTapasHintObject) {
+                else if (o is BalancedTapasHintObject) {
                     val hint = game().pos2hint[Position(r, c)]!!
                     textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
                     fun hint2Str(i: Int): String {

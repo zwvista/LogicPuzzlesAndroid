@@ -66,7 +66,6 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
         for (r in 0 until rows() + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols()) {
-                val p = Position(r, c)
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
                     dots[r, c, 1] = GridLineObject.Line
@@ -76,7 +75,6 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
             if (r == rows()) break
             str = layout[r * 2 + 1]
             for (c in 0 until cols() + 1) {
-                val p = Position(r, c)
                 val ch = str[c * 2]
                 if (ch == '|') {
                     dots[r, c, 2] = GridLineObject.Line

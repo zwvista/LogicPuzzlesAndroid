@@ -68,7 +68,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
             chars = row2hint[r]
             for (c in 0 until cols()) {
                 val p = Position(r, c)
-                if (get(p) == HitoriObject.Darken) continue
+                if (this[p] == HitoriObject.Darken) continue
                 val ch = game[r, c]
                 if (chars.contains(ch)) {
                     isSolved = false
@@ -84,7 +84,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
             chars = col2hint[c]
             for (r in 0 until rows()) {
                 val p = Position(r, c)
-                if (get(p) == HitoriObject.Darken) continue
+                if (this[p] == HitoriObject.Darken) continue
                 val ch = game[r, c]
                 if (chars.contains(ch)) {
                     isSolved = false
@@ -100,7 +100,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         for (r in 0 until rows())
             for (c in 0 until cols()) {
                 val p = Position(r, c)
-                if (get(p) == HitoriObject.Darken)
+                if (this[p] == HitoriObject.Darken)
                     rngDarken.add(p)
                 else {
                     val node = Node(p.toString())

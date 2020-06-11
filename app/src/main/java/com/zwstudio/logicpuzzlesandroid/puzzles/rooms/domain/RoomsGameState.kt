@@ -31,7 +31,7 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
 
     fun switchObject(move: RoomsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        val o = this[move.p][move.dir]!!
+        val o = this[move.p][move.dir]
         move.obj = when (o) {
             GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
             GridLineObject.Line -> if (markerOption == MarkerOptions.MarkerLast) GridLineObject.Marker else GridLineObject.Empty

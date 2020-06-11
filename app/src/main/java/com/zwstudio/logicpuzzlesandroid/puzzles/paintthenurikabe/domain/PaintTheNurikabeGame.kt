@@ -31,7 +31,6 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
         for (r in 0 until rows() + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols()) {
-                val p = Position(r, c)
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
                     dots[r, c, 1] = GridLineObject.Line

@@ -27,7 +27,6 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols()) {
-                val p = Position(r, c)
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue
                 val n = s.trim(' ').toInt()

@@ -37,7 +37,6 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
             MagnetsObject.Positive -> MagnetsObject.Negative
             MagnetsObject.Negative -> if (markerOption == MarkerOptions.MarkerLast) MagnetsObject.Marker else MagnetsObject.Empty
             MagnetsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) MagnetsObject.Positive else MagnetsObject.Empty
-            else -> o
         }
         return setObject(move)
     }

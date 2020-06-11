@@ -62,12 +62,9 @@ class WallsGameView : CellsGameView {
                     dTree.draw(canvas)
                     if (isHorz) canvas.restore()
                 } else if (o is WallsHintObject) {
-                    val o2: WallsHintObject = o as WallsHintObject
-                    val text: String = o2.walls.toString()
-                    val s: HintState = o2.state
-                    textPaint.setColor(
-                        if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
-                    )
+                    val text = o.walls.toString()
+                    val s = o.state
+                    textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
             }

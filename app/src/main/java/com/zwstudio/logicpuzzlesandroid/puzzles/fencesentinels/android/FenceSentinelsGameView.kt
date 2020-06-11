@@ -62,7 +62,7 @@ class FenceSentinelsGameView : CellsGameView {
         for (r in 0 until rows() + 1)
             for (c in 0 until cols() + 1) {
                 val dotObj = game().getObject(r, c)
-                when (dotObj!![1]) {
+                when (dotObj[1]) {
                     GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
                     GridLineObject.Marker -> {
                         canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)

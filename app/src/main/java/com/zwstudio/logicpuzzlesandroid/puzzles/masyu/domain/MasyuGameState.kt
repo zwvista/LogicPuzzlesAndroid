@@ -91,7 +91,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
                     }
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, _) in pos2node) {
             val dirs = pos2Dirs[p]!!
             val ch = game[p]
             var bW = ch != 'W'

@@ -26,7 +26,6 @@ class MineShipsGame(layout: List<String>, gi: GameInterface<MineShipsGame, MineS
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols()) {
-                val p = Position(r, c)
                 val ch = str[c]
                 if (ch in '0'..'9') {
                     val n = ch - '0'

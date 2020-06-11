@@ -103,7 +103,7 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
                 fun hasTent(isTree: Boolean): Boolean {
                     for (os in if (isTree) TentsGame.offset else TentsGame.offset2) {
                         val p2 = p.add(os)
-                        if (isValid(p2) && this.get(p2) is TentsTentObject)
+                        if (isValid(p2) && this[p2] is TentsTentObject)
                             return true
                     }
                     return false

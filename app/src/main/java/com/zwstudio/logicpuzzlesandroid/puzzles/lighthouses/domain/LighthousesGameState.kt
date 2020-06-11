@@ -22,8 +22,8 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
     }
 
     fun setObject(move: LighthousesGameMove): Boolean {
-        if (get(move!!.p) == move.obj) return false
-        set(move.p, move.obj)
+        if (this[move.p] == move.obj) return false
+        this[move.p] = move.obj
         updateIsSolved()
         return true
     }

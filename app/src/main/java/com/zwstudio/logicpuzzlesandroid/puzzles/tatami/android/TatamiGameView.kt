@@ -48,7 +48,7 @@ class TatamiGameView : CellsGameView {
                 val ch = game().getObject(p)
                 if (ch == ' ') continue
                 val s = game().pos2State(p)
-                textPaint.color = if (game().get(p) == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                textPaint.color = if (game()[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val text = ch.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }

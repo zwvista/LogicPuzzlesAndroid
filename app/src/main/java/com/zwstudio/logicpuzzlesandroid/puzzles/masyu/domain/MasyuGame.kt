@@ -28,7 +28,6 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols()) {
-                val p = Position(r, c)
                 val ch = str[c]
                 this[r, c] = ch
             }

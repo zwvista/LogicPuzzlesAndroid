@@ -37,7 +37,6 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
         for (r in 0 until rows() - 1) {
             val str = layout[r]
             for (c in 0 until cols() - 1) {
-                val p = Position(r, c)
                 when (str[c]) {
                     'o' -> galaxies.add(Position(r * 2 + 1, c * 2 + 1))
                     'v' -> {

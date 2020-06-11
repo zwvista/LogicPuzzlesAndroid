@@ -148,7 +148,6 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
                     // 4. A ship or piece of ship can't touch another, not even diagonally.
                     val p2 = p.add(os)
                     if (!isValid(p2) || area.contains(p2)) continue
-                    val o = get(p2)
                     if (this[p2].isShipPiece())
                         isSolved = false
                     else if (allowedObjectsOnly)
