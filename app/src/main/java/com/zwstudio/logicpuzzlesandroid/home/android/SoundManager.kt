@@ -14,9 +14,8 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 open class SoundManager {
-    @kotlin.jvm.JvmField
     @App
-    var app: LogicPuzzlesApplication? = null
+    lateinit var app: LogicPuzzlesApplication
 
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private var mIsBound = false
@@ -32,7 +31,7 @@ open class SoundManager {
     }
 
     private fun doBindService() {
-        app!!.bindService(Intent(app, MusicService::class.java),
+        app.bindService(Intent(app, MusicService::class.java),
             Scon, Context.BIND_AUTO_CREATE)
         mIsBound = true
     }
@@ -56,10 +55,10 @@ open class SoundManager {
     fun init() {
         doBindService()
         val music = Intent()
-        music.setClass(app!!, MusicService::class.java)
+        music.setClass(app, MusicService::class.java)
         // http://stackoverflow.com/questions/5301891/android-start-service-with-parameter
-        music.putExtra("playMusic", app!!.homeDocument!!.gameProgress()!!.playMusic)
-        app!!.startService(music)
+        music.putExtra("playMusic", app.homeDocument.gameProgress()!!.playMusic)
+        app.startService(music)
 
         // Load the sound
         soundPool = SoundPool(2, AudioManager.STREAM_MUSIC, 0)
@@ -71,26 +70,26 @@ open class SoundManager {
 
     fun playOrPauseMusic() {
         if (mServ == null) return
-        if (app!!.homeDocument!!.gameProgress()!!.playMusic) mServ!!.resumeMusic() else mServ!!.pauseMusic()
+        if (app.homeDocument.gameProgress()!!.playMusic) mServ!!.resumeMusic() else mServ!!.pauseMusic()
     }
 
     fun activityStarted() {
         stateCounter++
-        if (stateCounter == 1 && mServ != null && app!!.homeDocument!!.gameProgress()!!.playMusic) mServ!!.resumeMusic()
+        if (stateCounter == 1 && mServ != null && app.homeDocument.gameProgress()!!.playMusic) mServ!!.resumeMusic()
     }
 
     fun activityStopped() {
         stateCounter--
-        if (stateCounter == 0 && mServ != null && app!!.homeDocument!!.gameProgress()!!.playMusic) mServ!!.pauseMusic()
+        if (stateCounter == 0 && mServ != null && app.homeDocument.gameProgress()!!.playMusic) mServ!!.pauseMusic()
     }
 
     private fun playSound(soundID: Int) {
-        val audioManager = app!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val audioManager = app.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val actualVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
         val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC).toFloat()
         val volume = actualVolume / maxVolume
         // Is the sound loaded already?
-        if (loaded && app!!.homeDocument!!.gameProgress()!!.playSound) soundPool!!.play(soundID, volume, volume, 1, 0, 1f)
+        if (loaded && app.homeDocument.gameProgress()!!.playSound) soundPool!!.play(soundID, volume, volume, 1, 0, 1f)
     }
 
     fun playSoundTap() {

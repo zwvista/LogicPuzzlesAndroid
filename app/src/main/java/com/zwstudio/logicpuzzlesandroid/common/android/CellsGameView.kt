@@ -23,7 +23,7 @@ abstract class CellsGameView : View {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val size = Math.min(measuredWidth, measuredHeight) / Math.max(rowsInView(), colsInView())
+        val size = measuredWidth.coerceAtMost(measuredHeight) / rowsInView().coerceAtLeast(colsInView())
         setMeasuredDimension(size * colsInView(), size * rowsInView())
     }
 
@@ -50,21 +50,10 @@ abstract class CellsGameView : View {
         canvas.drawText(text!!, xPos, yPos, textPaint)
     }
 
-    protected fun cwc(c: Int): Int {
-        return c * cellWidth + 1
-    }
-
-    protected fun chr(r: Int): Int {
-        return r * cellHeight + 1
-    }
-
-    protected fun cwc2(c: Int): Int {
-        return c * cellWidth + 1 + cellWidth / 2
-    }
-
-    protected fun chr2(r: Int): Int {
-        return r * cellHeight + 1 + cellHeight / 2
-    }
+    protected fun cwc(c: Int) = c * cellWidth + 1
+    protected fun chr(r: Int) = r * cellHeight + 1
+    protected fun cwc2(c: Int) = c * cellWidth + 1 + cellWidth / 2
+    protected fun chr2(r: Int) = r * cellHeight + 1 + cellHeight / 2
 
     protected fun fromImageToDrawable(imageFile: String?): Drawable? {
         var result: Drawable? = null

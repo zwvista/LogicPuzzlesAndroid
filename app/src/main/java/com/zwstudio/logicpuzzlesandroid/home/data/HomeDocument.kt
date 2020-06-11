@@ -7,16 +7,15 @@ import java.sql.SQLException
 
 @EBean
 open class HomeDocument {
-    @kotlin.jvm.JvmField
     @App
-    var app: LogicPuzzlesApplication? = null
+    lateinit var app: LogicPuzzlesApplication
     fun gameProgress(): HomeGameProgress? {
         return try {
-            var rec = app!!.daoHomeGameProgress!!.queryBuilder()
+            var rec = app.daoHomeGameProgress.queryBuilder()
                 .queryForFirst()
             if (rec == null) {
                 rec = HomeGameProgress()
-                app!!.daoHomeGameProgress!!.create(rec)
+                app.daoHomeGameProgress.create(rec)
             }
             rec
         } catch (e: SQLException) {
@@ -25,12 +24,12 @@ open class HomeDocument {
         }
     }
 
-    fun resumeGame(gameName: String?, gameTitle: String?) {
+    fun resumeGame(gameName: String, gameTitle: String) {
         try {
-            val rec = gameProgress()
-            rec!!.gameName = gameName!!
-            rec.gameTitle = gameTitle!!
-            app!!.daoHomeGameProgress!!.update(rec)
+            val rec = gameProgress()!!
+            rec.gameName = gameName
+            rec.gameTitle = gameTitle
+            app.daoHomeGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }

@@ -21,7 +21,6 @@ open class HomeChooseGameActivity : BaseActivity() {
         return app!!.homeDocument
     }
 
-    @kotlin.jvm.JvmField
     @ViewById
     var lvGames: ListView? = null
 

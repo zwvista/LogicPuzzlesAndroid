@@ -15,46 +15,40 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
 @EActivity
-abstract class GameGameActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM>?, GM, GS : GameState?> : BaseActivity(), GameInterface<G, GM, GS> {
+abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity(), GameInterface<G, GM, GS> {
     abstract fun doc(): GD
 
-    @kotlin.jvm.JvmField
     @ViewById
-    protected var activity_game_game: ViewGroup? = null
-    protected open val gameView: View?
-        protected get() = null
-
-    @kotlin.jvm.JvmField
-    @ViewById
-    protected var tvGame: TextView? = null
-
-    @kotlin.jvm.JvmField
-    @ViewById
-    protected var tvLevel: TextView? = null
-
-    @kotlin.jvm.JvmField
-    @ViewById
-    protected var tvSolved: TextView? = null
-
-    @kotlin.jvm.JvmField
-    @ViewById
-    protected var tvMoves: TextView? = null
-
-    @kotlin.jvm.JvmField
-    @ViewById
-    protected var tvSolution: TextView? = null
+    protected lateinit var activity_game_game: ViewGroup
+    protected val gameView: View?
+        get() = null
 
     @ViewById
-    protected var btnSaveSolution: Button? = null
+    protected lateinit var tvGame: TextView
 
     @ViewById
-    protected var btnLoadSolution: Button? = null
+    protected lateinit var tvLevel: TextView
 
     @ViewById
-    protected var btnDeleteSolution: Button? = null
-    var game: G? = null
+    protected lateinit var tvSolved: TextView
+
+    @ViewById
+    protected lateinit var tvMoves: TextView
+
+    @ViewById
+    protected lateinit var tvSolution: TextView
+
+    @ViewById
+    protected lateinit var btnSaveSolution: Button
+
+    @ViewById
+    protected lateinit var btnLoadSolution: Button
+
+    @ViewById
+    protected lateinit var btnDeleteSolution: Button
+    lateinit var game: G
     protected var levelInitilizing = false
-    protected open fun init() {
+    protected fun init() {
         /*
         <view
             android:layout_width="wrap_content"
@@ -67,25 +61,25 @@ abstract class GameGameActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM>?,
         val params = RelativeLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)
-        activity_game_game!!.addView(gameView, params)
-        tvGame!!.text = doc()!!.gameTitle()
+        activity_game_game.addView(gameView, params)
+        tvGame.text = doc().gameTitle()
         startGame()
     }
 
     @Click
     protected fun btnUndo() {
-        game!!.undo()
+        game.undo()
     }
 
     @Click
     protected fun btnRedo() {
-        game!!.redo()
+        game.redo()
     }
 
     @Click
     protected fun btnClear() {
         yesNoDialog("Do you really want to reset the level?") {
-            doc()!!.clearGame()
+            doc().clearGame()
             startGame()
         }
     }
@@ -93,57 +87,57 @@ abstract class GameGameActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM>?,
     protected abstract fun startGame()
     override fun moveAdded(game: G, move: GM) {
         if (levelInitilizing) return
-        doc()!!.moveAdded(game, move)
+        doc().moveAdded(game, move)
     }
 
     private fun updateMovesUI(game: G) {
-        tvMoves!!.text = String.format("Moves: %d(%d)", game!!.moveIndex(), game.moveCount())
-        tvSolved!!.setTextColor(if (game.isSolved) Color.WHITE else Color.BLACK)
-        btnSaveSolution!!.isEnabled = game.isSolved
+        tvMoves.text = String.format("Moves: %d(%d)", game.moveIndex(), game.moveCount())
+        tvSolved.setTextColor(if (game.isSolved) Color.WHITE else Color.BLACK)
+        btnSaveSolution.isEnabled = game.isSolved
     }
 
     override fun levelInitilized(game: G, state: GS) {
-        gameView!!.invalidate()
+        gameView.invalidate()
         updateMovesUI(game)
     }
 
     override fun levelUpdated(game: G, stateFrom: GS, stateTo: GS) {
-        gameView!!.invalidate()
+        gameView.invalidate()
         updateMovesUI(game)
-        if (!levelInitilizing) doc()!!.levelUpdated(game)
+        if (!levelInitilizing) doc().levelUpdated(game)
     }
 
     override fun gameSolved(game: G) {
         if (levelInitilizing) return
-        app!!.soundManager!!.playSoundSolved()
-        doc()!!.gameSolved(game)
+        app.soundManager.playSoundSolved()
+        doc().gameSolved(game)
         updateSolutionUI()
     }
 
     protected fun updateSolutionUI() {
-        val rec = doc()!!.levelProgressSolution()
-        val hasSolution = rec!!.moveIndex != 0
-        tvSolution!!.text = "Solution: " + if (!hasSolution) "None" else rec.moveIndex.toString()
-        btnLoadSolution!!.isEnabled = hasSolution
-        btnDeleteSolution!!.isEnabled = hasSolution
+        val rec = doc().levelProgressSolution()!!
+        val hasSolution = rec.moveIndex != 0
+        tvSolution.text = "Solution: " + if (!hasSolution) "None" else rec.moveIndex.toString()
+        btnLoadSolution.isEnabled = hasSolution
+        btnDeleteSolution.isEnabled = hasSolution
     }
 
     @Click
     protected fun btnSaveSolution() {
-        doc()!!.saveSolution(game)
+        doc().saveSolution(game)
         updateSolutionUI()
     }
 
     @Click
     protected fun btnLoadSolution() {
-        doc()!!.loadSolution()
+        doc().loadSolution()
         startGame()
     }
 
     @Click
     protected fun btnDeleteSolution() {
         yesNoDialog("Do you really want to reset the level?") {
-            doc()!!.deleteSolution()
+            doc().deleteSolution()
             updateSolutionUI()
         }
     }

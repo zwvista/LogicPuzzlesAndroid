@@ -15,38 +15,32 @@ import org.androidannotations.ormlite.annotations.OrmLiteDao
 
 @EApplication
 open class LogicPuzzlesApplication : Application() {
-    @kotlin.jvm.JvmField
     @OrmLiteDao(helper = DBHelper::class)
-    var daoHomeGameProgress: Dao<HomeGameProgress?, Int?>? = null
+    lateinit var daoHomeGameProgress: Dao<HomeGameProgress, Int>
 
-    @kotlin.jvm.JvmField
     @OrmLiteDao(helper = DBHelper::class)
-    var daoGameProgress: Dao<GameProgress?, Int?>? = null
+    lateinit var daoGameProgress: Dao<GameProgress, Int>
 
-    @kotlin.jvm.JvmField
     @OrmLiteDao(helper = DBHelper::class)
-    var daoLevelProgress: Dao<LevelProgress?, Int?>? = null
+    lateinit var daoLevelProgress: Dao<LevelProgress, Int>
 
-    @kotlin.jvm.JvmField
     @OrmLiteDao(helper = DBHelper::class)
-    var daoMoveProgress: Dao<MoveProgress?, Int?>? = null
+    lateinit var daoMoveProgress: Dao<MoveProgress, Int>
 
-    @kotlin.jvm.JvmField
     @Bean
-    var homeDocument: HomeDocument? = null
+    lateinit var homeDocument: HomeDocument
 
-    @kotlin.jvm.JvmField
     @Bean
-    var soundManager: SoundManager? = null
+    lateinit var soundManager: SoundManager
     override fun onCreate() {
         super.onCreate()
         // cannot use @AfterInject
-        soundManager!!.init()
+        soundManager.init()
     }
 
     override fun onTerminate() {
         super.onTerminate()
-        soundManager!!.doUnbindService()
+        soundManager.doUnbindService()
         OpenHelperManager.releaseHelper()
     }
 }

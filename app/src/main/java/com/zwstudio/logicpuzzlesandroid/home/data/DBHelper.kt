@@ -19,7 +19,7 @@ class DBHelper(context: Context) : OrmLiteSqliteOpenHelper(context, DATABASE_NAM
     * Check whether or not database exist
     */
     private fun checkdatabase(): Boolean {
-        var checkdb = false
+        val checkdb: Boolean
         val myPath = databasePath + DATABASE_NAME
         val dbfile = File(myPath)
         checkdb = dbfile.exists()
@@ -48,7 +48,7 @@ class DBHelper(context: Context) : OrmLiteSqliteOpenHelper(context, DATABASE_NAM
 
     companion object {
         private const val DATABASE_NAME = "Game.db"
-        private var databasePath: String
+        private lateinit var databasePath: String
         private const val DATABASE_VERSION = 1
     }
 

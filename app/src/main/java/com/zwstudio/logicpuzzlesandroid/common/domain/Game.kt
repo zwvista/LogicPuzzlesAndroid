@@ -4,7 +4,8 @@ import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import java.util.*
 
-open class Game<G : Game<G, GM, GS>?, GM, GS : GameState?>(gi: GameInterface<G, GM, GS>?, gdi: GameDocumentInterface) {
+@Suppress("UNCHECKED_CAST")
+open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM, GS>, gdi: GameDocumentInterface) {
     protected var cloner = Cloner()
     protected var stateIndex = 0
     protected var states: List<GS> = ArrayList()
@@ -18,7 +19,7 @@ open class Game<G : Game<G, GM, GS>?, GM, GS : GameState?>(gi: GameInterface<G, 
     }
 
     val isSolved: Boolean
-        get() = state()!!.isSolved
+        get() = state().isSolved
 
     fun canUndo(): Boolean {
         return stateIndex > 0

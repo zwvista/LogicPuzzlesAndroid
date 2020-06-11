@@ -15,25 +15,24 @@ import java.sql.SQLException
 import java.util.*
 
 @EActivity
-abstract class GameOptionsActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM>?, GM, GS : GameState?> : BaseActivity() {
+abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity() {
     abstract fun doc(): GD
 
-    @kotlin.jvm.JvmField
     @ViewById
-    var spnMarker: Spinner? = null
+    lateinit var spnMarker: Spinner
 
     @ViewById
-    var ctvAllowedObjectsOnly: CheckedTextView? = null
+    lateinit var ctvAllowedObjectsOnly: CheckedTextView
 
     @AfterViews
     protected open fun init() {
         val lst = lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter = object : ArrayAdapter<String?>(this,
             R.layout.simple_spinner_item, lst) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
-                val tv = v.findViewById<View>(R.id.text1) as TextView
+                val tv = v.findViewById<TextView>(R.id.text1)
                 tv.text = s
                 return v
             }
@@ -41,23 +40,23 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM
             override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
-                val ctv = v.findViewById<View>(R.id.text1) as CheckedTextView
+                val ctv = v.findViewById<CheckedTextView>(R.id.text1)
                 ctv.text = s
                 return v
             }
         }
         adapter.setDropDownViewResource(R.layout.simple_list_item_single_choice)
-        spnMarker!!.adapter = adapter
-        spnMarker!!.setSelection(doc().getMarkerOption())
-        ctvAllowedObjectsOnly!!.isChecked = doc()!!.isAllowedObjectsOnly
+        spnMarker.adapter = adapter
+        spnMarker.setSelection(doc().getMarkerOption())
+        ctvAllowedObjectsOnly.isChecked = doc().isAllowedObjectsOnly
     }
 
     @ItemSelect
     protected open fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec = doc()!!.gameProgress()
-        doc()!!.setMarkerOption(rec!!, position)
+        val rec = doc().gameProgress()
+        doc().setMarkerOption(rec, position)
         try {
-            app!!.daoGameProgress!!.update(rec)
+            app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -65,11 +64,11 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM
 
     @Click
     protected fun ctvAllowedObjectsOnly() {
-        val rec = doc()!!.gameProgress()
-        ctvAllowedObjectsOnly!!.isChecked = !doc()!!.isAllowedObjectsOnly
-        doc()!!.setAllowedObjectsOnly(rec!!, !doc()!!.isAllowedObjectsOnly)
+        val rec = doc().gameProgress()
+        ctvAllowedObjectsOnly.isChecked = !doc().isAllowedObjectsOnly
+        doc().setAllowedObjectsOnly(rec, !doc().isAllowedObjectsOnly)
         try {
-            app!!.daoGameProgress!!.update(rec)
+            app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -83,16 +82,16 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM
     @Click
     protected fun btnDefault() {
         yesNoDialog("Do you really want to reset the options?") {
-            val rec = doc()!!.gameProgress()
-            doc()!!.setMarkerOption(rec!!, 0)
-            doc()!!.setAllowedObjectsOnly(rec, false)
+            val rec = doc().gameProgress()!!
+            doc().setMarkerOption(rec, 0)
+            doc().setAllowedObjectsOnly(rec, false)
             try {
-                app!!.daoGameProgress!!.update(rec)
+                app.daoGameProgress.update(rec)
             } catch (e: SQLException) {
                 e.printStackTrace()
             }
-            spnMarker!!.setSelection(doc().getMarkerOption())
-            ctvAllowedObjectsOnly!!.isChecked = doc()!!.isAllowedObjectsOnly
+            spnMarker.setSelection(doc().getMarkerOption())
+            ctvAllowedObjectsOnly.isChecked = doc().isAllowedObjectsOnly
         }
     }
 

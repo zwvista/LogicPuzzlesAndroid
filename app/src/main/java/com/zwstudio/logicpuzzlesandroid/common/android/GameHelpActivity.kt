@@ -12,22 +12,20 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
 @EActivity
-abstract class GameHelpActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM>?, GM, GS : GameState?> : BaseActivity() {
+abstract class GameHelpActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity() {
     abstract fun doc(): GD
 
-    @kotlin.jvm.JvmField
     @ViewById
-    protected var tvGame: TextView? = null
+    protected lateinit var tvGame: TextView
 
-    @kotlin.jvm.JvmField
     @ViewById
-    protected var lvHelp: ListView? = null
+    protected lateinit var lvHelp: ListView
 
     @AfterViews
     protected fun init() {
         val adapter = ArrayAdapter(this,
-            R.layout.simple_list_item_1, doc()!!.help)
-        lvHelp!!.adapter = adapter
-        tvGame!!.text = doc()!!.gameTitle() + " Help"
+            R.layout.simple_list_item_1, doc().help)
+        lvHelp.adapter = adapter
+        tvGame.text = doc()!!.gameTitle() + " Help"
     }
 }

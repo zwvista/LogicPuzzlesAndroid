@@ -19,7 +19,7 @@ import java.sql.SQLException
 import java.util.*
 
 @EBean(scope = EBean.Scope.Singleton)
-abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
+abstract class GameDocument<G : Game<*, *, *>, GM> : GameDocumentInterface {
     fun gameID(): String {
         val name = javaClass.simpleName
         return name.substring(0, name.indexOf("Document"))
@@ -30,29 +30,28 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
         return ObjectUtils.defaultIfNull(HomeChooseGameActivity.Companion.name2title.get(name), name)
     }
 
-    var levels: MutableList<GameLevel?> = ArrayList()
-    var selectedLevelID: String? = null
+    var levels = mutableListOf<GameLevel>()
+    lateinit var selectedLevelID: String
     fun selectedLevelIDSolution(): String {
         return "$selectedLevelID Solution"
     }
 
-    var help: List<String?> = ArrayList()
+    var help = mutableListOf<String>()
 
-    @kotlin.jvm.JvmField
     @App
-    var app: LogicPuzzlesApplication? = null
+    lateinit var app: LogicPuzzlesApplication
 
     @AfterInject
     fun init() {
         val filename = gameID() + ".xml"
         try {
-            val in_s = app!!.applicationContext.assets.open("xml/$filename")
+            val in_s = app.applicationContext.assets.open("xml/$filename")
             loadXml(in_s)
             in_s.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        selectedLevelID = gameProgress()!!.levelID
+        selectedLevelID = gameProgress().levelID
     }
 
     private fun loadXml(in_s: InputStream) {
@@ -92,7 +91,7 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
                             .map { s: String -> s.replace("\r", "") }
                             .toJavaList()
                         layout = fj.data.List.iterableList(getCdata.f(layout))
-                            .map { s: String? -> s!!.replace("`", "") }
+                            .map { s: String? -> s.replace("`", "") }
                             .toJavaList()
                         val level = GameLevel()
                         level.id = id
@@ -103,7 +102,7 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
                         help = Array.array(*parser.nextText().split("\n".toRegex()).toTypedArray())
                             .map { s: String -> s.replace("\r", "") }
                             .toJavaList()
-                        help = getCdata.f(help)
+                        help = getCdata(help)
                     }
                 }
                 XmlPullParser.END_TAG -> {
@@ -115,14 +114,14 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
 
     fun gameProgress(): GameProgress? {
         return try {
-            var rec = app!!.daoGameProgress!!.queryBuilder()
+            var rec = app.daoGameProgress.queryBuilder()
                 .where().eq("gameID", gameID())
                 .queryForFirst()
             if (rec == null) {
                 rec = GameProgress()
                 rec.gameID = gameID()
-                rec.levelID = levels[0]!!.id!!
-                app!!.daoGameProgress!!.create(rec)
+                rec.levelID = levels[0].id
+                app.daoGameProgress.create(rec)
             }
             rec
         } catch (e: SQLException) {
@@ -133,14 +132,14 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
 
     private fun levelProgress(levelID: String?): LevelProgress? {
         return try {
-            var rec = app!!.daoLevelProgress!!.queryBuilder()
+            var rec = app.daoLevelProgress.queryBuilder()
                 .where().eq("gameID", gameID())
                 .and().eq("levelID", levelID).queryForFirst()
             if (rec == null) {
                 rec = LevelProgress()
                 rec.gameID = gameID()
                 rec.levelID = levelID
-                app!!.daoLevelProgress!!.create(rec)
+                app.daoLevelProgress.create(rec)
             }
             rec
         } catch (e: SQLException) {
@@ -159,7 +158,7 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
 
     private fun moveProgress(levelID: String?): List<MoveProgress?>? {
         return try {
-            val builder = app!!.daoMoveProgress!!.queryBuilder()
+            val builder = app.daoMoveProgress.queryBuilder()
             builder.where().eq("gameID", gameID())
                 .and().eq("levelID", levelID)
             builder.orderBy("moveIndex", true)
@@ -181,8 +180,8 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
     fun levelUpdated(game: Game<*, *, *>) {
         try {
             val rec = levelProgress()
-            rec!!.moveIndex = game.moveIndex()
-            app!!.daoLevelProgress!!.update(rec)
+            rec.moveIndex = game.moveIndex()
+            app.daoLevelProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -191,12 +190,12 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
     fun gameSolved(game: Game<*, *, *>) {
         val recLP = levelProgress()
         val recLPS = levelProgressSolution()
-        if (recLPS!!.moveIndex == 0 || recLPS.moveIndex > recLP!!.moveIndex) saveSolution(game)
+        if (recLPS.moveIndex == 0 || recLPS.moveIndex > recLP.moveIndex) saveSolution(game)
     }
 
     fun moveAdded(game: Game<*, *, *>, move: GM) {
         try {
-            val builder = app!!.daoMoveProgress!!.deleteBuilder()
+            val builder = app.daoMoveProgress.deleteBuilder()
             builder.where().eq("gameID", gameID())
                 .and().eq("levelID", selectedLevelID)
                 .and().ge("moveIndex", game.moveIndex())
@@ -206,19 +205,19 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
             rec.levelID = selectedLevelID
             rec.moveIndex = game.moveIndex()
             saveMove(move, rec)
-            app!!.daoMoveProgress!!.create(rec)
+            app.daoMoveProgress.create(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
     }
 
-    protected abstract fun saveMove(move: GM, rec: MoveProgress?)
-    abstract fun loadMove(rec: MoveProgress?): GM
+    protected abstract fun saveMove(move: GM, rec: MoveProgress)
+    abstract fun loadMove(rec: MoveProgress): GM
     fun resumeGame() {
         try {
-            val rec = gameProgress()
-            rec!!.levelID = selectedLevelID!!
-            app!!.daoGameProgress!!.update(rec)
+            val rec = gameProgress()!!
+            rec.levelID = selectedLevelID
+            app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -226,32 +225,32 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
 
     fun clearGame() {
         try {
-            val builder = app!!.daoMoveProgress!!.deleteBuilder()
+            val builder = app.daoMoveProgress.deleteBuilder()
             builder.where().eq("gameID", gameID())
                 .and().eq("levelID", selectedLevelID)
             builder.delete()
             val rec = levelProgress()
-            rec!!.moveIndex = 0
-            app!!.daoLevelProgress!!.update(rec)
+            rec.moveIndex = 0
+            app.daoLevelProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
     }
 
-    private fun copyMoves(moveProgressFrom: List<MoveProgress?>?, levelIDTo: String?) {
+    private fun copyMoves(moveProgressFrom: List<MoveProgress>, levelIDTo: String) {
         try {
-            val builder = app!!.daoMoveProgress!!.deleteBuilder()
+            val builder = app.daoMoveProgress.deleteBuilder()
             builder.where().eq("gameID", gameID())
                 .and().eq("levelID", levelIDTo)
             builder.delete()
-            for (recMP in moveProgressFrom!!) {
+            for (recMP in moveProgressFrom) {
                 val move = loadMove(recMP)
                 val recMPS = MoveProgress()
                 recMPS.gameID = gameID()
                 recMPS.levelID = levelIDTo
-                recMPS.moveIndex = recMP!!.moveIndex
+                recMPS.moveIndex = recMP.moveIndex
                 saveMove(move, recMPS)
-                app!!.daoMoveProgress!!.create(recMPS)
+                app.daoMoveProgress.create(recMPS)
             }
         } catch (e: SQLException) {
             e.printStackTrace()
@@ -261,21 +260,21 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
     fun saveSolution(game: Game<*, *, *>) {
         copyMoves(moveProgress(), selectedLevelIDSolution())
         try {
-            val rec = levelProgressSolution()
-            rec!!.moveIndex = game.moveIndex()
-            app!!.daoLevelProgress!!.update(rec)
+            val rec = levelProgressSolution()!!
+            rec.moveIndex = game.moveIndex()
+            app.daoLevelProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
     }
 
     fun loadSolution() {
-        val mps = moveProgressSolution()
+        val mps = moveProgressSolution()!!
         copyMoves(mps, selectedLevelID)
         try {
-            val rec = levelProgress()
-            rec!!.moveIndex = mps!!.size
-            app!!.daoLevelProgress!!.update(rec)
+            val rec = levelProgress()!!
+            rec.moveIndex = mps.size
+            app.daoLevelProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -283,13 +282,13 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
 
     fun deleteSolution() {
         try {
-            val builder = app!!.daoMoveProgress!!.deleteBuilder()
+            val builder = app.daoMoveProgress.deleteBuilder()
             builder.where().eq("gameID", gameID())
                 .and().eq("levelID", selectedLevelIDSolution())
             builder.delete()
             val rec = levelProgressSolution()
-            rec!!.moveIndex = 0
-            app!!.daoLevelProgress!!.update(rec)
+            rec.moveIndex = 0
+            app.daoLevelProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -297,10 +296,10 @@ abstract class GameDocument<G : Game<*, *, *>?, GM> : GameDocumentInterface {
 
     fun resetAllLevels() {
         try {
-            val builder = app!!.daoMoveProgress!!.deleteBuilder()
+            val builder = app.daoMoveProgress.deleteBuilder()
             builder.where().eq("gameID", gameID())
             builder.delete()
-            val builder2 = app!!.daoLevelProgress!!.deleteBuilder()
+            val builder2 = app.daoLevelProgress.deleteBuilder()
             builder2.where().eq("gameID", gameID())
             builder2.delete()
         } catch (e: SQLException) {
