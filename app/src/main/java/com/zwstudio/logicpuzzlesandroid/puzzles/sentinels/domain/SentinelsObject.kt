@@ -3,8 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandEmptyObject
-import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandObject
 
 sealed class SentinelsObject {
     open fun objAsString() = "empty"

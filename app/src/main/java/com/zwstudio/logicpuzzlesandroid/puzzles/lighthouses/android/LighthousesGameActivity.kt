@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.data.LighthousesDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

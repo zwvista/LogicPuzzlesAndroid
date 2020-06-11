@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.data.HolidayIslandDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.HolidayIslandGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

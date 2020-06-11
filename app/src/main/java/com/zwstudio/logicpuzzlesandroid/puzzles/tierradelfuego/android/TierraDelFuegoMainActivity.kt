@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.android.TierraDelFuegoGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.android.TierraDelFuegoOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.data.TierraDelFuegoDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGameMove

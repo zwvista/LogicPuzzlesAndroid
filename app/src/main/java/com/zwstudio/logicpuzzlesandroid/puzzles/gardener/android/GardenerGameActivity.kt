@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.gardener.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.data.GardenerDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

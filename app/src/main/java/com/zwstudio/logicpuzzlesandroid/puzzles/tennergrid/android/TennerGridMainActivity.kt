@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.android.TennerGridGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.android.TennerGridOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.data.TennerGridDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGameMove

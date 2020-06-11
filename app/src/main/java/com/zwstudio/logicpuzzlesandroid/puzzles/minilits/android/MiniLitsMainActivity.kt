@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.android.MiniLitsGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.android.MiniLitsOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.data.MiniLitsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.minilits.domain.MiniLitsGameMove

@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameMove, CloudsGameState>, gdi: GameDocumentInterface) : CellsGame<CloudsGame, CloudsGameMove, CloudsGameState>(gi, gdi) {
     companion object {

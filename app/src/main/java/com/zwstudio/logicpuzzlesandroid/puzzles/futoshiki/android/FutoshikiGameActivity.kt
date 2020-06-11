@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.data.FutoshikiDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class PairakabeGame(layout: List<String>, gi: GameInterface<PairakabeGame, PairakabeGameMove, PairakabeGameState>, gdi: GameDocumentInterface) : CellsGame<PairakabeGame, PairakabeGameMove, PairakabeGameState>(gi, gdi) {
     companion object {

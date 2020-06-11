@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.android.MinesweeperGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.android.MinesweeperOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.data.MinesweeperDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain.MinesweeperGameMove

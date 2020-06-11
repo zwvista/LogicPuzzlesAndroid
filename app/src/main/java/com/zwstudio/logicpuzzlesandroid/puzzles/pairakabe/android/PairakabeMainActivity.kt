@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.android.PairakabeGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.android.PairakabeOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.data.PairakabeDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.PairakabeGameMove

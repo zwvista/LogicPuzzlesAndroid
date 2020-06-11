@@ -1,13 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.data.TapAlikeDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.TapAlikeGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.TapAlikeGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.TapAlikeGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

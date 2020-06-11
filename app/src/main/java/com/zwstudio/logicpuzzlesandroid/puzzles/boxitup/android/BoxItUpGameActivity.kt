@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.data.BoxItUpDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.domain.BoxItUpGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

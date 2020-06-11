@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class MosaikGame(layout: List<String>, gi: GameInterface<MosaikGame, MosaikGameMove, MosaikGameState>, gdi: GameDocumentInterface) : CellsGame<MosaikGame, MosaikGameMove, MosaikGameState>(gi, gdi) {
     companion object {

@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lits.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.data.LitsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android.MasyuGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android.MasyuOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.data.MasyuDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove

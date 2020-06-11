@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import java.util.*
 
 class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<KropkiGame, KropkiGameMove, KropkiGameState>, gdi: GameDocumentInterface) : CellsGame<KropkiGame, KropkiGameMove, KropkiGameState>(gi, gdi) {
     companion object {

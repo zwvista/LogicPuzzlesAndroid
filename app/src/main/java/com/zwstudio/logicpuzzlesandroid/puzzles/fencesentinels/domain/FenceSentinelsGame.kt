@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsGame, FenceSentinelsGameMove, FenceSentinelsGameState>, gdi: GameDocumentInterface) : CellsGame<FenceSentinelsGame, FenceSentinelsGameMove, FenceSentinelsGameState>(gi, gdi) {
     companion object {

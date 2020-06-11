@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.data.KakuroDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

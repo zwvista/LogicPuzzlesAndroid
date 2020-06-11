@@ -1,13 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snake.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.data.SnakeDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

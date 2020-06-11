@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.data.FenceLitsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.fencelits.domain.FenceLitsGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

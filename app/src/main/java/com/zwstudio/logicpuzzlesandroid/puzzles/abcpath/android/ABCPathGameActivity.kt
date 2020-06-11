@@ -1,22 +1,15 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.android
 
-import android.view.View
-
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.data.ABCPathDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGameState
-
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
-
-import fj.data.List.iterableList
 
 @EActivity(R.layout.activity_game_game)
 class ABCPathGameActivity : GameGameActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {

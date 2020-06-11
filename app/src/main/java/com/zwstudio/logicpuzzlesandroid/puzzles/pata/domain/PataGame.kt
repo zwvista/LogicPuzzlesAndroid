@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class PataGame(layout: List<String>, gi: GameInterface<PataGame, PataGameMove, PataGameState>, gdi: GameDocumentInterface) : CellsGame<PataGame, PataGameMove, PataGameState>(gi, gdi) {
     companion object {

@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.android.MineShipsGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.android.MineShipsOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.data.MineShipsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.MineShipsGameMove

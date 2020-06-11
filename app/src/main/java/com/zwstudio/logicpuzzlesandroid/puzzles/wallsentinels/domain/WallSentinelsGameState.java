@@ -15,7 +15,6 @@ import fj.F;
 import fj.function.Effect2;
 
 import static fj.data.Array.array;
-import static fj.data.List.iterableList;
 
 public class WallSentinelsGameState extends CellsGameState<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState> {
     public WallSentinelsObject[] objArray;

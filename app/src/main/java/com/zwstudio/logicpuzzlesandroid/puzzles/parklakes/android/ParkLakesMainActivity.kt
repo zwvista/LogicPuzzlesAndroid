@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.android.ParkLakesGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.android.ParkLakesOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.data.ParkLakesDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domain.ParkLakesGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domain.ParkLakesGameMove

@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.android.OrchardsGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.android.OrchardsOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.data.OrchardsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain.OrchardsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain.OrchardsGameMove

@@ -2,8 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import fj.F
-import java.util.*
 
 class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<ParksGame, ParksGameMove, ParksGameState>, gdi: GameDocumentInterface) : CellsGame<ParksGame, ParksGameMove, ParksGameState>(gi, gdi) {
     companion object {

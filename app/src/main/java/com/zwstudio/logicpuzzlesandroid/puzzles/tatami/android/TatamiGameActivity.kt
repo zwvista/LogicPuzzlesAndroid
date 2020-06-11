@@ -1,13 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.data.TatamiDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

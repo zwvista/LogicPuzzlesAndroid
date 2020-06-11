@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.walls.android.WallsGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.walls.android.WallsOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.data.WallsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.WallsGameMove

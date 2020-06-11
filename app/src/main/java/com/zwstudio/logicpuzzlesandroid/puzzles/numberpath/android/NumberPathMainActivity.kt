@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.android.NumberPathGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.android.NumberPathOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.data.NumberPathDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.domain.NumberPathGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.domain.NumberPathGameMove

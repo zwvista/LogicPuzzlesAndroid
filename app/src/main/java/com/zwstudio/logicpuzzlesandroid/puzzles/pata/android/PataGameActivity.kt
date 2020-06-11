@@ -1,13 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pata.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.pata.data.PataDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain.PataGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain.PataGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain.PataGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

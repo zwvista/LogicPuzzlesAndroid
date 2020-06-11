@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.data.GalaxiesDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.domain.GalaxiesGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

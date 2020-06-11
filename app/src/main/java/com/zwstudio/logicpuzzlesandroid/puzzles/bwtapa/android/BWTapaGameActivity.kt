@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.data.BWTapaDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.domain.BWTapaGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.domain.BWTapaGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.domain.BWTapaGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click

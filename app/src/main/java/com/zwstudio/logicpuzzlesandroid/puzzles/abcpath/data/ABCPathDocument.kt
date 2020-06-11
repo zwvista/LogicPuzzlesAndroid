@@ -3,10 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.data
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGameMove
-
 import org.androidannotations.annotations.EBean
 
 @EBean

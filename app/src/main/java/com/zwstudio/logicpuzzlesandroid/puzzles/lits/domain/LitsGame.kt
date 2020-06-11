@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import java.util.*
 
 class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, LitsGameState>, gdi: GameDocumentInterface) : CellsGame<LitsGame, LitsGameMove, LitsGameState>(gi, gdi) {
     companion object {

@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F2
 
 class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, NumberPathGameMove, NumberPathGameState>, gdi: GameDocumentInterface) : CellsGame<NumberPathGame, NumberPathGameMove, NumberPathGameState>(gi, gdi) {
     var objArray: IntArray

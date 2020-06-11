@@ -2,9 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.F
-import fj.data.List
-import java.util.*
 
 class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
     var objArray = Array<NurikabeObject>(rows() * cols()) { NurikabeEmptyObject() }
