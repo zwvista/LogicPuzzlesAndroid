@@ -9,12 +9,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fencesentinels.domain.FenceSenti
 import org.androidannotations.annotations.EBean
 
 @EBean
-class FenceSentinelsDocument : GameDocument<FenceSentinelsGame?, FenceSentinelsGameMove?>() {
+class FenceSentinelsDocument : GameDocument<FenceSentinelsGame, FenceSentinelsGameMove>() {
     protected override fun saveMove(move: FenceSentinelsGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
+        rec.row = move.p.row
+        rec.col = move.p.col
         rec.intValue1 = move.dir
-        rec.intValue2 = move.obj!!.ordinal
+        rec.intValue2 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress): FenceSentinelsGameMove {

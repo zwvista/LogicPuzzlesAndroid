@@ -8,10 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGameMo
 import org.androidannotations.annotations.EBean
 
 @EBean
-class FutoshikiDocument : GameDocument<FutoshikiGame?, FutoshikiGameMove?>() {
+class FutoshikiDocument : GameDocument<FutoshikiGame, FutoshikiGameMove>() {
     protected override fun saveMove(move: FutoshikiGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
+        rec.row = move.p.row
+        rec.col = move.p.col
         rec.strValue1 = move.obj.toString()
     }
 

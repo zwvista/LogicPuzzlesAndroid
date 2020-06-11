@@ -9,11 +9,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.Digita
 import org.androidannotations.annotations.EBean
 
 @EBean
-class DigitalBattleShipsDocument : GameDocument<DigitalBattleShipsGame?, DigitalBattleShipsGameMove?>() {
+class DigitalBattleShipsDocument : GameDocument<DigitalBattleShipsGame, DigitalBattleShipsGameMove>() {
     protected override fun saveMove(move: DigitalBattleShipsGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
-        rec.intValue1 = move.obj!!.ordinal
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress): DigitalBattleShipsGameMove {

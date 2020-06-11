@@ -9,11 +9,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-class TapARowDocument : GameDocument<TapARowGame?, TapARowGameMove?>() {
+class TapARowDocument : GameDocument<TapARowGame, TapARowGameMove>() {
     protected override fun saveMove(move: TapARowGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
-        rec.strValue1 = move.obj!!.objTypeAsString()
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.strValue1 = move.obj.objTypeAsString()
     }
 
     override fun loadMove(rec: MoveProgress): TapARowGameMove {

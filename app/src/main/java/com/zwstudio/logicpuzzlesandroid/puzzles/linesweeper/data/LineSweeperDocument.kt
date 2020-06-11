@@ -8,10 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGa
 import org.androidannotations.annotations.EBean
 
 @EBean
-class LineSweeperDocument : GameDocument<LineSweeperGame?, LineSweeperGameMove?>() {
+class LineSweeperDocument : GameDocument<LineSweeperGame, LineSweeperGameMove>() {
     protected override fun saveMove(move: LineSweeperGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
+        rec.row = move.p.row
+        rec.col = move.p.col
         rec.intValue1 = move.dir
     }
 

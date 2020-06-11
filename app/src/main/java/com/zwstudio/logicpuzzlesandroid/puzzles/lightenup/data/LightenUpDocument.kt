@@ -9,11 +9,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-class LightenUpDocument : GameDocument<LightenUpGame?, LightenUpGameMove?>() {
+class LightenUpDocument : GameDocument<LightenUpGame, LightenUpGameMove>() {
     protected override fun saveMove(move: LightenUpGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
-        rec.strValue1 = move.obj!!.objTypeAsString()
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.strValue1 = move.obj.objTypeAsString()
     }
 
     override fun loadMove(rec: MoveProgress): LightenUpGameMove {

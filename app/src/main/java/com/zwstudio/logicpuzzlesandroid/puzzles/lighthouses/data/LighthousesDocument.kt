@@ -9,11 +9,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesOb
 import org.androidannotations.annotations.EBean
 
 @EBean
-class LighthousesDocument : GameDocument<LighthousesGame?, LighthousesGameMove?>() {
+class LighthousesDocument : GameDocument<LighthousesGame, LighthousesGameMove>() {
     protected override fun saveMove(move: LighthousesGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
-        rec.strValue1 = move.obj!!.objAsString()
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.strValue1 = move.obj.objAsString()
     }
 
     override fun loadMove(rec: MoveProgress): LighthousesGameMove {

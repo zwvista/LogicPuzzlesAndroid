@@ -8,10 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiGameMove
 import org.androidannotations.annotations.EBean
 
 @EBean
-class KropkiDocument : GameDocument<KropkiGame?, KropkiGameMove?>() {
+class KropkiDocument : GameDocument<KropkiGame, KropkiGameMove>() {
     protected override fun saveMove(move: KropkiGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
+        rec.row = move.p.row
+        rec.col = move.p.col
         rec.intValue1 = move.obj
     }
 

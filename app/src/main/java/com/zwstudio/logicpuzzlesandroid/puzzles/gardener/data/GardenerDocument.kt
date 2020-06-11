@@ -9,11 +9,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerObject
 import org.androidannotations.annotations.EBean
 
 @EBean
-class GardenerDocument : GameDocument<GardenerGame?, GardenerGameMove?>() {
+class GardenerDocument : GameDocument<GardenerGame, GardenerGameMove>() {
     protected override fun saveMove(move: GardenerGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
-        rec.strValue1 = move.obj!!.objAsString()
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.strValue1 = move.obj.objAsString()
     }
 
     override fun loadMove(rec: MoveProgress): GardenerGameMove {

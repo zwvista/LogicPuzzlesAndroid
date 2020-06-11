@@ -8,10 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove
 import org.androidannotations.annotations.EBean
 
 @EBean
-class LoopyDocument : GameDocument<LoopyGame?, LoopyGameMove?>() {
+class LoopyDocument : GameDocument<LoopyGame, LoopyGameMove>() {
     protected override fun saveMove(move: LoopyGameMove, rec: MoveProgress) {
-        rec.row = move.p!!.row
-        rec.col = move.p!!.col
+        rec.row = move.p.row
+        rec.col = move.p.col
         rec.intValue1 = move.dir
     }
 
