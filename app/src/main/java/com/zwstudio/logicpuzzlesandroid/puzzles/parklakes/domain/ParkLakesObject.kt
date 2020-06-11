@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position

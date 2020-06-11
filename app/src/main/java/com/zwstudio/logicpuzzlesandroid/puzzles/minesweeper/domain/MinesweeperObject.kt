@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState

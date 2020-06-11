@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.domain
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*

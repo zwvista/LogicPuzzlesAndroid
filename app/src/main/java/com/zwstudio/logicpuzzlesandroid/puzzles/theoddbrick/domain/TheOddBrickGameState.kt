@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position

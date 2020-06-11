@@ -10,20 +10,13 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class CarpentersSquareDocument : GameDocument<CarpentersSquareGame, CarpentersSquareGameMove>() {
-    protected override fun saveMove(move: CarpentersSquareGameMove, rec: MoveProgress) {
+    override fun saveMove(move: CarpentersSquareGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.intValue1 = move.dir
         rec.intValue2 = move.obj.ordinal
     }
 
-    override fun loadMove(rec: MoveProgress): CarpentersSquareGameMove {
-        return object : CarpentersSquareGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                dir = rec.intValue1
-                obj = GridLineObject.values()[rec.intValue2]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        CarpentersSquareGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
 }

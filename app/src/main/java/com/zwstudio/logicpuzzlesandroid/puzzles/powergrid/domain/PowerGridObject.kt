@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position

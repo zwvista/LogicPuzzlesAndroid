@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position

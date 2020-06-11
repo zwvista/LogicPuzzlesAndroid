@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame

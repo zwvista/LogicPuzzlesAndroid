@@ -1,8 +1,8 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domainimport.TapaGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame
 import java.util.*
 
 class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAlikeGameMove, TapAlikeGameState>(game) {

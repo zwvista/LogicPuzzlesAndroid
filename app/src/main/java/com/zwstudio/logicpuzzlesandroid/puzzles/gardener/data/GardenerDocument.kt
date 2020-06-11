@@ -10,18 +10,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class GardenerDocument : GameDocument<GardenerGame, GardenerGameMove>() {
-    protected override fun saveMove(move: GardenerGameMove, rec: MoveProgress) {
+    override fun saveMove(move: GardenerGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.strValue1 = move.obj.objAsString()
     }
 
-    override fun loadMove(rec: MoveProgress): GardenerGameMove {
-        return object : GardenerGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = GardenerObject.objFromString(rec.strValue1)
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        GardenerGameMove(Position(rec.row, rec.col), GardenerObject.objFromString(rec.strValue1))
 }

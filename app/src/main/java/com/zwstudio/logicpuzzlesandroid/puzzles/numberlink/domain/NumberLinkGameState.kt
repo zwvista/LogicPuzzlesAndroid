@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.overunder.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.overunder.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position

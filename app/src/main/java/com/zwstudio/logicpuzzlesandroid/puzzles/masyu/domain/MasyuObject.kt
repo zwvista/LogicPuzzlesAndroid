@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 

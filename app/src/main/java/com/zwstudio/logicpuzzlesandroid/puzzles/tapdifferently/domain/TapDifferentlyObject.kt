@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState

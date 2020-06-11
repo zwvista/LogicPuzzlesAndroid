@@ -10,18 +10,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class DisconnectFourDocument : GameDocument<DisconnectFourGame, DisconnectFourGameMove>() {
-    protected override fun saveMove(move: DisconnectFourGameMove, rec: MoveProgress) {
+    override fun saveMove(move: DisconnectFourGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.intValue1 = move.obj.ordinal
     }
 
-    override fun loadMove(rec: MoveProgress): DisconnectFourGameMove {
-        return object : DisconnectFourGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = DisconnectFourObject.values()[rec.intValue1]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        DisconnectFourGameMove(Position(rec.row, rec.col), DisconnectFourObject.values()[rec.intValue1])
 }

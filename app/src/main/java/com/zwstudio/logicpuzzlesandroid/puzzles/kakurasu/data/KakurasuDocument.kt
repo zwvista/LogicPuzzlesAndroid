@@ -10,18 +10,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class KakurasuDocument : GameDocument<KakurasuGame, KakurasuGameMove>() {
-    protected override fun saveMove(move: KakurasuGameMove, rec: MoveProgress) {
+    override fun saveMove(move: KakurasuGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.intValue1 = move.obj.ordinal
     }
 
-    override fun loadMove(rec: MoveProgress): KakurasuGameMove {
-        return object : KakurasuGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = KakurasuObject.values()[rec.intValue1]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        KakurasuGameMove(Position(rec.row, rec.col), KakurasuObject.values()[rec.intValue1])
 }

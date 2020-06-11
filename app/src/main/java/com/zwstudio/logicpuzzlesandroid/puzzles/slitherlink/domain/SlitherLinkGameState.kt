@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState

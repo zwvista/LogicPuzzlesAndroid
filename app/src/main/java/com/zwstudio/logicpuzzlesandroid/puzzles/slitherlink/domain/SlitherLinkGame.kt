@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame

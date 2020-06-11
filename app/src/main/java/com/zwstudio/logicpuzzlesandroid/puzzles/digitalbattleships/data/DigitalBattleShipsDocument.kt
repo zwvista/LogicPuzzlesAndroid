@@ -10,18 +10,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class DigitalBattleShipsDocument : GameDocument<DigitalBattleShipsGame, DigitalBattleShipsGameMove>() {
-    protected override fun saveMove(move: DigitalBattleShipsGameMove, rec: MoveProgress) {
+    override fun saveMove(move: DigitalBattleShipsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.intValue1 = move.obj.ordinal
     }
 
-    override fun loadMove(rec: MoveProgress): DigitalBattleShipsGameMove {
-        return object : DigitalBattleShipsGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = DigitalBattleShipsObject.values()[rec.intValue1]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        DigitalBattleShipsGameMove(Position(rec.row, rec.col), DigitalBattleShipsObject.values()[rec.intValue1])
 }

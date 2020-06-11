@@ -1,8 +1,8 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domainimport.TapaGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame
 import java.util.*
 
 class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState>(game) {

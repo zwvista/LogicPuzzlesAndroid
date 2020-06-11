@@ -10,18 +10,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class LightenUpDocument : GameDocument<LightenUpGame, LightenUpGameMove>() {
-    protected override fun saveMove(move: LightenUpGameMove, rec: MoveProgress) {
+    override fun saveMove(move: LightenUpGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.strValue1 = move.obj.objTypeAsString()
     }
 
-    override fun loadMove(rec: MoveProgress): LightenUpGameMove {
-        return object : LightenUpGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = LightenUpObject.objTypeFromString(rec.strValue1)
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        LightenUpGameMove(Position(rec.row, rec.col), LightenUpObject.objTypeFromString(rec.strValue1))
 }

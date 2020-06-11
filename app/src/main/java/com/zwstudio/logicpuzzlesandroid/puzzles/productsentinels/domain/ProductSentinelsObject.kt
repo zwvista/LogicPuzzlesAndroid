@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 

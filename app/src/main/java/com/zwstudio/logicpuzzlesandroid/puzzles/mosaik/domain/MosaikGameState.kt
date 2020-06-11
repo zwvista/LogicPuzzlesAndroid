@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions

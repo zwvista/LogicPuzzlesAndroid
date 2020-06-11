@@ -10,18 +10,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class CarpentersWallDocument : GameDocument<CarpentersWallGame, CarpentersWallGameMove>() {
-    protected override fun saveMove(move: CarpentersWallGameMove, rec: MoveProgress) {
+    override fun saveMove(move: CarpentersWallGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.strValue1 = move.obj.objAsString()
     }
 
-    override fun loadMove(rec: MoveProgress): CarpentersWallGameMove {
-        return object : CarpentersWallGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = CarpentersWallObject.objTypeFromString(rec.strValue1)
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        CarpentersWallGameMove(Position(rec.row, rec.col), CarpentersWallObject.objTypeFromString(rec.strValue1))
 }

@@ -9,7 +9,7 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class BridgesDocument : GameDocument<BridgesGame, BridgesGameMove>() {
-    protected override fun saveMove(move: BridgesGameMove, rec: MoveProgress) {
+    override fun saveMove(move: BridgesGameMove, rec: MoveProgress) {
         rec.row = move.pFrom.row
         rec.col = move.pFrom.col
         rec.row2 = move.pTo.row

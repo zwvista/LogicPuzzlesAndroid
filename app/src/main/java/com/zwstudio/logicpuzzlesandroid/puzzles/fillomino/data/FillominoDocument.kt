@@ -9,18 +9,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class FillominoDocument : GameDocument<FillominoGame, FillominoGameMove>() {
-    protected override fun saveMove(move: FillominoGameMove, rec: MoveProgress) {
+    override fun saveMove(move: FillominoGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.strValue1 = move.obj.toString()
     }
 
-    override fun loadMove(rec: MoveProgress): FillominoGameMove {
-        return object : FillominoGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = rec.strValue1[0]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        FillominoGameMove(Position(rec.row, rec.col), rec.strValue1[0])
 }

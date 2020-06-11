@@ -1,8 +1,8 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domainimport.NurikabeGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame
 
 class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<PaintTheNurikabeGame, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>(game) {
     var objArray = Array(rows() * cols()) { PaintTheNurikabeObject.Empty }

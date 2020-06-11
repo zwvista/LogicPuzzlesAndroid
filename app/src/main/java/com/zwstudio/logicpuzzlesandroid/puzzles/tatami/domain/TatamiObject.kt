@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 

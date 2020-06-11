@@ -9,18 +9,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class FutoshikiDocument : GameDocument<FutoshikiGame, FutoshikiGameMove>() {
-    protected override fun saveMove(move: FutoshikiGameMove, rec: MoveProgress) {
+    override fun saveMove(move: FutoshikiGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.strValue1 = move.obj.toString()
     }
 
-    override fun loadMove(rec: MoveProgress): FutoshikiGameMove {
-        return object : FutoshikiGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = rec.strValue1[0]
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        FutoshikiGameMove(Position(rec.row, rec.col), rec.strValue1[0])
 }

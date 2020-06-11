@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.mathrax.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.mathrax.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 

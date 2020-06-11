@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 

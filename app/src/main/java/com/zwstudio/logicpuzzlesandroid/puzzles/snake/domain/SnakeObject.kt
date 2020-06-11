@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.snake.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 

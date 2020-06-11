@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domainimport.TapaGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame
 import java.util.*
 
 class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowGameMove, TapARowGameState>(game) {

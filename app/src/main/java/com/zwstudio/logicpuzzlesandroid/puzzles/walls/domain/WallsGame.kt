@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.walls.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame

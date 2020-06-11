@@ -1,8 +1,8 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domainimport.TierraDelFuegoGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGame
 
 class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState>(game) {
     var objArray = Array<ParkLakesObject>(rows() * cols()) { ParkLakesEmptyObject() }

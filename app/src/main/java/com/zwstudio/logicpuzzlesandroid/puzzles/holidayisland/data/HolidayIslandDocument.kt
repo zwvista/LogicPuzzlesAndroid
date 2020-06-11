@@ -10,18 +10,12 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class HolidayIslandDocument : GameDocument<HolidayIslandGame, HolidayIslandGameMove>() {
-    protected override fun saveMove(move: HolidayIslandGameMove, rec: MoveProgress) {
+    override fun saveMove(move: HolidayIslandGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.strValue1 = move.obj.objAsString()
     }
 
-    override fun loadMove(rec: MoveProgress): HolidayIslandGameMove {
-        return object : HolidayIslandGameMove() {
-            init {
-                p = Position(rec.row, rec.col)
-                obj = HolidayIslandObject.objFromString(rec.strValue1)
-            }
-        }
-    }
+    override fun loadMove(rec: MoveProgress) =
+        HolidayIslandGameMove(Position(rec.row, rec.col), HolidayIslandObject.objFromString(rec.strValue1))
 }

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.orchards.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*

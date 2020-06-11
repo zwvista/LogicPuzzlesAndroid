@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domainimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
