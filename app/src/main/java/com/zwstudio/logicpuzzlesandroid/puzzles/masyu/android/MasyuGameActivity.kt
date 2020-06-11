@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android
 
 import android.view.View
 import fj.data.List

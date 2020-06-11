@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity

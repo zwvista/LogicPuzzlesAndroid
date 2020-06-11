@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android
 
 import android.view.View
 import fj.data.List

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.snail.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.snail.android
 
 import android.view.View
 import fj.data.List

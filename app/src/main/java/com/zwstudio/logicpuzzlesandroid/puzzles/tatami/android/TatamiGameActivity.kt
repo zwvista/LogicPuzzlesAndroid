@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.android
 
 import android.view.View
 import fj.data.List

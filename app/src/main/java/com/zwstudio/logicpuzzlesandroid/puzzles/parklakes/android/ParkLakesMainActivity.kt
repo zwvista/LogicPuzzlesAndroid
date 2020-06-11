@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity

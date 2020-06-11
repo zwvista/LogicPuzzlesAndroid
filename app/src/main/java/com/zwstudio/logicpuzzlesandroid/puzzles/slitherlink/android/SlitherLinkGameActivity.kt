@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.android
 
 import android.view.View
 import fj.data.List

@@ -16,7 +16,6 @@ import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
 open class MagnetsGameActivity : GameGameActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
-    @JvmField
     @Bean
     protected var document: MagnetsDocument = null
     override fun doc() = document!!

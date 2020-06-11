@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.android
 
 import android.content.Context
 import android.graphics.Canvas

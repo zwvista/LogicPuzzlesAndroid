@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity

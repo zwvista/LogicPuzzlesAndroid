@@ -1,8 +1,9 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tents.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tents.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.tents.android.TentsOptionsActivity_
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.data.TentsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.TentsGameMove

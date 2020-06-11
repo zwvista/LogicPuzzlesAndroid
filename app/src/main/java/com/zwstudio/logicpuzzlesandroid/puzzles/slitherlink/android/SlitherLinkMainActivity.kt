@@ -1,16 +1,18 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.android
 
 import android.R
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress
+import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.data.SlitherLinkDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGame
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ItemSelect
+import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain.SlitherLinkGameState
+import org.androidannotations.annotations.*
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)

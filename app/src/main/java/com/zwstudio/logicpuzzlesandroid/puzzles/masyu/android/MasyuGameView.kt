@@ -1,10 +1,12 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.masyu.android
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import fj.data.Stream
 

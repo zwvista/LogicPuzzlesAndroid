@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity

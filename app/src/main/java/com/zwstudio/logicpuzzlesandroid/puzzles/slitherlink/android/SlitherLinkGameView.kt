@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.android
 
 import android.content.Context
 import android.graphics.Canvas

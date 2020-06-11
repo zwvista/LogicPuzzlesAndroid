@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.minilits.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.minilits.android
 
 import android.view.View
 import fj.data.List

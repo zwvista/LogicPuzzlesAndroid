@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.android
 
 import android.view.View
 import fj.data.List

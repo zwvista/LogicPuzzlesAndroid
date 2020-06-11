@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.walls.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.walls.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity

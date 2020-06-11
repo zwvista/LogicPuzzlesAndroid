@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.walls.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.walls.android
 
 import android.content.Context
 import android.graphics.Canvas

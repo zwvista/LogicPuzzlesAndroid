@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.android
 
 import android.view.View
 import fj.data.List

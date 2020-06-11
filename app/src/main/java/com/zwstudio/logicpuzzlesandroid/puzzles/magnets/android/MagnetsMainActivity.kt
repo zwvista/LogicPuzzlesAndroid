@@ -14,7 +14,6 @@ import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
 open class MagnetsMainActivity : GameMainActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
-    @JvmField
     @Bean
     protected lateinit var document: MagnetsDocument
     override fun doc() = document
@@ -32,7 +31,6 @@ open class MagnetsMainActivity : GameMainActivity<MagnetsGame, MagnetsDocument, 
 
 @EActivity(R.layout.activity_game_options)
 open class MagnetsOptionsActivity : GameOptionsActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
-    @JvmField
     @Bean
     protected lateinit var document: MagnetsDocument
     override fun doc() = document
@@ -40,7 +38,6 @@ open class MagnetsOptionsActivity : GameOptionsActivity<MagnetsGame, MagnetsDocu
 
 @EActivity(R.layout.activity_game_help)
 open class MagnetsHelpActivity : GameHelpActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
-    @JvmField
     @Bean
     protected lateinit var document: MagnetsDocument
     override fun doc() = document

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.mineships.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.mineships.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity

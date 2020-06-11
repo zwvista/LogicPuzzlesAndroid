@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android
 
 import android.content.Context
 import android.graphics.Canvas

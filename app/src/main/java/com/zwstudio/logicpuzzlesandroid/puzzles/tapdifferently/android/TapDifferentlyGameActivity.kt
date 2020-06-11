@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.android
 
 import android.view.View
 import fj.data.List

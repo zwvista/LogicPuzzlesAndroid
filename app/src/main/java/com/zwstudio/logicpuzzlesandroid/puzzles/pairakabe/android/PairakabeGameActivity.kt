@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.android
 
 import android.view.View
 import fj.data.List

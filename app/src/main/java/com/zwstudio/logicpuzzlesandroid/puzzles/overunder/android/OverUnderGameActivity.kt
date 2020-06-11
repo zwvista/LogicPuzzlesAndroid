@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.overunder.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.overunder.android
 
 import android.view.View
 import fj.data.List

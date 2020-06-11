@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.android
 
 import android.content.Context
 import android.graphics.Canvas

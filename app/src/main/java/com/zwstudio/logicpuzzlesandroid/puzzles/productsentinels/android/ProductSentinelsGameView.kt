@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.android
 
 import android.content.Context
 import android.graphics.Canvas

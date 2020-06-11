@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity

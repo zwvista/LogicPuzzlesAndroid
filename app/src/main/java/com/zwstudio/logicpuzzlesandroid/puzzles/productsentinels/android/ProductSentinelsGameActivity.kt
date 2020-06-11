@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.android
 
 import android.view.View
 import fj.data.List

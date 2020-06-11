@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.mathrax.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.mathrax.android
 
 import android.content.Context
 import android.graphics.Canvas

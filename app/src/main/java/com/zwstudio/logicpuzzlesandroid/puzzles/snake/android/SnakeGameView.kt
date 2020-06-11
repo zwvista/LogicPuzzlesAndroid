@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.snake.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.snake.android
 
 import android.content.Context
 import android.graphics.Canvas

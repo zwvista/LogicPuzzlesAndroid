@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.android
 
 import android.content.Context
 import android.graphics.Canvas

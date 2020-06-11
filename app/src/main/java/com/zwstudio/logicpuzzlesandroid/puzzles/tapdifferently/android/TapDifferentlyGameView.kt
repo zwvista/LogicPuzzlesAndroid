@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.android
 
 import android.content.Context
 import android.graphics.Canvas

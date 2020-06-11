@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper.android
 
 import android.view.View
 import fj.data.List

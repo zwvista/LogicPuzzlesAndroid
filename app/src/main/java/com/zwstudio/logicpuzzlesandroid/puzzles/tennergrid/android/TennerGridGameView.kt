@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.android
 
 import android.content.Context
 import android.graphics.Canvas

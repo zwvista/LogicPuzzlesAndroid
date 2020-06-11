@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.android
 
 import android.view.View
 import fj.data.List

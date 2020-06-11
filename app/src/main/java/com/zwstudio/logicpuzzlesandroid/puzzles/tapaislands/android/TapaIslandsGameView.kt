@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.android
 
 import android.content.Context
 import android.graphics.Canvas

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.android
 
 import android.view.View
 import fj.data.List

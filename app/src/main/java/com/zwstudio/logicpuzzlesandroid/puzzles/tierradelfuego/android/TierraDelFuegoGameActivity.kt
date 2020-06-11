@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.android
 
 import android.view.View
 import fj.data.List

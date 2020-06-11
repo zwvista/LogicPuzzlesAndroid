@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.android
 
 import android.view.View
 import fj.data.List

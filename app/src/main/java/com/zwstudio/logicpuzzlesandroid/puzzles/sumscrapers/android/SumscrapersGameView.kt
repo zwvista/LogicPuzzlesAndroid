@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.android
 
 import android.content.Context
 import android.graphics.Canvas

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.android
 
 import android.content.Context
 import android.graphics.Canvas

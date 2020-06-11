@@ -1,9 +1,9 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.android.PaintTheNurikabeGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.android.PaintTheNurikabeOptionsActivity_
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.data.PaintTheNurikabeDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintTheNurikabeGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintTheNurikabeGameMove

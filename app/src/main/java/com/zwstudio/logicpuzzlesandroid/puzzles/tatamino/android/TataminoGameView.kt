@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.androidimport
+package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.android
 
 import android.content.Context
 import android.graphics.Canvas
