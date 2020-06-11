@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lits.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.data.LitsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameMove
@@ -26,4 +28,20 @@ class LitsMainActivity : GameMainActivity<LitsGame?, LitsDocument?, LitsGameMove
         doc().resumeGame()
         LitsGameActivity_.intent(this).start()
     }
+}
+
+@EActivity(R.layout.activity_game_options)
+class LitsOptionsActivity : GameOptionsActivity<LitsGame?, LitsDocument?, LitsGameMove?, LitsGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: LitsDocument? = null
+    override fun doc() = document!!
+}
+
+@EActivity(R.layout.activity_game_help)
+class LitsHelpActivity : GameHelpActivity<LitsGame?, LitsDocument?, LitsGameMove?, LitsGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: LitsDocument? = null
+    override fun doc() = document!!
 }

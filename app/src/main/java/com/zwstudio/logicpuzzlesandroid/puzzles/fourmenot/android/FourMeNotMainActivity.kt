@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.data.FourMeNotDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain.FourMeNotGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain.FourMeNotGameMove
@@ -26,4 +28,20 @@ class FourMeNotMainActivity : GameMainActivity<FourMeNotGame?, FourMeNotDocument
         doc().resumeGame()
         FourMeNotGameActivity_.intent(this).start()
     }
+}
+
+@EActivity(R.layout.activity_game_options)
+class FourMeNotOptionsActivity : GameOptionsActivity<FourMeNotGame?, FourMeNotDocument?, FourMeNotGameMove?, FourMeNotGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: FourMeNotDocument? = null
+    override fun doc() = document!!
+}
+
+@EActivity(R.layout.activity_game_help)
+class FourMeNotHelpActivity : GameHelpActivity<FourMeNotGame?, FourMeNotDocument?, FourMeNotGameMove?, FourMeNotGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: FourMeNotDocument? = null
+    override fun doc() = document!!
 }

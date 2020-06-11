@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.data.BWTapaDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.domain.BWTapaGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.domain.BWTapaGameMove
@@ -26,4 +28,20 @@ class BWTapaMainActivity : GameMainActivity<BWTapaGame?, BWTapaDocument?, BWTapa
         doc().resumeGame()
         BWTapaGameActivity_.intent(this).start()
     }
+}
+
+@EActivity(R.layout.activity_game_options)
+class BWTapaOptionsActivity : GameOptionsActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: BWTapaDocument? = null
+    override fun doc() = document!!
+}
+
+@EActivity(R.layout.activity_game_help)
+class BWTapaHelpActivity : GameHelpActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: BWTapaDocument? = null
+    override fun doc() = document!!
 }

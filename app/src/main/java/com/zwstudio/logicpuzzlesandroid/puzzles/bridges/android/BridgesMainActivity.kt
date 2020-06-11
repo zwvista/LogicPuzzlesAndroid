@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bridges.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.data.BridgesDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove
@@ -26,4 +28,22 @@ class BridgesMainActivity : GameMainActivity<BridgesGame?, BridgesDocument?, Bri
         doc().resumeGame()
         BridgesGameActivity_.intent(this).start()
     }
+}
+
+@EActivity(R.layout.activity_game_options)
+class BridgesOptionsActivity : GameOptionsActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: BridgesDocument? = null
+    override fun doc() = document!!
+
+    protected fun onDefault() {}
+}
+
+@EActivity(R.layout.activity_game_help)
+class BridgesHelpActivity : GameHelpActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: BridgesDocument? = null
+    override fun doc() = document!!
 }

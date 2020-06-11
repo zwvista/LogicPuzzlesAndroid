@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.domino.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.data.DominoDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameMove
@@ -26,4 +28,20 @@ class DominoMainActivity : GameMainActivity<DominoGame?, DominoDocument?, Domino
         doc().resumeGame()
         DominoGameActivity_.intent(this).start()
     }
+}
+
+@EActivity(R.layout.activity_game_options)
+class DominoOptionsActivity : GameOptionsActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: DominoDocument? = null
+    override fun doc() = document!!
+}
+
+@EActivity(R.layout.activity_game_help)
+class DominoHelpActivity : GameHelpActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
+    @kotlin.jvm.JvmField
+    @Bean
+    protected var document: DominoDocument? = null
+    override fun doc() = document!!
 }
