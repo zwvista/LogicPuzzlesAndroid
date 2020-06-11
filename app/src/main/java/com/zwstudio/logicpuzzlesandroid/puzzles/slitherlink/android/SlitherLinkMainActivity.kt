@@ -1,9 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.android
 
-import android.R
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
+import android.widget.TextView
+import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
@@ -43,10 +45,10 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
         val lst: List<String> = GameOptionsActivity.lstMarkers
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
-            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v: View = super.getView(position, convertView, parent)
                 val s = lst[position]
-                val tv: TextView = v.findViewById<TextView>(R.id.text1)
+                val tv = v.findViewById<TextView>(R.id.text1)
                 tv.setText(s)
                 return v
             }
@@ -54,14 +56,14 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
             override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v: View = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
-                val ctv: CheckedTextView = v.findViewById<CheckedTextView>(R.id.text1)
+                val ctv = v.findViewById<CheckedTextView>(R.id.text1)
                 ctv.setText(s)
                 return v
             }
         }
         adapter.setDropDownViewResource(R.layout.simple_list_item_single_choice)
         spnMarker.setAdapter(adapter)
-        spnMarker.setSelection(doc().getMarkerOption())
+        spnMarker.setSelection(doc().markerOption)
     }
 
     @ItemSelect

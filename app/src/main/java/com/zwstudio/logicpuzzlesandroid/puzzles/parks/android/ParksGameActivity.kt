@@ -8,7 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGameState
 import fj.data.List
+import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
@@ -32,7 +34,7 @@ class ParksGameActivity : GameGameActivity<ParksGame, ParksDocument, ParksGameMo
         tvLevel.setText(selectedLevelID)
         updateSolutionUI()
         levelInitilizing = true
-        val treesInEachArea: Int = ObjectUtils.defaultIfNull(level.settings.get("TreesInEachArea"), "1").toInt()
+        val treesInEachArea = (level.settings["TreesInEachArea"] ?: "1").toInt()
         game = ParksGame(level.layout, treesInEachArea, this, doc())
         try {
             // restore game state

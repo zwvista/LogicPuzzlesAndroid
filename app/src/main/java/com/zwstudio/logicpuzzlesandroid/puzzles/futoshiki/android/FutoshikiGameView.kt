@@ -10,20 +10,14 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGameMove
 
 class FutoshikiGameView : CellsGameView {
     private fun activity() = context as FutoshikiGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -111,12 +105,7 @@ class FutoshikiGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = FutoshikiGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = ' '
-                }
-            }
+            val move = FutoshikiGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

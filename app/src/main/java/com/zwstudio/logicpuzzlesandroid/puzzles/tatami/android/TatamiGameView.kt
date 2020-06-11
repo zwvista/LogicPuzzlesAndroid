@@ -59,8 +59,8 @@ class TatamiGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            val col = (event.getX() / cellWidth) as Int
-            val row = (event.getY() / cellHeight) as Int
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = TatamiGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()

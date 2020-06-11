@@ -27,9 +27,9 @@ class SlitherLinkGameActivity : GameGameActivity<SlitherLinkGame, SlitherLinkDoc
     }
 
     protected override fun startGame() {
-        val selectedLevelID: String = doc().selectedLevelID
+        val selectedLevelID = doc().selectedLevelID
         val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
-        tvLevel.setText(selectedLevelID)
+        tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
         game = SlitherLinkGame(level.layout, this, doc())

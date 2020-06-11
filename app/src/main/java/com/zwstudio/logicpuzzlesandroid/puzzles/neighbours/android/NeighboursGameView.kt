@@ -52,9 +52,9 @@ class NeighboursGameView : CellsGameView {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode()) continue
             val p = Position(r, c)
-            val n: Int = game().pos2hint.get(p)
+            val n = game().pos2hint[p]
             if (n != null) {
-                val state: HintState = game().pos2State(p)
+                val state = game().pos2State(p)
                 textPaint.setColor(
                     if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                 )
@@ -73,6 +73,7 @@ class NeighboursGameView : CellsGameView {
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
             when (dotObj[2]) {
                 GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
@@ -81,6 +82,7 @@ class NeighboursGameView : CellsGameView {
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
         }
     }

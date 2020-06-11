@@ -8,7 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGameState
 import fj.data.List
+import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
@@ -27,9 +29,9 @@ class SnakeGameActivity : GameGameActivity<SnakeGame, SnakeDocument, SnakeGameMo
     }
 
     protected override fun startGame() {
-        val selectedLevelID: String = doc().selectedLevelID
+        val selectedLevelID = doc().selectedLevelID
         val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
-        tvLevel.setText(selectedLevelID)
+        tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
         game = SnakeGame(level.layout, this, doc())

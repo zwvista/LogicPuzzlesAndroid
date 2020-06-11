@@ -1,12 +1,17 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.data.NurikabeDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGameState
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android.NurikabeGameActivity_
+import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.android.NurikabeOptionsActivity_
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)

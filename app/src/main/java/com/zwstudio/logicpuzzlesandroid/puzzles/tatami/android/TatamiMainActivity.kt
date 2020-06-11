@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.android.TatamiGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.android.TatamiOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.data.TatamiDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameMove

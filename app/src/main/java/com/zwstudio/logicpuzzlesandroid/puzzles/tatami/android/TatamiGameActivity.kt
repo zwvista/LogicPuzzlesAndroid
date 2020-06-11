@@ -10,6 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameState
 import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
@@ -28,7 +29,7 @@ class TatamiGameActivity : GameGameActivity<TatamiGame, TatamiDocument, TatamiGa
     }
 
     protected override fun startGame() {
-        val selectedLevelID: String = doc().selectedLevelID
+        val selectedLevelID = doc().selectedLevelID
         val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.setText(selectedLevelID)
         updateSolutionUI()

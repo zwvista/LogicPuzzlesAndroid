@@ -48,7 +48,7 @@ class SlitherLinkGameView : CellsGameView {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode()) continue
             val p = Position(r, c)
-            val n = game().pos2hint.get(p)
+            val n = game().pos2hint[p]
             if (n != null) {
                 val state = game().pos2State(p)
                 textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
@@ -82,10 +82,10 @@ class SlitherLinkGameView : CellsGameView {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             val offset = 30
-            val col = ((event.getX() + offset) / cellWidth) as Int
-            val row = ((event.getY() + offset) / cellHeight) as Int
-            val xOffset: Int = event.getX() as Int - col * cellWidth - 1
-            val yOffset: Int = event.getY() as Int - row * cellHeight - 1
+            val col = ((event.x + offset) / cellWidth).toInt()
+            val row = ((event.y + offset) / cellHeight).toInt()
+            val xOffset = event.x.toInt() - col * cellWidth - 1
+            val yOffset = event.y.toInt() - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
             val move = SlitherLinkGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()

@@ -6,8 +6,11 @@ import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.data.ProductSentinelsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductSentinelsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductSentinelsGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels.domain.ProductSentinelsGameState
 import fj.data.List
+import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
@@ -26,9 +29,9 @@ class ProductSentinelsGameActivity : GameGameActivity<ProductSentinelsGame, Prod
     }
 
     protected override fun startGame() {
-        val selectedLevelID: String = doc().selectedLevelID
+        val selectedLevelID = doc().selectedLevelID
         val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
-        tvLevel.setText(selectedLevelID)
+        tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
         game = ProductSentinelsGame(level.layout, this, doc())

@@ -46,9 +46,7 @@ class NurikabeGameView : CellsGameView {
                 val o2: NurikabeHintObject = o as NurikabeHintObject
                 val n = game().pos2hint[Position(r, c)]!!
                 if (n >= 0) {
-                    textPaint.setColor(
-                        if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                    )
+                    textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }

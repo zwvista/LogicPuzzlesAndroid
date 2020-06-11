@@ -62,7 +62,7 @@ class SentinelsGameView : CellsGameView {
             } else if (o is SentinelsMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is SentinelsForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
             val n = game().pos2hint[p]
             if (n != null) {
-                val state: HintState = game().pos2State(p)
+                val state = game().pos2State(p)
                 textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

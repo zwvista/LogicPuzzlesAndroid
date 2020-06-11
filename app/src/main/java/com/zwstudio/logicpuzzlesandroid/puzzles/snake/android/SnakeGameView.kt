@@ -64,21 +64,17 @@ class SnakeGameView : CellsGameView {
         }
         if (isInEditMode()) return
         for (r in 0 until rows()) {
-            val s: HintState = game().getRowState(r)
-            textPaint.setColor(
-                if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            )
-            val n: Int = game().row2hint.get(r)
+            val s = game().getRowState(r)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game().row2hint[r]
             if (n < 0) continue
             val text = n.toString()
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols()) {
-            val s: HintState = game().getColState(c)
-            textPaint.setColor(
-                if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            )
-            val n: Int = game().col2hint.get(c)
+            val s = game().getColState(c)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game().col2hint[c]
             if (n < 0) continue
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
@@ -86,7 +82,7 @@ class SnakeGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
