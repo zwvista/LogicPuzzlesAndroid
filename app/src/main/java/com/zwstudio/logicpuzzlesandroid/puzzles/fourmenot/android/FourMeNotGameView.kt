@@ -26,7 +26,7 @@ class FourMeNotGameView : CellsGameView {
     private val markerPaint = Paint()
     private val fixedPaint = Paint()
     private val forbiddenPaint = Paint()
-    private var dTree: Drawable? = null
+    private lateinit var dTree: Drawable
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -50,19 +50,28 @@ class FourMeNotGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols())
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val o = game().getObject(p)
-            if (o is FourMeNotTreeObject) {
-                dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dTree.draw(canvas)
-                if (game()[p] is FourMeNotTreeObject) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
-            } else if (o is FourMeNotMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is FourMeNotForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint) else if (o is FourMeNotBlockObject) canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val o = game().getObject(p)
+                if (o is FourMeNotTreeObject) {
+                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                    dTree.draw(canvas)
+                    if (game()[p] is FourMeNotTreeObject)
+                        canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+                } else if (o is FourMeNotMarkerObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                else if (o is FourMeNotForbiddenObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                else if (o is FourMeNotBlockObject)
+                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+            }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

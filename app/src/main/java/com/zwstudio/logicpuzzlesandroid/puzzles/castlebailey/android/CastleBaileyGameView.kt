@@ -29,17 +29,9 @@ class CastleBaileyGameView : CellsGameView {
     private val mathPaint1 = Paint()
     private val mathPaint2 = Paint()
 
-    constructor(context: Context) : super(context) {
-        init(null, 0)
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(attrs, 0)
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
-        init(attrs, defStyle)
-    }
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -85,11 +77,7 @@ class CastleBaileyGameView : CellsGameView {
             canvas.drawArc((cwc(c) - cellWidth / 4).toFloat(), (chr(r) - cellHeight / 4).toFloat(), (cwc(c) + cellWidth / 4).toFloat(), (chr(r) + cellHeight / 4).toFloat(), 0f, 360f, true, mathPaint2)
             val text = value.toString()
             val s = game().getPosState(p)
-            textPaint.color = when (s) {
-                HintState.Complete -> Color.GREEN
-                HintState.Error -> Color.RED
-                else -> Color.WHITE
-            }
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             drawTextCentered(text, cwc(c) - cellWidth / 4, chr(r) - cellHeight / 4, cellWidth / 2, cellHeight / 2, canvas, textPaint)
         }
     }

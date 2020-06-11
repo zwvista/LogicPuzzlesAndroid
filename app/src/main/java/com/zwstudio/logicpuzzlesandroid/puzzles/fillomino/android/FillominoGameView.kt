@@ -40,22 +40,26 @@ class FillominoGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val p = Position(r, c)
-            val ch = game().getObject(p)
-            if (ch == ' ') continue
-            val s = game().getPosState(p)
-            textPaint.color = if (game()[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            val text = ch.toString()
-            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val p = Position(r, c)
+                val ch = game().getObject(p)
+                if (ch == ' ') continue
+                val s = game().getPosState(p)
+                textPaint.color = if (game()[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                val text = ch.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+            }
         if (isInEditMode) return
-        for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            if (game().getDots()[r, c, 1] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-            if (game().getDots()[r, c, 2] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
-        }
+        for (r in 0 until rows() + 1)
+            for (c in 0 until cols() + 1) {
+                if (game().getDots()[r, c, 1] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+                if (game().getDots()[r, c, 2] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+            }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

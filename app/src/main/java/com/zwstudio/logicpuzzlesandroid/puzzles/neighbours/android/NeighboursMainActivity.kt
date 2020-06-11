@@ -10,8 +10,6 @@ import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress
-import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.android.NeighboursGameActivity_
-import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.android.NeighboursOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.data.NeighboursDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGameMove
@@ -48,17 +46,17 @@ class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame, Neighbours
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val v: View = super.getView(position, convertView, parent)
+                val v = super.getView(position, convertView, parent)
                 val s = lst[position]
-                val tv: TextView = v.findViewById<TextView>(R.id.text1)
+                val tv = v.findViewById<TextView>(R.id.text1)
                 tv.text = s
                 return v
             }
 
             override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
-                val v: View = super.getDropDownView(position, convertView, parent)
+                val v = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
-                val ctv: CheckedTextView = v.findViewById<CheckedTextView>(R.id.text1)
+                val ctv = v.findViewById<CheckedTextView>(R.id.text1)
                 ctv.text = s
                 return v
             }

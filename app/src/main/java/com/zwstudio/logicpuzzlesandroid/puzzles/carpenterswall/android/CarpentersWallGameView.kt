@@ -41,35 +41,34 @@ class CarpentersWallGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val o = game().getObject(r, c)
-            if (o is CarpentersWallCornerObject) {
-                val o2 = o
-                val n = o2.tiles
-                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                val text = if (n == 0) "?" else n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
-            } else if (o is CarpentersWallLeftObject) {
-                val o2 = o
-                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                drawTextCentered("<", cwc(c), chr(r), canvas, textPaint)
-            } else if (o is CarpentersWallRightObject) {
-                val o2 = o
-                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                drawTextCentered(">", cwc(c), chr(r), canvas, textPaint)
-            } else if (o is CarpentersWallUpObject) {
-                val o2 = o
-                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                drawTextCentered("^", cwc(c), chr(r), canvas, textPaint)
-            } else if (o is CarpentersWallDownObject) {
-                val o2 = o
-                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                drawTextCentered("v", cwc(c), chr(r), canvas, textPaint)
-            } else if (o is CarpentersWallWallObject) canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint) else if (o is CarpentersWallMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val o = game().getObject(r, c)
+                if (o is CarpentersWallCornerObject) {
+                    val n = o.tiles
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    val text = if (n == 0) "?" else n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+                } else if (o is CarpentersWallLeftObject) {
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    drawTextCentered("<", cwc(c), chr(r), canvas, textPaint)
+                } else if (o is CarpentersWallRightObject) {
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    drawTextCentered(">", cwc(c), chr(r), canvas, textPaint)
+                } else if (o is CarpentersWallUpObject) {
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    drawTextCentered("^", cwc(c), chr(r), canvas, textPaint)
+                } else if (o is CarpentersWallDownObject) {
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    drawTextCentered("v", cwc(c), chr(r), canvas, textPaint)
+                } else if (o is CarpentersWallWallObject)
+                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                else if (o is CarpentersWallMarkerObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+            }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

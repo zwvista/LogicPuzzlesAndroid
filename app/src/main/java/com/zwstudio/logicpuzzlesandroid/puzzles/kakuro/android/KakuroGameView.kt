@@ -44,18 +44,19 @@ class KakuroGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val n = game().getObject(Position(r, c))
-            if (n == null) {
-                canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), linePaint)
-            } else if (n != 0) {
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val n = game().getObject(Position(r, c))
+                if (n == null) {
+                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), linePaint)
+                } else if (n != 0) {
+                    val text = n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
             }
-        }
         if (isInEditMode) return
         for ((p, n) in game().pos2horzHint) {
             val s = game().getHorzState(p)

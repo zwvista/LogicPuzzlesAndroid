@@ -26,7 +26,7 @@ class PaintTheNurikabeGameView : CellsGameView {
     private val linePaint = Paint()
     private val filledPaint = Paint()
     private val markerPaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
+    private val textPaint = TextPaint()
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -48,34 +48,36 @@ class PaintTheNurikabeGameView : CellsGameView {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val p = Position(r, c)
-            val o: PaintTheNurikabeObject = game().getObject(p)
-            when (o) {
-                PaintTheNurikabeObject.Painted -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
-                PaintTheNurikabeObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                else -> {}
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val p = Position(r, c)
+                val o: PaintTheNurikabeObject = game().getObject(p)
+                when (o) {
+                    PaintTheNurikabeObject.Painted -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
+                    PaintTheNurikabeObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    else -> {}
+                }
+                val n = game().pos2hint[p]
+                if (n != null) {
+                    val state = game().pos2State(p)
+                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                    val text = n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
             }
-            val n = game().pos2hint[p]
-            if (n != null) {
-                val state = game().pos2State(p)
-                textPaint.setColor(
-                    if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                )
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+        for (r in 0 until rows() + 1)
+            for (c in 0 until cols() + 1) {
+                if (game().dots[r, c, 1] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+                if (game().dots[r, c, 2] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
-        }
-        for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            if (game().dots.get(r, c, 1) == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-            if (game().dots.get(r, c, 2) == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true

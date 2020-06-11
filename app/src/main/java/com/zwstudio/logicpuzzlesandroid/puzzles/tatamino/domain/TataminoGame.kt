@@ -75,8 +75,8 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
     fun switchObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::switchObject)
     fun setObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::setObject)
 
-    fun getObject(p: Position) = state().get(p)
-    fun getObject(row: Int, col: Int) = state().get(row, col)
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
     fun getPosState(p: Position) = state().pos2state.get(p)
-    fun getDots() = state().dots
+    fun getStateDots() = state().dots
 }

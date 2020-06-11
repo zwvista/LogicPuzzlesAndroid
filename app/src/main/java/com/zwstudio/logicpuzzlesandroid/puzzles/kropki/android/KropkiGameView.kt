@@ -48,38 +48,44 @@ class KropkiGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val n = game().getObject(r, c)
-            if (n == 0) continue
-            val text = n.toString()
-            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val n = game().getObject(r, c)
+                if (n == 0) continue
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+            }
         if (isInEditMode) return
-        if (game().bordered) for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            if (game().dots!![r, c, 1] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-            if (game().dots!![r, c, 2] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
-        }
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            for (i in 0..1) {
-                if (i == 0 && c == cols() - 1 || i == 1 && r == rows() - 1) continue
-                val kh = (if (i == 0) game().pos2horzHint else game().pos2vertHint)[p]
-                if (kh == KropkiHint.None) continue
-                var s = if (i == 0) game().getHorzState(p) else game().getVertState(p)
-                if (s == null) s = HintState.Normal
-                hintPaint.color = if (kh == KropkiHint.Consecutive) Color.WHITE else Color.BLACK
-                hintPaint2.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                if (i == 0) {
-                    canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
-                    canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint2)
-                } else {
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint2)
+        if (game().bordered)
+            for (r in 0 until rows() + 1)
+                for (c in 0 until cols() + 1) {
+                    if (game().dots!![r, c, 1] == GridLineObject.Line)
+                        canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+                    if (game().dots!![r, c, 2] == GridLineObject.Line)
+                        canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+                }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                for (i in 0..1) {
+                    if (i == 0 && c == cols() - 1 || i == 1 && r == rows() - 1) continue
+                    val kh = (if (i == 0) game().pos2horzHint else game().pos2vertHint)[p]
+                    if (kh == KropkiHint.None) continue
+                    var s = if (i == 0) game().getHorzState(p) else game().getVertState(p)
+                    if (s == null) s = HintState.Normal
+                    hintPaint.color = if (kh == KropkiHint.Consecutive) Color.WHITE else Color.BLACK
+                    hintPaint2.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                    if (i == 0) {
+                        canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
+                        canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint2)
+                    } else {
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint2)
+                    }
                 }
             }
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

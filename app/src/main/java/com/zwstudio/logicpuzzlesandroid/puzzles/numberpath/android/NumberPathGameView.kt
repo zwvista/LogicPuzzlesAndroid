@@ -11,9 +11,6 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.domain.NumberPathGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.numberpath.domain.NumberPathGameMove
-import fj.F
-import fj.data.List
-import fj.function.Effect0
 import kotlin.math.abs
 
 class NumberPathGameView : CellsGameView {
@@ -26,7 +23,7 @@ class NumberPathGameView : CellsGameView {
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
+    private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -81,7 +78,7 @@ class NumberPathGameView : CellsGameView {
                     pLastMove = p
                     pLastDown = pLastMove
                 }
-                f.f()
+                f()
             }
             MotionEvent.ACTION_MOVE -> if (pLastMove != null && p != pLastMove) {
                 val n = NumberPathGame.offset.indices

@@ -25,9 +25,9 @@ class PowerGridGameView : CellsGameView {
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
+    private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private var dPost: Drawable? = null
+    private lateinit var dPost: Drawable
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -39,7 +39,7 @@ class PowerGridGameView : CellsGameView {
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
-        textPaint.setAntiAlias(true)
+        textPaint.isAntiAlias = true
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
@@ -54,36 +54,34 @@ class PowerGridGameView : CellsGameView {
             val p = Position(r, c)
             val o: PowerGridObject = game().getObject(p)
             if (o is PowerGridPostObject) {
-                val o2: PowerGridPostObject = o as PowerGridPostObject
-                dPost!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o2.state == AllowedObjectState.Error) 50 else 0
-                dPost!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dPost!!.draw(canvas)
-            } else if (o is PowerGridMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is PowerGridForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                dPost.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                dPost.draw(canvas)
+            } else if (o is PowerGridMarkerObject)
+                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+            else if (o is PowerGridForbiddenObject)
+                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
         }
         if (isInEditMode) return
         for (r in 0 until rows()) {
-            val s: HintState = game().getRowState(r)
-            textPaint.setColor(
-                if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            )
-            val n: Int = game().row2hint.get(r)
+            val s = game().getRowState(r)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game().row2hint[r]
             val text = n.toString()
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols()) {
-            val s: HintState = game().getColState(c)
-            textPaint.setColor(
-                if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            )
-            val n: Int = game().col2hint.get(c)
+            val s = game().getColState(c)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game().col2hint[c]
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true

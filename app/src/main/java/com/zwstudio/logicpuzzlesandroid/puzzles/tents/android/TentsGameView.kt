@@ -26,9 +26,9 @@ class TentsGameView : CellsGameView {
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
-    private var dTree: Drawable? = null
-    private var dTent: Drawable? = null
+    private val textPaint = TextPaint()
+    private lateinit var dTree: Drawable
+    private lateinit var dTent: Drawable
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -55,42 +55,39 @@ class TentsGameView : CellsGameView {
             if (isInEditMode) continue
             val o: TentsObject = game().getObject(r, c)
             if (o is TentsTreeObject) {
-                val o2: TentsTreeObject = o as TentsTreeObject
-                dTree!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o2.state == AllowedObjectState.Error) 50 else 0
-                dTree!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dTree!!.draw(canvas)
+                dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                dTree.draw(canvas)
             } else if (o is TentsTentObject) {
-                val o2: TentsTentObject = o as TentsTentObject
-                dTent!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o2.state == AllowedObjectState.Error) 50 else 0
-                dTent!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dTent!!.draw(canvas)
-            } else if (o is TentsMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is TentsForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                dTent.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                dTent.draw(canvas)
+            } else if (o is TentsMarkerObject)
+                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+            else if (o is TentsForbiddenObject)
+                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
         }
         if (isInEditMode) return
         for (r in 0 until rows()) {
-            val s: HintState = game().getRowState(r)
-            textPaint.setColor(
-                if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            )
-            val n: Int = game().row2hint.get(r)
+            val s = game().getRowState(r)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game().row2hint[r]
             val text = n.toString()
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols()) {
-            val s: HintState = game().getColState(c)
-            textPaint.setColor(
-                if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            )
-            val n: Int = game().col2hint.get(c)
+            val s = game().getColState(c)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game().col2hint[c]
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true

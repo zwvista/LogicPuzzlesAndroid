@@ -27,7 +27,7 @@ class HolidayIslandGameView : CellsGameView {
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private var dTree: Drawable? = null
+    private lateinit var dTree: Drawable
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -48,23 +48,28 @@ class HolidayIslandGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols())
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val o = game().getObject(p)
-            if (o is HolidayIslandTreeObject) {
-                dTree!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                dTree!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dTree!!.draw(canvas)
-            } else if (o is HolidayIslandHintObject) {
-                val o2 = o
-                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                val text = o2.tiles.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-            } else if (o is HolidayIslandMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is HolidayIslandForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val o = game().getObject(p)
+                if (o is HolidayIslandTreeObject) {
+                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                    dTree.draw(canvas)
+                } else if (o is HolidayIslandHintObject) {
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    val text = o.tiles.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                } else if (o is HolidayIslandMarkerObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                else if (o is HolidayIslandForbiddenObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+            }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

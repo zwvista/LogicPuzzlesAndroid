@@ -30,7 +30,7 @@ class BusySeasGameView : CellsGameView {
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private var dLightbulb: Drawable? = null
+    private lateinit var dLightbulb: Drawable
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -51,25 +51,26 @@ class BusySeasGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val p = Position(r, c)
-            val o = game().getObject(p)
-            if (o is BusySeasLighthouseObject) {
-                dLightbulb!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                dLightbulb!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dLightbulb!!.draw(canvas)
-            } else if (o is BusySeasMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is BusySeasForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-            val n = game().pos2hint[p]
-            if (n != null) {
-                val state = game().pos2State(p)
-                textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val p = Position(r, c)
+                val o = game().getObject(p)
+                if (o is BusySeasLighthouseObject) {
+                    dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                    dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                    dLightbulb.draw(canvas)
+                } else if (o is BusySeasMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is BusySeasForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                val n = game().pos2hint[p]
+                if (n != null) {
+                    val state = game().pos2State(p)
+                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                    val text = n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
             }
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

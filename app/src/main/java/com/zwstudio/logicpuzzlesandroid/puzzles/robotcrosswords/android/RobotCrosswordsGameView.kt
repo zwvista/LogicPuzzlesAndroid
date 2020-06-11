@@ -22,7 +22,7 @@ class RobotCrosswordsGameView : CellsGameView {
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
+    private val textPaint = TextPaint()
     private val hintPaint = Paint()
 
     constructor(context: Context?) : super(context) { init(null, 0) }
@@ -34,7 +34,7 @@ class RobotCrosswordsGameView : CellsGameView {
         gridPaint.style = Paint.Style.STROKE
         wallPaint.color = Color.WHITE
         wallPaint.style = Paint.Style.FILL_AND_STROKE
-        textPaint.setAntiAlias(true)
+        textPaint.isAntiAlias = true
         hintPaint.style = Paint.Style.FILL
         hintPaint.strokeWidth = 5f
     }
@@ -44,30 +44,35 @@ class RobotCrosswordsGameView : CellsGameView {
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
-            val n: Int = game().getObject(r, c)
-            if (n == -1) canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint) else if (n > 0) {
+            val n = game().getObject(r, c)
+            if (n == -1)
+                canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+            else if (n > 0) {
                 val text = n.toString()
-                textPaint.setColor(if (game().get(r, c) == n) Color.GRAY else Color.WHITE)
+                textPaint.color = if (game()[r, c] == n) Color.GRAY else Color.WHITE
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         }
         if (isInEditMode) return
         for (i in game().areas.indices) {
-            val a: List<Position> = game().areas.get(i)
-            val isHorz: Boolean = i < game().horzAreaCount
+            val a = game().areas[i]
+            val isHorz = i < game().horzAreaCount
             for (p in a) {
                 val r = p.row
                 val c = p.col
                 val s = if (isHorz) game().getHorzState(p) else game().getVertState(p)
                 if (s == HintState.Normal) continue
                 hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
-                if (isHorz) canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint) else canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
+                if (isHorz)
+                    canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
+                else
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
             }
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true

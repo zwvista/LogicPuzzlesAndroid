@@ -23,7 +23,7 @@ class Square100GameView : CellsGameView {
     private val wallPaint = Paint()
     private val lightPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
+    private val textPaint = TextPaint()
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -44,13 +44,14 @@ class Square100GameView : CellsGameView {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val text: String = game().getObject(r, c)
-            textPaint.setColor(Color.WHITE)
-            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val text = game().getObject(r, c)
+                textPaint.setColor(Color.WHITE)
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+            }
         if (isInEditMode) return
         for (r in 0 until rows()) {
             val n: Int = game().getRowHint(r)
@@ -67,7 +68,7 @@ class Square100GameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true

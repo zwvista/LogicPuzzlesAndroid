@@ -33,7 +33,7 @@ class GardenerGameView : CellsGameView {
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
     private val hintPaint = Paint()
-    private var dTree: Drawable? = null
+    private lateinit var dTree: Drawable
 
     constructor(context: Context?) : super(context) { init(null, 0) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
@@ -60,23 +60,33 @@ class GardenerGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols())
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            if (game().dots[r, c, 1] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-            if (game().dots[r, c, 2] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
-        }
+        for (r in 0 until rows() + 1)
+            for (c in 0 until cols() + 1) {
+                if (game().dots[r, c, 1] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+                if (game().dots[r, c, 2] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+            }
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
             val o = game().getObject(p)
             if (o is GardenerTreeObject) {
-                dTree!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                dTree!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dTree!!.draw(canvas)
-            } else if (o is GardenerMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is GardenerForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-            if (game().invalidSpaces(p, true)) canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
-            if (game().invalidSpaces(p, false)) canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
+                dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                dTree.draw(canvas)
+            } else if (o is GardenerMarkerObject)
+                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+            else if (o is GardenerForbiddenObject)
+                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+            if (game().invalidSpaces(p, true))
+                canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
+            if (game().invalidSpaces(p, false))
+                canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
         }
         for ((p, value) in game().pos2hint) {
             val n = value.first

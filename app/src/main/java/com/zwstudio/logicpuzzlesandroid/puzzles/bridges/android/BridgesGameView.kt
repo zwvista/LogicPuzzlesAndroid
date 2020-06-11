@@ -56,10 +56,14 @@ class BridgesGameView : CellsGameView {
                 val r2 = p2.row
                 val c2 = p2.col
                 val b = o.bridges[dir]
-                if (dir == 1 && b == 1) canvas.drawLine(cwc(c + 1).toFloat(), chr2(r).toFloat(), cwc(c2).toFloat(), chr2(r2).toFloat(), bridgePaint) else if (dir == 1 && b == 2) {
+                if (dir == 1 && b == 1)
+                    canvas.drawLine(cwc(c + 1).toFloat(), chr2(r).toFloat(), cwc(c2).toFloat(), chr2(r2).toFloat(), bridgePaint)
+                else if (dir == 1 && b == 2) {
                     canvas.drawLine(cwc(c + 1).toFloat(), chr2(r) - 10.toFloat(), cwc(c2).toFloat(), chr2(r2) - 10.toFloat(), bridgePaint)
                     canvas.drawLine(cwc(c + 1).toFloat(), chr2(r) + 10.toFloat(), cwc(c2).toFloat(), chr2(r2) + 10.toFloat(), bridgePaint)
-                } else if (dir == 2 && b == 1) canvas.drawLine(cwc2(c).toFloat(), chr(r + 1).toFloat(), cwc2(c2).toFloat(), chr(r2).toFloat(), bridgePaint) else if (dir == 2 && b == 2) {
+                } else if (dir == 2 && b == 1)
+                    canvas.drawLine(cwc2(c).toFloat(), chr(r + 1).toFloat(), cwc2(c2).toFloat(), chr(r2).toFloat(), bridgePaint)
+                else if (dir == 2 && b == 2) {
                     canvas.drawLine(cwc2(c) - 10.toFloat(), chr(r + 1).toFloat(), cwc2(c2) - 10.toFloat(), chr(r2).toFloat(), bridgePaint)
                     canvas.drawLine(cwc2(c) + 10.toFloat(), chr(r + 1).toFloat(), cwc2(c2) + 10.toFloat(), chr(r2).toFloat(), bridgePaint)
                 }

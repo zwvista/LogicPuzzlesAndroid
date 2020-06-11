@@ -12,7 +12,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameMove
-import fj.data.Stream
 
 class LineSweeperGameView : CellsGameView {
     private fun activity() = context as LineSweeperGameActivity
@@ -43,27 +42,32 @@ class LineSweeperGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val p = Position(r, c)
-            val n = game().pos2hint[p]
-            if (n != null) {
-                val state = game().pos2State(p)
-                textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val p = Position(r, c)
+                val n = game().pos2hint[p]
+                if (n != null) {
+                    val state = game().pos2State(p)
+                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                    val text = n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
             }
-        }
         if (isInEditMode) return
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val dirs = intArrayOf(1, 2)
-            for (dir in dirs) {
-                val b = game().getObject(r, c)!![dir]
-                if (!b) continue
-                if (dir == 1) canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint) else canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val dirs = intArrayOf(1, 2)
+                for (dir in dirs) {
+                    val b = game().getObject(r, c)[dir]
+                    if (!b) continue
+                    if (dir == 1)
+                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
+                    else
+                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
+                }
             }
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -71,7 +75,7 @@ class LineSweeperGameView : CellsGameView {
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
         if (col >= cols() || row >= rows()) return true
-        var p = Position(row, col)
+        val p = Position(row, col)
         val isH = game().isHint(p)
         fun f() = activity().app.soundManager.playSoundTap()
         when (event.action) {
@@ -81,9 +85,9 @@ class LineSweeperGameView : CellsGameView {
                 f()
             }
             MotionEvent.ACTION_MOVE -> if (!isH && pLastMove != null && p != pLastMove) {
-                val n = Stream.range(0, LineSweeperGame.offset.size.toLong())
-                    .filter { i: Int? -> LineSweeperGame.offset.get(i!!) == p.subtract(pLastMove) }
-                    .orHead { -1 }
+                val n = LineSweeperGame.offset.indices
+                    .filter { LineSweeperGame.offset[it] == p.subtract(pLastMove) }
+                    .getOrElse(0) { -1 }
                 if (n != -1) {
                     val move = LineSweeperGameMove(pLastMove!!, n / 2)
                     if (game().setObject(move)) f()

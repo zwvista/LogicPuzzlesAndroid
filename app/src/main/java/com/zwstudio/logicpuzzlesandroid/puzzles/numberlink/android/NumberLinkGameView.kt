@@ -24,7 +24,7 @@ class NumberLinkGameView : CellsGameView {
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
+    private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -38,22 +38,28 @@ class NumberLinkGameView : CellsGameView {
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        textPaint.setAntiAlias(true)
+        textPaint.isAntiAlias = true
     }
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols())
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val dirs = intArrayOf(1, 2)
-            for (dir in dirs) {
-                val b: Boolean = game().getObject(r, c).get(dir)
-                if (!b) continue
-                if (dir == 1) canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint) else canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val dirs = intArrayOf(1, 2)
+                for (dir in dirs) {
+                    val b = game().getObject(r, c)[dir]
+                    if (!b) continue
+                    if (dir == 1)
+                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
+                    else
+                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
+                }
             }
-        }
-        for ((p, n) in game().pos2hint.entries) {
+        for ((p, n) in game().pos2hint) {
             val state = game().pos2State(p)
             textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
             val text = n.toString()
@@ -64,7 +70,7 @@ class NumberLinkGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (game().isSolved()) return true
+        if (game().isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
         if (col >= cols() || row >= rows()) return true

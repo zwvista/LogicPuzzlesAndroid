@@ -46,18 +46,18 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val v: View = super.getView(position, convertView, parent)
+                val v = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv = v.findViewById<TextView>(R.id.text1)
-                tv.setText(s)
+                tv.text = s
                 return v
             }
 
             override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
-                val v: View = super.getDropDownView(position, convertView, parent)
+                val v = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
                 val ctv = v.findViewById<CheckedTextView>(R.id.text1)
-                ctv.setText(s)
+                ctv.text = s
                 return v
             }
         }

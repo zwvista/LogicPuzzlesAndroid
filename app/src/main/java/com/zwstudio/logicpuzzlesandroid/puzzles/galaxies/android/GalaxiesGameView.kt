@@ -48,34 +48,37 @@ class GalaxiesGameView : CellsGameView {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols())
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
         val markerOffset = 20
-        for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            val dotObj = game().getObject(r, c)
-            when (dotObj!![1]) {
-                GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
-                    if (game()[r, c][1] == GridLineObject.Line) line1Paint else line2Paint)
-                GridLineObject.Marker -> {
-                    canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
-                    canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
+        for (r in 0 until rows() + 1)
+            for (c in 0 until cols() + 1) {
+                val dotObj = game().getObject(r, c)
+                when (dotObj[1]) {
+                    GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
+                        if (game()[r, c][1] == GridLineObject.Line) line1Paint else line2Paint)
+                    GridLineObject.Marker -> {
+                        canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
+                        canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
+                    }
+                    else -> {}
                 }
-                else -> {}
-            }
-            when (dotObj[2]) {
-                GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
-                    if (game()[r, c][2] == GridLineObject.Line) line1Paint else line2Paint)
-                GridLineObject.Marker -> {
-                    canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
-                    canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
+                when (dotObj[2]) {
+                    GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
+                        if (game()[r, c][2] == GridLineObject.Line) line1Paint else line2Paint)
+                    GridLineObject.Marker -> {
+                        canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
+                        canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
+                    }
+                    else -> {}
                 }
-                else -> {}
             }
-        }
         for (p in game().galaxies) {
             val state = game().pos2State(p)
             galaxyPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-            val r = p!!.row
+            val r = p.row
             val c = p.col
             val x = cwc2(c / 2) - if (c % 2 == 0) cellWidth / 2 else 0
             val y = chr2(r / 2) - if (r % 2 == 0) cellHeight / 2 else 0
