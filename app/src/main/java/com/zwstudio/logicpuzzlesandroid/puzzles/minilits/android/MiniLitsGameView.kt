@@ -73,7 +73,7 @@ class MiniLitsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: MiniLitsGameMove = object : MiniLitsGameMove() {
+            val move = MiniLitsGameMove()
                 init {
                     p = Position(row, col)
                     obj = MiniLitsEmptyObject()

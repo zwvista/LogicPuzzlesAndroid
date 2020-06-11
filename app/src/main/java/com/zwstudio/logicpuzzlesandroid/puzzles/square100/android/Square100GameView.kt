@@ -73,7 +73,7 @@ class Square100GameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: Square100GameMove = object : Square100GameMove() {
+            val move = Square100GameMove()
                 init {
                     p = Position(row, col)
                     isRightPart = event.getX() >= col * cellWidth + cellWidth / 2

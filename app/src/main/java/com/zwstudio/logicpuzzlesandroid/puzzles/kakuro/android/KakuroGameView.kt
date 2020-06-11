@@ -18,9 +18,9 @@ class KakuroGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -53,7 +53,7 @@ class KakuroGameView : CellsGameView {
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
-            val n = game()!!.getObject(Position(r, c))
+            val n = game().getObject(Position(r, c))
             if (n == null) {
                 canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                 canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), linePaint)
@@ -63,14 +63,14 @@ class KakuroGameView : CellsGameView {
             }
         }
         if (isInEditMode) return
-        for ((p, n) in game()!!.pos2horzHint) {
-            val s = game()!!.getHorzState(p)
+        for ((p, n) in game().pos2horzHint) {
+            val s = game().getHorzState(p)
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.BLACK
             val text = n.toString()
             drawTextCentered(text, cwc2(p.col), chr(p.row), cellWidth / 2, cellHeight / 2, canvas, hintPaint)
         }
-        for ((p, n) in game()!!.pos2vertHint) {
-            val s = game()!!.getVertState(p)
+        for ((p, n) in game().pos2vertHint) {
+            val s = game().getVertState(p)
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.BLACK
             val text = n.toString()
             drawTextCentered(text, cwc(p.col), chr2(p.row), cellWidth / 2, cellHeight / 2, canvas, hintPaint)
@@ -78,17 +78,17 @@ class KakuroGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: KakuroGameMove = object : KakuroGameMove() {
+            val move = KakuroGameMove()
                 init {
                     p = Position(row, col)
                     obj = 0
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

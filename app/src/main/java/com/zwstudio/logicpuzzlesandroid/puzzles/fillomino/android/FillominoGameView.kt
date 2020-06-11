@@ -19,9 +19,9 @@ class FillominoGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -50,32 +50,32 @@ class FillominoGameView : CellsGameView {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
             val p = Position(r, c)
-            val ch = game()!!.getObject(p)
+            val ch = game().getObject(p)
             if (ch == ' ') continue
-            val s = game()!!.getPosState(p)
-            textPaint.color = if (game()!![p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val s = game().getPosState(p)
+            textPaint.color = if (game()[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val text = ch.toString()
             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
         }
         if (isInEditMode) return
         for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            if (game()!!.getDots()!![r, c, 1] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-            if (game()!!.getDots()!![r, c, 2] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+            if (game().getDots()!![r, c, 1] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+            if (game().getDots()!![r, c, 2] == GridLineObject.Line) canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: FillominoGameMove = object : FillominoGameMove() {
+            val move = FillominoGameMove()
                 init {
                     p = Position(row, col)
                     obj = ' '
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

@@ -82,7 +82,7 @@ class TheOddBrickGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: TheOddBrickGameMove = object : TheOddBrickGameMove() {
+            val move = TheOddBrickGameMove()
                 init {
                     p = Position(row, col)
                     obj = 0

@@ -73,7 +73,7 @@ class ParksGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: ParksGameMove = object : ParksGameMove() {
+            val move = ParksGameMove()
                 init {
                     p = Position(row, col)
                     obj = ParksEmptyObject()

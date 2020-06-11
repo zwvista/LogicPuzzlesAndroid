@@ -70,7 +70,7 @@ class SnailGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: SnailGameMove = object : SnailGameMove() {
+            val move = SnailGameMove()
                 init {
                     p = Position(row, col)
                     obj = ' '

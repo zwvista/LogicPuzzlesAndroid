@@ -20,9 +20,9 @@ class DisconnectFourGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -61,10 +61,10 @@ class DisconnectFourGameView : CellsGameView {
         if (isInEditMode) return
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
-            val o = game()!!.getObject(p)
+            val o = game().getObject(p)
             if (o == DisconnectFourObject.Empty) continue
             dTree!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-            val alpaha = if (game()!!.pos2State(p) == AllowedObjectState.Error) 50 else 0
+            val alpaha = if (game().pos2State(p) == AllowedObjectState.Error) 50 else 0
             dTree!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
             if (o == DisconnectFourObject.Red) {
                 canvas.save()
@@ -72,22 +72,22 @@ class DisconnectFourGameView : CellsGameView {
             }
             dTree!!.draw(canvas)
             if (o == DisconnectFourObject.Red) canvas.restore()
-            if (game()!![p] != DisconnectFourObject.Empty) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+            if (game()[p] != DisconnectFourObject.Empty) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: DisconnectFourGameMove = object : DisconnectFourGameMove() {
+            val move = DisconnectFourGameMove()
                 init {
                     p = Position(row, col)
                     obj = DisconnectFourObject.Empty
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

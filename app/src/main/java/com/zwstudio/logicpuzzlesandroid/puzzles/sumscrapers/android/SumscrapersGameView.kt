@@ -59,7 +59,7 @@ class SumscrapersGameView : CellsGameView {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
-            val move: SumscrapersGameMove = object : SumscrapersGameMove() {
+            val move = SumscrapersGameMove()
                 init {
                     p = Position(row, col)
                     obj = ' '.toInt()

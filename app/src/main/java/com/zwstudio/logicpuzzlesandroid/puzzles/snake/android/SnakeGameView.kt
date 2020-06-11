@@ -89,7 +89,7 @@ class SnakeGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: SnakeGameMove = object : SnakeGameMove() {
+            val move = SnakeGameMove()
                 init {
                     p = Position(row, col)
                     obj = SnakeObject.Empty

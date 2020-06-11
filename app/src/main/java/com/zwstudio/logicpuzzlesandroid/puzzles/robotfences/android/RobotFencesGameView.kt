@@ -82,7 +82,7 @@ class RobotFencesGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: RobotFencesGameMove = object : RobotFencesGameMove() {
+            val move = RobotFencesGameMove()
                 init {
                     p = Position(row, col)
                     obj = 0

@@ -19,9 +19,9 @@ class KakurasuGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -55,7 +55,7 @@ class KakurasuGameView : CellsGameView {
         for (r in 1 until rows() - 1) for (c in 1 until cols() - 1) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
-            val o = game()!!.getObject(r, c)
+            val o = game().getObject(r, c)
             when (o) {
                 KakurasuObject.Cloud -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                 KakurasuObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
@@ -65,18 +65,18 @@ class KakurasuGameView : CellsGameView {
         if (isInEditMode) return
         for (r in 1 until rows() - 1) for (i in 0..1) {
             val c = if (i == 0) 0 else cols() - 1
-            val s = game()!!.getRowState(r * 2 + i)
+            val s = game().getRowState(r * 2 + i)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            val n = game()!!.row2hint[r * 2 + i]
+            val n = game().row2hint[r * 2 + i]
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             if (i == 1) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
         }
         for (c in 1 until cols() - 1) for (i in 0..1) {
             val r = if (i == 0) 0 else rows() - 1
-            val s = game()!!.getColState(c * 2 + i)
+            val s = game().getColState(c * 2 + i)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            val n = game()!!.col2hint[c * 2 + i]
+            val n = game().col2hint[c * 2 + i]
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             if (i == 1) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
@@ -84,17 +84,17 @@ class KakurasuGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: KakurasuGameMove = object : KakurasuGameMove() {
+            val move = KakurasuGameMove()
                 init {
                     p = Position(row, col)
                     obj = KakurasuObject.Empty
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

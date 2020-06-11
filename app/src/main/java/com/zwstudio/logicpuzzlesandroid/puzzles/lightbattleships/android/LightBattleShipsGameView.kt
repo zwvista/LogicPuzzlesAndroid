@@ -18,9 +18,9 @@ class LightBattleShipsGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -55,9 +55,9 @@ class LightBattleShipsGameView : CellsGameView {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
             val p = Position(r, c)
-            val o = game()!!.getObject(p)
+            val o = game().getObject(p)
             val path = Path()
-            val paint = if (game()!!.pos2obj.containsKey(Position(r, c))) grayPaint else whitePaint
+            val paint = if (game().pos2obj.containsKey(Position(r, c))) grayPaint else whitePaint
             if (o is LightBattleShipsBattleShipUnitObject) canvas.drawArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 0f, 360f, true, paint) else if (o is LightBattleShipsBattleShipMiddleObject) canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), paint) else if (o is LightBattleShipsBattleShipLeftObject) {
                 path.addRect(cwc2(c).toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), Path.Direction.CW)
                 path.addArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 90f, 180f)
@@ -75,9 +75,9 @@ class LightBattleShipsGameView : CellsGameView {
                 path.addArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 0f, 180f)
                 canvas.drawPath(path, paint)
             } else if (o is LightBattleShipsMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, paint) else if (o is LightBattleShipsForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-            val n = game()!!.pos2hint[p]
+            val n = game().pos2hint[p]
             if (n != null) {
-                val state = game()!!.pos2State(p)
+                val state = game().pos2State(p)
                 textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
@@ -86,17 +86,17 @@ class LightBattleShipsGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: LightBattleShipsGameMove = object : LightBattleShipsGameMove() {
+            val move = LightBattleShipsGameMove()
                 init {
                     p = Position(row, col)
                     obj = LightBattleShipsEmptyObject()
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

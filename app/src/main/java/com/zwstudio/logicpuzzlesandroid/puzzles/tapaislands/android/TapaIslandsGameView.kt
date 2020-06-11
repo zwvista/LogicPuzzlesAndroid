@@ -83,7 +83,7 @@ class TapaIslandsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: TapaIslandsGameMove = object : TapaIslandsGameMove() {
+            val move = TapaIslandsGameMove()
                 init {
                     p = Position(row, col)
                     obj = TapaIslandsEmptyObject()

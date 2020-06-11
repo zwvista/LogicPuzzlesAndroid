@@ -44,10 +44,10 @@ class BoxItUpOptionsActivity : GameOptionsActivity<BoxItUpGame, BoxItUpDocument,
         val lst = lstMarkers
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
-            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
-                val tv = v.findViewById<View>(android.R.id.text1) as TextView
+                val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = s
                 return v
             }
@@ -55,7 +55,7 @@ class BoxItUpOptionsActivity : GameOptionsActivity<BoxItUpGame, BoxItUpDocument,
             override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
-                val ctv = v.findViewById<View>(android.R.id.text1) as CheckedTextView
+                val ctv = v.findViewById<CheckedTextView>(android.R.id.text1)
                 ctv.text = s
                 return v
             }

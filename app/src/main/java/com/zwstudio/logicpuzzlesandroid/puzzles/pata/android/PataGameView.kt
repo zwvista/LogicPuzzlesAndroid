@@ -83,7 +83,7 @@ class PataGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: PataGameMove = object : PataGameMove() {
+            val move = PataGameMove()
                 init {
                     p = Position(row, col)
                     obj = PataEmptyObject()

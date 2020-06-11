@@ -20,9 +20,9 @@ class LineSweeperGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows() - 1
+    private fun rows() = if (isInEditMode) 5 else game().rows() - 1
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols() - 1
+    private fun cols() = if (isInEditMode) 5 else game().cols() - 1
 
     override fun rowsInView() = rows()
 
@@ -53,9 +53,9 @@ class LineSweeperGameView : CellsGameView {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
             val p = Position(r, c)
-            val n = game()!!.pos2hint[p]
+            val n = game().pos2hint[p]
             if (n != null) {
-                val state = game()!!.pos2State(p)
+                val state = game().pos2State(p)
                 textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
@@ -65,7 +65,7 @@ class LineSweeperGameView : CellsGameView {
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val dirs = intArrayOf(1, 2)
             for (dir in dirs) {
-                val b = game()!!.getObject(r, c)!![dir]
+                val b = game().getObject(r, c)!![dir]
                 if (!b) continue
                 if (dir == 1) canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint) else canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
             }
@@ -73,12 +73,12 @@ class LineSweeperGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (game()!!.isSolved) return true
+        if (game().isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
         if (col >= cols() || row >= rows()) return true
         var p = Position(row, col)
-        val isH = game()!!.isHint(p)
+        val isH = game().isHint(p)
         val f = Effect0 { activity().app.soundManager.playSoundTap() }
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (!isH) {
@@ -91,13 +91,13 @@ class LineSweeperGameView : CellsGameView {
                     .filter { i: Int? -> LineSweeperGame.offset.get(i!!) == p.subtract(pLastMove) }
                     .orHead { -1 }
                 if (n != -1) {
-                    val move: LineSweeperGameMove = object : LineSweeperGameMove() {
+                    val move = LineSweeperGameMove()
                         init {
                             p = pLastMove
                             dir = n / 2
                         }
                     }
-                    if (game()!!.setObject(move)) f.f()
+                    if (game().setObject(move)) f.f()
                 }
                 pLastMove = p
             }
@@ -107,13 +107,13 @@ class LineSweeperGameView : CellsGameView {
                     val dy = event.y - (row + 0.5) * cellHeight
                     val dx2 = Math.abs(dx)
                     val dy2 = Math.abs(dy)
-                    val move: LineSweeperGameMove = object : LineSweeperGameMove() {
+                    val move = LineSweeperGameMove()
                         init {
                             p = Position(row, col)
                             dir = if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0
                         }
                     }
-                    game()!!.setObject(move)
+                    game().setObject(move)
                 }
                 run {
                     pLastMove = null

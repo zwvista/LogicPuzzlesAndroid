@@ -59,7 +59,7 @@ class SkyscrapersGameView : CellsGameView {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
-            val move: SkyscrapersGameMove = object : SkyscrapersGameMove() {
+            val move = SkyscrapersGameMove()
                 init {
                     p = Position(row, col)
                     obj = ' '.toInt()

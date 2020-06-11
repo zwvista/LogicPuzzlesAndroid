@@ -4,9 +4,15 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.walls.domain.*
 
 _
 class WallsGameView : CellsGameView {
@@ -75,7 +81,7 @@ class WallsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: WallsGameMove = object : WallsGameMove() {
+            val move = WallsGameMove()
                 init {
                     p = Position(row, col)
                     obj = WallsEmptyObject()

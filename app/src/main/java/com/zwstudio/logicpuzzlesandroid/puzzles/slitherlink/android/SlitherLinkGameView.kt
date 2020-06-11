@@ -87,7 +87,7 @@ class SlitherLinkGameView : CellsGameView {
             val xOffset: Int = event.getX() as Int - col * cellWidth - 1
             val yOffset: Int = event.getY() as Int - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
-            val move: SlitherLinkGameMove = object : SlitherLinkGameMove() {
+            val move = SlitherLinkGameMove()
                 init {
                     p = Position(row, col)
                     obj = GridLineObject.Empty

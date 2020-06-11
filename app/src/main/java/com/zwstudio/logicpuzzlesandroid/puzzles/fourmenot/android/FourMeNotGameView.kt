@@ -18,9 +18,9 @@ class FourMeNotGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -59,29 +59,29 @@ class FourMeNotGameView : CellsGameView {
         if (isInEditMode) return
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
-            val o = game()!!.getObject(p)
+            val o = game().getObject(p)
             if (o is FourMeNotTreeObject) {
                 dTree!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
                 dTree!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
                 dTree!!.draw(canvas)
-                if (game()!![p] is FourMeNotTreeObject) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+                if (game()[p] is FourMeNotTreeObject) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
             } else if (o is FourMeNotMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is FourMeNotForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint) else if (o is FourMeNotBlockObject) canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: FourMeNotGameMove = object : FourMeNotGameMove() {
+            val move = FourMeNotGameMove()
                 init {
                     p = Position(row, col)
                     obj = FourMeNotEmptyObject()
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

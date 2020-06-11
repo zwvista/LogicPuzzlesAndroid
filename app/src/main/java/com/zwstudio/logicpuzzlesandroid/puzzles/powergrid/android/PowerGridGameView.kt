@@ -86,7 +86,7 @@ class PowerGridGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: PowerGridGameMove = object : PowerGridGameMove() {
+            val move = PowerGridGameMove()
                 init {
                     p = Position(row, col)
                     obj = PowerGridEmptyObject()

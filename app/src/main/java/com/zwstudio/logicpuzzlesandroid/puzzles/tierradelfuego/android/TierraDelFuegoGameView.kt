@@ -72,7 +72,7 @@ class TierraDelFuegoGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: TierraDelFuegoGameMove = object : TierraDelFuegoGameMove() {
+            val move = TierraDelFuegoGameMove()
                 init {
                     p = Position(row, col)
                     obj = TierraDelFuegoEmptyObject()

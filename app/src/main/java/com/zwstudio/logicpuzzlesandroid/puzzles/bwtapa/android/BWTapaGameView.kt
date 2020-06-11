@@ -18,9 +18,9 @@ class BWTapaGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -47,13 +47,13 @@ class BWTapaGameView : CellsGameView {
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
-            val o = game()!!.getObject(r, c)
+            val o = game().getObject(r, c)
             if (o is BWTapaWallObject) {
                 val o2 = o
                 canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
             } else if (o is BWTapaHintObject) {
                 val o2 = o
-                val hint = game()!!.pos2hint[Position(r, c)]
+                val hint = game().pos2hint[Position(r, c)]
                 textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
                 val hint2Str = F { i: Int? ->
                     val n = hint!![i!!]
@@ -82,17 +82,17 @@ class BWTapaGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: BWTapaGameMove = object : BWTapaGameMove() {
+            val move = BWTapaGameMove()
                 init {
                     p = Position(row, col)
                     obj = BWTapaEmptyObject()
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

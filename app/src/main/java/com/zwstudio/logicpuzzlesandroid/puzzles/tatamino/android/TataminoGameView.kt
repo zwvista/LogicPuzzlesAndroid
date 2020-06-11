@@ -65,7 +65,7 @@ class TataminoGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: TataminoGameMove = object : TataminoGameMove() {
+            val move = TataminoGameMove()
                 init {
                     p = Position(row, col)
                     obj = ' '

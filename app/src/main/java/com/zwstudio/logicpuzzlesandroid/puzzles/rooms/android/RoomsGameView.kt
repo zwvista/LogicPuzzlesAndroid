@@ -93,7 +93,7 @@ class RoomsGameView : CellsGameView {
             val xOffset: Int = event.getX() as Int - col * cellWidth - 1
             val yOffset: Int = event.getY() as Int - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
-            val move: RoomsGameMove = object : RoomsGameMove() {
+            val move = RoomsGameMove()
                 init {
                     p = Position(row, col)
                     obj = GridLineObject.Empty

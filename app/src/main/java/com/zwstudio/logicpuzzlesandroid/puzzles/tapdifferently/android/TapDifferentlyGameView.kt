@@ -83,7 +83,7 @@ class TapDifferentlyGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: TapDifferentlyGameMove = object : TapDifferentlyGameMove() {
+            val move = TapDifferentlyGameMove()
                 init {
                     p = Position(row, col)
                     obj = TapDifferentlyEmptyObject()

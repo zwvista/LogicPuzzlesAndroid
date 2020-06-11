@@ -76,7 +76,7 @@ class SentinelsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: SentinelsGameMove = object : SentinelsGameMove() {
+            val move = SentinelsGameMove()
                 init {
                     p = Position(row, col)
                     obj = SentinelsEmptyObject()

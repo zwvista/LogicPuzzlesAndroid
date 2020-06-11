@@ -19,9 +19,9 @@ class CloudsGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows() + 1
 
@@ -55,7 +55,7 @@ class CloudsGameView : CellsGameView {
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
-            val o = game()!!.getObject(r, c)
+            val o = game().getObject(r, c)
             when (o) {
                 CloudsObject.Cloud -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                 CloudsObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
@@ -64,33 +64,33 @@ class CloudsGameView : CellsGameView {
         }
         if (isInEditMode) return
         for (r in 0 until rows()) {
-            val s = game()!!.getRowState(r)
+            val s = game().getRowState(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            val n = game()!!.row2hint[r]
+            val n = game().row2hint[r]
             val text = n.toString()
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols()) {
-            val s = game()!!.getColState(c)
+            val s = game().getColState(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            val n = game()!!.col2hint[c]
+            val n = game().col2hint[c]
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: CloudsGameMove = object : CloudsGameMove() {
+            val move = CloudsGameMove()
                 init {
                     p = Position(row, col)
                     obj = CloudsObject.Empty
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

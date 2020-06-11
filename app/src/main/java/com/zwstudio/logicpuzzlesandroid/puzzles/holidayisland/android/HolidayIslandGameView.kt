@@ -20,9 +20,9 @@ class HolidayIslandGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -57,7 +57,7 @@ class HolidayIslandGameView : CellsGameView {
         if (isInEditMode) return
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val p = Position(r, c)
-            val o = game()!!.getObject(p)
+            val o = game().getObject(p)
             if (o is HolidayIslandTreeObject) {
                 dTree!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
@@ -73,17 +73,17 @@ class HolidayIslandGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: HolidayIslandGameMove = object : HolidayIslandGameMove() {
+            val move = HolidayIslandGameMove()
                 init {
                     p = Position(row, col)
                     obj = HolidayIslandEmptyObject()
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

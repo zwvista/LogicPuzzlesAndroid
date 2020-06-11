@@ -81,7 +81,7 @@ class NoughtsAndCrossesGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: NoughtsAndCrossesGameMove = object : NoughtsAndCrossesGameMove() {
+            val move = NoughtsAndCrossesGameMove()
                 init {
                     p = Position(row, col)
                     obj = ' '

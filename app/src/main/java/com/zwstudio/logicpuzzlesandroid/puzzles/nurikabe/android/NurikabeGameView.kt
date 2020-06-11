@@ -65,7 +65,7 @@ class NurikabeGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: NurikabeGameMove = object : NurikabeGameMove() {
+            val move = NurikabeGameMove()
                 init {
                     p = Position(row, col)
                     obj = NurikabeEmptyObject()

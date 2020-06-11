@@ -20,9 +20,9 @@ class BridgesGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -49,10 +49,10 @@ class BridgesGameView : CellsGameView {
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         if (isInEditMode) return
-        for ((p, info) in game()!!.islandsInfo) {
+        for ((p, info) in game().islandsInfo) {
             val r = p.row
             val c = p.col
-            val o = game()!!.getObject(p) as BridgesIslandObject
+            val o = game().getObject(p) as BridgesIslandObject
             canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, islandPaint)
             textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
             val text = info.bridges.toString()
@@ -75,12 +75,12 @@ class BridgesGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (game()!!.isSolved) return true
+        if (game().isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
         if (col >= cols() || row >= rows()) return true
         val p = Position(row, col)
-        val isI = game()!!.isIsland(p)
+        val isI = game().isIsland(p)
         val f = Effect0 { activity().app.soundManager.playSoundTap() }
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (isI) {
@@ -88,13 +88,13 @@ class BridgesGameView : CellsGameView {
                 f.f()
             }
             MotionEvent.ACTION_MOVE -> if (isI && pLast != null && p != pLast) {
-                val move: BridgesGameMove = object : BridgesGameMove() {
+                val move = BridgesGameMove()
                     init {
                         pFrom = pLast
                         pTo = p
                     }
                 }
-                game()!!.switchBridges(move)
+                game().switchBridges(move)
                 pLast = p
                 f.f()
             }

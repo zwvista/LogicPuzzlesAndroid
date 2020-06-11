@@ -76,7 +76,7 @@ class ProductSentinelsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: ProductSentinelsGameMove = object : ProductSentinelsGameMove() {
+            val move = ProductSentinelsGameMove()
                 init {
                     p = Position(row, col)
                     obj = ProductSentinelsEmptyObject()

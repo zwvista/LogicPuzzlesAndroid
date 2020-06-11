@@ -82,7 +82,7 @@ class NumberPathGameView : CellsGameView {
                     .filter(F<Int, Boolean> { i: Int? -> NumberPathGame.offset.get(i) == p.subtract(pLastMove) })
                     .orHead(F0<Int> { -1 })
                 if (n != -1) {
-                    val move: NumberPathGameMove = object : NumberPathGameMove() {
+                    val move = NumberPathGameMove()
                         init {
                             p = pLastMove
                             dir = n
@@ -98,7 +98,7 @@ class NumberPathGameView : CellsGameView {
                     val dy: Double = event.getY() - (row + 0.5) * cellHeight
                     val dx2 = Math.abs(dx)
                     val dy2 = Math.abs(dy)
-                    val move: NumberPathGameMove = object : NumberPathGameMove() {
+                    val move = NumberPathGameMove()
                         init {
                             p = Position(row, col)
                             dir = if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0

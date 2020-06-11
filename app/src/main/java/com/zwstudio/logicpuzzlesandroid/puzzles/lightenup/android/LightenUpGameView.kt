@@ -20,9 +20,9 @@ class LightenUpGameView : CellsGameView {
 
     private fun game() = activity().game
 
-    private fun rows() = if (isInEditMode) 5 else game()!!.rows()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
 
-    private fun cols() = if (isInEditMode) 5 else game()!!.cols()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
 
     override fun rowsInView() = rows()
 
@@ -54,12 +54,12 @@ class LightenUpGameView : CellsGameView {
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
-            val o = game()!!.getObject(r, c)
+            val o = game().getObject(r, c)
             if (o!!.lightness > 0) canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), lightPaint)
             if (o is LightenUpWallObject) {
                 val o2 = o
                 canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                val n = game()!!.pos2hint[Position(r, c)]!!
+                val n = game().pos2hint[Position(r, c)]!!
                 if (n >= 0) {
                     textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.BLACK
                     val text = n.toString()
@@ -75,17 +75,17 @@ class LightenUpGameView : CellsGameView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game()!!.isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move: LightenUpGameMove = object : LightenUpGameMove() {
+            val move = LightenUpGameMove()
                 init {
                     p = Position(row, col)
                     obj = LightenUpEmptyObject()
                 }
             }
-            if (game()!!.switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
     }

@@ -46,7 +46,7 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
             override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v: View = super.getView(position, convertView, parent)
                 val s = lst[position]
-                val tv: TextView = v.findViewById<View>(R.id.text1) as TextView
+                val tv: TextView = v.findViewById<TextView>(R.id.text1)
                 tv.setText(s)
                 return v
             }
@@ -54,7 +54,7 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
             override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v: View = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
-                val ctv: CheckedTextView = v.findViewById<View>(R.id.text1) as CheckedTextView
+                val ctv: CheckedTextView = v.findViewById<CheckedTextView>(R.id.text1)
                 ctv.setText(s)
                 return v
             }

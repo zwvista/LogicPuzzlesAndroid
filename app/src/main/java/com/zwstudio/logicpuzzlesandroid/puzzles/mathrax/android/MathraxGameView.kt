@@ -88,7 +88,7 @@ class MathraxGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move: MathraxGameMove = object : MathraxGameMove() {
+            val move = MathraxGameMove()
                 init {
                     p = Position(row, col)
                     obj = 0
