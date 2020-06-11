@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.data.RippleEffectDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain.RippleEffectGameMove
@@ -25,4 +27,18 @@ class RippleEffectMainActivity : GameMainActivity<RippleEffectGame?, RippleEffec
         doc().resumeGame()
         RippleEffectGameActivity_.intent(this).start()
     }
+}
+
+@EActivity(R.layout.activity_game_options)
+class RippleEffectOptionsActivity : GameOptionsActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
+    @Bean
+    protected var document: RippleEffectDocument? = null
+    override fun doc() = document!!
+}
+
+@EActivity(R.layout.activity_game_help)
+class RippleEffectHelpActivity : GameHelpActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
+    @Bean
+    protected var document: RippleEffectDocument? = null
+    override fun doc() = document!!
 }
