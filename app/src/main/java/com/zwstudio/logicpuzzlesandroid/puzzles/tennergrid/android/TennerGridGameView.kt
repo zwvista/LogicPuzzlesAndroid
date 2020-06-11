@@ -13,19 +13,19 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGameMove
 
 class TennerGridGameView : CellsGameView {
-    private fun activity() = getContext() as TennerGridGameActivity
+    private fun activity() = context as TennerGridGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode()) 5 else game().rows()
-    private fun cols() = if (isInEditMode()) 5 else game().cols()
-    protected override fun rowsInView() = rows()
-    protected override fun colsInView() = cols()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val textPaint: TextPaint = TextPaint()
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.WHITE
@@ -37,7 +37,7 @@ class TennerGridGameView : CellsGameView {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode()) continue
+            if (isInEditMode) continue
             val p = Position(r, c)
             val n: Int = game().getObject(p)
             if (n == -1) continue
@@ -51,11 +51,12 @@ class TennerGridGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            val col = (event.getX() / cellWidth) as Int
-            val row = (event.getY() / cellHeight) as Int
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = TennerGridGameMove(Position(row, col))
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

@@ -26,9 +26,9 @@ class GalaxiesGameView : CellsGameView {
     private val markerPaint = Paint()
     private val galaxyPaint = Paint()
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -92,7 +92,8 @@ class GalaxiesGameView : CellsGameView {
             val yOffset = event.y.toInt() - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
             val move = GalaxiesGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

@@ -36,10 +36,10 @@ class NeighboursGameActivity : GameGameActivity<NeighboursGame, NeighboursDocume
         try {
             // restore game state
             for (rec in doc().moveProgress()) {
-                val move: NeighboursGameMove = doc().loadMove(rec)
+                val move = doc().loadMove(rec)
                 game.setObject(move)
             }
-            val moveIndex: Int = doc().levelProgress().moveIndex
+            val moveIndex = doc().levelProgress().moveIndex
             if (moveIndex >= 0 && moveIndex < game.moveCount())
                 while (moveIndex != game.moveIndex())
                     game.undo()

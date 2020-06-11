@@ -25,9 +25,9 @@ class FutoshikiGameView : CellsGameView {
     private val textPaint = TextPaint()
     private val hintPaint = Paint()
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -106,7 +106,8 @@ class FutoshikiGameView : CellsGameView {
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = FutoshikiGameMove(Position(row, col))
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

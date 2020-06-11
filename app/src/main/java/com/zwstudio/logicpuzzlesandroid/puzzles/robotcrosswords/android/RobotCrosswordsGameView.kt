@@ -13,21 +13,21 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.domain.RobotCrosswordsGameMove
 
 class RobotCrosswordsGameView : CellsGameView {
-    private fun activity() = getContext() as RobotCrosswordsGameActivity
+    private fun activity() = context as RobotCrosswordsGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode()) 5 else game().rows()
-    private fun cols() = if (isInEditMode()) 5 else game().cols()
-    protected override fun rowsInView() = rows()
-    protected override fun colsInView() = cols()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()
     private val textPaint: TextPaint = TextPaint()
     private val hintPaint = Paint()
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.WHITE
@@ -43,7 +43,7 @@ class RobotCrosswordsGameView : CellsGameView {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode()) continue
+            if (isInEditMode) continue
             val n: Int = game().getObject(r, c)
             if (n == -1) canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint) else if (n > 0) {
                 val text = n.toString()
@@ -51,7 +51,7 @@ class RobotCrosswordsGameView : CellsGameView {
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         }
-        if (isInEditMode()) return
+        if (isInEditMode) return
         for (i in game().areas.indices) {
             val a: List<Position> = game().areas.get(i)
             val isHorz: Boolean = i < game().horzAreaCount
@@ -72,7 +72,8 @@ class RobotCrosswordsGameView : CellsGameView {
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = RobotCrosswordsGameMove(Position(row, col))
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

@@ -16,12 +16,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.*
 
 class PowerGridGameView : CellsGameView {
-    private fun activity() = getContext() as PowerGridGameActivity
+    private fun activity() = context as PowerGridGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode()) 5 else game().rows()
-    private fun cols() = if (isInEditMode()) 5 else game().cols()
-    protected override fun rowsInView() = rows() + 1
-    protected override fun colsInView() = cols() + 1
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
+    override fun rowsInView() = rows() + 1
+    override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
@@ -29,9 +29,9 @@ class PowerGridGameView : CellsGameView {
     private val forbiddenPaint = Paint()
     private var dPost: Drawable? = null
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -50,7 +50,7 @@ class PowerGridGameView : CellsGameView {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode()) continue
+            if (isInEditMode) continue
             val p = Position(r, c)
             val o: PowerGridObject = game().getObject(p)
             if (o is PowerGridPostObject) {
@@ -61,7 +61,7 @@ class PowerGridGameView : CellsGameView {
                 dPost!!.draw(canvas)
             } else if (o is PowerGridMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is PowerGridForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
         }
-        if (isInEditMode()) return
+        if (isInEditMode) return
         for (r in 0 until rows()) {
             val s: HintState = game().getRowState(r)
             textPaint.setColor(
@@ -84,11 +84,12 @@ class PowerGridGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            val col = (event.getX() / cellWidth) as Int
-            val row = (event.getY() / cellHeight) as Int
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = PowerGridGameMove(Position(row, col))
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

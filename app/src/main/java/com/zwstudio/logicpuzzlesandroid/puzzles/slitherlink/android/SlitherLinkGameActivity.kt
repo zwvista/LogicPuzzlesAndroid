@@ -36,10 +36,10 @@ class SlitherLinkGameActivity : GameGameActivity<SlitherLinkGame, SlitherLinkDoc
         try {
             // restore game state
             for (rec in doc().moveProgress()) {
-                val move: SlitherLinkGameMove = doc().loadMove(rec)
+                val move = doc().loadMove(rec)
                 game.setObject(move)
             }
-            val moveIndex: Int = doc().levelProgress().moveIndex
+            val moveIndex = doc().levelProgress().moveIndex
             if (moveIndex >= 0 && moveIndex < game.moveCount())
                 while (moveIndex != game.moveIndex())
                     game.undo()

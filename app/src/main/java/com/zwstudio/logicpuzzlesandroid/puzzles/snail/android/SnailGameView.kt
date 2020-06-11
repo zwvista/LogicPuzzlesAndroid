@@ -13,21 +13,21 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGameMove
 
 class SnailGameView : CellsGameView {
-    private fun activity() = getContext() as SnailGameActivity
+    private fun activity() = context as SnailGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode()) 5 else game().rows()
-    private fun cols() = if (isInEditMode()) 5 else game().cols()
-    protected override fun rowsInView() = rows() + 1
-    protected override fun colsInView() = cols() + 1
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
+    override fun rowsInView() = rows() + 1
+    override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val markerPaint = Paint()
     private val textPaint: TextPaint = TextPaint()
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.WHITE
@@ -48,7 +48,7 @@ class SnailGameView : CellsGameView {
             val p2: Position = game().snailPathLine.get(i)
             canvas.drawLine(cwc(p1.col).toFloat(), chr(p1.row).toFloat(), cwc(p2.col).toFloat(), chr(p2.row).toFloat(), linePaint)
         }
-        if (isInEditMode()) return
+        if (isInEditMode) return
         for (r in 0 until rows()) for (c in 0 until cols()) {
             if (game().getPositionState(r, c) == HintState.Complete) canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
             val ch: Char = game().getObject(r, c)
@@ -66,11 +66,12 @@ class SnailGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            val col = (event.getX() / cellWidth) as Int
-            val row = (event.getY() / cellHeight) as Int
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = SnailGameMove(Position(row, col))
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

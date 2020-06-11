@@ -29,9 +29,9 @@ class ParksGameActivity : GameGameActivity<ParksGame, ParksDocument, ParksGameMo
     }
 
     protected override fun startGame() {
-        val selectedLevelID: String = doc().selectedLevelID
+        val selectedLevelID = doc().selectedLevelID
         val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
-        tvLevel.setText(selectedLevelID)
+        tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
         val treesInEachArea = (level.settings["TreesInEachArea"] ?: "1").toInt()
@@ -39,10 +39,10 @@ class ParksGameActivity : GameGameActivity<ParksGame, ParksDocument, ParksGameMo
         try {
             // restore game state
             for (rec in doc().moveProgress()) {
-                val move: ParksGameMove = doc().loadMove(rec)
+                val move = doc().loadMove(rec)
                 game.setObject(move)
             }
-            val moveIndex: Int = doc().levelProgress().moveIndex
+            val moveIndex = doc().levelProgress().moveIndex
             if (moveIndex >= 0 && moveIndex < game.moveCount())
                 while (moveIndex != game.moveIndex())
                     game.undo()

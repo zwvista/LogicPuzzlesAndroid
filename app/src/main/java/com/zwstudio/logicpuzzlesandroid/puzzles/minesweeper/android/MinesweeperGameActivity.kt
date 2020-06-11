@@ -27,19 +27,19 @@ class MinesweeperGameActivity : GameGameActivity<MinesweeperGame, MinesweeperDoc
     }
 
     protected override fun startGame() {
-        val selectedLevelID: String = doc().selectedLevelID
+        val selectedLevelID = doc().selectedLevelID
         val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
-        tvLevel.setText(selectedLevelID)
+        tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
         game = MinesweeperGame(level.layout, this, doc())
         try {
             // restore game state
             for (rec in doc().moveProgress()) {
-                val move: MinesweeperGameMove = doc().loadMove(rec)
+                val move = doc().loadMove(rec)
                 game.setObject(move)
             }
-            val moveIndex: Int = doc().levelProgress().moveIndex
+            val moveIndex = doc().levelProgress().moveIndex
             if (moveIndex >= 0 && moveIndex < game.moveCount())
                 while (moveIndex != game.moveIndex())
                     game.undo()

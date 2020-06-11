@@ -21,8 +21,8 @@ class NumberPathGameView : CellsGameView {
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
     private fun cols() = if (isInEditMode) 5 else game().cols()
-    protected override fun rowsInView() = rows()
-    protected override fun colsInView() = cols()
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -30,9 +30,9 @@ class NumberPathGameView : CellsGameView {
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY

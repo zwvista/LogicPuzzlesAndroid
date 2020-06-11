@@ -16,22 +16,22 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.*
 
 class TierraDelFuegoGameView : CellsGameView {
-    private fun activity() = getContext() as TierraDelFuegoGameActivity
+    private fun activity() = context as TierraDelFuegoGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode()) 5 else game().rows()
-    private fun cols() = if (isInEditMode()) 5 else game().cols()
-    protected override fun rowsInView() = rows()
-    protected override fun colsInView() = cols()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val textPaint: TextPaint = TextPaint()
-    private var dTree: Drawable? = null
+    private val textPaint = TextPaint()
+    private lateinit var dTree: Drawable
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -42,39 +42,42 @@ class TierraDelFuegoGameView : CellsGameView {
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        textPaint.setAntiAlias(true)
+        textPaint.isAntiAlias = true
         dTree = fromImageToDrawable("images/tree.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-        if (isInEditMode()) return
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val o: TierraDelFuegoObject = game().getObject(p)
-            if (o is TierraDelFuegoTreeObject) {
-                val o2: TierraDelFuegoTreeObject = o as TierraDelFuegoTreeObject
-                dTree!!.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o2.state == AllowedObjectState.Error) 50 else 0
-                dTree!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dTree!!.draw(canvas)
-            } else if (o is TierraDelFuegoHintObject) {
-                val o2: TierraDelFuegoHintObject = o as TierraDelFuegoHintObject
-                textPaint.setColor(if (o2.state == HintState.Complete) Color.GREEN else Color.WHITE)
-                val text: String = o2.id.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-            } else if (o is TierraDelFuegoMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is TierraDelFuegoForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols())
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+        if (isInEditMode) return
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val o: TierraDelFuegoObject = game().getObject(p)
+                if (o is TierraDelFuegoTreeObject) {
+                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                    dTree.draw(canvas)
+                } else if (o is TierraDelFuegoHintObject) {
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else Color.WHITE
+                    val text = o.id.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                } else if (o is TierraDelFuegoMarkerObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is TierraDelFuegoForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+            }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            val col = (event.getX() / cellWidth) as Int
-            val row = (event.getY() / cellHeight) as Int
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = TierraDelFuegoGameMove(Position(row, col))
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

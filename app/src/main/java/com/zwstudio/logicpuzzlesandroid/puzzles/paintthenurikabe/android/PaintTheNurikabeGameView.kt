@@ -15,12 +15,12 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintThe
 import com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe.domain.PaintTheNurikabeObject
 
 class PaintTheNurikabeGameView : CellsGameView {
-    private fun activity() = getContext() as PaintTheNurikabeGameActivity
+    private fun activity() = context as PaintTheNurikabeGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode()) 5 else game().rows()
-    private fun cols() = if (isInEditMode()) 5 else game().cols()
-    protected override fun rowsInView() = rows()
-    protected override fun colsInView() = cols()
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -28,9 +28,9 @@ class PaintTheNurikabeGameView : CellsGameView {
     private val markerPaint = Paint()
     private val textPaint: TextPaint = TextPaint()
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -50,7 +50,7 @@ class PaintTheNurikabeGameView : CellsGameView {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode()) continue
+            if (isInEditMode) continue
             val p = Position(r, c)
             val o: PaintTheNurikabeObject = game().getObject(p)
             when (o) {
@@ -80,7 +80,8 @@ class PaintTheNurikabeGameView : CellsGameView {
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
             val move = PaintTheNurikabeGameMove(Position(row, col))
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

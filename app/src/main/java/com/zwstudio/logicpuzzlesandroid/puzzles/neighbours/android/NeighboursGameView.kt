@@ -14,12 +14,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGameMove
 
 class NeighboursGameView : CellsGameView {
-    private fun activity() = getContext() as NeighboursGameActivity
+    private fun activity() = context as NeighboursGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode()) 5 else game().rows() - 1
-    private fun cols() = if (isInEditMode()) 5 else game().cols() - 1
-    protected override fun rowsInView() = rows()
-    protected override fun colsInView() = cols()
+    private fun rows() = if (isInEditMode) 5 else game().rows() - 1
+    private fun cols() = if (isInEditMode) 5 else game().cols() - 1
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val line1Paint = Paint()
@@ -27,9 +27,9 @@ class NeighboursGameView : CellsGameView {
     private val markerPaint = Paint()
     private val textPaint: TextPaint = TextPaint()
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -50,7 +50,7 @@ class NeighboursGameView : CellsGameView {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode()) continue
+            if (isInEditMode) continue
             val p = Position(r, c)
             val n = game().pos2hint[p]
             if (n != null) {
@@ -62,7 +62,7 @@ class NeighboursGameView : CellsGameView {
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         }
-        if (isInEditMode()) return
+        if (isInEditMode) return
         val markerOffset = 20
         for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
             val dotObj: Array<GridLineObject> = game().getObject(r, c)
@@ -96,7 +96,8 @@ class NeighboursGameView : CellsGameView {
             val yOffset: Int = event.getY() as Int - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
             val move = NeighboursGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
-            if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
+            if (game().switchObject(move))
+                activity().app.soundManager.playSoundTap()
         }
         return true
     }

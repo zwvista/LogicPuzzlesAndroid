@@ -19,8 +19,8 @@ class NumberLinkGameView : CellsGameView {
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
     private fun cols() = if (isInEditMode) 5 else game().cols()
-    protected override fun rowsInView() = rows()
-    protected override fun colsInView() = cols()
+    override fun rowsInView() = rows()
+    override fun colsInView() = cols()
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -28,9 +28,9 @@ class NumberLinkGameView : CellsGameView {
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context?) : super(context) { init(null, 0) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -44,7 +44,7 @@ class NumberLinkGameView : CellsGameView {
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows()) for (c in 0 until cols()) canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-        if (isInEditMode()) return
+        if (isInEditMode) return
         for (r in 0 until rows()) for (c in 0 until cols()) {
             val dirs = intArrayOf(1, 2)
             for (dir in dirs) {

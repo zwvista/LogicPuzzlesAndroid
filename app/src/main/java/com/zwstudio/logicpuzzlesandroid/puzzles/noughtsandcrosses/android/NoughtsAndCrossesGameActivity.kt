@@ -27,7 +27,7 @@ class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame, No
     }
 
     protected override fun startGame() {
-        val selectedLevelID: String = doc().selectedLevelID
+        val selectedLevelID = doc().selectedLevelID
         val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
@@ -39,7 +39,7 @@ class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame, No
                 val move = doc().loadMove(rec)
                 game.setObject(move)
             }
-            val moveIndex: Int = doc().levelProgress().moveIndex
+            val moveIndex = doc().levelProgress().moveIndex
             if (moveIndex >= 0 && moveIndex < game.moveCount())
                 while (moveIndex != game.moveIndex())
                     game.undo()
