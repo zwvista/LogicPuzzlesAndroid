@@ -32,12 +32,9 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
         val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is BusySeasEmptyObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BusySeasMarkerObject() else BusySeasLighthouseObject()
-            is BusySeasLighthouseObject ->
-                if (markerOption == MarkerOptions.MarkerLast) BusySeasMarkerObject() else BusySeasEmptyObject()
-            is BusySeasMarkerObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BusySeasLighthouseObject() else BusySeasEmptyObject()
+            is BusySeasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasMarkerObject() else BusySeasLighthouseObject()
+            is BusySeasLighthouseObject -> if (markerOption == MarkerOptions.MarkerLast) BusySeasMarkerObject() else BusySeasEmptyObject()
+            is BusySeasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasLighthouseObject() else BusySeasEmptyObject()
             else -> o
         }
         return setObject(move)

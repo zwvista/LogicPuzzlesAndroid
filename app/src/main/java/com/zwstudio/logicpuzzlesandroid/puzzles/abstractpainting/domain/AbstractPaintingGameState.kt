@@ -35,12 +35,9 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[p]
         move.obj = when (o) {
-            AbstractPaintingObject.Empty ->
-                if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Marker else AbstractPaintingObject.Painting
-            AbstractPaintingObject.Painting ->
-                if (markerOption == MarkerOptions.MarkerLast) AbstractPaintingObject.Marker else AbstractPaintingObject.Empty
-            AbstractPaintingObject.Marker ->
-                if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Painting else AbstractPaintingObject.Empty
+            AbstractPaintingObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Marker else AbstractPaintingObject.Painting
+            AbstractPaintingObject.Painting -> if (markerOption == MarkerOptions.MarkerLast) AbstractPaintingObject.Marker else AbstractPaintingObject.Empty
+            AbstractPaintingObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Painting else AbstractPaintingObject.Empty
             else -> o
         }
         return setObject(move)

@@ -31,12 +31,9 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p];
         move.obj = when (o) {
-            is BWTapaEmptyObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BWTapaMarkerObject() else BWTapaWallObject()
-            is BWTapaWallObject ->
-                if (markerOption == MarkerOptions.MarkerLast) BWTapaMarkerObject() else BWTapaEmptyObject()
-            is BWTapaMarkerObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BWTapaWallObject() else BWTapaEmptyObject()
+            is BWTapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaMarkerObject() else BWTapaWallObject()
+            is BWTapaWallObject -> if (markerOption == MarkerOptions.MarkerLast) BWTapaMarkerObject() else BWTapaEmptyObject()
+            is BWTapaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaWallObject() else BWTapaEmptyObject()
             else -> o
         }
         return setObject(move)

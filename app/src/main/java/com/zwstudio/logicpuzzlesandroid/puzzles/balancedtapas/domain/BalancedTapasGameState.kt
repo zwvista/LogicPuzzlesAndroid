@@ -32,12 +32,9 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is BalancedTapasEmptyObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasMarkerObject() else BalancedTapasWallObject()
-            is BalancedTapasWallObject ->
-                if (markerOption == MarkerOptions.MarkerLast) BalancedTapasMarkerObject() else BalancedTapasEmptyObject()
-            is BalancedTapasMarkerObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasWallObject() else BalancedTapasEmptyObject()
+            is BalancedTapasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasMarkerObject() else BalancedTapasWallObject()
+            is BalancedTapasWallObject -> if (markerOption == MarkerOptions.MarkerLast) BalancedTapasMarkerObject() else BalancedTapasEmptyObject()
+            is BalancedTapasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasWallObject() else BalancedTapasEmptyObject()
             else -> o
         }
         return setObject(move)

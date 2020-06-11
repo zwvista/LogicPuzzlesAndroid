@@ -33,17 +33,14 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         if (!isValid(p)) return false
         val o = this[p]
         move.obj = when (o) {
-            BattleShipsObject.Empty ->
-                if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.Marker else BattleShipsObject.BattleShipUnit
+            BattleShipsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.Marker else BattleShipsObject.BattleShipUnit
             BattleShipsObject.BattleShipUnit -> BattleShipsObject.BattleShipMiddle
             BattleShipsObject.BattleShipMiddle -> BattleShipsObject.BattleShipLeft
             BattleShipsObject.BattleShipLeft -> BattleShipsObject.BattleShipTop
             BattleShipsObject.BattleShipTop -> BattleShipsObject.BattleShipRight
             BattleShipsObject.BattleShipRight -> BattleShipsObject.BattleShipBottom
-            BattleShipsObject.BattleShipBottom ->
-                if (markerOption == MarkerOptions.MarkerLast) BattleShipsObject.Marker else BattleShipsObject.Empty
-            BattleShipsObject.Marker ->
-                if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.BattleShipUnit else BattleShipsObject.Empty
+            BattleShipsObject.BattleShipBottom -> if (markerOption == MarkerOptions.MarkerLast) BattleShipsObject.Marker else BattleShipsObject.Empty
+            BattleShipsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.BattleShipUnit else BattleShipsObject.Empty
             else -> o
         }
         return setObject(move)

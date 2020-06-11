@@ -5,7 +5,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.data.List
 
 class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(game) {
     var objArray = Array(rows() * cols()) { Array(4) { false } }
@@ -96,7 +95,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
             }
         }
         // 1. Draw a single closed looping path that never crosses itself or branches off.
-        g.setRootNode(List.iterableList(pos2node.values).head())
+        g.setRootNode(pos2node.values.first())
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

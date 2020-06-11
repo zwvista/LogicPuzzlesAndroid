@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathGameMove, ABCPathGameState>(game) {
-    private val objArray = game.objArray.copyOf()
+    val objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
@@ -34,7 +34,8 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
         for (r in 1 until rows() - 1)
             for (c in 1 until cols() - 1) {
                 val p2 = Position(r, c)
-                if (p2 != p) chars.remove(this[p2])
+                if (p2 != p)
+                    chars.remove(this[p2])
             }
         val i = if (chars.contains(o)) chars.indexOf(o) else chars.size - 1
         move.obj = if (o == ' ') chars[0] else if (i == chars.size - 1) ' ' else chars[i + 1]

@@ -110,7 +110,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
             }
         // 6. To facilitate movement in the castle, the Bailey must have a single
         // continuous area (Garden).
-        g.setRootNode(pos2node.values.elementAt(0))
+        g.setRootNode(pos2node.values.first())
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

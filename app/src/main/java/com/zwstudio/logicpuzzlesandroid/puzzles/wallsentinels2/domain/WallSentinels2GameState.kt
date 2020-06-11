@@ -125,7 +125,7 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
                 if (node2 != null) g.connectNode(node, node2)
             }
         // 7. Lastly there is a single, orthogonally contiguous, Wall - just like Nurikabe.
-        g.setRootNode(pos2node.values.elementAt(0))
+        g.setRootNode(pos2node.values.first())
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

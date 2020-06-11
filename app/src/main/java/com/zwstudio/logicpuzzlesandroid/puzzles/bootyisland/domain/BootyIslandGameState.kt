@@ -36,12 +36,9 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is BootyIslandEmptyObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BootyIslandMarkerObject() else BootyIslandTreasureObject()
-            is BootyIslandTreasureObject ->
-                if (markerOption == MarkerOptions.MarkerLast) BootyIslandMarkerObject() else BootyIslandEmptyObject()
-            is BootyIslandMarkerObject ->
-                if (markerOption == MarkerOptions.MarkerFirst) BootyIslandTreasureObject() else BootyIslandEmptyObject()
+            is BootyIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandMarkerObject() else BootyIslandTreasureObject()
+            is BootyIslandTreasureObject -> if (markerOption == MarkerOptions.MarkerLast) BootyIslandMarkerObject() else BootyIslandEmptyObject()
+            is BootyIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandTreasureObject() else BootyIslandEmptyObject()
             else -> o
         }
         return setObject(move)

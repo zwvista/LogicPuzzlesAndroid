@@ -150,7 +150,7 @@ public class WallSentinelsGameState extends CellsGameState<WallSentinelsGame, Wa
             }
         }
         // 7. Lastly there is a single, orthogonally contiguous, Wall - just like Nurikabe.
-        g.setRootNode(iterableList(pos2node.values()).head());
+        g.setRootNode(pos2node.values.first());
         List<Node> nodeList = g.bfs();
         if (nodeList.size() != pos2node.size()) isSolved = false;
     }

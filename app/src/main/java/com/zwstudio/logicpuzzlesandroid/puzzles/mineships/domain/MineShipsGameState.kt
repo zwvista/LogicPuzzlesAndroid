@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domainimport
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import fj.data.List
 
 class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, MineShipsGameMove, MineShipsGameState>(game) {
     var objArray = Array<MineShipsObject>(rows() * cols()) { MineShipsEmptyObject() }
@@ -111,7 +110,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         }
         val shipNumbers = mutableListOf(0, 0, 0, 0, 0)
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(List.iterableList(pos2node.values).head())
+            g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.keys.toList().sorted()
             for (p in area)
