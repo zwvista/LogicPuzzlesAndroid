@@ -10,20 +10,14 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakuro.domain.KakuroGameMove
 
 class KakuroGameView : CellsGameView {
     private fun activity() = context as KakuroGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -82,12 +76,7 @@ class KakuroGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = KakuroGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = 0
-                }
-            }
+            val move = KakuroGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

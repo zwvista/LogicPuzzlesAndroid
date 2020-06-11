@@ -4,21 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domain.*
+import fj.F
 
-_
 class TapaIslandsGameView : CellsGameView {
     private fun activity() = getContext() as TapaIslandsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -48,7 +48,7 @@ class TapaIslandsGameView : CellsGameView {
                 canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
             } else if (o is TapaIslandsHintObject) {
                 val o2: TapaIslandsHintObject = o as TapaIslandsHintObject
-                val hint: List<Int> = game().pos2hint.get(Position(r, c))
+                val hint = game().pos2hint[Position(r, c)]!!
                 textPaint.setColor(
                     if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
                 )
@@ -83,12 +83,7 @@ class TapaIslandsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = TapaIslandsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = TapaIslandsEmptyObject()
-                }
-            }
+            val move = TapaIslandsGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

@@ -14,7 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain.NorthPol
 import com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain.NorthPoleFishingObject
 
 class NorthPoleFishingGameView : CellsGameView {
-
     private fun activity() = context as NorthPoleFishingGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows() - 1

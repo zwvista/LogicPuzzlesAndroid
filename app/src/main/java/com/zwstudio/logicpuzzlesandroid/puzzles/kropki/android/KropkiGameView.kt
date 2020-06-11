@@ -11,21 +11,15 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiHint
 
 class KropkiGameView : CellsGameView {
     private fun activity() = context as KropkiGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -93,12 +87,7 @@ class KropkiGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = KropkiGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = 0
-                }
-            }
+            val move = KropkiGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

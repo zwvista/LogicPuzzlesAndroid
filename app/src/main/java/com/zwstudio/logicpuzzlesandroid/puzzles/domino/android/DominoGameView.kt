@@ -11,20 +11,14 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain.DominoGameMove
 
 class DominoGameView : CellsGameView {
     private fun activity() = context as DominoGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows() - 1
-
     private fun cols() = if (isInEditMode) 5 else game().cols() - 1
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -77,6 +71,7 @@ class DominoGameView : CellsGameView {
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
             when (dotObj[2]) {
                 GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
@@ -85,6 +80,7 @@ class DominoGameView : CellsGameView {
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
         }
     }
@@ -97,13 +93,7 @@ class DominoGameView : CellsGameView {
             val xOffset = event.x.toInt() - col * cellWidth - 1
             val yOffset = event.y.toInt() - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
-            val move = DominoGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = GridLineObject.Empty
-                    dir = if (yOffset >= -offset && yOffset <= offset) 1 else 2
-                }
-            }
+            val move = DominoGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

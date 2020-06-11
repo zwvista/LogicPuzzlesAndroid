@@ -4,22 +4,23 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.*
 
-_
 class SentinelsGameView : CellsGameView {
     private fun activity() = getContext() as SentinelsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -59,12 +60,10 @@ class SentinelsGameView : CellsGameView {
                 dTower!!.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
                 dTower!!.draw(canvas)
             } else if (o is SentinelsMarkerObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is SentinelsForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-            val n: Int = game().pos2hint.get(p)
+            val n = game().pos2hint[p]
             if (n != null) {
                 val state: HintState = game().pos2State(p)
-                textPaint.setColor(
-                    if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                )
+                textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
@@ -76,12 +75,7 @@ class SentinelsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = SentinelsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = SentinelsEmptyObject()
-                }
-            }
+            val move = SentinelsGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

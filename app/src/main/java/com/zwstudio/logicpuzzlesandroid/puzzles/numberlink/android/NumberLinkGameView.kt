@@ -4,22 +4,22 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import fj.data.List
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.domain.NumberLinkGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.domain.NumberLinkGameMove
+import kotlin.math.abs
 
-_
 class NumberLinkGameView : CellsGameView {
-    private fun activity() = getContext() as NumberLinkGameActivity
-
+    private fun activity() = context as NumberLinkGameActivity
     private fun game() = activity().game
-
-    private fun rows() = if (isInEditMode()) 5 else game().rows()
-
-    private fun cols() = if (isInEditMode()) 5 else game().cols()
-
+    private fun rows() = if (isInEditMode) 5 else game().rows()
+    private fun cols() = if (isInEditMode) 5 else game().cols()
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -54,10 +54,8 @@ class NumberLinkGameView : CellsGameView {
             }
         }
         for ((p, n) in game().pos2hint.entries) {
-            val state: HintState = game().pos2State(p)
-            textPaint.setColor(
-                if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-            )
+            val state = game().pos2State(p)
+            textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
             val text = n.toString()
             val r = p.row
             val c = p.col
@@ -67,46 +65,36 @@ class NumberLinkGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (game().isSolved()) return true
-        val col = (event.getX() / cellWidth) as Int
-        val row = (event.getY() / cellHeight) as Int
+        val col = (event.x / cellWidth).toInt()
+        val row = (event.y / cellHeight).toInt()
         if (col >= cols() || row >= rows()) return true
-        var p = Position(row, col)
-        val f = Effect0 { activity().app.soundManager.playSoundTap() }
-        when (event.getAction()) {
+        val p = Position(row, col)
+        fun f() = activity().app.soundManager.playSoundTap()
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 run {
                     pLastMove = p
                     pLastDown = pLastMove
                 }
-                f.f()
+                f()
             }
             MotionEvent.ACTION_MOVE -> if (pLastMove != null && p != pLastMove) {
-                val n = List.range(0, NumberLinkGame.offset.size)
-                    .filter(F<Int, Boolean> { i: Int? -> NumberLinkGame.offset.get(i) == p.subtract(pLastMove) })
-                    .orHead(F0<Int> { -1 })
+                val n = NumberLinkGame.offset.indices
+                    .filter { NumberLinkGame.offset[it] == p.subtract(pLastMove) }
+                    .getOrElse(0) { -1 };
                 if (n != -1) {
-                    val move = NumberLinkGameMove()
-                        init {
-                            p = pLastMove
-                            dir = n
-                        }
-                    }
-                    if (game().setObject(move)) f.f()
+                    val move = NumberLinkGameMove(pLastMove!!, n)
+                    if (game().setObject(move)) f()
                 }
                 pLastMove = p
             }
             MotionEvent.ACTION_UP -> {
                 if (p == pLastDown) {
-                    val dx: Double = event.getX() - (col + 0.5) * cellWidth
-                    val dy: Double = event.getY() - (row + 0.5) * cellHeight
-                    val dx2 = Math.abs(dx)
-                    val dy2 = Math.abs(dy)
-                    val move = NumberLinkGameMove()
-                        init {
-                            p = Position(row, col)
-                            dir = if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0
-                        }
-                    }
+                    val dx: Double = event.x - (col + 0.5) * cellWidth
+                    val dy: Double = event.y - (row + 0.5) * cellHeight
+                    val dx2 = abs(dx)
+                    val dy2 = abs(dy)
+                    val move = NumberLinkGameMove(Position(row, col), if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0)
                     game().setObject(move)
                 }
                 run {

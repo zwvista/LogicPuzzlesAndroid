@@ -4,21 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain.*
+import fj.F
 
-_
 class PataGameView : CellsGameView {
     private fun activity() = getContext() as PataGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -48,10 +48,8 @@ class PataGameView : CellsGameView {
                 canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
             } else if (o is PataHintObject) {
                 val o2: PataHintObject = o as PataHintObject
-                val hint: List<Int> = game().pos2hint.get(Position(r, c))
-                textPaint.setColor(
-                    if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                )
+                val hint = game().pos2hint[Position(r, c)]!!
+                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
                 val hint2Str: F<Int, String> = F<Int, String> { i: Int? ->
                     val n = hint[i!!]
                     if (n == -1) "?" else n.toString()
@@ -80,15 +78,10 @@ class PataGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            val col = (event.getX() / cellWidth) as Int
-            val row = (event.getY() / cellHeight) as Int
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = PataGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = PataEmptyObject()
-                }
-            }
+            val move = PataGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

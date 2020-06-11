@@ -10,22 +10,15 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandObject
-import fj.function.Effect0
 
 class BridgesGameView : CellsGameView {
     private fun activity() = context as BridgesGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val islandPaint = Paint()
@@ -81,22 +74,17 @@ class BridgesGameView : CellsGameView {
         if (col >= cols() || row >= rows()) return true
         val p = Position(row, col)
         val isI = game().isIsland(p)
-        val f = Effect0 { activity().app.soundManager.playSoundTap() }
+        fun f() = activity().app.soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (isI) {
                 pLast = p
-                f.f()
+                f()
             }
             MotionEvent.ACTION_MOVE -> if (isI && pLast != null && p != pLast) {
-                val move = BridgesGameMove()
-                    init {
-                        pFrom = pLast
-                        pTo = p
-                    }
-                }
+                val move = BridgesGameMove(pLast!!, p)
                 game().switchBridges(move)
                 pLast = p
-                f.f()
+                f()
             }
             MotionEvent.ACTION_UP -> pLast = null
         }

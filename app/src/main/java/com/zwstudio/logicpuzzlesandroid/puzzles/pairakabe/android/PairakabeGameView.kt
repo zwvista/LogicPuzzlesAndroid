@@ -4,21 +4,20 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe.domain.*
 
-_
 class PairakabeGameView : CellsGameView {
     private fun activity() = getContext() as PairakabeGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -45,11 +44,9 @@ class PairakabeGameView : CellsGameView {
             val o: PairakabeObject = game().getObject(r, c)
             if (o is PairakabeHintObject) {
                 val o2: PairakabeHintObject = o as PairakabeHintObject
-                val n: Int = game().pos2hint.get(Position(r, c))
+                val n = game().pos2hint[Position(r, c)]!!
                 if (n >= 0) {
-                    textPaint.setColor(
-                        if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                    )
+                    textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
@@ -62,15 +59,10 @@ class PairakabeGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !game().isSolved()) {
-            val col = (event.getX() / cellWidth) as Int
-            val row = (event.getY() / cellHeight) as Int
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = PairakabeGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = PairakabeEmptyObject()
-                }
-            }
+            val move = PairakabeGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

@@ -13,7 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject
 
 class HitoriGameView : CellsGameView {
-
     private fun activity() = context as HitoriGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()

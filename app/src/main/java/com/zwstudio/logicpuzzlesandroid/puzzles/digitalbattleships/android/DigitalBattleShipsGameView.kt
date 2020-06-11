@@ -11,21 +11,15 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.DigitalBattleShipsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.DigitalBattleShipsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships.domain.DigitalBattleShipsObject
 
 class DigitalBattleShipsGameView : CellsGameView {
     private fun activity() = context as DigitalBattleShipsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows() + 1
-
     override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
@@ -83,6 +77,7 @@ class DigitalBattleShipsGameView : CellsGameView {
                 }
                 DigitalBattleShipsObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, grayPaint)
                 DigitalBattleShipsObject.Forbidden -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                else -> {}
             }
         }
         if (isInEditMode) return
@@ -113,12 +108,7 @@ class DigitalBattleShipsGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = DigitalBattleShipsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = DigitalBattleShipsObject.Empty
-                }
-            }
+            val move = DigitalBattleShipsGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

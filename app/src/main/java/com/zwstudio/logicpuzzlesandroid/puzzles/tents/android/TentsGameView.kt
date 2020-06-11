@@ -4,22 +4,23 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.tents.domain.*
 
-_
 class TentsGameView : CellsGameView {
     private fun activity() = getContext() as TentsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows() + 1
-
     protected override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
@@ -93,12 +94,7 @@ class TentsGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = TentsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = TentsEmptyObject()
-                }
-            }
+            val move = TentsGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

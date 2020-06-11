@@ -1,17 +1,24 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.android
 
-import android.view.View
-import fj.data.List
+import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.data.SkyscrapersDocument
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGameState
+import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
+import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
 class SkyscrapersGameActivity : GameGameActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState>() {
     @Bean
-    protected var document: SkyscrapersDocument = null
+    protected lateinit var document: SkyscrapersDocument
     override fun doc() = document
 
-    protected var gameView: SkyscrapersGameView = null
-    protected override fun getGameView() = gameView
+    protected lateinit var gameView2: SkyscrapersGameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     protected override fun init() {
@@ -21,7 +28,7 @@ class SkyscrapersGameActivity : GameGameActivity<SkyscrapersGame, SkyscrapersDoc
 
     protected override fun startGame() {
         val selectedLevelID: String = doc().selectedLevelID
-        val level: GameLevel = doc().levels.get(List.iterableList<GameLevel>(doc().levels).toStream().indexOf(F<GameLevel, Boolean> { o: GameLevel -> o.id == selectedLevelID }).orSome(0))
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.setText(selectedLevelID)
         updateSolutionUI()
         levelInitilizing = true
@@ -33,7 +40,9 @@ class SkyscrapersGameActivity : GameGameActivity<SkyscrapersGame, SkyscrapersDoc
                 game.setObject(move)
             }
             val moveIndex: Int = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game.moveCount()) while (moveIndex != game.moveIndex()) game.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

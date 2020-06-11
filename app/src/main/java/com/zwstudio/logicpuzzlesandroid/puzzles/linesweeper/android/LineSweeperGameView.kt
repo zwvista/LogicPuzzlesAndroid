@@ -13,19 +13,13 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGameMove
 import fj.data.Stream
-import fj.function.Effect0
 
 class LineSweeperGameView : CellsGameView {
     private fun activity() = context as LineSweeperGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows() - 1
-
     private fun cols() = if (isInEditMode) 5 else game().cols() - 1
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -79,25 +73,20 @@ class LineSweeperGameView : CellsGameView {
         if (col >= cols() || row >= rows()) return true
         var p = Position(row, col)
         val isH = game().isHint(p)
-        val f = Effect0 { activity().app.soundManager.playSoundTap() }
+        fun f() = activity().app.soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (!isH) {
                 pLastMove = p
                 pLastDown = pLastMove
-                f.f()
+                f()
             }
             MotionEvent.ACTION_MOVE -> if (!isH && pLastMove != null && p != pLastMove) {
                 val n = Stream.range(0, LineSweeperGame.offset.size.toLong())
                     .filter { i: Int? -> LineSweeperGame.offset.get(i!!) == p.subtract(pLastMove) }
                     .orHead { -1 }
                 if (n != -1) {
-                    val move = LineSweeperGameMove()
-                        init {
-                            p = pLastMove
-                            dir = n / 2
-                        }
-                    }
-                    if (game().setObject(move)) f.f()
+                    val move = LineSweeperGameMove(pLastMove!!, n / 2)
+                    if (game().setObject(move)) f()
                 }
                 pLastMove = p
             }
@@ -107,12 +96,7 @@ class LineSweeperGameView : CellsGameView {
                     val dy = event.y - (row + 0.5) * cellHeight
                     val dx2 = Math.abs(dx)
                     val dy2 = Math.abs(dy)
-                    val move = LineSweeperGameMove()
-                        init {
-                            p = Position(row, col)
-                            dir = if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0
-                        }
-                    }
+                    val move = LineSweeperGameMove(Position(row, col), if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0)
                     game().setObject(move)
                 }
                 run {

@@ -4,21 +4,19 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100GameMove
 
-_
 class Square100GameView : CellsGameView {
     private fun activity() = getContext() as Square100GameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows() + 1
-
     protected override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
@@ -73,13 +71,7 @@ class Square100GameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = Square100GameMove()
-                init {
-                    p = Position(row, col)
-                    isRightPart = event.getX() >= col * cellWidth + cellWidth / 2
-                    obj = "   "
-                }
-            }
+            val move = Square100GameMove(Position(row, col), event.getX() >= col * cellWidth + cellWidth / 2)
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

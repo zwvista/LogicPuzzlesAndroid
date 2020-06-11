@@ -4,21 +4,20 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGameMove
 
-_
 class TennerGridGameView : CellsGameView {
     private fun activity() = getContext() as TennerGridGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -42,11 +41,9 @@ class TennerGridGameView : CellsGameView {
             val p = Position(r, c)
             val n: Int = game().getObject(p)
             if (n == -1) continue
-            val s: HintState = game().getPosState(p)
+            val s = game().getPosState(p)
             val b = game().get(p) == n
-            textPaint.setColor(
-                if (b && r < rows() - 1) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (b) Color.GRAY else Color.WHITE
-            )
+            textPaint.color = if (b && r < rows() - 1) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (b) Color.GRAY else Color.WHITE
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
         }
@@ -57,12 +54,7 @@ class TennerGridGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = TennerGridGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = 0
-                }
-            }
+            val move = TennerGridGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

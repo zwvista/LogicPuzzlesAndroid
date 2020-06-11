@@ -14,7 +14,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBailey
 import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain.CastleBaileyObject
 
 class CastleBaileyGameView : CellsGameView {
-
     private fun activity() = context as CastleBaileyGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()

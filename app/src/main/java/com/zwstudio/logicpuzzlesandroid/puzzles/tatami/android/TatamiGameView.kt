@@ -4,21 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameMove
 
-_
 class TatamiGameView : CellsGameView {
     private fun activity() = getContext() as TatamiGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -46,10 +46,8 @@ class TatamiGameView : CellsGameView {
             val p = Position(r, c)
             val ch: Char = game().getObject(p)
             if (ch == ' ') continue
-            val s: HintState = game().pos2State(p)
-            textPaint.setColor(
-                if (game().get(p) == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            )
+            val s = game().pos2State(p)
+            textPaint.color = if (game().get(p) == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val text = ch.toString()
             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
         }
@@ -64,12 +62,7 @@ class TatamiGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = TatamiGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = ' '
-                }
-            }
+            val move = TatamiGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

@@ -10,21 +10,15 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.domain.CloudsObject
 
 class CloudsGameView : CellsGameView {
     private fun activity() = context as CloudsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows() + 1
-
     override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
@@ -60,6 +54,7 @@ class CloudsGameView : CellsGameView {
                 CloudsObject.Cloud -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                 CloudsObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
                 CloudsObject.Forbidden -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                else -> {}
             }
         }
         if (isInEditMode) return
@@ -84,12 +79,7 @@ class CloudsGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = CloudsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = CloudsObject.Empty
-                }
-            }
+            val move = CloudsGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

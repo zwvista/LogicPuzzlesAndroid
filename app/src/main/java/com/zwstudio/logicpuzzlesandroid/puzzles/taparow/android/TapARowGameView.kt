@@ -10,20 +10,18 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowHintObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowMarkerObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowWallObject
 import fj.F
 
 class TapARowGameView : CellsGameView {
     private fun activity() = context as TapARowGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -53,7 +51,7 @@ class TapARowGameView : CellsGameView {
                 canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
             } else if (o is TapARowHintObject) {
                 val o2 = o
-                val hint = game().pos2hint[Position(r, c)]
+                val hint = game().pos2hint[Position(r, c)]!!
                 textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
                 val hint2Str = F { i: Int? ->
                     val n = hint!![i!!]
@@ -86,12 +84,7 @@ class TapARowGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = TapARowGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = TapARowEmptyObject()
-                }
-            }
+            val move = TapARowGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

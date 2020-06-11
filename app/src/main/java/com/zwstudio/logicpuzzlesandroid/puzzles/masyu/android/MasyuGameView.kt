@@ -6,22 +6,21 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.domain.MasyuGameMove
+import fj.F
 import fj.data.Stream
+import fj.function.Effect0
 
-_
 class MasyuGameView : CellsGameView {
-    private fun activity() = getContext() as MasyuGameActivity
-
+    private fun activity() = context as MasyuGameActivity
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -72,31 +71,26 @@ class MasyuGameView : CellsGameView {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (game().isSolved()) return true
-        val col = (event.getX() / cellWidth) as Int
-        val row = (event.getY() / cellHeight) as Int
+        val col = (event.getX() / cellWidth).toInt()
+        val row = (event.getY() / cellHeight).toInt()
         if (col >= cols() || row >= rows()) return true
-        var p: Position = Position(row, col)
-        val f = Effect0 { activity().app.soundManager.playSoundTap() }
+        val p = Position(row, col)
+        fun f() = activity().app.soundManager.playSoundTap()
         when (event.getAction()) {
             MotionEvent.ACTION_DOWN -> {
                 run {
                     pLastMove = p
                     pLastDown = pLastMove
                 }
-                f.f()
+                f()
             }
             MotionEvent.ACTION_MOVE -> if (p != pLastMove) {
                 val n = Stream.range(0, MasyuGame.offset.size.toLong())
-                    .filter(F<Int, Boolean> { i: Int? -> MasyuGame.offset.get(i) == p!!.subtract(pLastMove) })
+                    .filter(F<Int, Boolean> { i: Int? -> MasyuGame.offset.get(i!!) == p.subtract(pLastMove) })
                     .orHead(F0<Int> { -1 })
                 if (n != -1) {
-                    val move = MasyuGameMove()
-                        init {
-                            p = pLastMove
-                            dir = n
-                        }
-                    }
-                    if (game().setObject(move)) f.f()
+                    val move = MasyuGameMove(pLastMove!!, n)
+                    if (game().setObject(move)) f()
                 }
                 pLastMove = p
             }
@@ -106,12 +100,7 @@ class MasyuGameView : CellsGameView {
                     val dy: Double = event.getY() - (row + 0.5) * cellHeight
                     val dx2 = Math.abs(dx)
                     val dy2 = Math.abs(dy)
-                    val move = MasyuGameMove()
-                        init {
-                            p = Position(row, col)
-                            dir = if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0
-                        }
-                    }
+                    val move = MasyuGameMove(Position(row, col), if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0)
                     game().setObject(move)
                 }
                 run {

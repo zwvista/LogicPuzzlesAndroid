@@ -4,21 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.snake.domain.SnakeObject
 
-_
 class SnakeGameView : CellsGameView {
     private fun activity() = getContext() as SnakeGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows() + 1
-
     protected override fun colsInView() = cols() + 1
 
     private val gridPaint = Paint()
@@ -59,6 +59,7 @@ class SnakeGameView : CellsGameView {
                     if (game().pos2snake.contains(p)) grayPaint else wallPaint)
                 SnakeObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
                 SnakeObject.Forbidden -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                else -> {}
             }
         }
         if (isInEditMode()) return
@@ -89,12 +90,7 @@ class SnakeGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = SnakeGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = SnakeObject.Empty
-                }
-            }
+            val move = SnakeGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

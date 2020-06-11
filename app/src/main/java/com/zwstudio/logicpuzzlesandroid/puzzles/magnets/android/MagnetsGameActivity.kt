@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 @EActivity(R.layout.activity_game_game)
 open class MagnetsGameActivity : GameGameActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @Bean
-    protected var document: MagnetsDocument = null
+    protected lateinit var document: MagnetsDocument
     override fun doc() = document!!
 
     protected lateinit var gameView2: MagnetsGameView

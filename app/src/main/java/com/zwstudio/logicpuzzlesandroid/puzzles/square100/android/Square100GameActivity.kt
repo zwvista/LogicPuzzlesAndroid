@@ -1,17 +1,24 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.square100.android
 
-import android.view.View
-import fj.data.List
+import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
+import com.zwstudio.logicpuzzlesandroid.puzzles.square100.data.Square100Document
+import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100Game
+import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100GameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100GameState
+import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
+import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
 class Square100GameActivity : GameGameActivity<Square100Game, Square100Document, Square100GameMove, Square100GameState>() {
     @Bean
-    protected var document: Square100Document = null
+    protected lateinit var document: Square100Document
     override fun doc() = document
 
-    protected var gameView: Square100GameView = null
-    protected override fun getGameView() = gameView
+    protected lateinit var gameView2: Square100GameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     protected override fun init() {
@@ -21,7 +28,7 @@ class Square100GameActivity : GameGameActivity<Square100Game, Square100Document,
 
     protected override fun startGame() {
         val selectedLevelID: String = doc().selectedLevelID
-        val level: GameLevel = doc().levels.get(List.iterableList<GameLevel>(doc().levels).toStream().indexOf(F<GameLevel, Boolean> { o: GameLevel -> o.id == selectedLevelID }).orSome(0))
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.setText(selectedLevelID)
         updateSolutionUI()
         levelInitilizing = true
@@ -33,7 +40,9 @@ class Square100GameActivity : GameGameActivity<Square100Game, Square100Document,
                 game.setObject(move)
             }
             val moveIndex: Int = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game.moveCount()) while (moveIndex != game.moveIndex()) game.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

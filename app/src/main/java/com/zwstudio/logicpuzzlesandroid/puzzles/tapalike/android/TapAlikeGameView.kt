@@ -4,21 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.*
+import fj.F
 
-_
 class TapAlikeGameView : CellsGameView {
     private fun activity() = getContext() as TapAlikeGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows()
-
     private fun cols() = if (isInEditMode()) 5 else game().cols()
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -48,10 +48,8 @@ class TapAlikeGameView : CellsGameView {
                 canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
             } else if (o is TapAlikeHintObject) {
                 val o2: TapAlikeHintObject = o as TapAlikeHintObject
-                val hint: List<Int> = game().pos2hint.get(Position(r, c))
-                textPaint.setColor(
-                    if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
-                )
+                val hint = game().pos2hint.get(Position(r, c))!!
+                textPaint.color = if (o2.state == HintState.Complete) Color.GREEN else if (o2.state == HintState.Error) Color.RED else Color.WHITE
                 val hint2Str: F<Int, String> = F<Int, String> { i: Int? ->
                     val n = hint[i!!]
                     if (n == -1) "?" else n.toString()
@@ -83,12 +81,7 @@ class TapAlikeGameView : CellsGameView {
             val col = (event.getX() / cellWidth) as Int
             val row = (event.getY() / cellHeight) as Int
             if (col >= cols() || row >= rows()) return true
-            val move = TapAlikeGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = TapAlikeEmptyObject()
-                }
-            }
+            val move = TapAlikeGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

@@ -13,19 +13,17 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesForbiddenObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesLighthouseObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses.domain.LighthousesMarkerObject
 
 class LighthousesGameView : CellsGameView {
     private fun activity() = context as LighthousesGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -79,12 +77,7 @@ class LighthousesGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = LighthousesGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = LighthousesEmptyObject()
-                }
-            }
+            val move = LighthousesGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

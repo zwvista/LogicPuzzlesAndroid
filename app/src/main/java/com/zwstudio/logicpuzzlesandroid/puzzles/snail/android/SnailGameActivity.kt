@@ -1,17 +1,26 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snail.android
 
 import android.view.View
+import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
+import com.zwstudio.logicpuzzlesandroid.puzzles.snail.data.SnailDocument
+import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGameState
 import fj.data.List
+import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
+import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
 class SnailGameActivity : GameGameActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
-    protected var document: SnailDocument = null
+    protected lateinit var document: SnailDocument
     override fun doc() = document
 
-    protected var gameView: SnailGameView = null
-    protected override fun getGameView() = gameView
+    protected lateinit var gameView2: SnailGameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     protected override fun init() {
@@ -21,7 +30,7 @@ class SnailGameActivity : GameGameActivity<SnailGame, SnailDocument, SnailGameMo
 
     protected override fun startGame() {
         val selectedLevelID: String = doc().selectedLevelID
-        val level: GameLevel = doc().levels.get(List.iterableList<GameLevel>(doc().levels).toStream().indexOf(F<GameLevel, Boolean> { o: GameLevel -> o.id == selectedLevelID }).orSome(0))
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.setText(selectedLevelID)
         updateSolutionUI()
         levelInitilizing = true
@@ -33,7 +42,9 @@ class SnailGameActivity : GameGameActivity<SnailGame, SnailDocument, SnailGameMo
                 game.setObject(move)
             }
             val moveIndex: Int = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game.moveCount()) while (moveIndex != game.moveIndex()) game.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

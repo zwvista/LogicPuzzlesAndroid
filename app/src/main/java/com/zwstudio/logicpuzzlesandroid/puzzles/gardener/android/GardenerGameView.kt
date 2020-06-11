@@ -14,19 +14,17 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerForbiddenObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerMarkerObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.domain.GardenerTreeObject
 
 class GardenerGameView : CellsGameView {
     private fun activity() = context as GardenerGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -81,7 +79,7 @@ class GardenerGameView : CellsGameView {
             if (game().invalidSpaces(p, false)) canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
         }
         for ((p, value) in game().pos2hint) {
-            val n = value!!._1()
+            val n = value.first
             val state = game().pos2State(p)
             textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
             val text = n.toString()
@@ -96,12 +94,7 @@ class GardenerGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = GardenerGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = GardenerEmptyObject()
-                }
-            }
+            val move = GardenerGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

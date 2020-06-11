@@ -4,21 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.neighbours.domain.NeighboursGameMove
 
-_
 class NeighboursGameView : CellsGameView {
     private fun activity() = getContext() as NeighboursGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows() - 1
-
     private fun cols() = if (isInEditMode()) 5 else game().cols() - 1
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -93,13 +93,7 @@ class NeighboursGameView : CellsGameView {
             val xOffset: Int = event.getX() as Int - col * cellWidth - 1
             val yOffset: Int = event.getY() as Int - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
-            val move = NeighboursGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = GridLineObject.Empty
-                    dir = if (yOffset >= -offset && yOffset <= offset) 1 else 2
-                }
-            }
+            val move = NeighboursGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

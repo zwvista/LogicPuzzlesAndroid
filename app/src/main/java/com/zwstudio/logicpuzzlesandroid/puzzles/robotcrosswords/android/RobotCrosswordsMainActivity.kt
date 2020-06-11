@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.android
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords.data.RobotCrosswordsDocument
@@ -35,8 +36,8 @@ class RobotCrosswordsOptionsActivity : GameOptionsActivity<RobotCrosswordsGame, 
     override fun doc() = document
 }
 
-@EActivity(R.layout.activity_game_options)
-class RobotCrosswordsOptionsActivity : GameOptionsActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
+@EActivity(R.layout.activity_game_help)
+class RobotCrosswordsHelpActivity : GameHelpActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
     @Bean
     protected lateinit var document: RobotCrosswordsDocument
     override fun doc() = document

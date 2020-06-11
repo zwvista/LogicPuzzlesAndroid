@@ -13,21 +13,15 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsAreaType
-import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsObject
 
 class MagnetsGameView : CellsGameView {
     private fun activity() = context as MagnetsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows() + 2
-
     override fun colsInView() = cols() + 2
 
     private val gridPaint = Paint()
@@ -54,8 +48,8 @@ class MagnetsGameView : CellsGameView {
 //        canvas.drawColor(Color.BLACK);
         if (isInEditMode) return
         for (a in game().areas) {
-            val r = a!!.p!!.row
-            val c = a.p!!.col
+            val r = a.p.row
+            val c = a.p.col
             when (a.type) {
                 MagnetsAreaType.Single -> {
                     canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
@@ -77,6 +71,7 @@ class MagnetsGameView : CellsGameView {
                     dNegative!!.draw(canvas)
                 }
                 MagnetsObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                else -> {}
             }
         }
         dPositive!!.setBounds(cwc(cols()), chr(rows()), cwc(cols() + 1), chr(rows() + 1))
@@ -112,12 +107,7 @@ class MagnetsGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = MagnetsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = MagnetsObject.Empty
-                }
-            }
+            val move = MagnetsGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

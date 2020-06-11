@@ -1,14 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.taparow.android
 
-import android.view.View
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.data.TapARowDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.taparow.domain.TapARowGameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
@@ -17,7 +14,7 @@ import org.androidannotations.annotations.EActivity
 @EActivity(R.layout.activity_game_game)
 class TapARowGameActivity : GameGameActivity<TapARowGame, TapARowDocument, TapARowGameMove, TapARowGameState>() {
     @Bean
-    protected var document: TapARowDocument = null
+    protected lateinit var document: TapARowDocument
     override fun doc() = document!!
 
     protected lateinit var gameView2: TapARowGameView

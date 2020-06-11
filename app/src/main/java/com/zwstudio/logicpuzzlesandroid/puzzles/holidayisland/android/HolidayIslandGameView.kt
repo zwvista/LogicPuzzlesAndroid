@@ -17,15 +17,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.domain.*
 
 class HolidayIslandGameView : CellsGameView {
     private fun activity() = context as HolidayIslandGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -77,12 +72,7 @@ class HolidayIslandGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = HolidayIslandGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = HolidayIslandEmptyObject()
-                }
-            }
+            val move = HolidayIslandGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

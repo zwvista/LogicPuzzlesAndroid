@@ -12,19 +12,17 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsForbiddenObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsMarkerObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain.LitsTreeObject
 
 class LitsGameView : CellsGameView {
     private fun activity() = context as LitsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows()
-
     private fun cols() = if (isInEditMode) 5 else game().cols()
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -77,12 +75,7 @@ class LitsGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = LitsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = LitsEmptyObject()
-                }
-            }
+            val move = LitsGameMove(Position(row, col))
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

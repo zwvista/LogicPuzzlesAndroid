@@ -9,20 +9,14 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove
 
 class LoopyGameView : CellsGameView {
     private fun activity() = context as LoopyGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game().rows() - 1
-
     private fun cols() = if (isInEditMode) 5 else game().cols() - 1
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -66,6 +60,7 @@ class LoopyGameView : CellsGameView {
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
             when (dotObj[2]) {
                 GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
@@ -74,6 +69,7 @@ class LoopyGameView : CellsGameView {
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
         }
         for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, dotPaint)
@@ -87,13 +83,7 @@ class LoopyGameView : CellsGameView {
             val xOffset = event.x.toInt() - col * cellWidth - 1
             val yOffset = event.y.toInt() - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
-            val move = LoopyGameMove()
-                init {
-                    p = Position(row, col)
-                    dir = if (yOffset >= -offset && yOffset <= offset) 1 else 2
-                    obj = GridLineObject.Empty
-                }
-            }
+            val move = LoopyGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true

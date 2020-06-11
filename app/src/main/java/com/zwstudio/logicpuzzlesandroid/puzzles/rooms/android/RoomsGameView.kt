@@ -4,21 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
+import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove
 
-_
 class RoomsGameView : CellsGameView {
     private fun activity() = getContext() as RoomsGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode()) 5 else game().rows() - 1
-
     private fun cols() = if (isInEditMode()) 5 else game().cols() - 1
-
     protected override fun rowsInView() = rows()
-
     protected override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -52,12 +52,10 @@ class RoomsGameView : CellsGameView {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode()) continue
             val p = Position(r, c)
-            val n: Int = game().pos2hint.get(p)
+            val n = game().pos2hint[p]
             if (n != null) {
-                val state: HintState = game().pos2State(p)
-                textPaint.setColor(
-                    if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                )
+                val state = game().pos2State(p)
+                textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
@@ -65,7 +63,7 @@ class RoomsGameView : CellsGameView {
         if (isInEditMode()) return
         val markerOffset = 20
         for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            val dotObj: Array<GridLineObject> = game().getObject(r, c)
+            val dotObj = game().getObject(r, c)
             when (dotObj[1]) {
                 GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
                     if (game().get(r, c).get(1) == GridLineObject.Line) line1Paint else line2Paint)
@@ -73,6 +71,7 @@ class RoomsGameView : CellsGameView {
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
             when (dotObj[2]) {
                 GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
@@ -81,6 +80,7 @@ class RoomsGameView : CellsGameView {
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
         }
     }
@@ -93,13 +93,7 @@ class RoomsGameView : CellsGameView {
             val xOffset: Int = event.getX() as Int - col * cellWidth - 1
             val yOffset: Int = event.getY() as Int - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
-            val move = RoomsGameMove()
-                init {
-                    p = Position(row, col)
-                    obj = GridLineObject.Empty
-                    dir = if (yOffset >= -offset && yOffset <= offset) 1 else 2
-                }
-            }
+            val move = RoomsGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
             if (game().switchObject(move)) activity().app.soundManager.playSoundTap()
         }
         return true
