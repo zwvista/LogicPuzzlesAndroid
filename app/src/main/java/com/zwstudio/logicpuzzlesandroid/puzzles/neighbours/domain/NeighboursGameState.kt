@@ -82,7 +82,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             areas.add(area)

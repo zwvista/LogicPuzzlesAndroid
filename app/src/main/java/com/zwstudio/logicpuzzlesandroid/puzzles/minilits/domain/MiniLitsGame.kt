@@ -77,7 +77,7 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
                         g.connectNode(pos2node[p], pos2node[p.add(offset[i])])
             }
         while (rng.isNotEmpty()) {
-            g.setRootNode(pos2node[rng.first()])
+            g.rootNode = pos2node[rng.first()]
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size

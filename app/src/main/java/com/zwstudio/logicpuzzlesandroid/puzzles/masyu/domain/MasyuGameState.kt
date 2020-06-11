@@ -131,7 +131,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
             }
         }
         // 1. The goal is to draw a single Loop(Necklace).
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

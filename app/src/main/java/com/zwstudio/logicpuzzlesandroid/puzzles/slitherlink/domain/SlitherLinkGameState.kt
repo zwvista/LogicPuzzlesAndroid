@@ -107,7 +107,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             }
         }
         // 1. Draw a single looping path with the aid of the numbered hints.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

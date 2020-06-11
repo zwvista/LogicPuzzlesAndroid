@@ -75,7 +75,7 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
             }
         dots = cloner.deepClone(game.dots)
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)

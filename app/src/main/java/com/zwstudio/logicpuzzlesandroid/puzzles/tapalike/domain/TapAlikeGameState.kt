@@ -130,7 +130,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         }
         // The goal is to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
         // 2. At the end of the solution, the filled tiles will form an identical

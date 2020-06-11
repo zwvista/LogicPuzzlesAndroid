@@ -86,7 +86,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
         // 1. The goal is to divide the board into Tetris pieces, including the
         // square one (differently from LITS).
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }.sorted()
             if (area.size != 4) {

@@ -85,7 +85,7 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        spnMarker.setSelection(doc().getMarkerOption())
+        spnMarker.setSelection(doc().markerOption)
     }
 }
 

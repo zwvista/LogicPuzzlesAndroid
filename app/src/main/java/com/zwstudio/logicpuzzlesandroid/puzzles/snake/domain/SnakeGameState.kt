@@ -107,7 +107,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p], pos2node[p2])
             }
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         val n1 = nodeList.size
         val n2 = pos2node.values.size

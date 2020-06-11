@@ -71,7 +71,7 @@ class BoxItAroundGameState(game: BoxItAroundGame) : CellsGameState<BoxItAroundGa
                         g.connectNode(pos2node[p], pos2node[p.add(BoxItAroundGame.offset[i])])
             }
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)

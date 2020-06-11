@@ -85,7 +85,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
             }
         }
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             if (this[pos2node.keys.first()] is TierraDelFuegoTreeObject) {

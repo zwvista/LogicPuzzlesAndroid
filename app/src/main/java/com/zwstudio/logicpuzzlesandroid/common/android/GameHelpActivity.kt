@@ -1,0 +1,33 @@
+package com.zwstudio.logicpuzzlesandroid.common.android
+
+import android.R
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
+import com.zwstudio.logicpuzzlesandroid.common.domain.Game
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EActivity
+import org.androidannotations.annotations.ViewById
+
+@EActivity
+abstract class GameHelpActivity<G : Game<G, GM, GS>?, GD : GameDocument<G, GM>?, GM, GS : GameState?> : BaseActivity() {
+    abstract fun doc(): GD
+
+    @kotlin.jvm.JvmField
+    @ViewById
+    protected var tvGame: TextView? = null
+
+    @kotlin.jvm.JvmField
+    @ViewById
+    protected var lvHelp: ListView? = null
+
+    @AfterViews
+    protected fun init() {
+        val adapter = ArrayAdapter(this,
+            R.layout.simple_list_item_1, doc()!!.help)
+        lvHelp!!.adapter = adapter
+        tvGame!!.text = doc()!!.gameTitle() + " Help"
+    }
+}

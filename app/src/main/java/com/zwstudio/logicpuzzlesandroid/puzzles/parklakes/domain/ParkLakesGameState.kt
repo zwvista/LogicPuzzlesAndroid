@@ -81,7 +81,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             var r2 = 0
@@ -137,7 +137,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
                 g.connectNode(node, node2)
             }
         // 5. All the land tiles are connected horizontally or vertically.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

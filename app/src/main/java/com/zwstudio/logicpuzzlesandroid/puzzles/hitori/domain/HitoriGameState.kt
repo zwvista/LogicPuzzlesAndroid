@@ -126,7 +126,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
             }
         }
         // 3. In the end all the un-shaded squares must form a single continuous area.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

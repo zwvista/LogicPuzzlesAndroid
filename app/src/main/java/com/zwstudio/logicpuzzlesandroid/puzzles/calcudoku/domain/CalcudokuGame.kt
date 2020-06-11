@@ -64,7 +64,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 }
             }
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             val n = areas.size

@@ -122,7 +122,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
             }
         val shipNumbers = mutableListOf(0, 0, 0, 0, 0)
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.keys.toList().sorted()
             for (p in area)

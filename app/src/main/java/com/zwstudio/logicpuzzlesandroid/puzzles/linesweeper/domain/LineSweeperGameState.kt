@@ -95,7 +95,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
             }
         }
         // 1. Draw a single closed looping path that never crosses itself or branches off.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

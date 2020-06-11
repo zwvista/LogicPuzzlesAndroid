@@ -27,7 +27,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
     }
 
     fun switchObject(move: MineShipsGameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game.gdi.getMarkerOption()]
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]
@@ -110,7 +110,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         }
         val shipNumbers = mutableListOf(0, 0, 0, 0, 0)
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.keys.toList().sorted()
             for (p in area)

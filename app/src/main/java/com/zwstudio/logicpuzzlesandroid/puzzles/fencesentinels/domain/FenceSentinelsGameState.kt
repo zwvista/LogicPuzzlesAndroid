@@ -108,7 +108,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
             }
         }
         // 1. The goal is to draw a single, uninterrupted, closed loop.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

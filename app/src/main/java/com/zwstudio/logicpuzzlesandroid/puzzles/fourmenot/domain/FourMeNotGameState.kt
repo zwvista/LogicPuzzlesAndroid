@@ -82,7 +82,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         // 2. More exactly, you have to join the existing flowers by adding more of
         // them, creating a single path of flowers touching horizontally or
         // vertically.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
         val trees = mutableListOf<Position>()

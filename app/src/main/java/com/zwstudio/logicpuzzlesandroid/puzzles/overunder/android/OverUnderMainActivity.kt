@@ -63,7 +63,7 @@ class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame, OverUnderDoc
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.setAdapter(adapter)
-        spnMarker.setSelection(doc().getMarkerOption())
+        spnMarker.setSelection(doc().markerOption)
     }
 
     @ItemSelect
@@ -85,7 +85,7 @@ class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame, OverUnderDoc
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        spnMarker.setSelection(doc().getMarkerOption())
+        spnMarker.setSelection(doc().markerOption)
     }
 }
 

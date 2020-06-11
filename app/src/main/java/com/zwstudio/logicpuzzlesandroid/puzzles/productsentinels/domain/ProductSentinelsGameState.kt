@@ -126,7 +126,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
         }
         if (!isSolved) return
         // 4. There must be a single continuous Garden
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

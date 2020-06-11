@@ -102,13 +102,13 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             // 3. The garden is separated by a single continuous wall. This means all
             // wall tiles on the board must be connected horizontally or vertically.
             // There can't be isolated walls.
-            g.setRootNode(pos2node[rngWalls[0]])
+            g.rootNode = pos2node[rngWalls[0]]
             val nodeList = g.bfs()
             if (rngWalls.size != nodeList.size) isSolved = false
         }
         while (rngEmpty.isNotEmpty()) {
             val node = pos2node[rngEmpty[0]]
-            g.setRootNode(node)
+            g.rootNode = node
             val nodeList = g.bfs()
             rngEmpty.removeAll { nodeList.contains(pos2node[it]) }
             val n2 = nodeList.size

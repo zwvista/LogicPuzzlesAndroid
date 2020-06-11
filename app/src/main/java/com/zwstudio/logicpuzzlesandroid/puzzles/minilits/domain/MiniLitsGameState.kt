@@ -31,7 +31,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
     }
 
     fun switchObject(move: MiniLitsGameMove): Boolean {
-        val markerOption: MarkerOptions = MarkerOptions.values().get(game.gdi.getMarkerOption())
+        val markerOption: MarkerOptions = MarkerOptions.values().get(game.gdi.markerOption)
         val o = this[move.p]
         move.obj = when (o) {
             is MiniLitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsMarkerObject() else MiniLitsTreeObject()
@@ -84,7 +84,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
         }
         val blocks = mutableListOf<List<Position>>()
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val block = pos2node.filter { nodeList.contains(it.value) }.keys.toList()
             blocks.add(block)

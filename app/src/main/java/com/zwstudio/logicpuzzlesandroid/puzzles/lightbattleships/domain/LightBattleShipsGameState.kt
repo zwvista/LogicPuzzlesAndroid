@@ -146,7 +146,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         }
         val shipNumbers = arrayOf(0, 0, 0, 0, 0)
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { (_, node) -> nodeList.contains(node) }.keys.toList().sorted()
             for (p in area)

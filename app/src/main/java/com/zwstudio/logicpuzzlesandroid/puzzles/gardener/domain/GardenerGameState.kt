@@ -103,7 +103,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
         // 5. All the remaining Garden space where there are no Flowers must be
         // interconnected (horizontally or vertically), as he wants to be able
         // to reach every part of the Garden without treading over Flowers.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
 

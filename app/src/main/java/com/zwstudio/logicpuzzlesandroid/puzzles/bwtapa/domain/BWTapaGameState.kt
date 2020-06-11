@@ -129,13 +129,13 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
                     g.connectNode(pos2node[p], pos2node[p2])
             }
         // 2. Both Black and White cells must form a single continuous region.
-        g.setRootNode(pos2node[rngWalls[0]])
+        g.rootNode = pos2node[rngWalls[0]]
         var nodeList = g.bfs()
         if (rngWalls.size != nodeList.size) {
             isSolved = false
             return
         }
-        g.setRootNode(pos2node[rngEmpty[0]])
+        g.rootNode = pos2node[rngEmpty[0]]
         nodeList = g.bfs()
         if (rngEmpty.size != nodeList.size) isSolved = false
     }

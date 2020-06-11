@@ -116,7 +116,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
             }
         // 3. The painted tiles form an orthogonally continuous area, like a
         // Nurikabe.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

@@ -137,7 +137,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
                     g.connectNode(pos2node[p], pos2node[p2])
             }
         // 5. The filled tiles are continuous.
-        g.setRootNode(pos2node[rngWalls[0]])
+        g.rootNode = pos2node[rngWalls[0]]
         val nodeList = g.bfs()
         if (rngWalls.size != nodeList.size) isSolved = false
     }

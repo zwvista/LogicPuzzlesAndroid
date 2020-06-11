@@ -142,7 +142,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         run {
             // The goal is to fill some tiles forming a single orthogonally continuous
             // path. Just like Nurikabe.
-            g.setRootNode(pos2node[rngWalls[0]])
+            g.rootNode = pos2node[rngWalls[0]]
             val nodeList = g.bfs()
             if (rngWalls.size != nodeList.size) {
                 isSolved = false
@@ -150,7 +150,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             }
         }
         while (rngEmpty.isNotEmpty()) {
-            g.setRootNode(pos2node[rngEmpty[0]])
+            g.rootNode = pos2node[rngEmpty[0]]
             val nodeList = g.bfs()
             rngEmpty = rngEmpty.filter { !nodeList.contains(pos2node[it]) }.toMutableList()
             val n2 = nodeList.size

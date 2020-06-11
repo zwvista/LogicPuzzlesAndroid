@@ -77,7 +77,7 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
                     g.connectNode(pos2node[p], pos2node[p2])
             }
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val trees = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             // 2. These are Apple Trees, which must cross-pollinate, thus must be planted

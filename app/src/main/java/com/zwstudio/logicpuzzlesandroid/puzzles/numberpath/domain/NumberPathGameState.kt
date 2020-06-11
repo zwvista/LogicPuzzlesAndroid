@@ -87,7 +87,7 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
         }
         // 1. Connect the top left corner (1) to the bottom right corner (N), including
         // all the numbers between 1 and N, only once.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         val n1 = game[pEnd]
         val n2 = nums.size

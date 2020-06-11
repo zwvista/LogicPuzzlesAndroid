@@ -86,7 +86,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
             }
         val blocks = mutableListOf<List<Position>>()
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val block = pos2node.filter { nodeList.contains(it.value) }.keys.toList()
             blocks.add(block)

@@ -96,7 +96,7 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
             }
         // 3. At the end of the solution, each Room must be reachable from the others.
         // That means no single Room or group of Rooms can be divided by the others.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

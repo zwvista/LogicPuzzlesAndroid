@@ -81,7 +81,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
             }
         val dominoes = mutableListOf<List<Int?>>()
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { (_, node) -> nodeList.contains(node) }.keys.toList()
             if (area.size != 2) {

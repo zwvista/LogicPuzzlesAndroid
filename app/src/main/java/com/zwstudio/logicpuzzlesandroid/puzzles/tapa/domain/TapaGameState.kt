@@ -144,7 +144,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
             }
         // 1. The goal is to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

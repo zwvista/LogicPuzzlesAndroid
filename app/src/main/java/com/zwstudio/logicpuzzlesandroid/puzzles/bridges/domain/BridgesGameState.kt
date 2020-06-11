@@ -94,7 +94,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
         }
         // 2. You must connect all the islands with Bridges, making sure every
         // island is connected to each other with a Bridges path.
-        g.setRootNode(pos2node.values.first())
+        g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
     }

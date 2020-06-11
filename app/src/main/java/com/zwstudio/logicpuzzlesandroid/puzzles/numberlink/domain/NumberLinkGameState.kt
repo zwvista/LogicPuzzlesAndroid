@@ -106,7 +106,7 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
             if ((i2 + 1) % 4 == i1) f(i1, false)
         }
         while (pos2node.isNotEmpty()) {
-            g.setRootNode(pos2node.values.first())
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
