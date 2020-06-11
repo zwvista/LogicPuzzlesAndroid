@@ -7,18 +7,14 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
-
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.android.AbcGameActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.AbstractPaintingGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.AbstractPaintingGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.AbstractPaintingObject
 
 class AbstractPaintingGameView : CellsGameView {
-
     private fun activity() = context as AbstractPaintingGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -88,11 +84,7 @@ class AbstractPaintingGameView : CellsGameView {
         if (isInEditMode) return
         for (r in 0 until rows()) {
             val s = game().getRowState(r)
-            textPaint.color = when (s) {
-                HintState.Complete -> Color.GREEN
-                HintState.Error -> Color.RED
-                else -> Color.WHITE
-            }
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game().row2hint[r]
             if (n < 0) continue
             val text = n.toString()
@@ -100,11 +92,7 @@ class AbstractPaintingGameView : CellsGameView {
         }
         for (c in 0 until cols()) {
             val s = game().getColState(c)
-            textPaint.color = when (s) {
-                HintState.Complete -> Color.GREEN
-                HintState.Error -> Color.RED
-                else -> Color.WHITE
-            }
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game().col2hint[c]
             if (n < 0) continue
             val text = n.toString()
@@ -117,7 +105,7 @@ class AbstractPaintingGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = AbstractPaintingGameMove(Position(row, col), AbstractPaintingObject.Empty)
+            val move = AbstractPaintingGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

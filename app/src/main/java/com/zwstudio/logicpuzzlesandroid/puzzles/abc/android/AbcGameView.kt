@@ -7,16 +7,12 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
-
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.abc.domain.AbcGameMove
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.android.WallSentinels2GameActivity
 
 class AbcGameView : CellsGameView {
-
     private fun activity() = context as AbcGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -63,11 +59,7 @@ class AbcGameView : CellsGameView {
                     canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
                 else {
                     val s = game().getState(r, c)
-                    textPaint.color = if (s == HintState.Complete)
-                        Color.GREEN
-                    else if (s == HintState.Error)
-                        Color.RED
-                    else if (!game().isValid(r, c)) Color.GRAY else Color.WHITE
+                    textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game().isValid(r, c)) Color.GRAY else Color.WHITE
                     val text = ch.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
@@ -78,7 +70,7 @@ class AbcGameView : CellsGameView {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            val move = AbcGameMove(Position(row, col), ' ')
+            val move = AbcGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

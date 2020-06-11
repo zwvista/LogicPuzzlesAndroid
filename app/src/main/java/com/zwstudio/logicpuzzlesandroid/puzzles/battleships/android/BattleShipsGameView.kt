@@ -8,17 +8,13 @@ import android.graphics.Path
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
-
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.android.AbcGameActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.domain.BattleShipsObject
 
 class BattleShipsGameView : CellsGameView {
-
     private fun activity() = context as BattleShipsGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -97,22 +93,14 @@ class BattleShipsGameView : CellsGameView {
         if (isInEditMode) return
         for (r in 0 until rows()) {
             val s = game().getRowState(r)
-            textPaint.color = when (s) {
-                HintState.Complete -> Color.GREEN
-                HintState.Error -> Color.RED
-                else -> Color.WHITE
-            }
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game().row2hint[r]
             val text = n.toString()
             drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols()) {
             val s = game().getColState(c)
-            textPaint.color = when (s) {
-                HintState.Complete -> Color.GREEN
-                HintState.Error -> Color.RED
-                else -> Color.WHITE
-            }
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game().col2hint[c]
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
@@ -124,7 +112,7 @@ class BattleShipsGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = BattleShipsGameMove(Position(row, col), BattleShipsObject.Empty)
+            val move = BattleShipsGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

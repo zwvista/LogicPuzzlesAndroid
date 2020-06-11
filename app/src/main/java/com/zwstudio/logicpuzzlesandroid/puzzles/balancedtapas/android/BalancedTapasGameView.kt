@@ -7,23 +7,15 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
-
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.abc.android.AbcGameActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTapasEmptyObject
-import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTapasGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTapasGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTapasHintObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTapasMarkerObject
-import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTapasObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTapasWallObject
 
-import fj.F
-
 class BalancedTapasGameView : CellsGameView {
-
     private fun activity() = context as BalancedTapasGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -71,11 +63,7 @@ class BalancedTapasGameView : CellsGameView {
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
                 } else if (o is BalancedTapasHintObject) {
                     val hint = game().pos2hint[Position(r, c)]!!
-                    textPaint.color = when (o.state) {
-                        HintState.Complete -> Color.GREEN
-                        HintState.Error -> Color.RED
-                        else -> Color.WHITE
-                    }
+                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
                     fun hint2Str(i: Int): String {
                         val n = hint[i]
                         return if (n == -1) "?" else n.toString()
@@ -113,7 +101,7 @@ class BalancedTapasGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = BalancedTapasGameMove(Position(row, col), BalancedTapasEmptyObject())
+            val move = BalancedTapasGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

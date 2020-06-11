@@ -24,17 +24,9 @@ class TennerGridGameView : CellsGameView {
     private val gridPaint = Paint()
     private val textPaint: TextPaint = TextPaint()
 
-    constructor(context: Context?) : super(context) {
-        init(null, 0)
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        init(attrs, 0)
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
-        init(attrs, defStyle)
-    }
+    constructor(context: Context) : super(context) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.WHITE

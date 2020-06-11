@@ -13,7 +13,6 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGameMove
 
 class ABCPathGameView : CellsGameView {
-
     private fun activity() = context as ABCPathGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -54,11 +53,7 @@ class ABCPathGameView : CellsGameView {
                 val ch = game().getObject(r, c)
                 if (ch == ' ') continue
                 val s = game().getState(r, c)
-                textPaint.color = if (s == HintState.Complete)
-                    Color.GREEN
-                else if (s == HintState.Error)
-                    Color.RED
-                else if (game()[r, c] == ' ') Color.GRAY else Color.WHITE
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (game()[r, c] == ' ') Color.GRAY else Color.WHITE
                 val text = ch.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
@@ -68,7 +63,7 @@ class ABCPathGameView : CellsGameView {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            val move = ABCPathGameMove(Position(row, col), ' ')
+            val move = ABCPathGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

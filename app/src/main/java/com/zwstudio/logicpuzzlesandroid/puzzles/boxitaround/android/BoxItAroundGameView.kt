@@ -16,15 +16,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.domain.BoxItAroundGa
 
 class BoxItAroundGameView : CellsGameView {
     private fun activity() = context as BoxItAroundGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game()!!.rows() - 1
-
     private fun cols() = if (isInEditMode) 5 else game()!!.cols() - 1
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -33,17 +28,9 @@ class BoxItAroundGameView : CellsGameView {
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
 
-    constructor(context: Context?) : super(context) {
-        init(null, 0)
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        init(attrs, 0)
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
-        init(attrs, defStyle)
-    }
+    constructor(context: Context) : super(context) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY

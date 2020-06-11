@@ -16,15 +16,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.domain.BoxItAgainGame
 
 class BoxItAgainGameView : CellsGameView {
     private fun activity() = context as BoxItAgainGameActivity
-
     private fun game() = activity().game
-
     private fun rows() = if (isInEditMode) 5 else game()!!.rows() - 1
-
     private fun cols() = if (isInEditMode) 5 else game()!!.cols() - 1
-
     override fun rowsInView() = rows()
-
     override fun colsInView() = cols()
 
     private val gridPaint = Paint()
@@ -33,17 +28,9 @@ class BoxItAgainGameView : CellsGameView {
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
 
-    constructor(context: Context?) : super(context) {
-        init(null, 0)
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        init(attrs, 0)
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
-        init(attrs, defStyle)
-    }
+    constructor(context: Context) : super(context) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         gridPaint.color = Color.GRAY
@@ -78,13 +65,14 @@ class BoxItAgainGameView : CellsGameView {
         val markerOffset = 20
         for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
             val dotObj = game()!!.getObject(r, c)
-            when (dotObj!![1]) {
+            when (dotObj[1]) {
                 GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
                         if (game()!![r, c][1] == GridLineObject.Line) line1Paint else line2Paint)
                 GridLineObject.Marker -> {
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
             when (dotObj[2]) {
                 GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
@@ -93,6 +81,7 @@ class BoxItAgainGameView : CellsGameView {
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
                     canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
                 }
+                else -> {}
             }
         }
     }

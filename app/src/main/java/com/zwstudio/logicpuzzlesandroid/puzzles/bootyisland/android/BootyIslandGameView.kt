@@ -9,22 +9,16 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
-
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.android.ABCPathGameActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandEmptyObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandForbiddenObject
-import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandMarkerObject
-import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.domain.BootyIslandTreasureObject
 
 class BootyIslandGameView : CellsGameView {
-
     private fun activity() = context as BootyIslandGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -83,12 +77,7 @@ class BootyIslandGameView : CellsGameView {
                 val n = game().pos2hint[p]
                 if (n != null) {
                     val state = game().pos2State(p)
-                    textPaint.color = if (state == HintState.Complete)
-                        Color.GREEN
-                    else if (state == HintState.Error)
-                        Color.RED
-                    else
-                        Color.WHITE
+                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
@@ -100,7 +89,7 @@ class BootyIslandGameView : CellsGameView {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = BootyIslandGameMove(Position(row, col), BootyIslandEmptyObject())
+            val move = BootyIslandGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }
