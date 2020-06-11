@@ -43,12 +43,12 @@ class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame, OverUnderDoc
     @AfterViews
     protected override fun init() {
         val lst: List<String> = GameOptionsActivity.lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
-                R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
+        val adapter = object : ArrayAdapter<String>(this,
+            android.R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
-                val tv = v.findViewById<TextView>(R.id.text1)
+                val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.setText(s)
                 return v
             }
@@ -56,12 +56,12 @@ class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame, OverUnderDoc
             override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
-                val ctv = v.findViewById<CheckedTextView>(R.id.text1)
+                val ctv = v.findViewById<CheckedTextView>(android.R.id.text1)
                 ctv.setText(s)
                 return v
             }
         }
-        adapter.setDropDownViewResource(R.layout.simple_list_item_single_choice)
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.setAdapter(adapter)
         spnMarker.setSelection(doc().getMarkerOption())
     }

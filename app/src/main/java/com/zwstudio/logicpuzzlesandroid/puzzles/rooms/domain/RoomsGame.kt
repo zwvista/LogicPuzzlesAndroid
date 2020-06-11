@@ -23,7 +23,7 @@ class RoomsGame(layout: List<String>, gi: GameInterface<RoomsGame, RoomsGameMove
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var objArray: Array<Array<GridLineObject?>>
+    var objArray: Array<Array<GridLineObject>>
     var pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]

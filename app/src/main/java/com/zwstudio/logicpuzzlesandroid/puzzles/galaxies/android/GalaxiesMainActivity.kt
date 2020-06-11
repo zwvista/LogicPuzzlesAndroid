@@ -42,7 +42,7 @@ class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame, GalaxiesDocume
     @AfterViews
     override fun init() {
         val lst = lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
+        val adapter = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
