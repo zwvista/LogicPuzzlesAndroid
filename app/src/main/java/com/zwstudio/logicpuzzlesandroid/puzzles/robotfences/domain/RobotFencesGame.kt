@@ -61,20 +61,22 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
         val rng = mutableSetOf<Position>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            rng.add(p.plus())
-            val node = Node(p.toString())
-            g.addNode(node)
-            pos2node[p] = node
-        }
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            for (i in 0..3)
-                if (dots.get(p.add(offset2[i]), dirs[i]) != GridLineObject.Line)
-                    g.connectNode(pos2node[p], pos2node[p.add(offset[i])])
-        }
-        while (!rng.isEmpty()) {
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                rng.add(p.plus())
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                for (i in 0..3)
+                    if (dots.get(p.add(offset2[i]), dirs[i]) != GridLineObject.Line)
+                        g.connectNode(pos2node[p], pos2node[p.add(offset[i])])
+            }
+        while (rng.isNotEmpty()) {
             g.setRootNode(pos2node[rng.first()])
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }

@@ -73,8 +73,8 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
                     if (dots.get(p.add(offset2[i]), dirs[i]) != GridLineObject.Line)
                         g.connectNode(pos2node[p], pos2node[p.add(offset[i * 2])])
             }
-        while (!rng.isEmpty()) {
-            g.setRootNode(pos2node[fj.data.List.iterableList(rng).head()])
+        while (rng.isNotEmpty()) {
+            g.setRootNode(pos2node[rng.first()])
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size

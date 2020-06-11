@@ -72,7 +72,7 @@ class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<Pa
                     if (dots.get(p.add(offset2[i]), dirs[i]) != GridLineObject.Line)
                         g.connectNode(pos2node[p], pos2node[p.add(offset[i * 2])])
             }
-        while (!rng.isEmpty()) {
+        while (rng.isNotEmpty()) {
             g.setRootNode(pos2node[rng.first()])
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }

@@ -102,10 +102,10 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
                     if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p], pos2node[p.add(offset[i])])
             }
-        while (!rng.isEmpty()) {
-            g.setRootNode(pos2node[fj.data.List.iterableList(rng).head()])
+        while (rng.isNotEmpty()) {
+            g.setRootNode(pos2node[rng.first()])
             val nodeList = g.bfs()
-            val area = fj.data.List.iterableList(rng).filter { p: Position -> nodeList.contains(pos2node[p]) }.toJavaList()
+            val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size
             for (p in area) pos2area[p] = n
             areas.add(area)

@@ -85,7 +85,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         run {
 
             // 4. There is only one, continuous island.
-            g.setRootNode(fj.data.HashMap.fromMap(pos2node).values().head())
+            g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
             if (nodeList.size != pos2node.size) isSolved = false
         }
@@ -110,7 +110,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
-        while (!pos2node.isEmpty()) {
+        while (pos2node.isNotEmpty()) {
             g.setRootNode(pos2node.values.first())
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }

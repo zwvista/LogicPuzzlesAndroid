@@ -56,12 +56,13 @@ class RobotFencesGameView : CellsGameView {
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows() + 1) for (c in 0 until cols() + 1) {
-            if (game().dots[r, c, 1] == GridLineObject.Line)
-                canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-            if (game().dots[r, c, 2] == GridLineObject.Line)
-                canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
-        }
+        for (r in 0 until rows() + 1)
+            for (c in 0 until cols() + 1) {
+                if (game().dots[r, c, 1] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+                if (game().dots[r, c, 2] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+            }
         for (r in 0 until rows()) {
             val s = game().getRowState(r)
             if (s == HintState.Normal) continue
