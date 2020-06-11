@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class SlitherLinkGameActivity : GameGameActivity<SlitherLinkGame?, SlitherLinkDocument?, SlitherLinkGameMove?, SlitherLinkGameState?>() {
+class SlitherLinkGameActivity : GameGameActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState>() {
     @Bean
-    protected var document: SlitherLinkDocument? = null
+    protected var document: SlitherLinkDocument = null
     override fun doc() = document
 
-    protected var gameView: SlitherLinkGameView? = null
+    protected var gameView: SlitherLinkGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = SlitherLinkGameView(this)
+        gameView2 = SlitherLinkGameView(this)
         super.init()
     }
 

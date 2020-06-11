@@ -10,11 +10,10 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class RobotCrosswordsMainActivity : GameMainActivity<RobotCrosswordsGame?, RobotCrosswordsDocument?, RobotCrosswordsGameMove?, RobotCrosswordsGameState?>() {
+class RobotCrosswordsMainActivity : GameMainActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
     @Bean
-    protected var document: RobotCrosswordsDocument? = null
+    protected lateinit var document: RobotCrosswordsDocument
     override fun doc() = document
 
     @Click
@@ -29,15 +28,15 @@ class RobotCrosswordsMainActivity : GameMainActivity<RobotCrosswordsGame?, Robot
 }
 
 @EActivity(R.layout.activity_game_options)
-class RobotCrosswordsOptionsActivity : GameOptionsActivity<RobotCrosswordsGame?, RobotCrosswordsDocument?, RobotCrosswordsGameMove?, RobotCrosswordsGameState?>() {
+class RobotCrosswordsOptionsActivity : GameOptionsActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
     @Bean
-    protected var document: RobotCrosswordsDocument? = null
+    protected lateinit var document: RobotCrosswordsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_options)
-class RobotCrosswordsOptionsActivity : GameOptionsActivity<RobotCrosswordsGame?, RobotCrosswordsDocument?, RobotCrosswordsGameMove?, RobotCrosswordsGameState?>() {
+class RobotCrosswordsOptionsActivity : GameOptionsActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
     @Bean
-    protected var document: RobotCrosswordsDocument? = null
+    protected lateinit var document: RobotCrosswordsDocument
     override fun doc() = document
 }

@@ -15,11 +15,10 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ItemSelect
 import java.sql.SQLException
 
-_
 @EActivity(R.layout.activity_game_main)
-class OverUnderMainActivity : GameMainActivity<OverUnderGame?, OverUnderDocument?, OverUnderGameMove?, OverUnderGameState?>() {
+class OverUnderMainActivity : GameMainActivity<OverUnderGame, OverUnderDocument, OverUnderGameMove, OverUnderGameState>() {
     @Bean
-    protected var document: OverUnderDocument? = null
+    protected lateinit var document: OverUnderDocument
     override fun doc() = document
 
     @Click
@@ -34,17 +33,17 @@ class OverUnderMainActivity : GameMainActivity<OverUnderGame?, OverUnderDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame?, OverUnderDocument?, OverUnderGameMove?, OverUnderGameState?>() {
+class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame, OverUnderDocument, OverUnderGameMove, OverUnderGameState>() {
     @Bean
-    protected var document: OverUnderDocument? = null
+    protected lateinit var document: OverUnderDocument
     override fun doc() = document
 
     @AfterViews
     protected override fun init() {
         val lst: List<String> = GameOptionsActivity.lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v: View = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv: TextView = v.findViewById<View>(R.id.text1) as TextView
@@ -89,8 +88,8 @@ class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame?, OverUnderDo
 }
 
 @EActivity(R.layout.activity_game_help)
-class OverUnderHelpActivity : GameHelpActivity<OverUnderGame?, OverUnderDocument?, OverUnderGameMove?, OverUnderGameState?>() {
+class OverUnderHelpActivity : GameHelpActivity<OverUnderGame, OverUnderDocument, OverUnderGameMove, OverUnderGameState>() {
     @Bean
-    protected var document: OverUnderDocument? = null
+    protected lateinit var document: OverUnderDocument
     override fun doc() = document
 }

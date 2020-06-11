@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class TatamiGameActivity : GameGameActivity<TatamiGame?, TatamiDocument?, TatamiGameMove?, TatamiGameState?>() {
+class TatamiGameActivity : GameGameActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
     @Bean
-    protected var document: TatamiDocument? = null
+    protected var document: TatamiDocument = null
     override fun doc() = document
 
-    protected var gameView: TatamiGameView? = null
+    protected var gameView: TatamiGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = TatamiGameView(this)
+        gameView2 = TatamiGameView(this)
         super.init()
     }
 

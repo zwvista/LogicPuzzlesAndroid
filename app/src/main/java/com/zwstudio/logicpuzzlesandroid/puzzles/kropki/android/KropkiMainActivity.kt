@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class KropkiMainActivity : GameMainActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
-    @kotlin.jvm.JvmField
+class KropkiMainActivity : GameMainActivity<KropkiGame, KropkiDocument, KropkiGameMove, KropkiGameState>() {
     @Bean
-    protected var document: KropkiDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KropkiDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class KropkiMainActivity : GameMainActivity<KropkiGame?, KropkiDocument?, Kropki
 }
 
 @EActivity(R.layout.activity_game_options)
-class KropkiOptionsActivity : GameOptionsActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
-    @kotlin.jvm.JvmField
+class KropkiOptionsActivity : GameOptionsActivity<KropkiGame, KropkiDocument, KropkiGameMove, KropkiGameState>() {
     @Bean
-    protected var document: KropkiDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KropkiDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class KropkiHelpActivity : GameHelpActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
-    @kotlin.jvm.JvmField
+class KropkiHelpActivity : GameHelpActivity<KropkiGame, KropkiDocument, KropkiGameMove, KropkiGameState>() {
     @Bean
-    protected var document: KropkiDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KropkiDocument
+    override fun doc() = document
 }

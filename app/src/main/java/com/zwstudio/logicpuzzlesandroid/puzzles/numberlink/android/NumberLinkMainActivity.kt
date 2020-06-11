@@ -6,11 +6,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.numberlink.domain.NumberLinkGame
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class NumberLinkMainActivity : GameMainActivity<NumberLinkGame?, NumberLinkDocument?, NumberLinkGameMove?, NumberLinkGameState?>() {
+class NumberLinkMainActivity : GameMainActivity<NumberLinkGame, NumberLinkDocument, NumberLinkGameMove, NumberLinkGameState>() {
     @Bean
-    protected var document: NumberLinkDocument? = null
+    protected lateinit var document: NumberLinkDocument
     override fun doc() = document
 
     @Click
@@ -25,17 +24,17 @@ class NumberLinkMainActivity : GameMainActivity<NumberLinkGame?, NumberLinkDocum
 }
 
 @EActivity(R.layout.activity_game_options)
-class NumberLinkOptionsActivity : GameOptionsActivity<NumberLinkGame?, NumberLinkDocument?, NumberLinkGameMove?, NumberLinkGameState?>() {
+class NumberLinkOptionsActivity : GameOptionsActivity<NumberLinkGame, NumberLinkDocument, NumberLinkGameMove, NumberLinkGameState>() {
     @Bean
-    protected var document: NumberLinkDocument? = null
+    protected lateinit var document: NumberLinkDocument
     override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class NumberLinkHelpActivity : GameHelpActivity<NumberLinkGame?, NumberLinkDocument?, NumberLinkGameMove?, NumberLinkGameState?>() {
+class NumberLinkHelpActivity : GameHelpActivity<NumberLinkGame, NumberLinkDocument, NumberLinkGameMove, NumberLinkGameState>() {
     @Bean
-    protected var document: NumberLinkDocument? = null
+    protected lateinit var document: NumberLinkDocument
     override fun doc() = document
 }

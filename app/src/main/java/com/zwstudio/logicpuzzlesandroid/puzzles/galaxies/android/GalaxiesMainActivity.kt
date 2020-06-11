@@ -17,11 +17,10 @@ import org.androidannotations.annotations.*
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
-class GalaxiesMainActivity : GameMainActivity<GalaxiesGame?, GalaxiesDocument?, GalaxiesGameMove?, GalaxiesGameState?>() {
-    @kotlin.jvm.JvmField
+class GalaxiesMainActivity : GameMainActivity<GalaxiesGame, GalaxiesDocument, GalaxiesGameMove, GalaxiesGameState>() {
     @Bean
-    protected var document: GalaxiesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: GalaxiesDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -35,18 +34,17 @@ class GalaxiesMainActivity : GameMainActivity<GalaxiesGame?, GalaxiesDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame?, GalaxiesDocument?, GalaxiesGameMove?, GalaxiesGameState?>() {
-    @kotlin.jvm.JvmField
+class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame, GalaxiesDocument, GalaxiesGameMove, GalaxiesGameState>() {
     @Bean
-    protected var document: GalaxiesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: GalaxiesDocument
+    override fun doc() = document
 
     @AfterViews
     override fun init() {
         val lst = lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv = v.findViewById<View>(android.R.id.text1) as TextView
@@ -91,9 +89,8 @@ class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame?, GalaxiesDocum
 }
 
 @EActivity(R.layout.activity_game_help)
-class GalaxiesHelpActivity : GameHelpActivity<GalaxiesGame?, GalaxiesDocument?, GalaxiesGameMove?, GalaxiesGameState?>() {
-    @kotlin.jvm.JvmField
+class GalaxiesHelpActivity : GameHelpActivity<GalaxiesGame, GalaxiesDocument, GalaxiesGameMove, GalaxiesGameState>() {
     @Bean
-    protected var document: GalaxiesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: GalaxiesDocument
+    override fun doc() = document
 }

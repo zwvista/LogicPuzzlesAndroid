@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class PowerGridGameActivity : GameGameActivity<PowerGridGame?, PowerGridDocument?, PowerGridGameMove?, PowerGridGameState?>() {
+class PowerGridGameActivity : GameGameActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState>() {
     @Bean
-    protected var document: PowerGridDocument? = null
+    protected var document: PowerGridDocument = null
     override fun doc() = document
 
-    protected var gameView: PowerGridGameView? = null
+    protected var gameView: PowerGridGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = PowerGridGameView(this)
+        gameView2 = PowerGridGameView(this)
         super.init()
     }
 

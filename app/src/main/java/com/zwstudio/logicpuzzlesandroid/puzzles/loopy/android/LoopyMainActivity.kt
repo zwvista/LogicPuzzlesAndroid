@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class LoopyMainActivity : GameMainActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
-    @kotlin.jvm.JvmField
+class LoopyMainActivity : GameMainActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState>() {
     @Bean
-    protected var document: LoopyDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LoopyDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,19 +30,17 @@ class LoopyMainActivity : GameMainActivity<LoopyGame?, LoopyDocument?, LoopyGame
 }
 
 @EActivity(R.layout.activity_game_options)
-class LoopyOptionsActivity : GameOptionsActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
-    @kotlin.jvm.JvmField
+class LoopyOptionsActivity : GameOptionsActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState>() {
     @Bean
-    protected var document: LoopyDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LoopyDocument
+    override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class LoopyHelpActivity : GameHelpActivity<LoopyGame?, LoopyDocument?, LoopyGameMove?, LoopyGameState?>() {
-    @kotlin.jvm.JvmField
+class LoopyHelpActivity : GameHelpActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState>() {
     @Bean
-    protected var document: LoopyDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LoopyDocument
+    override fun doc() = document
 }

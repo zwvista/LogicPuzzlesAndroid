@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class NumberPathMainActivity : GameMainActivity<NumberPathGame?, NumberPathDocument?, NumberPathGameMove?, NumberPathGameState?>() {
+class NumberPathMainActivity : GameMainActivity<NumberPathGame, NumberPathDocument, NumberPathGameMove, NumberPathGameState>() {
     @Bean
-    protected var document: NumberPathDocument? = null
+    protected lateinit var document: NumberPathDocument
     override fun doc() = document
 
     @Click
@@ -32,17 +32,17 @@ class NumberPathMainActivity : GameMainActivity<NumberPathGame?, NumberPathDocum
 }
 
 @EActivity(R.layout.activity_game_options)
-class NumberPathOptionsActivity : GameOptionsActivity<NumberPathGame?, NumberPathDocument?, NumberPathGameMove?, NumberPathGameState?>() {
+class NumberPathOptionsActivity : GameOptionsActivity<NumberPathGame, NumberPathDocument, NumberPathGameMove, NumberPathGameState>() {
     @Bean
-    protected var document: NumberPathDocument? = null
+    protected lateinit var document: NumberPathDocument
     override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class NumberPathHelpActivity : GameHelpActivity<NumberPathGame?, NumberPathDocument?, NumberPathGameMove?, NumberPathGameState?>() {
+class NumberPathHelpActivity : GameHelpActivity<NumberPathGame, NumberPathDocument, NumberPathGameMove, NumberPathGameState>() {
     @Bean
-    protected var document: NumberPathDocument? = null
+    protected lateinit var document: NumberPathDocument
     override fun doc() = document
 }

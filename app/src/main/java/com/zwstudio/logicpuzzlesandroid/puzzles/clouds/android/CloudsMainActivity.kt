@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class CloudsMainActivity : GameMainActivity<CloudsGame?, CloudsDocument?, CloudsGameMove?, CloudsGameState?>() {
-    @kotlin.jvm.JvmField
+class CloudsMainActivity : GameMainActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState>() {
     @Bean
-    protected var document: CloudsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CloudsDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class CloudsMainActivity : GameMainActivity<CloudsGame?, CloudsDocument?, Clouds
 }
 
 @EActivity(R.layout.activity_game_options)
-class CloudsOptionsActivity : GameOptionsActivity<CloudsGame?, CloudsDocument?, CloudsGameMove?, CloudsGameState?>() {
-    @kotlin.jvm.JvmField
+class CloudsOptionsActivity : GameOptionsActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState>() {
     @Bean
-    protected var document: CloudsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CloudsDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class CloudsHelpActivity : GameHelpActivity<CloudsGame?, CloudsDocument?, CloudsGameMove?, CloudsGameState?>() {
-    @kotlin.jvm.JvmField
+class CloudsHelpActivity : GameHelpActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState>() {
     @Bean
-    protected var document: CloudsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CloudsDocument
+    override fun doc() = document
 }

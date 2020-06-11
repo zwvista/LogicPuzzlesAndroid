@@ -13,9 +13,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class PaintTheNurikabeMainActivity : GameMainActivity<PaintTheNurikabeGame?, PaintTheNurikabeDocument?, PaintTheNurikabeGameMove?, PaintTheNurikabeGameState?>() {
+class PaintTheNurikabeMainActivity : GameMainActivity<PaintTheNurikabeGame, PaintTheNurikabeDocument, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>() {
     @Bean
-    protected var document: PaintTheNurikabeDocument? = null
+    protected lateinit var document: PaintTheNurikabeDocument
     override fun doc() = document
 
     @Click
@@ -30,15 +30,15 @@ class PaintTheNurikabeMainActivity : GameMainActivity<PaintTheNurikabeGame?, Pai
 }
 
 @EActivity(R.layout.activity_game_options)
-class PaintTheNurikabeOptionsActivity : GameOptionsActivity<PaintTheNurikabeGame?, PaintTheNurikabeDocument?, PaintTheNurikabeGameMove?, PaintTheNurikabeGameState?>() {
+class PaintTheNurikabeOptionsActivity : GameOptionsActivity<PaintTheNurikabeGame, PaintTheNurikabeDocument, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>() {
     @Bean
-    protected var document: PaintTheNurikabeDocument? = null
+    protected lateinit var document: PaintTheNurikabeDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class PaintTheNurikabeHelpActivity : GameHelpActivity<PaintTheNurikabeGame?, PaintTheNurikabeDocument?, PaintTheNurikabeGameMove?, PaintTheNurikabeGameState?>() {
+class PaintTheNurikabeHelpActivity : GameHelpActivity<PaintTheNurikabeGame, PaintTheNurikabeDocument, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>() {
     @Bean
-    protected var document: PaintTheNurikabeDocument? = null
+    protected lateinit var document: PaintTheNurikabeDocument
     override fun doc() = document
 }

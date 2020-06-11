@@ -5,11 +5,10 @@ import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class NurikabeMainActivity : GameMainActivity<NurikabeGame?, NurikabeDocument?, NurikabeGameMove?, NurikabeGameState?>() {
+class NurikabeMainActivity : GameMainActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState>() {
     @Bean
-    protected var document: NurikabeDocument? = null
+    protected lateinit var document: NurikabeDocument
     override fun doc() = document
 
     @Click
@@ -24,15 +23,15 @@ class NurikabeMainActivity : GameMainActivity<NurikabeGame?, NurikabeDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class NurikabeOptionsActivity : GameOptionsActivity<NurikabeGame?, NurikabeDocument?, NurikabeGameMove?, NurikabeGameState?>() {
+class NurikabeOptionsActivity : GameOptionsActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState>() {
     @Bean
-    protected var document: NurikabeDocument? = null
+    protected lateinit var document: NurikabeDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class NurikabeHelpActivity : GameHelpActivity<NurikabeGame?, NurikabeDocument?, NurikabeGameMove?, NurikabeGameState?>() {
+class NurikabeHelpActivity : GameHelpActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState>() {
     @Bean
-    protected var document: NurikabeDocument? = null
+    protected lateinit var document: NurikabeDocument
     override fun doc() = document
 }

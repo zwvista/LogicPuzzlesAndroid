@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class TapaIslandsGameActivity : GameGameActivity<TapaIslandsGame?, TapaIslandsDocument?, TapaIslandsGameMove?, TapaIslandsGameState?>() {
+class TapaIslandsGameActivity : GameGameActivity<TapaIslandsGame, TapaIslandsDocument, TapaIslandsGameMove, TapaIslandsGameState>() {
     @Bean
-    protected var document: TapaIslandsDocument? = null
+    protected var document: TapaIslandsDocument = null
     override fun doc() = document
 
-    protected var gameView: TapaIslandsGameView? = null
+    protected var gameView: TapaIslandsGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = TapaIslandsGameView(this)
+        gameView2 = TapaIslandsGameView(this)
         super.init()
     }
 

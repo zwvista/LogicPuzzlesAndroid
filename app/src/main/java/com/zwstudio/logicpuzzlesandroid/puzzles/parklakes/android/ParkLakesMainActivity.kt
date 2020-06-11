@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class ParkLakesMainActivity : GameMainActivity<ParkLakesGame?, ParkLakesDocument?, ParkLakesGameMove?, ParkLakesGameState?>() {
+class ParkLakesMainActivity : GameMainActivity<ParkLakesGame, ParkLakesDocument, ParkLakesGameMove, ParkLakesGameState>() {
     @Bean
-    protected var document: ParkLakesDocument? = null
+    protected lateinit var document: ParkLakesDocument
     override fun doc() = document
 
     @Click
@@ -32,15 +32,15 @@ class ParkLakesMainActivity : GameMainActivity<ParkLakesGame?, ParkLakesDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class ParkLakesOptionsActivity : GameOptionsActivity<ParkLakesGame?, ParkLakesDocument?, ParkLakesGameMove?, ParkLakesGameState?>() {
+class ParkLakesOptionsActivity : GameOptionsActivity<ParkLakesGame, ParkLakesDocument, ParkLakesGameMove, ParkLakesGameState>() {
     @Bean
-    protected var document: ParkLakesDocument? = null
+    protected lateinit var document: ParkLakesDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class ParkLakesHelpActivity : GameHelpActivity<ParkLakesGame?, ParkLakesDocument?, ParkLakesGameMove?, ParkLakesGameState?>() {
+class ParkLakesHelpActivity : GameHelpActivity<ParkLakesGame, ParkLakesDocument, ParkLakesGameMove, ParkLakesGameState>() {
     @Bean
-    protected var document: ParkLakesDocument? = null
+    protected lateinit var document: ParkLakesDocument
     override fun doc() = document
 }

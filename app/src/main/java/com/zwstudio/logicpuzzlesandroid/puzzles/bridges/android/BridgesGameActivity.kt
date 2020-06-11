@@ -15,24 +15,23 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-class BridgesGameActivity : GameGameActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
-    @kotlin.jvm.JvmField
+class BridgesGameActivity : GameGameActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState>() {
     @Bean
-    protected var document: BridgesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BridgesDocument
+    override fun doc() = document
 
-    protected var gameView: BridgesGameView? = null
-    override fun getGameView() = gameView!!
+    protected lateinit var gameView2: BridgesGameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     override fun init() {
-        gameView = BridgesGameView(this)
+        gameView2 = BridgesGameView(this)
         super.init()
     }
 
     override fun startGame() {
         val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[List.iterableList(doc().levels).toStream().indexOf { o: GameLevel -> o.id == selectedLevelID }.orSome(0)]
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
@@ -44,7 +43,9 @@ class BridgesGameActivity : GameGameActivity<BridgesGame?, BridgesDocument?, Bri
                 game!!.switchBridges(move)
             }
             val moveIndex = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game!!.moveCount()) while (moveIndex != game!!.moveIndex()) game!!.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

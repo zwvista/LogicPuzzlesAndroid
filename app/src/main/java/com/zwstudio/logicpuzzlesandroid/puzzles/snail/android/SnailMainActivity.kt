@@ -8,11 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.snail.domain.SnailGameMove
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class SnailMainActivity : GameMainActivity<SnailGame?, SnailDocument?, SnailGameMove?, SnailGameState?>() {
+class SnailMainActivity : GameMainActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
-    protected var document: SnailDocument? = null
+    protected lateinit var document: SnailDocument
     override fun doc() = document
 
     @Click
@@ -27,15 +26,15 @@ class SnailMainActivity : GameMainActivity<SnailGame?, SnailDocument?, SnailGame
 }
 
 @EActivity(R.layout.activity_game_options)
-class SnailOptionsActivity : GameOptionsActivity<SnailGame?, SnailDocument?, SnailGameMove?, SnailGameState?>() {
+class SnailOptionsActivity : GameOptionsActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
-    protected var document: SnailDocument? = null
+    protected lateinit var document: SnailDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class SnailHelpActivity : GameHelpActivity<SnailGame?, SnailDocument?, SnailGameMove?, SnailGameState?>() {
+class SnailHelpActivity : GameHelpActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
-    protected var document: SnailDocument? = null
+    protected lateinit var document: SnailDocument
     override fun doc() = document
 }

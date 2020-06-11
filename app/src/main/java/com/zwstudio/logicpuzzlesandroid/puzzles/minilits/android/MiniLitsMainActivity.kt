@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class MiniLitsMainActivity : GameMainActivity<MiniLitsGame?, MiniLitsDocument?, MiniLitsGameMove?, MiniLitsGameState?>() {
+class MiniLitsMainActivity : GameMainActivity<MiniLitsGame, MiniLitsDocument, MiniLitsGameMove, MiniLitsGameState>() {
     @Bean
-    protected var document: MiniLitsDocument? = null
+    protected lateinit var document: MiniLitsDocument
     override fun doc() = document
 
     @Click
@@ -32,15 +32,15 @@ class MiniLitsMainActivity : GameMainActivity<MiniLitsGame?, MiniLitsDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class MiniLitsOptionsActivity : GameOptionsActivity<MiniLitsGame?, MiniLitsDocument?, MiniLitsGameMove?, MiniLitsGameState?>() {
+class MiniLitsOptionsActivity : GameOptionsActivity<MiniLitsGame, MiniLitsDocument, MiniLitsGameMove, MiniLitsGameState>() {
     @Bean
-    protected var document: MiniLitsDocument? = null
+    protected lateinit var document: MiniLitsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class MiniLitsHelpActivity : GameHelpActivity<MiniLitsGame?, MiniLitsDocument?, MiniLitsGameMove?, MiniLitsGameState?>() {
+class MiniLitsHelpActivity : GameHelpActivity<MiniLitsGame, MiniLitsDocument, MiniLitsGameMove, MiniLitsGameState>() {
     @Bean
-    protected var document: MiniLitsDocument? = null
+    protected lateinit var document: MiniLitsDocument
     override fun doc() = document
 }

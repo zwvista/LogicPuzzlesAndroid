@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class MineShipsGameActivity : GameGameActivity<MineShipsGame?, MineShipsDocument?, MineShipsGameMove?, MineShipsGameState?>() {
+class MineShipsGameActivity : GameGameActivity<MineShipsGame, MineShipsDocument, MineShipsGameMove, MineShipsGameState>() {
     @Bean
-    protected var document: MineShipsDocument? = null
+    protected var document: MineShipsDocument = null
     override fun doc() = document
 
-    protected var gameView: MineShipsGameView? = null
+    protected var gameView: MineShipsGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = MineShipsGameView(this)
+        gameView2 = MineShipsGameView(this)
         super.init()
     }
 

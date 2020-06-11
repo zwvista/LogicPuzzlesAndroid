@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class CalcudokuMainActivity : GameMainActivity<CalcudokuGame?, CalcudokuDocument?, CalcudokuGameMove?, CalcudokuGameState?>() {
-    @kotlin.jvm.JvmField
+class CalcudokuMainActivity : GameMainActivity<CalcudokuGame, CalcudokuDocument, CalcudokuGameMove, CalcudokuGameState>() {
     @Bean
-    protected var document: CalcudokuDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CalcudokuDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class CalcudokuMainActivity : GameMainActivity<CalcudokuGame?, CalcudokuDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class CalcudokuOptionsActivity : GameOptionsActivity<CalcudokuGame?, CalcudokuDocument?, CalcudokuGameMove?, CalcudokuGameState?>() {
-    @kotlin.jvm.JvmField
+class CalcudokuOptionsActivity : GameOptionsActivity<CalcudokuGame, CalcudokuDocument, CalcudokuGameMove, CalcudokuGameState>() {
     @Bean
-    protected var document: CalcudokuDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CalcudokuDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class CalcudokuHelpActivity : GameHelpActivity<CalcudokuGame?, CalcudokuDocument?, CalcudokuGameMove?, CalcudokuGameState?>() {
-    @kotlin.jvm.JvmField
+class CalcudokuHelpActivity : GameHelpActivity<CalcudokuGame, CalcudokuDocument, CalcudokuGameMove, CalcudokuGameState>() {
     @Bean
-    protected var document: CalcudokuDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CalcudokuDocument
+    override fun doc() = document
 }

@@ -7,11 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers.domain.SkyscrapersGa
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class SkyscrapersMainActivity : GameMainActivity<SkyscrapersGame?, SkyscrapersDocument?, SkyscrapersGameMove?, SkyscrapersGameState?>() {
+class SkyscrapersMainActivity : GameMainActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState>() {
     @Bean
-    protected var document: SkyscrapersDocument? = null
+    protected lateinit var document: SkyscrapersDocument
     override fun doc() = document
 
     @Click
@@ -26,17 +25,17 @@ class SkyscrapersMainActivity : GameMainActivity<SkyscrapersGame?, SkyscrapersDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class SkyscrapersOptionsActivity : GameOptionsActivity<SkyscrapersGame?, SkyscrapersDocument?, SkyscrapersGameMove?, SkyscrapersGameState?>() {
+class SkyscrapersOptionsActivity : GameOptionsActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState>() {
     @Bean
-    protected var document: SkyscrapersDocument? = null
+    protected lateinit var document: SkyscrapersDocument
     override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class SkyscrapersHelpActivity : GameHelpActivity<SkyscrapersGame?, SkyscrapersDocument?, SkyscrapersGameMove?, SkyscrapersGameState?>() {
+class SkyscrapersHelpActivity : GameHelpActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState>() {
     @Bean
-    protected var document: SkyscrapersDocument? = null
+    protected lateinit var document: SkyscrapersDocument
     override fun doc() = document
 }

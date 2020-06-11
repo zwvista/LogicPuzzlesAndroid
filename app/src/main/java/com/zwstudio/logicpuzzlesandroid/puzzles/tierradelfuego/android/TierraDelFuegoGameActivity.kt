@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class TierraDelFuegoGameActivity : GameGameActivity<TierraDelFuegoGame?, TierraDelFuegoDocument?, TierraDelFuegoGameMove?, TierraDelFuegoGameState?>() {
+class TierraDelFuegoGameActivity : GameGameActivity<TierraDelFuegoGame, TierraDelFuegoDocument, TierraDelFuegoGameMove, TierraDelFuegoGameState>() {
     @Bean
-    protected var document: TierraDelFuegoDocument? = null
+    protected var document: TierraDelFuegoDocument = null
     override fun doc() = document
 
-    protected var gameView: TierraDelFuegoGameView? = null
+    protected var gameView: TierraDelFuegoGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = TierraDelFuegoGameView(this)
+        gameView2 = TierraDelFuegoGameView(this)
         super.init()
     }
 

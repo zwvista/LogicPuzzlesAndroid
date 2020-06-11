@@ -7,11 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.parks.domain.ParksGame
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class ParksMainActivity : GameMainActivity<ParksGame?, ParksDocument?, ParksGameMove?, ParksGameState?>() {
+class ParksMainActivity : GameMainActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState>() {
     @Bean
-    protected var document: ParksDocument? = null
+    protected lateinit var document: ParksDocument
     override fun doc() = document
 
     @Click
@@ -26,15 +25,15 @@ class ParksMainActivity : GameMainActivity<ParksGame?, ParksDocument?, ParksGame
 }
 
 @EActivity(R.layout.activity_game_options)
-class ParksOptionsActivity : GameOptionsActivity<ParksGame?, ParksDocument?, ParksGameMove?, ParksGameState?>() {
+class ParksOptionsActivity : GameOptionsActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState>() {
     @Bean
-    protected var document: ParksDocument? = null
+    protected lateinit var document: ParksDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class ParksHelpActivity : GameHelpActivity<ParksGame?, ParksDocument?, ParksGameMove?, ParksGameState?>() {
+class ParksHelpActivity : GameHelpActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState>() {
     @Bean
-    protected var document: ParksDocument? = null
+    protected lateinit var document: ParksDocument
     override fun doc() = document
 }

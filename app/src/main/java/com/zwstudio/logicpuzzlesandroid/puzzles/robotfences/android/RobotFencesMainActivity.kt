@@ -6,11 +6,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGa
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class RobotFencesMainActivity : GameMainActivity<RobotFencesGame?, RobotFencesDocument?, RobotFencesGameMove?, RobotFencesGameState?>() {
+class RobotFencesMainActivity : GameMainActivity<RobotFencesGame, RobotFencesDocument, RobotFencesGameMove, RobotFencesGameState>() {
     @Bean
-    protected var document: RobotFencesDocument? = null
+    protected lateinit var document: RobotFencesDocument
     override fun doc() = document
 
     @Click
@@ -25,15 +24,15 @@ class RobotFencesMainActivity : GameMainActivity<RobotFencesGame?, RobotFencesDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class RobotFencesOptionsActivity : GameOptionsActivity<RobotFencesGame?, RobotFencesDocument?, RobotFencesGameMove?, RobotFencesGameState?>() {
+class RobotFencesOptionsActivity : GameOptionsActivity<RobotFencesGame, RobotFencesDocument, RobotFencesGameMove, RobotFencesGameState>() {
     @Bean
-    protected var document: RobotFencesDocument? = null
+    protected lateinit var document: RobotFencesDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class RobotFencesHelpActivity : GameHelpActivity<RobotFencesGame?, RobotFencesDocument?, RobotFencesGameMove?, RobotFencesGameState?>() {
+class RobotFencesHelpActivity : GameHelpActivity<RobotFencesGame, RobotFencesDocument, RobotFencesGameMove, RobotFencesGameState>() {
     @Bean
-    protected var document: RobotFencesDocument? = null
+    protected lateinit var document: RobotFencesDocument
     override fun doc() = document
 }

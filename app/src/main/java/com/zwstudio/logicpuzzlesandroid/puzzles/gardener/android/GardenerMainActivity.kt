@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class GardenerMainActivity : GameMainActivity<GardenerGame?, GardenerDocument?, GardenerGameMove?, GardenerGameState?>() {
-    @kotlin.jvm.JvmField
+class GardenerMainActivity : GameMainActivity<GardenerGame, GardenerDocument, GardenerGameMove, GardenerGameState>() {
     @Bean
-    protected var document: GardenerDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: GardenerDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class GardenerMainActivity : GameMainActivity<GardenerGame?, GardenerDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class GardenerOptionsActivity : GameOptionsActivity<GardenerGame?, GardenerDocument?, GardenerGameMove?, GardenerGameState?>() {
-    @kotlin.jvm.JvmField
+class GardenerOptionsActivity : GameOptionsActivity<GardenerGame, GardenerDocument, GardenerGameMove, GardenerGameState>() {
     @Bean
-    protected var document: GardenerDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: GardenerDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class GardenerHelpActivity : GameHelpActivity<GardenerGame?, GardenerDocument?, GardenerGameMove?, GardenerGameState?>() {
-    @kotlin.jvm.JvmField
+class GardenerHelpActivity : GameHelpActivity<GardenerGame, GardenerDocument, GardenerGameMove, GardenerGameState>() {
     @Bean
-    protected var document: GardenerDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: GardenerDocument
+    override fun doc() = document
 }

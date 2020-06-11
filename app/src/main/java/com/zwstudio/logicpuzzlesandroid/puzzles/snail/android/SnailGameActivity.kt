@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class SnailGameActivity : GameGameActivity<SnailGame?, SnailDocument?, SnailGameMove?, SnailGameState?>() {
+class SnailGameActivity : GameGameActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
-    protected var document: SnailDocument? = null
+    protected var document: SnailDocument = null
     override fun doc() = document
 
-    protected var gameView: SnailGameView? = null
+    protected var gameView: SnailGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = SnailGameView(this)
+        gameView2 = SnailGameView(this)
         super.init()
     }
 

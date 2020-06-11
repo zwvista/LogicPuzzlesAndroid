@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class PairakabeMainActivity : GameMainActivity<PairakabeGame?, PairakabeDocument?, PairakabeGameMove?, PairakabeGameState?>() {
+class PairakabeMainActivity : GameMainActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
     @Bean
-    protected var document: PairakabeDocument? = null
+    protected lateinit var document: PairakabeDocument
     override fun doc() = document
 
     @Click
@@ -32,15 +32,15 @@ class PairakabeMainActivity : GameMainActivity<PairakabeGame?, PairakabeDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class PairakabeOptionsActivity : GameOptionsActivity<PairakabeGame?, PairakabeDocument?, PairakabeGameMove?, PairakabeGameState?>() {
+class PairakabeOptionsActivity : GameOptionsActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
     @Bean
-    protected var document: PairakabeDocument? = null
+    protected lateinit var document: PairakabeDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class PairakabeHelpActivity : GameHelpActivity<PairakabeGame?, PairakabeDocument?, PairakabeGameMove?, PairakabeGameState?>() {
+class PairakabeHelpActivity : GameHelpActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
     @Bean
-    protected var document: PairakabeDocument? = null
+    protected lateinit var document: PairakabeDocument
     override fun doc() = document
 }

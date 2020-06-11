@@ -7,11 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands.domain.TapaIslandsGa
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TapaIslandsMainActivity : GameMainActivity<TapaIslandsGame?, TapaIslandsDocument?, TapaIslandsGameMove?, TapaIslandsGameState?>() {
+class TapaIslandsMainActivity : GameMainActivity<TapaIslandsGame, TapaIslandsDocument, TapaIslandsGameMove, TapaIslandsGameState>() {
     @Bean
-    protected var document: TapaIslandsDocument? = null
+    protected lateinit var document: TapaIslandsDocument
     override fun doc() = document
 
     @Click
@@ -26,15 +25,15 @@ class TapaIslandsMainActivity : GameMainActivity<TapaIslandsGame?, TapaIslandsDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class TapaIslandsOptionsActivity : GameOptionsActivity<TapaIslandsGame?, TapaIslandsDocument?, TapaIslandsGameMove?, TapaIslandsGameState?>() {
+class TapaIslandsOptionsActivity : GameOptionsActivity<TapaIslandsGame, TapaIslandsDocument, TapaIslandsGameMove, TapaIslandsGameState>() {
     @Bean
-    protected var document: TapaIslandsDocument? = null
+    protected lateinit var document: TapaIslandsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TapaIslandsHelpActivity : GameHelpActivity<TapaIslandsGame?, TapaIslandsDocument?, TapaIslandsGameMove?, TapaIslandsGameState?>() {
+class TapaIslandsHelpActivity : GameHelpActivity<TapaIslandsGame, TapaIslandsDocument, TapaIslandsGameMove, TapaIslandsGameState>() {
     @Bean
-    protected var document: TapaIslandsDocument? = null
+    protected lateinit var document: TapaIslandsDocument
     override fun doc() = document
 }

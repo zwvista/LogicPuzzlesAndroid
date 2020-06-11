@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class PataGameActivity : GameGameActivity<PataGame?, PataDocument?, PataGameMove?, PataGameState?>() {
+class PataGameActivity : GameGameActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
     @Bean
-    protected var document: PataDocument? = null
+    protected var document: PataDocument = null
     override fun doc() = document
 
-    protected var gameView: PataGameView? = null
+    protected var gameView: PataGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = PataGameView(this)
+        gameView2 = PataGameView(this)
         super.init()
     }
 

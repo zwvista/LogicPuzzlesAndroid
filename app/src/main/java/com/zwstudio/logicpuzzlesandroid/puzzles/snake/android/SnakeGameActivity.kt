@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class SnakeGameActivity : GameGameActivity<SnakeGame?, SnakeDocument?, SnakeGameMove?, SnakeGameState?>() {
+class SnakeGameActivity : GameGameActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
     @Bean
-    protected var document: SnakeDocument? = null
+    protected var document: SnakeDocument = null
     override fun doc() = document
 
-    protected var gameView: SnakeGameView? = null
+    protected var gameView: SnakeGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = SnakeGameView(this)
+        gameView2 = SnakeGameView(this)
         super.init()
     }
 

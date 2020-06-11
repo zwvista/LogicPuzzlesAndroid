@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class KakurasuMainActivity : GameMainActivity<KakurasuGame?, KakurasuDocument?, KakurasuGameMove?, KakurasuGameState?>() {
-    @kotlin.jvm.JvmField
+class KakurasuMainActivity : GameMainActivity<KakurasuGame, KakurasuDocument, KakurasuGameMove, KakurasuGameState>() {
     @Bean
-    protected var document: KakurasuDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KakurasuDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class KakurasuMainActivity : GameMainActivity<KakurasuGame?, KakurasuDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class KakurasuOptionsActivity : GameOptionsActivity<KakurasuGame?, KakurasuDocument?, KakurasuGameMove?, KakurasuGameState?>() {
-    @kotlin.jvm.JvmField
+class KakurasuOptionsActivity : GameOptionsActivity<KakurasuGame, KakurasuDocument, KakurasuGameMove, KakurasuGameState>() {
     @Bean
-    protected var document: KakurasuDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KakurasuDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class KakurasuHelpActivity : GameHelpActivity<KakurasuGame?, KakurasuDocument?, KakurasuGameMove?, KakurasuGameState?>() {
-    @kotlin.jvm.JvmField
+class KakurasuHelpActivity : GameHelpActivity<KakurasuGame, KakurasuDocument, KakurasuGameMove, KakurasuGameState>() {
     @Bean
-    protected var document: KakurasuDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KakurasuDocument
+    override fun doc() = document
 }

@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class MineShipsMainActivity : GameMainActivity<MineShipsGame?, MineShipsDocument?, MineShipsGameMove?, MineShipsGameState?>() {
+class MineShipsMainActivity : GameMainActivity<MineShipsGame, MineShipsDocument, MineShipsGameMove, MineShipsGameState>() {
     @Bean
-    protected var document: MineShipsDocument? = null
+    protected lateinit var document: MineShipsDocument
     override fun doc() = document
 
     @Click
@@ -32,15 +32,15 @@ class MineShipsMainActivity : GameMainActivity<MineShipsGame?, MineShipsDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class MineShipsOptionsActivity : GameOptionsActivity<MineShipsGame?, MineShipsDocument?, MineShipsGameMove?, MineShipsGameState?>() {
+class MineShipsOptionsActivity : GameOptionsActivity<MineShipsGame, MineShipsDocument, MineShipsGameMove, MineShipsGameState>() {
     @Bean
-    protected var document: MineShipsDocument? = null
+    protected lateinit var document: MineShipsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class MineShipsHelpActivity : GameHelpActivity<MineShipsGame?, MineShipsDocument?, MineShipsGameMove?, MineShipsGameState?>() {
+class MineShipsHelpActivity : GameHelpActivity<MineShipsGame, MineShipsDocument, MineShipsGameMove, MineShipsGameState>() {
     @Bean
-    protected var document: MineShipsDocument? = null
+    protected lateinit var document: MineShipsDocument
     override fun doc() = document
 }

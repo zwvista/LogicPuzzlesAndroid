@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class FutoshikiMainActivity : GameMainActivity<FutoshikiGame?, FutoshikiDocument?, FutoshikiGameMove?, FutoshikiGameState?>() {
-    @kotlin.jvm.JvmField
+class FutoshikiMainActivity : GameMainActivity<FutoshikiGame, FutoshikiDocument, FutoshikiGameMove, FutoshikiGameState>() {
     @Bean
-    protected var document: FutoshikiDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FutoshikiDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class FutoshikiMainActivity : GameMainActivity<FutoshikiGame?, FutoshikiDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class FutoshikiOptionsActivity : GameOptionsActivity<FutoshikiGame?, FutoshikiDocument?, FutoshikiGameMove?, FutoshikiGameState?>() {
-    @kotlin.jvm.JvmField
+class FutoshikiOptionsActivity : GameOptionsActivity<FutoshikiGame, FutoshikiDocument, FutoshikiGameMove, FutoshikiGameState>() {
     @Bean
-    protected var document: FutoshikiDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FutoshikiDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class FutoshikiHelpActivity : GameHelpActivity<FutoshikiGame?, FutoshikiDocument?, FutoshikiGameMove?, FutoshikiGameState?>() {
-    @kotlin.jvm.JvmField
+class FutoshikiHelpActivity : GameHelpActivity<FutoshikiGame, FutoshikiDocument, FutoshikiGameMove, FutoshikiGameState>() {
     @Bean
-    protected var document: FutoshikiDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FutoshikiDocument
+    override fun doc() = document
 }

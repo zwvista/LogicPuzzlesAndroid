@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class TennerGridGameActivity : GameGameActivity<TennerGridGame?, TennerGridDocument?, TennerGridGameMove?, TennerGridGameState?>() {
+class TennerGridGameActivity : GameGameActivity<TennerGridGame, TennerGridDocument, TennerGridGameMove, TennerGridGameState>() {
     @Bean
-    protected var document: TennerGridDocument? = null
+    protected var document: TennerGridDocument = null
     override fun doc() = document
 
-    protected var gameView: TennerGridGameView? = null
+    protected var gameView: TennerGridGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = TennerGridGameView(this)
+        gameView2 = TennerGridGameView(this)
         super.init()
     }
 

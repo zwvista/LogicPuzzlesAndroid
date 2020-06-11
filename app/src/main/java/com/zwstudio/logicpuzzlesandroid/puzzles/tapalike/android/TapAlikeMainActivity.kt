@@ -9,11 +9,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapalike.domain.TapAlikeGameStat
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TapAlikeMainActivity : GameMainActivity<TapAlikeGame?, TapAlikeDocument?, TapAlikeGameMove?, TapAlikeGameState?>() {
+class TapAlikeMainActivity : GameMainActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
     @Bean
-    protected var document: TapAlikeDocument? = null
+    protected lateinit var document: TapAlikeDocument
     override fun doc() = document
 
     @Click
@@ -28,15 +27,15 @@ class TapAlikeMainActivity : GameMainActivity<TapAlikeGame?, TapAlikeDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class TapAlikeOptionsActivity : GameOptionsActivity<TapAlikeGame?, TapAlikeDocument?, TapAlikeGameMove?, TapAlikeGameState?>() {
+class TapAlikeOptionsActivity : GameOptionsActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
     @Bean
-    protected var document: TapAlikeDocument? = null
+    protected lateinit var document: TapAlikeDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TapAlikeHelpActivity : GameHelpActivity<TapAlikeGame?, TapAlikeDocument?, TapAlikeGameMove?, TapAlikeGameState?>() {
+class TapAlikeHelpActivity : GameHelpActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
     @Bean
-    protected var document: TapAlikeDocument? = null
+    protected lateinit var document: TapAlikeDocument
     override fun doc() = document
 }

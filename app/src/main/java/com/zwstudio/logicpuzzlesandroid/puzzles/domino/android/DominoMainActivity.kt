@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class DominoMainActivity : GameMainActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
-    @kotlin.jvm.JvmField
+class DominoMainActivity : GameMainActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
     @Bean
-    protected var document: DominoDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DominoDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class DominoMainActivity : GameMainActivity<DominoGame?, DominoDocument?, Domino
 }
 
 @EActivity(R.layout.activity_game_options)
-class DominoOptionsActivity : GameOptionsActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
-    @kotlin.jvm.JvmField
+class DominoOptionsActivity : GameOptionsActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
     @Bean
-    protected var document: DominoDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DominoDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class DominoHelpActivity : GameHelpActivity<DominoGame?, DominoDocument?, DominoGameMove?, DominoGameState?>() {
-    @kotlin.jvm.JvmField
+class DominoHelpActivity : GameHelpActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
     @Bean
-    protected var document: DominoDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DominoDocument
+    override fun doc() = document
 }

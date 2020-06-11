@@ -14,11 +14,10 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TierraDelFuegoMainActivity : GameMainActivity<TierraDelFuegoGame?, TierraDelFuegoDocument?, TierraDelFuegoGameMove?, TierraDelFuegoGameState?>() {
+class TierraDelFuegoMainActivity : GameMainActivity<TierraDelFuegoGame, TierraDelFuegoDocument, TierraDelFuegoGameMove, TierraDelFuegoGameState>() {
     @Bean
-    protected var document: TierraDelFuegoDocument? = null
+    protected lateinit var document: TierraDelFuegoDocument
     override fun doc() = document
 
     @Click
@@ -33,15 +32,15 @@ class TierraDelFuegoMainActivity : GameMainActivity<TierraDelFuegoGame?, TierraD
 }
 
 @EActivity(R.layout.activity_game_options)
-class TierraDelFuegoOptionsActivity : GameOptionsActivity<TierraDelFuegoGame?, TierraDelFuegoDocument?, TierraDelFuegoGameMove?, TierraDelFuegoGameState?>() {
+class TierraDelFuegoOptionsActivity : GameOptionsActivity<TierraDelFuegoGame, TierraDelFuegoDocument, TierraDelFuegoGameMove, TierraDelFuegoGameState>() {
     @Bean
-    protected var document: TierraDelFuegoDocument? = null
+    protected lateinit var document: TierraDelFuegoDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TierraDelFuegoHelpActivity : GameHelpActivity<TierraDelFuegoGame?, TierraDelFuegoDocument?, TierraDelFuegoGameMove?, TierraDelFuegoGameState?>() {
+class TierraDelFuegoHelpActivity : GameHelpActivity<TierraDelFuegoGame, TierraDelFuegoDocument, TierraDelFuegoGameMove, TierraDelFuegoGameState>() {
     @Bean
-    protected var document: TierraDelFuegoDocument? = null
+    protected lateinit var document: TierraDelFuegoDocument
     override fun doc() = document
 }

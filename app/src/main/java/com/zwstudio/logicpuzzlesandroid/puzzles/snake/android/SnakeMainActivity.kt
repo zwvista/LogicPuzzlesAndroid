@@ -10,11 +10,10 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class SnakeMainActivity : GameMainActivity<SnakeGame?, SnakeDocument?, SnakeGameMove?, SnakeGameState?>() {
+class SnakeMainActivity : GameMainActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
     @Bean
-    protected var document: SnakeDocument? = null
+    protected lateinit var document: SnakeDocument
     override fun doc() = document
 
     @Click
@@ -29,15 +28,15 @@ class SnakeMainActivity : GameMainActivity<SnakeGame?, SnakeDocument?, SnakeGame
 }
 
 @EActivity(R.layout.activity_game_options)
-class SnakeOptionsActivity : GameOptionsActivity<SnakeGame?, SnakeDocument?, SnakeGameMove?, SnakeGameState?>() {
+class SnakeOptionsActivity : GameOptionsActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
     @Bean
-    protected var document: SnakeDocument? = null
+    protected lateinit var document: SnakeDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class SnakeHelpActivity : GameHelpActivity<SnakeGame?, SnakeDocument?, SnakeGameMove?, SnakeGameState?>() {
+class SnakeHelpActivity : GameHelpActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
     @Bean
-    protected var document: SnakeDocument? = null
+    protected lateinit var document: SnakeDocument
     override fun doc() = document
 }

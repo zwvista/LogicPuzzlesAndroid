@@ -13,10 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class RippleEffectMainActivity : GameMainActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
+class RippleEffectMainActivity : GameMainActivity<RippleEffectGame, RippleEffectDocument, RippleEffectGameMove, RippleEffectGameState>() {
     @Bean
-    protected var document: RippleEffectDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: RippleEffectDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -30,15 +30,15 @@ class RippleEffectMainActivity : GameMainActivity<RippleEffectGame?, RippleEffec
 }
 
 @EActivity(R.layout.activity_game_options)
-class RippleEffectOptionsActivity : GameOptionsActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
+class RippleEffectOptionsActivity : GameOptionsActivity<RippleEffectGame, RippleEffectDocument, RippleEffectGameMove, RippleEffectGameState>() {
     @Bean
-    protected var document: RippleEffectDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: RippleEffectDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class RippleEffectHelpActivity : GameHelpActivity<RippleEffectGame?, RippleEffectDocument?, RippleEffectGameMove?, RippleEffectGameState?>() {
+class RippleEffectHelpActivity : GameHelpActivity<RippleEffectGame, RippleEffectDocument, RippleEffectGameMove, RippleEffectGameState>() {
     @Bean
-    protected var document: RippleEffectDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: RippleEffectDocument
+    override fun doc() = document
 }

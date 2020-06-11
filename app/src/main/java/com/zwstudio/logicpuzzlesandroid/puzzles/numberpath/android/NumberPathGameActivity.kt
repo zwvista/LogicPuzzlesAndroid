@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class NumberPathGameActivity : GameGameActivity<NumberPathGame?, NumberPathDocument?, NumberPathGameMove?, NumberPathGameState?>() {
+class NumberPathGameActivity : GameGameActivity<NumberPathGame, NumberPathDocument, NumberPathGameMove, NumberPathGameState>() {
     @Bean
-    protected var document: NumberPathDocument? = null
+    protected var document: NumberPathDocument = null
     override fun doc() = document
 
-    protected var gameView: NumberPathGameView? = null
+    protected var gameView: NumberPathGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = NumberPathGameView(this)
+        gameView2 = NumberPathGameView(this)
         super.init()
     }
 

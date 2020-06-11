@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class MinesweeperGameActivity : GameGameActivity<MinesweeperGame?, MinesweeperDocument?, MinesweeperGameMove?, MinesweeperGameState?>() {
+class MinesweeperGameActivity : GameGameActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
     @Bean
-    protected var document: MinesweeperDocument? = null
+    protected var document: MinesweeperDocument = null
     override fun doc() = document
 
-    protected var gameView: MinesweeperGameView? = null
+    protected var gameView: MinesweeperGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = MinesweeperGameView(this)
+        gameView2 = MinesweeperGameView(this)
         super.init()
     }
 

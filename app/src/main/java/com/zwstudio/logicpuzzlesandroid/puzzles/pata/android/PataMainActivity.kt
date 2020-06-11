@@ -8,11 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.pata.domain.PataGameMove
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class PataMainActivity : GameMainActivity<PataGame?, PataDocument?, PataGameMove?, PataGameState?>() {
+class PataMainActivity : GameMainActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
     @Bean
-    protected var document: PataDocument? = null
+    protected lateinit var document: PataDocument
     override fun doc() = document
 
     @Click
@@ -27,15 +26,15 @@ class PataMainActivity : GameMainActivity<PataGame?, PataDocument?, PataGameMove
 }
 
 @EActivity(R.layout.activity_game_options)
-class PataOptionsActivity : GameOptionsActivity<PataGame?, PataDocument?, PataGameMove?, PataGameState?>() {
+class PataOptionsActivity : GameOptionsActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
     @Bean
-    protected var document: PataDocument? = null
+    protected lateinit var document: PataDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class PataHelpActivity : GameHelpActivity<PataGame?, PataDocument?, PataGameMove?, PataGameState?>() {
+class PataHelpActivity : GameHelpActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
     @Bean
-    protected var document: PataDocument? = null
+    protected lateinit var document: PataDocument
     override fun doc() = document
 }

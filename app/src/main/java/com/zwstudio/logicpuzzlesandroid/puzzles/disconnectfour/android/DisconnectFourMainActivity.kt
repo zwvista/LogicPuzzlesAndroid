@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class DisconnectFourMainActivity : GameMainActivity<DisconnectFourGame?, DisconnectFourDocument?, DisconnectFourGameMove?, DisconnectFourGameState?>() {
-    @kotlin.jvm.JvmField
+class DisconnectFourMainActivity : GameMainActivity<DisconnectFourGame, DisconnectFourDocument, DisconnectFourGameMove, DisconnectFourGameState>() {
     @Bean
-    protected var document: DisconnectFourDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DisconnectFourDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class DisconnectFourMainActivity : GameMainActivity<DisconnectFourGame?, Disconn
 }
 
 @EActivity(R.layout.activity_game_options)
-class DisconnectFourOptionsActivity : GameOptionsActivity<DisconnectFourGame?, DisconnectFourDocument?, DisconnectFourGameMove?, DisconnectFourGameState?>() {
-    @kotlin.jvm.JvmField
+class DisconnectFourOptionsActivity : GameOptionsActivity<DisconnectFourGame, DisconnectFourDocument, DisconnectFourGameMove, DisconnectFourGameState>() {
     @Bean
-    protected var document: DisconnectFourDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DisconnectFourDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class DisconnectFourHelpActivity : GameHelpActivity<DisconnectFourGame?, DisconnectFourDocument?, DisconnectFourGameMove?, DisconnectFourGameState?>() {
-    @kotlin.jvm.JvmField
+class DisconnectFourHelpActivity : GameHelpActivity<DisconnectFourGame, DisconnectFourDocument, DisconnectFourGameMove, DisconnectFourGameState>() {
     @Bean
-    protected var document: DisconnectFourDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DisconnectFourDocument
+    override fun doc() = document
 }

@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class OverUnderGameActivity : GameGameActivity<OverUnderGame?, OverUnderDocument?, OverUnderGameMove?, OverUnderGameState?>() {
+class OverUnderGameActivity : GameGameActivity<OverUnderGame, OverUnderDocument, OverUnderGameMove, OverUnderGameState>() {
     @Bean
-    protected var document: OverUnderDocument? = null
+    protected var document: OverUnderDocument = null
     override fun doc() = document
 
-    protected var gameView: OverUnderGameView? = null
+    protected var gameView: OverUnderGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = OverUnderGameView(this)
+        gameView2 = OverUnderGameView(this)
         super.init()
     }
 

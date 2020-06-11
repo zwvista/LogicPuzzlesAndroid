@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class BWTapaMainActivity : GameMainActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
-    @kotlin.jvm.JvmField
+class BWTapaMainActivity : GameMainActivity<BWTapaGame, BWTapaDocument, BWTapaGameMove, BWTapaGameState>() {
     @Bean
-    protected var document: BWTapaDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BWTapaDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class BWTapaMainActivity : GameMainActivity<BWTapaGame?, BWTapaDocument?, BWTapa
 }
 
 @EActivity(R.layout.activity_game_options)
-class BWTapaOptionsActivity : GameOptionsActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
-    @kotlin.jvm.JvmField
+class BWTapaOptionsActivity : GameOptionsActivity<BWTapaGame, BWTapaDocument, BWTapaGameMove, BWTapaGameState>() {
     @Bean
-    protected var document: BWTapaDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BWTapaDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class BWTapaHelpActivity : GameHelpActivity<BWTapaGame?, BWTapaDocument?, BWTapaGameMove?, BWTapaGameState?>() {
-    @kotlin.jvm.JvmField
+class BWTapaHelpActivity : GameHelpActivity<BWTapaGame, BWTapaDocument, BWTapaGameMove, BWTapaGameState>() {
     @Bean
-    protected var document: BWTapaDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BWTapaDocument
+    override fun doc() = document
 }

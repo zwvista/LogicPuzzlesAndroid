@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class LineSweeperMainActivity : GameMainActivity<LineSweeperGame?, LineSweeperDocument?, LineSweeperGameMove?, LineSweeperGameState?>() {
-    @kotlin.jvm.JvmField
+class LineSweeperMainActivity : GameMainActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState>() {
     @Bean
-    protected var document: LineSweeperDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LineSweeperDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,19 +30,17 @@ class LineSweeperMainActivity : GameMainActivity<LineSweeperGame?, LineSweeperDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class LineSweeperOptionsActivity : GameOptionsActivity<LineSweeperGame?, LineSweeperDocument?, LineSweeperGameMove?, LineSweeperGameState?>() {
-    @kotlin.jvm.JvmField
+class LineSweeperOptionsActivity : GameOptionsActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState>() {
     @Bean
-    protected var document: LineSweeperDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LineSweeperDocument
+    override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class LineSweeperHelpActivity : GameHelpActivity<LineSweeperGame?, LineSweeperDocument?, LineSweeperGameMove?, LineSweeperGameState?>() {
-    @kotlin.jvm.JvmField
+class LineSweeperHelpActivity : GameHelpActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState>() {
     @Bean
-    protected var document: LineSweeperDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LineSweeperDocument
+    override fun doc() = document
 }

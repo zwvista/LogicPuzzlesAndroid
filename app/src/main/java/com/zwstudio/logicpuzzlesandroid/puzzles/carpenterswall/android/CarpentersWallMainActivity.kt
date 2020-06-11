@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class CarpentersWallMainActivity : GameMainActivity<CarpentersWallGame?, CarpentersWallDocument?, CarpentersWallGameMove?, CarpentersWallGameState?>() {
-    @kotlin.jvm.JvmField
+class CarpentersWallMainActivity : GameMainActivity<CarpentersWallGame, CarpentersWallDocument, CarpentersWallGameMove, CarpentersWallGameState>() {
     @Bean
-    protected var document: CarpentersWallDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CarpentersWallDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class CarpentersWallMainActivity : GameMainActivity<CarpentersWallGame?, Carpent
 }
 
 @EActivity(R.layout.activity_game_options)
-class CarpentersWallOptionsActivity : GameOptionsActivity<CarpentersWallGame?, CarpentersWallDocument?, CarpentersWallGameMove?, CarpentersWallGameState?>() {
-    @kotlin.jvm.JvmField
+class CarpentersWallOptionsActivity : GameOptionsActivity<CarpentersWallGame, CarpentersWallDocument, CarpentersWallGameMove, CarpentersWallGameState>() {
     @Bean
-    protected var document: CarpentersWallDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CarpentersWallDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class CarpentersWallHelpActivity : GameHelpActivity<CarpentersWallGame?, CarpentersWallDocument?, CarpentersWallGameMove?, CarpentersWallGameState?>() {
-    @kotlin.jvm.JvmField
+class CarpentersWallHelpActivity : GameHelpActivity<CarpentersWallGame, CarpentersWallDocument, CarpentersWallGameMove, CarpentersWallGameState>() {
     @Bean
-    protected var document: CarpentersWallDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CarpentersWallDocument
+    override fun doc() = document
 }

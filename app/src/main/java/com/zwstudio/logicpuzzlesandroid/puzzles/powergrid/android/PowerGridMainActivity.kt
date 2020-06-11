@@ -7,11 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGame
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class PowerGridMainActivity : GameMainActivity<PowerGridGame?, PowerGridDocument?, PowerGridGameMove?, PowerGridGameState?>() {
+class PowerGridMainActivity : GameMainActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState>() {
     @Bean
-    protected var document: PowerGridDocument? = null
+    protected lateinit var document: PowerGridDocument
     override fun doc() = document
 
     @Click
@@ -26,15 +25,15 @@ class PowerGridMainActivity : GameMainActivity<PowerGridGame?, PowerGridDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class PowerGridOptionsActivity : GameOptionsActivity<PowerGridGame?, PowerGridDocument?, PowerGridGameMove?, PowerGridGameState?>() {
+class PowerGridOptionsActivity : GameOptionsActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState>() {
     @Bean
-    protected var document: PowerGridDocument? = null
+    protected lateinit var document: PowerGridDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class PowerGridHelpActivity : GameHelpActivity<PowerGridGame?, PowerGridDocument?, PowerGridGameMove?, PowerGridGameState?>() {
+class PowerGridHelpActivity : GameHelpActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState>() {
     @Bean
-    protected var document: PowerGridDocument? = null
+    protected lateinit var document: PowerGridDocument
     override fun doc() = document
 }

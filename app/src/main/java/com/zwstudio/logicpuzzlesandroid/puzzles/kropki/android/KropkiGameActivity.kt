@@ -15,24 +15,23 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-class KropkiGameActivity : GameGameActivity<KropkiGame?, KropkiDocument?, KropkiGameMove?, KropkiGameState?>() {
-    @kotlin.jvm.JvmField
+class KropkiGameActivity : GameGameActivity<KropkiGame, KropkiDocument, KropkiGameMove, KropkiGameState>() {
     @Bean
-    protected var document: KropkiDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KropkiDocument
+    override fun doc() = document
 
-    protected var gameView: KropkiGameView? = null
-    override fun getGameView() = gameView!!
+    protected lateinit var gameView2: KropkiGameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     override fun init() {
-        gameView = KropkiGameView(this)
+        gameView2 = KropkiGameView(this)
         super.init()
     }
 
     override fun startGame() {
         val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[List.iterableList(doc().levels).toStream().indexOf { o: GameLevel -> o.id == selectedLevelID }.orSome(0)]
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
@@ -41,10 +40,12 @@ class KropkiGameActivity : GameGameActivity<KropkiGame?, KropkiDocument?, Kropki
             // restore game state
             for (rec in doc().moveProgress()) {
                 val move = doc().loadMove(rec)
-                game!!.setObject(move)
+                game.setObject(move)
             }
             val moveIndex = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game!!.moveCount()) while (moveIndex != game!!.moveIndex()) game!!.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

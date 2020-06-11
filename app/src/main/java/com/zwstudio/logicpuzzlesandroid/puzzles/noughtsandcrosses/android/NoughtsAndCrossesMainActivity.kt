@@ -1,7 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.androidimport
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.android.NoughtsAndCrossesGameActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.android.NoughtsAndCrossesOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses.data.NoughtsAndCrossesDocument
@@ -13,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class NoughtsAndCrossesMainActivity : GameMainActivity<NoughtsAndCrossesGame?, NoughtsAndCrossesDocument?, NoughtsAndCrossesGameMove?, NoughtsAndCrossesGameState?>() {
+class NoughtsAndCrossesMainActivity : GameMainActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
-    protected var document: NoughtsAndCrossesDocument? = null
+    protected lateinit var document: NoughtsAndCrossesDocument
     override fun doc() = document
 
     @Click
@@ -30,15 +32,15 @@ class NoughtsAndCrossesMainActivity : GameMainActivity<NoughtsAndCrossesGame?, N
 }
 
 @EActivity(R.layout.activity_game_options)
-class NoughtsAndCrossesOptionsActivity : GameOptionsActivity<NoughtsAndCrossesGame?, NoughtsAndCrossesDocument?, NoughtsAndCrossesGameMove?, NoughtsAndCrossesGameState?>() {
+class NoughtsAndCrossesOptionsActivity : GameOptionsActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
-    protected var document: NoughtsAndCrossesDocument? = null
+    protected lateinit var document: NoughtsAndCrossesDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class NoughtsAndCrossesHelpActivity : GameHelpActivity<NoughtsAndCrossesGame?, NoughtsAndCrossesDocument?, NoughtsAndCrossesGameMove?, NoughtsAndCrossesGameState?>() {
+class NoughtsAndCrossesHelpActivity : GameHelpActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
-    protected var document: NoughtsAndCrossesDocument? = null
+    protected lateinit var document: NoughtsAndCrossesDocument
     override fun doc() = document
 }

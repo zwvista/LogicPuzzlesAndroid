@@ -6,11 +6,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers.domain.SumscrapersGa
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class SumscrapersMainActivity : GameMainActivity<SumscrapersGame?, SumscrapersDocument?, SumscrapersGameMove?, SumscrapersGameState?>() {
+class SumscrapersMainActivity : GameMainActivity<SumscrapersGame, SumscrapersDocument, SumscrapersGameMove, SumscrapersGameState>() {
     @Bean
-    protected var document: SumscrapersDocument? = null
+    protected lateinit var document: SumscrapersDocument
     override fun doc() = document
 
     @Click
@@ -25,17 +24,17 @@ class SumscrapersMainActivity : GameMainActivity<SumscrapersGame?, SumscrapersDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class SumscrapersOptionsActivity : GameOptionsActivity<SumscrapersGame?, SumscrapersDocument?, SumscrapersGameMove?, SumscrapersGameState?>() {
+class SumscrapersOptionsActivity : GameOptionsActivity<SumscrapersGame, SumscrapersDocument, SumscrapersGameMove, SumscrapersGameState>() {
     @Bean
-    protected var document: SumscrapersDocument? = null
+    protected lateinit var document: SumscrapersDocument
     override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class SumscrapersHelpActivity : GameHelpActivity<SumscrapersGame?, SumscrapersDocument?, SumscrapersGameMove?, SumscrapersGameState?>() {
+class SumscrapersHelpActivity : GameHelpActivity<SumscrapersGame, SumscrapersDocument, SumscrapersGameMove, SumscrapersGameState>() {
     @Bean
-    protected var document: SumscrapersDocument? = null
+    protected lateinit var document: SumscrapersDocument
     override fun doc() = document
 }

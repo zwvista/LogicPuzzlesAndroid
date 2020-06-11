@@ -15,24 +15,24 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-open class MagnetsGameActivity : GameGameActivity<MagnetsGame?, MagnetsDocument?, MagnetsGameMove?, MagnetsGameState?>() {
+open class MagnetsGameActivity : GameGameActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @JvmField
     @Bean
-    protected var document: MagnetsDocument? = null
+    protected var document: MagnetsDocument = null
     override fun doc() = document!!
 
-    protected var gameView: MagnetsGameView? = null
-    override fun getGameView() = gameView!!
+    protected lateinit var gameView2: MagnetsGameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     override fun init() {
-        gameView = MagnetsGameView(this)
+        gameView2 = MagnetsGameView(this)
         super.init()
     }
 
     override fun startGame() {
         val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[List.iterableList(doc().levels).toStream().indexOf { o: GameLevel -> o.id == selectedLevelID }.orSome(0)]
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
@@ -41,10 +41,12 @@ open class MagnetsGameActivity : GameGameActivity<MagnetsGame?, MagnetsDocument?
             // restore game state
             for (rec in doc().moveProgress()) {
                 val move = doc().loadMove(rec)
-                game!!.setObject(move)
+                game.setObject(move)
             }
             val moveIndex = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game!!.moveCount()) while (moveIndex != game!!.moveIndex()) game!!.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

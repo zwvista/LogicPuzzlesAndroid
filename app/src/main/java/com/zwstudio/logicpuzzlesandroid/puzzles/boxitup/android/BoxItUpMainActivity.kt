@@ -17,11 +17,10 @@ import org.androidannotations.annotations.*
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
-class BoxItUpMainActivity : GameMainActivity<BoxItUpGame?, BoxItUpDocument?, BoxItUpGameMove?, BoxItUpGameState?>() {
-    @kotlin.jvm.JvmField
+class BoxItUpMainActivity : GameMainActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState>() {
     @Bean
-    protected var document: BoxItUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BoxItUpDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -35,18 +34,17 @@ class BoxItUpMainActivity : GameMainActivity<BoxItUpGame?, BoxItUpDocument?, Box
 }
 
 @EActivity(R.layout.activity_game_options)
-class BoxItUpOptionsActivity : GameOptionsActivity<BoxItUpGame?, BoxItUpDocument?, BoxItUpGameMove?, BoxItUpGameState?>() {
-    @kotlin.jvm.JvmField
+class BoxItUpOptionsActivity : GameOptionsActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState>() {
     @Bean
-    protected var document: BoxItUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BoxItUpDocument
+    override fun doc() = document
 
     @AfterViews
     override fun init() {
         val lst = lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv = v.findViewById<View>(android.R.id.text1) as TextView
@@ -91,9 +89,8 @@ class BoxItUpOptionsActivity : GameOptionsActivity<BoxItUpGame?, BoxItUpDocument
 }
 
 @EActivity(R.layout.activity_game_help)
-class BoxItUpHelpActivity : GameHelpActivity<BoxItUpGame?, BoxItUpDocument?, BoxItUpGameMove?, BoxItUpGameState?>() {
-    @kotlin.jvm.JvmField
+class BoxItUpHelpActivity : GameHelpActivity<BoxItUpGame, BoxItUpDocument, BoxItUpGameMove, BoxItUpGameState>() {
     @Bean
-    protected var document: BoxItUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BoxItUpDocument
+    override fun doc() = document
 }

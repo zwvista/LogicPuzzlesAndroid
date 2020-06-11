@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class LightBattleShipsMainActivity : GameMainActivity<LightBattleShipsGame?, LightBattleShipsDocument?, LightBattleShipsGameMove?, LightBattleShipsGameState?>() {
-    @kotlin.jvm.JvmField
+class LightBattleShipsMainActivity : GameMainActivity<LightBattleShipsGame, LightBattleShipsDocument, LightBattleShipsGameMove, LightBattleShipsGameState>() {
     @Bean
-    protected var document: LightBattleShipsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LightBattleShipsDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class LightBattleShipsMainActivity : GameMainActivity<LightBattleShipsGame?, Lig
 }
 
 @EActivity(R.layout.activity_game_options)
-class LightBattleShipsOptionsActivity : GameOptionsActivity<LightBattleShipsGame?, LightBattleShipsDocument?, LightBattleShipsGameMove?, LightBattleShipsGameState?>() {
-    @kotlin.jvm.JvmField
+class LightBattleShipsOptionsActivity : GameOptionsActivity<LightBattleShipsGame, LightBattleShipsDocument, LightBattleShipsGameMove, LightBattleShipsGameState>() {
     @Bean
-    protected var document: LightBattleShipsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LightBattleShipsDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class LightBattleShipsHelpActivity : GameHelpActivity<LightBattleShipsGame?, LightBattleShipsDocument?, LightBattleShipsGameMove?, LightBattleShipsGameState?>() {
-    @kotlin.jvm.JvmField
+class LightBattleShipsHelpActivity : GameHelpActivity<LightBattleShipsGame, LightBattleShipsDocument, LightBattleShipsGameMove, LightBattleShipsGameState>() {
     @Bean
-    protected var document: LightBattleShipsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LightBattleShipsDocument
+    override fun doc() = document
 }

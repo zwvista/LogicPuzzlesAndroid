@@ -15,24 +15,23 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-class BusySeasGameActivity : GameGameActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
-    @kotlin.jvm.JvmField
+class BusySeasGameActivity : GameGameActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState>() {
     @Bean
-    protected var document: BusySeasDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BusySeasDocument
+    override fun doc() = document
 
-    protected var gameView: BusySeasGameView? = null
-    override fun getGameView() = gameView!!
+    protected lateinit var gameView2: BusySeasGameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     override fun init() {
-        gameView = BusySeasGameView(this)
+        gameView2 = BusySeasGameView(this)
         super.init()
     }
 
     override fun startGame() {
         val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[List.iterableList(doc().levels).toStream().indexOf { o: GameLevel -> o.id == selectedLevelID }.orSome(0)]
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
@@ -41,10 +40,12 @@ class BusySeasGameActivity : GameGameActivity<BusySeasGame?, BusySeasDocument?, 
             // restore game state
             for (rec in doc().moveProgress()) {
                 val move = doc().loadMove(rec)
-                game!!.setObject(move)
+                game.setObject(move)
             }
             val moveIndex = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game!!.moveCount()) while (moveIndex != game!!.moveIndex()) game!!.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

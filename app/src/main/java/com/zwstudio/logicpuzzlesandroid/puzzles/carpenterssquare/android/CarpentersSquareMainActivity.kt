@@ -17,11 +17,10 @@ import org.androidannotations.annotations.*
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
-class CarpentersSquareMainActivity : GameMainActivity<CarpentersSquareGame?, CarpentersSquareDocument?, CarpentersSquareGameMove?, CarpentersSquareGameState?>() {
-    @kotlin.jvm.JvmField
+class CarpentersSquareMainActivity : GameMainActivity<CarpentersSquareGame, CarpentersSquareDocument, CarpentersSquareGameMove, CarpentersSquareGameState>() {
     @Bean
-    protected var document: CarpentersSquareDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CarpentersSquareDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -35,18 +34,17 @@ class CarpentersSquareMainActivity : GameMainActivity<CarpentersSquareGame?, Car
 }
 
 @EActivity(R.layout.activity_game_options)
-class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame?, CarpentersSquareDocument?, CarpentersSquareGameMove?, CarpentersSquareGameState?>() {
-    @kotlin.jvm.JvmField
+class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame, CarpentersSquareDocument, CarpentersSquareGameMove, CarpentersSquareGameState>() {
     @Bean
-    protected var document: CarpentersSquareDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CarpentersSquareDocument
+    override fun doc() = document
 
     @AfterViews
     override fun init() {
         val lst = lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv = v.findViewById<View>(android.R.id.text1) as TextView
@@ -91,9 +89,8 @@ class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame
 }
 
 @EActivity(R.layout.activity_game_help)
-class CarpentersSquareHelpActivity : GameHelpActivity<CarpentersSquareGame?, CarpentersSquareDocument?, CarpentersSquareGameMove?, CarpentersSquareGameState?>() {
-    @kotlin.jvm.JvmField
+class CarpentersSquareHelpActivity : GameHelpActivity<CarpentersSquareGame, CarpentersSquareDocument, CarpentersSquareGameMove, CarpentersSquareGameState>() {
     @Bean
-    protected var document: CarpentersSquareDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: CarpentersSquareDocument
+    override fun doc() = document
 }

@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class MathraxGameActivity : GameGameActivity<MathraxGame?, MathraxDocument?, MathraxGameMove?, MathraxGameState?>() {
+class MathraxGameActivity : GameGameActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
     @Bean
-    protected var document: MathraxDocument? = null
+    protected var document: MathraxDocument = null
     override fun doc() = document
 
-    protected var gameView: MathraxGameView? = null
+    protected var gameView: MathraxGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = MathraxGameView(this)
+        gameView2 = MathraxGameView(this)
         super.init()
     }
 

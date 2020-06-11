@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class TapDifferentlyGameActivity : GameGameActivity<TapDifferentlyGame?, TapDifferentlyDocument?, TapDifferentlyGameMove?, TapDifferentlyGameState?>() {
+class TapDifferentlyGameActivity : GameGameActivity<TapDifferentlyGame, TapDifferentlyDocument, TapDifferentlyGameMove, TapDifferentlyGameState>() {
     @Bean
-    protected var document: TapDifferentlyDocument? = null
+    protected var document: TapDifferentlyDocument = null
     override fun doc() = document
 
-    protected var gameView: TapDifferentlyGameView? = null
+    protected var gameView: TapDifferentlyGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = TapDifferentlyGameView(this)
+        gameView2 = TapDifferentlyGameView(this)
         super.init()
     }
 

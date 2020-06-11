@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class Square100GameActivity : GameGameActivity<Square100Game?, Square100Document?, Square100GameMove?, Square100GameState?>() {
+class Square100GameActivity : GameGameActivity<Square100Game, Square100Document, Square100GameMove, Square100GameState>() {
     @Bean
-    protected var document: Square100Document? = null
+    protected var document: Square100Document = null
     override fun doc() = document
 
-    protected var gameView: Square100GameView? = null
+    protected var gameView: Square100GameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = Square100GameView(this)
+        gameView2 = Square100GameView(this)
         super.init()
     }
 

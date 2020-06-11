@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class LightenUpMainActivity : GameMainActivity<LightenUpGame?, LightenUpDocument?, LightenUpGameMove?, LightenUpGameState?>() {
-    @kotlin.jvm.JvmField
+class LightenUpMainActivity : GameMainActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState>() {
     @Bean
-    protected var document: LightenUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LightenUpDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class LightenUpMainActivity : GameMainActivity<LightenUpGame?, LightenUpDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class LightenUpOptionsActivity : GameOptionsActivity<LightenUpGame?, LightenUpDocument?, LightenUpGameMove?, LightenUpGameState?>() {
-    @kotlin.jvm.JvmField
+class LightenUpOptionsActivity : GameOptionsActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState>() {
     @Bean
-    protected var document: LightenUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LightenUpDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class LightenUpHelpActivity : GameHelpActivity<LightenUpGame?, LightenUpDocument?, LightenUpGameMove?, LightenUpGameState?>() {
-    @kotlin.jvm.JvmField
+class LightenUpHelpActivity : GameHelpActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState>() {
     @Bean
-    protected var document: LightenUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LightenUpDocument
+    override fun doc() = document
 }

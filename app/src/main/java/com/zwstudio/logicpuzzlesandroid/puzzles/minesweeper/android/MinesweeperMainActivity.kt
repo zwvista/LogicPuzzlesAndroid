@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class MinesweeperMainActivity : GameMainActivity<MinesweeperGame?, MinesweeperDocument?, MinesweeperGameMove?, MinesweeperGameState?>() {
+class MinesweeperMainActivity : GameMainActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
     @Bean
-    protected var document: MinesweeperDocument? = null
+    protected lateinit var document: MinesweeperDocument
     override fun doc() = document
 
     @Click
@@ -32,15 +32,15 @@ class MinesweeperMainActivity : GameMainActivity<MinesweeperGame?, MinesweeperDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class MinesweeperOptionsActivity : GameOptionsActivity<MinesweeperGame?, MinesweeperDocument?, MinesweeperGameMove?, MinesweeperGameState?>() {
+class MinesweeperOptionsActivity : GameOptionsActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
     @Bean
-    protected var document: MinesweeperDocument? = null
+    protected lateinit var document: MinesweeperDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class MinesweeperHelpActivity : GameHelpActivity<MinesweeperGame?, MinesweeperDocument?, MinesweeperGameMove?, MinesweeperGameState?>() {
+class MinesweeperHelpActivity : GameHelpActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
     @Bean
-    protected var document: MinesweeperDocument? = null
+    protected lateinit var document: MinesweeperDocument
     override fun doc() = document
 }

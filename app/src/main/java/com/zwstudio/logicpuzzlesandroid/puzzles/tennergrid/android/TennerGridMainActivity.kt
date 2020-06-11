@@ -14,11 +14,10 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TennerGridMainActivity : GameMainActivity<TennerGridGame?, TennerGridDocument?, TennerGridGameMove?, TennerGridGameState?>() {
+class TennerGridMainActivity : GameMainActivity<TennerGridGame, TennerGridDocument, TennerGridGameMove, TennerGridGameState>() {
     @Bean
-    protected var document: TennerGridDocument? = null
+    protected lateinit var document: TennerGridDocument
     override fun doc() = document
 
     @Click
@@ -33,15 +32,15 @@ class TennerGridMainActivity : GameMainActivity<TennerGridGame?, TennerGridDocum
 }
 
 @EActivity(R.layout.activity_game_options)
-class TennerGridOptionsActivity : GameOptionsActivity<TennerGridGame?, TennerGridDocument?, TennerGridGameMove?, TennerGridGameState?>() {
+class TennerGridOptionsActivity : GameOptionsActivity<TennerGridGame, TennerGridDocument, TennerGridGameMove, TennerGridGameState>() {
     @Bean
-    protected var document: TennerGridDocument? = null
+    protected lateinit var document: TennerGridDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TennerGridHelpActivity : GameHelpActivity<TennerGridGame?, TennerGridDocument?, TennerGridGameMove?, TennerGridGameState?>() {
+class TennerGridHelpActivity : GameHelpActivity<TennerGridGame, TennerGridDocument, TennerGridGameMove, TennerGridGameState>() {
     @Bean
-    protected var document: TennerGridDocument? = null
+    protected lateinit var document: TennerGridDocument
     override fun doc() = document
 }

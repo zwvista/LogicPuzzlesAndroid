@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class FenceLitsMainActivity : GameMainActivity<FenceLitsGame?, FenceLitsDocument?, FenceLitsGameMove?, FenceLitsGameState?>() {
-    @kotlin.jvm.JvmField
+class FenceLitsMainActivity : GameMainActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState>() {
     @Bean
-    protected var document: FenceLitsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FenceLitsDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class FenceLitsMainActivity : GameMainActivity<FenceLitsGame?, FenceLitsDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class FenceLitsOptionsActivity : GameOptionsActivity<FenceLitsGame?, FenceLitsDocument?, FenceLitsGameMove?, FenceLitsGameState?>() {
-    @kotlin.jvm.JvmField
+class FenceLitsOptionsActivity : GameOptionsActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState>() {
     @Bean
-    protected var document: FenceLitsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FenceLitsDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class FenceLitsHelpActivity : GameHelpActivity<FenceLitsGame?, FenceLitsDocument?, FenceLitsGameMove?, FenceLitsGameState?>() {
-    @kotlin.jvm.JvmField
+class FenceLitsHelpActivity : GameHelpActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState>() {
     @Bean
-    protected var document: FenceLitsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FenceLitsDocument
+    override fun doc() = document
 }

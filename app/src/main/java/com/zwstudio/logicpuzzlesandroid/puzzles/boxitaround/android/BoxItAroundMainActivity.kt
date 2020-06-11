@@ -17,11 +17,10 @@ import org.androidannotations.annotations.*
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
-class BoxItAroundMainActivity : GameMainActivity<BoxItAroundGame?, BoxItAroundDocument?, BoxItAroundGameMove?, BoxItAroundGameState?>() {
-    @kotlin.jvm.JvmField
+class BoxItAroundMainActivity : GameMainActivity<BoxItAroundGame, BoxItAroundDocument, BoxItAroundGameMove, BoxItAroundGameState>() {
     @Bean
-    protected var document: BoxItAroundDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BoxItAroundDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -35,18 +34,17 @@ class BoxItAroundMainActivity : GameMainActivity<BoxItAroundGame?, BoxItAroundDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class BoxItAroundOptionsActivity : GameOptionsActivity<BoxItAroundGame?, BoxItAroundDocument?, BoxItAroundGameMove?, BoxItAroundGameState?>() {
-    @kotlin.jvm.JvmField
+class BoxItAroundOptionsActivity : GameOptionsActivity<BoxItAroundGame, BoxItAroundDocument, BoxItAroundGameMove, BoxItAroundGameState>() {
     @Bean
-    protected var document: BoxItAroundDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BoxItAroundDocument
+    override fun doc() = document
 
     @AfterViews
     override fun init() {
         val lst = lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv = v.findViewById<View>(android.R.id.text1) as TextView
@@ -91,9 +89,8 @@ class BoxItAroundOptionsActivity : GameOptionsActivity<BoxItAroundGame?, BoxItAr
 }
 
 @EActivity(R.layout.activity_game_help)
-class BoxItAroundHelpActivity : GameHelpActivity<BoxItAroundGame?, BoxItAroundDocument?, BoxItAroundGameMove?, BoxItAroundGameState?>() {
-    @kotlin.jvm.JvmField
+class BoxItAroundHelpActivity : GameHelpActivity<BoxItAroundGame, BoxItAroundDocument, BoxItAroundGameMove, BoxItAroundGameState>() {
     @Bean
-    protected var document: BoxItAroundDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BoxItAroundDocument
+    override fun doc() = document
 }

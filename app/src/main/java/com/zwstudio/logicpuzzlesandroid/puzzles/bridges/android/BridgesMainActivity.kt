@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class BridgesMainActivity : GameMainActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
-    @kotlin.jvm.JvmField
+class BridgesMainActivity : GameMainActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState>() {
     @Bean
-    protected var document: BridgesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BridgesDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,19 +30,17 @@ class BridgesMainActivity : GameMainActivity<BridgesGame?, BridgesDocument?, Bri
 }
 
 @EActivity(R.layout.activity_game_options)
-class BridgesOptionsActivity : GameOptionsActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
-    @kotlin.jvm.JvmField
+class BridgesOptionsActivity : GameOptionsActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState>() {
     @Bean
-    protected var document: BridgesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BridgesDocument
+    override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class BridgesHelpActivity : GameHelpActivity<BridgesGame?, BridgesDocument?, BridgesGameMove?, BridgesGameState?>() {
-    @kotlin.jvm.JvmField
+class BridgesHelpActivity : GameHelpActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState>() {
     @Bean
-    protected var document: BridgesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BridgesDocument
+    override fun doc() = document
 }

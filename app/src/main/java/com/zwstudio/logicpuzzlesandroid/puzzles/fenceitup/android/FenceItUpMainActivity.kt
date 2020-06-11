@@ -17,11 +17,10 @@ import org.androidannotations.annotations.*
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
-class FenceItUpMainActivity : GameMainActivity<FenceItUpGame?, FenceItUpDocument?, FenceItUpGameMove?, FenceItUpGameState?>() {
-    @kotlin.jvm.JvmField
+class FenceItUpMainActivity : GameMainActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState>() {
     @Bean
-    protected var document: FenceItUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FenceItUpDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -35,18 +34,17 @@ class FenceItUpMainActivity : GameMainActivity<FenceItUpGame?, FenceItUpDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class FenceItUpOptionsActivity : GameOptionsActivity<FenceItUpGame?, FenceItUpDocument?, FenceItUpGameMove?, FenceItUpGameState?>() {
-    @kotlin.jvm.JvmField
+class FenceItUpOptionsActivity : GameOptionsActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState>() {
     @Bean
-    protected var document: FenceItUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FenceItUpDocument
+    override fun doc() = document
 
     @AfterViews
     override fun init() {
         val lst = lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv = v.findViewById<View>(android.R.id.text1) as TextView
@@ -91,9 +89,8 @@ class FenceItUpOptionsActivity : GameOptionsActivity<FenceItUpGame?, FenceItUpDo
 }
 
 @EActivity(R.layout.activity_game_help)
-class FenceItUpHelpActivity : GameHelpActivity<FenceItUpGame?, FenceItUpDocument?, FenceItUpGameMove?, FenceItUpGameState?>() {
-    @kotlin.jvm.JvmField
+class FenceItUpHelpActivity : GameHelpActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState>() {
     @Bean
-    protected var document: FenceItUpDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FenceItUpDocument
+    override fun doc() = document
 }

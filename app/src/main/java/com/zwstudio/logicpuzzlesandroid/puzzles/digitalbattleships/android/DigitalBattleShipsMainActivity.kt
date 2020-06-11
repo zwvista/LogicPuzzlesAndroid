@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class DigitalBattleShipsMainActivity : GameMainActivity<DigitalBattleShipsGame?, DigitalBattleShipsDocument?, DigitalBattleShipsGameMove?, DigitalBattleShipsGameState?>() {
-    @kotlin.jvm.JvmField
+class DigitalBattleShipsMainActivity : GameMainActivity<DigitalBattleShipsGame, DigitalBattleShipsDocument, DigitalBattleShipsGameMove, DigitalBattleShipsGameState>() {
     @Bean
-    protected var document: DigitalBattleShipsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DigitalBattleShipsDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class DigitalBattleShipsMainActivity : GameMainActivity<DigitalBattleShipsGame?,
 }
 
 @EActivity(R.layout.activity_game_options)
-class DigitalBattleShipsOptionsActivity : GameOptionsActivity<DigitalBattleShipsGame?, DigitalBattleShipsDocument?, DigitalBattleShipsGameMove?, DigitalBattleShipsGameState?>() {
-    @kotlin.jvm.JvmField
+class DigitalBattleShipsOptionsActivity : GameOptionsActivity<DigitalBattleShipsGame, DigitalBattleShipsDocument, DigitalBattleShipsGameMove, DigitalBattleShipsGameState>() {
     @Bean
-    protected var document: DigitalBattleShipsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DigitalBattleShipsDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class DigitalBattleShipsHelpActivity : GameHelpActivity<DigitalBattleShipsGame?, DigitalBattleShipsDocument?, DigitalBattleShipsGameMove?, DigitalBattleShipsGameState?>() {
-    @kotlin.jvm.JvmField
+class DigitalBattleShipsHelpActivity : GameHelpActivity<DigitalBattleShipsGame, DigitalBattleShipsDocument, DigitalBattleShipsGameMove, DigitalBattleShipsGameState>() {
     @Bean
-    protected var document: DigitalBattleShipsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: DigitalBattleShipsDocument
+    override fun doc() = document
 }

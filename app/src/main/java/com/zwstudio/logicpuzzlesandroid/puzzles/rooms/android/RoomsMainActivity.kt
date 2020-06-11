@@ -8,11 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain.RoomsGameMove
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class RoomsMainActivity : GameMainActivity<RoomsGame?, RoomsDocument?, RoomsGameMove?, RoomsGameState?>() {
+class RoomsMainActivity : GameMainActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState>() {
     @Bean
-    protected var document: RoomsDocument? = null
+    protected lateinit var document: RoomsDocument
     override fun doc() = document
 
     @Click
@@ -27,15 +26,15 @@ class RoomsMainActivity : GameMainActivity<RoomsGame?, RoomsDocument?, RoomsGame
 }
 
 @EActivity(R.layout.activity_game_options)
-class RoomsOptionsActivity : GameOptionsActivity<RoomsGame?, RoomsDocument?, RoomsGameMove?, RoomsGameState?>() {
+class RoomsOptionsActivity : GameOptionsActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState>() {
     @Bean
-    protected var document: RoomsDocument? = null
+    protected lateinit var document: RoomsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class RoomsHelpActivity : GameHelpActivity<RoomsGame?, RoomsDocument?, RoomsGameMove?, RoomsGameState?>() {
+class RoomsHelpActivity : GameHelpActivity<RoomsGame, RoomsDocument, RoomsGameMove, RoomsGameState>() {
     @Bean
-    protected var document: RoomsDocument? = null
+    protected lateinit var document: RoomsDocument
     override fun doc() = document
 }

@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class BusySeasMainActivity : GameMainActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
-    @kotlin.jvm.JvmField
+class BusySeasMainActivity : GameMainActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState>() {
     @Bean
-    protected var document: BusySeasDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BusySeasDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class BusySeasMainActivity : GameMainActivity<BusySeasGame?, BusySeasDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class BusySeasOptionsActivity : GameOptionsActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
-    @kotlin.jvm.JvmField
+class BusySeasOptionsActivity : GameOptionsActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState>() {
     @Bean
-    protected var document: BusySeasDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BusySeasDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class BusySeasHelpActivity : GameHelpActivity<BusySeasGame?, BusySeasDocument?, BusySeasGameMove?, BusySeasGameState?>() {
-    @kotlin.jvm.JvmField
+class BusySeasHelpActivity : GameHelpActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState>() {
     @Bean
-    protected var document: BusySeasDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: BusySeasDocument
+    override fun doc() = document
 }

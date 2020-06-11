@@ -13,10 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class TapARowMainActivity : GameMainActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
+class TapARowMainActivity : GameMainActivity<TapARowGame, TapARowDocument, TapARowGameMove, TapARowGameState>() {
     @Bean
-    protected var document: TapARowDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: TapARowDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -30,15 +30,15 @@ class TapARowMainActivity : GameMainActivity<TapARowGame?, TapARowDocument?, Tap
 }
 
 @EActivity(R.layout.activity_game_options)
-class TapARowOptionsActivity : GameOptionsActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
+class TapARowOptionsActivity : GameOptionsActivity<TapARowGame, TapARowDocument, TapARowGameMove, TapARowGameState>() {
     @Bean
-    protected var document: TapARowDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: TapARowDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TapARowHelpActivity : GameHelpActivity<TapARowGame?, TapARowDocument?, TapARowGameMove?, TapARowGameState?>() {
+class TapARowHelpActivity : GameHelpActivity<TapARowGame, TapARowDocument, TapARowGameMove, TapARowGameState>() {
     @Bean
-    protected var document: TapARowDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: TapARowDocument
+    override fun doc() = document
 }

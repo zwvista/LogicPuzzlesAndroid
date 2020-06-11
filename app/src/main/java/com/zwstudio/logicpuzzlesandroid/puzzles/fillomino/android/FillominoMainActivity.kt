@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class FillominoMainActivity : GameMainActivity<FillominoGame?, FillominoDocument?, FillominoGameMove?, FillominoGameState?>() {
-    @kotlin.jvm.JvmField
+class FillominoMainActivity : GameMainActivity<FillominoGame, FillominoDocument, FillominoGameMove, FillominoGameState>() {
     @Bean
-    protected var document: FillominoDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FillominoDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class FillominoMainActivity : GameMainActivity<FillominoGame?, FillominoDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class FillominoOptionsActivity : GameOptionsActivity<FillominoGame?, FillominoDocument?, FillominoGameMove?, FillominoGameState?>() {
-    @kotlin.jvm.JvmField
+class FillominoOptionsActivity : GameOptionsActivity<FillominoGame, FillominoDocument, FillominoGameMove, FillominoGameState>() {
     @Bean
-    protected var document: FillominoDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FillominoDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class FillominoHelpActivity : GameHelpActivity<FillominoGame?, FillominoDocument?, FillominoGameMove?, FillominoGameState?>() {
-    @kotlin.jvm.JvmField
+class FillominoHelpActivity : GameHelpActivity<FillominoGame, FillominoDocument, FillominoGameMove, FillominoGameState>() {
     @Bean
-    protected var document: FillominoDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FillominoDocument
+    override fun doc() = document
 }

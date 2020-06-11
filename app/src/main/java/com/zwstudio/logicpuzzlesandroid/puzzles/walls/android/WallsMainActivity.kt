@@ -14,11 +14,10 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class WallsMainActivity : GameMainActivity<WallsGame?, WallsDocument?, WallsGameMove?, WallsGameState?>() {
+class WallsMainActivity : GameMainActivity<WallsGame, WallsDocument, WallsGameMove, WallsGameState>() {
     @Bean
-    protected var document: WallsDocument? = null
+    protected lateinit var document: WallsDocument
     override fun doc() = document
 
     @Click
@@ -33,15 +32,15 @@ class WallsMainActivity : GameMainActivity<WallsGame?, WallsDocument?, WallsGame
 }
 
 @EActivity(R.layout.activity_game_options)
-class WallsOptionsActivity : GameOptionsActivity<WallsGame?, WallsDocument?, WallsGameMove?, WallsGameState?>() {
+class WallsOptionsActivity : GameOptionsActivity<WallsGame, WallsDocument, WallsGameMove, WallsGameState>() {
     @Bean
-    protected var document: WallsDocument? = null
+    protected lateinit var document: WallsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class WallsHelpActivity : GameHelpActivity<WallsGame?, WallsDocument?, WallsGameMove?, WallsGameState?>() {
+class WallsHelpActivity : GameHelpActivity<WallsGame, WallsDocument, WallsGameMove, WallsGameState>() {
     @Bean
-    protected var document: WallsDocument? = null
+    protected lateinit var document: WallsDocument
     override fun doc() = document
 }

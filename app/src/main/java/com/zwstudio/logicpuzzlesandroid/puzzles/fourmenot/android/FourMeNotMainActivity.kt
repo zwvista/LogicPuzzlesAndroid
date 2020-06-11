@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class FourMeNotMainActivity : GameMainActivity<FourMeNotGame?, FourMeNotDocument?, FourMeNotGameMove?, FourMeNotGameState?>() {
-    @kotlin.jvm.JvmField
+class FourMeNotMainActivity : GameMainActivity<FourMeNotGame, FourMeNotDocument, FourMeNotGameMove, FourMeNotGameState>() {
     @Bean
-    protected var document: FourMeNotDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FourMeNotDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class FourMeNotMainActivity : GameMainActivity<FourMeNotGame?, FourMeNotDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class FourMeNotOptionsActivity : GameOptionsActivity<FourMeNotGame?, FourMeNotDocument?, FourMeNotGameMove?, FourMeNotGameState?>() {
-    @kotlin.jvm.JvmField
+class FourMeNotOptionsActivity : GameOptionsActivity<FourMeNotGame, FourMeNotDocument, FourMeNotGameMove, FourMeNotGameState>() {
     @Bean
-    protected var document: FourMeNotDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FourMeNotDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class FourMeNotHelpActivity : GameHelpActivity<FourMeNotGame?, FourMeNotDocument?, FourMeNotGameMove?, FourMeNotGameState?>() {
-    @kotlin.jvm.JvmField
+class FourMeNotHelpActivity : GameHelpActivity<FourMeNotGame, FourMeNotDocument, FourMeNotGameMove, FourMeNotGameState>() {
     @Bean
-    protected var document: FourMeNotDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: FourMeNotDocument
+    override fun doc() = document
 }

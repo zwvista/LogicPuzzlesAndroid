@@ -13,11 +13,10 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ItemSelect
 import java.sql.SQLException
 
-_
 @EActivity(R.layout.activity_game_main)
-class SlitherLinkMainActivity : GameMainActivity<SlitherLinkGame?, SlitherLinkDocument?, SlitherLinkGameMove?, SlitherLinkGameState?>() {
+class SlitherLinkMainActivity : GameMainActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState>() {
     @Bean
-    protected var document: SlitherLinkDocument? = null
+    protected lateinit var document: SlitherLinkDocument
     override fun doc() = document
 
     @Click
@@ -32,17 +31,17 @@ class SlitherLinkMainActivity : GameMainActivity<SlitherLinkGame?, SlitherLinkDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame?, SlitherLinkDocument?, SlitherLinkGameMove?, SlitherLinkGameState?>() {
+class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState>() {
     @Bean
-    protected var document: SlitherLinkDocument? = null
+    protected lateinit var document: SlitherLinkDocument
     override fun doc() = document
 
     @AfterViews
     protected override fun init() {
         val lst: List<String> = GameOptionsActivity.lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v: View = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv: TextView = v.findViewById<View>(R.id.text1) as TextView
@@ -87,8 +86,8 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame?, Slither
 }
 
 @EActivity(R.layout.activity_game_help)
-class SlitherLinkHelpActivity : GameHelpActivity<SlitherLinkGame?, SlitherLinkDocument?, SlitherLinkGameMove?, SlitherLinkGameState?>() {
+class SlitherLinkHelpActivity : GameHelpActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState>() {
     @Bean
-    protected var document: SlitherLinkDocument? = null
+    protected lateinit var document: SlitherLinkDocument
     override fun doc() = document
 }

@@ -7,11 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.sentinels.domain.SentinelsGame
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class SentinelsMainActivity : GameMainActivity<SentinelsGame?, SentinelsDocument?, SentinelsGameMove?, SentinelsGameState?>() {
+class SentinelsMainActivity : GameMainActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
     @Bean
-    protected var document: SentinelsDocument? = null
+    protected lateinit var document: SentinelsDocument
     override fun doc() = document
 
     @Click
@@ -26,15 +25,15 @@ class SentinelsMainActivity : GameMainActivity<SentinelsGame?, SentinelsDocument
 }
 
 @EActivity(R.layout.activity_game_options)
-class SentinelsOptionsActivity : GameOptionsActivity<SentinelsGame?, SentinelsDocument?, SentinelsGameMove?, SentinelsGameState?>() {
+class SentinelsOptionsActivity : GameOptionsActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
     @Bean
-    protected var document: SentinelsDocument? = null
+    protected lateinit var document: SentinelsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class SentinelsHelpActivity : GameHelpActivity<SentinelsGame?, SentinelsDocument?, SentinelsGameMove?, SentinelsGameState?>() {
+class SentinelsHelpActivity : GameHelpActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
     @Bean
-    protected var document: SentinelsDocument? = null
+    protected lateinit var document: SentinelsDocument
     override fun doc() = document
 }

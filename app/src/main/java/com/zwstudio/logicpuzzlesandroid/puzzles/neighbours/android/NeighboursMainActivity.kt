@@ -20,9 +20,9 @@ import org.androidannotations.annotations.*
 import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
-class NeighboursMainActivity : GameMainActivity<NeighboursGame?, NeighboursDocument?, NeighboursGameMove?, NeighboursGameState?>() {
+class NeighboursMainActivity : GameMainActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState>() {
     @Bean
-    protected var document: NeighboursDocument? = null
+    protected lateinit var document: NeighboursDocument
     override fun doc() = document
 
     @Click
@@ -37,17 +37,17 @@ class NeighboursMainActivity : GameMainActivity<NeighboursGame?, NeighboursDocum
 }
 
 @EActivity(R.layout.activity_game_options)
-class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame?, NeighboursDocument?, NeighboursGameMove?, NeighboursGameState?>() {
+class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState>() {
     @Bean
-    protected var document: NeighboursDocument? = null
+    protected lateinit var document: NeighboursDocument
     override fun doc() = document
 
     @AfterViews
     protected override fun init() {
         val lst: List<String> = GameOptionsActivity.lstMarkers
-        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String?>(this,
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(this,
                 R.layout.simple_spinner_item, GameOptionsActivity.lstMarkers) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
                 val v: View = super.getView(position, convertView, parent)
                 val s = lst[position]
                 val tv: TextView = v.findViewById<View>(R.id.text1) as TextView
@@ -92,8 +92,8 @@ class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame?, Neighbour
 }
 
 @EActivity(R.layout.activity_game_help)
-class NeighboursHelpActivity : GameHelpActivity<NeighboursGame?, NeighboursDocument?, NeighboursGameMove?, NeighboursGameState?>() {
+class NeighboursHelpActivity : GameHelpActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState>() {
     @Bean
-    protected var document: NeighboursDocument? = null
+    protected lateinit var document: NeighboursDocument
     override fun doc() = document
 }

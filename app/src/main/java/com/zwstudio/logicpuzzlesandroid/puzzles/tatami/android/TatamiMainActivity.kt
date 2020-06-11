@@ -1,18 +1,23 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatami.androidimport
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
+import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.android.TatamiGameActivity_
+import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.android.TatamiOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.data.TatamiDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.domain.TatamiGameState
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TatamiMainActivity : GameMainActivity<TatamiGame?, TatamiDocument?, TatamiGameMove?, TatamiGameState?>() {
+class TatamiMainActivity : GameMainActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
     @Bean
-    protected var document: TatamiDocument? = null
+    protected lateinit var document: TatamiDocument
     override fun doc() = document
 
     @Click
@@ -27,15 +32,15 @@ class TatamiMainActivity : GameMainActivity<TatamiGame?, TatamiDocument?, Tatami
 }
 
 @EActivity(R.layout.activity_game_options)
-class TatamiOptionsActivity : GameOptionsActivity<TatamiGame?, TatamiDocument?, TatamiGameMove?, TatamiGameState?>() {
+class TatamiOptionsActivity : GameOptionsActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
     @Bean
-    protected var document: TatamiDocument? = null
+    protected lateinit var document: TatamiDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TatamiHelpActivity : GameHelpActivity<TatamiGame?, TatamiDocument?, TatamiGameMove?, TatamiGameState?>() {
+class TatamiHelpActivity : GameHelpActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
     @Bean
-    protected var document: TatamiDocument? = null
+    protected lateinit var document: TatamiDocument
     override fun doc() = document
 }

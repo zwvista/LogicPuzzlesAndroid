@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class HolidayIslandMainActivity : GameMainActivity<HolidayIslandGame?, HolidayIslandDocument?, HolidayIslandGameMove?, HolidayIslandGameState?>() {
-    @kotlin.jvm.JvmField
+class HolidayIslandMainActivity : GameMainActivity<HolidayIslandGame, HolidayIslandDocument, HolidayIslandGameMove, HolidayIslandGameState>() {
     @Bean
-    protected var document: HolidayIslandDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: HolidayIslandDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class HolidayIslandMainActivity : GameMainActivity<HolidayIslandGame?, HolidayIs
 }
 
 @EActivity(R.layout.activity_game_options)
-class HolidayIslandOptionsActivity : GameOptionsActivity<HolidayIslandGame?, HolidayIslandDocument?, HolidayIslandGameMove?, HolidayIslandGameState?>() {
-    @kotlin.jvm.JvmField
+class HolidayIslandOptionsActivity : GameOptionsActivity<HolidayIslandGame, HolidayIslandDocument, HolidayIslandGameMove, HolidayIslandGameState>() {
     @Bean
-    protected var document: HolidayIslandDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: HolidayIslandDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class HolidayIslandHelpActivity : GameHelpActivity<HolidayIslandGame?, HolidayIslandDocument?, HolidayIslandGameMove?, HolidayIslandGameState?>() {
-    @kotlin.jvm.JvmField
+class HolidayIslandHelpActivity : GameHelpActivity<HolidayIslandGame, HolidayIslandDocument, HolidayIslandGameMove, HolidayIslandGameState>() {
     @Bean
-    protected var document: HolidayIslandDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: HolidayIslandDocument
+    override fun doc() = document
 }

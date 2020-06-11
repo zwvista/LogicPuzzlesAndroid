@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class OrchardsMainActivity : GameMainActivity<OrchardsGame?, OrchardsDocument?, OrchardsGameMove?, OrchardsGameState?>() {
+class OrchardsMainActivity : GameMainActivity<OrchardsGame, OrchardsDocument, OrchardsGameMove, OrchardsGameState>() {
     @Bean
-    protected var document: OrchardsDocument? = null
+    protected lateinit var document: OrchardsDocument
     override fun doc() = document
 
     @Click
@@ -32,15 +32,15 @@ class OrchardsMainActivity : GameMainActivity<OrchardsGame?, OrchardsDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class OrchardsOptionsActivity : GameOptionsActivity<OrchardsGame?, OrchardsDocument?, OrchardsGameMove?, OrchardsGameState?>() {
+class OrchardsOptionsActivity : GameOptionsActivity<OrchardsGame, OrchardsDocument, OrchardsGameMove, OrchardsGameState>() {
     @Bean
-    protected var document: OrchardsDocument? = null
+    protected lateinit var document: OrchardsDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class OrchardsHelpActivity : GameHelpActivity<OrchardsGame?, OrchardsDocument?, OrchardsGameMove?, OrchardsGameState?>() {
+class OrchardsHelpActivity : GameHelpActivity<OrchardsGame, OrchardsDocument, OrchardsGameMove, OrchardsGameState>() {
     @Bean
-    protected var document: OrchardsDocument? = null
+    protected lateinit var document: OrchardsDocument
     override fun doc() = document
 }

@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class MathraxMainActivity : GameMainActivity<MathraxGame?, MathraxDocument?, MathraxGameMove?, MathraxGameState?>() {
+class MathraxMainActivity : GameMainActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
     @Bean
-    protected var document: MathraxDocument? = null
+    protected lateinit var document: MathraxDocument
     override fun doc() = document
 
     @Click
@@ -32,15 +32,15 @@ class MathraxMainActivity : GameMainActivity<MathraxGame?, MathraxDocument?, Mat
 }
 
 @EActivity(R.layout.activity_game_options)
-class MathraxOptionsActivity : GameOptionsActivity<MathraxGame?, MathraxDocument?, MathraxGameMove?, MathraxGameState?>() {
+class MathraxOptionsActivity : GameOptionsActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
     @Bean
-    protected var document: MathraxDocument? = null
+    protected lateinit var document: MathraxDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class MathraxHelpActivity : GameHelpActivity<MathraxGame?, MathraxDocument?, MathraxGameMove?, MathraxGameState?>() {
+class MathraxHelpActivity : GameHelpActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
     @Bean
-    protected var document: MathraxDocument? = null
+    protected lateinit var document: MathraxDocument
     override fun doc() = document
 }

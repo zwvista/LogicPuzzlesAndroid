@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame?, NoughtsAndCrossesDocument?, NoughtsAndCrossesGameMove?, NoughtsAndCrossesGameState?>() {
+class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
-    protected var document: NoughtsAndCrossesDocument? = null
+    protected var document: NoughtsAndCrossesDocument = null
     override fun doc() = document
 
-    protected var gameView: NoughtsAndCrossesGameView? = null
+    protected var gameView: NoughtsAndCrossesGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = NoughtsAndCrossesGameView(this)
+        gameView2 = NoughtsAndCrossesGameView(this)
         super.init()
     }
 

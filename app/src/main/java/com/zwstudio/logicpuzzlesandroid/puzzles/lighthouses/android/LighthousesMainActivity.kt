@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class LighthousesMainActivity : GameMainActivity<LighthousesGame?, LighthousesDocument?, LighthousesGameMove?, LighthousesGameState?>() {
-    @kotlin.jvm.JvmField
+class LighthousesMainActivity : GameMainActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState>() {
     @Bean
-    protected var document: LighthousesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LighthousesDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class LighthousesMainActivity : GameMainActivity<LighthousesGame?, LighthousesDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class LighthousesOptionsActivity : GameOptionsActivity<LighthousesGame?, LighthousesDocument?, LighthousesGameMove?, LighthousesGameState?>() {
-    @kotlin.jvm.JvmField
+class LighthousesOptionsActivity : GameOptionsActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState>() {
     @Bean
-    protected var document: LighthousesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LighthousesDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class LighthousesHelpActivity : GameHelpActivity<LighthousesGame?, LighthousesDocument?, LighthousesGameMove?, LighthousesGameState?>() {
-    @kotlin.jvm.JvmField
+class LighthousesHelpActivity : GameHelpActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState>() {
     @Bean
-    protected var document: LighthousesDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LighthousesDocument
+    override fun doc() = document
 }

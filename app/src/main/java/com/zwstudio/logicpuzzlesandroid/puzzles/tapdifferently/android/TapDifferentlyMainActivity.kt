@@ -7,11 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently.domain.TapDiffere
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TapDifferentlyMainActivity : GameMainActivity<TapDifferentlyGame?, TapDifferentlyDocument?, TapDifferentlyGameMove?, TapDifferentlyGameState?>() {
+class TapDifferentlyMainActivity : GameMainActivity<TapDifferentlyGame, TapDifferentlyDocument, TapDifferentlyGameMove, TapDifferentlyGameState>() {
     @Bean
-    protected var document: TapDifferentlyDocument? = null
+    protected lateinit var document: TapDifferentlyDocument
     override fun doc() = document
 
     @Click
@@ -26,15 +25,15 @@ class TapDifferentlyMainActivity : GameMainActivity<TapDifferentlyGame?, TapDiff
 }
 
 @EActivity(R.layout.activity_game_options)
-class TapDifferentlyOptionsActivity : GameOptionsActivity<TapDifferentlyGame?, TapDifferentlyDocument?, TapDifferentlyGameMove?, TapDifferentlyGameState?>() {
+class TapDifferentlyOptionsActivity : GameOptionsActivity<TapDifferentlyGame, TapDifferentlyDocument, TapDifferentlyGameMove, TapDifferentlyGameState>() {
     @Bean
-    protected var document: TapDifferentlyDocument? = null
+    protected lateinit var document: TapDifferentlyDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TapDifferentlyHelpActivity : GameHelpActivity<TapDifferentlyGame?, TapDifferentlyDocument?, TapDifferentlyGameMove?, TapDifferentlyGameState?>() {
+class TapDifferentlyHelpActivity : GameHelpActivity<TapDifferentlyGame, TapDifferentlyDocument, TapDifferentlyGameMove, TapDifferentlyGameState>() {
     @Bean
-    protected var document: TapDifferentlyDocument? = null
+    protected lateinit var document: TapDifferentlyDocument
     override fun doc() = document
 }

@@ -7,11 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.domain.TataminoGame
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TataminoMainActivity : GameMainActivity<TataminoGame?, TataminoDocument?, TataminoGameMove?, TataminoGameState?>() {
+class TataminoMainActivity : GameMainActivity<TataminoGame, TataminoDocument, TataminoGameMove, TataminoGameState>() {
     @Bean
-    protected var document: TataminoDocument? = null
+    protected lateinit var document: TataminoDocument
     override fun doc() = document
 
     @Click
@@ -26,15 +25,15 @@ class TataminoMainActivity : GameMainActivity<TataminoGame?, TataminoDocument?, 
 }
 
 @EActivity(R.layout.activity_game_options)
-class TataminoOptionsActivity : GameOptionsActivity<TataminoGame?, TataminoDocument?, TataminoGameMove?, TataminoGameState?>() {
+class TataminoOptionsActivity : GameOptionsActivity<TataminoGame, TataminoDocument, TataminoGameMove, TataminoGameState>() {
     @Bean
-    protected var document: TataminoDocument? = null
+    protected lateinit var document: TataminoDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TataminoHelpActivity : GameHelpActivity<TataminoGame?, TataminoDocument?, TataminoGameMove?, TataminoGameState?>() {
+class TataminoHelpActivity : GameHelpActivity<TataminoGame, TataminoDocument, TataminoGameMove, TataminoGameState>() {
     @Bean
-    protected var document: TataminoDocument? = null
+    protected lateinit var document: TataminoDocument
     override fun doc() = document
 }

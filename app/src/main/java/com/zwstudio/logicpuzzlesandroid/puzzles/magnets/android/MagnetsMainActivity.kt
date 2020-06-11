@@ -13,11 +13,11 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-open class MagnetsMainActivity : GameMainActivity<MagnetsGame?, MagnetsDocument?, MagnetsGameMove?, MagnetsGameState?>() {
+open class MagnetsMainActivity : GameMainActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @JvmField
     @Bean
-    protected var document: MagnetsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: MagnetsDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +31,17 @@ open class MagnetsMainActivity : GameMainActivity<MagnetsGame?, MagnetsDocument?
 }
 
 @EActivity(R.layout.activity_game_options)
-open class MagnetsOptionsActivity : GameOptionsActivity<MagnetsGame?, MagnetsDocument?, MagnetsGameMove?, MagnetsGameState?>() {
+open class MagnetsOptionsActivity : GameOptionsActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @JvmField
     @Bean
-    protected var document: MagnetsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: MagnetsDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-open class MagnetsHelpActivity : GameHelpActivity<MagnetsGame?, MagnetsDocument?, MagnetsGameMove?, MagnetsGameState?>() {
+open class MagnetsHelpActivity : GameHelpActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @JvmField
     @Bean
-    protected var document: MagnetsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: MagnetsDocument
+    override fun doc() = document
 }

@@ -13,11 +13,10 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class LitsMainActivity : GameMainActivity<LitsGame?, LitsDocument?, LitsGameMove?, LitsGameState?>() {
-    @kotlin.jvm.JvmField
+class LitsMainActivity : GameMainActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState>() {
     @Bean
-    protected var document: LitsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LitsDocument
+    override fun doc() = document
 
     @Click
     fun btnOptions() {
@@ -31,17 +30,15 @@ class LitsMainActivity : GameMainActivity<LitsGame?, LitsDocument?, LitsGameMove
 }
 
 @EActivity(R.layout.activity_game_options)
-class LitsOptionsActivity : GameOptionsActivity<LitsGame?, LitsDocument?, LitsGameMove?, LitsGameState?>() {
-    @kotlin.jvm.JvmField
+class LitsOptionsActivity : GameOptionsActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState>() {
     @Bean
-    protected var document: LitsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LitsDocument
+    override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class LitsHelpActivity : GameHelpActivity<LitsGame?, LitsDocument?, LitsGameMove?, LitsGameState?>() {
-    @kotlin.jvm.JvmField
+class LitsHelpActivity : GameHelpActivity<LitsGame, LitsDocument, LitsGameMove, LitsGameState>() {
     @Bean
-    protected var document: LitsDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: LitsDocument
+    override fun doc() = document
 }

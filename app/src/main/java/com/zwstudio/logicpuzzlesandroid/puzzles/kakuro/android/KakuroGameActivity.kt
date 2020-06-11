@@ -15,24 +15,23 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-class KakuroGameActivity : GameGameActivity<KakuroGame?, KakuroDocument?, KakuroGameMove?, KakuroGameState?>() {
-    @kotlin.jvm.JvmField
+class KakuroGameActivity : GameGameActivity<KakuroGame, KakuroDocument, KakuroGameMove, KakuroGameState>() {
     @Bean
-    protected var document: KakuroDocument? = null
-    override fun doc() = document!!
+    protected lateinit var document: KakuroDocument
+    override fun doc() = document
 
-    protected var gameView: KakuroGameView? = null
-    override fun getGameView() = gameView!!
+    protected lateinit var gameView2: KakuroGameView
+    override fun getGameView() = gameView2
 
     @AfterViews
     override fun init() {
-        gameView = KakuroGameView(this)
+        gameView2 = KakuroGameView(this)
         super.init()
     }
 
     override fun startGame() {
         val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[List.iterableList(doc().levels).toStream().indexOf { o: GameLevel -> o.id == selectedLevelID }.orSome(0)]
+        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
@@ -41,10 +40,12 @@ class KakuroGameActivity : GameGameActivity<KakuroGame?, KakuroDocument?, Kakuro
             // restore game state
             for (rec in doc().moveProgress()) {
                 val move = doc().loadMove(rec)
-                game!!.setObject(move)
+                game.setObject(move)
             }
             val moveIndex = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game!!.moveCount()) while (moveIndex != game!!.moveIndex()) game!!.undo()
+            if (moveIndex >= 0 && moveIndex < game.moveCount())
+                while (moveIndex != game.moveIndex())
+                    game.undo()
         } finally {
             levelInitilizing = false
         }

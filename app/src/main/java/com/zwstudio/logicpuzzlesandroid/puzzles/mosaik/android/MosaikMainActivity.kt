@@ -1,17 +1,23 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.androidimport
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
+import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.android.MosaikGameActivity_
+import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.android.MosaikOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.data.MosaikDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.mosaik.domain.MosaikGameState
 import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class MosaikMainActivity : GameMainActivity<MosaikGame?, MosaikDocument?, MosaikGameMove?, MosaikGameState?>() {
+class MosaikMainActivity : GameMainActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState>() {
     @Bean
-    protected var document: MosaikDocument? = null
+    protected lateinit var document: MosaikDocument
     override fun doc() = document
 
     @Click
@@ -26,15 +32,15 @@ class MosaikMainActivity : GameMainActivity<MosaikGame?, MosaikDocument?, Mosaik
 }
 
 @EActivity(R.layout.activity_game_options)
-class MosaikOptionsActivity : GameOptionsActivity<MosaikGame?, MosaikDocument?, MosaikGameMove?, MosaikGameState?>() {
+class MosaikOptionsActivity : GameOptionsActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState>() {
     @Bean
-    protected var document: MosaikDocument? = null
+    protected lateinit var document: MosaikDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class MosaikHelpActivity : GameHelpActivity<MosaikGame?, MosaikDocument?, MosaikGameMove?, MosaikGameState?>() {
+class MosaikHelpActivity : GameHelpActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState>() {
     @Bean
-    protected var document: MosaikDocument? = null
+    protected lateinit var document: MosaikDocument
     override fun doc() = document
 }

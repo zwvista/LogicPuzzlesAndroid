@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class MosaikGameActivity : GameGameActivity<MosaikGame?, MosaikDocument?, MosaikGameMove?, MosaikGameState?>() {
+class MosaikGameActivity : GameGameActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState>() {
     @Bean
-    protected var document: MosaikDocument? = null
+    protected var document: MosaikDocument = null
     override fun doc() = document
 
-    protected var gameView: MosaikGameView? = null
+    protected var gameView: MosaikGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = MosaikGameView(this)
+        gameView2 = MosaikGameView(this)
         super.init()
     }
 

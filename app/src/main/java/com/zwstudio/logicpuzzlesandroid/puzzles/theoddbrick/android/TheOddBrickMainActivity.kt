@@ -1,7 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.androidimport
 
 import com.zwstudio.logicpuzzlesandroid.R
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
+import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.android.TheOddBrickGameActivity_
+import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.android.TheOddBrickOptionsActivity_
 import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.data.TheOddBrickDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.domain.TheOddBrickGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick.domain.TheOddBrickGameMove
@@ -10,11 +14,10 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TheOddBrickMainActivity : GameMainActivity<TheOddBrickGame?, TheOddBrickDocument?, TheOddBrickGameMove?, TheOddBrickGameState?>() {
+class TheOddBrickMainActivity : GameMainActivity<TheOddBrickGame, TheOddBrickDocument, TheOddBrickGameMove, TheOddBrickGameState>() {
     @Bean
-    protected var document: TheOddBrickDocument? = null
+    protected lateinit var document: TheOddBrickDocument
     override fun doc() = document
 
     @Click
@@ -29,15 +32,15 @@ class TheOddBrickMainActivity : GameMainActivity<TheOddBrickGame?, TheOddBrickDo
 }
 
 @EActivity(R.layout.activity_game_options)
-class TheOddBrickOptionsActivity : GameOptionsActivity<TheOddBrickGame?, TheOddBrickDocument?, TheOddBrickGameMove?, TheOddBrickGameState?>() {
+class TheOddBrickOptionsActivity : GameOptionsActivity<TheOddBrickGame, TheOddBrickDocument, TheOddBrickGameMove, TheOddBrickGameState>() {
     @Bean
-    protected var document: TheOddBrickDocument? = null
+    protected lateinit var document: TheOddBrickDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TheOddBrickHelpActivity : GameHelpActivity<TheOddBrickGame?, TheOddBrickDocument?, TheOddBrickGameMove?, TheOddBrickGameState?>() {
+class TheOddBrickHelpActivity : GameHelpActivity<TheOddBrickGame, TheOddBrickDocument, TheOddBrickGameMove, TheOddBrickGameState>() {
     @Bean
-    protected var document: TheOddBrickDocument? = null
+    protected lateinit var document: TheOddBrickDocument
     override fun doc() = document
 }

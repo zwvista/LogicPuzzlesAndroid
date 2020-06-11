@@ -4,19 +4,18 @@ import android.view.View
 import fj.data.List
 import org.androidannotations.annotations.Bean
 
-_
 @EActivity(R.layout.activity_game_game)
-class MasyuGameActivity : GameGameActivity<MasyuGame?, MasyuDocument?, MasyuGameMove?, MasyuGameState?>() {
+class MasyuGameActivity : GameGameActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState>() {
     @Bean
-    protected var document: MasyuDocument? = null
+    protected var document: MasyuDocument = null
     override fun doc() = document
 
-    protected var gameView: MasyuGameView? = null
+    protected var gameView: MasyuGameView = null
     protected override fun getGameView() = gameView
 
     @AfterViews
     protected override fun init() {
-        gameView = MasyuGameView(this)
+        gameView2 = MasyuGameView(this)
         super.init()
     }
 

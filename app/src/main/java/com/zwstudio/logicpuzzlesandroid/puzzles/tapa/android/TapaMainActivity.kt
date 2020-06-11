@@ -6,11 +6,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 
-_
 @EActivity(R.layout.activity_game_main)
-class TapaMainActivity : GameMainActivity<TapaGame?, TapaDocument?, TapaGameMove?, TapaGameState?>() {
+class TapaMainActivity : GameMainActivity<TapaGame, TapaDocument, TapaGameMove, TapaGameState>() {
     @Bean
-    protected var document: TapaDocument? = null
+    protected lateinit var document: TapaDocument
     override fun doc() = document
 
     @Click
@@ -25,15 +24,15 @@ class TapaMainActivity : GameMainActivity<TapaGame?, TapaDocument?, TapaGameMove
 }
 
 @EActivity(R.layout.activity_game_options)
-class TapaOptionsActivity : GameOptionsActivity<TapaGame?, TapaDocument?, TapaGameMove?, TapaGameState?>() {
+class TapaOptionsActivity : GameOptionsActivity<TapaGame, TapaDocument, TapaGameMove, TapaGameState>() {
     @Bean
-    protected var document: TapaDocument? = null
+    protected lateinit var document: TapaDocument
     override fun doc() = document
 }
 
 @EActivity(R.layout.activity_game_help)
-class TapaHelpActivity : GameHelpActivity<TapaGame?, TapaDocument?, TapaGameMove?, TapaGameState?>() {
+class TapaHelpActivity : GameHelpActivity<TapaGame, TapaDocument, TapaGameMove, TapaGameState>() {
     @Bean
-    protected var document: TapaDocument? = null
+    protected lateinit var document: TapaDocument
     override fun doc() = document
 }

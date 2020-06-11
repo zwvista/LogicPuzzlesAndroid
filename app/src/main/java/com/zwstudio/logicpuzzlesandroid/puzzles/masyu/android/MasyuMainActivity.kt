@@ -15,9 +15,9 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_main)
-class MasyuMainActivity : GameMainActivity<MasyuGame?, MasyuDocument?, MasyuGameMove?, MasyuGameState?>() {
+class MasyuMainActivity : GameMainActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState>() {
     @Bean
-    protected var document: MasyuDocument? = null
+    protected lateinit var document: MasyuDocument
     override fun doc() = document
 
     @Click
@@ -32,17 +32,17 @@ class MasyuMainActivity : GameMainActivity<MasyuGame?, MasyuDocument?, MasyuGame
 }
 
 @EActivity(R.layout.activity_game_options)
-class MasyuOptionsActivity : GameOptionsActivity<MasyuGame?, MasyuDocument?, MasyuGameMove?, MasyuGameState?>() {
+class MasyuOptionsActivity : GameOptionsActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState>() {
     @Bean
-    protected var document: MasyuDocument? = null
+    protected lateinit var document: MasyuDocument
     override fun doc() = document
 
     protected fun onDefault() {}
 }
 
 @EActivity(R.layout.activity_game_help)
-class MasyuHelpActivity : GameHelpActivity<MasyuGame?, MasyuDocument?, MasyuGameMove?, MasyuGameState?>() {
+class MasyuHelpActivity : GameHelpActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState>() {
     @Bean
-    protected var document: MasyuDocument? = null
+    protected lateinit var document: MasyuDocument
     override fun doc() = document
 }
