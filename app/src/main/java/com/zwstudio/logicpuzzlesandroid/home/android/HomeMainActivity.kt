@@ -6,17 +6,15 @@ import android.media.AudioManager
 import android.widget.Button
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity
-import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
 import org.androidannotations.annotations.*
+import java.util.*
 
 @EActivity(R.layout.activity_home_main)
-open class HomeMainActivity : BaseActivity() {
-    fun doc(): HomeDocument? {
-        return app!!.homeDocument
-    }
+class HomeMainActivity : BaseActivity() {
+    fun doc() = app.homeDocument
 
     @ViewById
-    protected var btnResumeGame: Button? = null
+    lateinit var btnResumeGame: Button
 
     @AfterViews
     protected fun init() {
@@ -27,12 +25,12 @@ open class HomeMainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        btnResumeGame!!.text = "Resume Game " + doc()!!.gameProgress()!!.gameTitle
+        btnResumeGame.text = "Resume Game " + doc().gameProgress().gameTitle
     }
 
     @Click
     protected fun btnResumeGame() {
-        resumeGame(doc()!!.gameProgress()!!.gameName, doc()!!.gameProgress()!!.gameTitle, true)
+        resumeGame(doc().gameProgress().gameName, doc().gameProgress().gameTitle, true)
     }
 
     @Click
@@ -45,18 +43,12 @@ open class HomeMainActivity : BaseActivity() {
         HomeOptionsActivity_.intent(this).start()
     }
 
-    private fun resumeGame(gameName: String?, gameTitle: String?, toResume: Boolean) {
-        doc()!!.resumeGame(gameName, gameTitle)
-        var cls: Class<*>? = null
-        try {
-            cls = Class.forName(String.format("com.zwstudio.logicpuzzlesandroid.puzzles.%s.android.%sMainActivity_",
-                gameName!!.toLowerCase(), gameName))
-            val intent = Intent(this, cls)
-            intent.putExtra("toResume", toResume)
-            startActivity(intent)
-        } catch (e: ClassNotFoundException) {
-            e.printStackTrace()
-        }
+    private fun resumeGame(gameName: String, gameTitle: String, toResume: Boolean) {
+        doc().resumeGame(gameName, gameTitle)
+        val cls = Class.forName("com.zwstudio.logicpuzzlesandroid.puzzles.${gameName.toLowerCase(Locale.ROOT)}.android.${gameName}MainActivity_")
+        val intent = Intent(this, cls)
+        intent.putExtra("toResume", toResume)
+        startActivity(intent)
     }
 
     @OnActivityResult(CHOOSE_GAME_REQUEST)

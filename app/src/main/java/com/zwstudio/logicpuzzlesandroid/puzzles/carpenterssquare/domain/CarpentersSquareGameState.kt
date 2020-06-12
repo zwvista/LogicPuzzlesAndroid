@@ -74,7 +74,7 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(CarpentersSquareGame.offset2[i])][CarpentersSquareGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(CarpentersSquareGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(CarpentersSquareGame.offset[i])]!!)
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

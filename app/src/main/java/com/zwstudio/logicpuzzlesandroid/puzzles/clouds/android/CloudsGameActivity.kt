@@ -17,12 +17,9 @@ class CloudsGameActivity : GameGameActivity<CloudsGame, CloudsDocument, CloudsGa
     protected lateinit var document: CloudsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: CloudsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = CloudsGameView(this)
+        gameView = CloudsGameView(this)
         super.init()
     }
 

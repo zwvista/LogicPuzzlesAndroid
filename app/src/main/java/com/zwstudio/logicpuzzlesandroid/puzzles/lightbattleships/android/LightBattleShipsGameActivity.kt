@@ -17,12 +17,9 @@ class LightBattleShipsGameActivity : GameGameActivity<LightBattleShipsGame, Ligh
     protected lateinit var document: LightBattleShipsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: LightBattleShipsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = LightBattleShipsGameView(this)
+        gameView = LightBattleShipsGameView(this)
         super.init()
     }
 

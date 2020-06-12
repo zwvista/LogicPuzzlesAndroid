@@ -17,12 +17,9 @@ class LitsGameActivity : GameGameActivity<LitsGame, LitsDocument, LitsGameMove, 
     protected lateinit var document: LitsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: LitsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = LitsGameView(this)
+        gameView = LitsGameView(this)
         super.init()
     }
 

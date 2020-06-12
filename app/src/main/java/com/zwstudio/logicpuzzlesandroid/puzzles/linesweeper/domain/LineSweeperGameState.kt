@@ -91,7 +91,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
             for (i in 0..3) {
                 if (!o[i]) continue
                 val p2 = p.add(LineSweeperGame.offset[i * 2])
-                g.connectNode(pos2node[p], pos2node[p2])
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
         // 1. Draw a single closed looping path that never crosses itself or branches off.

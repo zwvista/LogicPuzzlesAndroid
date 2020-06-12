@@ -17,12 +17,9 @@ class TennerGridGameActivity : GameGameActivity<TennerGridGame, TennerGridDocume
     protected lateinit var document: TennerGridDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TennerGridGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TennerGridGameView(this)
+        gameView = TennerGridGameView(this)
         super.init()
     }
 

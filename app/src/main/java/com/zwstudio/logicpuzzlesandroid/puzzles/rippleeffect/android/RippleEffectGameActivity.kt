@@ -17,12 +17,9 @@ class RippleEffectGameActivity : GameGameActivity<RippleEffectGame, RippleEffect
     protected lateinit var document: RippleEffectDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: RippleEffectGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = RippleEffectGameView(this)
+        gameView = RippleEffectGameView(this)
         super.init()
     }
 

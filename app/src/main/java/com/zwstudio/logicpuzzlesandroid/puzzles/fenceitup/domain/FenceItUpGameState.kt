@@ -69,7 +69,7 @@ class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame, Fe
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(FenceItUpGame.offset2[i])][FenceItUpGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(FenceItUpGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(FenceItUpGame.offset[i])]!!)
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

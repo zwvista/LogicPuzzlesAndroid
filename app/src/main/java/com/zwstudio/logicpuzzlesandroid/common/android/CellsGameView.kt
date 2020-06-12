@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
-import java.io.IOException
 
 // http://stackoverflow.com/questions/24842550/2d-array-grid-on-drawing-canvas
 abstract class CellsGameView : View {
@@ -55,16 +54,11 @@ abstract class CellsGameView : View {
     protected fun cwc2(c: Int) = c * cellWidth + 1 + cellWidth / 2
     protected fun chr2(r: Int) = r * cellHeight + 1 + cellHeight / 2
 
-    protected fun fromImageToDrawable(imageFile: String?): Drawable? {
-        var result: Drawable? = null
-        try {
-            val `is` = context.applicationContext.assets.open(imageFile!!)
-            val bmpLightbulb = BitmapFactory.decodeStream(`is`)
-            result = BitmapDrawable(bmpLightbulb)
-            `is`.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+    protected fun fromImageToDrawable(imageFile: String): Drawable {
+        val `is` = context.applicationContext.assets.open(imageFile)
+        val bmp = BitmapFactory.decodeStream(`is`)
+        val result = BitmapDrawable(bmp)
+        `is`.close()
         return result
     }
 }

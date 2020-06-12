@@ -17,12 +17,9 @@ class DisconnectFourGameActivity : GameGameActivity<DisconnectFourGame, Disconne
     protected lateinit var document: DisconnectFourDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: DisconnectFourGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = DisconnectFourGameView(this)
+        gameView = DisconnectFourGameView(this)
         super.init()
     }
 

@@ -17,12 +17,9 @@ class BoxItUpGameActivity : GameGameActivity<BoxItUpGame, BoxItUpDocument, BoxIt
     protected lateinit var document: BoxItUpDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: BoxItUpGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = BoxItUpGameView(this)
+        gameView = BoxItUpGameView(this)
         super.init()
     }
 

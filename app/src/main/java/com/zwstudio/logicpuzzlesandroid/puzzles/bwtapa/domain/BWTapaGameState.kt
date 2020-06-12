@@ -120,22 +120,22 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
             for (os in BWTapaGame.offset) {
                 val p2 = p.add(os)
                 if (rngWalls.contains(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
             for (os in BWTapaGame.offset) {
                 val p2 = p.add(os)
                 if (rngEmpty.contains(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         // 2. Both Black and White cells must form a single continuous region.
-        g.rootNode = pos2node[rngWalls[0]]
+        g.rootNode = pos2node[rngWalls[0]]!!
         var nodeList = g.bfs()
         if (rngWalls.size != nodeList.size) {
             isSolved = false
             return
         }
-        g.rootNode = pos2node[rngEmpty[0]]
+        g.rootNode = pos2node[rngEmpty[0]]!!
         nodeList = g.bfs()
         if (rngEmpty.size != nodeList.size) isSolved = false
     }

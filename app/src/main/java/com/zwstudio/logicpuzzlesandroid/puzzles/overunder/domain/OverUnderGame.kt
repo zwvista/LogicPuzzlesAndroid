@@ -64,7 +64,7 @@ class OverUnderGame(layout: List<String>, gi: GameInterface<OverUnderGame, OverU
     operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
 
     private fun changeObject(move: OverUnderGameMove, f: (OverUnderGameState, OverUnderGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

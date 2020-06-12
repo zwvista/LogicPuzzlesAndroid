@@ -38,7 +38,7 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
     }
 
     private fun changeObject(move: MasyuGameMove, f: (MasyuGameState, MasyuGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

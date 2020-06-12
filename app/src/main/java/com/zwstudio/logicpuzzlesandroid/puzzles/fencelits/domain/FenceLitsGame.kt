@@ -80,7 +80,7 @@ class FenceLitsGame(layout: List<String>, gi: GameInterface<FenceLitsGame, Fence
     }
 
     private fun changeObject(move: FenceLitsGameMove, f: (FenceLitsGameState, FenceLitsGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

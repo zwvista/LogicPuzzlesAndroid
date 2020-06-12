@@ -60,7 +60,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 for (os in offset) {
                     val p2 = p.add(os)
                     if (isValid(p2) && get(p2) == ch)
-                        g.connectNode(pos2node[p], pos2node[p2])
+                        g.connectNode(pos2node[p]!!, pos2node[p2]!!)
                 }
             }
         while (pos2node.isNotEmpty()) {
@@ -99,7 +99,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
     }
 
     private fun changeObject(move: CalcudokuGameMove, f: (CalcudokuGameState, CalcudokuGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

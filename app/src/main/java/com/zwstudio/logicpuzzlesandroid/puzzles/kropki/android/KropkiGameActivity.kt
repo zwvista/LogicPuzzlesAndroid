@@ -17,12 +17,9 @@ class KropkiGameActivity : GameGameActivity<KropkiGame, KropkiDocument, KropkiGa
     protected lateinit var document: KropkiDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: KropkiGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = KropkiGameView(this)
+        gameView = KropkiGameView(this)
         super.init()
     }
 

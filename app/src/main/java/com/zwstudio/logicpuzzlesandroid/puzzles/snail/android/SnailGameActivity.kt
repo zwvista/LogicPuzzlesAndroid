@@ -17,12 +17,9 @@ class SnailGameActivity : GameGameActivity<SnailGame, SnailDocument, SnailGameMo
     protected lateinit var document: SnailDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: SnailGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = SnailGameView(this)
+        gameView = SnailGameView(this)
         super.init()
     }
 

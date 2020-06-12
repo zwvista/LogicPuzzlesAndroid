@@ -17,12 +17,9 @@ class FutoshikiGameActivity : GameGameActivity<FutoshikiGame, FutoshikiDocument,
     protected lateinit var document: FutoshikiDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: FutoshikiGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = FutoshikiGameView(this)
+        gameView = FutoshikiGameView(this)
         super.init()
     }
 

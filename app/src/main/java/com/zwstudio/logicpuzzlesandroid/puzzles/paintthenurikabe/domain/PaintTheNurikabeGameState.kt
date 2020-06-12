@@ -112,7 +112,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
             for (os in NurikabeGame.offset) {
                 val p2 = p.add(os)
                 if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         // 3. The painted tiles form an orthogonally continuous area, like a
         // Nurikabe.

@@ -41,7 +41,7 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
     }
 
     private fun changeObject(move: PowerGridGameMove, f: (PowerGridGameState, PowerGridGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

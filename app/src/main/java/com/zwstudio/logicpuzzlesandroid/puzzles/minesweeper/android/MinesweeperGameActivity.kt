@@ -17,12 +17,9 @@ class MinesweeperGameActivity : GameGameActivity<MinesweeperGame, MinesweeperDoc
     protected lateinit var document: MinesweeperDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: MinesweeperGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = MinesweeperGameView(this)
+        gameView = MinesweeperGameView(this)
         super.init()
     }
 

@@ -17,12 +17,9 @@ class SnakeGameActivity : GameGameActivity<SnakeGame, SnakeDocument, SnakeGameMo
     protected lateinit var document: SnakeDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: SnakeGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = SnakeGameView(this)
+        gameView = SnakeGameView(this)
         super.init()
     }
 

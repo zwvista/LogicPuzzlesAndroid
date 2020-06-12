@@ -17,12 +17,9 @@ class LighthousesGameActivity : GameGameActivity<LighthousesGame, LighthousesDoc
     protected lateinit var document: LighthousesDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: LighthousesGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = LighthousesGameView(this)
+        gameView = LighthousesGameView(this)
         super.init()
     }
 

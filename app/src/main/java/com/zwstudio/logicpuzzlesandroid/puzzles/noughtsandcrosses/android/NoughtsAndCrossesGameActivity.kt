@@ -17,12 +17,9 @@ class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame, No
     protected lateinit var document: NoughtsAndCrossesDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: NoughtsAndCrossesGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = NoughtsAndCrossesGameView(this)
+        gameView = NoughtsAndCrossesGameView(this)
         super.init()
     }
 

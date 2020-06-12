@@ -17,12 +17,9 @@ class PowerGridGameActivity : GameGameActivity<PowerGridGame, PowerGridDocument,
     protected lateinit var document: PowerGridDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: PowerGridGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = PowerGridGameView(this)
+        gameView = PowerGridGameView(this)
         super.init()
     }
 

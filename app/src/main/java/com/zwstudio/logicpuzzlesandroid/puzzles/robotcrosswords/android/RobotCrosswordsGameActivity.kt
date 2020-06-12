@@ -17,12 +17,9 @@ class RobotCrosswordsGameActivity : GameGameActivity<RobotCrosswordsGame, RobotC
     protected lateinit var document: RobotCrosswordsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: RobotCrosswordsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = RobotCrosswordsGameView(this)
+        gameView = RobotCrosswordsGameView(this)
         super.init()
     }
 

@@ -17,12 +17,9 @@ class DominoGameActivity : GameGameActivity<DominoGame, DominoDocument, DominoGa
     protected lateinit var document: DominoDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: DominoGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = DominoGameView(this)
+        gameView = DominoGameView(this)
         super.init()
     }
 

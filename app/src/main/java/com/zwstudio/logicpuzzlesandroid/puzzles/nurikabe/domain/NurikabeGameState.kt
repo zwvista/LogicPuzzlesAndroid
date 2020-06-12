@@ -88,13 +88,13 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             for (os in NurikabeGame.offset) {
                 val p2 = p.add(os)
                 if (rngWalls.contains(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
             for (os in NurikabeGame.offset) {
                 val p2 = p.add(os)
                 if (rngEmpty.contains(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         if (rngWalls.isEmpty())
             isSolved = false
@@ -102,12 +102,12 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             // 3. The garden is separated by a single continuous wall. This means all
             // wall tiles on the board must be connected horizontally or vertically.
             // There can't be isolated walls.
-            g.rootNode = pos2node[rngWalls[0]]
+            g.rootNode = pos2node[rngWalls[0]]!!
             val nodeList = g.bfs()
             if (rngWalls.size != nodeList.size) isSolved = false
         }
         while (rngEmpty.isNotEmpty()) {
-            val node = pos2node[rngEmpty[0]]
+            val node = pos2node[rngEmpty[0]]!!
             g.rootNode = node
             val nodeList = g.bfs()
             rngEmpty.removeAll { nodeList.contains(pos2node[it]) }

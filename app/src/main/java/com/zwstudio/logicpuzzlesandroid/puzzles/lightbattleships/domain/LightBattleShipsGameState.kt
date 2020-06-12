@@ -141,7 +141,8 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             for (os in LightBattleShipsGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
-                if (node2 != null) g.connectNode(node, node2)
+                if (node2 != null)
+                    g.connectNode(node, node2)
             }
         }
         val shipNumbers = arrayOf(0, 0, 0, 0, 0)

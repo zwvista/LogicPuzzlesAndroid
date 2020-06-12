@@ -17,12 +17,9 @@ class BWTapaGameActivity : GameGameActivity<BWTapaGame, BWTapaDocument, BWTapaGa
     protected lateinit var document: BWTapaDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: BWTapaGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = BWTapaGameView(this)
+        gameView = BWTapaGameView(this)
         super.init()
     }
 

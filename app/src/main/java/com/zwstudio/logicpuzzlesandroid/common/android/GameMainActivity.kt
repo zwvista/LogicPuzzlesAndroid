@@ -4,10 +4,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
-import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
-import fj.data.List
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
@@ -19,13 +17,10 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
 
     @ViewById
     protected lateinit var tvGame: TextView
-
     @ViewById
     protected lateinit var btnResumeLevel: Button
-
     @ViewById
     protected lateinit var btnPrevPage: Button
-
     @ViewById
     protected lateinit var btnNextPage: Button
     var currentPage = 0
@@ -45,14 +40,14 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
             button.setOnClickListener(onClickListener)
         }
         numPages = (doc().levels.size + countPerPage - 1) / countPerPage
-        val index = List.iterableList(doc().levels).toStream().indexOf { o: GameLevel? -> o.id == doc().selectedLevelID }.orSome(0)
+        val index = doc().levels.indexOfFirst { it.id == doc().selectedLevelID }.coerceAtLeast(0)
         currentPage = index / countPerPage
         if (numPages == 1) {
             btnPrevPage.visibility = View.INVISIBLE
             btnNextPage.visibility = View.INVISIBLE
         }
         showCurrentPage()
-        tvGame.text = doc().gameTitle()
+        tvGame.text = doc().gameTitle
         val toResume = intent.getBooleanExtra("toResume", false)
         if (toResume) resumeGame()
     }

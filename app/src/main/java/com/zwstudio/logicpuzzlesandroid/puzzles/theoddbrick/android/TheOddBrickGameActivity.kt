@@ -17,12 +17,9 @@ class TheOddBrickGameActivity : GameGameActivity<TheOddBrickGame, TheOddBrickDoc
     protected lateinit var document: TheOddBrickDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TheOddBrickGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TheOddBrickGameView(this)
+        gameView = TheOddBrickGameView(this)
         super.init()
     }
 

@@ -106,7 +106,8 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
             for (os in CastleBaileyGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
-                if (node2 != null) g.connectNode(node, node2)
+                if (node2 != null)
+                    g.connectNode(node, node2)
             }
         // 6. To facilitate movement in the castle, the Bailey must have a single
         // continuous area (Garden).

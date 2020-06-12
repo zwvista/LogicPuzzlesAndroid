@@ -51,7 +51,7 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
     }
 
     private fun changeObject(move: CarpentersWallGameMove, f: (CarpentersWallGameState, CarpentersWallGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

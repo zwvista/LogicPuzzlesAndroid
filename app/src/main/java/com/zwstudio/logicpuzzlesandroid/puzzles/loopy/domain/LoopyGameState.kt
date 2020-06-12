@@ -77,7 +77,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
             for (i in 0..3) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p.add(LoopyGame.offset[i])
-                g.connectNode(pos2node[p], pos2node[p2])
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
         // 1. Draw a single looping path.

@@ -41,7 +41,7 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
     }
 
     private fun changeObject(move: LineSweeperGameMove, f: (LineSweeperGameState, LineSweeperGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

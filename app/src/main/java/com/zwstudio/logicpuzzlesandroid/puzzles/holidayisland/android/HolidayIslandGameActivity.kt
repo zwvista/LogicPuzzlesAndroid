@@ -17,12 +17,9 @@ class HolidayIslandGameActivity : GameGameActivity<HolidayIslandGame, HolidayIsl
     protected lateinit var document: HolidayIslandDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: HolidayIslandGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = HolidayIslandGameView(this)
+        gameView = HolidayIslandGameView(this)
         super.init()
     }
 

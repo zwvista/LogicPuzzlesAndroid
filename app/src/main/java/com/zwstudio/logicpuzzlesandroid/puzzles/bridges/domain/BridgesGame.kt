@@ -51,7 +51,7 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
     }
 
     fun switchBridges(move: BridgesGameMove): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

@@ -17,12 +17,9 @@ class AbstractPaintingGameActivity : GameGameActivity<AbstractPaintingGame, Abst
     protected lateinit var document: AbstractPaintingDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: AbstractPaintingGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = AbstractPaintingGameView(this)
+        gameView = AbstractPaintingGameView(this)
         super.init()
     }
 

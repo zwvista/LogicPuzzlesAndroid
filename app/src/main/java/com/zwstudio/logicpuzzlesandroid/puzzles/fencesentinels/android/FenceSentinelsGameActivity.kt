@@ -17,12 +17,9 @@ class FenceSentinelsGameActivity : GameGameActivity<FenceSentinelsGame, FenceSen
     protected lateinit var document: FenceSentinelsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: FenceSentinelsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = FenceSentinelsGameView(this)
+        gameView = FenceSentinelsGameView(this)
         super.init()
     }
 

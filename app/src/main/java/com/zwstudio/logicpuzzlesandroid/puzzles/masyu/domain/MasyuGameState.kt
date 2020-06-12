@@ -123,7 +123,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
                         }
                     }
                 }
-                g.connectNode(pos2node[p], pos2node[p2])
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
             if (!bW) {
                 isSolved = false

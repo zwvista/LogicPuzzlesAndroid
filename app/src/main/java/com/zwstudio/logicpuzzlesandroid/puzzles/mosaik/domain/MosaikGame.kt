@@ -41,7 +41,7 @@ class MosaikGame(layout: List<String>, gi: GameInterface<MosaikGame, MosaikGameM
     }
 
     private fun changeObject(move: MosaikGameMove, f: (MosaikGameState, MosaikGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

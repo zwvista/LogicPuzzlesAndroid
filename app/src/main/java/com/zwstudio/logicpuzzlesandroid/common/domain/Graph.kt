@@ -2,19 +2,21 @@ package com.zwstudio.logicpuzzlesandroid.common.domain
 
 import java.util.*
 
+class Node(var label: String) {
+    var visited = false
+}
+
 class Graph {
-    var rootNode: Node? = null
-    var nodes: ArrayList<*> = ArrayList<Any?>()
-    var adjMatrix //Edges will be represented as adjacency Matrix
-        : Array<IntArray>?
+    lateinit var rootNode: Node
+    private var nodes = mutableListOf<Node>()
+    private var adjMatrix //Edges will be represented as adjacency Matrix
+        : Array<IntArray>? = null
     var size = 0
 
-    fun addNode(n: Node?) {
-        nodes.add(n)
-    }
+    fun addNode(n: Node) = nodes.add(n)
 
     //This method will be called to make connect two nodes
-    fun connectNode(start: Node?, end: Node?) {
+    fun connectNode(start: Node, end: Node) {
         if (adjMatrix == null) {
             size = nodes.size
             adjMatrix = Array(size) { IntArray(size) }
@@ -27,30 +29,26 @@ class Graph {
 
     private fun getUnvisitedChildNode(n: Node): Node? {
         val index = nodes.indexOf(n)
-        var j = 0
-        while (j < size) {
-            if (adjMatrix!![index][j] == 1 && (nodes[j] as Node).visited == false) {
-                return nodes[j] as Node
-            }
-            j++
-        }
+        for (j in 0 until size)
+            if (adjMatrix!![index][j] == 1 && !nodes[j].visited)
+                return nodes[j]
         return null
     }
 
     //BFS traversal of a tree is performed by the bfs() function
-    fun bfs(): List<Node?> {
-        val nodeList: MutableList<Node?> = ArrayList()
+    fun bfs(): List<Node> {
+        val nodeList = mutableListOf<Node>()
         //BFS uses Queue data structure
-        val q: Queue<*> = LinkedList<Any?>()
+        val q = mutableListOf<Node>()
         q.add(rootNode)
         //printNode(this.rootNode);
         nodeList.add(rootNode)
-        rootNode!!.visited = true
-        while (!q.isEmpty()) {
-            val n = q.remove() as Node
-            var child: Node? = null
-            while (getUnvisitedChildNode(n).also { child = it } != null) {
-                child!!.visited = true
+        rootNode.visited = true
+        while (q.isNotEmpty()) {
+            val n = q.removeAt(0)
+            while (true) {
+                val child = getUnvisitedChildNode(n) ?: break
+                child.visited = true
                 //printNode(child);
                 nodeList.add(child)
                 q.add(child)
@@ -64,9 +62,9 @@ class Graph {
     //DFS traversal of a tree is performed by the dfs() function
     fun dfs() {
         //DFS uses Stack data structure
-        val s: Stack<*> = Stack<Any?>()
+        val s = Stack<Node>()
         s.push(rootNode)
-        rootNode!!.visited = true
+        rootNode.visited = true
         printNode(rootNode)
         while (!s.isEmpty()) {
             val n = s.peek() as Node
@@ -85,16 +83,12 @@ class Graph {
 
     //Utility methods for clearing visited property of node
     private fun clearNodes() {
-        var i = 0
-        while (i < size) {
-            val n = nodes[i] as Node
-            n.visited = false
-            i++
-        }
+        for (i in 0 until size)
+            nodes[i].visited = false
     }
 
     //Utility methods for printing the node's label
-    private fun printNode(n: Node?) {
-        print(n!!.label + " ")
+    private fun printNode(n: Node) {
+        print(n.label + " ")
     }
 }

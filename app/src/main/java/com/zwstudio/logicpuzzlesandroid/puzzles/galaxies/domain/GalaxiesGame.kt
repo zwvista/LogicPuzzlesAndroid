@@ -81,7 +81,7 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
     }
 
     private fun changeObject(move: GalaxiesGameMove, f: (GalaxiesGameState, GalaxiesGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

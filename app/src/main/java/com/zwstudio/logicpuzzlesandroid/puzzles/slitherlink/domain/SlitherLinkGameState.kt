@@ -103,7 +103,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             for (i in 0..3) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p.add(SlitherLinkGame.offset[i])
-                g.connectNode(pos2node[p], pos2node[p2])
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
         // 1. Draw a single looping path with the aid of the numbered hints.

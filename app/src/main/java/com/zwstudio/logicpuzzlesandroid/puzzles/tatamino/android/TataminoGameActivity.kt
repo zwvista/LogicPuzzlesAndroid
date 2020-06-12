@@ -17,12 +17,9 @@ class TataminoGameActivity : GameGameActivity<TataminoGame, TataminoDocument, Ta
     protected lateinit var document: TataminoDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TataminoGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TataminoGameView(this)
+        gameView = TataminoGameView(this)
         super.init()
     }
 

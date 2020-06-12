@@ -58,7 +58,7 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
     }
 
     private fun changeObject(move: FillominoGameMove, f: (FillominoGameState, FillominoGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

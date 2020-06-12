@@ -17,12 +17,9 @@ class TapARowGameActivity : GameGameActivity<TapARowGame, TapARowDocument, TapAR
     protected lateinit var document: TapARowDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TapARowGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = TapARowGameView(this)
+        gameView = TapARowGameView(this)
         super.init()
     }
 

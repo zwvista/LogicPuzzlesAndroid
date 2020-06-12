@@ -17,12 +17,9 @@ class SlitherLinkGameActivity : GameGameActivity<SlitherLinkGame, SlitherLinkDoc
     protected lateinit var document: SlitherLinkDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: SlitherLinkGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = SlitherLinkGameView(this)
+        gameView = SlitherLinkGameView(this)
         super.init()
     }
 

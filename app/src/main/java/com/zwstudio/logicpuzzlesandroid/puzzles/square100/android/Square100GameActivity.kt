@@ -17,12 +17,9 @@ class Square100GameActivity : GameGameActivity<Square100Game, Square100Document,
     protected lateinit var document: Square100Document
     override fun doc() = document
 
-    protected lateinit var gameView2: Square100GameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = Square100GameView(this)
+        gameView = Square100GameView(this)
         super.init()
     }
 

@@ -77,7 +77,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(DominoGame.offset2[i])][DominoGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(DominoGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(DominoGame.offset[i])]!!)
             }
         val dominoes = mutableListOf<List<Int?>>()
         while (pos2node.isNotEmpty()) {

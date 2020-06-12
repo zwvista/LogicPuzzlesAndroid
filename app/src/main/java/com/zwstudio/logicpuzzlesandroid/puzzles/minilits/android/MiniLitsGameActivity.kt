@@ -17,12 +17,9 @@ class MiniLitsGameActivity : GameGameActivity<MiniLitsGame, MiniLitsDocument, Mi
     protected lateinit var document: MiniLitsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: MiniLitsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = MiniLitsGameView(this)
+        gameView = MiniLitsGameView(this)
         super.init()
     }
 

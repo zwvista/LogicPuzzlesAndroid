@@ -7,62 +7,50 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity
-import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
-import fj.Ord
-import fj.data.Array
 import org.androidannotations.annotations.*
-import org.apache.commons.lang3.ObjectUtils
-import java.io.IOException
 import java.util.*
 
 @EActivity(R.layout.activity_home_choose_game)
 open class HomeChooseGameActivity : BaseActivity() {
-    fun doc(): HomeDocument? {
-        return app!!.homeDocument
-    }
+    fun doc() = app.homeDocument
 
     @ViewById
-    var lvGames: ListView? = null
+    lateinit var lvGames: ListView
 
     @AfterViews
     protected fun init() {
-        if (lstGameNames == null) {
-            try {
-                lstGameNames = Array.array(*app!!.applicationContext.assets.list("xml"))
-                    .map { f: String? -> f!!.substring(0, f.length - ".xml".length) }
-                    .toStream().sort(Ord.stringOrd.contramap { s: String? -> s!!.toUpperCase() })
-                    .toJavaList()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            lstGameTitles = fj.data.List.iterableList(lstGameNames).map { s: String? -> ObjectUtils.defaultIfNull(name2title[s], s) }.toJavaList()
+        if (lstGameNames.isEmpty()) {
+            lstGameNames = app.applicationContext.assets.list("xml")!!
+                .map { it.substring(0, it.length - ".xml".length) }
+                .sortedBy { it.toUpperCase(Locale.ROOT) }
+            lstGameTitles = lstGameNames.map { (name2title[it] ?: it) }
         }
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_single_choice, lstGameTitles)
-        lvGames!!.adapter = adapter
-        val gameName = doc()!!.gameProgress()!!.gameName
-        lvGames!!.choiceMode = ListView.CHOICE_MODE_SINGLE
-        val selectedPosition = lstGameNames!!.indexOf(gameName)
-        lvGames!!.setItemChecked(selectedPosition, true)
+        lvGames.adapter = adapter
+        val gameName = doc().gameProgress()!!.gameName
+        lvGames.choiceMode = ListView.CHOICE_MODE_SINGLE
+        val selectedPosition = lstGameNames.indexOf(gameName)
+        lvGames.setItemChecked(selectedPosition, true)
 
         // https://stackoverflow.com/questions/7733813/how-can-you-tell-when-a-layout-has-been-drawn/7735122#7735122
-        lvGames!!.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        lvGames.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                lvGames!!.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                lvGames.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 // https://stackoverflow.com/questions/5540223/center-a-listview-on-its-current-selection
-                val h1 = lvGames!!.height
+                val h1 = lvGames.height
                 // https://stackoverflow.com/questions/3361423/android-get-listview-item-height
-                val childView = adapter.getView(selectedPosition, null, lvGames!!)
+                val childView = adapter.getView(selectedPosition, null, lvGames)
                 childView.measure(UNBOUNDED, UNBOUNDED)
                 val h2 = childView.measuredHeight
-                lvGames!!.smoothScrollToPositionFromTop(selectedPosition, h1 / 2 - h2 / 2)
+                lvGames.smoothScrollToPositionFromTop(selectedPosition, h1 / 2 - h2 / 2)
             }
         })
     }
 
     @ItemClick
     protected fun lvGamesItemClicked(position: Int) {
-        doc()!!.resumeGame(lstGameNames!![position], lstGameTitles!![position])
+        doc().resumeGame(lstGameNames[position], lstGameTitles[position])
         setResult(Activity.RESULT_OK, null)
         finish()
     }
@@ -73,54 +61,51 @@ open class HomeChooseGameActivity : BaseActivity() {
     }
 
     companion object {
-        var lstGameNames: List<String?>? = null
-        var lstGameTitles: List<String?>? = null
-        var name2title: Map<String?, String> = object : HashMap<String?, String?>() {
-            init {
-                put("AbstractPainting", "Abstract Painting")
-                put("BalancedTapas", "Balanced Tapas")
-                put("BattleShips", "Battle Ships")
-                put("BootyIsland", "Booty Island")
-                put("BoxItAgain", "Box It Again")
-                put("BoxItAround", "Box It Around")
-                put("BoxItUp", "Box It Up")
-                put("BusySeas", "Busy Seas")
-                put("BWTapa", "B&W Tapa")
-                put("CarpentersSquare", "Carpenter's Square")
-                put("CarpentersWall", "Carpenter's Wall")
-                put("CastleBailey", "Castle Bailey")
-                put("DigitalBattleShips", "Digital Battle Ships")
-                put("DisconnectFour", "Disconnect Four")
-                put("FenceItUp", "Fence It Up")
-                put("FenceSentinels", "Fence Sentinels")
-                put("FourMeNot", "Four-Me-Not")
-                put("HolidayIsland", "Holiday Island")
-                put("LightBattleShips", "Light Battle Ships")
-                put("LightenUp", "Lighten Up")
-                put("MineShips", "Mine Ships")
-                put("MiniLits", "Mini-Lits")
-                put("NorthPoleFishing", "North Pole Fishing")
-                put("NoughtsAndCrosses", "Noughts & Crosses")
-                put("NumberPath", "Number Path")
-                put("OverUnder", "Over Under")
-                put("PaintTheNurikabe", "Paint The Nurikabe")
-                put("ParkLakes", "Park Lakes")
-                put("ProductSentinels", "Product Sentinels")
-                put("RippleEffect", "Ripple Effect")
-                put("RobotCrosswords", "Robot Crosswords")
-                put("RobotFences", "Robot Fences")
-                put("Square100", "Square 100")
-                put("TapaIslands", "Tapa Islands")
-                put("TapAlike", "Tap-Alike")
-                put("TapARow", "Tap-A-Row")
-                put("TapDifferently", "Tap Differently")
-                put("TennerGrid", "Tenner Grid")
-                put("TheOddBrick", "The Odd Brick")
-                put("TierraDelFuego", "Tierra Del Fuego")
-                put("WallSentinels", "Wall Sentinels")
-                put("WallSentinels2", "Wall Sentinels 2")
-            }
-        }
+        var lstGameNames = listOf<String>()
+        var lstGameTitles = listOf<String>()
+        var name2title = mapOf(
+            "AbstractPainting" to "Abstract Painting",
+            "BalancedTapas" to "Balanced Tapas",
+            "BattleShips" to "Battle Ships",
+            "BootyIsland" to "Booty Island",
+            "BoxItAgain" to "Box It Again",
+            "BoxItAround" to "Box It Around",
+            "BoxItUp" to "Box It Up",
+            "BusySeas" to "Busy Seas",
+            "BWTapa" to "B&W Tapa",
+            "CarpentersSquare" to "Carpenter's Square",
+            "CarpentersWall" to "Carpenter's Wall",
+            "CastleBailey" to "Castle Bailey",
+            "DigitalBattleShips" to "Digital Battle Ships",
+            "DisconnectFour" to "Disconnect Four",
+            "FenceItUp" to "Fence It Up",
+            "FenceSentinels" to "Fence Sentinels",
+            "FourMeNot" to "Four-Me-Not",
+            "HolidayIsland" to "Holiday Island",
+            "LightBattleShips" to "Light Battle Ships",
+            "LightenUp" to "Lighten Up",
+            "MineShips" to "Mine Ships",
+            "MiniLits" to "Mini-Lits",
+            "NorthPoleFishing" to "North Pole Fishing",
+            "NoughtsAndCrosses" to "Noughts & Crosses",
+            "NumberPath" to "Number Path",
+            "OverUnder" to "Over Under",
+            "PaintTheNurikabe" to "Paint The Nurikabe",
+            "ParkLakes" to "Park Lakes",
+            "ProductSentinels" to "Product Sentinels",
+            "RippleEffect" to "Ripple Effect",
+            "RobotCrosswords" to "Robot Crosswords",
+            "RobotFences" to "Robot Fences",
+            "Square100" to "Square 100",
+            "TapaIslands" to "Tapa Islands",
+            "TapAlike" to "Tap-Alike",
+            "TapARow" to "Tap-A-Row",
+            "TapDifferently" to "Tap Differently",
+            "TennerGrid" to "Tenner Grid",
+            "TheOddBrick" to "The Odd Brick",
+            "TierraDelFuego" to "Tierra Del Fuego",
+            "WallSentinels2" to "Wall Sentinels 2"
+        )
         private val UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
 }

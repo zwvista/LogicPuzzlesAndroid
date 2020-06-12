@@ -17,12 +17,9 @@ class SumscrapersGameActivity : GameGameActivity<SumscrapersGame, SumscrapersDoc
     protected lateinit var document: SumscrapersDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: SumscrapersGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = SumscrapersGameView(this)
+        gameView = SumscrapersGameView(this)
         super.init()
     }
 

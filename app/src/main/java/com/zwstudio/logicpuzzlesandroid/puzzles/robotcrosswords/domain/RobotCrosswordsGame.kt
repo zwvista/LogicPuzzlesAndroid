@@ -70,7 +70,7 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
     }
 
     private fun changeObject(move: RobotCrosswordsGameMove, f: (RobotCrosswordsGameState, RobotCrosswordsGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

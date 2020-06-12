@@ -17,12 +17,9 @@ class LineSweeperGameActivity : GameGameActivity<LineSweeperGame, LineSweeperDoc
     protected lateinit var document: LineSweeperDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: LineSweeperGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = LineSweeperGameView(this)
+        gameView = LineSweeperGameView(this)
         super.init()
     }
 

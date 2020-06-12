@@ -17,12 +17,9 @@ class OrchardsGameActivity : GameGameActivity<OrchardsGame, OrchardsDocument, Or
     protected lateinit var document: OrchardsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: OrchardsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = OrchardsGameView(this)
+        gameView = OrchardsGameView(this)
         super.init()
     }
 

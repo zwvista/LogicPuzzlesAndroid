@@ -26,10 +26,8 @@ abstract class BaseActivity : AppCompatActivity() {
         // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
         val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
             when (which) {
-                DialogInterface.BUTTON_POSITIVE ->                         //Yes button clicked
-                    yesAction()
-                DialogInterface.BUTTON_NEGATIVE -> {
-                }
+                DialogInterface.BUTTON_POSITIVE -> yesAction()  //Yes button clicked
+                DialogInterface.BUTTON_NEGATIVE -> {}
             }
         }
         val builder = AlertDialog.Builder(this)

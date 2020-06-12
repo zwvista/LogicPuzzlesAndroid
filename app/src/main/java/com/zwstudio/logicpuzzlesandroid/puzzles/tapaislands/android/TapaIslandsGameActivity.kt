@@ -17,12 +17,9 @@ class TapaIslandsGameActivity : GameGameActivity<TapaIslandsGame, TapaIslandsDoc
     protected lateinit var document: TapaIslandsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TapaIslandsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TapaIslandsGameView(this)
+        gameView = TapaIslandsGameView(this)
         super.init()
     }
 

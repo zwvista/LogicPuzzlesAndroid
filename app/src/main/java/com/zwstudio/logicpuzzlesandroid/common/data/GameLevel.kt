@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.common.data
 
 class GameLevel {
-    var id: String? = null
-    var layout: List<String>? = null
-    var settings: Map<String, String>? = null
+    var id = ""
+    var layout = listOf<String>()
+    var settings = mutableMapOf<String, String>()
 }

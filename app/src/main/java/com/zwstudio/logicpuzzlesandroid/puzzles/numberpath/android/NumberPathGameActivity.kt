@@ -17,12 +17,9 @@ class NumberPathGameActivity : GameGameActivity<NumberPathGame, NumberPathDocume
     protected lateinit var document: NumberPathDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: NumberPathGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = NumberPathGameView(this)
+        gameView = NumberPathGameView(this)
         super.init()
     }
 

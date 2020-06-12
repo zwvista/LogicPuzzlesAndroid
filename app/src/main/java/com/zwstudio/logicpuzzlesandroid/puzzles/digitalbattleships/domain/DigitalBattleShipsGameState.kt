@@ -124,7 +124,8 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
             for (i in 0..3) {
                 val p2 = p.add(DigitalBattleShipsGame.offset[i * 2])
                 val node2 = pos2node[p2]
-                if (node2 != null) g.connectNode(node, node2)
+                if (node2 != null)
+                    g.connectNode(node, node2)
             }
         }
         val shipNumbers = mutableListOf(0, 0, 0, 0, 0)

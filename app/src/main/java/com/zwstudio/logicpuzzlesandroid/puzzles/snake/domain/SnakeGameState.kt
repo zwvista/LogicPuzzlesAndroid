@@ -105,7 +105,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
             for (os in SnakeGame.offset) {
                 val p2 = p.add(os)
                 if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()

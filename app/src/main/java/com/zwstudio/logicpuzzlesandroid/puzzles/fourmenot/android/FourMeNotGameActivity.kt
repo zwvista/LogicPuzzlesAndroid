@@ -17,12 +17,9 @@ class FourMeNotGameActivity : GameGameActivity<FourMeNotGame, FourMeNotDocument,
     protected lateinit var document: FourMeNotDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: FourMeNotGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = FourMeNotGameView(this)
+        gameView = FourMeNotGameView(this)
         super.init()
     }
 

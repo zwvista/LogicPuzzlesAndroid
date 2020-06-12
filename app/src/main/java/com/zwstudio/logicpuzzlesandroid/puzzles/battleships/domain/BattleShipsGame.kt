@@ -57,7 +57,7 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
     }
 
     private fun changeObject(move: BattleShipsGameMove, f: (BattleShipsGameState, BattleShipsGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

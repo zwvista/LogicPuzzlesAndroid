@@ -70,7 +70,7 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
                 for (os in TataminoGame.offset) {
                     val p2 = p.add(os)
                     if (isValid(p2) && this[p2] == ch)
-                        g.connectNode(pos2node[p], pos2node[p2])
+                        g.connectNode(pos2node[p]!!, pos2node[p2]!!)
                 }
             }
         dots = cloner.deepClone(game.dots)

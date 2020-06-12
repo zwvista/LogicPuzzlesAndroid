@@ -17,12 +17,9 @@ class BattleShipsGameActivity : GameGameActivity<BattleShipsGame, BattleShipsDoc
     protected lateinit var document: BattleShipsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: BattleShipsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = BattleShipsGameView(this)
+        gameView = BattleShipsGameView(this)
         super.init()
     }
 

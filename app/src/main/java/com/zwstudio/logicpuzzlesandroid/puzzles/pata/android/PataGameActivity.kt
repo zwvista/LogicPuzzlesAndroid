@@ -17,12 +17,9 @@ class PataGameActivity : GameGameActivity<PataGame, PataDocument, PataGameMove, 
     protected lateinit var document: PataDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: PataGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = PataGameView(this)
+        gameView = PataGameView(this)
         super.init()
     }
 

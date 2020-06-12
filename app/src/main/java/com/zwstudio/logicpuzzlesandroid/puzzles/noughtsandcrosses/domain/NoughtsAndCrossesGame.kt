@@ -50,7 +50,7 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
     }
 
     private fun changeObject(move: NoughtsAndCrossesGameMove, f: (NoughtsAndCrossesGameState, NoughtsAndCrossesGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

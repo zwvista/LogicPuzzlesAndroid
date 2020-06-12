@@ -17,12 +17,9 @@ class OverUnderGameActivity : GameGameActivity<OverUnderGame, OverUnderDocument,
     protected lateinit var document: OverUnderDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: OverUnderGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = OverUnderGameView(this)
+        gameView = OverUnderGameView(this)
         super.init()
     }
 

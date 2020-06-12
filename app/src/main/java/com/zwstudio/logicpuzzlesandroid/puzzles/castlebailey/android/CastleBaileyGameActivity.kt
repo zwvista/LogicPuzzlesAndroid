@@ -17,12 +17,9 @@ class CastleBaileyGameActivity : GameGameActivity<CastleBaileyGame, CastleBailey
     protected lateinit var document: CastleBaileyDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: CastleBaileyGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = CastleBaileyGameView(this)
+        gameView = CastleBaileyGameView(this)
         super.init()
     }
 

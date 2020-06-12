@@ -77,7 +77,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(NeighboursGame.offset2[i])][NeighboursGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(NeighboursGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(NeighboursGame.offset[i])]!!)
             }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()

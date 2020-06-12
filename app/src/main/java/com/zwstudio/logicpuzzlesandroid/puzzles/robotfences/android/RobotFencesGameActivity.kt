@@ -17,12 +17,9 @@ class RobotFencesGameActivity : GameGameActivity<RobotFencesGame, RobotFencesDoc
     protected lateinit var document: RobotFencesDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: RobotFencesGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = RobotFencesGameView(this)
+        gameView = RobotFencesGameView(this)
         super.init()
     }
 

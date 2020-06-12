@@ -36,7 +36,7 @@ class SentinelsGame(layout: List<String>, gi: GameInterface<SentinelsGame, Senti
     }
 
     private fun changeObject(move: SentinelsGameMove, f: (SentinelsGameState, SentinelsGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

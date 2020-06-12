@@ -71,10 +71,10 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
             val p = Position(r, c)
             for (i in 0..3)
                 if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
-                    g.connectNode(pos2node[p], pos2node[p.add(offset[i * 2])])
+                    g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i * 2])]!!)
         }
         while (rng.isNotEmpty()) {
-            g.rootNode = pos2node[rng.first()]
+            g.rootNode = pos2node[rng.first()]!!
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size
@@ -88,7 +88,7 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
     }
 
     private fun changeObject(move: TatamiGameMove, f: (TatamiGameState, TatamiGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

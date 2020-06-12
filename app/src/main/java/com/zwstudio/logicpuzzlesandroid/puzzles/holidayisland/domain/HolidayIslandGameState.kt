@@ -79,7 +79,8 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             for (os in HolidayIslandGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
-                if (node2 != null) g.connectNode(node, node2)
+                if (node2 != null)
+                    g.connectNode(node, node2)
             }
         }
         run {

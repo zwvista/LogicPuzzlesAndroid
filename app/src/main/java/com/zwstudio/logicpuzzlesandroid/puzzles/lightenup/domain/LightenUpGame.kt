@@ -36,7 +36,7 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
     }
 
     private fun changeObject(move: LightenUpGameMove, f: (LightenUpGameState, LightenUpGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

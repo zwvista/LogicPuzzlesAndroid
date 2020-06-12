@@ -17,12 +17,9 @@ class BridgesGameActivity : GameGameActivity<BridgesGame, BridgesDocument, Bridg
     protected lateinit var document: BridgesDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: BridgesGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = BridgesGameView(this)
+        gameView = BridgesGameView(this)
         super.init()
     }
 

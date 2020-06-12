@@ -122,7 +122,8 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
             for (os in WallSentinels2Game.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
-                if (node2 != null) g.connectNode(node, node2)
+                if (node2 != null)
+                    g.connectNode(node, node2)
             }
         // 7. Lastly there is a single, orthogonally contiguous, Wall - just like Nurikabe.
         g.rootNode = pos2node.values.first()

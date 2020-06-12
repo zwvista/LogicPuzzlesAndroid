@@ -17,12 +17,9 @@ class AbcGameActivity : GameGameActivity<AbcGame, AbcDocument, AbcGameMove, AbcG
     protected lateinit var document: AbcDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: AbcGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = AbcGameView(this)
+        gameView = AbcGameView(this)
         super.init()
     }
 

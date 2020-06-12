@@ -80,7 +80,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(FenceLitsGame.offset2[i])][FenceLitsGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(FenceLitsGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(FenceLitsGame.offset[i])]!!)
             }
         if (!isSolved) return
         // 1. The goal is to divide the board into Tetris pieces, including the

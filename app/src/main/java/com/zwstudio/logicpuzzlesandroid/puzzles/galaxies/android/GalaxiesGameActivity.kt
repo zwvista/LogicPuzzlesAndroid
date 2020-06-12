@@ -17,12 +17,9 @@ class GalaxiesGameActivity : GameGameActivity<GalaxiesGame, GalaxiesDocument, Ga
     protected lateinit var document: GalaxiesDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: GalaxiesGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = GalaxiesGameView(this)
+        gameView = GalaxiesGameView(this)
         super.init()
     }
 

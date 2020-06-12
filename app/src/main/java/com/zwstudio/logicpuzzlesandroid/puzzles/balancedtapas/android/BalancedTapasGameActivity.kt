@@ -17,12 +17,9 @@ class BalancedTapasGameActivity : GameGameActivity<BalancedTapasGame, BalancedTa
     protected lateinit var document: BalancedTapasDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: BalancedTapasGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = BalancedTapasGameView(this)
+        gameView = BalancedTapasGameView(this)
         super.init()
     }
 

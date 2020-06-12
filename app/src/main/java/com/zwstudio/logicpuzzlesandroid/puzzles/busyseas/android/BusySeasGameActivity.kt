@@ -17,12 +17,9 @@ class BusySeasGameActivity : GameGameActivity<BusySeasGame, BusySeasDocument, Bu
     protected lateinit var document: BusySeasDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: BusySeasGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = BusySeasGameView(this)
+        gameView = BusySeasGameView(this)
         super.init()
     }
 

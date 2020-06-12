@@ -20,49 +20,40 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
 
     @ViewById
     protected lateinit var activity_game_game: ViewGroup
-    protected val gameView: View?
-        get() = null
-
+    protected lateinit var gameView: View
     @ViewById
     protected lateinit var tvGame: TextView
-
     @ViewById
     protected lateinit var tvLevel: TextView
-
     @ViewById
     protected lateinit var tvSolved: TextView
-
     @ViewById
     protected lateinit var tvMoves: TextView
-
     @ViewById
     protected lateinit var tvSolution: TextView
-
     @ViewById
     protected lateinit var btnSaveSolution: Button
-
     @ViewById
     protected lateinit var btnLoadSolution: Button
-
     @ViewById
     protected lateinit var btnDeleteSolution: Button
-    lateinit var game: G
+    protected lateinit var game: G
     protected var levelInitilizing = false
+
     protected fun init() {
         /*
-        <view
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            class="com.zwstudio.logicpuzzlesandroid.puzzles.abc.android.AbcGameView"
-            android:id="@+id/gameView"
-            android:background="@color/colorBackground"
-            android:layout_centerInParent="true"/>
-    */
-        val params = RelativeLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            <view
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                class="com.zwstudio.logicpuzzlesandroid.puzzles.abc.android.AbcGameView"
+                android:id="@+id/gameView"
+                android:background="@color/colorBackground"
+                android:layout_centerInParent="true"/>
+        */
+        val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)
         activity_game_game.addView(gameView, params)
-        tvGame.text = doc().gameTitle()
+        tvGame.text = doc().gameTitle
         startGame()
     }
 
@@ -91,7 +82,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
     }
 
     private fun updateMovesUI(game: G) {
-        tvMoves.text = String.format("Moves: %d(%d)", game.moveIndex(), game.moveCount())
+        tvMoves.text = String.format("Moves: %d(%d)", game.moveIndex, game.moveCount)
         tvSolved.setTextColor(if (game.isSolved) Color.WHITE else Color.BLACK)
         btnSaveSolution.isEnabled = game.isSolved
     }

@@ -17,12 +17,9 @@ class MathraxGameActivity : GameGameActivity<MathraxGame, MathraxDocument, Mathr
     protected lateinit var document: MathraxDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: MathraxGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = MathraxGameView(this)
+        gameView = MathraxGameView(this)
         super.init()
     }
 

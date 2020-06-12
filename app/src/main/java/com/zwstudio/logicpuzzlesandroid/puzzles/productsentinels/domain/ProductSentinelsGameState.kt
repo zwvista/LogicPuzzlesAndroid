@@ -79,7 +79,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
             for (os in ProductSentinelsGame.offset) {
                 val p2 = p.add(os)
                 if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         // 4. two Towers can't touch horizontally or vertically.
         for (r in 0 until rows())

@@ -17,12 +17,9 @@ class MasyuGameActivity : GameGameActivity<MasyuGame, MasyuDocument, MasyuGameMo
     protected lateinit var document: MasyuDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: MasyuGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = MasyuGameView(this)
+        gameView = MasyuGameView(this)
         super.init()
     }
 

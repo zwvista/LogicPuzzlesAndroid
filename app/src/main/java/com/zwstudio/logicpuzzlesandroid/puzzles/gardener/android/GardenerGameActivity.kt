@@ -17,12 +17,9 @@ class GardenerGameActivity : GameGameActivity<GardenerGame, GardenerDocument, Ga
     protected lateinit var document: GardenerDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: GardenerGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = GardenerGameView(this)
+        gameView = GardenerGameView(this)
         super.init()
     }
 

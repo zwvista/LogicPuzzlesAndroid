@@ -17,12 +17,9 @@ class HitoriGameActivity : GameGameActivity<HitoriGame, HitoriDocument, HitoriGa
     protected lateinit var document: HitoriDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: HitoriGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = HitoriGameView(this)
+        gameView = HitoriGameView(this)
         super.init()
     }
 

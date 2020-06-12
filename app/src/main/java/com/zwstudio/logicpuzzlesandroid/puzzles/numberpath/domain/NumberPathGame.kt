@@ -20,7 +20,7 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
     }
 
     private fun changeObject(move: NumberPathGameMove, f: (NumberPathGameState, NumberPathGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

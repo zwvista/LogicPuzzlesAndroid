@@ -111,9 +111,9 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
             for (os in BalancedTapasGame.offset) {
                 val p2 = p.add(os)
                 if (rngWalls.contains(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-        g.rootNode = pos2node[rngWalls[0]]
+        g.rootNode = pos2node[rngWalls[0]]!!
         val nodeList = g.bfs()
         if (rngWalls.size != nodeList.size) {
             isSolved = false

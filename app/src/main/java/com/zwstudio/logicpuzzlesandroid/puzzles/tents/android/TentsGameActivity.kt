@@ -17,12 +17,9 @@ class TentsGameActivity : GameGameActivity<TentsGame, TentsDocument, TentsGameMo
     protected lateinit var document: TentsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TentsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TentsGameView(this)
+        gameView = TentsGameView(this)
         super.init()
     }
 

@@ -89,7 +89,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
         for ((p, info) in game.islandsInfo) {
             for (p2 in info.neighbors) {
                 if (p2 == null) continue
-                g.connectNode(pos2node[p], pos2node[p2])
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
         // 2. You must connect all the islands with Bridges, making sure every

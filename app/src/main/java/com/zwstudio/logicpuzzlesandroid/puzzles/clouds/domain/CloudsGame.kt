@@ -45,7 +45,7 @@ class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameM
     }
 
     private fun changeObject(move: CloudsGameMove, f: (CloudsGameState, CloudsGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

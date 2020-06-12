@@ -17,12 +17,9 @@ class NeighboursGameActivity : GameGameActivity<NeighboursGame, NeighboursDocume
     protected lateinit var document: NeighboursDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: NeighboursGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = NeighboursGameView(this)
+        gameView = NeighboursGameView(this)
         super.init()
     }
 

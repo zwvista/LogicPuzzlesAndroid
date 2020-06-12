@@ -17,12 +17,9 @@ class KakuroGameActivity : GameGameActivity<KakuroGame, KakuroDocument, KakuroGa
     protected lateinit var document: KakuroDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: KakuroGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = KakuroGameView(this)
+        gameView = KakuroGameView(this)
         super.init()
     }
 

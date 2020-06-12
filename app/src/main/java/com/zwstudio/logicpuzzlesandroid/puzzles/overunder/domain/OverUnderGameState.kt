@@ -70,7 +70,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame, Ov
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(OverUnderGame.offset2[i])][OverUnderGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(OverUnderGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(OverUnderGame.offset[i])]!!)
             }
         val areas = mutableListOf<List<Position>>()
         while (pos2node.isNotEmpty()) {

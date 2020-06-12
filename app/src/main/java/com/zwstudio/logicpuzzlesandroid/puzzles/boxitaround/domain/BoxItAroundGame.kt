@@ -60,7 +60,7 @@ class BoxItAroundGame(layout: List<String>, gi: GameInterface<BoxItAroundGame, B
     }
 
     private fun changeObject(move: BoxItAroundGameMove, f: (BoxItAroundGameState, BoxItAroundGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

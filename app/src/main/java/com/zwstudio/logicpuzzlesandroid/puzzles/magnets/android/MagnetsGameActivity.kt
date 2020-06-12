@@ -17,12 +17,9 @@ open class MagnetsGameActivity : GameGameActivity<MagnetsGame, MagnetsDocument, 
     protected lateinit var document: MagnetsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: MagnetsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = MagnetsGameView(this)
+        gameView = MagnetsGameView(this)
         super.init()
     }
 

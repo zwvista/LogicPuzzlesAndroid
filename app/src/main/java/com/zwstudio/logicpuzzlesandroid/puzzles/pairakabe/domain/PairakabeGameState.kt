@@ -79,13 +79,13 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             for (os in PairakabeGame.offset) {
                 val p2 = p.add(os)
                 if (rngWalls.contains(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
             for (os in PairakabeGame.offset) {
                 val p2 = p.add(os)
                 if (rngEmpty.contains(p2))
-                    g.connectNode(pos2node[p], pos2node[p2])
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         if (rngWalls.isEmpty())
             isSolved = false
@@ -93,7 +93,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             // The garden is separated by a single continuous wall. This means all
             // wall tiles on the board must be connected horizontally or vertically.
             // There can't be isolated walls.
-            g.rootNode = pos2node[rngWalls[0]]
+            g.rootNode = pos2node[rngWalls[0]]!!
             val nodeList = g.bfs()
             if (rngWalls.size != nodeList.size) isSolved = false
         }

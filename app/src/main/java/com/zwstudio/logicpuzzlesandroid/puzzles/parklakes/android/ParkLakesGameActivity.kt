@@ -17,12 +17,9 @@ class ParkLakesGameActivity : GameGameActivity<ParkLakesGame, ParkLakesDocument,
     protected lateinit var document: ParkLakesDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: ParkLakesGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = ParkLakesGameView(this)
+        gameView = ParkLakesGameView(this)
         super.init()
     }
 

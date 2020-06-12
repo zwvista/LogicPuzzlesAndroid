@@ -17,12 +17,9 @@ class TapAlikeGameActivity : GameGameActivity<TapAlikeGame, TapAlikeDocument, Ta
     protected lateinit var document: TapAlikeDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TapAlikeGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TapAlikeGameView(this)
+        gameView = TapAlikeGameView(this)
         super.init()
     }
 

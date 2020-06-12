@@ -82,7 +82,7 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
             for (i in 0..3) {
                 if (!o[i]) continue
                 val p2 = p.add(NumberPathGame.offset[i])
-                g.connectNode(pos2node[p], pos2node[p2])
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
         // 1. Connect the top left corner (1) to the bottom right corner (N), including

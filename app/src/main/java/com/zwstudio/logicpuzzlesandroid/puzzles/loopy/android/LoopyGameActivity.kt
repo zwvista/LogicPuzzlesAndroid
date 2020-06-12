@@ -17,12 +17,9 @@ class LoopyGameActivity : GameGameActivity<LoopyGame, LoopyDocument, LoopyGameMo
     protected lateinit var document: LoopyDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: LoopyGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = LoopyGameView(this)
+        gameView = LoopyGameView(this)
         super.init()
     }
 

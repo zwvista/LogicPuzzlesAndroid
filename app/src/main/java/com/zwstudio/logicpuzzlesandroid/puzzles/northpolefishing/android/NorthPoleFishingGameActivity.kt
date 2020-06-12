@@ -17,12 +17,9 @@ class NorthPoleFishingGameActivity : GameGameActivity<NorthPoleFishingGame, Nort
     protected lateinit var document: NorthPoleFishingDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: NorthPoleFishingGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = NorthPoleFishingGameView(this)
+        gameView = NorthPoleFishingGameView(this)
         super.init()
     }
 

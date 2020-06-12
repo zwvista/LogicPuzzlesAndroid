@@ -17,12 +17,9 @@ class BootyIslandGameActivity : GameGameActivity<BootyIslandGame, BootyIslandDoc
     protected lateinit var document: BootyIslandDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: BootyIslandGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = BootyIslandGameView(this)
+        gameView = BootyIslandGameView(this)
         super.init()
     }
 

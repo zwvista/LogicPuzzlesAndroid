@@ -53,7 +53,7 @@ class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove
     }
 
     private fun changeObject(move: SnakeGameMove, f: (SnakeGameState, SnakeGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

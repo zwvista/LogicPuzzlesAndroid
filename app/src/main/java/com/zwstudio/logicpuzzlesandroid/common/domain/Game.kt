@@ -2,18 +2,28 @@ package com.zwstudio.logicpuzzlesandroid.common.domain
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import java.util.*
+
+open class GameState {
+    var isSolved = false
+}
+
+interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState> {
+    fun moveAdded(game: G, move: GM)
+    fun levelInitilized(game: G, state: GS)
+    fun levelUpdated(game: G, stateFrom: GS, stateTo: GS)
+    fun gameSolved(game: G)
+}
 
 @Suppress("UNCHECKED_CAST")
 open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM, GS>, gdi: GameDocumentInterface) {
     protected var cloner = Cloner()
     protected var stateIndex = 0
-    protected var states: List<GS> = ArrayList()
+    protected var states = mutableListOf<GS>()
     protected fun state(): GS {
         return states[stateIndex]
     }
 
-    protected var moves: List<GM> = ArrayList()
+    protected var moves = mutableListOf<GM>()
     protected fun move(): GM {
         return moves[stateIndex - 1]
     }
@@ -21,21 +31,17 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM
     val isSolved: Boolean
         get() = state().isSolved
 
-    fun canUndo(): Boolean {
-        return stateIndex > 0
-    }
+    val canUndo: Boolean
+        get() = stateIndex > 0
 
-    fun canRedo(): Boolean {
-        return stateIndex < states.size - 1
-    }
+    val canRedo: Boolean
+        get() = stateIndex < states.size - 1
 
-    fun moveIndex(): Int {
-        return stateIndex
-    }
+    val moveIndex: Int
+        get() = stateIndex
 
-    fun moveCount(): Int {
-        return states.size - 1
-    }
+    val moveCount: Int
+        get() = states.size - 1
 
     private val gi: GameInterface<G, GM, GS>?
     var gdi: GameDocumentInterface
@@ -57,13 +63,13 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM
     }
 
     fun undo() {
-        if (!canUndo()) return
+        if (!canUndo) return
         stateIndex--
         levelUpdated(states[stateIndex + 1], state())
     }
 
     fun redo() {
-        if (!canRedo()) return
+        if (!canRedo) return
         stateIndex++
         levelUpdated(states[stateIndex - 1], state())
     }

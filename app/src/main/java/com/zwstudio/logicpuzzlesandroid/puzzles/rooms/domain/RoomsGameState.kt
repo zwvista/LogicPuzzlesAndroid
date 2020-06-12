@@ -92,7 +92,7 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(RoomsGame.offset2[i])][RoomsGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(RoomsGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(RoomsGame.offset[i])]!!)
             }
         // 3. At the end of the solution, each Room must be reachable from the others.
         // That means no single Room or group of Rooms can be divided by the others.

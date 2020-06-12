@@ -17,12 +17,9 @@ class WallsGameActivity : GameGameActivity<WallsGame, WallsDocument, WallsGameMo
     protected lateinit var document: WallsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: WallsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = WallsGameView(this)
+        gameView = WallsGameView(this)
         super.init()
     }
 

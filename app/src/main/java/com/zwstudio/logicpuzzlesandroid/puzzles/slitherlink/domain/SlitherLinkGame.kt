@@ -43,7 +43,7 @@ class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, S
     }
 
     private fun changeObject(move: SlitherLinkGameMove, f: (SlitherLinkGameState, SlitherLinkGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

@@ -17,12 +17,9 @@ class LightenUpGameActivity : GameGameActivity<LightenUpGame, LightenUpDocument,
     protected lateinit var document: LightenUpDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: LightenUpGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = LightenUpGameView(this)
+        gameView = LightenUpGameView(this)
         super.init()
     }
 

@@ -76,7 +76,7 @@ class NorthPoleFishingGame(layout: List<String>, gi: GameInterface<NorthPoleFish
     }
 
     private fun changeObject(move: NorthPoleFishingGameMove, f: ((NorthPoleFishingGameState, NorthPoleFishingGameMove) -> Boolean)): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

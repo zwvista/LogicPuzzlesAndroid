@@ -17,12 +17,9 @@ class FillominoGameActivity : GameGameActivity<FillominoGame, FillominoDocument,
     protected lateinit var document: FillominoDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: FillominoGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = FillominoGameView(this)
+        gameView = FillominoGameView(this)
         super.init()
     }
 

@@ -17,12 +17,9 @@ class TapaGameActivity : GameGameActivity<TapaGame, TapaDocument, TapaGameMove, 
     protected lateinit var document: TapaDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TapaGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TapaGameView(this)
+        gameView = TapaGameView(this)
         super.init()
     }
 

@@ -38,7 +38,7 @@ class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, B
     }
 
     private fun changeObject(move: BootyIslandGameMove, f: (BootyIslandGameState, BootyIslandGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

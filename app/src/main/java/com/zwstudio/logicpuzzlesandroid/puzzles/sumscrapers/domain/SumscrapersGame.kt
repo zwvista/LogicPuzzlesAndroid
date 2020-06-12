@@ -41,7 +41,7 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
     }
 
     private fun changeObject(move: SumscrapersGameMove, f: (SumscrapersGameState, SumscrapersGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

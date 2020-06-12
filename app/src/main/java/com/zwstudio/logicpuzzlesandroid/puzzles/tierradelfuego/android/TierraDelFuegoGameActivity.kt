@@ -17,12 +17,9 @@ class TierraDelFuegoGameActivity : GameGameActivity<TierraDelFuegoGame, TierraDe
     protected lateinit var document: TierraDelFuegoDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: TierraDelFuegoGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = TierraDelFuegoGameView(this)
+        gameView = TierraDelFuegoGameView(this)
         super.init()
     }
 

@@ -17,12 +17,9 @@ class MosaikGameActivity : GameGameActivity<MosaikGame, MosaikDocument, MosaikGa
     protected lateinit var document: MosaikDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: MosaikGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = MosaikGameView(this)
+        gameView = MosaikGameView(this)
         super.init()
     }
 

@@ -17,12 +17,9 @@ class RoomsGameActivity : GameGameActivity<RoomsGame, RoomsDocument, RoomsGameMo
     protected lateinit var document: RoomsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: RoomsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = RoomsGameView(this)
+        gameView = RoomsGameView(this)
         super.init()
     }
 

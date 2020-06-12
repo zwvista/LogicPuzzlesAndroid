@@ -56,7 +56,7 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
     }
 
     private fun changeObject(move: TataminoGameMove, f: (TataminoGameState, TataminoGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

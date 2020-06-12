@@ -42,7 +42,7 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
     }
 
     private fun changeObject(move: KakurasuGameMove, f: (KakurasuGameState, KakurasuGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

@@ -17,12 +17,9 @@ class NumberLinkGameActivity : GameGameActivity<NumberLinkGame, NumberLinkDocume
     protected lateinit var document: NumberLinkDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: NumberLinkGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = NumberLinkGameView(this)
+        gameView = NumberLinkGameView(this)
         super.init()
     }
 

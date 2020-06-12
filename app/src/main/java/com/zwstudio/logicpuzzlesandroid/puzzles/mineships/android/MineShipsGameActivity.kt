@@ -17,12 +17,9 @@ class MineShipsGameActivity : GameGameActivity<MineShipsGame, MineShipsDocument,
     protected lateinit var document: MineShipsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: MineShipsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = MineShipsGameView(this)
+        gameView = MineShipsGameView(this)
         super.init()
     }
 

@@ -55,7 +55,7 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
     }
 
     private fun changeObject(move: BalancedTapasGameMove, f: (BalancedTapasGameState, BalancedTapasGameMove) -> Boolean): Boolean {
-        if (canRedo()) {
+        if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }

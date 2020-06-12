@@ -26,6 +26,6 @@ abstract class GameHelpActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
         val adapter = ArrayAdapter(this,
             R.layout.simple_list_item_1, doc().help)
         lvHelp.adapter = adapter
-        tvGame.text = doc()!!.gameTitle() + " Help"
+        tvGame.text = doc()!!.gameTitle + " Help"
     }
 }

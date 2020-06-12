@@ -17,12 +17,9 @@ class NurikabeGameActivity : GameGameActivity<NurikabeGame, NurikabeDocument, Nu
     protected lateinit var document: NurikabeDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: NurikabeGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = NurikabeGameView(this)
+        gameView = NurikabeGameView(this)
         super.init()
     }
 

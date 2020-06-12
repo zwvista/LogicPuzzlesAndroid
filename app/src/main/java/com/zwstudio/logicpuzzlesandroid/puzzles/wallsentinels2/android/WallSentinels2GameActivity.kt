@@ -17,12 +17,9 @@ class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSent
     protected lateinit var document: WallSentinels2Document
     override fun doc() = document
 
-    protected lateinit var gameView2: WallSentinels2GameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     override fun init() {
-        gameView2 = WallSentinels2GameView(this)
+        gameView = WallSentinels2GameView(this)
         super.init()
     }
 

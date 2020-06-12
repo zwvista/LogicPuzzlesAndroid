@@ -17,12 +17,9 @@ class PairakabeGameActivity : GameGameActivity<PairakabeGame, PairakabeDocument,
     protected lateinit var document: PairakabeDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: PairakabeGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = PairakabeGameView(this)
+        gameView = PairakabeGameView(this)
         super.init()
     }
 

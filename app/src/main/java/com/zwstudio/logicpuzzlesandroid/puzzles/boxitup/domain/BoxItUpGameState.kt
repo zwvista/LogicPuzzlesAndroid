@@ -68,7 +68,7 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
                 val p = Position(r, c)
                 for (i in 0..3)
                     if (this[p.add(BoxItUpGame.offset2[i])][BoxItUpGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p], pos2node[p.add(BoxItUpGame.offset[i])])
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(BoxItUpGame.offset[i])]!!)
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

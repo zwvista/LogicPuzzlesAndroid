@@ -104,7 +104,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
             for (i in 0..3) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p.add(FenceSentinelsGame.offset[i])
-                g.connectNode(pos2node[p], pos2node[p2])
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
         // 1. The goal is to draw a single, uninterrupted, closed loop.

@@ -17,12 +17,9 @@ class SentinelsGameActivity : GameGameActivity<SentinelsGame, SentinelsDocument,
     protected lateinit var document: SentinelsDocument
     override fun doc() = document
 
-    protected lateinit var gameView2: SentinelsGameView
-    override fun getGameView() = gameView2
-
     @AfterViews
     protected override fun init() {
-        gameView2 = SentinelsGameView(this)
+        gameView = SentinelsGameView(this)
         super.init()
     }
 
