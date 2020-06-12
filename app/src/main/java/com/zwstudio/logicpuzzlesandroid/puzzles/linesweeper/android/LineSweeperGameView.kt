@@ -85,9 +85,7 @@ class LineSweeperGameView : CellsGameView {
                 f()
             }
             MotionEvent.ACTION_MOVE -> if (!isH && pLastMove != null && p != pLastMove) {
-                val n = LineSweeperGame.offset.indices
-                    .filter { LineSweeperGame.offset[it] == p.subtract(pLastMove) }
-                    .getOrElse(0) { -1 }
+                val n = LineSweeperGame.offset.indexOfFirst { it ==  p.subtract(pLastMove!!) }
                 if (n != -1) {
                     val move = LineSweeperGameMove(pLastMove!!, n / 2)
                     if (game().setObject(move)) f()

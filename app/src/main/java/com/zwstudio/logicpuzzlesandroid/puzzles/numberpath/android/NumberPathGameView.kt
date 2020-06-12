@@ -45,7 +45,7 @@ class NumberPathGameView : CellsGameView {
         for (r in 0 until rows()) for (c in 0 until cols()) {
             canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             if (isInEditMode) continue
-            val n: Int = game().get(r, c)
+            val n = game()[r, c]
             textPaint.setColor(Color.WHITE)
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
@@ -55,7 +55,7 @@ class NumberPathGameView : CellsGameView {
             for (c in 0 until cols()) {
                 val dirs = intArrayOf(1, 2)
                 for (dir in dirs) {
-                    val b: Boolean = game().getObject(r, c).get(dir)
+                    val b = game().getObject(r, c)[dir]
                     if (!b) continue
                     if (dir == 1)
                         canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
@@ -81,9 +81,7 @@ class NumberPathGameView : CellsGameView {
                 f()
             }
             MotionEvent.ACTION_MOVE -> if (pLastMove != null && p != pLastMove) {
-                val n = NumberPathGame.offset.indices
-                    .filter { NumberPathGame.offset[it] == p.subtract(pLastMove) }
-                    .getOrElse(0) { -1 }
+                val n = NumberPathGame.offset.indexOfFirst { it == p.subtract(pLastMove!!) }
                 if (n != -1) {
                     val move = NumberPathGameMove(pLastMove!!, n)
                     if (game().setObject(move)) f()

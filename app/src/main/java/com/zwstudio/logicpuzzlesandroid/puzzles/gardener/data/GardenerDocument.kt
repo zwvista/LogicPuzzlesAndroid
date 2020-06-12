@@ -17,5 +17,5 @@ class GardenerDocument : GameDocument<GardenerGame, GardenerGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        GardenerGameMove(Position(rec.row, rec.col), GardenerObject.objFromString(rec.strValue1))
+        GardenerGameMove(Position(rec.row, rec.col), GardenerObject.objFromString(rec.strValue1!!))
 }

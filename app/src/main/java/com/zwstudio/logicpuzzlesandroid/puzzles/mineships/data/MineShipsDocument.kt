@@ -17,5 +17,5 @@ class MineShipsDocument : GameDocument<MineShipsGame, MineShipsGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MineShipsGameMove(Position(rec.row, rec.col), MineShipsObject.objFromString(rec.strValue1))
+        MineShipsGameMove(Position(rec.row, rec.col), MineShipsObject.objFromString(rec.strValue1!!))
 }

@@ -17,5 +17,5 @@ class MiniLitsDocument : GameDocument<MiniLitsGame, MiniLitsGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MiniLitsGameMove(Position(rec.row, rec.col), MiniLitsObject.objFromString(rec.strValue1))
+        MiniLitsGameMove(Position(rec.row, rec.col), MiniLitsObject.objFromString(rec.strValue1!!))
 }

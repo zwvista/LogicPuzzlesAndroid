@@ -17,5 +17,5 @@ class LitsDocument : GameDocument<LitsGame, LitsGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LitsGameMove(Position(rec.row, rec.col), LitsObject.objFromString(rec.strValue1))
+        LitsGameMove(Position(rec.row, rec.col), LitsObject.objFromString(rec.strValue1!!))
 }

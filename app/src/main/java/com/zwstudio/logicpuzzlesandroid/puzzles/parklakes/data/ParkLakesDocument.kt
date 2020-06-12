@@ -17,5 +17,5 @@ class ParkLakesDocument : GameDocument<ParkLakesGame, ParkLakesGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        ParkLakesGameMove(Position(rec.row, rec.col), ParkLakesObject.objFromString(rec.strValue1))
+        ParkLakesGameMove(Position(rec.row, rec.col), ParkLakesObject.objFromString(rec.strValue1!!))
 }

@@ -29,7 +29,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
     }
 
     fun switchObject(move: LightBattleShipsGameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         val o = this[p]
         move.obj = when (o) {
@@ -69,7 +69,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
            1 Supertanker (5 squares)
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game!!.gdi.isAllowedObjectsOnly
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 0 until rows())
             for (c in 0 until cols())
@@ -102,13 +102,13 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             }
         // 2. Each number is a Lighthouse, telling you how many pieces of ship
         // there are in that row and column, summed together.
-        for ((p, n2) in game!!.pos2hint) {
+        for ((p, n2) in game.pos2hint) {
             val nums = arrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             for (i in 0..3) {
                 val os: Position = LightBattleShipsGame.offset[i * 2]
                 val p2 = p.add(os)
-                while (game!!.isValid(p2)) {
+                while (game.isValid(p2)) {
                     val o = get(p2)
                     if (o is LightBattleShipsEmptyObject)
                         rng.add(p2.plus())

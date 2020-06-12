@@ -17,5 +17,5 @@ class FourMeNotDocument : GameDocument<FourMeNotGame, FourMeNotGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        FourMeNotGameMove(Position(rec.row, rec.col), FourMeNotObject.objFromString(rec.strValue1))
+        FourMeNotGameMove(Position(rec.row, rec.col), FourMeNotObject.objFromString(rec.strValue1!!))
 }

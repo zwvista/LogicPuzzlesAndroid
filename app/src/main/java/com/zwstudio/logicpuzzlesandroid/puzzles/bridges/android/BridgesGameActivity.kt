@@ -34,11 +34,11 @@ class BridgesGameActivity : GameGameActivity<BridgesGame, BridgesDocument, Bridg
             // restore game state
             for (rec in doc().moveProgress()) {
                 val move = doc().loadMove(rec)
-                game!!.switchBridges(move)
+                game.switchBridges(move)
             }
             val moveIndex = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game.moveCount())
-                while (moveIndex != game.moveIndex())
+            if (moveIndex in 0 until game.moveCount)
+                while (moveIndex != game.moveIndex)
                     game.undo()
         } finally {
             levelInitilizing = false

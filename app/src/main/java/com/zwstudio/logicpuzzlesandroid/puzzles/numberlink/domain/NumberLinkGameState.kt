@@ -79,7 +79,7 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
             val indexes = pos2indexes[p] ?: continue
             for (i in indexes) {
                 val p2 = p.add(NumberLinkGame.offset[i])
-                val node2 = pos2node[p2]
+                val node2 = pos2node[p2]!!
                 g.connectNode(node, node2)
             }
             if (indexes.size != 2) continue

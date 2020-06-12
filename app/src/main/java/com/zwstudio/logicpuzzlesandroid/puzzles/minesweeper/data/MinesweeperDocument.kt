@@ -17,5 +17,5 @@ class MinesweeperDocument : GameDocument<MinesweeperGame, MinesweeperGameMove>()
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MinesweeperGameMove(Position(rec.row, rec.col), MinesweeperObject.objFromString(rec.strValue1))
+        MinesweeperGameMove(Position(rec.row, rec.col), MinesweeperObject.objFromString(rec.strValue1!!))
 }

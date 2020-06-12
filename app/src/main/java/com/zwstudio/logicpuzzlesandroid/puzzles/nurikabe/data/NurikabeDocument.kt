@@ -17,5 +17,5 @@ class NurikabeDocument : GameDocument<NurikabeGame, NurikabeGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        NurikabeGameMove(Position(rec.row, rec.col), NurikabeObject.objTypeFromString(rec.strValue1))
+        NurikabeGameMove(Position(rec.row, rec.col), NurikabeObject.objTypeFromString(rec.strValue1!!))
 }

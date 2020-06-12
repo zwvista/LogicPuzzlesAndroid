@@ -73,7 +73,7 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
             for (c in 0 until cols()) {
                 val p = Position(r, c)
                 for (i in 0..3)
-                    if (dots.get(p.add(offset2[i]), dirs[i]) != GridLineObject.Line)
+                    if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i])]!!)
             }
         while (rng.isNotEmpty()) {
@@ -111,7 +111,7 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
     fun switchObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::switchObject)
     fun setObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::setObject)
 
-    fun getObject(p: Position) = state().get(p)
-    fun getObject(row: Int, col: Int) = state().get(row, col)
-    fun pos2State(p: Position) = state().pos2state.get(p)
+    fun getObject(p: Position) = state()[p]
+    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun pos2State(p: Position) = state().pos2state[p]
 }

@@ -16,5 +16,5 @@ class NoughtsAndCrossesDocument : GameDocument<NoughtsAndCrossesGame, NoughtsAnd
     }
 
     override fun loadMove(rec: MoveProgress) =
-        NoughtsAndCrossesGameMove(Position(rec.row, rec.col), rec.strValue1[0])
+        NoughtsAndCrossesGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

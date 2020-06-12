@@ -16,5 +16,5 @@ class TatamiDocument : GameDocument<TatamiGame, TatamiGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TatamiGameMove(Position(rec.row, rec.col), rec.strValue1[0])
+        TatamiGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

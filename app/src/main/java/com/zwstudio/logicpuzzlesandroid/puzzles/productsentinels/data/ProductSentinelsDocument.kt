@@ -17,5 +17,5 @@ class ProductSentinelsDocument : GameDocument<ProductSentinelsGame, ProductSenti
     }
 
     override fun loadMove(rec: MoveProgress) =
-        ProductSentinelsGameMove(Position(rec.row, rec.col), ProductSentinelsObject.objFromString(rec.strValue1))
+        ProductSentinelsGameMove(Position(rec.row, rec.col), ProductSentinelsObject.objFromString(rec.strValue1!!))
 }

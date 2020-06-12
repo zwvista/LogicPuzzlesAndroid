@@ -24,7 +24,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun yesNoDialog(message: CharSequence, yesAction: () -> Unit) {
         // http://stackoverflow.com/questions/2478517/how-to-display-a-yes-no-dialog-box-on-android
-        val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
+        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> yesAction()  //Yes button clicked
                 DialogInterface.BUTTON_NEGATIVE -> {}

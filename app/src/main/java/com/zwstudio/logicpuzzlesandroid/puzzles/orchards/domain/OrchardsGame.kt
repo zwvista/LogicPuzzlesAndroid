@@ -62,7 +62,7 @@ class OrchardsGame(layout: List<String>, gi: GameInterface<OrchardsGame, Orchard
             for (c in 0 until cols()) {
                 val p = Position(r, c)
                 for (i in 0..3)
-                    if (dots.get(p.add(offset2[i]), dirs[i]) != GridLineObject.Line)
+                    if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i])]!!)
             }
         while (rng.isNotEmpty()) {

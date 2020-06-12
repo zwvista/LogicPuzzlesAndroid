@@ -17,5 +17,5 @@ class LightenUpDocument : GameDocument<LightenUpGame, LightenUpGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LightenUpGameMove(Position(rec.row, rec.col), LightenUpObject.objTypeFromString(rec.strValue1))
+        LightenUpGameMove(Position(rec.row, rec.col), LightenUpObject.objTypeFromString(rec.strValue1!!))
 }

@@ -18,5 +18,5 @@ class WallSentinels2Document : GameDocument<WallSentinels2Game, WallSentinels2Ga
     }
 
     override fun loadMove(rec: MoveProgress) =
-        WallSentinels2GameMove(Position(rec.row, rec.col), WallSentinels2Object.objFromString(rec.strValue1))
+        WallSentinels2GameMove(Position(rec.row, rec.col), WallSentinels2Object.objFromString(rec.strValue1!!))
 }

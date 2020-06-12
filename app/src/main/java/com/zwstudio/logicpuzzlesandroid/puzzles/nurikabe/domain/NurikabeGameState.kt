@@ -127,12 +127,12 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
                     val p = rng[0]
                     val n1 = game.pos2hint[p]!!
                     val s = if (n1 == n2) HintState.Complete else HintState.Error
-                    (this.get(p) as NurikabeHintObject).state = s
+                    (this[p] as NurikabeHintObject).state = s
                     if (s != HintState.Complete) isSolved = false
                 }
                 else -> {
                     for (p in rng)
-                        (this.get(p) as NurikabeHintObject).state = HintState.Normal
+                        (this[p] as NurikabeHintObject).state = HintState.Normal
                     isSolved = false
                 }
             }

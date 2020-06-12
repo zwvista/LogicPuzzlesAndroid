@@ -28,7 +28,7 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
     }
 
     fun switchObject(move: KakurasuGameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         if (!isValid(move.p)) return false
         val o = this[move.p]
         move.obj = when (o) {
@@ -85,12 +85,12 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
             // 1. On the bottom and right border, you see the value of (respectively)
             // the columns.
             var n1 = 0
-            val n2 = game!!.col2hint[c * 2]
+            val n2 = game.col2hint[c * 2]
             for (r in 1 until rows() - 1)
                 if (this[r, c] == KakurasuObject.Cloud)
                     // 2. On the other borders, on the top and the left, you see the hints about
                     // which tile have to be filled on the board.
-                    n1 += game!!.row2hint[r * 2 + 1]
+                    n1 += game.row2hint[r * 2 + 1]
             // 2. These numbers represent the sum of the values mentioned above.
             val s = if (n1 == 0) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             col2state[c * 2] = s

@@ -17,5 +17,5 @@ class LightBattleShipsDocument : GameDocument<LightBattleShipsGame, LightBattleS
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LightBattleShipsGameMove(Position(rec.row, rec.col), LightBattleShipsObject.objFromString(rec.strValue1))
+        LightBattleShipsGameMove(Position(rec.row, rec.col), LightBattleShipsObject.objFromString(rec.strValue1!!))
 }

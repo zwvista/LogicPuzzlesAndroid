@@ -17,5 +17,5 @@ class BWTapaDocument : GameDocument<BWTapaGame, BWTapaGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BWTapaGameMove(Position(rec.row, rec.col), BWTapaObject.objTypeFromString(rec.strValue1))
+        BWTapaGameMove(Position(rec.row, rec.col), BWTapaObject.objTypeFromString(rec.strValue1!!))
 }

@@ -77,6 +77,6 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getPosState(p: Position) = state().pos2state.get(p)
+    fun getPosState(p: Position) = state().pos2state[p]
     fun getStateDots() = state().dots
 }

@@ -17,5 +17,5 @@ class TapaIslandsDocument : GameDocument<TapaIslandsGame, TapaIslandsGameMove>()
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TapaIslandsGameMove(Position(rec.row, rec.col), TapaIslandsObject.objTypeFromString(rec.strValue1))
+        TapaIslandsGameMove(Position(rec.row, rec.col), TapaIslandsObject.objTypeFromString(rec.strValue1!!))
 }

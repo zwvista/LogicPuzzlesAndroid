@@ -16,5 +16,5 @@ class TataminoDocument : GameDocument<TataminoGame, TataminoGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TataminoGameMove(Position(rec.row, rec.col), rec.strValue1[0])
+        TataminoGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

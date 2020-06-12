@@ -63,7 +63,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
-        var rngEmpty = mutableListOf<Position>()
+        val rngEmpty = mutableListOf<Position>()
         for (r in 0 until rows())
             for (c in 0 until cols()) {
                 val p = Position(r, c)
@@ -98,7 +98,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             if (rngWalls.size != nodeList.size) isSolved = false
         }
         while (rngEmpty.isNotEmpty()) {
-            val node = pos2node[rngEmpty[0]]
+            val node = pos2node[rngEmpty[0]]!!
             g.rootNode = node
             val nodeList = g.bfs()
             rngEmpty.removeAll { nodeList.contains(pos2node[it]) }

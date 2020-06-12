@@ -17,5 +17,5 @@ class OrchardsDocument : GameDocument<OrchardsGame, OrchardsGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        OrchardsGameMove(Position(rec.row, rec.col), OrchardsObject.objFromString(rec.strValue1))
+        OrchardsGameMove(Position(rec.row, rec.col), OrchardsObject.objFromString(rec.strValue1!!))
 }

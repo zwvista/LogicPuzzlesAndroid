@@ -17,5 +17,5 @@ class BusySeasDocument : GameDocument<BusySeasGame, BusySeasGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BusySeasGameMove(Position(rec.row, rec.col), BusySeasObject.objFromString(rec.strValue1))
+        BusySeasGameMove(Position(rec.row, rec.col), BusySeasObject.objFromString(rec.strValue1!!))
 }

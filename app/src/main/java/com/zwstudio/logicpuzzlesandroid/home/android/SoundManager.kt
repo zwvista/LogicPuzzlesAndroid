@@ -62,7 +62,7 @@ open class SoundManager {
 
         // Load the sound
         soundPool = SoundPool(2, AudioManager.STREAM_MUSIC, 0)
-        soundPool.setOnLoadCompleteListener { soundPool, sampleId, status -> loaded = true }
+        soundPool.setOnLoadCompleteListener { _, _, _ -> loaded = true }
         soundIDTap = soundPool.load(app, raw.tap, 1)
         soundIDSolved = soundPool.load(app, raw.solved, 1)
         stateCounter = 0

@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
-class CalcudokuGameState(game: CalcudokuGame?) : CellsGameState<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(game) {
+class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(game) {
     var objArray = IntArray(rows() * cols())
     var row2state = Array<HintState>(rows()) { HintState.Normal }
     var col2state = Array<HintState>(cols()) { HintState.Normal }

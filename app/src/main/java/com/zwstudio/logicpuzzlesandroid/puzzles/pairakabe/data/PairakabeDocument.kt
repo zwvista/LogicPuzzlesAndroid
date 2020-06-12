@@ -17,5 +17,5 @@ class PairakabeDocument : GameDocument<PairakabeGame, PairakabeGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        PairakabeGameMove(Position(rec.row, rec.col), PairakabeObject.objTypeFromString(rec.strValue1))
+        PairakabeGameMove(Position(rec.row, rec.col), PairakabeObject.objTypeFromString(rec.strValue1!!))
 }

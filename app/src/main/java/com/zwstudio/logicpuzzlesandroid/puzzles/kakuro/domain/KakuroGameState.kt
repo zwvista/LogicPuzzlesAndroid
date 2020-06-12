@@ -73,7 +73,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
             pos2horzHint[p] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for ((p, n2) in game!!.pos2vertHint) {
+        for ((p, n2) in game.pos2vertHint) {
             var n1 = 0
             val os = KakuroGame.offset[2]
             var n: Int

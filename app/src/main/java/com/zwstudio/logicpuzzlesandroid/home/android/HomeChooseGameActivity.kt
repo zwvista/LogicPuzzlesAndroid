@@ -28,7 +28,7 @@ open class HomeChooseGameActivity : BaseActivity() {
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_single_choice, lstGameTitles)
         lvGames.adapter = adapter
-        val gameName = doc().gameProgress()!!.gameName
+        val gameName = doc().gameProgress().gameName
         lvGames.choiceMode = ListView.CHOICE_MODE_SINGLE
         val selectedPosition = lstGameNames.indexOf(gameName)
         lvGames.setItemChecked(selectedPosition, true)

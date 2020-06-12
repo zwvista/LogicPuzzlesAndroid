@@ -17,5 +17,5 @@ class TentsDocument : GameDocument<TentsGame, TentsGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TentsGameMove(Position(rec.row, rec.col), TentsObject.objFromString(rec.strValue1))
+        TentsGameMove(Position(rec.row, rec.col), TentsObject.objFromString(rec.strValue1!!))
 }

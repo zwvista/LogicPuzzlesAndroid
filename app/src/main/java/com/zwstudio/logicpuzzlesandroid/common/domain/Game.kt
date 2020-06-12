@@ -53,13 +53,13 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM
     protected fun levelInitilized(state: GS) {
         if (gi == null) return
         gi.levelInitilized(this as G, state)
-        if (isSolved) gi.gameSolved(this as G)
+        if (isSolved) gi.gameSolved(this)
     }
 
     protected fun levelUpdated(stateFrom: GS, stateTo: GS) {
         if (gi == null) return
         gi.levelUpdated(this as G, stateFrom, stateTo)
-        if (isSolved) gi.gameSolved(this as G)
+        if (isSolved) gi.gameSolved(this)
     }
 
     fun undo() {

@@ -17,5 +17,5 @@ class TierraDelFuegoDocument : GameDocument<TierraDelFuegoGame, TierraDelFuegoGa
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TierraDelFuegoGameMove(Position(rec.row, rec.col), TierraDelFuegoObject.objFromString(rec.strValue1))
+        TierraDelFuegoGameMove(Position(rec.row, rec.col), TierraDelFuegoObject.objFromString(rec.strValue1!!))
 }

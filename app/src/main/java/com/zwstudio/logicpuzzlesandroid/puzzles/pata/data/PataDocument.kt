@@ -17,5 +17,5 @@ class PataDocument : GameDocument<PataGame, PataGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        PataGameMove(Position(rec.row, rec.col), PataObject.objTypeFromString(rec.strValue1))
+        PataGameMove(Position(rec.row, rec.col), PataObject.objTypeFromString(rec.strValue1!!))
 }

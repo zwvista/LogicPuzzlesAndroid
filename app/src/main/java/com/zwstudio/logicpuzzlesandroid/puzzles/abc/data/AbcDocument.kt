@@ -17,5 +17,5 @@ class AbcDocument : GameDocument<AbcGame, AbcGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        AbcGameMove(Position(rec.row, rec.col), rec.strValue1[0])
+        AbcGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

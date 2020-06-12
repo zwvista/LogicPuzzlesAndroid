@@ -52,7 +52,7 @@ class TheOddBrickGameView : CellsGameView {
                 if (n == 0) continue
                 val text = n.toString()
                 val s = game().getPosState(p)
-                textPaint.color = if (game().get(r, c) == n) Color.GRAY else if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
+                textPaint.color = if (game()[r, c] == n) Color.GRAY else if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return

@@ -17,5 +17,5 @@ class TapAlikeDocument : GameDocument<TapAlikeGame, TapAlikeGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TapAlikeGameMove(Position(rec.row, rec.col), TapAlikeObject.objTypeFromString(rec.strValue1))
+        TapAlikeGameMove(Position(rec.row, rec.col), TapAlikeObject.objTypeFromString(rec.strValue1!!))
 }

@@ -16,5 +16,5 @@ class FillominoDocument : GameDocument<FillominoGame, FillominoGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        FillominoGameMove(Position(rec.row, rec.col), rec.strValue1[0])
+        FillominoGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

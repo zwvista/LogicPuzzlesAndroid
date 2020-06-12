@@ -17,5 +17,5 @@ class LighthousesDocument : GameDocument<LighthousesGame, LighthousesGameMove>()
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LighthousesGameMove(Position(rec.row, rec.col), LighthousesObject.objFromString(rec.strValue1))
+        LighthousesGameMove(Position(rec.row, rec.col), LighthousesObject.objFromString(rec.strValue1!!))
 }

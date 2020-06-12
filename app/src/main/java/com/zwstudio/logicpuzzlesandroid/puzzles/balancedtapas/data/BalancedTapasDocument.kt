@@ -18,5 +18,5 @@ class BalancedTapasDocument : GameDocument<BalancedTapasGame, BalancedTapasGameM
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BalancedTapasGameMove(Position(rec.row, rec.col), BalancedTapasObject.objTypeFromString(rec.strValue1))
+        BalancedTapasGameMove(Position(rec.row, rec.col), BalancedTapasObject.objTypeFromString(rec.strValue1!!))
 }

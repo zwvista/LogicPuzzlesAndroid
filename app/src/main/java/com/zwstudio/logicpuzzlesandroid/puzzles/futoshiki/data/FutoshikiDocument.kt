@@ -16,5 +16,5 @@ class FutoshikiDocument : GameDocument<FutoshikiGame, FutoshikiGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        FutoshikiGameMove(Position(rec.row, rec.col), rec.strValue1[0])
+        FutoshikiGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

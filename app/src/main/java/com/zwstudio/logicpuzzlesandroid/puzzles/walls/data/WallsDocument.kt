@@ -17,5 +17,5 @@ class WallsDocument : GameDocument<WallsGame, WallsGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        WallsGameMove(Position(rec.row, rec.col), WallsObject.objFromString(rec.strValue1))
+        WallsGameMove(Position(rec.row, rec.col), WallsObject.objFromString(rec.strValue1!!))
 }

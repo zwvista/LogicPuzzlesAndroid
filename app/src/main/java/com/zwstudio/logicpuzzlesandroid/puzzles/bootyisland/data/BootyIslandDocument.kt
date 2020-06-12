@@ -18,5 +18,5 @@ class BootyIslandDocument : GameDocument<BootyIslandGame, BootyIslandGameMove>()
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BootyIslandGameMove(Position(rec.row, rec.col), BootyIslandObject.objFromString(rec.strValue1))
+        BootyIslandGameMove(Position(rec.row, rec.col), BootyIslandObject.objFromString(rec.strValue1!!))
 }

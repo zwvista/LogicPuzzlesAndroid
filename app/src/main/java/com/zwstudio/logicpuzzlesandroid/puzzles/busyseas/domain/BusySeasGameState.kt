@@ -29,7 +29,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
     }
 
     fun switchObject(move: BusySeasGameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is BusySeasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasMarkerObject() else BusySeasLighthouseObject()
@@ -71,11 +71,11 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
             }
         }
         // 3. A lighthouse lights all the tiles horizontally and vertically.
-        for ((p, n2) in game!!.pos2hint) {
+        for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             next@ for (i in 0..3) {
-                val os: Position = BusySeasGame.offset.get(i)
+                val os: Position = BusySeasGame.offset[i]
                 val p2 = p.add(os)
                 while (isValid(p2)) {
                     val o2 = this[p2]

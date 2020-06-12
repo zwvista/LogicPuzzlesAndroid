@@ -70,7 +70,7 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
             for (c in 0 until cols()) {
                 val p = Position(r, c)
                 for (i in 0..3)
-                    if (dots.get(p.add(offset2[i]), dirs[i]) != GridLineObject.Line)
+                    if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i])]!!)
             }
         while (rng.isNotEmpty()) {
@@ -108,7 +108,7 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
     fun switchObject(move: TheOddBrickGameMove) = changeObject(move, TheOddBrickGameState::switchObject)
     fun setObject(move: TheOddBrickGameMove) = changeObject(move, TheOddBrickGameState::setObject)
 
-    fun getObject(p: Position) = state().get(p)
+    fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
     fun getRowState(row: Int) = state().row2state[row]
     fun getColState(col: Int) = state().col2state[col]

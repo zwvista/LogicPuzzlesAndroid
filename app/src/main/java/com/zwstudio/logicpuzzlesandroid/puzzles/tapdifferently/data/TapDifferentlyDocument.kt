@@ -17,5 +17,5 @@ class TapDifferentlyDocument : GameDocument<TapDifferentlyGame, TapDifferentlyGa
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TapDifferentlyGameMove(Position(rec.row, rec.col), TapDifferentlyObject.objTypeFromString(rec.strValue1))
+        TapDifferentlyGameMove(Position(rec.row, rec.col), TapDifferentlyObject.objTypeFromString(rec.strValue1!!))
 }

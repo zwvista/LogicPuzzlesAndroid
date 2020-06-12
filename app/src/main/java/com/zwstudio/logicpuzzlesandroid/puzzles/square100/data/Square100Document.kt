@@ -16,5 +16,5 @@ class Square100Document : GameDocument<Square100Game, Square100GameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        Square100GameMove(Position(rec.row, rec.col), obj = rec.strValue1)
+        Square100GameMove(Position(rec.row, rec.col), obj = rec.strValue1!!)
 }

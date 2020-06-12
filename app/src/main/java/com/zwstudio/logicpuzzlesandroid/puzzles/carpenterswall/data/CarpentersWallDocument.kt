@@ -17,5 +17,5 @@ class CarpentersWallDocument : GameDocument<CarpentersWallGame, CarpentersWallGa
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CarpentersWallGameMove(Position(rec.row, rec.col), CarpentersWallObject.objTypeFromString(rec.strValue1))
+        CarpentersWallGameMove(Position(rec.row, rec.col), CarpentersWallObject.objTypeFromString(rec.strValue1!!))
 }

@@ -17,5 +17,5 @@ class HolidayIslandDocument : GameDocument<HolidayIslandGame, HolidayIslandGameM
     }
 
     override fun loadMove(rec: MoveProgress) =
-        HolidayIslandGameMove(Position(rec.row, rec.col), HolidayIslandObject.objFromString(rec.strValue1))
+        HolidayIslandGameMove(Position(rec.row, rec.col), HolidayIslandObject.objFromString(rec.strValue1!!))
 }

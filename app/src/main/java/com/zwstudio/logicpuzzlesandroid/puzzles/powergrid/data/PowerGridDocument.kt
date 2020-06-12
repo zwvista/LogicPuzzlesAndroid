@@ -17,5 +17,5 @@ class PowerGridDocument : GameDocument<PowerGridGame, PowerGridGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        PowerGridGameMove(Position(rec.row, rec.col), PowerGridObject.objFromString(rec.strValue1))
+        PowerGridGameMove(Position(rec.row, rec.col), PowerGridObject.objFromString(rec.strValue1!!))
 }

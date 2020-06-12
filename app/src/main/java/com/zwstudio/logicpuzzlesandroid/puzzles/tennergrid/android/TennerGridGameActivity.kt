@@ -37,8 +37,8 @@ class TennerGridGameActivity : GameGameActivity<TennerGridGame, TennerGridDocume
                 game.setObject(move)
             }
             val moveIndex = doc().levelProgress().moveIndex
-            if (moveIndex >= 0 && moveIndex < game.moveCount())
-                while (moveIndex != game.moveIndex())
+            if (moveIndex in 0 until game.moveCount)
+                while (moveIndex != game.moveIndex)
                     game.undo()
         } finally {
             levelInitilizing = false

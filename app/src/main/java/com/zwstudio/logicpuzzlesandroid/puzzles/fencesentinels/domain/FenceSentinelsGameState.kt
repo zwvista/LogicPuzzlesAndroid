@@ -33,7 +33,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
 
     fun switchObject(move: FenceSentinelsGameMove): Boolean {
         if (!isValidMove(move)) return false
-        val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {
             GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
@@ -65,7 +65,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
         // 2. The loop goes around all the numbers.
         // 3. The number tells you how many cells you can see horizontally or
         // vertically from there, including the cell itself.
-        for ((p, n2) in game!!.pos2hint) {
+        for ((p, n2) in game.pos2hint) {
             var n1 = -3
             for (i in 0..3) {
                 val os: Position = FenceSentinelsGame.offset[i]

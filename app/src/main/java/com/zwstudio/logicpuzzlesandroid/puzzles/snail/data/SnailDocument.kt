@@ -16,5 +16,5 @@ class SnailDocument : GameDocument<SnailGame, SnailGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        SnailGameMove(Position(rec.row, rec.col), rec.strValue1[0])
+        SnailGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

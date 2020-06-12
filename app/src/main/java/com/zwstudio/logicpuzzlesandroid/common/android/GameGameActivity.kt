@@ -37,7 +37,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
     protected lateinit var btnLoadSolution: Button
     @ViewById
     protected lateinit var btnDeleteSolution: Button
-    protected lateinit var game: G
+    lateinit var game: G
     protected var levelInitilizing = false
 
     protected fun init() {
@@ -106,7 +106,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
     }
 
     protected fun updateSolutionUI() {
-        val rec = doc().levelProgressSolution()!!
+        val rec = doc().levelProgressSolution()
         val hasSolution = rec.moveIndex != 0
         tvSolution.text = "Solution: " + if (!hasSolution) "None" else rec.moveIndex.toString()
         btnLoadSolution.isEnabled = hasSolution

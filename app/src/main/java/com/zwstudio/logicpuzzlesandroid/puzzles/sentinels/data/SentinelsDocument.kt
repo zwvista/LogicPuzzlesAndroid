@@ -17,5 +17,5 @@ class SentinelsDocument : GameDocument<SentinelsGame, SentinelsGameMove>() {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        SentinelsGameMove(Position(rec.row, rec.col), SentinelsObject.objFromString(rec.strValue1))
+        SentinelsGameMove(Position(rec.row, rec.col), SentinelsObject.objFromString(rec.strValue1!!))
 }
