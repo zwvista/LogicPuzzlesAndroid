@@ -46,7 +46,7 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -60,7 +60,7 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
 
     fun switchObject(move: KakuroGameMove) = changeObject(move, KakuroGameState::switchObject)
     fun setObject(move: KakuroGameMove) = changeObject(move, KakuroGameState::setObject)
-    fun getObject(p: Position) = state()[p]
-    fun getHorzState(p: Position) = state().pos2horzHint[p]
-    fun getVertState(p: Position) = state().pos2vertHint[p]
+    fun getObject(p: Position) = currentState[p]
+    fun getHorzState(p: Position) = currentState.pos2horzHint[p]
+    fun getVertState(p: Position) = currentState.pos2vertHint[p]
 }

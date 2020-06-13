@@ -44,7 +44,7 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -59,7 +59,7 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
     fun switchObject(move: CastleBaileyGameMove) = changeObject(move, CastleBaileyGameState::switchObject)
     fun setObject(move: CastleBaileyGameMove) = changeObject(move, CastleBaileyGameState::setObject)
 
-    fun getObject(p: Position): CastleBaileyObject = state()[p]
-    fun getObject(row: Int, col: Int): CastleBaileyObject = state()[row, col]
-    fun getPosState(p: Position) = state().pos2state[p]
+    fun getObject(p: Position): CastleBaileyObject = currentState[p]
+    fun getObject(row: Int, col: Int): CastleBaileyObject = currentState[row, col]
+    fun getPosState(p: Position) = currentState.pos2state[p]
 }

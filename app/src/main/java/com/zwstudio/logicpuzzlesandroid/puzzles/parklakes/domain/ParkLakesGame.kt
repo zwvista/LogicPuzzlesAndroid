@@ -37,7 +37,7 @@ class ParkLakesGame(layout: List<String>, gi: GameInterface<ParkLakesGame, ParkL
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -52,6 +52,6 @@ class ParkLakesGame(layout: List<String>, gi: GameInterface<ParkLakesGame, ParkL
     fun switchObject(move: ParkLakesGameMove) = changeObject(move, ParkLakesGameState::switchObject)
     fun setObject(move: ParkLakesGameMove) = changeObject(move, ParkLakesGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }

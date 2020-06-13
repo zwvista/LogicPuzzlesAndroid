@@ -55,7 +55,7 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         if (move.pTo.compareTo(move.pFrom) < 0) {
             val t = move.pFrom
             move.pFrom = move.pTo
@@ -70,6 +70,6 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
         return true
     }
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }

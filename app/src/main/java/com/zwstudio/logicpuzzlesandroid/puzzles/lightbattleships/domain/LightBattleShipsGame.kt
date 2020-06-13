@@ -50,7 +50,7 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -65,7 +65,7 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
     fun switchObject(move: LightBattleShipsGameMove) = changeObject(move, LightBattleShipsGameState::switchObject)
     fun setObject(move: LightBattleShipsGameMove) = changeObject(move, LightBattleShipsGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun pos2State(p: Position) = state().pos2state[p]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }

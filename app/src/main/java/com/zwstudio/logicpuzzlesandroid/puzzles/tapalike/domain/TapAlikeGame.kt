@@ -55,7 +55,7 @@ class TapAlikeGame(layout: List<String>, gi: GameInterface<TapAlikeGame, TapAlik
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -70,6 +70,6 @@ class TapAlikeGame(layout: List<String>, gi: GameInterface<TapAlikeGame, TapAlik
     fun switchObject(move: TapAlikeGameMove) = changeObject(move, TapAlikeGameState::switchObject)
     fun setObject(move: TapAlikeGameMove) = changeObject(move, TapAlikeGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }

@@ -60,7 +60,7 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -75,8 +75,8 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
     fun switchObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::switchObject)
     fun setObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getPosState(p: Position) = state().pos2state[p]
-    fun getStateDots() = state().dots
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getPosState(p: Position) = currentState.pos2state[p]
+    fun getStateDots() = currentState.dots
 }

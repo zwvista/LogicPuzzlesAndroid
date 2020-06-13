@@ -69,7 +69,7 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -84,9 +84,9 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
     fun switchObject(move: SnailGameMove) = changeObject(move, SnailGameState::switchObject)
     fun setObject(move: SnailGameMove) = changeObject(move, SnailGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getRowState(row: Int) = state().row2state[row]
-    fun getColState(col: Int) = state().col2state[col]
-    fun getPositionState(row: Int, col: Int) = state().pos2state[Position(row, col)]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getRowState(row: Int) = currentState.row2state[row]
+    fun getColState(col: Int) = currentState.col2state[col]
+    fun getPositionState(row: Int, col: Int) = currentState.pos2state[Position(row, col)]
 }

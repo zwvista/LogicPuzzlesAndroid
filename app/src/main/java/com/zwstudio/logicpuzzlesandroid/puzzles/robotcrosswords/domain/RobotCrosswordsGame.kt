@@ -74,7 +74,7 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -89,8 +89,8 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
     fun switchObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::switchObject)
     fun setObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getHorzState(p: Position) = state().pos2horzState[p]
-    fun getVertState(p: Position) = state().pos2vertState[p]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getHorzState(p: Position) = currentState.pos2horzState[p]
+    fun getVertState(p: Position) = currentState.pos2vertState[p]
 }

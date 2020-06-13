@@ -80,7 +80,7 @@ class NorthPoleFishingGame(layout: List<String>, gi: GameInterface<NorthPoleFish
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -95,7 +95,7 @@ class NorthPoleFishingGame(layout: List<String>, gi: GameInterface<NorthPoleFish
     fun switchObject(move: NorthPoleFishingGameMove) = changeObject(move, NorthPoleFishingGameState::switchObject)
     fun setObject(move: NorthPoleFishingGameMove) = changeObject(move, NorthPoleFishingGameState::setObject)
 
-    fun getObject(p: Position, dir: Int): GridLineObject = state()[p, dir]
-    fun getObject(row: Int, col: Int, dir: Int): GridLineObject = state()[row, col, dir]
-    fun getPosState(p: Position) = state().pos2state[p]
+    fun getObject(p: Position, dir: Int): GridLineObject = currentState[p, dir]
+    fun getObject(row: Int, col: Int, dir: Int): GridLineObject = currentState[row, col, dir]
+    fun getPosState(p: Position) = currentState.pos2state[p]
 }

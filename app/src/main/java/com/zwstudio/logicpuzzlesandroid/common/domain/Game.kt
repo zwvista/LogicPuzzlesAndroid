@@ -19,16 +19,10 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(val gi: GameInterface<G
     protected var cloner = Cloner()
     protected var stateIndex = 0
     protected var states = mutableListOf<GS>()
-    protected fun state(): GS {
-        return states[stateIndex]
-    }
-
+    protected val currentState get() = states[stateIndex]
     protected var moves = mutableListOf<GM>()
-    protected fun move(): GM {
-        return moves[stateIndex - 1]
-    }
 
-    val isSolved get() = state().isSolved
+    val isSolved get() = currentState.isSolved
     val canUndo get() = stateIndex > 0
     val canRedo get() = stateIndex < states.size - 1
     val moveIndex get() = stateIndex
@@ -51,13 +45,13 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(val gi: GameInterface<G
     fun undo() {
         if (!canUndo) return
         stateIndex--
-        levelUpdated(states[stateIndex + 1], state())
+        levelUpdated(states[stateIndex + 1], currentState)
     }
 
     fun redo() {
         if (!canRedo) return
         stateIndex++
-        levelUpdated(states[stateIndex - 1], state())
+        levelUpdated(states[stateIndex - 1], currentState)
     }
 
     init {

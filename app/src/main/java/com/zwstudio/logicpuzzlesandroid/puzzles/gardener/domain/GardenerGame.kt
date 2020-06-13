@@ -93,7 +93,7 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -108,8 +108,8 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
     fun switchObject(move: GardenerGameMove) = changeObject(move, GardenerGameState::switchObject)
     fun setObject(move: GardenerGameMove) = changeObject(move, GardenerGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun pos2State(p: Position) = state().pos2state[p]
-    fun invalidSpaces(p: Position, isHorz: Boolean) = (if (isHorz) state().invalidSpacesHorz else state().invalidSpacesVert).contains(p)
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2State(p: Position) = currentState.pos2state[p]
+    fun invalidSpaces(p: Position, isHorz: Boolean) = (if (isHorz) currentState.invalidSpacesHorz else currentState.invalidSpacesVert).contains(p)
 }

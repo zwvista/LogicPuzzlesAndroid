@@ -46,7 +46,7 @@ class NurikabeGame(layout: List<String>, gi: GameInterface<NurikabeGame, Nurikab
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -61,6 +61,6 @@ class NurikabeGame(layout: List<String>, gi: GameInterface<NurikabeGame, Nurikab
     fun switchObject(move: NurikabeGameMove) = changeObject(move, NurikabeGameState::switchObject)
     fun setObject(move: NurikabeGameMove) = changeObject(move, NurikabeGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }

@@ -64,7 +64,7 @@ class BoxItAroundGame(layout: List<String>, gi: GameInterface<BoxItAroundGame, B
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -79,7 +79,7 @@ class BoxItAroundGame(layout: List<String>, gi: GameInterface<BoxItAroundGame, B
     fun switchObject(move: BoxItAroundGameMove) = changeObject(move, BoxItAroundGameState::switchObject)
     fun setObject(move: BoxItAroundGameMove) = changeObject(move, BoxItAroundGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getState(p: Position) = state().pos2state[p]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getState(p: Position) = currentState.pos2state[p]
 }

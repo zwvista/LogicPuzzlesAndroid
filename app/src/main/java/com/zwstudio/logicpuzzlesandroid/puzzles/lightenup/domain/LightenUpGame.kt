@@ -40,7 +40,7 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -55,6 +55,6 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
     fun switchObject(move: LightenUpGameMove) = changeObject(move, LightenUpGameState::switchObject)
     fun setObject(move: LightenUpGameMove) = changeObject(move, LightenUpGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }

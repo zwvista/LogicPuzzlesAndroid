@@ -45,7 +45,7 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -60,7 +60,7 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
     fun switchObject(move: SumscrapersGameMove) = changeObject(move, SumscrapersGameState::switchObject)
     fun setObject(move: SumscrapersGameMove) = changeObject(move, SumscrapersGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getState(row: Int, col: Int) = state().getState(row, col)
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getState(row: Int, col: Int) = currentState.getState(row, col)
 }

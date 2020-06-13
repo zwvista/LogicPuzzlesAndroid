@@ -55,7 +55,7 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -70,8 +70,8 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
     fun switchObject(move: MagnetsGameMove) = changeObject(move, MagnetsGameState::switchObject)
     fun setObject(move: MagnetsGameMove) = changeObject(move, MagnetsGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getRowState(id: Int) = state().row2state[id]
-    fun getColState(id: Int) = state().col2state[id]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getRowState(id: Int) = currentState.row2state[id]
+    fun getColState(id: Int) = currentState.col2state[id]
 }

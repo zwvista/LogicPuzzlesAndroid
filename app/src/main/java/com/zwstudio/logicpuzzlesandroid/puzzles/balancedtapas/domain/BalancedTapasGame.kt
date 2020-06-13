@@ -59,7 +59,7 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -73,6 +73,6 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
 
     fun switchObject(move: BalancedTapasGameMove) = changeObject(move, BalancedTapasGameState::switchObject)
     fun setObject(move: BalancedTapasGameMove) = changeObject(move, BalancedTapasGameState::setObject)
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }

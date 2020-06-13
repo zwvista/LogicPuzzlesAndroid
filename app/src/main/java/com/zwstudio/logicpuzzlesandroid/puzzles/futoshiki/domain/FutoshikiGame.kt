@@ -45,7 +45,7 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -60,9 +60,9 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
     fun switchObject(move: FutoshikiGameMove) = changeObject(move, FutoshikiGameState::switchObject)
     fun setObject(move: FutoshikiGameMove) = changeObject(move, FutoshikiGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getRowState(row: Int) = state().row2state[row]
-    fun getColState(col: Int) = state().col2state[col]
-    fun getPosState(p: Position) = state().pos2state[p]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getRowState(row: Int) = currentState.row2state[row]
+    fun getColState(col: Int) = currentState.col2state[col]
+    fun getPosState(p: Position) = currentState.pos2state[p]
 }

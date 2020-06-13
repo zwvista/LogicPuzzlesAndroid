@@ -53,7 +53,7 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -68,6 +68,6 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
     fun switchObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::switchObject)
     fun setObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }

@@ -98,7 +98,7 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -113,8 +113,8 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
     fun switchObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::switchObject)
     fun setObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
-    fun getHorzState(p: Position) = state().pos2horzHint[p]
-    fun getVertState(p: Position) = state().pos2vertHint[p]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun getHorzState(p: Position) = currentState.pos2horzHint[p]
+    fun getVertState(p: Position) = currentState.pos2vertHint[p]
 }

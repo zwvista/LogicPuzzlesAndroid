@@ -55,7 +55,7 @@ class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameM
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state = cloner.deepClone(state())
+        val state = cloner.deepClone(currentState)
         val changed = f(state, move)
         if (changed) {
             states.add(state)
@@ -70,6 +70,6 @@ class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameM
     fun switchObject(move: BWTapaGameMove) = changeObject(move, BWTapaGameState::switchObject)
     fun setObject(move: BWTapaGameMove) = changeObject(move, BWTapaGameState::setObject)
 
-    fun getObject(p: Position) = state()[p]
-    fun getObject(row: Int, col: Int) = state()[row, col]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
 }
