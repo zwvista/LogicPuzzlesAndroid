@@ -50,25 +50,15 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
         levelInitilized(state)
     }
 
-    fun switchBridges(move: BridgesGameMove): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
+    fun switchBridges(move: BridgesGameMove) =
+        changeObject(move) { state, move ->
+            if (move.pTo < move.pFrom) {
+                val t = move.pFrom
+                move.pFrom = move.pTo
+                move.pTo = t
+            }
+            state.switchBridges(move)
         }
-        val state = cloner.deepClone(currentState)
-        if (move.pTo.compareTo(move.pFrom) < 0) {
-            val t = move.pFrom
-            move.pFrom = move.pTo
-            move.pTo = t
-        }
-        if (!state!!.switchBridges(move)) return false
-        states.add(state)
-        stateIndex++
-        moves.add(move)
-        moveAdded(move)
-        levelUpdated(states[stateIndex - 1], state)
-        return true
-    }
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
