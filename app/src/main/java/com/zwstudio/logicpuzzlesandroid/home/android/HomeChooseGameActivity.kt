@@ -104,7 +104,7 @@ open class HomeChooseGameActivity : BaseActivity() {
             "TennerGrid" to "Tenner Grid",
             "TheOddBrick" to "The Odd Brick",
             "TierraDelFuego" to "Tierra Del Fuego",
-            "WallSentinels2" to "Wall Sentinels 2"
+            "WallSentinels" to "Wall Sentinels"
         )
         private val UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }

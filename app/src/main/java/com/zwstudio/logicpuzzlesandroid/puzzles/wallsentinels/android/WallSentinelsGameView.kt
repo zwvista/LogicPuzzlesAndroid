@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.android
+package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.android
 
 import android.content.Context
 import android.graphics.Canvas
@@ -9,11 +9,11 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain.*
 
-class WallSentinels2GameView(context: Context) : CellsGameView(context) {
+class WallSentinelsGameView(context: Context) : CellsGameView(context) {
 
-    private fun activity() = context as WallSentinels2GameActivity
+    private fun activity() = context as WallSentinelsGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
     private fun cols() = if (isInEditMode) 5 else game().cols()
@@ -44,13 +44,13 @@ class WallSentinels2GameView(context: Context) : CellsGameView(context) {
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 val o = game().getObject(p)
-                if (o is WallSentinels2MarkerObject)
+                if (o is WallSentinelsMarkerObject)
                     canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
-                if (o is WallSentinels2WallObject || o is WallSentinels2HintWallObject)
+                if (o is WallSentinelsWallObject || o is WallSentinelsHintWallObject)
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
-                if (o is WallSentinels2HintLandObject || o is WallSentinels2HintWallObject) {
-                    val n = (o as? WallSentinels2HintLandObject)?.tiles ?: (o as WallSentinels2HintWallObject).tiles
-                    val s = (o as? WallSentinels2HintLandObject)?.state ?: (o as WallSentinels2HintWallObject).state
+                if (o is WallSentinelsHintLandObject || o is WallSentinelsHintWallObject) {
+                    val n = (o as? WallSentinelsHintLandObject)?.tiles ?: (o as WallSentinelsHintWallObject).tiles
+                    val s = (o as? WallSentinelsHintLandObject)?.state ?: (o as WallSentinelsHintWallObject).state
                     textPaint.color = when (s) {
                         HintState.Complete -> Color.GREEN
                         HintState.Error -> Color.RED
@@ -67,7 +67,7 @@ class WallSentinels2GameView(context: Context) : CellsGameView(context) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols() || row >= rows()) return true
-            val move = WallSentinels2GameMove(Position(row, col))
+            val move = WallSentinelsGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
         }

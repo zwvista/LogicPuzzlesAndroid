@@ -15,7 +15,7 @@ interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState> {
 }
 
 @Suppress("UNCHECKED_CAST")
-open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM, GS>, gdi: GameDocumentInterface) {
+open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(val gi: GameInterface<G, GM, GS>, val gdi: GameDocumentInterface) {
     protected var cloner = Cloner()
     protected var stateIndex = 0
     protected var states = mutableListOf<GS>()
@@ -43,21 +43,16 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM
     val moveCount: Int
         get() = states.size - 1
 
-    private val gi: GameInterface<G, GM, GS>?
-    var gdi: GameDocumentInterface
     protected fun moveAdded(move: GM) {
-        if (gi == null) return
         gi.moveAdded(this as G, move)
     }
 
     protected fun levelInitilized(state: GS) {
-        if (gi == null) return
         gi.levelInitilized(this as G, state)
         if (isSolved) gi.gameSolved(this)
     }
 
     protected fun levelUpdated(stateFrom: GS, stateTo: GS) {
-        if (gi == null) return
         gi.levelUpdated(this as G, stateFrom, stateTo)
         if (isSolved) gi.gameSolved(this)
     }
@@ -76,7 +71,5 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(gi: GameInterface<G, GM
 
     init {
         cloner.dontClone(this.javaClass)
-        this.gi = gi
-        this.gdi = gdi
     }
 }

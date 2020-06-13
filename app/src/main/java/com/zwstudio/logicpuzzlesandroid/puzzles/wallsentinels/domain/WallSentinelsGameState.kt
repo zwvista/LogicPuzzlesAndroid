@@ -1,10 +1,10 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain
+package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
-class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>(game) {
+class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>(game) {
     // https://stackoverflow.com/questions/46846025/how-to-clone-or-copy-a-list-in-kotlin
     private var objArray = game.objArray.toMutableList()
     var pos2state: Map<Position, HintState> = HashMap()
@@ -15,23 +15,23 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: WallSentinels2Object) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: WallSentinels2Object) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: WallSentinelsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: WallSentinelsObject) {this[p.row, p.col] = obj}
 
-    fun setObject(move: WallSentinels2GameMove): Boolean {
+    fun setObject(move: WallSentinelsGameMove): Boolean {
         if (this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: WallSentinels2GameMove): Boolean {
+    fun switchObject(move: WallSentinelsGameMove): Boolean {
         val o = this[move.p]
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         move.obj = when(o) {
-            is WallSentinels2EmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2MarkerObject() else WallSentinels2WallObject()
-            is WallSentinels2WallObject -> if (markerOption == MarkerOptions.MarkerLast) WallSentinels2MarkerObject() else WallSentinels2EmptyObject()
-            is WallSentinels2MarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinels2WallObject() else WallSentinels2EmptyObject()
+            is WallSentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsMarkerObject() else WallSentinelsWallObject()
+            is WallSentinelsWallObject -> if (markerOption == MarkerOptions.MarkerLast) WallSentinelsMarkerObject() else WallSentinelsEmptyObject()
+            is WallSentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsWallObject() else WallSentinelsEmptyObject()
             else -> o
         }
         return setObject(move)
@@ -67,11 +67,11 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
                 val o = this[p]
                 fun f(isWall: Boolean, n2: Int) {
                     var n1 = 1
-                    for (os in WallSentinels2Game.offset) {
+                    for (os in WallSentinelsGame.offset) {
                         val p2 = p.add(os)
                         while (isValid(p2)) {
                             val o2 = this[p2]
-                            val isWall2 = o2 is WallSentinels2WallObject || o2 is WallSentinels2HintWallObject
+                            val isWall2 = o2 is WallSentinelsWallObject || o2 is WallSentinelsHintWallObject
                             if (isWall2 != isWall) break
                             n1++
                             p2.addBy(os)
@@ -85,14 +85,14 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
                         else -> HintState.Error
                     }
                     if (isWall)
-                        (o as WallSentinels2HintWallObject).state = s
+                        (o as WallSentinelsHintWallObject).state = s
                     else
-                        (o as WallSentinels2HintLandObject).state = s
+                        (o as WallSentinelsHintLandObject).state = s
                     if (s != HintState.Complete) isSolved = false
                 }
-                if (o is WallSentinels2HintLandObject)
+                if (o is WallSentinelsHintLandObject)
                     f(false, o.tiles)
-                else if (o is WallSentinels2HintWallObject)
+                else if (o is WallSentinelsHintWallObject)
                     f(true, o.tiles)
             }
         if (!isSolved) return
@@ -102,24 +102,24 @@ class WallSentinels2GameState(game: WallSentinels2Game) : CellsGameState<WallSen
             for (c in 0 until cols()) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is WallSentinels2WallObject || o is WallSentinels2HintWallObject) {
+                if (o is WallSentinelsWallObject || o is WallSentinelsHintWallObject) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
                     // 7. The Wall cannot contain 2*2 Wall tiles.
-                    if (WallSentinels2Game.offset2.all {
+                    if (WallSentinelsGame.offset2.all {
                         val p2 = p.add(it)
                         if (!isValid(p2))
                             false
                         else {
                             val o2 = this[p2]
-                            o2 is WallSentinels2WallObject || o2 is WallSentinels2HintWallObject
+                            o2 is WallSentinelsWallObject || o2 is WallSentinelsHintWallObject
                         }
                     }) { isSolved = false; return }
                 }
             }
         for ((p, node) in pos2node)
-            for (os in WallSentinels2Game.offset) {
+            for (os in WallSentinelsGame.offset) {
                 val p2 = p.add(os)
                 val node2 = pos2node[p2]
                 if (node2 != null)

@@ -1,25 +1,25 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.android
+package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.android
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.data.WallSentinels2Document
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2Game
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameMove
-import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain.WallSentinels2GameState
+import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.data.WallSentinelsDocument
+import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain.WallSentinelsGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain.WallSentinelsGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain.WallSentinelsGameState
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EActivity
 
 @EActivity(R.layout.activity_game_game)
-class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSentinels2Document, WallSentinels2GameMove, WallSentinels2GameState>() {
+class WallSentinelsGameActivity : GameGameActivity<WallSentinelsGame, WallSentinelsDocument, WallSentinelsGameMove, WallSentinelsGameState>() {
     @Bean
-    protected lateinit var document: WallSentinels2Document
+    protected lateinit var document: WallSentinelsDocument
     override fun doc() = document
 
     @AfterViews
     override fun init() {
-        gameView = WallSentinels2GameView(this)
+        gameView = WallSentinelsGameView(this)
         super.init()
     }
 
@@ -30,7 +30,7 @@ class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSent
         updateSolutionUI()
 
         levelInitilizing = true
-        game = WallSentinels2Game(level.layout, this, doc())
+        game = WallSentinelsGame(level.layout, this, doc())
         try {
             // restore game state
             for (rec in doc().moveProgress()) {
@@ -48,6 +48,6 @@ class WallSentinels2GameActivity : GameGameActivity<WallSentinels2Game, WallSent
 
     @Click
     protected fun btnHelp() {
-        WallSentinels2HelpActivity_.intent(this).start()
+        WallSentinelsHelpActivity_.intent(this).start()
     }
 }

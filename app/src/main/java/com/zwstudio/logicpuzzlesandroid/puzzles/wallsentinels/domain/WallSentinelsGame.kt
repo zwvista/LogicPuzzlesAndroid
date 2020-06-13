@@ -1,11 +1,11 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels2.domain
+package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>, gdi: GameDocumentInterface) : CellsGame<WallSentinels2Game, WallSentinels2GameMove, WallSentinels2GameState>(gi, gdi) {
+class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>, gdi: GameDocumentInterface) : CellsGame<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>(gi, gdi) {
 
     companion object {
         val offset = arrayOf(
@@ -22,17 +22,17 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
         )
     }
 
-    var objArray: MutableList<WallSentinels2Object>
+    var objArray: MutableList<WallSentinelsObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: WallSentinels2Object) {objArray[row * cols() + col] = obj}
-    operator fun set(p: Position, obj: WallSentinels2Object) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: WallSentinelsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(p: Position, obj: WallSentinelsObject) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length / 2)
         // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-        objArray = MutableList(rows() * cols()) { WallSentinels2EmptyObject() }
+        objArray = MutableList(rows() * cols()) { WallSentinelsEmptyObject() }
         for (r in 0 until rows()) {
             val str = layout[r]
             for (c in 0 until cols()) {
@@ -41,18 +41,18 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
                 if (s != "  ") {
                     val n = s[1] - '0'
                     val o =
-                        if (s[0] == '.') WallSentinels2HintLandObject(n)
-                        else WallSentinels2HintWallObject(n)
+                        if (s[0] == '.') WallSentinelsHintLandObject(n)
+                        else WallSentinelsHintWallObject(n)
                     this[p] = o
                 }
             }
         }
-        val state = WallSentinels2GameState(this)
+        val state = WallSentinelsGameState(this)
         states.add(state)
         levelInitilized(state)
     }
 
-    private fun changeObject(move: WallSentinels2GameMove, f: (WallSentinels2GameState, WallSentinels2GameMove) -> Boolean): Boolean {
+    private fun changeObject(move: WallSentinelsGameMove, f: (WallSentinelsGameState, WallSentinelsGameMove) -> Boolean): Boolean {
         if (canRedo) {
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
@@ -69,8 +69,8 @@ class WallSentinels2Game(layout: List<String>, gi: GameInterface<WallSentinels2G
         return changed
     }
 
-    fun switchObject(move: WallSentinels2GameMove) = changeObject(move, WallSentinels2GameState::switchObject)
-    fun setObject(move: WallSentinels2GameMove) = changeObject(move, WallSentinels2GameState::setObject)
+    fun switchObject(move: WallSentinelsGameMove) = changeObject(move, WallSentinelsGameState::switchObject)
+    fun setObject(move: WallSentinelsGameMove) = changeObject(move, WallSentinelsGameState::setObject)
 
     fun getObject(p: Position) = state()[p]
     fun getObject(row: Int, col: Int) = state()[row, col]
