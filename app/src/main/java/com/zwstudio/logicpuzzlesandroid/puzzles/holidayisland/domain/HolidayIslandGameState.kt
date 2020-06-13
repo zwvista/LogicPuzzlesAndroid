@@ -92,16 +92,17 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         }
         g = Graph()
         pos2node.clear()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            val o = get(p)
-            if (!(o is HolidayIslandTreeObject || o is HolidayIslandHintObject)) {
-                // 5. A camper can't cross water or other Tents.
-                val node = Node(p.toString())
-                g.addNode(node)
-                pos2node[p] = node
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                val o = get(p)
+                if (!(o is HolidayIslandTreeObject || o is HolidayIslandHintObject)) {
+                    // 5. A camper can't cross water or other Tents.
+                    val node = Node(p.toString())
+                    g.addNode(node)
+                    pos2node[p] = node
+                }
             }
-        }
         for ((p, node) in pos2node) {
             for (os in HolidayIslandGame.offset) {
                 val p2 = p.add(os)

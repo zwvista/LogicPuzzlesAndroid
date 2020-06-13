@@ -60,19 +60,21 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
         val rng = mutableSetOf<Position>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            rng.add(p.plus())
-            val node = Node(p.toString())
-            g.addNode(node)
-            pos2node[p] = node
-        }
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            for (i in 0..3)
-                if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
-                    g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i * 2])]!!)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                rng.add(p.plus())
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                for (i in 0..3)
+                    if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i * 2])]!!)
+            }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!
             val nodeList = g.bfs()

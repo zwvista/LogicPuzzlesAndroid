@@ -43,7 +43,7 @@ class MineShipsGame(layout: List<String>, gi: GameInterface<MineShipsGame, MineS
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: MineShipsGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)

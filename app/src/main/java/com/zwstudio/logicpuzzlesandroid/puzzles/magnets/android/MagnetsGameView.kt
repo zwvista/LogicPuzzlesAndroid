@@ -54,22 +54,23 @@ class MagnetsGameView(context: Context) : CellsGameView(context) {
                 MagnetsAreaType.Vertical -> canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 2).toFloat(), gridPaint)
             }
         }
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val o = game().getObject(r, c)
-            when (o) {
-                MagnetsObject.Positive -> {
-                    dPositive.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dPositive.draw(canvas)
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val o = game().getObject(r, c)
+                when (o) {
+                    MagnetsObject.Positive -> {
+                        dPositive.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dPositive.draw(canvas)
+                    }
+                    MagnetsObject.Negative -> {
+                        dNegative.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dNegative.draw(canvas)
+                    }
+                    MagnetsObject.Marker ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    else -> {}
                 }
-                MagnetsObject.Negative -> {
-                    dNegative.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dNegative.draw(canvas)
-                }
-                MagnetsObject.Marker ->
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                else -> {}
             }
-        }
         dPositive.setBounds(cwc(cols()), chr(rows()), cwc(cols() + 1), chr(rows() + 1))
         dPositive.setColorFilter(Color.argb(75, 0, 0, 0), PorterDuff.Mode.SRC_ATOP)
         dPositive.draw(canvas)

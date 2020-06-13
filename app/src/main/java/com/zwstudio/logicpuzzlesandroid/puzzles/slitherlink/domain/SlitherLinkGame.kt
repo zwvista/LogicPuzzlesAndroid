@@ -47,7 +47,7 @@ class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, S
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: SlitherLinkGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)

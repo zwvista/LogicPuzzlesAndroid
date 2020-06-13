@@ -56,7 +56,7 @@ class SnailGameView(context: Context) : CellsGameView(context) {
                 val text = ch.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
-        textPaint.setColor(Color.RED)
+        textPaint.color = Color.RED
         for (r in 0 until rows())
             if (game().getRowState(r) == HintState.Error) drawTextCentered("123", cwc(cols()), chr(r), canvas, textPaint)
         for (c in 0 until cols())

@@ -112,14 +112,15 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            if (this[p].isShipPiece()) {
-                val node = Node(p.toString())
-                g.addNode(node)
-                pos2node[p] = node
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                if (this[p].isShipPiece()) {
+                    val node = Node(p.toString())
+                    g.addNode(node)
+                    pos2node[p] = node
+                }
             }
-        }
         for ((p, node) in pos2node) {
             for (i in 0..3) {
                 val p2 = p.add(DigitalBattleShipsGame.offset[i * 2])

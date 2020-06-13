@@ -12,7 +12,10 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridForbiddenObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridGameMove
+import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridMarkerObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.powergrid.domain.PowerGridPostObject
 
 class PowerGridGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as PowerGridGameActivity
@@ -43,21 +46,22 @@ class PowerGridGameView(context: Context) : CellsGameView(context) {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val p = Position(r, c)
-            val o: PowerGridObject = game().getObject(p)
-            if (o is PowerGridPostObject) {
-                dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                dPost.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                dPost.draw(canvas)
-            } else if (o is PowerGridMarkerObject)
-                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-            else if (o is PowerGridForbiddenObject)
-                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val p = Position(r, c)
+                val o = game().getObject(p)
+                if (o is PowerGridPostObject) {
+                    dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                    dPost.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                    dPost.draw(canvas)
+                } else if (o is PowerGridMarkerObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                else if (o is PowerGridForbiddenObject)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+            }
         if (isInEditMode) return
         for (r in 0 until rows()) {
             val s = game().getRowState(r)

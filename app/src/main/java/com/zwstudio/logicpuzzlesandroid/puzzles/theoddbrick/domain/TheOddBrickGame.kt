@@ -59,13 +59,14 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
         val rng = mutableSetOf<Position>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            rng.add(p.plus())
-            val node = Node(p.toString())
-            g.addNode(node)
-            pos2node[p] = node
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                rng.add(p.plus())
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
         for (r in 0 until rows())
             for (c in 0 until cols()) {
                 val p = Position(r, c)
@@ -93,7 +94,7 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: TheOddBrickGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)

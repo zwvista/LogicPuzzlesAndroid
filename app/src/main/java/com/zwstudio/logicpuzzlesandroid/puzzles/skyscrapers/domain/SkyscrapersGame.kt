@@ -45,7 +45,7 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: SkyscrapersGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)

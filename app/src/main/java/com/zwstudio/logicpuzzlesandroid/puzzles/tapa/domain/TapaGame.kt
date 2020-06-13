@@ -55,7 +55,7 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: TapaGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)

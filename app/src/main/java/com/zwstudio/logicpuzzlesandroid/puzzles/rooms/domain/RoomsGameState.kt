@@ -3,11 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rooms.domain
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove, RoomsGameState>(game) {
     var objArray = Cloner().deepClone(game.objArray)
-    var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
     operator fun get(p: Position) = this[p.row, p.col]

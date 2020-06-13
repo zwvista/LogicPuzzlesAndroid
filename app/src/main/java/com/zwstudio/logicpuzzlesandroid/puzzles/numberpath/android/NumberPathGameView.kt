@@ -37,14 +37,15 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val n = game()[r, c]
-            textPaint.setColor(Color.WHITE)
-            val text = n.toString()
-            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val n = game()[r, c]
+                textPaint.color = Color.WHITE
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+            }
         if (isInEditMode) return
         for (r in 0 until rows())
             for (c in 0 until cols()) {

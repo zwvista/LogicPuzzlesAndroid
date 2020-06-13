@@ -36,18 +36,19 @@ class RobotCrosswordsGameView(context: Context) : CellsGameView(context) {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            if (isInEditMode) continue
-            val n = game().getObject(r, c)
-            if (n == -1)
-                canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-            else if (n > 0) {
-                val text = n.toString()
-                textPaint.color = if (game()[r, c] == n) Color.GRAY else Color.WHITE
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
+                val n = game().getObject(r, c)
+                if (n == -1)
+                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                else if (n > 0) {
+                    val text = n.toString()
+                    textPaint.color = if (game()[r, c] == n) Color.GRAY else Color.WHITE
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
             }
-        }
         if (isInEditMode) return
         for (i in game().areas.indices) {
             val a = game().areas[i]

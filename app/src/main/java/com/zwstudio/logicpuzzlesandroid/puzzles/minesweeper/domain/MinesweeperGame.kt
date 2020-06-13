@@ -44,7 +44,7 @@ class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, M
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: MinesweeperGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)

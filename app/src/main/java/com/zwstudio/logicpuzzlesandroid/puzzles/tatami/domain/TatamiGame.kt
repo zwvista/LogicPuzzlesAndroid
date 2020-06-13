@@ -67,12 +67,13 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows()) for (c in 0 until cols()) {
-            val p = Position(r, c)
-            for (i in 0..3)
-                if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
-                    g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i * 2])]!!)
-        }
+        for (r in 0 until rows())
+            for (c in 0 until cols()) {
+                val p = Position(r, c)
+                for (i in 0..3)
+                    if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i * 2])]!!)
+            }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!
             val nodeList = g.bfs()
@@ -92,7 +93,7 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: TatamiGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)

@@ -59,7 +59,7 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
             states.subList(stateIndex + 1, states.size).clear()
             moves.subList(stateIndex, states.size).clear()
         }
-        val state: TentsGameState = cloner.deepClone(state())
+        val state = cloner.deepClone(state())
         val changed = f(state, move)
         if (changed) {
             states.add(state)
