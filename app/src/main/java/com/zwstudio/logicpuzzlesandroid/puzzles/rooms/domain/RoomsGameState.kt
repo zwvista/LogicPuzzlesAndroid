@@ -19,7 +19,7 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(RoomsGame.offset[dir])
+        val p2 = p1 + RoomsGame.offset[dir]
         val o = this[p1][dir]
         if (o == move.obj) return false
         this[p1][dir] = move.obj
@@ -66,10 +66,10 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             for (i in 0 until 4) {
-                val p2 = p.plus()
-                while (this[p2.add(RoomsGame.offset2[i])][RoomsGame.dirs[i]] != GridLineObject.Line) {
+                var p2 = +p
+                while (this[p2 + RoomsGame.offset2[i]][RoomsGame.dirs[i]] != GridLineObject.Line) {
                     n1++
-                    p2.addBy(RoomsGame.offset[i])
+                    p2 += RoomsGame.offset[i]
                 }
             }
             pos2state[p] = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -81,7 +81,7 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                rng.add(p.plus())
+                rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -90,8 +90,8 @@ class RoomsGameState(game: RoomsGame) : CellsGameState<RoomsGame, RoomsGameMove,
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(RoomsGame.offset2[i])][RoomsGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(RoomsGame.offset[i])]!!)
+                    if (this[p + RoomsGame.offset2[i]][RoomsGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + RoomsGame.offset[i]]!!)
             }
         // 3. At the end of the solution, each Room must be reachable from the others.
         // That means no single Room or group of Rooms can be divided by the others.

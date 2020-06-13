@@ -77,7 +77,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
             }
         for (p in pos2node.keys)
             for (os in ProductSentinelsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
@@ -87,7 +87,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean {
                     for (os in ProductSentinelsGame.offset) {
-                        val p2 = p.add(os)
+                        val p2 = p + os
                         if (isValid(p2) && this[p2] is ProductSentinelsTowerObject) return true
                     }
                     return false
@@ -106,14 +106,14 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
             val rng = mutableListOf<Position>()
             next@ for (i in 0 until 4) {
                 val os = ProductSentinelsGame.offset[i]
-                val p2 = p.add(os)
+                var p2 = p + os
                 while (isValid(p2)) {
                     val o2 = this[p2]
                     if (o2 is ProductSentinelsTowerObject) continue@next
                     if (o2 is ProductSentinelsEmptyObject)
-                        rng.add(p2.plus())
+                        rng.add(+p2)
                     nums[i]++
-                    p2.addBy(os)
+                    p2 += os
                 }
             }
             val n1 = (nums[0] + nums[2] + 1) * (nums[1] + nums[3] + 1)

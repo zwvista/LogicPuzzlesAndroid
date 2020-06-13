@@ -66,7 +66,7 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 fun hasNeighbor() = ParksGame.offset.any {
-                    val p2 = p.add(it)
+                    val p2 = p + it
                     isValid(p2) && this[p2] is ParksTreeObject
                 }
                 val o = this[r, c]

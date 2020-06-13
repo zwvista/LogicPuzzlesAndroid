@@ -64,7 +64,7 @@ class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameM
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             for (os in MosaikGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (!isValid(p2)) continue
                 if (this[p2] == MosaikObject.Filled)
                     n1++

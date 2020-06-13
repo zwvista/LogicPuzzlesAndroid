@@ -64,7 +64,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
             rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (os in CarpentersWallGame.offset2)
-                    if (this[p.add(os)] !is CarpentersWallWallObject) continue@rule2x2
+                    if (this[p + os] !is CarpentersWallWallObject) continue@rule2x2
                 isSolved = false
             }
         val g = Graph()
@@ -95,13 +95,13 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
             }
         for (p in rngWalls)
             for (os in CarpentersWallGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
             for (os in CarpentersWallGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

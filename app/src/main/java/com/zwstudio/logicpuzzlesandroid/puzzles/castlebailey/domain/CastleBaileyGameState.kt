@@ -70,7 +70,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
             var n1 = 0
             val rng = mutableListOf<Position>()
             for (os in CastleBaileyGame.offset2) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (!isValid(p2)) continue
                 when (this[p2]) {
                     CastleBaileyObject.Empty, CastleBaileyObject.Marker -> rng.add(p2)
@@ -104,7 +104,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
             }
         for ((p, node) in pos2node)
             for (os in CastleBaileyGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)

@@ -21,7 +21,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame, Ov
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(OverUnderGame.offset[dir])
+        val p2 = p1 + OverUnderGame.offset[dir]
         if (game[p1][dir] != GridLineObject.Empty) return false
         val o = this[p1][dir]
         if (o == move.obj) return false
@@ -69,8 +69,8 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame, Ov
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(OverUnderGame.offset2[i])][OverUnderGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(OverUnderGame.offset[i])]!!)
+                    if (this[p + OverUnderGame.offset2[i]][OverUnderGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + OverUnderGame.offset[i]]!!)
             }
         val areas = mutableListOf<List<Position>>()
         while (pos2node.isNotEmpty()) {

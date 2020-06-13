@@ -85,7 +85,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         }
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
-                val p2 = p.add(TapARowGame.offset[it])
+                val p2 = p + TapARowGame.offset[it]
                 isValid(p2) && this[p2] is TapARowWallObject
             }
             val arr = computeHint(filled)
@@ -100,7 +100,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (TapARowGame.offset2.all {
-                    val o = this[p.add(it)]
+                    val o = this[p + it]
                     o is TapARowWallObject
                 }) {
                     isSolved = false
@@ -120,7 +120,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             }
         for ((p, node) in pos2node)
             for (os in TapaGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)

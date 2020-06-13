@@ -26,7 +26,7 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
     }
 
     fun switchObject(move: CloudsGameMove): Boolean {
-        val markerOption = MarkerOptions.values()[game!!.gdi.markerOption]
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]
@@ -75,7 +75,7 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         // in that column.
         for (c in 0 until cols) {
             var n1 = 0
-            val n2 = game!!.col2hint[c]
+            val n2 = game.col2hint[c]
             for (r in 0 until rows)
                 if (this[r, c] == CloudsObject.Cloud)
                     n1++
@@ -101,7 +101,7 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
             }
         for (p in pos2node.keys)
             for (os in CloudsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

@@ -68,13 +68,13 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
                 fun f(isWall: Boolean, n2: Int) {
                     var n1 = 1
                     for (os in WallSentinelsGame.offset) {
-                        val p2 = p.add(os)
+                        var p2 = p + os
                         while (isValid(p2)) {
                             val o2 = this[p2]
                             val isWall2 = o2 is WallSentinelsWallObject || o2 is WallSentinelsHintWallObject
                             if (isWall2 != isWall) break
                             n1++
-                            p2.addBy(os)
+                            p2 += os
                         }
                     }
                     // 3. The number tells you how many tiles that Sentinel can control (see)
@@ -108,7 +108,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
                     pos2node[p] = node
                     // 7. The Wall cannot contain 2*2 Wall tiles.
                     if (WallSentinelsGame.offset2.all {
-                        val p2 = p.add(it)
+                        val p2 = p + it
                         if (!isValid(p2))
                             false
                         else {
@@ -120,7 +120,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
             }
         for ((p, node) in pos2node)
             for (os in WallSentinelsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)

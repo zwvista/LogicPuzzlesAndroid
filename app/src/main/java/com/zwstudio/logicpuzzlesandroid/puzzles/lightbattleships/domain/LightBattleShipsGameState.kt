@@ -81,7 +81,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                 val p = Position(r, c)
                 fun hasNeighbor(isHint: Boolean): Boolean {
                     for (os in LightBattleShipsGame.offset) {
-                        val p2 = p.add(os)
+                        val p2 = p + os
                         if (!isValid(p2)) continue
                         val o = this[p2]
                         if (o is LightBattleShipsHintObject) {
@@ -107,14 +107,14 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             val rng = mutableListOf<Position>()
             for (i in 0 until 4) {
                 val os: Position = LightBattleShipsGame.offset[i * 2]
-                val p2 = p.add(os)
+                var p2 = p + os
                 while (game.isValid(p2)) {
                     val o = get(p2)
                     if (o is LightBattleShipsEmptyObject)
-                        rng.add(p2.plus())
+                        rng.add(+p2)
                     else if (o.isShipPiece())
                         nums[i]++
-                    p2.addBy(os)
+                    p2 += os
                 }
             }
             val n1 = nums.sum()
@@ -139,7 +139,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             }
         for ((p, node) in pos2node) {
             for (os in LightBattleShipsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -164,7 +164,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             for (p in area)
                 for (os in LightBattleShipsGame.offset) {
                     // 3. Ships cannot touch each other. Not even diagonally.
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     if (!isValid(p2) || area.contains(p2)) continue
                     if (this[p2].isShipPiece())
                         isSolved = false

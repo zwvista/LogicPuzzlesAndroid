@@ -74,7 +74,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
                 val o = this[p]
                 fun hasNeighbor(): Boolean {
                     return GardenerGame.offset.any {
-                        val p2 = p.add(it)
+                        val p2 = p + it
                         isValid(p2) && this[p2] is GardenerTreeObject
                     }
                 }
@@ -94,7 +94,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             }
         for ((p, node) in pos2node) {
             for (os in GardenerGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)

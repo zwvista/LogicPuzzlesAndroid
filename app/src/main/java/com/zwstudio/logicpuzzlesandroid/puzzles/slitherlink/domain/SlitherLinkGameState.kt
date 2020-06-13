@@ -23,7 +23,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(SlitherLinkGame.offset[dir])
+        val p2 = p1 + SlitherLinkGame.offset[dir]
         val o = this[p1][dir]
         if (o == move.obj) return false
         this[p1][dir] = move.obj
@@ -72,8 +72,8 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             var n1 = 0
             if (this[p][1] == GridLineObject.Line) n1++
             if (this[p][2] == GridLineObject.Line) n1++
-            if (this[p.add(Position(1, 1))][0] == GridLineObject.Line) n1++
-            if (this[p.add(Position(1, 1))][3] == GridLineObject.Line) n1++
+            if (this[p + Position(1, 1)][0] == GridLineObject.Line) n1++
+            if (this[p + Position(1, 1)][3] == GridLineObject.Line) n1++
             pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
@@ -102,7 +102,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             val dotObj = this[p]
             for (i in 0 until 4) {
                 if (dotObj[i] != GridLineObject.Line) continue
-                val p2 = p.add(SlitherLinkGame.offset[i])
+                val p2 = p + SlitherLinkGame.offset[i]
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }

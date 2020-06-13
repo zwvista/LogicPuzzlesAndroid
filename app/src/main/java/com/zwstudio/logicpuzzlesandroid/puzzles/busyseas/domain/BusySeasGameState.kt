@@ -55,10 +55,10 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
             val p = Position(r, c)
             fun hasLightedBoat(): Boolean {
                 for (os in BusySeasGame.offset) {
-                    val p2 = p.add(os)
+                    var p2 = p + os
                     while (isValid(p2)) {
                         if (this[p2] is BusySeasHintObject) return true
-                        p2.addBy(os)
+                        p2 += os
                     }
                 }
                 return false
@@ -76,16 +76,16 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
             val rng = mutableListOf<Position>()
             next@ for (i in 0 until 4) {
                 val os: Position = BusySeasGame.offset[i]
-                val p2 = p.add(os)
+                var p2 = p + os
                 while (isValid(p2)) {
                     val o2 = this[p2]
                     // 3. A lighthouse's light is stopped by the first boat it meets.
                     if (o2 is BusySeasHintObject) continue@next
                     if (o2 is BusySeasEmptyObject)
-                        rng.add(p2.plus())
+                        rng.add(+p2)
                     else if (o2 is BusySeasLighthouseObject)
                         nums[i]++
-                    p2.addBy(os)
+                    p2 += os
                 }
             }
             val n1 = nums.sum()

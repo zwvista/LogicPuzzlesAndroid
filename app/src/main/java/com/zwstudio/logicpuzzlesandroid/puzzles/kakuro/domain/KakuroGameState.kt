@@ -55,7 +55,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
             val os = KakuroGame.offset[1]
             var n: Int
             val lastN = 0
-            val p2 = p.add(os)
+            var p2 = p + os
             while (pos2num[p2].also { n = it!! } != null) {
                 n1 += n
                 // 3. You can write numbers 1 to 9 in the tiles, however no same number should
@@ -63,9 +63,9 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
                 if (n == lastN) {
                     isSolved = false
                     pos2horzHint[p2] = HintState.Error
-                    pos2horzHint[p2.subtract(os)] = HintState.Error
+                    pos2horzHint[p2 - os] = HintState.Error
                 }
-                p2.addBy(os)
+                p2 += os
             }
             // 2. The number on at the left of a row gives you
             // the sum of the numbers in that row.
@@ -78,7 +78,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
             val os = KakuroGame.offset[2]
             var n: Int
             val lastN = 0
-            val p2 = p.add(os)
+            var p2 = p + os
             while (pos2num[p2].also { n = it!! } != null) {
                 n1 += n
                 // 3. You can write numbers 1 to 9 in the tiles, however no same number should
@@ -86,9 +86,9 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
                 if (n == lastN) {
                     isSolved = false
                     pos2horzHint[p2] = HintState.Error
-                    pos2horzHint[p2.subtract(os)] = HintState.Error
+                    pos2horzHint[p2 - os] = HintState.Error
                 }
-                p2.addBy(os)
+                p2 += os
             }
             // 2. The number on the top of a column gives you
             // the sum of the numbers in that column.

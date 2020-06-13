@@ -22,7 +22,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(FenceSentinelsGame.offset[dir])
+        val p2 = p1 + FenceSentinelsGame.offset[dir]
         val o = this[p1][dir]
         if (o == move.obj) return false
         this[p1][dir] = move.obj
@@ -69,11 +69,11 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
             var n1 = -3
             for (i in 0 until 4) {
                 val os: Position = FenceSentinelsGame.offset[i]
-                val p2 = p.plus()
+                var p2 = +p
                 while (isValid(p2)) {
                     n1++
-                    if (this[p2.add(FenceSentinelsGame.offset2[i])][FenceSentinelsGame.dirs[i]] == GridLineObject.Line) break
-                    p2.addBy(os)
+                    if (this[p2 + FenceSentinelsGame.offset2[i]][FenceSentinelsGame.dirs[i]] == GridLineObject.Line) break
+                    p2 += os
                 }
             }
             pos2state[p] = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -103,7 +103,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
             val dotObj = this[p]
             for (i in 0 until 4) {
                 if (dotObj[i] != GridLineObject.Line) continue
-                val p2 = p.add(FenceSentinelsGame.offset[i])
+                val p2 = p + FenceSentinelsGame.offset[i]
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }

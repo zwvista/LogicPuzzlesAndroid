@@ -77,7 +77,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         for ((p, node) in pos2node) {
             val b1 = this[p] is TierraDelFuegoTreeObject
             for (os in TierraDelFuegoGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2] ?: continue
                 val b2 = this[p2] is TierraDelFuegoTreeObject
                 if (b1 == b2)
@@ -97,7 +97,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
                 else if (allowedObjectsOnly)
                     for (p in area)
                         for (os in TierraDelFuegoGame.offset) {
-                            val p2 = p.add(os)
+                            val p2 = p + os
                             if (!isValid(p2)) continue
                             val o = this[p2]
                             if (o is TierraDelFuegoEmptyObject || o is TierraDelFuegoMarkerObject)

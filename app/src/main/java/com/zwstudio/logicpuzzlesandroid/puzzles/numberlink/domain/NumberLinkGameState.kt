@@ -23,7 +23,7 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p = move.p
-        val p2 = p.add(NumberLinkGame.offset[dir])
+        val p2 = p + NumberLinkGame.offset[dir]
         if (!isValid(p2)) return false
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
@@ -78,7 +78,7 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
             pos2state[p] = HintState.Normal
             val indexes = pos2indexes[p] ?: continue
             for (i in indexes) {
-                val p2 = p.add(NumberLinkGame.offset[i])
+                val p2 = p + NumberLinkGame.offset[i]
                 val node2 = pos2node[p2]!!
                 g.connectNode(node, node2)
             }
@@ -89,7 +89,7 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
             // 5. In other words you can't turn right and immediately right again. The
             // same happens on the left, obviously. Be careful not to miss this rule.
             fun f(i: Int, isRight: Boolean) {
-                val p2 = p.add(NumberLinkGame.offset[i])
+                val p2 = p + NumberLinkGame.offset[i]
                 val indexes2 = pos2indexes[p2]
                 if (indexes2 == null || indexes2.size != 2) return
                 val i3 = (i + 2) % 4

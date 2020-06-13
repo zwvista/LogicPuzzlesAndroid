@@ -100,7 +100,7 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
                 MagnetsAreaType.Horizontal, MagnetsAreaType.Vertical -> {
                     val os = MagnetsGame.offset[if (a.type == MagnetsAreaType.Horizontal) 1 else 2]
                     val o1 = this[a.p]
-                    val o2 = this[a.p.add(os)]
+                    val o2 = this[a.p + os]
                     if (o1.isEmpty != o2.isEmpty) {
                         isSolved = false
                         return
@@ -115,7 +115,7 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
                 val p = Position(r, c)
                 val o = this[r, c]
                 for (os in MagnetsGame.offset) {
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     if (!isValid(p2)) continue
                     val o2 = this[p2]
                     if (o.isPole && o === o2) {

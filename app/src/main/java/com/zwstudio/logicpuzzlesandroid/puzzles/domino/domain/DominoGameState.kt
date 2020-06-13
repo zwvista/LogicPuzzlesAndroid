@@ -20,7 +20,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(DominoGame.offset[dir])
+        val p2 = p1 + DominoGame.offset[dir]
         val o = this[p1][dir]
         if (o == move.obj) return false
         this[p1][dir] = move.obj
@@ -76,8 +76,8 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(DominoGame.offset2[i])][DominoGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(DominoGame.offset[i])]!!)
+                    if (this[p + DominoGame.offset2[i]][DominoGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + DominoGame.offset[i]]!!)
             }
         val dominoes = mutableListOf<List<Int?>>()
         while (pos2node.isNotEmpty()) {

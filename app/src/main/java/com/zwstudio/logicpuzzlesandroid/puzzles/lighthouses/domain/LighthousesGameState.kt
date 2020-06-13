@@ -70,7 +70,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean {
                     for (os in LighthousesGame.offset) {
-                        val p2 = p.add(os)
+                        val p2 = p + os
                         if (!isValid(p2)) continue
                         val o2 = get(p2)
                         if (o2 is LighthousesHintObject || o2 is LighthousesLighthouseObject) return true
@@ -92,14 +92,14 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
             val rng = mutableListOf<Position>()
             next@ for (i in 0 until 4) {
                 val os: Position = LighthousesGame.offset[i * 2]
-                val p2 = p.add(os)
+                var p2 = p + os
                 while (isValid(p2)) {
                     val o2 = this[p2]
                     if (o2 is LighthousesEmptyObject || o2 is LighthousesMarkerObject)
-                        rng.add(p2.plus())
+                        rng.add(+p2)
                     else if (o2 is LighthousesLighthouseObject)
                         nums[i]++
-                    p2.addBy(os)
+                    p2 += os
                 }
             }
             val n1 = nums[0] + nums[1] + nums[2] + nums[3]

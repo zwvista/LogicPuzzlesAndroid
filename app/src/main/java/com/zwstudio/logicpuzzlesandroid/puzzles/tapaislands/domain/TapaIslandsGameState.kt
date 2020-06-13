@@ -86,7 +86,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         }
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
-                val p2 = p.add(TapaIslandsGame.offset[it])
+                val p2 = p + TapaIslandsGame.offset[it]
                 isValid(p2) && this[p2] is TapaIslandsWallObject
             }
             val arr = computeHint(filled)
@@ -101,7 +101,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (TapaIslandsGame.offset2.all {
-                    val o = this[p.add(it)]
+                    val o = this[p + it]
                     o is TapaIslandsWallObject
                 }) {
                     isSolved = false
@@ -125,13 +125,13 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             }
         for (p in rngWalls)
             for (os in TapaIslandsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
             for (os in TapaIslandsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

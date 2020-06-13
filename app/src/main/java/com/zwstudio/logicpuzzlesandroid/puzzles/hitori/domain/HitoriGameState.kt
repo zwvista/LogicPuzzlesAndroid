@@ -112,7 +112,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         // horizontally or vertically between them.
         for (p in rngDarken)
             for (os in HitoriGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngDarken.contains(p2)) {
                     isSolved = false
                     return
@@ -120,7 +120,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
             }
         for (p in pos2node.keys) {
             for (os in HitoriGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

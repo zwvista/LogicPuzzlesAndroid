@@ -84,7 +84,7 @@ class MasyuGameView(context: Context) : CellsGameView(context) {
                 f()
             }
             MotionEvent.ACTION_MOVE -> if (p != pLastMove) {
-                val n = MasyuGame.offset.indexOfFirst { it == p.subtract(pLastMove!!) }
+                val n = MasyuGame.offset.indexOfFirst { it == p - pLastMove!! }
                 if (n != -1) {
                     val move = MasyuGameMove(pLastMove!!, n)
                     if (game().setObject(move)) f()

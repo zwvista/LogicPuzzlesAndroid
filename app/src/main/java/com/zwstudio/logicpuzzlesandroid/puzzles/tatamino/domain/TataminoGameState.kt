@@ -68,7 +68,7 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
                 val ch = this[p]
                 if (ch == ' ') continue
                 for (os in TataminoGame.offset) {
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     if (isValid(p2) && this[p2] == ch)
                         g.connectNode(pos2node[p]!!, pos2node[p2]!!)
                 }
@@ -87,10 +87,10 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
             for (p in area) {
                 pos2state[p] = s
                 for (i in 0 until 4) {
-                    val p2 = p.add(TataminoGame.offset[i])
+                    val p2 = p + TataminoGame.offset[i]
                     val ch2 = if (!isValid(p2)) '.' else this[p2]
                     if (ch2 != ch && (n1 <= n2 || ch2 != ' '))
-                        dots[p.add(TataminoGame.offset2[i]), TataminoGame.dirs[i]] = GridLineObject.Line
+                        dots[p + TataminoGame.offset2[i], TataminoGame.dirs[i]] = GridLineObject.Line
                 }
             }
             if (s != HintState.Complete) isSolved = false

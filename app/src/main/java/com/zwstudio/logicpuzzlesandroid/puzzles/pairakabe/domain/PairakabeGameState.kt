@@ -56,7 +56,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (os in PairakabeGame.offset2)
-                    if (this[p.add(os)] !is PairakabeWallObject)
+                    if (this[p + os] !is PairakabeWallObject)
                         continue@rule2x2
                 isSolved = false
             }
@@ -77,13 +77,13 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             }
         for (p in rngWalls)
             for (os in PairakabeGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
             for (os in PairakabeGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
@@ -106,7 +106,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             val rng = mutableListOf<Position>()
             for (p in game.pos2hint.keys)
                 if (nodeList.contains(pos2node[p]))
-                    rng.add(p.plus())
+                    rng.add(+p)
             when (rng.size) {
                 0 ->                 // All the gardens in the puzzle are numbered at the start, there are no
                     // hidden gardens.

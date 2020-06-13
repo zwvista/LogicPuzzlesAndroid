@@ -78,7 +78,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         }
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
-                val p2 = p.add(BalancedTapasGame.offset[it])
+                val p2 = p + BalancedTapasGame.offset[it]
                 isValid(p2) && this[p2] is BalancedTapasWallObject
             }
             val arr = computeHint(filled)
@@ -90,7 +90,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (BalancedTapasGame.offset2.all { this[p.add(it)] is BalancedTapasWallObject }) {
+                if (BalancedTapasGame.offset2.all { this[p + it] is BalancedTapasWallObject }) {
                     isSolved = false
                     return
                 }
@@ -109,7 +109,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
             }
         for (p in rngWalls)
             for (os in BalancedTapasGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

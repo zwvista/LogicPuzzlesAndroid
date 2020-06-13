@@ -25,7 +25,7 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
         if (game.dots[p1, dir] != GridLineObject.Empty) return false
         val o = this[p1, dir]
         if (o == move.obj) return false
-        val p2 = p1.add(NorthPoleFishingGame.offset[dir])
+        val p2 = p1 + NorthPoleFishingGame.offset[dir]
         this[p1, dir] = move.obj
         this[p2, dir2] = this[p1, dir]
         updateIsSolved()
@@ -73,8 +73,8 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
             }
         for ((p, node) in pos2node)
             for (i in 0 until 4) {
-                if (this[p.add(NorthPoleFishingGame.offset2[i]), NorthPoleFishingGame.dirs[i]] == GridLineObject.Line) continue
-                val node2 = pos2node[p.add(NorthPoleFishingGame.offset[i])]
+                if (this[p + NorthPoleFishingGame.offset2[i], NorthPoleFishingGame.dirs[i]] == GridLineObject.Line) continue
+                val node2 = pos2node[p + NorthPoleFishingGame.offset[i]]
                 if (node2 != null)
                     g.connectNode(node, node2)
             }

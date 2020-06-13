@@ -72,7 +72,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             }
         for ((p, node) in pos2node) {
             for (os in TierraDelFuegoGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -110,7 +110,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         for ((p, n2) in game.pos2hint.entries) {
             var n1 = 0
             for (os in ParkLakesGame.offset) {
-                val i = pos2area[p.add(os)] ?: continue
+                val i = pos2area[p + os] ?: continue
                 n1 += areas[i].size
             }
             // 3. A number tells you the total size of any lakes orthogonally touching it,
@@ -132,7 +132,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             }
         for ((p, node) in pos2node)
             for (os in TierraDelFuegoGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2] ?: continue
                 g.connectNode(node, node2)
             }

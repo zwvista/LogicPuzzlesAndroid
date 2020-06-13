@@ -77,7 +77,7 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
                 f()
             }
             MotionEvent.ACTION_MOVE -> if (pLastMove != null && p != pLastMove) {
-                val n = NumberPathGame.offset.indexOfFirst { it == p.subtract(pLastMove!!) }
+                val n = NumberPathGame.offset.indexOfFirst { it == p - pLastMove!! }
                 if (n != -1) {
                     val move = NumberPathGameMove(pLastMove!!, n)
                     if (game().setObject(move)) f()

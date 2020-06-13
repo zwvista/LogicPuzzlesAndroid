@@ -116,7 +116,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
             }
         for ((p, node) in pos2node)
             for (i in 0 until 4) {
-                val p2 = p.add(BattleShipsGame.offset[i * 2])
+                val p2 = p + BattleShipsGame.offset[i * 2]
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -140,7 +140,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
             for (p in area)
                 for (os in BattleShipsGame.offset) {
                     // 3. A ship or piece of ship can't touch another, not even diagonally.
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     if (!isValid(p2) || area.contains(p2)) continue
                     if (this[p2].isShipPiece())
                         isSolved = false

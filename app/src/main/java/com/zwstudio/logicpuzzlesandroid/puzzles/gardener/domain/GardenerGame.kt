@@ -57,7 +57,7 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                rng.add(p.plus())
+                rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -66,8 +66,8 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i])]!!)
+                    if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!

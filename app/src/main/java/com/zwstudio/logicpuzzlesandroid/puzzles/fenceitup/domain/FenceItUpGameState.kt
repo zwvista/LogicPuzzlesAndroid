@@ -19,7 +19,7 @@ class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame, Fe
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(FenceItUpGame.offset[dir])
+        val p2 = p1 + FenceItUpGame.offset[dir]
         if (game[p1][dir] != GridLineObject.Empty) return false
         val o = this[p1][dir]
         if (o == move.obj) return false
@@ -68,8 +68,8 @@ class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame, Fe
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(FenceItUpGame.offset2[i])][FenceItUpGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(FenceItUpGame.offset[i])]!!)
+                    if (this[p + FenceItUpGame.offset2[i]][FenceItUpGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + FenceItUpGame.offset[i]]!!)
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
@@ -91,7 +91,7 @@ class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame, Fe
             // of the perimeter of the area.
             for (p in area)
                 for (i in 0 until 4)
-                    if (this[p.add(FenceItUpGame.offset2[i])][FenceItUpGame.dirs[i]] == GridLineObject.Line)
+                    if (this[p + FenceItUpGame.offset2[i]][FenceItUpGame.dirs[i]] == GridLineObject.Line)
                         n1++
             val s = if (n1 == n2) HintState.Complete else HintState.Error
             pos2state[p2] = s

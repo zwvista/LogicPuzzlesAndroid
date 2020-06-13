@@ -19,7 +19,7 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(BoxItUpGame.offset[dir])
+        val p2 = p1 + BoxItUpGame.offset[dir]
         if (game[p1][dir] != GridLineObject.Empty || !isValid(p2)) return false
         val o = this[p1][dir]
         if (o == move.obj) return false
@@ -67,8 +67,8 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(BoxItUpGame.offset2[i])][BoxItUpGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(BoxItUpGame.offset[i])]!!)
+                    if (this[p + BoxItUpGame.offset2[i]][BoxItUpGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + BoxItUpGame.offset[i]]!!)
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

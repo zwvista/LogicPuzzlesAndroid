@@ -19,7 +19,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(LoopyGame.offset[dir])
+        val p2 = p1 + LoopyGame.offset[dir]
         if (!isValid(p2) || game[p1][dir] == GridLineObject.Line || this[p1][dir] == move.obj) return false
         this[p1][dir] = move.obj
         this[p2][dir2] = this[p1][dir]
@@ -76,7 +76,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
             val dotObj = get(p)
             for (i in 0 until 4) {
                 if (dotObj[i] != GridLineObject.Line) continue
-                val p2 = p.add(LoopyGame.offset[i])
+                val p2 = p + LoopyGame.offset[i]
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }

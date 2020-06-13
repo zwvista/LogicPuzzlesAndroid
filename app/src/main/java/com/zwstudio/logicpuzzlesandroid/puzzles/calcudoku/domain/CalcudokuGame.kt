@@ -58,7 +58,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 val ch = this[p]
                 if (ch == ' ') continue
                 for (os in offset) {
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     if (isValid(p2) && get(p2) == ch)
                         g.connectNode(pos2node[p]!!, pos2node[p2]!!)
                 }
@@ -73,10 +73,10 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 pos2area[p] = n
                 pos2node.remove(p)
                 for (i in 0 until 4) {
-                    val p2 = p.add(offset[i])
+                    val p2 = p + offset[i]
                     val ch2 = if (!isValid(p2)) '.' else this[p2]
                     if (ch2 != ch)
-                        dots[p.add(offset2[i]), dirs[i]] = GridLineObject.Line
+                        dots[p + offset2[i], dirs[i]] = GridLineObject.Line
                 }
             }
             areas.add(area)

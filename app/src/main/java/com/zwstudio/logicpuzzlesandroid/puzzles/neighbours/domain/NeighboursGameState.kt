@@ -21,7 +21,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(NeighboursGame.offset[dir])
+        val p2 = p1 + NeighboursGame.offset[dir]
         if (game[p1][dir] != GridLineObject.Empty) return false
         val o = this[p1][dir]
         if (o == move.obj) return false
@@ -76,8 +76,8 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(NeighboursGame.offset2[i])][NeighboursGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(NeighboursGame.offset[i])]!!)
+                    if (this[p + NeighboursGame.offset2[i]][NeighboursGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + NeighboursGame.offset[i]]!!)
             }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
@@ -109,11 +109,11 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
                 for (p in area) {
                     var i = 0
                     while (i < 4) {
-                        if (this[p.add(NeighboursGame.offset2[i])][NeighboursGame.dirs[i]] != GridLineObject.Line) {
+                        if (this[p + NeighboursGame.offset2[i]][NeighboursGame.dirs[i]] != GridLineObject.Line) {
                             i++
                             continue
                         }
-                        val p2 = p.add(NeighboursGame.offset[i])
+                        val p2 = p + NeighboursGame.offset[i]
                         val idx2 = pos2area[p2]
                         if (idx2 == null) {
                             i++

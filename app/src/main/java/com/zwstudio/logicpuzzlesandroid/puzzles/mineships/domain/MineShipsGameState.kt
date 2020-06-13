@@ -72,13 +72,13 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
             var n1 = 0
             val rng = mutableListOf<Position>()
             for (os in MineShipsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (!isValid(p2)) continue
                 val o = this[p2]
                 if (o.isShipPiece())
                     n1++
                 else if (o is MineShipsEmptyObject)
-                    rng.add(p2.plus())
+                    rng.add(+p2)
             }
             pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2)
@@ -102,7 +102,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
             }
         for ((p, node) in pos2node) {
             for (i in 0 until 4) {
-                val p2 = p.add(MineShipsGame.offset[i * 2])
+                val p2 = p + MineShipsGame.offset[i * 2]
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -127,7 +127,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
             for (p in area)
                 for (os in MineShipsGame.offset) {
                     // A ship or piece of ship can't touch another, not even diagonally.
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     if (!isValid(p2) || area.contains(p2)) continue
                     val o = this[p2]
                     if (o is MineShipsEmptyObject || o is MineShipsMarkerObject) {

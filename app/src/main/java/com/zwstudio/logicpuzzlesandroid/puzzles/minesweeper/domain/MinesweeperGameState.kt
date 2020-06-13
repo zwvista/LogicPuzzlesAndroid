@@ -61,13 +61,13 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
             var n1 = 0
             val rng = mutableListOf<Position>()
             for (os in MinesweeperGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (!isValid(p2)) continue
                 val o = this[p2]
                 if (o is MinesweeperMineObject)
                     n1++
                 else if (o is MinesweeperEmptyObject)
-                    rng.add(p2.plus())
+                    rng.add(+p2)
             }
             // 2. Numbers tell you how many mines there are close by, touching that
             // number horizontally, vertically or diagonally.

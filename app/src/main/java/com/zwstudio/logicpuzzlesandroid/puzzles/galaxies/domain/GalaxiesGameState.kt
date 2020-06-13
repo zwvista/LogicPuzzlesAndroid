@@ -23,7 +23,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, Galax
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(GalaxiesGame.offset[dir])
+        val p2 = p1 + GalaxiesGame.offset[dir]
         if (game[p1][dir] != GridLineObject.Empty) return false
         val o = this[p1][dir]
         if (o == move.obj) return false
@@ -76,8 +76,8 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, Galax
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(GalaxiesGame.offset2[i])][GalaxiesGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(GalaxiesGame.offset[i])]!!)
+                    if (this[p + GalaxiesGame.offset2[i]][GalaxiesGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + GalaxiesGame.offset[i]]!!)
             }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()

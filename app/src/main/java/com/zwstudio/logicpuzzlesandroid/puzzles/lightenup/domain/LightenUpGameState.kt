@@ -27,12 +27,12 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
             var obj = this[p]
             obj.lightness = f(obj.lightness)
             for (os in LightenUpGame.offset) {
-                val p2 = p.add(os)
+                var p2 = p + os
                 while (isValid(p2)) {
                     obj = this[p2]
                     if (obj is LightenUpWallObject) break
                     obj.lightness = f(obj.lightness)
-                    p2.addBy(os)
+                    p2 += os
                 }
             }
             updateIsSolved()
@@ -110,7 +110,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
                     if (n2 < 0) continue
                     var n1 = 0
                     for (os in LightenUpGame.offset) {
-                        val p2 = p.add(os)
+                        val p2 = p + os
                         if (!isValid(p2)) continue
                         if (this[p2] is LightenUpLightbulbObject) n1++
                     }

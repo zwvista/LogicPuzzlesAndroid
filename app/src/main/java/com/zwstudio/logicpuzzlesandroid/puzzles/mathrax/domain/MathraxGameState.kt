@@ -80,7 +80,7 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
                 }
                 return HintState.Normal
             }
-            val nums = MathraxGame.offset2.map { this[p.add(it)] }
+            val nums = MathraxGame.offset2.map { this[p + it] }
             // 3. This is valid for both pairs of numbers surrounding the hint.
             val s1 = g(nums[0], nums[1])
             val s2 = g(nums[2], nums[3])

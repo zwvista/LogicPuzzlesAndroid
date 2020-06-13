@@ -82,7 +82,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
                 val ch = this[p]
                 if (ch == ' ') continue
                 for (os in FillominoGame.offset) {
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     if (isValid(p2) && this[p2] == ch)
                         g.connectNode(pos2node[p]!!, pos2node[p2]!!)
                 }
@@ -101,10 +101,10 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
             for (p in area) {
                 pos2state[p] = s
                 for (i in 0 until 4) {
-                    val p2 = p.add(FillominoGame.offset[i])
+                    val p2 = p + FillominoGame.offset[i]
                     val ch2 = if (!isValid(p2)) '.' else this[p2]
                     if (ch2 != ch && (n1 <= n2 || ch2 != ' '))
-                        dots[p.add(FillominoGame.offset2[i]), FillominoGame.dirs[i]] = GridLineObject.Line
+                        dots[p + FillominoGame.offset2[i], FillominoGame.dirs[i]] = GridLineObject.Line
                 }
             }
             if (s != HintState.Complete) isSolved = false

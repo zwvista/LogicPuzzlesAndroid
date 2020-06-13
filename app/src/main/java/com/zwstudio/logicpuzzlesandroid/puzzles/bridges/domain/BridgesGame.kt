@@ -35,13 +35,13 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
         for ((p, info) in islandsInfo) {
             for (i in 0 until 4) {
                 val os = offset[i]
-                val p2 = p.add(os)
+                var p2 = p + os
                 while (isValid(p2)) {
                     if (isIsland(p2)) {
                         info.neighbors[i] = p2
                         break
                     }
-                    p2.addBy(os)
+                    p2 += os
                 }
             }
         }

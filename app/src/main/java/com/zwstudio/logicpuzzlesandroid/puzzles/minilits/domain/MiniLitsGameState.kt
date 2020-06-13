@@ -76,7 +76,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
             }
         for ((p, node) in pos2node) {
             for (os in MiniLitsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -107,7 +107,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
             val info = infos[i]
             for (p in info.trees)
                 for (os in MiniLitsGame.offset) {
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     val index = infos.indexOfFirst { it.trees.contains(p2) }
                     if (index != -1 && index != i)
                         info.neighborIndexes.add(index)
@@ -136,7 +136,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
                 val treeOffsets = mutableListOf<Position>()
                 val p2 = Position(info.trees.map { it.row }.min()!!, info.trees.map { it.col }.min()!!)
                 for (p in info.trees)
-                    treeOffsets.add(p.subtract(p2))
+                    treeOffsets.add(p - p2)
                 info.tetrominoIndex = MiniLitsGame.triominos.indexOfFirst { it == treeOffsets }
                 if (info.tetrominoIndex == -1)
                     notSolved(info)
@@ -157,11 +157,11 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
         val block = blocks[0]
         rule2x2@ for (p in block) {
             for (os in MiniLitsGame.offset3)
-                if (block.contains(p.add(os)))
+                if (block.contains(p + os))
                     continue@rule2x2
             isSolved = false
             for (os in MiniLitsGame.offset3)
-                this[p.add(os)] = MiniLitsTreeObject(AllowedObjectState.Error)
+                this[p + os] = MiniLitsTreeObject(AllowedObjectState.Error)
         }
     }
 }

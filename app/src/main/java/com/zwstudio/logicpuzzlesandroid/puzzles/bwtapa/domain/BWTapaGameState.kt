@@ -80,7 +80,7 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         }
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
-                val p2 = p.add(BWTapaGame.offset[it])
+                val p2 = p + BWTapaGame.offset[it]
                 isValid(p2) && this[p2] is BWTapaWallObject
             }
             val arr = computeHint(filled)
@@ -93,8 +93,8 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (BWTapaGame.offset2.all { this[p.add(it)] is BWTapaWallObject } || BWTapaGame.offset2.all {
-                    val o = this[p.add(it)]
+                if (BWTapaGame.offset2.all { this[p + it] is BWTapaWallObject } || BWTapaGame.offset2.all {
+                    val o = this[p + it]
                     o is BWTapaEmptyObject || o is BWTapaHintObject
                 }) {
                     isSolved = false
@@ -118,13 +118,13 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
             }
         for (p in rngWalls)
             for (os in BWTapaGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
             for (os in BWTapaGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

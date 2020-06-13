@@ -73,7 +73,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
             }
         for ((p, node) in pos2node) {
             for (os in FourMeNotGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -101,10 +101,10 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
             if (!allowedObjectsOnly) return
             for (i in indexes) {
                 val os: Position = FourMeNotGame.offset[i]
-                val p2 = p.add(os)
+                var p2 = p + os
                 while (isValid(p2) && this[p2] is FourMeNotTreeObject) {
                     trees.add(p2)
-                    p2.addBy(os)
+                    p2 += os
                 }
             }
             if (areTreesInvalid()) this[p] = FourMeNotForbiddenObject()

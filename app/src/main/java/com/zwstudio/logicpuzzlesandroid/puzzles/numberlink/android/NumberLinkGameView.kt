@@ -80,7 +80,7 @@ class NumberLinkGameView(context: Context) : CellsGameView(context) {
                 f()
             }
             MotionEvent.ACTION_MOVE -> if (pLastMove != null && p != pLastMove) {
-                val n = NumberLinkGame.offset.indexOfFirst { it == p.subtract(pLastMove!!) }
+                val n = NumberLinkGame.offset.indexOfFirst { it == p - pLastMove!! }
                 if (n != -1) {
                     val move = NumberLinkGameMove(pLastMove!!, n)
                     if (game().setObject(move)) f()

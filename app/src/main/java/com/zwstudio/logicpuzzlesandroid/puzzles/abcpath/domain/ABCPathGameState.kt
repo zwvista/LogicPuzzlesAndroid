@@ -80,7 +80,7 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
                 val p = Position(r, c)
                 val ch = this[p]
                 if (pos2state[p] == HintState.Normal && (ch == 'A' || ABCPathGame.offset.any {
-                        val p2 = p.add(it)
+                        val p2 = p + it
                         isValid(p2) && this[p2] == ch - 1
                     }))
                     pos2state[p] = HintState.Complete

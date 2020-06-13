@@ -23,7 +23,7 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p = move.p
-        val p2 = p.add(NumberPathGame.offset[dir])
+        val p2 = p + NumberPathGame.offset[dir]
         if (!isValid(p2)) return false
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
@@ -81,7 +81,7 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
             nums.add(game[p])
             for (i in 0 until 4) {
                 if (!o[i]) continue
-                val p2 = p.add(NumberPathGame.offset[i])
+                val p2 = p + NumberPathGame.offset[i]
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }

@@ -19,7 +19,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1.add(FenceLitsGame.offset[dir])
+        val p2 = p1 + FenceLitsGame.offset[dir]
         val o = this[p1][dir]
         if (o == move.obj) return false
         this[p1][dir] = move.obj
@@ -60,7 +60,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             for (i in 0 until 4)
-                if (this[p.add(FenceLitsGame.offset2[i])][FenceLitsGame.dirs[i]] == GridLineObject.Line)
+                if (this[p + FenceLitsGame.offset2[i]][FenceLitsGame.dirs[i]] == GridLineObject.Line)
                     n1++
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             pos2state[p] = s
@@ -79,8 +79,8 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p.add(FenceLitsGame.offset2[i])][FenceLitsGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p.add(FenceLitsGame.offset[i])]!!)
+                    if (this[p + FenceLitsGame.offset2[i]][FenceLitsGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + FenceLitsGame.offset[i]]!!)
             }
         if (!isSolved) return
         // 1. The goal is to divide the board into Tetris pieces, including the
@@ -96,7 +96,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
             val treeOffsets = mutableListOf<Position>()
             val p2 = Position(area.map { it.row }.min()!!, area.map { it.col }.min()!!)
             for (p in area)
-                treeOffsets.add(p.subtract(p2))
+                treeOffsets.add(p - p2)
             if (!FenceLitsGame.tetrominoes.any { it == treeOffsets }) {
                 isSolved = false
                 return

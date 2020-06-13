@@ -79,7 +79,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
             }
         for ((p, node) in pos2node)
             for (os in LitsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -109,7 +109,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
             val info = infos[i]
             for (p in info.trees)
                 for (os in LitsGame.offset) {
-                    val p2 = p.add(os)
+                    val p2 = p + os
                     val index = infos.indexOfFirst { it.trees.contains(p2) }
                     if (index != -1 && index != i)
                         info.neighborIndexes.add(index)
@@ -140,7 +140,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
                 val treeOffsets = mutableListOf<Position>()
                 val p2 = Position(info.trees.map { it.row }.min()!!, info.trees.map { it.col }.min()!!)
                 for (p in info.trees)
-                    treeOffsets.add(p.subtract(p2))
+                    treeOffsets.add(p - p2)
                 info.tetrominoIndex = LitsGame.tetrominoes.indexOfFirst { it.any { it == treeOffsets } }
                 if (info.tetrominoIndex == -1)
                     notSolved(info)
@@ -161,11 +161,11 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         // 5. All the shaded cells should form a valid Nurikabe.
         rule2x2@ for (p in block) {
             for (os in LitsGame.offset3)
-                if (block.contains(p.add(os)))
+                if (block.contains(p + os))
                     continue@rule2x2
             isSolved = false
             for (os in LitsGame.offset3)
-                this[p.add(os)] = LitsTreeObject(AllowedObjectState.Error)
+                this[p + os] = LitsTreeObject(AllowedObjectState.Error)
         }
     }
 }

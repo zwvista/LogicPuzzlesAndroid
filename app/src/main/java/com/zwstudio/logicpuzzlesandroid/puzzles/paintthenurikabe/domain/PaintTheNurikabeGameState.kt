@@ -70,7 +70,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
             val rng = mutableListOf<Position>()
             var n1 = 0
             for (os in PaintTheNurikabeGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (!isValid(p2)) continue
                 val o = this[p2]
                 if (o == PaintTheNurikabeObject.Painted)
@@ -90,8 +90,8 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (NurikabeGame.offset2.all { this[p.add(it)] == PaintTheNurikabeObject.Painted } ||
-                    NurikabeGame.offset2.all { this[p.add(it)] == PaintTheNurikabeObject.Empty }) {
+                if (NurikabeGame.offset2.all { this[p + it] == PaintTheNurikabeObject.Painted } ||
+                    NurikabeGame.offset2.all { this[p + it] == PaintTheNurikabeObject.Empty }) {
                     isSolved = false
                     return
                 }
@@ -110,7 +110,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
             }
         for (p in pos2node.keys)
             for (os in NurikabeGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

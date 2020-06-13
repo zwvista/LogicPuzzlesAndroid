@@ -83,7 +83,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean {
                     for (os in BootyIslandGame.offset) {
-                        val p2 = p.add(os)
+                        val p2 = p + os
                         if (isValid(p2) && this[p2] is BootyIslandTreasureObject)
                             return true
                     }
@@ -139,7 +139,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                     val os = BootyIslandGame.offset[i * 2]
                     var n1 = 1
                     var possible2 = false
-                    val p2 = p.add(os)
+                    var p2 = p + os
                     while (isValid(p2)) {
                         val o2 = this[p2]
                         if (o2 is BootyIslandTreasureObject) {
@@ -150,7 +150,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                         } else if (n1 == n2)
                             continue@next
                         n1++
-                        p2.addBy(os)
+                        p2 += os
                     }
                     if (possible2) possible = true
                 }

@@ -45,15 +45,15 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
             var p = Position(0, -1)
             var dir = 1
             while (rng.isNotEmpty()) {
-                val p2 = p.add(offset[dir])
+                val p2 = p + offset[dir]
                 if (rng.contains(p2))
                     rng.remove(p2.also { p = it })
                 else {
                     dir = (dir + 1) % 4
-                    p.addBy(offset[dir])
+                    p += offset[dir]
                     rng.remove(p)
                 }
-                path.add(p.plus())
+                path.add(+p)
             }
             return path
         }

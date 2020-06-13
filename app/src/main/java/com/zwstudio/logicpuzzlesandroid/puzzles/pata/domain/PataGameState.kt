@@ -87,7 +87,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         }
         for ((p, arr2) in game.pos2hint) {
             val emptied = (0 until 8).filter {
-                val p2 = p.add(PataGame.offset[it])
+                val p2 = p + PataGame.offset[it]
                 if (!isValid(p2))
                     false
                 else {
@@ -97,7 +97,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
             }
             val arr: List<Int> = computeHint(emptied)
             val filled = (0 until 8).filter {
-                val p2 = p.add(PataGame.offset[it])
+                val p2 = p + PataGame.offset[it]
                 isValid(p2) && this[p2] is PataWallObject
             }
             val arr3 = computeHint(filled)
@@ -111,7 +111,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (PataGame.offset2.all {
-                    val o = this[p.add(it)]
+                    val o = this[p + it]
                     o is PataWallObject
                 }) {
                     isSolved = false
@@ -132,7 +132,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
             }
         for (p in rngWalls)
             for (os in PataGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

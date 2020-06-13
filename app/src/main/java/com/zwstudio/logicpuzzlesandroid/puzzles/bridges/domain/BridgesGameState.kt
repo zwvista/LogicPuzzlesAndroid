@@ -30,7 +30,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
         val n1 = if (pFrom.row == pTo.row) 1 else 2
         val n2 = (n1 + 2) % 4
         val os = BridgesGame.offset[n1]
-        val p = pFrom.add(os)
+        var p = pFrom + os
         while (p != pTo) {
             when (o1.bridges[n1]) {
                 0 -> {
@@ -40,7 +40,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
                 }
                 2 -> this[p] = BridgesEmptyObject()
             }
-            p.addBy(os)
+            p += os
         }
         // 5. Lastly, you can connect two islands with either one or two Bridges
         // (or none, of course)

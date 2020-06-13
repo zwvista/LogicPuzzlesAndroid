@@ -79,7 +79,7 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
                 // 3. Digit can repeat on the same column, however digits in contiguous tiles
                 // must be different, even diagonally.
                 if (r < rows - 2) {
-                    val rng = TennerGridGame.offset.map { p.add(it) }.filter { isValid(it) && o2 == this[it] }
+                    val rng = TennerGridGame.offset.map { p + it }.filter { isValid(it) && o2 == this[it] }
                     if (rng.isNotEmpty()) {
                         isSolved = false
                         pos2state[p] = HintState.Error

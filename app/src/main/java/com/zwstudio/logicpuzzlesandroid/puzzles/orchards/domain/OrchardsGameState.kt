@@ -72,7 +72,7 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
             }
         for (p in pos2node.keys)
             for (os in OrchardsGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }

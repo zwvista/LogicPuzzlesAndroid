@@ -64,7 +64,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                     var n1 = 0
                     for (i in 0 until 4) {
                         val os = WallsGame.offset[i]
-                        val p2 = p.add(os)
+                        var p2 = p + os
                         while (isValid(p2)) {
                             if (i % 2 == 0) // 3. Wall pieces have two ways to be put, horizontally or vertically.
                                 if (this[p2] is WallsVertObject)
@@ -76,7 +76,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                                     n1++
                                 else
                                     break
-                            p2.addBy(os)
+                            p2 += os
                         }
                     }
                     // 2. The number itself tells you the total length of Wall segments

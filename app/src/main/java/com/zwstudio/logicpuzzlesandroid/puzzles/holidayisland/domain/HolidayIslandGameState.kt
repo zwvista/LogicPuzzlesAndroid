@@ -77,7 +77,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             }
         for ((p, node) in pos2node) {
             for (os in HolidayIslandGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2]
                 if (node2 != null)
                     g.connectNode(node, node2)
@@ -105,7 +105,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             }
         for ((p, node) in pos2node) {
             for (os in HolidayIslandGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val node2 = pos2node[p2] ?: continue
                 g.connectNode(node, node2)
             }
@@ -128,7 +128,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             val n2 = game.pos2hint[p]!!
             val rng = mutableSetOf<Position>()
             for (os in HolidayIslandGame.offset) {
-                val p2 = p.add(os)
+                val p2 = p + os
                 val i = pos2area[p2] ?: continue
                 rng.addAll(areas[i])
             }
