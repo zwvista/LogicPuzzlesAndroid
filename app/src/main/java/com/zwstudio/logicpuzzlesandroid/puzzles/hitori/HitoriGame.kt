@@ -34,7 +34,6 @@ class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameM
             }
         }
         val state = HitoriGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

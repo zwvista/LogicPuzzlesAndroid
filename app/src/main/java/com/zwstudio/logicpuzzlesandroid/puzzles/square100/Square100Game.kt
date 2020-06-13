@@ -32,7 +32,6 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
             }
         }
         val state = Square100GameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

@@ -46,7 +46,6 @@ class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameM
             }
         }
         val state = BWTapaGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

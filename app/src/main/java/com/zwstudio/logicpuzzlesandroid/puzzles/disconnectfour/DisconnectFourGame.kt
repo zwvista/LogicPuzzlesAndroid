@@ -34,7 +34,6 @@ class DisconnectFourGame(layout: List<String>, gi: GameInterface<DisconnectFourG
                 }
         }
         val state = DisconnectFourGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

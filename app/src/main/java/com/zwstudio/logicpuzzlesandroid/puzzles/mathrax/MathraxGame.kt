@@ -51,7 +51,6 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
             }
         }
         val state = MathraxGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

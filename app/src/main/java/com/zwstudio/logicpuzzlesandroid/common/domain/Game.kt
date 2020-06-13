@@ -33,6 +33,7 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(val gi: GameInterface<G
     }
 
     protected fun levelInitilized(state: GS) {
+        states.add(state)
         gi.levelInitilized(this as G, state)
         if (isSolved) gi.gameSolved(this)
     }

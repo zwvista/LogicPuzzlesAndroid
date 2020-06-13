@@ -39,7 +39,6 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
         }
 
         val state = AbcGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

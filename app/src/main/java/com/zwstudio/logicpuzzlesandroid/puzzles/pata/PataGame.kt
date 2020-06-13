@@ -46,7 +46,6 @@ class PataGame(layout: List<String>, gi: GameInterface<PataGame, PataGameMove, P
             }
         }
         val state = PataGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

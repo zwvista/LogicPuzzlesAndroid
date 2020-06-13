@@ -84,7 +84,6 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
             pos2hint[p] = Pair(n, pos2area[p]!!)
         }
         val state = GardenerGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

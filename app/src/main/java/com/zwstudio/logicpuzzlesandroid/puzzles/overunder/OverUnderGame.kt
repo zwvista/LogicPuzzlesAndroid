@@ -54,7 +54,6 @@ class OverUnderGame(layout: List<String>, gi: GameInterface<OverUnderGame, OverU
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = OverUnderGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

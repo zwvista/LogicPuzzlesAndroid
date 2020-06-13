@@ -110,7 +110,6 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
             rng.removeAll(area)
         }
         val state = LitsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

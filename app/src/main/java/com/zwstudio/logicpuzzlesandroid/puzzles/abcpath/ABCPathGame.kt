@@ -45,7 +45,6 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
         }
 
         val state = ABCPathGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

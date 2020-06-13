@@ -36,7 +36,6 @@ class MosaikGame(layout: List<String>, gi: GameInterface<MosaikGame, MosaikGameM
             }
         }
         val state = MosaikGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

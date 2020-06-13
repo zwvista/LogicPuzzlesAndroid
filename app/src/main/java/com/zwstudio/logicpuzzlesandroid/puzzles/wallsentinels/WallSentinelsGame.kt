@@ -48,7 +48,6 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
             }
         }
         val state = WallSentinelsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

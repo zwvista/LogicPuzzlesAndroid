@@ -83,7 +83,6 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
             rng.removeAll(area)
         }
         val state = PaintTheNurikabeGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

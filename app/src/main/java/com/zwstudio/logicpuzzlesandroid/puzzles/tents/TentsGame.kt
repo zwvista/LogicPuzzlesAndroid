@@ -50,7 +50,6 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
             }
         }
         val state = TentsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

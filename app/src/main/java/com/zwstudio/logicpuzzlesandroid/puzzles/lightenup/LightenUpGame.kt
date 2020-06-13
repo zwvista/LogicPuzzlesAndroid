@@ -31,7 +31,6 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
             }
         }
         val state = LightenUpGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

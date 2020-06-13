@@ -34,7 +34,6 @@ class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, Num
             }
         }
         val state = NumberLinkGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

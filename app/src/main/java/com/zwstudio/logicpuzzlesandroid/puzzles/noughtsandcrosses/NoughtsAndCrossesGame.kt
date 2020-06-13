@@ -45,7 +45,6 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
             }
         }
         val state = NoughtsAndCrossesGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

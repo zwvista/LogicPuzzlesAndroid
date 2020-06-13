@@ -33,7 +33,6 @@ class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, B
             }
         }
         val state = BootyIslandGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

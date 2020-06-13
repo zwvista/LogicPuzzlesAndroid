@@ -46,7 +46,6 @@ class TapaIslandsGame(layout: List<String>, gi: GameInterface<TapaIslandsGame, T
             }
         }
         val state = TapaIslandsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

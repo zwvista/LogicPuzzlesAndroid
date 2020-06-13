@@ -33,7 +33,6 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
             }
         }
         val state = MasyuGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

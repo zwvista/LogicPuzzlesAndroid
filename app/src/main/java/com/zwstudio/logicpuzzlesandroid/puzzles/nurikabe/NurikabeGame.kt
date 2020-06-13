@@ -37,7 +37,6 @@ class NurikabeGame(layout: List<String>, gi: GameInterface<NurikabeGame, Nurikab
             }
         }
         val state = NurikabeGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

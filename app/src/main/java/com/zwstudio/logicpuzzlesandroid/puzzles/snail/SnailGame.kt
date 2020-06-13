@@ -60,7 +60,6 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         snailPathGrid = snailPath(rows)
         snailPathLine = snailPath(rows + 1)
         val state = SnailGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

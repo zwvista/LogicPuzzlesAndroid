@@ -75,7 +75,6 @@ class OrchardsGame(layout: List<String>, gi: GameInterface<OrchardsGame, Orchard
             rng.removeAll(area)
         }
         val state = OrchardsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

@@ -75,7 +75,6 @@ class FenceLitsGame(layout: List<String>, gi: GameInterface<FenceLitsGame, Fence
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = FenceLitsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

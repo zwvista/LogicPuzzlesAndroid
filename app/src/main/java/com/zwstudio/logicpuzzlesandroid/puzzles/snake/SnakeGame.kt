@@ -48,7 +48,6 @@ class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove
             }
         }
         val state = SnakeGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

@@ -30,7 +30,6 @@ class ProductSentinelsGame(layout: List<String>, gi: GameInterface<ProductSentin
             }
         }
         val state = ProductSentinelsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

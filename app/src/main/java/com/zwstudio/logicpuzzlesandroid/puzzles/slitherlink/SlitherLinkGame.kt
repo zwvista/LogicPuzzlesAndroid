@@ -38,7 +38,6 @@ class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, S
             }
         }
         val state = SlitherLinkGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

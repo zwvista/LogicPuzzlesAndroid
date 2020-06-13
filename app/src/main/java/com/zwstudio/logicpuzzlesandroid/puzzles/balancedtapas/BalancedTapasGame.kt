@@ -50,7 +50,6 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
             }
         }
         val state = BalancedTapasGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

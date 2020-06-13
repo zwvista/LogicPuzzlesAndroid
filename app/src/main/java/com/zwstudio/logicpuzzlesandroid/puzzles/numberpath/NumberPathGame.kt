@@ -34,7 +34,6 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
             }
         }
         val state = NumberPathGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

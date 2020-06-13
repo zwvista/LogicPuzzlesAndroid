@@ -31,7 +31,6 @@ class SentinelsGame(layout: List<String>, gi: GameInterface<SentinelsGame, Senti
             }
         }
         val state = SentinelsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

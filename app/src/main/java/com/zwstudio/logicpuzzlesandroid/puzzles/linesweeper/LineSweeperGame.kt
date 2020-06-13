@@ -36,7 +36,6 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
             }
         }
         val state = LineSweeperGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

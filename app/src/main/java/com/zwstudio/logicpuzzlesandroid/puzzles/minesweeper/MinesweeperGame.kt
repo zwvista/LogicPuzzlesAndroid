@@ -35,7 +35,6 @@ class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, M
             }
         }
         val state = MinesweeperGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

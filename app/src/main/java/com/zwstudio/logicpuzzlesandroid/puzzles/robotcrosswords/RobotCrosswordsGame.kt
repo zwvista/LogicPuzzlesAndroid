@@ -65,7 +65,6 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             f(false)
         }
         val state = RobotCrosswordsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

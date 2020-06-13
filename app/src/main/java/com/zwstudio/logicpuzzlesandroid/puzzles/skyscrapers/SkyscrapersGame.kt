@@ -36,7 +36,6 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
             }
         }
         val state = SkyscrapersGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

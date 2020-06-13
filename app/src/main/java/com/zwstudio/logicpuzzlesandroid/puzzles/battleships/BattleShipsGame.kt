@@ -52,7 +52,6 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
         }
 
         val state = BattleShipsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

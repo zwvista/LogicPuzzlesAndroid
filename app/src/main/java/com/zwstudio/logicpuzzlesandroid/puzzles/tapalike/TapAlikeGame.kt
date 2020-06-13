@@ -46,7 +46,6 @@ class TapAlikeGame(layout: List<String>, gi: GameInterface<TapAlikeGame, TapAlik
             }
         }
         val state = TapAlikeGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

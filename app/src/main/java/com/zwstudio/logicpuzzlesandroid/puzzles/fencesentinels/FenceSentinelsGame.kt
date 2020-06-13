@@ -38,7 +38,6 @@ class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsG
             }
         }
         val state = FenceSentinelsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

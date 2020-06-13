@@ -55,7 +55,6 @@ class BoxItAroundGame(layout: List<String>, gi: GameInterface<BoxItAroundGame, B
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = BoxItAroundGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

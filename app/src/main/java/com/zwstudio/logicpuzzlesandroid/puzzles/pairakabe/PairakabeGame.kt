@@ -37,7 +37,6 @@ class PairakabeGame(layout: List<String>, gi: GameInterface<PairakabeGame, Paira
             }
         }
         val state = PairakabeGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

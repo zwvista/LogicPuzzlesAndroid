@@ -52,7 +52,6 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
             dots[rows, c, 1] = GridLineObject.Line
         }
         val state = FillominoGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

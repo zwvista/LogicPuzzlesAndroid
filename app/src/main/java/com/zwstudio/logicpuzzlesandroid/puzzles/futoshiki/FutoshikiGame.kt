@@ -36,7 +36,6 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
             }
         }
         val state = FutoshikiGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

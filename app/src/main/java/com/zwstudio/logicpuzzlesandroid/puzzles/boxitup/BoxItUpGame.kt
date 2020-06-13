@@ -55,7 +55,6 @@ class BoxItUpGame(layout: List<String>, gi: GameInterface<BoxItUpGame, BoxItUpGa
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = BoxItUpGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

@@ -44,7 +44,6 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
             }
         }
         val state = LoopyGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

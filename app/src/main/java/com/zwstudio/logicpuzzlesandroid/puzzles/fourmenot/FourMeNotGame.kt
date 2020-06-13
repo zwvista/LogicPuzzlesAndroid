@@ -34,7 +34,6 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
                 }
         }
         val state = FourMeNotGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

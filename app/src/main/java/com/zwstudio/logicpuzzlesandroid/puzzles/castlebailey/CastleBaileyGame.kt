@@ -35,7 +35,6 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
             }
         }
         val state = CastleBaileyGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

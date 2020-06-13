@@ -81,7 +81,6 @@ class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<Pa
             rng.removeAll(area)
         }
         val state = ParksGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

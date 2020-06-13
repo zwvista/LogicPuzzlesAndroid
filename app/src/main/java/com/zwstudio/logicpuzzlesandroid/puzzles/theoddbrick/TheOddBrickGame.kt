@@ -85,7 +85,6 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
             rng.removeAll(area)
         }
         val state = TheOddBrickGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

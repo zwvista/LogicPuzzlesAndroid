@@ -87,7 +87,6 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
             rng.removeAll(area)
         }
         val state = MiniLitsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

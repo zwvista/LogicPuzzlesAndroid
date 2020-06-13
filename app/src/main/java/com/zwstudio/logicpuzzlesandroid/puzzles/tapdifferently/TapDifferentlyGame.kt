@@ -46,7 +46,6 @@ class TapDifferentlyGame(layout: List<String>, gi: GameInterface<TapDifferentlyG
             }
         }
         val state = TapDifferentlyGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

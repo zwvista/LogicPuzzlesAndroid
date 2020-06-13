@@ -84,7 +84,6 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
             rng.removeAll(area)
         }
         val state = TatamiGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

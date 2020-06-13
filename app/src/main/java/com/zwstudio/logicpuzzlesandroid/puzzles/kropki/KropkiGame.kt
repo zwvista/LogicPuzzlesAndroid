@@ -89,7 +89,6 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
             }
         }
         val state = KropkiGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

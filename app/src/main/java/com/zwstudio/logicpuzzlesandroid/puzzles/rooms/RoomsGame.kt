@@ -56,7 +56,6 @@ class RoomsGame(layout: List<String>, gi: GameInterface<RoomsGame, RoomsGameMove
             get(rows - 1, c + 1)[3] = GridLineObject.Line
         }
         val state = RoomsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

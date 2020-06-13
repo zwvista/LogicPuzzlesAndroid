@@ -35,7 +35,6 @@ class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, L
             }
         }
         val state = LighthousesGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

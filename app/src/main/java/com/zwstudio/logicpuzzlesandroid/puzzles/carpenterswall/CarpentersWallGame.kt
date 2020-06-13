@@ -46,7 +46,6 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
             }
         }
         val state = CarpentersWallGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

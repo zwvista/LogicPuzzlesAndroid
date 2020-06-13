@@ -28,7 +28,6 @@ class TierraDelFuegoGame(layout: List<String>, gi: GameInterface<TierraDelFuegoG
             }
         }
         val state = TierraDelFuegoGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

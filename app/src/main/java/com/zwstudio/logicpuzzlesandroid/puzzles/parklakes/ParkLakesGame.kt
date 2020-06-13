@@ -28,7 +28,6 @@ class ParkLakesGame(layout: List<String>, gi: GameInterface<ParkLakesGame, ParkL
             }
         }
         val state = ParkLakesGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

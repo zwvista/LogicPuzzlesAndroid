@@ -41,7 +41,6 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
             }
         }
         val state = LightBattleShipsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

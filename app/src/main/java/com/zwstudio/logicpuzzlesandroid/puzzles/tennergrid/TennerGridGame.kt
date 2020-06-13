@@ -32,7 +32,6 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
             }
         }
         val state = TennerGridGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

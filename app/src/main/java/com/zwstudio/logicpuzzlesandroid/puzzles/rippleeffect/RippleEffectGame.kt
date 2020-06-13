@@ -86,7 +86,6 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
             rng.removeAll(area)
         }
         val state = RippleEffectGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

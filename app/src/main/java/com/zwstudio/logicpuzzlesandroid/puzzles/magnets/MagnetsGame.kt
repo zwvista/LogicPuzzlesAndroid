@@ -46,7 +46,6 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
             }
         }
         val state = MagnetsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

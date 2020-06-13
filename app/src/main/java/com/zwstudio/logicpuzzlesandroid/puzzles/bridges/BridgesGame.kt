@@ -46,7 +46,6 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
             }
         }
         val state = BridgesGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

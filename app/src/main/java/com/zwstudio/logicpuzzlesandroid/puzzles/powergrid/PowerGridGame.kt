@@ -36,7 +36,6 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
             }
         }
         val state = PowerGridGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

@@ -46,7 +46,6 @@ class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGa
             }
         }
         val state = TapARowGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

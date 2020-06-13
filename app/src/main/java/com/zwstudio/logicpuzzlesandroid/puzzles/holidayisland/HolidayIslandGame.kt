@@ -28,7 +28,6 @@ class HolidayIslandGame(layout: List<String>, gi: GameInterface<HolidayIslandGam
             }
         }
         val state = HolidayIslandGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

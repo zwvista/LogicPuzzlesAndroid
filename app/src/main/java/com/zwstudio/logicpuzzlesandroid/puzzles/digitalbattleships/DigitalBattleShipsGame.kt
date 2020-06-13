@@ -48,7 +48,6 @@ class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBatt
             }
         }
         val state = DigitalBattleShipsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

@@ -50,7 +50,6 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
             dots[rows, c, 1] = GridLineObject.Line
         }
         val state = TataminoGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

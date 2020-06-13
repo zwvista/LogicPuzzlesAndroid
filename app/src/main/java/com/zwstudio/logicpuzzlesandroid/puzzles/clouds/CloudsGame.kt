@@ -40,7 +40,6 @@ class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameM
             }
         }
         val state = CloudsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

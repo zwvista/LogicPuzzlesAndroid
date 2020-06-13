@@ -28,7 +28,6 @@ class WallsGame(layout: List<String>, gi: GameInterface<WallsGame, WallsGameMove
             }
         }
         val state = WallsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

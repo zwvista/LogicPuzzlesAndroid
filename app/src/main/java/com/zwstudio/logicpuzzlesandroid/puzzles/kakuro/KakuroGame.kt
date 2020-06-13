@@ -37,7 +37,6 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
             }
         }
         val state = KakuroGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

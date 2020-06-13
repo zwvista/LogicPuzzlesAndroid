@@ -85,7 +85,6 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
             rng.removeAll(area)
         }
         val state = RobotFencesGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

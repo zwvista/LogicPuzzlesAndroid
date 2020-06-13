@@ -87,7 +87,6 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
             col2hint[c] = if (ch in '0'..'9') ch - '0' else -1
         }
         val state = AbstractPaintingGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

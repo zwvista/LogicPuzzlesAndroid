@@ -34,7 +34,6 @@ class MineShipsGame(layout: List<String>, gi: GameInterface<MineShipsGame, MineS
             }
         }
         val state = MineShipsGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

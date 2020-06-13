@@ -29,7 +29,6 @@ class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame, BusySea
             }
         }
         val state = BusySeasGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 

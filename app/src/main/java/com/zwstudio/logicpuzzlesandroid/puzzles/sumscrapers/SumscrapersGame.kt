@@ -36,7 +36,6 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
             }
         }
         val state = SumscrapersGameState(this)
-        states.add(state)
         levelInitilized(state)
     }
 
