@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
@@ -92,7 +91,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
         }
         if (!isSolved) return
         val g = Graph()
-        val pos2node = HashMap<Position, Node>()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)

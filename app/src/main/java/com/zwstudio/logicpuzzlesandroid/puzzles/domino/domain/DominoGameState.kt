@@ -3,11 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.domino.domain
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameMove, DominoGameState>(game) {
     var objArray = Cloner().deepClone(game.objArray)
-    var pos2state: Map<Position?, HintState?> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
     
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

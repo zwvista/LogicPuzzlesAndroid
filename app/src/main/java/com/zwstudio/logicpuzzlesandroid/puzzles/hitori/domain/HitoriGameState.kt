@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import java.util.*
 
 class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameMove, HitoriGameState>(game) {
     private var objArray = Array(rows * cols) { HitoriObject.Normal }
@@ -95,7 +94,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         }
         if (!isSolved) return
         val g = Graph()
-        val pos2node = HashMap<Position, Node>()
+        val pos2node = mutableMapOf<Position, Node>()
         val rngDarken = mutableListOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {

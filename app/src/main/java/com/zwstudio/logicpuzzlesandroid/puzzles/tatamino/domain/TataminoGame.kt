@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import java.util.*
 
 class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, TataminoGameMove, TataminoGameState>, gdi: GameDocumentInterface) : CellsGame<TataminoGame, TataminoGameMove, TataminoGameState>(gi, gdi) {
     companion object {
@@ -21,8 +20,8 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
         var dirs = intArrayOf(1, 2, 1, 2)
     }
 
-    var areas: List<List<Position>> = ArrayList()
-    var pos2area: Map<Position, Int> = HashMap()
+    var areas = mutableListOf<List<Position>>()
+    var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var objArray: CharArray
 

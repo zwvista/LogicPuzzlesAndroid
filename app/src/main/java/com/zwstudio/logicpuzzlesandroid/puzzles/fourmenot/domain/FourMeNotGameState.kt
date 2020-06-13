@@ -2,11 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, FourMeNotGameMove, FourMeNotGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var pos2state: Map<Position, HintState> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

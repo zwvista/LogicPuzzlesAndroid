@@ -2,11 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lits.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, LitsGameState>(game) {
     var objArray = Array<LitsObject>(rows * cols) { LitsEmptyObject() }
-    var pos2state: Map<Position, HintState> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

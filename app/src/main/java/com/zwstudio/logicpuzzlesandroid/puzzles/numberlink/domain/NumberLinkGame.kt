@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, NumberLinkGameMove, NumberLinkGameState>, gdi: GameDocumentInterface) : CellsGame<NumberLinkGame, NumberLinkGameMove, NumberLinkGameState>(gi, gdi) {
     companion object {
@@ -29,8 +28,7 @@ class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, Num
                 if (ch == ' ') continue
                 val n = if (Character.isDigit(ch)) ch - '0' else ch - 'A' + 10
                 pos2hint[p] = n
-                var rng = pos2rng[n]
-                if (rng == null) rng = ArrayList()
+                val rng = pos2rng[n] ?: mutableListOf()
                 rng.add(p)
                 pos2rng[n] = rng
             }

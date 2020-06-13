@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fillomino.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import java.util.*
 
 class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, FillominoGameMove, FillominoGameState>, gdi: GameDocumentInterface) : CellsGame<FillominoGame, FillominoGameMove, FillominoGameState>(gi, gdi) {
     companion object {
@@ -21,8 +20,8 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
         var dirs = intArrayOf(1, 2, 1, 2)
     }
 
-    var areas: List<List<Position>> = ArrayList()
-    var pos2area: Map<Position, Int> = HashMap()
+    var areas = mutableListOf<List<Position>>()
+    var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var chMax: Char
     var objArray: CharArray

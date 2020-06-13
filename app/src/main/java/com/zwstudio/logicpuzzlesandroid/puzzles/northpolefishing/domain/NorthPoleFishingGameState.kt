@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing.domain
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<NorthPoleFishingGame, NorthPoleFishingGameMove, NorthPoleFishingGameState>(game) {
     var objArray = Cloner().deepClone(game.dots.objArray)
@@ -61,7 +60,7 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
     private fun updateIsSolved() {
         isSolved = true
         val g = Graph()
-        val pos2node = HashMap<Position, Node>()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)

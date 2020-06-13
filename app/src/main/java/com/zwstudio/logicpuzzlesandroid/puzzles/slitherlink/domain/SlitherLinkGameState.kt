@@ -2,11 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
-    var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

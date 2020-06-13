@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.domain
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(game) {
     var objArray = game.objArray.copyOf()
@@ -76,9 +75,7 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
                     isSolved = false
                     continue
                 }
-                var rng = num2rng[n]
-                if (rng == null)
-                    rng = ArrayList()
+                val rng = num2rng[n] ?: mutableListOf()
                 rng.add(p)
                 num2rng[n] = rng
             }
@@ -93,9 +90,7 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
                     isSolved = false
                     continue
                 }
-                var rng = num2rng[n]
-                if (rng == null)
-                    rng = ArrayList()
+                val rng = num2rng[n] ?: mutableListOf()
                 rng.add(p)
                 num2rng[n] = rng
             }
@@ -106,9 +101,7 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
             for (p in area) {
                 val n = this[p]
                 if (n == 0) continue
-                var rng = num2rng[n]
-                if (rng == null)
-                    rng = ArrayList()
+                var rng = num2rng[n] ?: mutableListOf()
                 rng.add(p)
                 num2rng[n] = rng
             }

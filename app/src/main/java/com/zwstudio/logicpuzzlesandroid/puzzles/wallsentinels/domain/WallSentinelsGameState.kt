@@ -2,12 +2,11 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels.domain
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
-import java.util.*
 
 class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>(game) {
     // https://stackoverflow.com/questions/46846025/how-to-clone-or-copy-a-list-in-kotlin
     private var objArray = game.objArray.toMutableList()
-    var pos2state: Map<Position, HintState> = HashMap()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()
@@ -97,7 +96,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
             }
         if (!isSolved) return
         val g = Graph()
-        val pos2node = HashMap<Position, Node>()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
