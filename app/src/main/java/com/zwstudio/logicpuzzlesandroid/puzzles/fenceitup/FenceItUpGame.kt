@@ -59,23 +59,6 @@ class FenceItUpGame(layout: List<String>, gi: GameInterface<FenceItUpGame, Fence
         levelInitilized(state)
     }
 
-    private fun changeObject(move: FenceItUpGameMove, f: (FenceItUpGameState, FenceItUpGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: FenceItUpGameMove) = changeObject(move, FenceItUpGameState::switchObject)
     fun setObject(move: FenceItUpGameMove) = changeObject(move, FenceItUpGameState::setObject)
 

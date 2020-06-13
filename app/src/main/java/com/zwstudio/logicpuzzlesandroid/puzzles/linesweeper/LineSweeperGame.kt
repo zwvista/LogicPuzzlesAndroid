@@ -40,23 +40,6 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
         levelInitilized(state)
     }
 
-    private fun changeObject(move: LineSweeperGameMove, f: (LineSweeperGameState, LineSweeperGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun setObject(move: LineSweeperGameMove) = changeObject(move, LineSweeperGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]

@@ -54,6 +54,23 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(val gi: GameInterface<G
         levelUpdated(states[stateIndex - 1], currentState)
     }
 
+    protected fun changeObject(move: GM, f: (GS, GM) -> Boolean): Boolean {
+        if (canRedo) {
+            states.subList(stateIndex + 1, states.size).clear()
+            moves.subList(stateIndex, states.size).clear()
+        }
+        val state: GS = cloner.deepClone(currentState)
+        val changed = f(state, move)
+        if (changed) {
+            states.add(state)
+            stateIndex++
+            moves.add(move)
+            moveAdded(move)
+            levelUpdated(states[stateIndex - 1], state)
+        }
+        return changed
+    }
+
     init {
         cloner.dontClone(this.javaClass)
     }

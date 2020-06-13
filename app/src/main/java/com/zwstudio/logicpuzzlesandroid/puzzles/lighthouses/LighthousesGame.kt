@@ -39,23 +39,6 @@ class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, L
         levelInitilized(state)
     }
 
-    private fun changeObject(move: LighthousesGameMove, f: (LighthousesGameState, LighthousesGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: LighthousesGameMove) = changeObject(move, LighthousesGameState::switchObject)
     fun setObject(move: LighthousesGameMove) = changeObject(move, LighthousesGameState::setObject)
 

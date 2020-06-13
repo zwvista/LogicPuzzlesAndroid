@@ -32,30 +32,6 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
 
-    private fun changeObject(move: NeighboursGameMove, f: (NeighboursGameState, NeighboursGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
-    fun switchObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::switchObject)
-    fun setObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::setObject)
-
-    fun getObject(p: Position) = currentState[p]
-    fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
-
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
         objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
@@ -86,4 +62,11 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
         states.add(state)
         levelInitilized(state)
     }
+
+    fun switchObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::switchObject)
+    fun setObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::setObject)
+
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }

@@ -63,23 +63,6 @@ class OverUnderGame(layout: List<String>, gi: GameInterface<OverUnderGame, OverU
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
 
-    private fun changeObject(move: OverUnderGameMove, f: (OverUnderGameState, OverUnderGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: OverUnderGameMove) = changeObject(move, OverUnderGameState::switchObject)
     fun setObject(move: OverUnderGameMove) = changeObject(move, OverUnderGameState::setObject)
 

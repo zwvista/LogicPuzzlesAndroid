@@ -54,23 +54,6 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
         levelInitilized(state)
     }
 
-    private fun changeObject(move: TentsGameMove, f: (TentsGameState, TentsGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: TentsGameMove) = changeObject(move, TentsGameState::switchObject)
     fun setObject(move: TentsGameMove) = changeObject(move, TentsGameState::setObject)
 

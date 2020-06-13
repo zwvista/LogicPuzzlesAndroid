@@ -59,23 +59,6 @@ class BoxItAroundGame(layout: List<String>, gi: GameInterface<BoxItAroundGame, B
         levelInitilized(state)
     }
 
-    private fun changeObject(move: BoxItAroundGameMove, f: (BoxItAroundGameState, BoxItAroundGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: BoxItAroundGameMove) = changeObject(move, BoxItAroundGameState::switchObject)
     fun setObject(move: BoxItAroundGameMove) = changeObject(move, BoxItAroundGameState::setObject)
 

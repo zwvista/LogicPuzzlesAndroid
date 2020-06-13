@@ -48,23 +48,6 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
         levelInitilized(state)
     }
 
-    private fun changeObject(move: LoopyGameMove, f: (LoopyGameState, LoopyGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::switchObject)
     fun setObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::setObject)
 

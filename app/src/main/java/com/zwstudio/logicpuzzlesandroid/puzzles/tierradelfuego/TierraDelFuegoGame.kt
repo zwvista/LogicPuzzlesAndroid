@@ -32,23 +32,6 @@ class TierraDelFuegoGame(layout: List<String>, gi: GameInterface<TierraDelFuegoG
         levelInitilized(state)
     }
 
-    private fun changeObject(move: TierraDelFuegoGameMove, f: (TierraDelFuegoGameState, TierraDelFuegoGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: TierraDelFuegoGameMove) = changeObject(move, TierraDelFuegoGameState::switchObject)
     fun setObject(move: TierraDelFuegoGameMove) = changeObject(move, TierraDelFuegoGameState::setObject)
 

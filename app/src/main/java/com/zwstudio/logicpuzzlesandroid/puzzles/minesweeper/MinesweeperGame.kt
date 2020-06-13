@@ -39,23 +39,6 @@ class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, M
         levelInitilized(state)
     }
 
-    private fun changeObject(move: MinesweeperGameMove, f: (MinesweeperGameState, MinesweeperGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: MinesweeperGameMove) = changeObject(move, MinesweeperGameState::switchObject)
     fun setObject(move: MinesweeperGameMove) = changeObject(move, MinesweeperGameState::setObject)
 

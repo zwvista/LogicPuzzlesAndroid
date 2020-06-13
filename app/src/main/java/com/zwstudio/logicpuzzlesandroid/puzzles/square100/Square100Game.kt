@@ -36,23 +36,6 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
         levelInitilized(state)
     }
 
-    private fun changeObject(move: Square100GameMove, f: (Square100GameState, Square100GameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: Square100GameMove) = changeObject(move, Square100GameState::switchObject)
     fun setObject(move: Square100GameMove) = changeObject(move, Square100GameState::setObject)
 

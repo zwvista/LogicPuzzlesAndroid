@@ -63,23 +63,6 @@ class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSqu
         levelInitilized(state)
     }
 
-    private fun changeObject(move: CarpentersSquareGameMove, f: (CarpentersSquareGameState, CarpentersSquareGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: CarpentersSquareGameMove) = changeObject(move, CarpentersSquareGameState::switchObject)
     fun setObject(move: CarpentersSquareGameMove) = changeObject(move, CarpentersSquareGameState::setObject)
 

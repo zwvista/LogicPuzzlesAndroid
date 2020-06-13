@@ -38,23 +38,6 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
         levelInitilized(state)
     }
 
-    private fun changeObject(move: NumberPathGameMove, f: (NumberPathGameState, NumberPathGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun setObject(move: NumberPathGameMove) = changeObject(move, NumberPathGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]

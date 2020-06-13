@@ -52,23 +52,6 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
         levelInitilized(state)
     }
 
-    private fun changeObject(move: WallSentinelsGameMove, f: (WallSentinelsGameState, WallSentinelsGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: WallSentinelsGameMove) = changeObject(move, WallSentinelsGameState::switchObject)
     fun setObject(move: WallSentinelsGameMove) = changeObject(move, WallSentinelsGameState::setObject)
 

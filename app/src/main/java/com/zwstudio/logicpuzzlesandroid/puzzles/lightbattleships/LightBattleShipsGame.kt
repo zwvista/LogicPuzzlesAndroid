@@ -45,23 +45,6 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
         levelInitilized(state)
     }
 
-    private fun changeObject(move: LightBattleShipsGameMove, f: (LightBattleShipsGameState, LightBattleShipsGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: LightBattleShipsGameMove) = changeObject(move, LightBattleShipsGameState::switchObject)
     fun setObject(move: LightBattleShipsGameMove) = changeObject(move, LightBattleShipsGameState::setObject)
 

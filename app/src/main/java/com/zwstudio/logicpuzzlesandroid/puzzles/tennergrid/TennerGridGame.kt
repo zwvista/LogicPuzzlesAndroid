@@ -36,23 +36,6 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
         levelInitilized(state)
     }
 
-    private fun changeObject(move: TennerGridGameMove, f: (TennerGridGameState, TennerGridGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::switchObject)
     fun setObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::setObject)
 

@@ -52,23 +52,6 @@ class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBatt
         levelInitilized(state)
     }
 
-    private fun changeObject(move: DigitalBattleShipsGameMove, f: (DigitalBattleShipsGameState, DigitalBattleShipsGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: DigitalBattleShipsGameMove) = changeObject(move, DigitalBattleShipsGameState::switchObject)
     fun setObject(move: DigitalBattleShipsGameMove) = changeObject(move, DigitalBattleShipsGameState::setObject)
 

@@ -40,23 +40,6 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
         levelInitilized(state)
     }
 
-    private fun changeObject(move: FutoshikiGameMove, f: (FutoshikiGameState, FutoshikiGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: FutoshikiGameMove) = changeObject(move, FutoshikiGameState::switchObject)
     fun setObject(move: FutoshikiGameMove) = changeObject(move, FutoshikiGameState::setObject)
 

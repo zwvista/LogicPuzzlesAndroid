@@ -38,23 +38,6 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
         levelInitilized(state)
     }
 
-    private fun changeObject(move: FourMeNotGameMove, f: (FourMeNotGameState, FourMeNotGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: FourMeNotGameMove) = changeObject(move, FourMeNotGameState::switchObject)
     fun setObject(move: FourMeNotGameMove) = changeObject(move, FourMeNotGameState::setObject)
 

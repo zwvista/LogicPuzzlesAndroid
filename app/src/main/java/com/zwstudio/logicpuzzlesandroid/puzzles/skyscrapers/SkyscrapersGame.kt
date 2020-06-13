@@ -40,23 +40,6 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
         levelInitilized(state)
     }
 
-    private fun changeObject(move: SkyscrapersGameMove, f: (SkyscrapersGameState, SkyscrapersGameMove) -> Boolean): Boolean {
-        if (canRedo) {
-            states.subList(stateIndex + 1, states.size).clear()
-            moves.subList(stateIndex, states.size).clear()
-        }
-        val state = cloner.deepClone(currentState)
-        val changed = f(state, move)
-        if (changed) {
-            states.add(state)
-            stateIndex++
-            moves.add(move)
-            moveAdded(move)
-            levelUpdated(states[stateIndex - 1], state)
-        }
-        return changed
-    }
-
     fun switchObject(move: SkyscrapersGameMove) = changeObject(move, SkyscrapersGameState::switchObject)
     fun setObject(move: SkyscrapersGameMove) = changeObject(move, SkyscrapersGameState::setObject)
 
