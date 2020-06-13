@@ -25,1024 +25,1024 @@
         <activity android:name=".home.android.HomeOptionsActivity_"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abc.android.AbcMainActivity_"
+        <activity android:name=".puzzles.abc.AbcMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abc.android.AbcGameActivity_"
+        <activity android:name=".puzzles.abc.AbcGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abc.android.AbcHelpActivity_"
+        <activity android:name=".puzzles.abc.AbcHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abc.android.AbcOptionsActivity_"
+        <activity android:name=".puzzles.abc.AbcOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abcpath.android.ABCPathMainActivity_"
+        <activity android:name=".puzzles.abcpath.ABCPathMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abcpath.android.ABCPathGameActivity_"
+        <activity android:name=".puzzles.abcpath.ABCPathGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abcpath.android.ABCPathHelpActivity_"
+        <activity android:name=".puzzles.abcpath.ABCPathHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abcpath.android.ABCPathOptionsActivity_"
+        <activity android:name=".puzzles.abcpath.ABCPathOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abstractpainting.android.AbstractPaintingMainActivity_"
+        <activity android:name=".puzzles.abstractpainting.AbstractPaintingMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abstractpainting.android.AbstractPaintingGameActivity_"
+        <activity android:name=".puzzles.abstractpainting.AbstractPaintingGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abstractpainting.android.AbstractPaintingHelpActivity_"
+        <activity android:name=".puzzles.abstractpainting.AbstractPaintingHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.abstractpainting.android.AbstractPaintingOptionsActivity_"
+        <activity android:name=".puzzles.abstractpainting.AbstractPaintingOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasMainActivity_"
+        <activity android:name=".puzzles.balancedtapas.BalancedTapasMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasGameActivity_"
+        <activity android:name=".puzzles.balancedtapas.BalancedTapasGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasHelpActivity_"
+        <activity android:name=".puzzles.balancedtapas.BalancedTapasHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.balancedtapas.android.BalancedTapasOptionsActivity_"
+        <activity android:name=".puzzles.balancedtapas.BalancedTapasOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.battleships.android.BattleShipsMainActivity_"
+        <activity android:name=".puzzles.battleships.BattleShipsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.battleships.android.BattleShipsGameActivity_"
+        <activity android:name=".puzzles.battleships.BattleShipsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.battleships.android.BattleShipsHelpActivity_"
+        <activity android:name=".puzzles.battleships.BattleShipsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.battleships.android.BattleShipsOptionsActivity_"
+        <activity android:name=".puzzles.battleships.BattleShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bootyisland.android.BootyIslandMainActivity_"
+        <activity android:name=".puzzles.bootyisland.BootyIslandMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bootyisland.android.BootyIslandGameActivity_"
+        <activity android:name=".puzzles.bootyisland.BootyIslandGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bootyisland.android.BootyIslandHelpActivity_"
+        <activity android:name=".puzzles.bootyisland.BootyIslandHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bootyisland.android.BootyIslandOptionsActivity_"
+        <activity android:name=".puzzles.bootyisland.BootyIslandOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitagain.android.BoxItAgainMainActivity_"
+        <activity android:name=".puzzles.boxitagain.BoxItAgainMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitagain.android.BoxItAgainGameActivity_"
+        <activity android:name=".puzzles.boxitagain.BoxItAgainGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitagain.android.BoxItAgainHelpActivity_"
+        <activity android:name=".puzzles.boxitagain.BoxItAgainHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitagain.android.BoxItAgainOptionsActivity_"
+        <activity android:name=".puzzles.boxitagain.BoxItAgainOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitaround.android.BoxItAroundMainActivity_"
+        <activity android:name=".puzzles.boxitaround.BoxItAroundMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitaround.android.BoxItAroundGameActivity_"
+        <activity android:name=".puzzles.boxitaround.BoxItAroundGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitaround.android.BoxItAroundHelpActivity_"
+        <activity android:name=".puzzles.boxitaround.BoxItAroundHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitaround.android.BoxItAroundOptionsActivity_"
+        <activity android:name=".puzzles.boxitaround.BoxItAroundOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitup.android.BoxItUpMainActivity_"
+        <activity android:name=".puzzles.boxitup.BoxItUpMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitup.android.BoxItUpGameActivity_"
+        <activity android:name=".puzzles.boxitup.BoxItUpGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitup.android.BoxItUpHelpActivity_"
+        <activity android:name=".puzzles.boxitup.BoxItUpHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.boxitup.android.BoxItUpOptionsActivity_"
+        <activity android:name=".puzzles.boxitup.BoxItUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesMainActivity_"
+        <activity android:name=".puzzles.bridges.BridgesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesGameActivity_"
+        <activity android:name=".puzzles.bridges.BridgesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesHelpActivity_"
+        <activity android:name=".puzzles.bridges.BridgesHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bridges.android.BridgesOptionsActivity_"
+        <activity android:name=".puzzles.bridges.BridgesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.busyseas.android.BusySeasMainActivity_"
+        <activity android:name=".puzzles.busyseas.BusySeasMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.busyseas.android.BusySeasGameActivity_"
+        <activity android:name=".puzzles.busyseas.BusySeasGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.busyseas.android.BusySeasHelpActivity_"
+        <activity android:name=".puzzles.busyseas.BusySeasHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.busyseas.android.BusySeasOptionsActivity_"
+        <activity android:name=".puzzles.busyseas.BusySeasOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bwtapa.android.BWTapaMainActivity_"
+        <activity android:name=".puzzles.bwtapa.BWTapaMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bwtapa.android.BWTapaGameActivity_"
+        <activity android:name=".puzzles.bwtapa.BWTapaGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bwtapa.android.BWTapaHelpActivity_"
+        <activity android:name=".puzzles.bwtapa.BWTapaHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.bwtapa.android.BWTapaOptionsActivity_"
+        <activity android:name=".puzzles.bwtapa.BWTapaOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.calcudoku.android.CalcudokuMainActivity_"
+        <activity android:name=".puzzles.calcudoku.CalcudokuMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.calcudoku.android.CalcudokuGameActivity_"
+        <activity android:name=".puzzles.calcudoku.CalcudokuGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.calcudoku.android.CalcudokuHelpActivity_"
+        <activity android:name=".puzzles.calcudoku.CalcudokuHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.calcudoku.android.CalcudokuOptionsActivity_"
+        <activity android:name=".puzzles.calcudoku.CalcudokuOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareMainActivity_"
+        <activity android:name=".puzzles.carpenterssquare.CarpentersSquareMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareGameActivity_"
+        <activity android:name=".puzzles.carpenterssquare.CarpentersSquareGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareHelpActivity_"
+        <activity android:name=".puzzles.carpenterssquare.CarpentersSquareHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterssquare.android.CarpentersSquareOptionsActivity_"
+        <activity android:name=".puzzles.carpenterssquare.CarpentersSquareOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallMainActivity_"
+        <activity android:name=".puzzles.carpenterswall.CarpentersWallMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallGameActivity_"
+        <activity android:name=".puzzles.carpenterswall.CarpentersWallGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallHelpActivity_"
+        <activity android:name=".puzzles.carpenterswall.CarpentersWallHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.carpenterswall.android.CarpentersWallOptionsActivity_"
+        <activity android:name=".puzzles.carpenterswall.CarpentersWallOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.castlebailey.android.CastleBaileyMainActivity_"
+        <activity android:name=".puzzles.castlebailey.CastleBaileyMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.castlebailey.android.CastleBaileyGameActivity_"
+        <activity android:name=".puzzles.castlebailey.CastleBaileyGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.castlebailey.android.CastleBaileyHelpActivity_"
+        <activity android:name=".puzzles.castlebailey.CastleBaileyHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.castlebailey.android.CastleBaileyOptionsActivity_"
+        <activity android:name=".puzzles.castlebailey.CastleBaileyOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.clouds.android.CloudsMainActivity_"
+        <activity android:name=".puzzles.clouds.CloudsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.clouds.android.CloudsGameActivity_"
+        <activity android:name=".puzzles.clouds.CloudsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.clouds.android.CloudsHelpActivity_"
+        <activity android:name=".puzzles.clouds.CloudsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.clouds.android.CloudsOptionsActivity_"
+        <activity android:name=".puzzles.clouds.CloudsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsMainActivity_"
+        <activity android:name=".puzzles.digitalbattleships.DigitalBattleShipsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsGameActivity_"
+        <activity android:name=".puzzles.digitalbattleships.DigitalBattleShipsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsHelpActivity_"
+        <activity android:name=".puzzles.digitalbattleships.DigitalBattleShipsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.digitalbattleships.android.DigitalBattleShipsOptionsActivity_"
+        <activity android:name=".puzzles.digitalbattleships.DigitalBattleShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourMainActivity_"
+        <activity android:name=".puzzles.disconnectfour.DisconnectFourMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourGameActivity_"
+        <activity android:name=".puzzles.disconnectfour.DisconnectFourGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourHelpActivity_"
+        <activity android:name=".puzzles.disconnectfour.DisconnectFourHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.disconnectfour.android.DisconnectFourOptionsActivity_"
+        <activity android:name=".puzzles.disconnectfour.DisconnectFourOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.domino.android.DominoMainActivity_"
+        <activity android:name=".puzzles.domino.DominoMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.domino.android.DominoGameActivity_"
+        <activity android:name=".puzzles.domino.DominoGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.domino.android.DominoHelpActivity_"
+        <activity android:name=".puzzles.domino.DominoHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.domino.android.DominoOptionsActivity_"
+        <activity android:name=".puzzles.domino.DominoOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fenceitup.android.FenceItUpMainActivity_"
+        <activity android:name=".puzzles.fenceitup.FenceItUpMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fenceitup.android.FenceItUpGameActivity_"
+        <activity android:name=".puzzles.fenceitup.FenceItUpGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fenceitup.android.FenceItUpHelpActivity_"
+        <activity android:name=".puzzles.fenceitup.FenceItUpHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fenceitup.android.FenceItUpOptionsActivity_"
+        <activity android:name=".puzzles.fenceitup.FenceItUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencelits.android.FenceLitsMainActivity_"
+        <activity android:name=".puzzles.fencelits.FenceLitsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencelits.android.FenceLitsGameActivity_"
+        <activity android:name=".puzzles.fencelits.FenceLitsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencelits.android.FenceLitsHelpActivity_"
+        <activity android:name=".puzzles.fencelits.FenceLitsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencelits.android.FenceLitsOptionsActivity_"
+        <activity android:name=".puzzles.fencelits.FenceLitsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencesentinels.android.FenceSentinelsMainActivity_"
+        <activity android:name=".puzzles.fencesentinels.FenceSentinelsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencesentinels.android.FenceSentinelsGameActivity_"
+        <activity android:name=".puzzles.fencesentinels.FenceSentinelsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencesentinels.android.FenceSentinelsHelpActivity_"
+        <activity android:name=".puzzles.fencesentinels.FenceSentinelsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fencesentinels.android.FenceSentinelsOptionsActivity_"
+        <activity android:name=".puzzles.fencesentinels.FenceSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fillomino.android.FillominoMainActivity_"
+        <activity android:name=".puzzles.fillomino.FillominoMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fillomino.android.FillominoGameActivity_"
+        <activity android:name=".puzzles.fillomino.FillominoGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fillomino.android.FillominoHelpActivity_"
+        <activity android:name=".puzzles.fillomino.FillominoHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fillomino.android.FillominoOptionsActivity_"
+        <activity android:name=".puzzles.fillomino.FillominoOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fourmenot.android.FourMeNotMainActivity_"
+        <activity android:name=".puzzles.fourmenot.FourMeNotMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fourmenot.android.FourMeNotGameActivity_"
+        <activity android:name=".puzzles.fourmenot.FourMeNotGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fourmenot.android.FourMeNotHelpActivity_"
+        <activity android:name=".puzzles.fourmenot.FourMeNotHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.fourmenot.android.FourMeNotOptionsActivity_"
+        <activity android:name=".puzzles.fourmenot.FourMeNotOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.futoshiki.android.FutoshikiMainActivity_"
+        <activity android:name=".puzzles.futoshiki.FutoshikiMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.futoshiki.android.FutoshikiGameActivity_"
+        <activity android:name=".puzzles.futoshiki.FutoshikiGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.futoshiki.android.FutoshikiHelpActivity_"
+        <activity android:name=".puzzles.futoshiki.FutoshikiHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.futoshiki.android.FutoshikiOptionsActivity_"
+        <activity android:name=".puzzles.futoshiki.FutoshikiOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.galaxies.android.GalaxiesMainActivity_"
+        <activity android:name=".puzzles.galaxies.GalaxiesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.galaxies.android.GalaxiesGameActivity_"
+        <activity android:name=".puzzles.galaxies.GalaxiesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.galaxies.android.GalaxiesHelpActivity_"
+        <activity android:name=".puzzles.galaxies.GalaxiesHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.galaxies.android.GalaxiesOptionsActivity_"
+        <activity android:name=".puzzles.galaxies.GalaxiesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.gardener.android.GardenerMainActivity_"
+        <activity android:name=".puzzles.gardener.GardenerMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.gardener.android.GardenerGameActivity_"
+        <activity android:name=".puzzles.gardener.GardenerGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.gardener.android.GardenerHelpActivity_"
+        <activity android:name=".puzzles.gardener.GardenerHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.gardener.android.GardenerOptionsActivity_"
+        <activity android:name=".puzzles.gardener.GardenerOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.hitori.android.HitoriMainActivity_"
+        <activity android:name=".puzzles.hitori.HitoriMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.hitori.android.HitoriGameActivity_"
+        <activity android:name=".puzzles.hitori.HitoriGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.hitori.android.HitoriHelpActivity_"
+        <activity android:name=".puzzles.hitori.HitoriHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.hitori.android.HitoriOptionsActivity_"
+        <activity android:name=".puzzles.hitori.HitoriOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.holidayisland.android.HolidayIslandMainActivity_"
+        <activity android:name=".puzzles.holidayisland.HolidayIslandMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.holidayisland.android.HolidayIslandGameActivity_"
+        <activity android:name=".puzzles.holidayisland.HolidayIslandGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.holidayisland.android.HolidayIslandHelpActivity_"
+        <activity android:name=".puzzles.holidayisland.HolidayIslandHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.holidayisland.android.HolidayIslandOptionsActivity_"
+        <activity android:name=".puzzles.holidayisland.HolidayIslandOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakurasu.android.KakurasuMainActivity_"
+        <activity android:name=".puzzles.kakurasu.KakurasuMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakurasu.android.KakurasuGameActivity_"
+        <activity android:name=".puzzles.kakurasu.KakurasuGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakurasu.android.KakurasuHelpActivity_"
+        <activity android:name=".puzzles.kakurasu.KakurasuHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakurasu.android.KakurasuOptionsActivity_"
+        <activity android:name=".puzzles.kakurasu.KakurasuOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakuro.android.KakuroMainActivity_"
+        <activity android:name=".puzzles.kakuro.KakuroMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakuro.android.KakuroGameActivity_"
+        <activity android:name=".puzzles.kakuro.KakuroGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakuro.android.KakuroHelpActivity_"
+        <activity android:name=".puzzles.kakuro.KakuroHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kakuro.android.KakuroOptionsActivity_"
+        <activity android:name=".puzzles.kakuro.KakuroOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kropki.android.KropkiMainActivity_"
+        <activity android:name=".puzzles.kropki.KropkiMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kropki.android.KropkiGameActivity_"
+        <activity android:name=".puzzles.kropki.KropkiGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kropki.android.KropkiHelpActivity_"
+        <activity android:name=".puzzles.kropki.KropkiHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.kropki.android.KropkiOptionsActivity_"
+        <activity android:name=".puzzles.kropki.KropkiOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsMainActivity_"
+        <activity android:name=".puzzles.lightbattleships.LightBattleShipsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsGameActivity_"
+        <activity android:name=".puzzles.lightbattleships.LightBattleShipsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsHelpActivity_"
+        <activity android:name=".puzzles.lightbattleships.LightBattleShipsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightbattleships.android.LightBattleShipsOptionsActivity_"
+        <activity android:name=".puzzles.lightbattleships.LightBattleShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightenup.android.LightenUpMainActivity_"
+        <activity android:name=".puzzles.lightenup.LightenUpMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightenup.android.LightenUpGameActivity_"
+        <activity android:name=".puzzles.lightenup.LightenUpGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightenup.android.LightenUpHelpActivity_"
+        <activity android:name=".puzzles.lightenup.LightenUpHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lightenup.android.LightenUpOptionsActivity_"
+        <activity android:name=".puzzles.lightenup.LightenUpOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lighthouses.android.LighthousesMainActivity_"
+        <activity android:name=".puzzles.lighthouses.LighthousesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lighthouses.android.LighthousesGameActivity_"
+        <activity android:name=".puzzles.lighthouses.LighthousesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lighthouses.android.LighthousesHelpActivity_"
+        <activity android:name=".puzzles.lighthouses.LighthousesHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lighthouses.android.LighthousesOptionsActivity_"
+        <activity android:name=".puzzles.lighthouses.LighthousesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.linesweeper.android.LineSweeperMainActivity_"
+        <activity android:name=".puzzles.linesweeper.LineSweeperMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.linesweeper.android.LineSweeperGameActivity_"
+        <activity android:name=".puzzles.linesweeper.LineSweeperGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.linesweeper.android.LineSweeperHelpActivity_"
+        <activity android:name=".puzzles.linesweeper.LineSweeperHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.linesweeper.android.LineSweeperOptionsActivity_"
+        <activity android:name=".puzzles.linesweeper.LineSweeperOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lits.android.LitsMainActivity_"
+        <activity android:name=".puzzles.lits.LitsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lits.android.LitsGameActivity_"
+        <activity android:name=".puzzles.lits.LitsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lits.android.LitsHelpActivity_"
+        <activity android:name=".puzzles.lits.LitsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.lits.android.LitsOptionsActivity_"
+        <activity android:name=".puzzles.lits.LitsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.loopy.android.LoopyMainActivity_"
+        <activity android:name=".puzzles.loopy.LoopyMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.loopy.android.LoopyGameActivity_"
+        <activity android:name=".puzzles.loopy.LoopyGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.loopy.android.LoopyHelpActivity_"
+        <activity android:name=".puzzles.loopy.LoopyHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.loopy.android.LoopyOptionsActivity_"
+        <activity android:name=".puzzles.loopy.LoopyOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.masyu.android.MasyuMainActivity_"
+        <activity android:name=".puzzles.masyu.MasyuMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.masyu.android.MasyuGameActivity_"
+        <activity android:name=".puzzles.masyu.MasyuGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.masyu.android.MasyuHelpActivity_"
+        <activity android:name=".puzzles.masyu.MasyuHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.masyu.android.MasyuOptionsActivity_"
+        <activity android:name=".puzzles.masyu.MasyuOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.magnets.android.MagnetsMainActivity_"
+        <activity android:name=".puzzles.magnets.MagnetsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.magnets.android.MagnetsGameActivity_"
+        <activity android:name=".puzzles.magnets.MagnetsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.magnets.android.MagnetsHelpActivity_"
+        <activity android:name=".puzzles.magnets.MagnetsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.magnets.android.MagnetsOptionsActivity_"
+        <activity android:name=".puzzles.magnets.MagnetsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mathrax.android.MathraxMainActivity_"
+        <activity android:name=".puzzles.mathrax.MathraxMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mathrax.android.MathraxGameActivity_"
+        <activity android:name=".puzzles.mathrax.MathraxGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mathrax.android.MathraxHelpActivity_"
+        <activity android:name=".puzzles.mathrax.MathraxHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mathrax.android.MathraxOptionsActivity_"
+        <activity android:name=".puzzles.mathrax.MathraxOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mineships.android.MineShipsMainActivity_"
+        <activity android:name=".puzzles.mineships.MineShipsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mineships.android.MineShipsGameActivity_"
+        <activity android:name=".puzzles.mineships.MineShipsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mineships.android.MineShipsHelpActivity_"
+        <activity android:name=".puzzles.mineships.MineShipsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mineships.android.MineShipsOptionsActivity_"
+        <activity android:name=".puzzles.mineships.MineShipsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minesweeper.android.MinesweeperMainActivity_"
+        <activity android:name=".puzzles.minesweeper.MinesweeperMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minesweeper.android.MinesweeperGameActivity_"
+        <activity android:name=".puzzles.minesweeper.MinesweeperGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minesweeper.android.MinesweeperHelpActivity_"
+        <activity android:name=".puzzles.minesweeper.MinesweeperHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minesweeper.android.MinesweeperOptionsActivity_"
+        <activity android:name=".puzzles.minesweeper.MinesweeperOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minilits.android.MiniLitsMainActivity_"
+        <activity android:name=".puzzles.minilits.MiniLitsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minilits.android.MiniLitsGameActivity_"
+        <activity android:name=".puzzles.minilits.MiniLitsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minilits.android.MiniLitsHelpActivity_"
+        <activity android:name=".puzzles.minilits.MiniLitsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.minilits.android.MiniLitsOptionsActivity_"
+        <activity android:name=".puzzles.minilits.MiniLitsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mosaik.android.MosaikMainActivity_"
+        <activity android:name=".puzzles.mosaik.MosaikMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mosaik.android.MosaikGameActivity_"
+        <activity android:name=".puzzles.mosaik.MosaikGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mosaik.android.MosaikHelpActivity_"
+        <activity android:name=".puzzles.mosaik.MosaikHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.mosaik.android.MosaikOptionsActivity_"
+        <activity android:name=".puzzles.mosaik.MosaikOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.neighbours.android.NeighboursMainActivity_"
+        <activity android:name=".puzzles.neighbours.NeighboursMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.neighbours.android.NeighboursGameActivity_"
+        <activity android:name=".puzzles.neighbours.NeighboursGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.neighbours.android.NeighboursHelpActivity_"
+        <activity android:name=".puzzles.neighbours.NeighboursHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.neighbours.android.NeighboursOptionsActivity_"
+        <activity android:name=".puzzles.neighbours.NeighboursOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingMainActivity_"
+        <activity android:name=".puzzles.northpolefishing.NorthPoleFishingMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingGameActivity_"
+        <activity android:name=".puzzles.northpolefishing.NorthPoleFishingGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingHelpActivity_"
+        <activity android:name=".puzzles.northpolefishing.NorthPoleFishingHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.northpolefishing.android.NorthPoleFishingOptionsActivity_"
+        <activity android:name=".puzzles.northpolefishing.NorthPoleFishingOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesMainActivity_"
+        <activity android:name=".puzzles.noughtsandcrosses.NoughtsAndCrossesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesGameActivity_"
+        <activity android:name=".puzzles.noughtsandcrosses.NoughtsAndCrossesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesHelpActivity_"
+        <activity android:name=".puzzles.noughtsandcrosses.NoughtsAndCrossesHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.noughtsandcrosses.android.NoughtsAndCrossesOptionsActivity_"
+        <activity android:name=".puzzles.noughtsandcrosses.NoughtsAndCrossesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberlink.android.NumberLinkMainActivity_"
+        <activity android:name=".puzzles.numberlink.NumberLinkMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberlink.android.NumberLinkGameActivity_"
+        <activity android:name=".puzzles.numberlink.NumberLinkGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberlink.android.NumberLinkHelpActivity_"
+        <activity android:name=".puzzles.numberlink.NumberLinkHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberlink.android.NumberLinkOptionsActivity_"
+        <activity android:name=".puzzles.numberlink.NumberLinkOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberpath.android.NumberPathMainActivity_"
+        <activity android:name=".puzzles.numberpath.NumberPathMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberpath.android.NumberPathGameActivity_"
+        <activity android:name=".puzzles.numberpath.NumberPathGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberpath.android.NumberPathHelpActivity_"
+        <activity android:name=".puzzles.numberpath.NumberPathHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.numberpath.android.NumberPathOptionsActivity_"
+        <activity android:name=".puzzles.numberpath.NumberPathOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.nurikabe.android.NurikabeMainActivity_"
+        <activity android:name=".puzzles.nurikabe.NurikabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.nurikabe.android.NurikabeGameActivity_"
+        <activity android:name=".puzzles.nurikabe.NurikabeGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.nurikabe.android.NurikabeHelpActivity_"
+        <activity android:name=".puzzles.nurikabe.NurikabeHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.nurikabe.android.NurikabeOptionsActivity_"
+        <activity android:name=".puzzles.nurikabe.NurikabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsMainActivity_"
+        <activity android:name=".puzzles.orchards.OrchardsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsGameActivity_"
+        <activity android:name=".puzzles.orchards.OrchardsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsHelpActivity_"
+        <activity android:name=".puzzles.orchards.OrchardsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.orchards.android.OrchardsOptionsActivity_"
+        <activity android:name=".puzzles.orchards.OrchardsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.overunder.android.OverUnderMainActivity_"
+        <activity android:name=".puzzles.overunder.OverUnderMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.overunder.android.OverUnderGameActivity_"
+        <activity android:name=".puzzles.overunder.OverUnderGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.overunder.android.OverUnderHelpActivity_"
+        <activity android:name=".puzzles.overunder.OverUnderHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.overunder.android.OverUnderOptionsActivity_"
+        <activity android:name=".puzzles.overunder.OverUnderOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pairakabe.android.PairakabeMainActivity_"
+        <activity android:name=".puzzles.pairakabe.PairakabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pairakabe.android.PairakabeGameActivity_"
+        <activity android:name=".puzzles.pairakabe.PairakabeGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pairakabe.android.PairakabeHelpActivity_"
+        <activity android:name=".puzzles.pairakabe.PairakabeHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pairakabe.android.PairakabeOptionsActivity_"
+        <activity android:name=".puzzles.pairakabe.PairakabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeMainActivity_"
+        <activity android:name=".puzzles.paintthenurikabe.PaintTheNurikabeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeGameActivity_"
+        <activity android:name=".puzzles.paintthenurikabe.PaintTheNurikabeGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeHelpActivity_"
+        <activity android:name=".puzzles.paintthenurikabe.PaintTheNurikabeHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.paintthenurikabe.android.PaintTheNurikabeOptionsActivity_"
+        <activity android:name=".puzzles.paintthenurikabe.PaintTheNurikabeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parklakes.android.ParkLakesMainActivity_"
+        <activity android:name=".puzzles.parklakes.ParkLakesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parklakes.android.ParkLakesGameActivity_"
+        <activity android:name=".puzzles.parklakes.ParkLakesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parklakes.android.ParkLakesHelpActivity_"
+        <activity android:name=".puzzles.parklakes.ParkLakesHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parklakes.android.ParkLakesOptionsActivity_"
+        <activity android:name=".puzzles.parklakes.ParkLakesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parks.android.ParksMainActivity_"
+        <activity android:name=".puzzles.parks.ParksMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parks.android.ParksGameActivity_"
+        <activity android:name=".puzzles.parks.ParksGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parks.android.ParksHelpActivity_"
+        <activity android:name=".puzzles.parks.ParksHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.parks.android.ParksOptionsActivity_"
+        <activity android:name=".puzzles.parks.ParksOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pata.android.PataMainActivity_"
+        <activity android:name=".puzzles.pata.PataMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pata.android.PataGameActivity_"
+        <activity android:name=".puzzles.pata.PataGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pata.android.PataHelpActivity_"
+        <activity android:name=".puzzles.pata.PataHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.pata.android.PataOptionsActivity_"
+        <activity android:name=".puzzles.pata.PataOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.powergrid.android.PowerGridMainActivity_"
+        <activity android:name=".puzzles.powergrid.PowerGridMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.powergrid.android.PowerGridGameActivity_"
+        <activity android:name=".puzzles.powergrid.PowerGridGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.powergrid.android.PowerGridHelpActivity_"
+        <activity android:name=".puzzles.powergrid.PowerGridHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.powergrid.android.PowerGridOptionsActivity_"
+        <activity android:name=".puzzles.powergrid.PowerGridOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.productsentinels.android.ProductSentinelsMainActivity_"
+        <activity android:name=".puzzles.productsentinels.ProductSentinelsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.productsentinels.android.ProductSentinelsGameActivity_"
+        <activity android:name=".puzzles.productsentinels.ProductSentinelsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.productsentinels.android.ProductSentinelsHelpActivity_"
+        <activity android:name=".puzzles.productsentinels.ProductSentinelsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.productsentinels.android.ProductSentinelsOptionsActivity_"
+        <activity android:name=".puzzles.productsentinels.ProductSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rippleeffect.android.RippleEffectMainActivity_"
+        <activity android:name=".puzzles.rippleeffect.RippleEffectMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rippleeffect.android.RippleEffectGameActivity_"
+        <activity android:name=".puzzles.rippleeffect.RippleEffectGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rippleeffect.android.RippleEffectHelpActivity_"
+        <activity android:name=".puzzles.rippleeffect.RippleEffectHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rippleeffect.android.RippleEffectOptionsActivity_"
+        <activity android:name=".puzzles.rippleeffect.RippleEffectOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsMainActivity_"
+        <activity android:name=".puzzles.robotcrosswords.RobotCrosswordsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsGameActivity_"
+        <activity android:name=".puzzles.robotcrosswords.RobotCrosswordsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsHelpActivity_"
+        <activity android:name=".puzzles.robotcrosswords.RobotCrosswordsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotcrosswords.android.RobotCrosswordsOptionsActivity_"
+        <activity android:name=".puzzles.robotcrosswords.RobotCrosswordsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotfences.android.RobotFencesMainActivity_"
+        <activity android:name=".puzzles.robotfences.RobotFencesMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotfences.android.RobotFencesGameActivity_"
+        <activity android:name=".puzzles.robotfences.RobotFencesGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotfences.android.RobotFencesHelpActivity_"
+        <activity android:name=".puzzles.robotfences.RobotFencesHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.robotfences.android.RobotFencesOptionsActivity_"
+        <activity android:name=".puzzles.robotfences.RobotFencesOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rooms.android.RoomsMainActivity_"
+        <activity android:name=".puzzles.rooms.RoomsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rooms.android.RoomsGameActivity_"
+        <activity android:name=".puzzles.rooms.RoomsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rooms.android.RoomsHelpActivity_"
+        <activity android:name=".puzzles.rooms.RoomsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.rooms.android.RoomsOptionsActivity_"
+        <activity android:name=".puzzles.rooms.RoomsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sentinels.android.SentinelsMainActivity_"
+        <activity android:name=".puzzles.sentinels.SentinelsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sentinels.android.SentinelsGameActivity_"
+        <activity android:name=".puzzles.sentinels.SentinelsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sentinels.android.SentinelsHelpActivity_"
+        <activity android:name=".puzzles.sentinels.SentinelsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sentinels.android.SentinelsOptionsActivity_"
+        <activity android:name=".puzzles.sentinels.SentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.skyscrapers.android.SkyscrapersMainActivity_"
+        <activity android:name=".puzzles.skyscrapers.SkyscrapersMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.skyscrapers.android.SkyscrapersGameActivity_"
+        <activity android:name=".puzzles.skyscrapers.SkyscrapersGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.skyscrapers.android.SkyscrapersHelpActivity_"
+        <activity android:name=".puzzles.skyscrapers.SkyscrapersHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.skyscrapers.android.SkyscrapersOptionsActivity_"
+        <activity android:name=".puzzles.skyscrapers.SkyscrapersOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.slitherlink.android.SlitherLinkMainActivity_"
+        <activity android:name=".puzzles.slitherlink.SlitherLinkMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.slitherlink.android.SlitherLinkGameActivity_"
+        <activity android:name=".puzzles.slitherlink.SlitherLinkGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.slitherlink.android.SlitherLinkHelpActivity_"
+        <activity android:name=".puzzles.slitherlink.SlitherLinkHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.slitherlink.android.SlitherLinkOptionsActivity_"
+        <activity android:name=".puzzles.slitherlink.SlitherLinkOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snail.android.SnailMainActivity_"
+        <activity android:name=".puzzles.snail.SnailMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snail.android.SnailGameActivity_"
+        <activity android:name=".puzzles.snail.SnailGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snail.android.SnailHelpActivity_"
+        <activity android:name=".puzzles.snail.SnailHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snail.android.SnailOptionsActivity_"
+        <activity android:name=".puzzles.snail.SnailOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snake.android.SnakeMainActivity_"
+        <activity android:name=".puzzles.snake.SnakeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snake.android.SnakeGameActivity_"
+        <activity android:name=".puzzles.snake.SnakeGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snake.android.SnakeHelpActivity_"
+        <activity android:name=".puzzles.snake.SnakeHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.snake.android.SnakeOptionsActivity_"
+        <activity android:name=".puzzles.snake.SnakeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.square100.android.Square100MainActivity_"
+        <activity android:name=".puzzles.square100.Square100MainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.square100.android.Square100GameActivity_"
+        <activity android:name=".puzzles.square100.Square100GameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.square100.android.Square100HelpActivity_"
+        <activity android:name=".puzzles.square100.Square100HelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.square100.android.Square100OptionsActivity_"
+        <activity android:name=".puzzles.square100.Square100OptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sumscrapers.android.SumscrapersMainActivity_"
+        <activity android:name=".puzzles.sumscrapers.SumscrapersMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sumscrapers.android.SumscrapersGameActivity_"
+        <activity android:name=".puzzles.sumscrapers.SumscrapersGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sumscrapers.android.SumscrapersHelpActivity_"
+        <activity android:name=".puzzles.sumscrapers.SumscrapersHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.sumscrapers.android.SumscrapersOptionsActivity_"
+        <activity android:name=".puzzles.sumscrapers.SumscrapersOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapa.android.TapaMainActivity_"
+        <activity android:name=".puzzles.tapa.TapaMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapa.android.TapaGameActivity_"
+        <activity android:name=".puzzles.tapa.TapaGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapa.android.TapaHelpActivity_"
+        <activity android:name=".puzzles.tapa.TapaHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapa.android.TapaOptionsActivity_"
+        <activity android:name=".puzzles.tapa.TapaOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapaislands.android.TapaIslandsMainActivity_"
+        <activity android:name=".puzzles.tapaislands.TapaIslandsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapaislands.android.TapaIslandsGameActivity_"
+        <activity android:name=".puzzles.tapaislands.TapaIslandsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapaislands.android.TapaIslandsHelpActivity_"
+        <activity android:name=".puzzles.tapaislands.TapaIslandsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapaislands.android.TapaIslandsOptionsActivity_"
+        <activity android:name=".puzzles.tapaislands.TapaIslandsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapalike.android.TapAlikeMainActivity_"
+        <activity android:name=".puzzles.tapalike.TapAlikeMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapalike.android.TapAlikeGameActivity_"
+        <activity android:name=".puzzles.tapalike.TapAlikeGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapalike.android.TapAlikeHelpActivity_"
+        <activity android:name=".puzzles.tapalike.TapAlikeHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapalike.android.TapAlikeOptionsActivity_"
+        <activity android:name=".puzzles.tapalike.TapAlikeOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.taparow.android.TapARowMainActivity_"
+        <activity android:name=".puzzles.taparow.TapARowMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.taparow.android.TapARowGameActivity_"
+        <activity android:name=".puzzles.taparow.TapARowGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.taparow.android.TapARowHelpActivity_"
+        <activity android:name=".puzzles.taparow.TapARowHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.taparow.android.TapARowOptionsActivity_"
+        <activity android:name=".puzzles.taparow.TapARowOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyMainActivity_"
+        <activity android:name=".puzzles.tapdifferently.TapDifferentlyMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyGameActivity_"
+        <activity android:name=".puzzles.tapdifferently.TapDifferentlyGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyHelpActivity_"
+        <activity android:name=".puzzles.tapdifferently.TapDifferentlyHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tapdifferently.android.TapDifferentlyOptionsActivity_"
+        <activity android:name=".puzzles.tapdifferently.TapDifferentlyOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatami.android.TatamiMainActivity_"
+        <activity android:name=".puzzles.tatami.TatamiMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatami.android.TatamiGameActivity_"
+        <activity android:name=".puzzles.tatami.TatamiGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatami.android.TatamiHelpActivity_"
+        <activity android:name=".puzzles.tatami.TatamiHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatami.android.TatamiOptionsActivity_"
+        <activity android:name=".puzzles.tatami.TatamiOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatamino.android.TataminoMainActivity_"
+        <activity android:name=".puzzles.tatamino.TataminoMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatamino.android.TataminoGameActivity_"
+        <activity android:name=".puzzles.tatamino.TataminoGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatamino.android.TataminoHelpActivity_"
+        <activity android:name=".puzzles.tatamino.TataminoHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tatamino.android.TataminoOptionsActivity_"
+        <activity android:name=".puzzles.tatamino.TataminoOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tennergrid.android.TennerGridMainActivity_"
+        <activity android:name=".puzzles.tennergrid.TennerGridMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tennergrid.android.TennerGridGameActivity_"
+        <activity android:name=".puzzles.tennergrid.TennerGridGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tennergrid.android.TennerGridHelpActivity_"
+        <activity android:name=".puzzles.tennergrid.TennerGridHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tennergrid.android.TennerGridOptionsActivity_"
+        <activity android:name=".puzzles.tennergrid.TennerGridOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tents.android.TentsMainActivity_"
+        <activity android:name=".puzzles.tents.TentsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tents.android.TentsGameActivity_"
+        <activity android:name=".puzzles.tents.TentsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tents.android.TentsHelpActivity_"
+        <activity android:name=".puzzles.tents.TentsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tents.android.TentsOptionsActivity_"
+        <activity android:name=".puzzles.tents.TentsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickMainActivity_"
+        <activity android:name=".puzzles.theoddbrick.TheOddBrickMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickGameActivity_"
+        <activity android:name=".puzzles.theoddbrick.TheOddBrickGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickHelpActivity_"
+        <activity android:name=".puzzles.theoddbrick.TheOddBrickHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.theoddbrick.android.TheOddBrickOptionsActivity_"
+        <activity android:name=".puzzles.theoddbrick.TheOddBrickOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoMainActivity_"
+        <activity android:name=".puzzles.tierradelfuego.TierraDelFuegoMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoGameActivity_"
+        <activity android:name=".puzzles.tierradelfuego.TierraDelFuegoGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoHelpActivity_"
+        <activity android:name=".puzzles.tierradelfuego.TierraDelFuegoHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.tierradelfuego.android.TierraDelFuegoOptionsActivity_"
+        <activity android:name=".puzzles.tierradelfuego.TierraDelFuegoOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.walls.android.WallsMainActivity_"
+        <activity android:name=".puzzles.walls.WallsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.walls.android.WallsGameActivity_"
+        <activity android:name=".puzzles.walls.WallsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.walls.android.WallsHelpActivity_"
+        <activity android:name=".puzzles.walls.WallsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.walls.android.WallsOptionsActivity_"
+        <activity android:name=".puzzles.walls.WallsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.wallsentinels.android.WallSentinelsMainActivity_"
+        <activity android:name=".puzzles.wallsentinels.WallSentinelsMainActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.wallsentinels.android.WallSentinelsGameActivity_"
+        <activity android:name=".puzzles.wallsentinels.WallSentinelsGameActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.wallsentinels.android.WallSentinelsHelpActivity_"
+        <activity android:name=".puzzles.wallsentinels.WallSentinelsHelpActivity_"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.wallsentinels.android.WallSentinelsOptionsActivity_"
+        <activity android:name=".puzzles.wallsentinels.WallSentinelsOptionsActivity_"
                   android:screenOrientation="portrait">
         </activity>
     </application>

@@ -1,5 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.common.domain
 
+enum class HintState {
+    Normal, Complete, Error
+}
+
 enum class AllowedObjectState {
     Normal, Error
 }
