@@ -7,13 +7,13 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
@@ -68,11 +68,11 @@ class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<N
             return s
         }
         // 2. All numbers must appear just once on each row.
-        for (r in 0 until rows())
-            row2state[r] = f((0 until cols()).map { this[r, it] })
+        for (r in 0 until rows)
+            row2state[r] = f((0 until cols).map { this[r, it] })
         // 2. All numbers must appear just once on each column.
-        for (c in 0 until cols())
-            col2state[c] = f((0 until rows()).map{ this[it, c] })
+        for (c in 0 until cols)
+            col2state[c] = f((0 until rows).map{ this[it, c] })
         // 3. A circle marks where a number must go.
         for (p in game.noughts) {
             val ch = this[p]

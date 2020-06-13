@@ -4,13 +4,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameMove, CloudsGameState>(game) {
-    var objArray = Array(rows() * cols()) { CloudsObject.Empty }
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var objArray = Array(rows * cols) { CloudsObject.Empty }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: CloudsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: CloudsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: CloudsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -56,16 +56,16 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] == CloudsObject.Forbidden)
                     this[r, c] = CloudsObject.Empty
         // 2. The hints on the borders tell you how many tiles are covered by Clouds
         // in that row.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 if (this[r, c] == CloudsObject.Cloud)
                     n1++
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -73,17 +73,17 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         }
         // 2. The hints on the borders tell you how many tiles are covered by Clouds
         // in that column.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var n1 = 0
             val n2 = game!!.col2hint[c]
-            for (r in 0 until rows())
+            for (r in 0 until rows)
                 if (this[r, c] == CloudsObject.Cloud)
                     n1++
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if ((o == CloudsObject.Empty || o == CloudsObject.Marker) && allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
                     this[r, c] = CloudsObject.Forbidden
@@ -91,8 +91,8 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] != CloudsObject.Cloud) continue
                 val node = Node(p.toString())
@@ -109,9 +109,9 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             var r2 = 0
-            var r1 = rows()
+            var r1 = rows
             var c2 = 0
-            var c1 = cols()
+            var c1 = cols
             for (node in nodeList) {
                 val p = pos2node.filterValues { it == node }.keys.first()
                 pos2node.remove(p)

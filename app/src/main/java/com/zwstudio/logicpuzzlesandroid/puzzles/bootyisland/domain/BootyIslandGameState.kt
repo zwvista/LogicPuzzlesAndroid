@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(game) {
-    var objArray = Array<BootyIslandObject>(rows() * 2) { BootyIslandEmptyObject() }
+    var objArray = Array<BootyIslandObject>(rows * 2) { BootyIslandEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
@@ -16,9 +16,9 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: BootyIslandObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: BootyIslandObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BootyIslandObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: BootyIslandGameMove): Boolean {
@@ -69,8 +69,8 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if (o is BootyIslandForbiddenObject)
                     this[r, c] = BootyIslandEmptyObject()
@@ -78,8 +78,8 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                     o.state = AllowedObjectState.Normal
             }
         // 4. Pirates don't bury their Treasures touching each other, even diagonally.
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean {
                     for (os in BootyIslandGame.offset) {
@@ -98,14 +98,14 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                     this[r, c] = BootyIslandForbiddenObject()
             }
         // 2. In fact there's only one Treasure for each row.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n1 = 0
             val n2 = 1
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 if (this[r, c] is BootyIslandTreasureObject)
                     n1++
             if (n1 != n2) isSolved = false
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if (o is BootyIslandTreasureObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
@@ -114,14 +114,14 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
             }
         }
         // 2. In fact there's only one Treasure for each column.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var n1 = 0
             val n2 = 1
-            for (r in 0 until rows())
+            for (r in 0 until rows)
                 if (this[r, c] is BootyIslandTreasureObject)
                     n1++
             if (n1 != n2) isSolved = false
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 val o = this[r, c]
                 if (o is BootyIslandTreasureObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
@@ -135,7 +135,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         for ((p, n2) in game.pos2hint) {
             fun f(): HintState {
                 var possible = false
-                next@ for (i in 0..3) {
+                next@ for (i in 0 until 4) {
                     val os = BootyIslandGame.offset[i * 2]
                     var n1 = 1
                     var possible2 = false

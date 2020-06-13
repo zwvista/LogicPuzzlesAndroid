@@ -17,17 +17,17 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
 
     var objArray: IntArray
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length / 2)
-        objArray = IntArray(rows() * cols())
-        for (r in 0 until rows()) {
+        objArray = IntArray(rows * cols)
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val s = str.substring(c * 2, c * 2 + 2).trim(' ')
                 this[p] = s.toInt()

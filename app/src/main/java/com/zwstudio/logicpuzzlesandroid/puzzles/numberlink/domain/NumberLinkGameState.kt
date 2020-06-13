@@ -7,12 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame, NumberLinkGameMove, NumberLinkGameState>(game) {
-    var objArray = Array(rows() * cols()) { Array(4) { false } }
+    var objArray = Array(rows * cols) { Array(4) { false } }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
     init {
@@ -60,8 +60,8 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val pos2indexes = mutableMapOf<Position, MutableList<Int>>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it }.size
                 val b = game.pos2hint[p] != null

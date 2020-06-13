@@ -8,7 +8,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
     var objArray: Array<Array<GridLineObject>> = Cloner().deepClone(game.objArray)
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
@@ -59,7 +59,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
         // (like slitherlink).
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
-            for (i in 0..3)
+            for (i in 0 until 4)
                 if (this[p.add(FenceLitsGame.offset2[i])][FenceLitsGame.dirs[i]] == GridLineObject.Line)
                     n1++
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -68,17 +68,17 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                for (i in 0..3)
+                for (i in 0 until 4)
                     if (this[p.add(FenceLitsGame.offset2[i])][FenceLitsGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(FenceLitsGame.offset[i])]!!)
             }

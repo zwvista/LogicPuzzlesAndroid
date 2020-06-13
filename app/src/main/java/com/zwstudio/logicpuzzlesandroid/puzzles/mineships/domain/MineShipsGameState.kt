@@ -4,12 +4,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, MineShipsGameMove, MineShipsGameState>(game) {
-    var objArray = Array<MineShipsObject>(rows() * cols()) { MineShipsEmptyObject() }
+    var objArray = Array<MineShipsObject>(rows * cols) { MineShipsEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: MineShipsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: MineShipsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: MineShipsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -63,8 +63,8 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] is MineShipsForbiddenObject)
                     this[r, c] = MineShipsEmptyObject()
         // 3. A number tells you how many pieces of ship are around it.
@@ -90,8 +90,8 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o.isShipPiece()) {
@@ -101,7 +101,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
                 }
             }
         for ((p, node) in pos2node) {
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 val p2 = p.add(MineShipsGame.offset[i * 2])
                 val node2 = pos2node[p2]
                 if (node2 != null)

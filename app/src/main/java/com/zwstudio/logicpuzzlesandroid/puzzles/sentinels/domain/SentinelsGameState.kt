@@ -4,12 +4,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, SentinelsGameMove, SentinelsGameState>(game) {
-    var objArray = Array<SentinelsObject>(rows() * cols()) { SentinelsEmptyObject() }
+    var objArray = Array<SentinelsObject>(rows * cols) { SentinelsEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: SentinelsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: SentinelsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: SentinelsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -61,8 +61,8 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if (o is SentinelsTowerObject)
                     o.state = AllowedObjectState.Normal
@@ -76,8 +76,8 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
                 }
             }
         // 4. two Towers can't touch horizontally or vertically.
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean {
                     for (os in SentinelsGame.offset) {
@@ -99,7 +99,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
-            next@ for (i in 0..3) {
+            next@ for (i in 0 until 4) {
                 val os = SentinelsGame.offset[i]
                 val p2 = p.add(os)
                 while (isValid(p2)) {

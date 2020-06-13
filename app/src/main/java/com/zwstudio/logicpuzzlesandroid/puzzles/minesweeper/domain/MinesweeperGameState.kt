@@ -6,12 +6,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGame, MinesweeperGameMove, MinesweeperGameState>(game) {
-    var objArray = Array<MinesweeperObject>(rows() * cols()) { MinesweeperEmptyObject() }
+    var objArray = Array<MinesweeperObject>(rows * cols) { MinesweeperEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: MinesweeperObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: MinesweeperObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: MinesweeperObject) {this[p.row, p.col] = obj}
 
     init {
@@ -53,8 +53,8 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] is MinesweeperForbiddenObject)
                     this[r, c] = MinesweeperEmptyObject()
         for ((p, n2) in game.pos2hint) {

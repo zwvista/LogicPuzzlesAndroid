@@ -23,17 +23,17 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
 
     var objArray: Array<CarpentersWallObject>
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: CarpentersWallObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: CarpentersWallObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: CarpentersWallObject) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = Array(rows() * cols()) { CarpentersWallEmptyObject() }
-        for (r in 0 until rows()) {
+        objArray = Array(rows * cols) { CarpentersWallEmptyObject() }
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val ch = str[c]) {
                     in '0'..'9' -> this[p] = CarpentersWallCornerObject(ch - '0')

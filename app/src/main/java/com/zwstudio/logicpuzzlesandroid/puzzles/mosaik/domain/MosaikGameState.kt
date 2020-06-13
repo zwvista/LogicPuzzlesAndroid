@@ -6,12 +6,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameMove, MosaikGameState>(game) {
-    var objArray = Array(rows() * cols()) { MosaikObject.Empty }
+    var objArray = Array(rows * cols) { MosaikObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: MosaikObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: MosaikObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: MosaikObject) {this[p.row, p.col] = obj}
 
     init {
@@ -57,8 +57,8 @@ class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameM
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] == MosaikObject.Forbidden)
                     this[r, c] = MosaikObject.Empty
         for ((p, n2) in game.pos2hint) {

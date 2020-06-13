@@ -12,9 +12,9 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     fun setObject(move: ABCPathGameMove): Boolean {
@@ -31,8 +31,8 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
         val o = this[p]
         // 1.  Enter every letter from A to Y into the grid.
         val chars = ('A' until 'Z').toMutableList()
-        for (r in 1 until rows() - 1)
-            for (c in 1 until cols() - 1) {
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
                 val p2 = Position(r, c)
                 if (p2 != p)
                     chars.remove(this[p2])
@@ -53,12 +53,12 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 pos2state[Position(r, c)] = HintState.Normal
         var ch2rng = mutableMapOf<Char, MutableList<Position>>()
-        for (r in 1 until rows() - 1)
-            for (c in 1 until cols() - 1) {
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
                 val p = Position(r, c)
                 val ch = this[p]
                 if (ch == ' ')
@@ -75,8 +75,8 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
             for (p in rng)
                 pos2state[p] = HintState.Error
         // 2.  Each letter is next to the previous letter either horizontally, vertically or diagonally.
-        for (r in 1 until rows() - 1)
-            for (c in 1 until cols() - 1) {
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
                 val p = Position(r, c)
                 val ch = this[p]
                 if (pos2state[p] == HintState.Normal && (ch == 'A' || ABCPathGame.offset.any {
@@ -90,10 +90,10 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
         // 3.  The clues around the edge tell you which row, column or diagonal each letter is in.
         for ((ch, p) in game.ch2pos) {
             val (r, c) = listOf(p.row, p.col)
-            if ((r == 0 || r == rows() - 1) && r == c && (1 until rows() - 1).any { this[it, it] == ch } ||
-                (r == 0 || r == rows() - 1) && r == rows() - 1 - c && (1 until rows() - 1).any { this[it, rows() - 1 - it] == ch } ||
-                (r == 0 || r == rows() - 1) && (1 until rows() - 1).any { this[it, c] == ch } ||
-                (c == 0 || c == cols() - 1) && (1 until cols() - 1).any { this[r, it] == ch })
+            if ((r == 0 || r == rows - 1) && r == c && (1 until rows - 1).any { this[it, it] == ch } ||
+                (r == 0 || r == rows - 1) && r == rows - 1 - c && (1 until rows - 1).any { this[it, rows - 1 - it] == ch } ||
+                (r == 0 || r == rows - 1) && (1 until rows - 1).any { this[it, c] == ch } ||
+                (c == 0 || c == cols - 1) && (1 until cols - 1).any { this[r, it] == ch })
                 pos2state[p] = HintState.Complete
             else
                 isSolved = false

@@ -4,13 +4,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState<DigitalBattleShipsGame, DigitalBattleShipsGameMove, DigitalBattleShipsGameState>(game) {
-    var objArray = Array(rows() * cols()) { DigitalBattleShipsObject.Empty }
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var objArray = Array(rows * cols) { DigitalBattleShipsObject.Empty }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: DigitalBattleShipsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: DigitalBattleShipsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: DigitalBattleShipsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -73,16 +73,16 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] == DigitalBattleShipsObject.Forbidden)
                     this[r, c] = DigitalBattleShipsObject.Empty
         // 2. Each number on the outer board tells you the SUM of the ship or
         // ship pieces you're seeing in that row.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 if (this[r, c].isShipPiece())
                     // 3. A ship or ship piece is worth the number it occupies on the board.
                     n1 += game!![r, c]
@@ -92,10 +92,10 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         }
         // 2. Each number on the outer board tells you the SUM of the ship or
         // ship pieces you're seeing in that column.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var n1 = 0
             val n2 = game!!.col2hint[c]
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 if (this[r, c].isShipPiece())
                     // 3. A ship or ship piece is worth the number it occupies on the board.
                     n1 += game!![r, c]
@@ -103,8 +103,8 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if ((o == DigitalBattleShipsObject.Empty || o == DigitalBattleShipsObject.Marker) &&
                     allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
@@ -112,8 +112,8 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p].isShipPiece()) {
                     val node = Node(p.toString())
@@ -122,7 +122,7 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
                 }
             }
         for ((p, node) in pos2node) {
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 val p2 = p.add(DigitalBattleShipsGame.offset[i * 2])
                 val node2 = pos2node[p2]
                 if (node2 != null)

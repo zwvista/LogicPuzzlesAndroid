@@ -6,11 +6,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame
 import java.util.*
 
 class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowGameMove, TapARowGameState>(game) {
-    var objArray = Array<TapARowObject>(rows() * cols()) { TapARowEmptyObject() }
+    var objArray = Array<TapARowObject>(rows * cols) { TapARowEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: TapARowObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: TapARowObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: TapARowObject) {this[p.row, p.col] = obj}
 
     init {
@@ -96,8 +96,8 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         if (!isSolved) return
         // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
         // Tiles with numbers can be considered 'empty'.
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (TapARowGame.offset2.all {
                     val o = this[p.add(it)]
@@ -109,8 +109,8 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] is TapARowWallObject) {
                     val node = Node(p.toString())
@@ -133,10 +133,10 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         // 2. The number also tells you the filled cell count for that row.
         // 3. In other words, the sum of the digits in that row equals the number
         // of that row.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n1 = 0
             var n2 = 0
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is TapARowWallObject)

@@ -13,9 +13,9 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: WallSentinelsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: WallSentinelsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: WallSentinelsObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: WallSentinelsGameMove): Boolean {
@@ -61,8 +61,8 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 fun f(isWall: Boolean, n2: Int) {
@@ -98,8 +98,8 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
         if (!isSolved) return
         val g = Graph()
         val pos2node = HashMap<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is WallSentinelsWallObject || o is WallSentinelsHintWallObject) {

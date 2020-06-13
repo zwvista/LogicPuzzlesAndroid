@@ -15,10 +15,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.robotfences.domain.RobotFencesGa
 class RobotFencesGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as RobotFencesGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -38,8 +38,8 @@ class RobotFencesGameView(context: Context) : CellsGameView(context) {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -51,25 +51,25 @@ class RobotFencesGameView(context: Context) : CellsGameView(context) {
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows() + 1)
-            for (c in 0 until cols() + 1) {
+        for (r in 0 until rows + 1)
+            for (c in 0 until cols + 1) {
                 if (game().dots[r, c, 1] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
                 if (game().dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val s = game().getRowState(r)
             if (s == HintState.Normal) continue
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
-            val c = cols() - 1
+            val c = cols - 1
             canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             val s = game().getColState(c)
             if (s == HintState.Normal) continue
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
-            val r = rows() - 1
+            val r = rows - 1
             canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
         }
     }
@@ -78,7 +78,7 @@ class RobotFencesGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = RobotFencesGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

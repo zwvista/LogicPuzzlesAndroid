@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(game) {
-    var objArray = Array(rows() * cols()) { Array(4) { false } }
+    var objArray = Array(rows * cols) { Array(4) { false } }
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
@@ -15,9 +15,9 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
             pos2state[p] = if (n == 0) HintState.Complete else HintState.Normal
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
     fun setObject(move: LineSweeperGameMove): Boolean {
@@ -68,8 +68,8 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            loop@ for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            loop@ for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it }.size
                 when (n) {
@@ -88,7 +88,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
             }
         for (p in pos2node.keys) {
             val o = get(p)
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 if (!o[i]) continue
                 val p2 = p.add(LineSweeperGame.offset[i * 2])
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)

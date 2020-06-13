@@ -14,10 +14,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.domain.FutoshikiGameMo
 class FutoshikiGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as FutoshikiGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -39,9 +39,9 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
 //        canvas.drawColor(Color.BLACK);
         run {
             var r = 0
-            while (r < rows()) {
+            while (r < rows) {
                 var c = 0
-                while (c < cols()) {
+                while (c < cols) {
                     canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                     if (isInEditMode) {
                         c += 2
@@ -62,26 +62,26 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
         }
         if (isInEditMode) return
         var r = 0
-        while (r < rows()) {
+        while (r < rows) {
             val s = game().getRowState(r)
             if (s == HintState.Normal) {
                 r += 2
                 continue
             }
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
-            val c = cols() - 1
+            val c = cols - 1
             canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
             r += 2
         }
         var c = 0
-        while (c < cols()) {
+        while (c < cols) {
             val s = game().getColState(c)
             if (s == HintState.Normal) {
                 c += 2
                 continue
             }
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
-            val r = rows() - 1
+            val r = rows - 1
             canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
             c += 2
         }
@@ -99,7 +99,7 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = FutoshikiGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

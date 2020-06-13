@@ -15,10 +15,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.domain.BridgesIslandObje
 class BridgesGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as BridgesGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val islandPaint = Paint()
     private val bridgePaint = Paint()
@@ -70,7 +70,7 @@ class BridgesGameView(context: Context) : CellsGameView(context) {
         if (game().isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
-        if (col >= cols() || row >= rows()) return true
+        if (col >= cols || row >= rows) return true
         val p = Position(row, col)
         val isI = game().isIsland(p)
         fun f() = activity().app.soundManager.playSoundTap()

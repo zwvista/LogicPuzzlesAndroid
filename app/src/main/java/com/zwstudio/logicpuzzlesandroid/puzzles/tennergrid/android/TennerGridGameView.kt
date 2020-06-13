@@ -14,10 +14,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid.domain.TennerGridGame
 class TennerGridGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as TennerGridGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val textPaint = TextPaint()
@@ -30,8 +30,8 @@ class TennerGridGameView(context: Context) : CellsGameView(context) {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -39,7 +39,7 @@ class TennerGridGameView(context: Context) : CellsGameView(context) {
                 if (n == -1) continue
                 val s = game().getPosState(p)
                 val b = game()[p] == n
-                textPaint.color = if (b && r < rows() - 1) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (b) Color.GRAY else Color.WHITE
+                textPaint.color = if (b && r < rows - 1) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (b) Color.GRAY else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
@@ -49,7 +49,7 @@ class TennerGridGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = TennerGridGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

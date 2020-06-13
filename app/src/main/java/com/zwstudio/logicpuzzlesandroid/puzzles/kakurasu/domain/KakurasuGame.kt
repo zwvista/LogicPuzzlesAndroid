@@ -22,17 +22,17 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
 
     init {
         size = Position(layout.size, layout[0].length / 2)
-        row2hint = IntArray(rows() * 2)
-        col2hint = IntArray(cols() * 2)
-        for (r in 0 until rows()) {
+        row2hint = IntArray(rows * 2)
+        col2hint = IntArray(cols * 2)
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue
                 val n = s.trim(' ').toInt()
-                if (r == 0 || r == rows() - 1)
+                if (r == 0 || r == rows - 1)
                     col2hint[c * 2 + (if (r == 0) 0 else 1)] = n
-                else if (c == 0 || c == cols() - 1)
+                else if (c == 0 || c == cols - 1)
                     row2hint[r * 2 + (if (c == 0) 0 else 1)] = n
             }
         }

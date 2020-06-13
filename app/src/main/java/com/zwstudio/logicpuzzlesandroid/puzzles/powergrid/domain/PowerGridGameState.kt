@@ -7,13 +7,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, PowerGridGameMove, PowerGridGameState>(game) {
-    var objArray = Array<PowerGridObject>(rows() * cols()) { PowerGridEmptyObject() }
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var objArray = Array<PowerGridObject>(rows * cols) { PowerGridEmptyObject() }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: PowerGridObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: PowerGridObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: PowerGridObject) {this[p.row, p.col] = obj}
 
     init {
@@ -60,17 +60,17 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if (o is PowerGridForbiddenObject)
                     this[r, c] = PowerGridEmptyObject()
                 else if (o is PowerGridPostObject)
                     o.state = AllowedObjectState.Normal
             }
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val posts = mutableListOf<Position>()
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] is PowerGridPostObject)
                     posts.add(p)
@@ -87,13 +87,13 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
                 for (p in posts)
                     (this[p] as PowerGridPostObject).state = AllowedObjectState.Error
             if (allowedObjectsOnly && n1 > 0)
-                for (c in 0 until cols())
+                for (c in 0 until cols)
                     if (this[r, c] is PowerGridEmptyObject && (n1 > 1 || n1 == 1 && n2 != Math.abs(posts[0].col - c)))
                         this[r, c] = PowerGridForbiddenObject()
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             val posts = mutableListOf<Position>()
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 val p = Position(r, c)
                 if (this[p] is PowerGridPostObject)
                     posts.add(p)
@@ -110,7 +110,7 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
                 for (p in posts)
                     (this[p] as PowerGridPostObject).state = AllowedObjectState.Error
             if (allowedObjectsOnly && n1 > 0)
-                for (r in 0 until rows())
+                for (r in 0 until rows)
                     if (this[r, c] is PowerGridEmptyObject && (n1 > 1 || n1 == 1 && n2 != Math.abs(posts[0].row - r)))
                         this[r, c] = PowerGridForbiddenObject()
         }

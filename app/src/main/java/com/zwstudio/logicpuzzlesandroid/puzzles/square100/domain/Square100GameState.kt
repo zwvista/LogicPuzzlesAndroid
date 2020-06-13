@@ -6,12 +6,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class Square100GameState(game: Square100Game) : CellsGameState<Square100Game, Square100GameMove, Square100GameState>(game) {
     var objArray = game.objArray.copyOf()
-    var row2hint = IntArray(rows())
-    var col2hint = IntArray(cols())
+    var row2hint = IntArray(rows)
+    var col2hint = IntArray(cols)
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: String) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: String) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: String) {this[p.row, p.col] = obj}
 
     init {
@@ -68,18 +68,18 @@ class Square100GameState(game: Square100Game) : CellsGameState<Square100Game, Sq
         }
         // 2. You have to add digits to some (or all) tiles, in order to produce
         // the sum of 100 for every row.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n = 0
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 n += f(r, c)
             row2hint[r] = n
             if (n != 100) isSolved = false
         }
         // 2. You have to add digits to some (or all) tiles, in order to produce
         // the sum of 100 for every column.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var n = 0
-            for (r in 0 until rows())
+            for (r in 0 until rows)
                 n += f(r, c)
             col2hint[c] = n
             if (n != 100) isSolved = false

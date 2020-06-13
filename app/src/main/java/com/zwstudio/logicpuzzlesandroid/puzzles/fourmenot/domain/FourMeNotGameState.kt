@@ -8,9 +8,9 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
     var objArray = game.objArray.copyOf()
     var pos2state: Map<Position, HintState> = HashMap()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: FourMeNotObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: FourMeNotObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: FourMeNotObject) {this[p.row, p.col] = obj}
 
     init {
@@ -58,8 +58,8 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is FourMeNotForbiddenObject)
@@ -110,8 +110,8 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
             if (areTreesInvalid()) this[p] = FourMeNotForbiddenObject()
             trees.clear()
         }
-        for (r in 0 until rows()) {
-            for (c in 0 until cols()) {
+        for (r in 0 until rows) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is FourMeNotTreeObject)
@@ -124,8 +124,8 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
             }
             checkTrees()
         }
-        for (c in 0 until cols()) {
-            for (r in 0 until rows()) {
+        for (c in 0 until cols) {
+            for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = get(p)
                 if (o is FourMeNotTreeObject)

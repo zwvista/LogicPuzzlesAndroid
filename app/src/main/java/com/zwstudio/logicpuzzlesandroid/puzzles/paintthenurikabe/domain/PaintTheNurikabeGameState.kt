@@ -5,12 +5,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeGame
 
 class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<PaintTheNurikabeGame, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>(game) {
-    var objArray = Array(rows() * cols()) { PaintTheNurikabeObject.Empty }
+    var objArray = Array(rows * cols) { PaintTheNurikabeObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: PaintTheNurikabeObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: PaintTheNurikabeObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: PaintTheNurikabeObject) {this[p.row, p.col] = obj}
 
     init {
@@ -61,8 +61,8 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] == PaintTheNurikabeObject.Forbidden)
                     this[r, c] = PaintTheNurikabeObject.Empty
         // 2. A number indicates how many painted tiles are adjacent to it.
@@ -87,8 +87,8 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
                     this[p2] = PaintTheNurikabeObject.Forbidden
         }
         // 4. There can't be any 2*2 area of the same color(painted or empty).
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (NurikabeGame.offset2.all { this[p.add(it)] == PaintTheNurikabeObject.Painted } ||
                     NurikabeGame.offset2.all { this[p.add(it)] == PaintTheNurikabeObject.Empty }) {
@@ -99,8 +99,8 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] == PaintTheNurikabeObject.Painted) {
                     val node = Node(p.toString())

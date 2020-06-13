@@ -15,10 +15,10 @@ class WallSentinelsGameView(context: Context) : CellsGameView(context) {
 
     private fun activity() = context as WallSentinelsGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
@@ -38,8 +38,8 @@ class WallSentinelsGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -66,7 +66,7 @@ class WallSentinelsGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = WallSentinelsGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

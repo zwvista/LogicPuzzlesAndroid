@@ -28,20 +28,11 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(val gi: GameInterface<G
         return moves[stateIndex - 1]
     }
 
-    val isSolved: Boolean
-        get() = state().isSolved
-
-    val canUndo: Boolean
-        get() = stateIndex > 0
-
-    val canRedo: Boolean
-        get() = stateIndex < states.size - 1
-
-    val moveIndex: Int
-        get() = stateIndex
-
-    val moveCount: Int
-        get() = states.size - 1
+    val isSolved get() = state().isSolved
+    val canUndo get() = stateIndex > 0
+    val canRedo get() = stateIndex < states.size - 1
+    val moveIndex get() = stateIndex
+    val moveCount get() = states.size - 1
 
     protected fun moveAdded(move: GM) {
         gi.moveAdded(this as G, move)

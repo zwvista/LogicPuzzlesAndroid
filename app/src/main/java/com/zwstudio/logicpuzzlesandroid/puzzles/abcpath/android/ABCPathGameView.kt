@@ -14,10 +14,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abcpath.domain.ABCPathGameMove
 class ABCPathGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as ABCPathGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val textPaint = TextPaint()
@@ -30,13 +30,13 @@ class ABCPathGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 1 until rows() - 1)
-            for (c in 1 until cols() - 1) {
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val ch = game().getObject(r, c)
                 if (ch == ' ') continue
                 val s = game().getState(r, c)

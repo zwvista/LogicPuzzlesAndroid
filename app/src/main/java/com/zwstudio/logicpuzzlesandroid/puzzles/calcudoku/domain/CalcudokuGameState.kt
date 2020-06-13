@@ -5,14 +5,14 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(game) {
-    var objArray = IntArray(rows() * cols())
-    var row2state = Array<HintState>(rows()) { HintState.Normal }
-    var col2state = Array<HintState>(cols()) { HintState.Normal }
+    var objArray = IntArray(rows * cols)
+    var row2state = Array<HintState>(rows) { HintState.Normal }
+    var col2state = Array<HintState>(cols) { HintState.Normal }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: Int) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: Int) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
@@ -31,7 +31,7 @@ class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, Ca
         val p = move.p
         if (!isValid(p)) return false
         val o = get(p)
-        move.obj = (o + 1) % (cols() + 1)
+        move.obj = (o + 1) % (cols + 1)
         return setObject(move)
     }
 
@@ -68,11 +68,11 @@ class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, Ca
             return s
         }
         // 6. All the numbers appear just one time in each row.
-        for (r in 0 until rows())
-            row2state[r] = f((0 until cols()).map { this[r, it] })
+        for (r in 0 until rows)
+            row2state[r] = f((0 until cols).map { this[r, it] })
         // 6. All the numbers appear just one time in each column.
-        for (c in 0 until cols())
-            col2state[c] = f((0 until rows()).map { this[it, c] })
+        for (c in 0 until cols)
+            col2state[c] = f((0 until rows).map { this[it, c] })
         for ((p, h) in game.pos2hint) {
             val nums = game.areas[game.pos2area[p]!!].map { this[it] }
             fun g(): HintState {

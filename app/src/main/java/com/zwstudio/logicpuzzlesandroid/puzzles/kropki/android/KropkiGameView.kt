@@ -16,10 +16,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.domain.KropkiHint
 class KropkiGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as KropkiGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -43,8 +43,8 @@ class KropkiGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val n = game().getObject(r, c)
@@ -54,18 +54,18 @@ class KropkiGameView(context: Context) : CellsGameView(context) {
             }
         if (isInEditMode) return
         if (game().bordered)
-            for (r in 0 until rows() + 1)
-                for (c in 0 until cols() + 1) {
+            for (r in 0 until rows + 1)
+                for (c in 0 until cols + 1) {
                     if (game().dots!![r, c, 1] == GridLineObject.Line)
                         canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
                     if (game().dots!![r, c, 2] == GridLineObject.Line)
                         canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
                 }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 for (i in 0..1) {
-                    if (i == 0 && c == cols() - 1 || i == 1 && r == rows() - 1) continue
+                    if (i == 0 && c == cols - 1 || i == 1 && r == rows - 1) continue
                     val kh = (if (i == 0) game().pos2horzHint else game().pos2vertHint)[p]
                     if (kh == KropkiHint.None) continue
                     var s = if (i == 0) game().getHorzState(p) else game().getVertState(p)
@@ -87,7 +87,7 @@ class KropkiGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = KropkiGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

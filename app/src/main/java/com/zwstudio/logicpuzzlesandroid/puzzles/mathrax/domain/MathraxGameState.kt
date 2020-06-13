@@ -6,17 +6,17 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxGameMove, MathraxGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: Int) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: Int) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     fun setObject(move: MathraxGameMove): Boolean {
@@ -30,7 +30,7 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
         val p = move.p
         if (!isValid(p) || game[p] != 0) return false
         val o = this[p]
-        move.obj = (o + 1) % (cols() + 1)
+        move.obj = (o + 1) % (cols + 1)
         return setObject(move)
     }
 
@@ -61,11 +61,11 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
             return s
         }
         // 2. A number must appear once for every row.
-        for (r in 0 until rows())
-            row2state[r] = f((0 until cols()).map { this[r, it] })
+        for (r in 0 until rows)
+            row2state[r] = f((0 until cols).map { this[r, it] })
         // 2. A number must appear once for every column.
-        for (c in 0 until cols())
-            col2state[c] = f((0 until rows()).map { this[it, c] })
+        for (c in 0 until cols)
+            col2state[c] = f((0 until rows).map { this[it, c] })
         for ((p, h) in game.pos2hint.entries) {
             fun g(n1: Int, n2: Int): HintState {
                 if (n1 == 0 || n2 == 0) return HintState.Normal

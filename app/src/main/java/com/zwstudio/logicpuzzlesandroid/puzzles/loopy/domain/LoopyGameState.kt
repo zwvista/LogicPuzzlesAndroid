@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove, LoopyGameState>(game) {
     var objArray = Cloner().deepClone(game.objArray)
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    private fun isValidMove(move: LoopyGameMove) = !(move.p.row == rows() - 1 && move.dir == 2 || move.p.col == cols() - 1 && move.dir == 1)
+    private fun isValidMove(move: LoopyGameMove) = !(move.p.row == rows - 1 && move.dir == 2 || move.p.col == cols - 1 && move.dir == 1)
 
     init {
         updateIsSolved()
@@ -54,8 +54,8 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it == GridLineObject.Line }.size
                 when (n) {
@@ -74,7 +74,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
             }
         for (p in pos2node.keys) {
             val dotObj = get(p)
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p.add(LoopyGame.offset[i])
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)

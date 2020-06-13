@@ -24,9 +24,9 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
-        for (r in 0 until rows() - 1) {
+        for (r in 0 until rows - 1) {
             val str = layout[r]
-            for (c in 0 until cols() - 1) {
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch in '0'..'9') {

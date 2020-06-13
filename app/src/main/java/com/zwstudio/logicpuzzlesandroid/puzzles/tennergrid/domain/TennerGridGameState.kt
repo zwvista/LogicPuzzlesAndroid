@@ -8,9 +8,9 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
     var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
@@ -48,23 +48,23 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows() - 1) {
-            val cs = (0 until cols()).groupBy { this[r, it] }
+        for (r in 0 until rows - 1) {
+            val cs = (0 until cols).groupBy { this[r, it] }
                 .filter { (k, v) -> k != -1 && v.size > 1 }
                 .flatMap { it.value }
             // 3. Obviously digits can't repeat on the same row.
             if (cs.isNotEmpty()) isSolved = false
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 pos2state[p] = if (cs.contains(c)) HintState.Error else HintState.Normal
             }
         }
-        for (c in 0 until cols()) {
-            val h = this[rows() - 1, c]
+        for (c in 0 until cols) {
+            val h = this[rows - 1, c]
             var n = 0
             var isDirty = false
             var allFixed = true
-            for (r in 0 until rows() - 1) {
+            for (r in 0 until rows - 1) {
                 val p = Position(r, c)
                 val o1 = game[p]
                 val o2 = this[p]
@@ -78,7 +78,7 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
                 n += if (o2 == -1) 0 else o2
                 // 3. Digit can repeat on the same column, however digits in contiguous tiles
                 // must be different, even diagonally.
-                if (r < rows() - 2) {
+                if (r < rows - 2) {
                     val rng = TennerGridGame.offset.map { p.add(it) }.filter { isValid(it) && o2 == this[it] }
                     if (rng.isNotEmpty()) {
                         isSolved = false
@@ -90,7 +90,7 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
             }
             // 2. The number on the bottom row gives you the sum for that column.
             val s: HintState = if (!isDirty && !allFixed) HintState.Normal else if (n == h) HintState.Complete else HintState.Error
-            pos2state[Position(rows() - 1, c)] = s
+            pos2state[Position(rows - 1, c)] = s
             if (s != HintState.Complete) isSolved = false
         }
     }

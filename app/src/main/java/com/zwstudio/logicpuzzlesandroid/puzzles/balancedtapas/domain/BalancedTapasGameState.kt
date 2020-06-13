@@ -4,11 +4,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(game) {
-    var objArray = Array<BalancedTapasObject>(rows() * cols()) { BalancedTapasEmptyObject() }
+    var objArray = Array<BalancedTapasObject>(rows * cols) { BalancedTapasEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: BalancedTapasObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: BalancedTapasObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BalancedTapasObject) {this[p.row, p.col] = obj}
 
     init {
@@ -87,8 +87,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (BalancedTapasGame.offset2.all { this[p.add(it)] is BalancedTapasWallObject }) {
                     isSolved = false
@@ -98,8 +98,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
@@ -121,14 +121,14 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         }
         fun computeWalls(from: Int, to: Int): Int {
             var n = 0
-            for (c in 0 until cols())
-                for (r in 0 until rows())
+            for (c in 0 until cols)
+                for (r in 0 until rows)
                     if (this[r, c] is BalancedTapasWallObject)
                         n++
             return n
         }
         val n1 = computeWalls(0, game.left)
-        val n2 = computeWalls(game.right, cols())
+        val n2 = computeWalls(game.right, cols)
         if (n1 != n2) isSolved = false
     }
 }

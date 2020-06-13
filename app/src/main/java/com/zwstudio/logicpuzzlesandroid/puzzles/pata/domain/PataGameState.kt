@@ -5,11 +5,11 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
 class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, PataGameState>(game) {
-    var objArray = Array<PataObject>(rows() * cols()) { PataEmptyObject() }
+    var objArray = Array<PataObject>(rows * cols) { PataEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: PataObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: PataObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: PataObject) {this[p.row, p.col] = obj}
 
     init {
@@ -107,8 +107,8 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         }
         if (!isSolved) return
         // 6. You can't have a 2*2 space of filled tiles.
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (PataGame.offset2.all {
                     val o = this[p.add(it)]
@@ -121,8 +121,8 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)

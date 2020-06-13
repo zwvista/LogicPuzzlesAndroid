@@ -20,17 +20,17 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
     var areas = mutableListOf<List<Position>>()
     var horzAreaCount = 0
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = IntArray(rows() * cols())
-        for (r in 0 until rows()) {
+        objArray = IntArray(rows * cols)
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val ch = str[c]
                 this[r, c] = if (ch == '.') -1 else if (ch == ' ') 0 else ch - '0'
             }
@@ -44,8 +44,8 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             }
             area.clear()
         }
-        for (r in 0 until rows()) {
-            for (c in 0 until cols()) {
+        for (r in 0 until rows) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] == -1)
                     f(true)
@@ -54,8 +54,8 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             }
             f(true)
         }
-        for (c in 0 until cols()) {
-            for (r in 0 until rows()) {
+        for (c in 0 until cols) {
+            for (r in 0 until rows) {
                 val p = Position(r, c)
                 if (this[p] == -1)
                     f(false)

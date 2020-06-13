@@ -6,13 +6,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, KakurasuGameMove, KakurasuGameState>(game) {
-    var objArray = Array(rows() * cols()) { KakurasuObject.Empty }
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var objArray = Array(rows * cols) { KakurasuObject.Empty }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: KakurasuObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: KakurasuObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: KakurasuObject) {this[p.row, p.col] = obj}
 
     init {
@@ -56,16 +56,16 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] == KakurasuObject.Forbidden)
                     this[r, c] = KakurasuObject.Empty
-        for (r in 1 until rows() - 1) {
+        for (r in 1 until rows - 1) {
             // 1. On the bottom and right border, you see the value of (respectively)
             // the rows.
             var n1 = 0
             val n2 = game.row2hint[r * 2]
-            for (c in 1 until cols() - 1)
+            for (c in 1 until cols - 1)
                 if (this[r, c] == KakurasuObject.Cloud)
                     // 2. On the other borders, on the top and the left, you see the hints about
                     // which tile have to be filled on the board.
@@ -75,18 +75,18 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
             row2state[r * 2] = s
             if (s != HintState.Complete) isSolved = false
             if (n1 >= n2 && allowedObjectsOnly)
-                for (c in 1 until cols() - 1)
+                for (c in 1 until cols - 1)
                     when (this[r, c]) {
                         KakurasuObject.Empty, KakurasuObject.Marker -> this[r, c] = KakurasuObject.Forbidden
                         else -> {}
                     }
         }
-        for (c in 1 until cols() - 1) {
+        for (c in 1 until cols - 1) {
             // 1. On the bottom and right border, you see the value of (respectively)
             // the columns.
             var n1 = 0
             val n2 = game.col2hint[c * 2]
-            for (r in 1 until rows() - 1)
+            for (r in 1 until rows - 1)
                 if (this[r, c] == KakurasuObject.Cloud)
                     // 2. On the other borders, on the top and the left, you see the hints about
                     // which tile have to be filled on the board.
@@ -96,7 +96,7 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
             col2state[c * 2] = s
             if (s != HintState.Complete) isSolved = false
             if (n1 >= n2 && allowedObjectsOnly)
-                for (r in 1 until rows() - 1)
+                for (r in 1 until rows - 1)
                     when (this[r, c]) {
                         KakurasuObject.Empty, KakurasuObject.Marker -> this[r, c] = KakurasuObject.Forbidden
                         else -> {}

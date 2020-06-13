@@ -31,20 +31,20 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)
-        row2hint = IntArray(rows())
-        col2hint = IntArray(cols())
-        for (r in 0 until rows() + 1) {
+        row2hint = IntArray(rows)
+        col2hint = IntArray(cols)
+        for (r in 0 until rows + 1) {
             val str = layout[r]
-            for (c in 0 until cols() + 1) {
+            for (c in 0 until cols + 1) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == 'T')
                     pos2tree.add(p)
                 else if (ch in '0'..'9') {
                     val n = ch - '0'
-                    if (r == rows())
+                    if (r == rows)
                         col2hint[c] = n
-                    else if (c == cols())
+                    else if (c == cols)
                         row2hint[r] = n
                 }
             }

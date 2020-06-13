@@ -6,13 +6,13 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGame, TheOddBrickGameMove, TheOddBrickGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
     var area2state = Array(game.areas.size) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
@@ -31,7 +31,7 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
         val p = move.p
         if (!isValid(p) || game[p] != 0) return false
         val o = this[p]
-        move.obj = (o + 1) % (cols() + 1)
+        move.obj = (o + 1) % (cols + 1)
         return setObject(move)
     }
 
@@ -58,10 +58,10 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
             if (s != HintState.Complete) isSolved = false
             return s
         }
-        for (r in 0 until rows())
-            row2state[r] = f((0 until cols()).map { this[r, it] })
-        for (c in 0 until cols())
-            col2state[c] = f((0 until rows()).map { this[it, c] })
+        for (r in 0 until rows)
+            row2state[r] = f((0 until cols).map { this[r, it] })
+        for (c in 0 until cols)
+            col2state[c] = f((0 until rows).map { this[it, c] })
         for (i in 0 until game.areas.size) {
             val nums = game.areas[i].map { this[it] }
             // 2. Each 2*1 brick contains and odd and an even number, while 1*1 bricks

@@ -17,10 +17,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas.domain.BalancedTap
 class BalancedTapasGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as BalancedTapasGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -40,8 +40,8 @@ class BalancedTapasGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val o = game().getObject(r, c)
@@ -75,7 +75,7 @@ class BalancedTapasGameView(context: Context) : CellsGameView(context) {
                 } else if (o is BalancedTapasMarkerObject)
                     canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, wallPaint)
             }
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val c = game().left
             val x = cwc(c) - if (c > game().right) cellWidth / 2 else 0
             canvas.drawLine(x.toFloat(), chr(r).toFloat(), x.toFloat(), chr(r + 1).toFloat(), linePaint)
@@ -86,7 +86,7 @@ class BalancedTapasGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = BalancedTapasGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

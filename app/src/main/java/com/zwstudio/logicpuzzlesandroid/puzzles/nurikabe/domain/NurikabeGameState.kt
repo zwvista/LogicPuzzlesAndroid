@@ -4,11 +4,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
-    var objArray = Array<NurikabeObject>(rows() * cols()) { NurikabeEmptyObject() }
+    var objArray = Array<NurikabeObject>(rows * cols) { NurikabeEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: NurikabeObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: NurikabeObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: NurikabeObject) {this[p.row, p.col] = obj}
 
     init {
@@ -61,8 +61,8 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
     private fun updateIsSolved() {
         isSolved = true
         // 7. The wall can't form 2*2 squares.
-        for (r in 0 until rows() - 1)
-            rule2x2@ for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (os in NurikabeGame.offset2)
                     if (this[p.add(os)] !is NurikabeWallObject)
@@ -73,8 +73,8 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
         var rngEmpty = mutableListOf<Position>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)

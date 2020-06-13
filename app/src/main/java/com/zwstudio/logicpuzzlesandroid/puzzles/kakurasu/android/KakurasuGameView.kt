@@ -15,10 +15,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.domain.KakurasuObject
 class KakurasuGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as KakurasuGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()
@@ -41,8 +41,8 @@ class KakurasuGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 1 until rows() - 1)
-            for (c in 1 until cols() - 1) {
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val o = game().getObject(r, c)
@@ -54,9 +54,9 @@ class KakurasuGameView(context: Context) : CellsGameView(context) {
                 }
             }
         if (isInEditMode) return
-        for (r in 1 until rows() - 1)
+        for (r in 1 until rows - 1)
             for (i in 0..1) {
-                val c = if (i == 0) 0 else cols() - 1
+                val c = if (i == 0) 0 else cols - 1
                 val s = game().getRowState(r * 2 + i)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val n = game().row2hint[r * 2 + i]
@@ -65,9 +65,9 @@ class KakurasuGameView(context: Context) : CellsGameView(context) {
                 if (i == 1)
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
             }
-        for (c in 1 until cols() - 1)
+        for (c in 1 until cols - 1)
             for (i in 0..1) {
-                val r = if (i == 0) 0 else rows() - 1
+                val r = if (i == 0) 0 else rows - 1
                 val s = game().getColState(c * 2 + i)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val n = game().col2hint[c * 2 + i]
@@ -82,7 +82,7 @@ class KakurasuGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = KakurasuGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

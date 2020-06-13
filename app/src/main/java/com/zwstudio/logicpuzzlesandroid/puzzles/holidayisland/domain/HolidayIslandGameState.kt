@@ -4,11 +4,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIslandGame, HolidayIslandGameMove, HolidayIslandGameState>(game) {
-    var objArray = Array<HolidayIslandObject>(rows() * cols()) {  HolidayIslandEmptyObject() }
+    var objArray = Array<HolidayIslandObject>(rows * cols) {  HolidayIslandEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: HolidayIslandObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: HolidayIslandObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: HolidayIslandObject) {this[p.row, p.col] = obj}
 
     init {
@@ -59,8 +59,8 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         val rngHints = mutableListOf<Position>()
         var g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is HolidayIslandForbiddenObject)
@@ -92,8 +92,8 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         }
         g = Graph()
         pos2node.clear()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = get(p)
                 if (!(o is HolidayIslandTreeObject || o is HolidayIslandHintObject)) {

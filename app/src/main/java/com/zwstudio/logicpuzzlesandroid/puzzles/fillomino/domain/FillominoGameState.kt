@@ -10,9 +10,9 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
     lateinit var dots: GridDots
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
@@ -65,8 +65,8 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] == ' ')
                     isSolved = false
@@ -76,8 +76,8 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
                     pos2node[p] = node
                 }
             }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = this[p]
                 if (ch == ' ') continue
@@ -100,7 +100,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             for (p in area) {
                 pos2state[p] = s
-                for (i in 0..3) {
+                for (i in 0 until 4) {
                     val p2 = p.add(FillominoGame.offset[i])
                     val ch2 = if (!isValid(p2)) '.' else this[p2]
                     if (ch2 != ch && (n1 <= n2 || ch2 != ' '))

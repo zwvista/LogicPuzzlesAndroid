@@ -8,9 +8,9 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
     var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
@@ -49,16 +49,16 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
     private fun updateIsSolved() {
         isSolved = true
         val chars2 = listOf('1', '2', '3')
-        val chars3 = chars2.flatMap { Array(rows() / 3) { it }.toList() }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        val chars3 = chars2.flatMap { Array(rows / 3) { it }.toList() }
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] == ' ') isSolved = false
                 pos2state[p] = HintState.Normal
             }
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var lineSolved = true
-            for (c in 0 until cols() - 1) {
+            for (c in 0 until cols - 1) {
                 val p1 = Position(r, c)
                 val p2 = Position(r, c + 1)
                 val ch1 = this[p1]
@@ -71,21 +71,21 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
                     pos2state[p2] = HintState.Error
                 }
             }
-            val chars = (0 until cols()).map { this[r, it] }.sorted()
+            val chars = (0 until cols).map { this[r, it] }.sorted()
             // 3. In one row, each number must appear the same number of times.
             if (chars[0] != ' ' && chars != chars3) {
                 lineSolved = false
                 isSolved = lineSolved
-                for (c in 0 until cols())
+                for (c in 0 until cols)
                     pos2state[Position(r, c)] = HintState.Error
             }
             if (lineSolved)
-                for (c in 0 until cols())
+                for (c in 0 until cols)
                     pos2state[Position(r, c)] = HintState.Complete
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var lineSolved = true
-            for (r in 0 until rows() - 1) {
+            for (r in 0 until rows - 1) {
                 val p1 = Position(r, c)
                 val p2 = Position(r + 1, c)
                 val ch1 = this[p1]
@@ -98,16 +98,16 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
                     pos2state[p2] = HintState.Error
                 }
             }
-            val chars = (0 until rows()).map { this[it, c] }.sorted()
+            val chars = (0 until rows).map { this[it, c] }.sorted()
             // 3. In one column, each number must appear the same number of times.
             if (chars[0] != ' ' && chars != chars3) {
                 lineSolved = false
                 isSolved = lineSolved
-                for (r in 0 until rows())
+                for (r in 0 until rows)
                     pos2state[Position(r, c)] = HintState.Error
             }
             if (lineSolved)
-                for (r in 0 until rows())
+                for (r in 0 until rows)
                     pos2state[Position(r, c)] = HintState.Complete
         }
         // 2. Each number can appear only once in each Tatami.

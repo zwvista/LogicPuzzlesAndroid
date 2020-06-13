@@ -28,21 +28,21 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
 
     init {
         size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)
-        dots = GridDots(rows() + 1, cols() + 1)
-        row2hint = IntArray(rows())
-        col2hint = IntArray(cols())
-        for (r in 0 until rows() + 1) {
+        dots = GridDots(rows + 1, cols + 1)
+        row2hint = IntArray(rows)
+        col2hint = IntArray(cols)
+        for (r in 0 until rows + 1) {
             var str = layout[r * 2]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
                     dots[r, c, 1] = GridLineObject.Line
                     dots[r, c + 1, 3] = GridLineObject.Line
                 }
             }
-            if (r == rows()) break
+            if (r == rows) break
             str = layout[r * 2 + 1]
-            for (c in 0 until cols() + 1) {
+            for (c in 0 until cols + 1) {
                 val ch = str[c * 2]
                 if (ch == '|') {
                     dots[r, c, 2] = GridLineObject.Line
@@ -53,18 +53,18 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
         val rng = mutableSetOf<Position>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 rng.add(p.plus())
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
-                for (i in 0..3)
+                for (i in 0 until 4)
                     if (dots[p.add(offset2[i]), dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(offset[i])]!!)
             }
@@ -78,12 +78,12 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
             areas.add(area)
             rng.removeAll(area)
         }
-        for (r in 0 until rows()) {
-            val ch = layout[2 * r + 1][2 * cols() + 1]
+        for (r in 0 until rows) {
+            val ch = layout[2 * r + 1][2 * cols + 1]
             row2hint[r] = if (ch in '0'..'9') ch - '0' else -1
         }
-        for (c in 0 until cols()) {
-            val ch = layout[2 * rows() + 1][2 * c + 1]
+        for (c in 0 until cols) {
+            val ch = layout[2 * rows + 1][2 * c + 1]
             col2hint[c] = if (ch in '0'..'9') ch - '0' else -1
         }
         val state = AbstractPaintingGameState(this)

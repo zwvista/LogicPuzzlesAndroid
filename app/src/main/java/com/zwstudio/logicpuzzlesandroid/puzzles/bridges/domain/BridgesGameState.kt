@@ -7,11 +7,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesGameMove, BridgesGameState>(game) {
-    var objArray = Array<BridgesObject>(rows() * cols()) { BridgesEmptyObject() }
+    var objArray = Array<BridgesObject>(rows * cols) { BridgesEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: BridgesObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: BridgesObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BridgesObject) {this[p.row, p.col] = obj}
 
     init {

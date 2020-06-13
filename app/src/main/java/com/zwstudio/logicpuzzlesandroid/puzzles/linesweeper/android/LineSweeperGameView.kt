@@ -15,10 +15,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper.domain.LineSweeperGa
 class LineSweeperGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as LineSweeperGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows() - 1
-    private fun cols() = if (isInEditMode) 5 else game().cols() - 1
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows - 1
+    private val cols get() = if (isInEditMode) 5 else game().cols - 1
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -37,8 +37,8 @@ class LineSweeperGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -51,8 +51,8 @@ class LineSweeperGameView(context: Context) : CellsGameView(context) {
                 }
             }
         if (isInEditMode) return
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val dirs = intArrayOf(1, 2)
                 for (dir in dirs) {
                     val b = game().getObject(r, c)[dir]
@@ -69,7 +69,7 @@ class LineSweeperGameView(context: Context) : CellsGameView(context) {
         if (game().isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
-        if (col >= cols() || row >= rows()) return true
+        if (col >= cols || row >= rows) return true
         val p = Position(row, col)
         val isH = game().isHint(p)
         fun f() = activity().app.soundManager.playSoundTap()

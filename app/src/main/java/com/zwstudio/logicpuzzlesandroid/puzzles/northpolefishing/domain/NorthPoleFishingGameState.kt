@@ -13,9 +13,9 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int, dir: Int) = objArray[row * cols() + col][dir]
+    operator fun get(row: Int, col: Int, dir: Int) = objArray[row * cols + col][dir]
     operator fun get(p: Position, dir: Int) = this[p.row, p.col, dir]
-    operator fun set(row: Int, col: Int, dir: Int, obj: GridLineObject) {objArray[row * cols() + col][dir] = obj}
+    operator fun set(row: Int, col: Int, dir: Int, obj: GridLineObject) {objArray[row * cols + col][dir] = obj}
     operator fun set(p: Position, dir: Int, obj: GridLineObject) {this[p.row, p.col, dir] = obj}
 
     fun setObject(move: NorthPoleFishingGameMove): Boolean {
@@ -62,8 +62,8 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
         isSolved = true
         val g = Graph()
         val pos2node = HashMap<Position, Node>()
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (game[p] != NorthPoleFishingObject.Block) {
                     val node = Node(p.toString())

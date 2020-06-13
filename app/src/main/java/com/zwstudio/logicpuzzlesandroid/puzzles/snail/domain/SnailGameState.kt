@@ -8,12 +8,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove, SnailGameState>(game) {
     val objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
@@ -60,10 +60,10 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         var chars: String
         // 5. Board Rule: Each row of the board (disregarding the snail
         // path) must have exactly one 1, one 2 and one 3.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             chars = ""
             row2state[r] = HintState.Complete
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val ch = this[r, c]
                 if (ch == ' ') continue
                 chars += if (chars.contains(ch)) break else ch
@@ -75,10 +75,10 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         }
         // 5. Board Rule: Each column of the board (disregarding the snail
         // path) must have exactly one 1, one 2 and one 3.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             chars = ""
             col2state[c] = HintState.Complete
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 val ch = this[r, c]
                 if (ch == ' ') continue
                 chars += if (chars.contains(ch)) break else ch

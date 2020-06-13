@@ -6,18 +6,18 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var row2state = Array(rows() * 2) { HintState.Normal }
-    var col2state = Array(cols() * 2) { HintState.Normal }
+    var row2state = Array(rows * 2) { HintState.Normal }
+    var col2state = Array(cols * 2) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
     fun getState(row: Int, col: Int) = when {
-        row == 0 && col >= 1 && col < cols() - 1 -> col2state[col * 2]
-        row == rows() - 1 && col >= 1 && col < cols() - 1 -> col2state[col * 2 + 1]
-        col == 0 && row >= 1 && row < rows() - 1 -> row2state[row * 2]
-        col == cols() - 1 && row >= 1 && row < rows() - 1 -> row2state[row * 2 + 1]
+        row == 0 && col >= 1 && col < cols - 1 -> col2state[col * 2]
+        row == rows - 1 && col >= 1 && col < cols - 1 -> col2state[col * 2 + 1]
+        col == 0 && row >= 1 && row < rows - 1 -> row2state[row * 2]
+        col == cols - 1 && row >= 1 && row < rows - 1 -> row2state[row * 2 + 1]
         else -> HintState.Normal
     }
 
@@ -61,17 +61,17 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
         isSolved = true
         val numss = mutableListOf<List<Int>>()
         val nums = mutableListOf<Int>()
-        for (r in 1 until rows() - 1) {
+        for (r in 1 until rows - 1) {
             val h1 = this[r, 0]
-            val h2 = this[r, cols() - 1]
+            val h2 = this[r, cols - 1]
             var n1 = 0
             var n2 = 0
             var n11 = 0
             var n21 = 0
             nums.clear()
-            for (c in 1 until cols() - 1) {
+            for (c in 1 until cols - 1) {
                 val n12 = this[r, c]
-                val n22 = this[r, cols() - 1 - c]
+                val n22 = this[r, cols - 1 - c]
                 if (n11 < n12) {
                     n11 = n12
                     n1++
@@ -102,17 +102,17 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
             else
                 numss.add(nums)
         }
-        for (c in 1 until cols() - 1) {
+        for (c in 1 until cols - 1) {
             val h1 = this[0, c]
-            val h2 = this[rows() - 1, c]
+            val h2 = this[rows - 1, c]
             var n1 = 0
             var n2 = 0
             var n11 = 0
             var n21 = 0
             nums.clear()
-            for (r in 1 until rows() - 1) {
+            for (r in 1 until rows - 1) {
                 val n12 = this[r, c]
-                val n22 = this[rows() - 1 - r, c]
+                val n22 = this[rows - 1 - r, c]
                 if (n11 < n12) {
                     n11 = n12
                     n1++

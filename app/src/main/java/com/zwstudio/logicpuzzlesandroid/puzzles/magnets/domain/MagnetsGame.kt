@@ -22,11 +22,11 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
 
     init {
         size = Position(layout.size - 2, layout[0].length - 2)
-        row2hint = IntArray(rows() * 2)
-        col2hint = IntArray(cols() * 2)
-        for (r in 0 until rows() + 2) {
+        row2hint = IntArray(rows * 2)
+        col2hint = IntArray(cols * 2)
+        for (r in 0 until rows + 2) {
             val str = layout[r]
-            for (c in 0 until cols() + 2) {
+            for (c in 0 until cols + 2) {
                 val p2 = Position(r, c)
                 when (val ch = str[c]) {
                     '.' -> {
@@ -37,10 +37,10 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
                     'V' -> areas.add(MagnetsArea(p2, MagnetsAreaType.Vertical))
                     in '0'..'9' -> {
                         val n = ch - '0'
-                        if (r >= rows())
-                            col2hint[c * 2 + r - rows()] = n
-                        else if (c >= cols())
-                            row2hint[r * 2 + c - cols()] = n
+                        if (r >= rows)
+                            col2hint[c * 2 + r - rows] = n
+                        else if (c >= cols)
+                            row2hint[r * 2 + c - cols] = n
                     }
                 }
             }

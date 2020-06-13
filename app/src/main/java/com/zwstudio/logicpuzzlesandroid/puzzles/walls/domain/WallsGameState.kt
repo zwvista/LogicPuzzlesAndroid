@@ -5,12 +5,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove, WallsGameState>(game) {
-    var objArray = Array<WallsObject>(rows() * cols()) { WallsEmptyObject() }
+    var objArray = Array<WallsObject>(rows * cols) { WallsEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: WallsObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: WallsObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: WallsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -50,8 +50,8 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is WallsEmptyObject) // 1. In Walls you must fill the board with straight horizontal and
@@ -62,7 +62,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                 else if (o is WallsHintObject) {
                     val n2 = o.walls
                     var n1 = 0
-                    for (i in 0..3) {
+                    for (i in 0 until 4) {
                         val os = WallsGame.offset[i]
                         val p2 = p.add(os)
                         while (isValid(p2)) {

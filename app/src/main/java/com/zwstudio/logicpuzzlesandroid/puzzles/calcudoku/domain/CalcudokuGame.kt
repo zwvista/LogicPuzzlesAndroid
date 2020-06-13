@@ -26,20 +26,20 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
     var objArray: CharArray
     var pos2hint = mutableMapOf<Position, CalcudokuHint>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position): Char = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length / 4)
-        dots = GridDots(rows() + 1, cols() + 1)
-        objArray = CharArray(rows() * cols()) { ' ' }
+        dots = GridDots(rows + 1, cols + 1)
+        objArray = CharArray(rows * cols) { ' ' }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch1 = str[c * 4]
                 val s = str.substring(c * 4 + 1, c * 4 + 3)
@@ -52,8 +52,8 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 pos2hint[p] = CalcudokuHint(ch2, if (s == "  ") 0 else s.trim(' ').toInt())
             }
         }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = this[p]
                 if (ch == ' ') continue
@@ -72,7 +72,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
             for (p in area) {
                 pos2area[p] = n
                 pos2node.remove(p)
-                for (i in 0..3) {
+                for (i in 0 until 4) {
                     val p2 = p.add(offset[i])
                     val ch2 = if (!isValid(p2)) '.' else this[p2]
                     if (ch2 != ch)
@@ -81,17 +81,17 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
             }
             areas.add(area)
         }
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             dots[r, 0, 2] = GridLineObject.Line
             dots[r + 1, 0, 0] = GridLineObject.Line
-            dots[r, cols(), 2] = GridLineObject.Line
-            dots[r + 1, cols(), 0] = GridLineObject.Line
+            dots[r, cols, 2] = GridLineObject.Line
+            dots[r + 1, cols, 0] = GridLineObject.Line
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             dots[0, c, 1] = GridLineObject.Line
             dots[0, c + 1, 3] = GridLineObject.Line
-            dots[rows(), c, 1] = GridLineObject.Line
-            dots[rows(), c + 1, 3] = GridLineObject.Line
+            dots[rows, c, 1] = GridLineObject.Line
+            dots[rows, c + 1, 3] = GridLineObject.Line
         }
         val state = CalcudokuGameState(this)
         states.add(state)

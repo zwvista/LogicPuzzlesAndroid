@@ -4,12 +4,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>(game) {
-    var objArray = Array<LightBattleShipsObject>(rows() * cols()) { LightBattleShipsEmptyObject() }
+    var objArray = Array<LightBattleShipsObject>(rows * cols) { LightBattleShipsEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: LightBattleShipsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: LightBattleShipsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: LightBattleShipsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -71,13 +71,13 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] is LightBattleShipsForbiddenObject)
                     this[r, c] = LightBattleShipsEmptyObject()
         // 3. Ships cannot touch Lighthouses. Not even diagonally.
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(isHint: Boolean): Boolean {
                     for (os in LightBattleShipsGame.offset) {
@@ -105,7 +105,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         for ((p, n2) in game.pos2hint) {
             val nums = arrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 val os: Position = LightBattleShipsGame.offset[i * 2]
                 val p2 = p.add(os)
                 while (game.isValid(p2)) {
@@ -127,8 +127,8 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = get(p)
                 if (o.isShipPiece()) {

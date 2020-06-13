@@ -8,9 +8,9 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
     var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: DisconnectFourObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: DisconnectFourObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: DisconnectFourObject) {this[p.row, p.col] = obj}
 
     init {
@@ -46,8 +46,8 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 pos2state[p] = AllowedObjectState.Normal
             }
@@ -61,9 +61,9 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
             }
             trees.clear()
         }
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             oLast = DisconnectFourObject.Empty
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o != oLast) {
@@ -77,9 +77,9 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
             }
             checkTrees()
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             oLast = DisconnectFourObject.Empty
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o != oLast) {

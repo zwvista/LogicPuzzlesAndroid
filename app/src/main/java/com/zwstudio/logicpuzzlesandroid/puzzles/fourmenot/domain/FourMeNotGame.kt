@@ -17,17 +17,17 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
 
     var objArray: Array<FourMeNotObject>
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: FourMeNotObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: FourMeNotObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: FourMeNotObject) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = Array(rows() * cols()) { FourMeNotEmptyObject() }
-        for (r in 0 until rows()) {
+        objArray = Array(rows * cols) { FourMeNotEmptyObject() }
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 when (str[c]) {
                     'F' -> this[r, c] = FourMeNotTreeObject()
                     'B' -> this[r, c] = FourMeNotBlockObject()

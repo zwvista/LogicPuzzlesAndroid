@@ -5,11 +5,11 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
 class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGame, TapaIslandsGameMove, TapaIslandsGameState>(game) {
-    var objArray = Array<TapaIslandsObject>(rows() * cols()) { TapaIslandsEmptyObject() }
+    var objArray = Array<TapaIslandsObject>(rows * cols) { TapaIslandsEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: TapaIslandsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: TapaIslandsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: TapaIslandsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -97,8 +97,8 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         if (!isSolved) return
         // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
         // Tiles with numbers can be considered 'empty'.
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (TapaIslandsGame.offset2.all {
                     val o = this[p.add(it)]
@@ -112,8 +112,8 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
         var rngEmpty = mutableListOf<Position>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)

@@ -19,9 +19,9 @@ class ProductSentinelsGame(layout: List<String>, gi: GameInterface<ProductSentin
 
     init {
         size = Position(layout.size, layout[0].length / 2)
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue

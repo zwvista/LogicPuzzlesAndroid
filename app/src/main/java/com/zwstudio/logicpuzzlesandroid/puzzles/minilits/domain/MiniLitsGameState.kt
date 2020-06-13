@@ -4,12 +4,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState>(game) {
-    var objArray = Array<MiniLitsObject>(rows() * cols()) { MiniLitsEmptyObject() }
+    var objArray = Array<MiniLitsObject>(rows * cols) { MiniLitsEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: MiniLitsObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: MiniLitsObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: MiniLitsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -61,8 +61,8 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o: MiniLitsObject? = this[p]
                 if (o is MiniLitsForbiddenObject)

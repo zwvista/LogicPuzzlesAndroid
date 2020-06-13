@@ -9,7 +9,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
     var objArray = Cloner().deepClone(game.objArray)
     var pos2state: Map<Position?, HintState?> = HashMap()
     
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
@@ -65,17 +65,17 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                for (i in 0..3)
+                for (i in 0 until 4)
                     if (this[p.add(DominoGame.offset2[i])][DominoGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(DominoGame.offset[i])]!!)
             }

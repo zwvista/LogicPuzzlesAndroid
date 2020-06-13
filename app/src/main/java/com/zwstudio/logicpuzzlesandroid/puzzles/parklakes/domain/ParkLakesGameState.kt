@@ -5,11 +5,11 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.domain.TierraDelFuegoGame
 
 class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState>(game) {
-    var objArray = Array<ParkLakesObject>(rows() * cols()) { ParkLakesEmptyObject() }
+    var objArray = Array<ParkLakesObject>(rows * cols) { ParkLakesEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: ParkLakesObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: ParkLakesObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: ParkLakesObject) {this[p.row, p.col] = obj}
 
     init {
@@ -58,8 +58,8 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         isSolved = true
         var g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is ParkLakesTreeObject) {
@@ -85,9 +85,9 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             var r2 = 0
-            var r1 = rows()
+            var r1 = rows
             var c2 = 0
-            var c1 = cols()
+            var c1 = cols
             val n = areas.size
             for (node in nodeList) {
                 val p = pos2node.filter { it.value == node }.keys.first()
@@ -121,8 +121,8 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             if (s != HintState.Complete) isSolved = false
         }
         g = Graph()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] !is ParkLakesTreeObject) {
                     val node = Node(p.toString())

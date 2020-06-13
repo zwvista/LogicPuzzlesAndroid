@@ -29,9 +29,9 @@ class PataGame(layout: List<String>, gi: GameInterface<PataGame, PataGameMove, P
 
     init {
         size = Position(layout.size, layout[0].length / 4)
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val s = str.substring(c * 4, c * 4 + 4).trim(' ')
                 if (s.isEmpty()) continue

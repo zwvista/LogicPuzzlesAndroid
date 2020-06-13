@@ -14,10 +14,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.domain.HitoriObject
 class HitoriGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as HitoriGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows() + 1
-    override fun colsInView() = cols() + 1
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows + 1
+    override fun colsInView() = cols + 1
 
     private val gridPaint = Paint()
     private val darkenPaint = Paint()
@@ -36,8 +36,8 @@ class HitoriGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val o = game().getObject(r, c)
@@ -52,13 +52,13 @@ class HitoriGameView(context: Context) : CellsGameView(context) {
             }
         if (isInEditMode) return
         textPaint.color = Color.RED
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val text = game().getRowHint(r)
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
+            drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             val text = game().getColHint(c)
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
+            drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)
         }
     }
 
@@ -66,7 +66,7 @@ class HitoriGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = HitoriGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

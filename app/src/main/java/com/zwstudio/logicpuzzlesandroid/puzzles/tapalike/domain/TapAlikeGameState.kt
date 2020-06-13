@@ -6,11 +6,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame
 import java.util.*
 
 class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAlikeGameMove, TapAlikeGameState>(game) {
-    var objArray = Array<TapAlikeObject>(rows() * cols()) { TapAlikeEmptyObject() }
+    var objArray = Array<TapAlikeObject>(rows * cols) { TapAlikeEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: TapAlikeObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: TapAlikeObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: TapAlikeObject) {this[p.row, p.col] = obj}
 
     init {
@@ -98,8 +98,8 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         if (!isSolved) return
         // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
         // Tiles with numbers can be considered 'empty'.
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (TapAlikeGame.offset2.all {
                     val o = this[p.add(it)]
@@ -111,8 +111,8 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] is TapAlikeWallObject) {
                     val node = Node(p.toString())
@@ -137,10 +137,10 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         // pattern to the one formed by the empty tiles.
         // 3. It's basically like having the same figure rotated or reversed in the
         // opposite colour. The two figures will have the same exact shape.
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o1 = this[r, c]
-                val o2 = this[rows() - 1 - r, cols() - 1 - c]
+                val o2 = this[rows - 1 - r, cols - 1 - c]
                 if (o1 is TapAlikeWallObject == o2 is TapAlikeWallObject) {
                     isSolved = false
                     return

@@ -20,9 +20,9 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
 
     init {
         size = Position(layout.size, layout[0].length)
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch in '0'..'9') {
@@ -33,7 +33,7 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
             }
         }
         for ((p, info) in islandsInfo) {
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 val os = offset[i]
                 val p2 = p.add(os)
                 while (isValid(p2)) {

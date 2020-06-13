@@ -5,13 +5,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameMove, KropkiGameState>(game) {
-    var objArray = IntArray(rows() * cols())
+    var objArray = IntArray(rows * cols)
     var pos2horzHint = mutableMapOf<Position, HintState>()
     var pos2vertHint = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
@@ -30,7 +30,7 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]
-        move.obj = (o + 1) % (game.cols() + 1)
+        move.obj = (o + 1) % (game.cols + 1)
         return setObject(move)
     }
 
@@ -58,14 +58,14 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
     private fun updateIsSolved() {
         isSolved = true
         // 1. The Goal is to enter numbers 1 to board size once in every row.
-        for (r in 0 until rows()) {
-            val nums = (0 until cols()).map { this[r, it] }.toSet()
-            if (nums.contains(0) || nums.size != cols()) isSolved = false
+        for (r in 0 until rows) {
+            val nums = (0 until cols).map { this[r, it] }.toSet()
+            if (nums.contains(0) || nums.size != cols) isSolved = false
         }
         // 1. The Goal is to enter numbers 1 to board size once in every column.
-        for (c in 0 until cols()) {
-            val nums = (0 until rows()).map { this[it, c] }.toSet()
-            if (nums.contains(0) || nums.size != rows()) isSolved = false
+        for (c in 0 until cols) {
+            val nums = (0 until rows).map { this[it, c] }.toSet()
+            if (nums.contains(0) || nums.size != rows) isSolved = false
         }
         // 7. In later 9*9 levels you will also have bordered and coloured areas,
         // which must also contain all the numbers 1 to 9.
@@ -74,11 +74,11 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
                 val nums = a.map { this[it] }.toSet()
                 if (nums.contains(0) || nums.size != a.size) isSolved = false
             }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 for (i in 0..1) {
-                    if (i == 0 && c == cols() - 1 || i == 1 && r == rows() - 1) continue
+                    if (i == 0 && c == cols - 1 || i == 1 && r == rows - 1) continue
                     var n1 = this[p]
                     var n2 = this[r + i, c + 1 - i]
                     if (n1 == 0 || n2 == 0) {

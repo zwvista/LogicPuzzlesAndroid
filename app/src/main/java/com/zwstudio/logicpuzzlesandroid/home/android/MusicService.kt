@@ -28,8 +28,7 @@ class MusicService : Service(), MediaPlayer.OnErrorListener, OnCompletionListene
     }
 
     internal inner class ServiceBinder : Binder() {
-        val service: MusicService
-            get() = this@MusicService
+        val service get() = this@MusicService
     }
 
     override fun onBind(arg0: Intent): IBinder? {

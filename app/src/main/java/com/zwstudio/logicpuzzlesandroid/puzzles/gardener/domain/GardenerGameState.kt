@@ -4,14 +4,14 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, GardenerGameMove, GardenerGameState>(game) {
-    var objArray = Array<GardenerObject>(rows() * cols()) { GardenerEmptyObject() }
+    var objArray = Array<GardenerObject>(rows * cols) { GardenerEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
     var invalidSpacesHorz = mutableSetOf<Position>()
     var invalidSpacesVert = mutableSetOf<Position>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: GardenerObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: GardenerObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: GardenerObject) {this[p.row, p.col] = obj}
 
     init {
@@ -62,14 +62,14 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] is GardenerForbiddenObject)
                     this[r, c] = GardenerEmptyObject()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 fun hasNeighbor(): Boolean {
@@ -141,8 +141,8 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             }
             spaces.clear()
         }
-        for (r in 0 until rows()) {
-            for (c in 0 until cols()) {
+        for (r in 0 until rows) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is GardenerTreeObject)
@@ -152,8 +152,8 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             }
             checkSpaces(true)
         }
-        for (c in 0 until cols()) {
-            for (r in 0 until rows()) {
+        for (c in 0 until cols) {
+            for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is GardenerTreeObject)

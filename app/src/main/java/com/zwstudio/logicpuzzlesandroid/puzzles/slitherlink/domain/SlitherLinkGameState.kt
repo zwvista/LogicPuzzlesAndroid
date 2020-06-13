@@ -5,14 +5,14 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
 class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState>(game) {
-    var objArray = Array(rows() * cols()) { Array(4) { GridLineObject.Empty } }
+    var objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
     var pos2state: MutableMap<Position, HintState> = HashMap<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
-    private fun isValidMove(move: SlitherLinkGameMove) = !(move.p.row == rows() - 1 && move.dir == 2 || move.p.col == cols() - 1 && move.dir == 1)
+    private fun isValidMove(move: SlitherLinkGameMove) = !(move.p.row == rows - 1 && move.dir == 2 || move.p.col == cols - 1 && move.dir == 1)
 
     init {
         updateIsSolved()
@@ -80,8 +80,8 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it == GridLineObject.Line }.size
                 when (n) {
@@ -100,7 +100,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             }
         for (p in pos2node.keys) {
             val dotObj = this[p]
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p.add(SlitherLinkGame.offset[i])
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)

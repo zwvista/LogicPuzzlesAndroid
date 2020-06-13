@@ -7,12 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove, ParksGameState>(game) {
-    var objArray = Array<ParksObject>(rows() * cols()) { ParksEmptyObject() }
+    var objArray = Array<ParksObject>(rows * cols) { ParksEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: ParksObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: ParksObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: ParksObject) {this[p.row, p.col] = obj}
 
     init {
@@ -57,13 +57,13 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
             if (this[r, c] is ParksForbiddenObject)
                 this[r, c] = ParksEmptyObject()
         // 3. A Tree can't touch another Tree, not even diagonally.
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 fun hasNeighbor() = ParksGame.offset.any {
                     val p2 = p.add(it)
@@ -77,13 +77,13 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
             }
         val n2: Int = game.treesInEachArea
         // 5. There must be exactly ONE Tree in each row.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n1 = 0
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 if (this[r, c] is ParksTreeObject)
                     n1++
             if (n1 != n2) isSolved = false
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if (o is ParksTreeObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
@@ -92,13 +92,13 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
             }
         }
         // 5. There must be exactly ONE Tree in each column.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var n1 = 0
-            for (r in 0 until rows())
+            for (r in 0 until rows)
                 if (this[r, c] is ParksTreeObject)
                     n1++
             if (n1 != n2) isSolved = false
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 val o = this[r, c]
                 if (o is ParksTreeObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error

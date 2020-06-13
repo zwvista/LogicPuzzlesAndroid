@@ -8,7 +8,7 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
@@ -56,17 +56,17 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                for (i in 0..3)
+                for (i in 0 until 4)
                     if (this[p.add(BoxItUpGame.offset2[i])][BoxItUpGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(BoxItUpGame.offset[i])]!!)
             }
@@ -88,9 +88,9 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
             val n1 = area.size
             val n2 = game.pos2hint[p2]
             var r2 = 0
-            var r1 = rows()
+            var r1 = rows
             var c2 = 0
-            var c1 = cols()
+            var c1 = cols
             for (p in area) {
                 if (r2 < p.row) r2 = p.row
                 if (r1 > p.row) r1 = p.row

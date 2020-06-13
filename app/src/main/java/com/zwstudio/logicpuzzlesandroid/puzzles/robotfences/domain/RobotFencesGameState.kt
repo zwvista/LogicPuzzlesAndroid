@@ -6,13 +6,13 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
     var area2state = Array(game.areas.size) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
@@ -31,7 +31,7 @@ class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGa
         val p = move.p
         if (!isValid(p) || game[p] != 0) return false
         val o = this[p]
-        move.obj = (o + 1) % (cols() + 1)
+        move.obj = (o + 1) % (cols + 1)
         return setObject(move)
     }
 
@@ -57,11 +57,11 @@ class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGa
             return s
         }
         // 3. No same number can appear in the same row.
-        for (r in 0 until rows())
-            row2state[r] = f((0 until cols()).map { this[r, it] })
+        for (r in 0 until rows)
+            row2state[r] = f((0 until cols).map { this[r, it] })
         // 3. No same number can appear in the same column.
-        for (c in 0 until cols())
-            col2state[c] = f((0 until rows()).map { this[it, c] })
+        for (c in 0 until cols)
+            col2state[c] = f((0 until rows).map { this[it, c] })
         // 1. You need to fill each region with a randomly ordered sequence of numbers.
         for (i in 0 until game.areas.size)
             area2state[i] = f(game.areas[i].map { this[it] })

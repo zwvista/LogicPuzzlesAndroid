@@ -4,11 +4,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameMove, BWTapaGameState>(game) {
-    var objArray = Array<BWTapaObject>(rows() * cols()) { BWTapaEmptyObject() }
+    var objArray = Array<BWTapaObject>(rows * cols) { BWTapaEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: BWTapaObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: BWTapaObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BWTapaObject) {this[p.row, p.col] = obj}
 
     init {
@@ -90,8 +90,8 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         }
         if (!isSolved) return
         // 3. There can't be any 2*2 of white or black cells.
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (BWTapaGame.offset2.all { this[p.add(it)] is BWTapaWallObject } || BWTapaGame.offset2.all {
                     val o = this[p.add(it)]
@@ -105,8 +105,8 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
         val rngEmpty = mutableListOf<Position>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)

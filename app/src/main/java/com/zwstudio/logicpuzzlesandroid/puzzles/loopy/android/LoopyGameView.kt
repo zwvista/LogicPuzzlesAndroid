@@ -13,10 +13,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.domain.LoopyGameMove
 class LoopyGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as LoopyGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows() - 1
-    private fun cols() = if (isInEditMode) 5 else game().cols() - 1
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows - 1
+    private val cols get() = if (isInEditMode) 5 else game().cols - 1
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val line1Paint = Paint()
@@ -43,13 +43,13 @@ class LoopyGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
         val markerOffset = 20
-        for (r in 0 until rows() + 1)
-            for (c in 0 until cols() + 1) {
+        for (r in 0 until rows + 1)
+            for (c in 0 until cols + 1) {
                 val dotObj = game().getObject(r, c)
                 when (dotObj[1]) {
                     GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
@@ -70,8 +70,8 @@ class LoopyGameView(context: Context) : CellsGameView(context) {
                     else -> {}
                 }
             }
-        for (r in 0 until rows() + 1)
-            for (c in 0 until cols() + 1)
+        for (r in 0 until rows + 1)
+            for (c in 0 until cols + 1)
                 canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, dotPaint)
     }
 

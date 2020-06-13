@@ -4,11 +4,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState>(game) {
-    var objArray = Array<TierraDelFuegoObject>(rows() * cols()) { TierraDelFuegoEmptyObject() }
+    var objArray = Array<TierraDelFuegoObject>(rows * cols) { TierraDelFuegoEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: TierraDelFuegoObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: TierraDelFuegoObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: TierraDelFuegoObject) {this[p.row, p.col] = obj}
 
     init {
@@ -60,8 +60,8 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 val node = Node(p.toString())

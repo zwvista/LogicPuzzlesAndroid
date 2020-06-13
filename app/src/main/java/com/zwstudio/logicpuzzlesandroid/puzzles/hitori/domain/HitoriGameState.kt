@@ -4,17 +4,17 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import java.util.*
 
 class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameMove, HitoriGameState>(game) {
-    private var objArray = Array(rows() * cols()) { HitoriObject.Normal }
-    var row2hint = Array(rows()) { "" }
-    var col2hint = Array(cols()) { "" }
+    private var objArray = Array(rows * cols) { HitoriObject.Normal }
+    var row2hint = Array(rows) { "" }
+    var col2hint = Array(cols) { "" }
 
     init {
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: HitoriObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: HitoriObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: HitoriObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: HitoriGameMove): Boolean {
@@ -63,10 +63,10 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         var chars: String
         // 1. The goal is to shade squares so that a number appears only once in a
         // row.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             row2hint[r] = ""
             chars = row2hint[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] == HitoriObject.Darken) continue
                 val ch = game[r, c]
@@ -79,10 +79,10 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         }
         // 1. The goal is to shade squares so that a number appears only once in a
         // column.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             col2hint[c] = ""
             chars = col2hint[c]
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 val p = Position(r, c)
                 if (this[p] == HitoriObject.Darken) continue
                 val ch = game[r, c]
@@ -97,8 +97,8 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         val g = Graph()
         val pos2node = HashMap<Position, Node>()
         val rngDarken = mutableListOf<Position>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] == HitoriObject.Darken)
                     rngDarken.add(p)

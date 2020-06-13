@@ -33,8 +33,7 @@ abstract class GameDocument<G : Game<*, *, *>, GM> : GameDocumentInterface {
 
     var levels = mutableListOf<GameLevel>()
     lateinit var selectedLevelID: String
-    val selectedLevelIDSolution
-        get() = "$selectedLevelID Solution"
+    val selectedLevelIDSolution get() = "$selectedLevelID Solution"
 
     var help = listOf<String>()
 
@@ -219,15 +218,13 @@ abstract class GameDocument<G : Game<*, *, *>, GM> : GameDocumentInterface {
         builder2.delete()
     }
 
-    override val markerOption: Int
-        get() = gameProgress().option1?.toInt() ?: 0
+    override val markerOption get() = gameProgress().option1?.toInt() ?: 0
 
     override fun setMarkerOption(rec: GameProgress, o: Int) {
         rec.option1 = o.toString()
     }
 
-    override val isAllowedObjectsOnly: Boolean
-        get() = gameProgress().option2?.toBoolean() ?: false
+    override val isAllowedObjectsOnly get() = gameProgress().option2?.toBoolean() ?: false
 
     override fun setAllowedObjectsOnly(rec: GameProgress, o: Boolean) {
         rec.option2 = o.toString()

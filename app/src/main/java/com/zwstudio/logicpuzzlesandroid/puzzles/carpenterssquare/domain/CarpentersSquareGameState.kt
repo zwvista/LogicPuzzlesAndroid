@@ -8,7 +8,7 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
     var objArray: Array<Array<GridLineObject>> = Cloner().deepClone(game.objArray)
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
@@ -62,17 +62,17 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                for (i in 0..3)
+                for (i in 0 until 4)
                     if (this[p.add(CarpentersSquareGame.offset2[i])][CarpentersSquareGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p.add(CarpentersSquareGame.offset[i])]!!)
             }
@@ -85,9 +85,9 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
             val rngHint = area.filter { game.pos2hint.containsKey(it) }
             val n1 = nodeList.size
             var r2 = 0
-            var r1 = rows()
+            var r1 = rows
             var c2 = 0
-            var c1 = cols()
+            var c1 = cols
             for (p in area) {
                 if (r2 < p.row) r2 = p.row
                 if (r1 > p.row) r1 = p.row

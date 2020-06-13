@@ -6,13 +6,13 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, FutoshikiGameMove, FutoshikiGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: Char) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: Char) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
@@ -31,7 +31,7 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, Fu
         val p = move.p
         if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ')) return false
         val o = this[p].toInt()
-        move.obj = if (o == ' '.toInt()) '1' else if (o == '1'.toInt() + rows() / 2) ' ' else (o + 1).toChar()
+        move.obj = if (o == ' '.toInt()) '1' else if (o == '1'.toInt() + rows / 2) ' ' else (o + 1).toChar()
         return setObject(move)
     }
 
@@ -67,11 +67,11 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, Fu
             return s
         }
         // 3. Remember you can't repeat the same number in a row.
-        for (r in 0..rows() step 2)
-            row2state[r] = f((0..cols() step 2).map { this[r, it] } )
+        for (r in 0..rows step 2)
+            row2state[r] = f((0..cols step 2).map { this[r, it] } )
         // 3. Remember you can't repeat the same number in a column.
-        for (c in 0..cols() step 2)
-            col2state[c] = f((0..rows() step 2).map { this[it, c] } )
+        for (c in 0..cols step 2)
+            col2state[c] = f((0..rows step 2).map { this[it, c] } )
         for ((p, h) in game.pos2hint) {
             val r = p.row
             val c = p.col

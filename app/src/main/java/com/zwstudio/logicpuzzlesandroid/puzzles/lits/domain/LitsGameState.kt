@@ -5,12 +5,12 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import java.util.*
 
 class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, LitsGameState>(game) {
-    var objArray = Array<LitsObject>(rows() * cols()) { LitsEmptyObject() }
+    var objArray = Array<LitsObject>(rows * cols) { LitsEmptyObject() }
     var pos2state: Map<Position, HintState> = HashMap()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: LitsObject) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: LitsObject) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: LitsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -64,8 +64,8 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is LitsForbiddenObject)

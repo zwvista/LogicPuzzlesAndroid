@@ -6,16 +6,16 @@ import java.util.*
 
 class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-    var objArray = Array(rows() * cols()) { CastleBaileyObject.Empty }
+    var objArray = Array(rows * cols) { CastleBaileyObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: CastleBaileyObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: CastleBaileyObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: CastleBaileyObject) {this[p.row, p.col] = obj}
 
     fun setObject(move: CastleBaileyGameMove): Boolean {
@@ -60,8 +60,8 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] == CastleBaileyObject.Forbidden)
                     this[p] = CastleBaileyObject.Empty
@@ -93,8 +93,8 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
         if (!isSolved) return
         val g = Graph()
         val pos2node = HashMap<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] != CastleBaileyObject.Wall) {
                     val node = Node(p.toString())

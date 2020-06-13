@@ -6,11 +6,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove, MasyuGameState>(game) {
-    var objArray = Array(rows() * cols()) { Array(4) { false } }
+    var objArray = Array(rows * cols) { Array(4) { false } }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: Array<Boolean>) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: Array<Boolean>) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
     init {
@@ -50,13 +50,13 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val pos2Dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = get(r, c)
                 val ch = game[r, c]
                 val dirs = mutableListOf<Int>()
-                for (i in 0..3)
+                for (i in 0 until 4)
                     if (o[i])
                         dirs.add(i)
                 when (dirs.size) {

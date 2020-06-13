@@ -19,18 +19,18 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
     var objArray: CharArray
     var snailPathGrid: List<Position>
     var snailPathLine: List<Position>
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows() * cols())
+        objArray = CharArray(rows * cols)
         Arrays.fill(objArray, ' ')
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val ch = str[c]
                 if (ch in '0'..'9')
                     this[r, c] = ch
@@ -57,8 +57,8 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
             }
             return path
         }
-        snailPathGrid = snailPath(rows())
-        snailPathLine = snailPath(rows() + 1)
+        snailPathGrid = snailPath(rows)
+        snailPathLine = snailPath(rows + 1)
         val state = SnailGameState(this)
         states.add(state)
         levelInitilized(state)

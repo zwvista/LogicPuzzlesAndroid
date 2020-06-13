@@ -7,23 +7,23 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var row2state = Array(rows() * 2) { HintState.Normal }
-    var col2state = Array(cols() * 2) { HintState.Normal }
+    var row2state = Array(rows * 2) { HintState.Normal }
+    var col2state = Array(cols * 2) { HintState.Normal }
 
     init {
         updateIsSolved()
     }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     fun getState(row: Int, col: Int) = when {
-        row == 0 && col in 1 until cols() - 1 -> col2state[col * 2]
-        row == rows() - 1 && col in 1 until cols() - 1 -> col2state[col * 2 + 1]
-        col == 0 && row in 1 until rows() - 1 -> row2state[row * 2]
-        col == cols() - 1 && row in 1 until rows() - 1 -> row2state[row * 2 + 1]
+        row == 0 && col in 1 until cols - 1 -> col2state[col * 2]
+        row == rows - 1 && col in 1 until cols - 1 -> col2state[col * 2 + 1]
+        col == 0 && row in 1 until rows - 1 -> row2state[row * 2]
+        col == cols - 1 && row in 1 until rows - 1 -> row2state[row * 2 + 1]
         else -> HintState.Normal
     }
 
@@ -68,15 +68,15 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
     private fun updateIsSolved() {
         isSolved = true
         val chars = mutableListOf<Char>()
-        for (r in 1 until rows() - 1) {
+        for (r in 1 until rows - 1) {
             val h1 = this[r, 0]
-            val h2 = this[r, cols() - 1]
+            val h2 = this[r, cols - 1]
             var ch11 = ' '
             var ch21 = ' '
             chars.clear()
-            for (c in 1 until cols() - 1) {
+            for (c in 1 until cols - 1) {
                 val ch12 = this[r, c]
-                val ch22 = this[r, cols() - 1 - c]
+                val ch22 = this[r, cols - 1 - c]
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
                 if (ch12 == ' ') continue
@@ -95,15 +95,15 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
             // 2. Each letter appears once in every row.
             if (chars.size != game.chMax - 'A' + 1) isSolved = false
         }
-        for (c in 1 until cols() - 1) {
+        for (c in 1 until cols - 1) {
             val h1 = this[0, c]
-            val h2 = this[rows() - 1, c]
+            val h2 = this[rows - 1, c]
             var ch11 = ' '
             var ch21 = ' '
             chars.clear()
-            for (r in 1 until rows() - 1) {
+            for (r in 1 until rows - 1) {
                 val ch12 = this[r, c]
-                val ch22 = this[rows() - 1 - r, c]
+                val ch22 = this[rows - 1 - r, c]
                 if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
                 if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
                 if (ch12 == ' ') continue

@@ -7,12 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame, NumberPathGameMove, NumberPathGameState>(game) {
-    var objArray = Array(rows() * cols()) { Array(4) { false } }
+    var objArray = Array(rows * cols) { Array(4) { false } }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
     init {
@@ -46,9 +46,9 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val pStart = Position(0, 0)
-        val pEnd = Position(rows() - 1, cols() - 1)
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        val pEnd = Position(rows - 1, cols - 1)
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it }.size
                 if (p == pStart || p == pEnd) {
@@ -79,7 +79,7 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
         for (p in pos2node.keys) {
             val o = this[p]
             nums.add(game[p])
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 if (!o[i]) continue
                 val p2 = p.add(NumberPathGame.offset[i])
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)

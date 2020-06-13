@@ -4,14 +4,14 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSentinelsGame, FenceSentinelsGameMove, FenceSentinelsGameState>(game) {
-    var objArray = MutableList(rows() * cols()) { MutableList(4) { GridLineObject.Empty } }
+    var objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: MutableList<GridLineObject>) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: MutableList<GridLineObject>) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: MutableList<GridLineObject>) {this[p.row, p.col] = obj}
-    private fun isValidMove(move: FenceSentinelsGameMove) = !(move.p.row == rows() - 1 && move.dir == 2 || move.p.col == cols() - 1 && move.dir == 1)
+    private fun isValidMove(move: FenceSentinelsGameMove) = !(move.p.row == rows - 1 && move.dir == 2 || move.p.col == cols - 1 && move.dir == 1)
 
     init {
         updateIsSolved()
@@ -67,7 +67,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
         // vertically from there, including the cell itself.
         for ((p, n2) in game.pos2hint) {
             var n1 = -3
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 val os: Position = FenceSentinelsGame.offset[i]
                 val p2 = p.plus()
                 while (isValid(p2)) {
@@ -82,8 +82,8 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it == GridLineObject.Line }.size
                 when (n) {
@@ -101,7 +101,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
             }
         for (p in pos2node.keys) {
             val dotObj = this[p]
-            for (i in 0..3) {
+            for (i in 0 until 4) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p.add(FenceSentinelsGame.offset[i])
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)

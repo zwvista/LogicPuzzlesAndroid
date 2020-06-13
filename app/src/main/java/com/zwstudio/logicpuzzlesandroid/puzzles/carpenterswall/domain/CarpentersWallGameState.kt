@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<CarpentersWallGame, CarpentersWallGameMove, CarpentersWallGameState>(game) {
     var objArray = game.objArray.copyOf()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: CarpentersWallObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: CarpentersWallObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: CarpentersWallObject) {this[p.row, p.col] = obj}
 
     init {
@@ -60,8 +60,8 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
     private fun updateIsSolved() {
         isSolved = true
         // The wall can't form 2*2 squares.
-        for (r in 0 until rows() - 1)
-            rule2x2@ for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (os in CarpentersWallGame.offset2)
                     if (this[p.add(os)] !is CarpentersWallWallObject) continue@rule2x2
@@ -71,8 +71,8 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
         val rngEmpty = mutableListOf<Position>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
@@ -124,9 +124,9 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
             val rngHint = area.filter { this[it].isHint }
             val n1 = nodeList.size
             var r2 = 0
-            var r1 = rows()
+            var r1 = rows
             var c2 = 0
-            var c1 = cols()
+            var c1 = cols
             for (p in area) {
                 if (r2 < p.row) r2 = p.row
                 if (r1 > p.row) r1 = p.row

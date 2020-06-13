@@ -9,9 +9,9 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
     var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
@@ -49,8 +49,8 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 pos2state[Position(r, c)] = HintState.Normal
         val num2rng = mutableMapOf<Int, MutableList<Position>>()
         fun f(sameRow: Boolean) {
@@ -67,9 +67,9 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
                         pos2state[rng[i]] = HintState.Error
             }
         }
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             num2rng.clear()
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = get(p)
                 if (n == 0) {
@@ -84,9 +84,9 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
             }
             f(true)
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             num2rng.clear()
-            for (r in 0 until rows()) {
+            for (r in 0 until rows) {
                 val p = Position(r, c)
                 val n = get(p)
                 if (n == 0) {

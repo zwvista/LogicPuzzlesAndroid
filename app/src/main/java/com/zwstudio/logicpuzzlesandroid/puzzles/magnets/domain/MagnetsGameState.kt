@@ -6,13 +6,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsGameMove, MagnetsGameState>(game) {
-    var objArray = Array(rows() * cols()) { MagnetsObject.Empty }
-    var row2state = Array(rows() * 2) { HintState.Normal }
-    var col2state = Array(cols() * 2) { HintState.Normal }
+    var objArray = Array(rows * cols) { MagnetsObject.Empty }
+    var row2state = Array(rows * 2) { HintState.Normal }
+    var col2state = Array(cols * 2) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: MagnetsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: MagnetsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: MagnetsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -60,12 +60,12 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
         isSolved = true
         // 3. The number on the board tells you how many positive and negative poles
         // you can see from there in a straight line.
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var np1 = 0
             val np2 = game.row2hint[r * 2]
             var nn1 = 0
             val nn2 = game.row2hint[r * 2 + 1]
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 when (this[r, c]) {
                     MagnetsObject.Positive -> np1++
                     MagnetsObject.Negative -> nn1++
@@ -77,12 +77,12 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
         }
         // 3. The number on the board tells you how many positive and negative poles
         // you can see from there in a straight line.
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var np1 = 0
             val np2 = game.col2hint[c * 2]
             var nn1 = 0
             val nn2 = game.col2hint[c * 2 + 1]
-            for (r in 0 until rows())
+            for (r in 0 until rows)
                 when (this[r, c]) {
                     MagnetsObject.Positive -> np1++
                     MagnetsObject.Negative -> nn1++
@@ -110,8 +110,8 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
         // 1. Each Magnet has a positive(+) and a negative(-) pole.
         // 4. When placing a Magnet, you have to respect the rule that the same pole
         // (+ and + / - and -) can't be adjacent horizontally or vertically.
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[r, c]
                 for (os in MagnetsGame.offset) {

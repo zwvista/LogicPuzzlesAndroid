@@ -24,22 +24,22 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
     var objArray: CharArray
     var ch2pos = mutableMapOf<Char, Position>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows() * cols()) { ' ' }
+        objArray = CharArray(rows * cols) { ' ' }
 
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
                 this[p] = ch
-                if (r == 0 || r == rows() - 1 || c == 0 || c == cols() - 1)
+                if (r == 0 || r == rows - 1 || c == 0 || c == cols - 1)
                     ch2pos[ch] = p
             }
         }

@@ -7,13 +7,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove, TentsGameState>(game) {
-    var objArray = Array<TentsObject>(rows() * cols()) { TentsEmptyObject() }
-    var row2state = Array(rows()) { HintState.Normal }
-    var col2state = Array(cols()) { HintState.Normal }
+    var objArray = Array<TentsObject>(rows * cols) { TentsEmptyObject() }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: TentsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: TentsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: TentsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -64,32 +64,32 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 if (this[r, c] is TentsTentObject)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that row.
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows())
+            for (r in 0 until rows)
                 if (this[r, c] is TentsTentObject)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that column.
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 if (this[r, c] is TentsForbiddenObject)
                     this[r, c] = TentsEmptyObject()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[r, c]
                 fun hasTree(): Boolean {

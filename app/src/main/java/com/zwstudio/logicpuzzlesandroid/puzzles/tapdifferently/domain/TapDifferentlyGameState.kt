@@ -6,11 +6,11 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.domain.TapaGame
 import java.util.*
 
 class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState>(game) {
-    var objArray = Array<TapDifferentlyObject>(rows() * cols()) { TapDifferentlyEmptyObject() }
+    var objArray = Array<TapDifferentlyObject>(rows * cols) { TapDifferentlyEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: TapDifferentlyObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: TapDifferentlyObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: TapDifferentlyObject) {this[p.row, p.col] = obj}
 
     init {
@@ -96,8 +96,8 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         if (!isSolved) return
         // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
         // Tiles with numbers can be considered 'empty'.
-        for (r in 0 until rows() - 1)
-            for (c in 0 until cols() - 1) {
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (TapDifferentlyGame.offset2.all {
                     val o = this[p.add(it)]
@@ -109,8 +109,8 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] is TapDifferentlyWallObject) {
                     val node = Node(p.toString())
@@ -132,26 +132,26 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         if (nodeList.size != pos2node.size) isSolved = false
         // 2. Each row must have a different number of filled cells.
         val nums = mutableSetOf<Int>()
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             var n = 0
-            for (c in 0 until cols())
+            for (c in 0 until cols)
                 if (this[r, c] is TapDifferentlyWallObject)
                     n++
             nums.add(n)
         }
-        if (nums.size != rows()) {
+        if (nums.size != rows) {
             isSolved = false
             return
         }
         // 3. Each column must have a different number of filled cells.
         nums.clear()
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             var n = 0
-            for (r in 0 until rows())
+            for (r in 0 until rows)
                 if (this[r, c] is TapDifferentlyWallObject)
                     n++
             nums.add(n)
         }
-        if (nums.size != cols()) isSolved = false
+        if (nums.size != cols) isSolved = false
     }
 }

@@ -18,24 +18,24 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
 
     var objArray: Array<Array<GridLineObject>>
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
         size = Position(layout.size / 2 + 1, layout[0].length / 2 + 1)
-        objArray = Array(rows() * cols()) { Array(4) { GridLineObject.Empty } }
-        for (r in 0 until rows()) {
+        objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
+        for (r in 0 until rows) {
             var str = layout[2 * r]
-            for (c in 0 until cols() - 1) {
+            for (c in 0 until cols - 1) {
                 val ch = str[2 * c + 1]
                 if (ch == '-') {
                     this[r, c + 1][3] = GridLineObject.Line
                     this[r, c][1] = this[r, c + 1][3]
                 }
             }
-            if (r == rows() - 1) break
+            if (r == rows - 1) break
             str = layout[2 * r + 1]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val ch = str[2 * c]
                 if (ch == '|') {
                     this[r + 1, c][0] = GridLineObject.Line

@@ -7,11 +7,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, LightenUpGameMove, LightenUpGameState>(game) {
-    var objArray = Array<LightenUpObject>(rows() * cols()) { LightenUpEmptyObject() }
+    var objArray = Array<LightenUpObject>(rows * cols) { LightenUpEmptyObject() }
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: LightenUpObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: LightenUpObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: LightenUpObject) {this[p.row, p.col] = obj}
 
     init {
@@ -96,8 +96,8 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[r, c]
                 if (o is LightenUpEmptyObject && o.lightness == 0 || o is LightenUpMarkerObject && o.lightness == 0)

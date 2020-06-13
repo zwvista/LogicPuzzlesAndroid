@@ -34,9 +34,9 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
         left = leftPart[0] - '0'
         right = left
         if (leftPart.length > 1) left++
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols()) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 val s = str.substring(c * 4, c * 4 + 4).trim(' ')
                 if (s.isEmpty()) continue

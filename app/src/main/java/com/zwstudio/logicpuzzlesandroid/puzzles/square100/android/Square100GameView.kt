@@ -13,10 +13,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.square100.domain.Square100GameMo
 class Square100GameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as Square100GameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows() + 1
-    override fun colsInView() = cols() + 1
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows + 1
+    override fun colsInView() = cols + 1
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()
@@ -39,8 +39,8 @@ class Square100GameView(context: Context) : CellsGameView(context) {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val text = game().getObject(r, c)
@@ -48,17 +48,17 @@ class Square100GameView(context: Context) : CellsGameView(context) {
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val n: Int = game().getRowHint(r)
             textPaint.color = if (n == 100) Color.GREEN else Color.RED
             val text = n.toString()
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
+            drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             val n: Int = game().getColHint(c)
             textPaint.color = if (n == 100) Color.GREEN else Color.RED
             val text = n.toString()
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
+            drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)
         }
     }
 
@@ -66,7 +66,7 @@ class Square100GameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = Square100GameMove(Position(row, col), event.getX() >= col * cellWidth + cellWidth / 2)
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()

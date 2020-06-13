@@ -26,17 +26,17 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
     var objArray: Array<Array<GridLineObject>>
     var galaxies = mutableSetOf<Position>()
     
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols() + col] = dotObj}
+    operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
-        objArray = Array(rows() * cols()) { Array(4) { GridLineObject.Empty } }
-        for (r in 0 until rows() - 1) {
+        objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
+        for (r in 0 until rows - 1) {
             val str = layout[r]
-            for (c in 0 until cols() - 1) {
+            for (c in 0 until cols - 1) {
                 when (str[c]) {
                     'o' -> galaxies.add(Position(r * 2 + 1, c * 2 + 1))
                     'v' -> {
@@ -63,17 +63,17 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
                 }
             }
         }
-        for (r in 0 until rows() - 1) {
+        for (r in 0 until rows - 1) {
             this[r, 0][2] = GridLineObject.Line
             this[r + 1, 0][0] = GridLineObject.Line
-            this[r, cols() - 1][2] = GridLineObject.Line
-            this[r + 1, cols() - 1][0] = GridLineObject.Line
+            this[r, cols - 1][2] = GridLineObject.Line
+            this[r + 1, cols - 1][0] = GridLineObject.Line
         }
-        for (c in 0 until cols() - 1) {
+        for (c in 0 until cols - 1) {
             this[0, c][1] = GridLineObject.Line
             this[0, c + 1][3] = GridLineObject.Line
-            this[rows() - 1, c][1] = GridLineObject.Line
-            this[rows() - 1, c + 1][3] = GridLineObject.Line
+            this[rows - 1, c][1] = GridLineObject.Line
+            this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = GalaxiesGameState(this)
         states.add(state)

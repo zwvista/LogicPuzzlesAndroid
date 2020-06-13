@@ -4,12 +4,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 
 class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState>(game) {
-    var objArray = Array<ProductSentinelsObject>(rows() * cols()) { ProductSentinelsEmptyObject() }
+    var objArray = Array<ProductSentinelsObject>(rows * cols) { ProductSentinelsEmptyObject() }
     var pos2state = mutableMapOf<Position, HintState>()
 
-    operator fun get(row: Int, col: Int) = objArray[row * cols() + col]
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: ProductSentinelsObject) {objArray[row * cols() + col] = obj}
+    operator fun set(row: Int, col: Int, obj: ProductSentinelsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: ProductSentinelsObject) {this[p.row, p.col] = obj}
 
     init {
@@ -61,8 +61,8 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o = this[r, c]
                 if (o is ProductSentinelsTowerObject)
                     o.state = AllowedObjectState.Normal
@@ -82,8 +82,8 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         // 4. two Towers can't touch horizontally or vertically.
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean {
                     for (os in ProductSentinelsGame.offset) {
@@ -104,7 +104,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
         for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
-            next@ for (i in 0..3) {
+            next@ for (i in 0 until 4) {
                 val os = ProductSentinelsGame.offset[i]
                 val p2 = p.add(os)
                 while (isValid(p2)) {

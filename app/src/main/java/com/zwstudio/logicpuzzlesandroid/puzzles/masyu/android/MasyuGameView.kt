@@ -15,10 +15,10 @@ import kotlin.math.abs
 class MasyuGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as MasyuGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows()
-    override fun colsInView() = cols()
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows
+    override fun colsInView() = cols
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -44,8 +44,8 @@ class MasyuGameView(context: Context) : CellsGameView(context) {
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val ch = game()[r, c]
@@ -54,8 +54,8 @@ class MasyuGameView(context: Context) : CellsGameView(context) {
                     if (ch == 'B') pearlBlackPaint else pearlWhitePaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val dirs = intArrayOf(1, 2)
                 for (dir in dirs) {
                     val b: Boolean = game().getObject(r, c)[dir]
@@ -72,7 +72,7 @@ class MasyuGameView(context: Context) : CellsGameView(context) {
         if (game().isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
-        if (col >= cols() || row >= rows()) return true
+        if (col >= cols || row >= rows) return true
         val p = Position(row, col)
         fun f() = activity().app.soundManager.playSoundTap()
         when (event.getAction()) {

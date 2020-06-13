@@ -16,10 +16,10 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting.domain.Abstract
 class AbstractPaintingGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as AbstractPaintingGameActivity
     private fun game() = activity().game
-    private fun rows() = if (isInEditMode) 5 else game().rows()
-    private fun cols() = if (isInEditMode) 5 else game().cols()
-    override fun rowsInView() = rows() + 1
-    override fun colsInView() = cols() + 1
+    private val rows get() = if (isInEditMode) 5 else game().rows
+    private val cols get() = if (isInEditMode) 5 else game().cols
+    override fun rowsInView() = rows + 1
+    override fun colsInView() = cols + 1
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -47,19 +47,19 @@ class AbstractPaintingGameView(context: Context) : CellsGameView(context) {
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows())
-            for (c in 0 until cols())
+        for (r in 0 until rows)
+            for (c in 0 until cols)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows() + 1)
-            for (c in 0 until cols() + 1) {
+        for (r in 0 until rows + 1)
+            for (c in 0 until cols + 1) {
                 if (game().dots[r, c, 1] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
                 if (game().dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
-        for (r in 0 until rows())
-            for (c in 0 until cols()) {
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
                 val o = game().getObject(r, c)
                 when (o) {
                     AbstractPaintingObject.Painting -> canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
@@ -69,21 +69,21 @@ class AbstractPaintingGameView(context: Context) : CellsGameView(context) {
                 }
             }
         if (isInEditMode) return
-        for (r in 0 until rows()) {
+        for (r in 0 until rows) {
             val s = game().getRowState(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game().row2hint[r]
             if (n < 0) continue
             val text = n.toString()
-            drawTextCentered(text, cwc(cols()), chr(r), canvas, textPaint)
+            drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols()) {
+        for (c in 0 until cols) {
             val s = game().getColState(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game().col2hint[c]
             if (n < 0) continue
             val text = n.toString()
-            drawTextCentered(text, cwc(c), chr(rows()), canvas, textPaint)
+            drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)
         }
     }
 
@@ -91,7 +91,7 @@ class AbstractPaintingGameView(context: Context) : CellsGameView(context) {
         if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
-            if (col >= cols() || row >= rows()) return true
+            if (col >= cols || row >= rows) return true
             val move = AbstractPaintingGameMove(Position(row, col))
             if (game().switchObject(move))
                 activity().app.soundManager.playSoundTap()
