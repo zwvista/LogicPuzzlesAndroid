@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mineships
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, MineShipsGameMove, MineShipsGameState>(game) {
     var objArray = Array<MineShipsObject>(rows * cols) { MineShipsEmptyObject() }

@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.NurikabeGame
 
 class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<PaintTheNurikabeGame, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>(game) {

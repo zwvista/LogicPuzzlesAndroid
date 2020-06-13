@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import java.util.*
 
 class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGame, TapaIslandsGameMove, TapaIslandsGameState>(game) {

@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class BalancedTapasObject {
     open fun objTypeAsString() = "empty"

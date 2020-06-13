@@ -1,9 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.magnets
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsGameMove, MagnetsGameState>(game) {
     var objArray = Array(rows * cols) { MagnetsObject.Empty }

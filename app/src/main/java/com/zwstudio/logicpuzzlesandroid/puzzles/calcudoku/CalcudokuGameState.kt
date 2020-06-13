@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(game) {
     var objArray = IntArray(rows * cols)

@@ -13,10 +13,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class OrchardsGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as OrchardsGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as OrchardsGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -49,15 +49,15 @@ class OrchardsGameView(context: Context) : CellsGameView(context) {
         if (isInEditMode) return
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
-                if (game().dots[r, c, 1] == GridLineObject.Line)
+                if (game.dots[r, c, 1] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-                if (game().dots[r, c, 2] == GridLineObject.Line)
+                if (game.dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o: OrchardsObject = game().getObject(p)
+                val o: OrchardsObject = game.getObject(p)
                 if (o is OrchardsTreeObject) {
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
@@ -71,13 +71,13 @@ class OrchardsGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = OrchardsGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

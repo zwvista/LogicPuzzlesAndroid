@@ -1,9 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snail
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove, SnailGameState>(game) {
     val objArray = game.objArray.copyOf()

@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.overunder
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame, OverUnderGameMove, OverUnderGameState>(game) {
     var objArray = Cloner().deepClone(game.objArray)

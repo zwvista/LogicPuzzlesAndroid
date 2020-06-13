@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<CarpentersSquareGame, CarpentersSquareGameMove, CarpentersSquareGameState>(game) {
     var objArray: Array<Array<GridLineObject>> = Cloner().deepClone(game.objArray)

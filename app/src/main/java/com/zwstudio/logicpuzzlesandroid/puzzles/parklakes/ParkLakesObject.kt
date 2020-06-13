@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class ParkLakesObject {
     open fun objAsString() = "empty"

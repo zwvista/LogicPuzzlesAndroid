@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatami
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameMove, TatamiGameState>(game) {
     var objArray = game.objArray.copyOf()

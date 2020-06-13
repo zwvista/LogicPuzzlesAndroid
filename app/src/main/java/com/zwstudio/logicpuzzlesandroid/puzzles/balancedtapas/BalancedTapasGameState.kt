@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(game) {
     var objArray = Array<BalancedTapasObject>(rows * cols) { BalancedTapasEmptyObject() }

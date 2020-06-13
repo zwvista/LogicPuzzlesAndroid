@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.robotfences
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState>(game) {
     var objArray = game.objArray.copyOf()

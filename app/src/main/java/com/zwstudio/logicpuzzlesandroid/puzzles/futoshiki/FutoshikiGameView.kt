@@ -7,14 +7,14 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FutoshikiGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as FutoshikiGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as FutoshikiGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -46,13 +46,13 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
                         c += 2
                         continue
                     }
-                    val ch = game().getObject(r, c)
+                    val ch = game.getObject(r, c)
                     if (ch == ' ') {
                         c += 2
                         continue
                     }
                     val text = ch.toString()
-                    textPaint.color = if (game()[r, c] == ch) Color.GRAY else Color.WHITE
+                    textPaint.color = if (game[r, c] == ch) Color.GRAY else Color.WHITE
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     c += 2
                 }
@@ -62,7 +62,7 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
         if (isInEditMode) return
         var r = 0
         while (r < rows) {
-            val s = game().getRowState(r)
+            val s = game.getRowState(r)
             if (s == HintState.Normal) {
                 r += 2
                 continue
@@ -74,7 +74,7 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
         }
         var c = 0
         while (c < cols) {
-            val s = game().getColState(c)
+            val s = game.getColState(c)
             if (s == HintState.Normal) {
                 c += 2
                 continue
@@ -84,24 +84,24 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
             canvas.drawArc(cwc2(c) - 20.toFloat(), chr(r + 1) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr(r + 1) + 20.toFloat(), 0f, 360f, true, hintPaint)
             c += 2
         }
-        for ((p, value) in game().pos2hint) {
+        for ((p, value) in game.pos2hint) {
             val r = p.row
             val c = p.col
             val text = value.toString()
-            val s = game().getPosState(p)
+            val s = game.getPosState(p)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = FutoshikiGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

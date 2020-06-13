@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class BusySeasObject {
     open fun objAsString() = "empty"

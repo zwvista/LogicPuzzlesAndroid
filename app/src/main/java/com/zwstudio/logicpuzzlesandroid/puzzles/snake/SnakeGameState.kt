@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snake
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove, SnakeGameState>(game) {
     var objArray = Array(rows * cols) { SnakeObject.Empty }

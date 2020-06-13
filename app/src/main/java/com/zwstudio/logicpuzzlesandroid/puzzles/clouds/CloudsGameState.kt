@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.clouds
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameMove, CloudsGameState>(game) {
     var objArray = Array(rows * cols) { CloudsObject.Empty }

@@ -7,14 +7,14 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RobotCrosswordsGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as RobotCrosswordsGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as RobotCrosswordsGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -39,23 +39,23 @@ class RobotCrosswordsGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val n = game().getObject(r, c)
+                val n = game.getObject(r, c)
                 if (n == -1)
                     canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                 else if (n > 0) {
                     val text = n.toString()
-                    textPaint.color = if (game()[r, c] == n) Color.GRAY else Color.WHITE
+                    textPaint.color = if (game[r, c] == n) Color.GRAY else Color.WHITE
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
             }
         if (isInEditMode) return
-        for (i in game().areas.indices) {
-            val a = game().areas[i]
-            val isHorz = i < game().horzAreaCount
+        for (i in game.areas.indices) {
+            val a = game.areas[i]
+            val isHorz = i < game.horzAreaCount
             for (p in a) {
                 val r = p.row
                 val c = p.col
-                val s = if (isHorz) game().getHorzState(p) else game().getVertState(p)
+                val s = if (isHorz) game.getHorzState(p) else game.getVertState(p)
                 if (s == HintState.Normal) continue
                 hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
                 if (isHorz)
@@ -67,13 +67,13 @@ class RobotCrosswordsGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = RobotCrosswordsGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

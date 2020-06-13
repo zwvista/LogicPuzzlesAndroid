@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameMove, BWTapaGameState>(game) {
     var objArray = Array<BWTapaObject>(rows * cols) { BWTapaEmptyObject() }

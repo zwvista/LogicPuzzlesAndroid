@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<NorthPoleFishingGame, NorthPoleFishingGameMove, NorthPoleFishingGameState>(game) {
     var objArray = Cloner().deepClone(game.dots.objArray)

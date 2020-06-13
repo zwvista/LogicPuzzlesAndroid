@@ -1,10 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }

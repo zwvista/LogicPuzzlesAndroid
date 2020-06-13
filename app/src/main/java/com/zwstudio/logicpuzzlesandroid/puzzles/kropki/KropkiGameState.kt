@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kropki
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameMove, KropkiGameState>(game) {
     var objArray = IntArray(rows * cols)

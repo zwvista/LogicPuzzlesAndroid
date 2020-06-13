@@ -3,8 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInterface<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>, gdi: GameDocumentInterface) : CellsGame<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>(gi, gdi) {
     companion object {

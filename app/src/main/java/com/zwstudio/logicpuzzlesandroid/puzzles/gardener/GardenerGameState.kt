@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.gardener
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, GardenerGameMove, GardenerGameState>(game) {
     var objArray = Array<GardenerObject>(rows * cols) { GardenerEmptyObject() }

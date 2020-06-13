@@ -1,9 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGameState>(game) {
     val objArray = game.objArray.copyOf()

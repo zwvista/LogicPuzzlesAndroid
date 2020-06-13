@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState>(game) {
     val objArray = game.objArray.copyOf()

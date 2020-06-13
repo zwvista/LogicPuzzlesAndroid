@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffectGame, RippleEffectGameMove, RippleEffectGameState>(game) {
     var objArray = game.objArray.copyOf()

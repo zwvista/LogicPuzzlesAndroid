@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, PairakabeGameMove, PairakabeGameState>(game) {
     var objArray = Array<PairakabeObject>(rows * cols) { PairakabeEmptyObject() }

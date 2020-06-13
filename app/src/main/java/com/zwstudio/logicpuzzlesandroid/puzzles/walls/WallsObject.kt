@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.walls
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class WallsObject {
     open fun objAsString() = "empty"

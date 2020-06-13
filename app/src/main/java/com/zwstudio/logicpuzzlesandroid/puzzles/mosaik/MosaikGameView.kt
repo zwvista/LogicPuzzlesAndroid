@@ -7,14 +7,14 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MosaikGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as MosaikGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as MosaikGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -41,15 +41,15 @@ class MosaikGameView(context: Context) : CellsGameView(context) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game().getObject(p)
+                val o = game.getObject(p)
                 when (o) {
                     MosaikObject.Filled -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
                     MosaikObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }
-                val n = game().pos2hint[p]
+                val n = game.pos2hint[p]
                 if (n != null) {
-                    val state = game().pos2State(p)
+                    val state = game.pos2State(p)
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
@@ -58,13 +58,13 @@ class MosaikGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = MosaikGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

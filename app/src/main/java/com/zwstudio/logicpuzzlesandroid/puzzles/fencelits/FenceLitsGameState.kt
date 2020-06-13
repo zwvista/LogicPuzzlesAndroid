@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fencelits
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, FenceLitsGameMove, FenceLitsGameState>(game) {
     var objArray: Array<Array<GridLineObject>> = Cloner().deepClone(game.objArray)

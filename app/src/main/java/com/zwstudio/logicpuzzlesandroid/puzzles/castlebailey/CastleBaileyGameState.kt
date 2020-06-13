@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaileyGame, CastleBaileyGameMove, CastleBaileyGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements

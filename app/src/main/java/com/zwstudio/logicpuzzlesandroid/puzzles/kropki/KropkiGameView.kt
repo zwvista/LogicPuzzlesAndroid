@@ -8,14 +8,14 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class KropkiGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as KropkiGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as KropkiGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -45,18 +45,18 @@ class KropkiGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val n = game().getObject(r, c)
+                val n = game.getObject(r, c)
                 if (n == 0) continue
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
-        if (game().bordered)
+        if (game.bordered)
             for (r in 0 until rows + 1)
                 for (c in 0 until cols + 1) {
-                    if (game().dots!![r, c, 1] == GridLineObject.Line)
+                    if (game.dots!![r, c, 1] == GridLineObject.Line)
                         canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-                    if (game().dots!![r, c, 2] == GridLineObject.Line)
+                    if (game.dots!![r, c, 2] == GridLineObject.Line)
                         canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
                 }
         for (r in 0 until rows)
@@ -64,9 +64,9 @@ class KropkiGameView(context: Context) : CellsGameView(context) {
                 val p = Position(r, c)
                 for (i in 0..1) {
                     if (i == 0 && c == cols - 1 || i == 1 && r == rows - 1) continue
-                    val kh = (if (i == 0) game().pos2horzHint else game().pos2vertHint)[p]
+                    val kh = (if (i == 0) game.pos2horzHint else game.pos2vertHint)[p]
                     if (kh == KropkiHint.None) continue
-                    var s = if (i == 0) game().getHorzState(p) else game().getVertState(p)
+                    var s = if (i == 0) game.getHorzState(p) else game.getVertState(p)
                     if (s == null) s = HintState.Normal
                     hintPaint.color = if (kh == KropkiHint.Consecutive) Color.WHITE else Color.BLACK
                     hintPaint2.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
@@ -82,13 +82,13 @@ class KropkiGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = KropkiGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

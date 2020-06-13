@@ -7,15 +7,15 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import kotlin.math.abs
 
 class NumberLinkGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as NumberLinkGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as NumberLinkGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -44,7 +44,7 @@ class NumberLinkGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 val dirs = intArrayOf(1, 2)
                 for (dir in dirs) {
-                    val b = game().getObject(r, c)[dir]
+                    val b = game.getObject(r, c)[dir]
                     if (!b) continue
                     if (dir == 1)
                         canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
@@ -52,8 +52,8 @@ class NumberLinkGameView(context: Context) : CellsGameView(context) {
                         canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
                 }
             }
-        for ((p, n) in game().pos2hint) {
-            val state = game().pos2State(p)
+        for ((p, n) in game.pos2hint) {
+            val state = game.pos2State(p)
             textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
             val text = n.toString()
             val r = p.row
@@ -63,12 +63,12 @@ class NumberLinkGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (game().isSolved) return true
+        if (game.isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
         if (col >= cols || row >= rows) return true
         val p = Position(row, col)
-        fun f() = activity().app.soundManager.playSoundTap()
+        fun f() = activity.app.soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 run {
@@ -81,7 +81,7 @@ class NumberLinkGameView(context: Context) : CellsGameView(context) {
                 val n = NumberLinkGame.offset.indexOfFirst { it == p - pLastMove!! }
                 if (n != -1) {
                     val move = NumberLinkGameMove(pLastMove!!, n)
-                    if (game().setObject(move)) f()
+                    if (game.setObject(move)) f()
                 }
                 pLastMove = p
             }
@@ -92,7 +92,7 @@ class NumberLinkGameView(context: Context) : CellsGameView(context) {
                     val dx2 = abs(dx)
                     val dy2 = abs(dy)
                     val move = NumberLinkGameMove(Position(row, col), if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0)
-                    game().setObject(move)
+                    game.setObject(move)
                 }
                 run {
                     pLastMove = null

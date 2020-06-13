@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIslandGame, HolidayIslandGameMove, HolidayIslandGameState>(game) {
     var objArray = Array<HolidayIslandObject>(rows * cols) {  HolidayIslandEmptyObject() }

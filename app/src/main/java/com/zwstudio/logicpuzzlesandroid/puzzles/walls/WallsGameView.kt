@@ -9,14 +9,14 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WallsGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as WallsGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as WallsGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -44,7 +44,7 @@ class WallsGameView(context: Context) : CellsGameView(context) {
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o: WallsObject = game().getObject(p)
+                val o: WallsObject = game.getObject(p)
                 if (o is WallsHorzObject || o is WallsVertObject) {
                     val isHorz = o is WallsHorzObject
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
@@ -65,13 +65,13 @@ class WallsGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = WallsGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

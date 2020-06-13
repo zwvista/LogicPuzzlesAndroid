@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class CarpentersWallObject(val isHint: Boolean = false) {
     open fun objAsString() = "empty"

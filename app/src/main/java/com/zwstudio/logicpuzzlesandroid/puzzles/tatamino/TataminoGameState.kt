@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, TataminoGameMove, TataminoGameState>(game) {
     var cloner = Cloner()

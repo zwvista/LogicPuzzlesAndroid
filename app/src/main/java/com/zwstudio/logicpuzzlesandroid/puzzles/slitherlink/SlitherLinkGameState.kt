@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }

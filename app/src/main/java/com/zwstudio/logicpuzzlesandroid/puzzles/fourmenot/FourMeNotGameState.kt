@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, FourMeNotGameMove, FourMeNotGameState>(game) {
     var objArray = game.objArray.copyOf()

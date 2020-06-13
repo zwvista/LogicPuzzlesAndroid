@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pata
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import java.util.*
 
 class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, PataGameState>(game) {

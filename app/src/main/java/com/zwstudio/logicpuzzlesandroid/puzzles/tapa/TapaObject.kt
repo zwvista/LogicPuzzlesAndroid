@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapa
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class TapaObject {
     open fun objTypeAsString() = "empty"

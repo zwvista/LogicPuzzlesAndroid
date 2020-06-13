@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 abstract class LighthousesObject {
     open fun objAsString() = "empty"

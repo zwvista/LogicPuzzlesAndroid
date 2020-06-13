@@ -1,9 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameMove, MosaikGameState>(game) {
     var objArray = Array(rows * cols) { MosaikObject.Empty }

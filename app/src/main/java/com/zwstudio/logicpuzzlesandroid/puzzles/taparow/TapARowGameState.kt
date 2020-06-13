@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.taparow
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 import java.util.*
 

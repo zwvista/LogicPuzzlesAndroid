@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.orchards
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, OrchardsGameMove, OrchardsGameState>(game) {
     var objArray = Array<OrchardsObject>(rows * cols) { OrchardsEmptyObject() }

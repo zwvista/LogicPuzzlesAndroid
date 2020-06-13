@@ -9,14 +9,14 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MagnetsGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as MagnetsGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as MagnetsGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows + 2
     override val colsInView get() = cols + 2
 
@@ -39,7 +39,7 @@ class MagnetsGameView(context: Context) : CellsGameView(context) {
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         if (isInEditMode) return
-        for (a in game().areas) {
+        for (a in game.areas) {
             val r = a.p.row
             val c = a.p.col
             when (a.type) {
@@ -53,7 +53,7 @@ class MagnetsGameView(context: Context) : CellsGameView(context) {
         }
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                val o = game().getObject(r, c)
+                val o = game.getObject(r, c)
                 when (o) {
                     MagnetsObject.Positive -> {
                         dPositive.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
@@ -77,31 +77,31 @@ class MagnetsGameView(context: Context) : CellsGameView(context) {
         for (r in 0 until rows)
             for (c in 0..1) {
                 val id = r * 2 + c
-                val s = game().getRowState(id)
+                val s = game.getRowState(id)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val n = game().row2hint[id]
+                val n = game.row2hint[id]
                 val text = n.toString()
                 drawTextCentered(text, cwc(cols + c), chr(r), canvas, textPaint)
             }
         for (c in 0 until cols)
             for (r in 0..1) {
                 val id = c * 2 + r
-                val s = game().getColState(id)
+                val s = game.getColState(id)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val n = game().col2hint[id]
+                val n = game.col2hint[id]
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(rows + r), canvas, textPaint)
             }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = MagnetsGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

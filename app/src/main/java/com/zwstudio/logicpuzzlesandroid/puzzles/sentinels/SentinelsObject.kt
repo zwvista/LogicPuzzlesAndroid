@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.sentinels
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class SentinelsObject {
     open fun objAsString() = "empty"

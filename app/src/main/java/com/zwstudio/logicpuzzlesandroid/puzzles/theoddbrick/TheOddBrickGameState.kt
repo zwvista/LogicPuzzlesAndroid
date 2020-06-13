@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGame, TheOddBrickGameMove, TheOddBrickGameState>(game) {
     var objArray = game.objArray.copyOf()

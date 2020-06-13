@@ -1,10 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bridges
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesGameMove, BridgesGameState>(game) {
     var objArray = Array<BridgesObject>(rows * cols) { BridgesEmptyObject() }

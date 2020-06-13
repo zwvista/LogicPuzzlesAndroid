@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
     var objArray = Array<NurikabeObject>(rows * cols) { NurikabeEmptyObject() }

@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class HolidayIslandObject {
     open fun objAsString() = "empty"

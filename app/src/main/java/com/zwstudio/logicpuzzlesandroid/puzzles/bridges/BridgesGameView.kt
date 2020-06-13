@@ -7,14 +7,14 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BridgesGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as BridgesGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as BridgesGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -35,10 +35,10 @@ class BridgesGameView(context: Context) : CellsGameView(context) {
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         if (isInEditMode) return
-        for ((p, info) in game().islandsInfo) {
+        for ((p, info) in game.islandsInfo) {
             val r = p.row
             val c = p.col
-            val o = game().getObject(p) as BridgesIslandObject
+            val o = game.getObject(p) as BridgesIslandObject
             canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, islandPaint)
             textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
             val text = info.bridges.toString()
@@ -65,13 +65,13 @@ class BridgesGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (game().isSolved) return true
+        if (game.isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
         if (col >= cols || row >= rows) return true
         val p = Position(row, col)
-        val isI = game().isIsland(p)
-        fun f() = activity().app.soundManager.playSoundTap()
+        val isI = game.isIsland(p)
+        fun f() = activity.app.soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (isI) {
                 pLast = p
@@ -79,7 +79,7 @@ class BridgesGameView(context: Context) : CellsGameView(context) {
             }
             MotionEvent.ACTION_MOVE -> if (isI && pLast != null && p != pLast) {
                 val move = BridgesGameMove(pLast!!, p)
-                game().switchBridges(move)
+                game.switchBridges(move)
                 pLast = p
                 f()
             }

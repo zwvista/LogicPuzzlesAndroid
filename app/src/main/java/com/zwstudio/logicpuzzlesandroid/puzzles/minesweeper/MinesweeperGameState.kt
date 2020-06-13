@@ -1,9 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGame, MinesweeperGameMove, MinesweeperGameState>(game) {
     var objArray = Array<MinesweeperObject>(rows * cols) { MinesweeperEmptyObject() }

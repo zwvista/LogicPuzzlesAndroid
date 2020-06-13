@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fillomino
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, FillominoGameMove, FillominoGameState>(game) {
     protected var cloner = Cloner()

@@ -7,14 +7,14 @@ import android.graphics.Paint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NorthPoleFishingGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as NorthPoleFishingGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows - 1
-    private val cols get() = if (isInEditMode) 5 else game().cols - 1
+    private val activity get() = context as NorthPoleFishingGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows - 1
+    private val cols get() = if (isInEditMode) 5 else game.cols - 1
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -53,10 +53,10 @@ class NorthPoleFishingGameView(context: Context) : CellsGameView(context) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game()[p]
+                val o = game[p]
                 when (o) {
                     NorthPoleFishingObject.Hole -> {
-                        val s = game().getPosState(p)
+                        val s = game.getPosState(p)
                         holePaint1.color = when (s) {
                             HintState.Complete -> Color.GREEN
                             HintState.Error -> Color.RED
@@ -74,18 +74,18 @@ class NorthPoleFishingGameView(context: Context) : CellsGameView(context) {
         val markerOffset = 20
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
-                when (game().getObject(r, c, 1)) {
+                when (game.getObject(r, c, 1)) {
                     GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
-                            if (game().dots[r, c, 1] == GridLineObject.Line) line1Paint else line2Paint)
+                            if (game.dots[r, c, 1] == GridLineObject.Line) line1Paint else line2Paint)
                     GridLineObject.Marker -> {
                         canvas.drawLine((cwc2(c) - markerOffset).toFloat(), (chr(r) - markerOffset).toFloat(), (cwc2(c) + markerOffset).toFloat(), (chr(r) + markerOffset).toFloat(), markerPaint)
                         canvas.drawLine((cwc2(c) - markerOffset).toFloat(), (chr(r) + markerOffset).toFloat(), (cwc2(c) + markerOffset).toFloat(), (chr(r) - markerOffset).toFloat(), markerPaint)
                     }
                     else -> {}
                 }
-                when (game().getObject(r, c, 2)) {
+                when (game.getObject(r, c, 2)) {
                     GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
-                            if (game().dots[r, c, 2] == GridLineObject.Line) line1Paint else line2Paint)
+                            if (game.dots[r, c, 2] == GridLineObject.Line) line1Paint else line2Paint)
                     GridLineObject.Marker -> {
                         canvas.drawLine((cwc(c) - markerOffset).toFloat(), (chr2(r) - markerOffset).toFloat(), (cwc(c) + markerOffset).toFloat(), (chr2(r) + markerOffset).toFloat(), markerPaint)
                         canvas.drawLine((cwc(c) - markerOffset).toFloat(), (chr2(r) + markerOffset).toFloat(), (cwc(c) + markerOffset).toFloat(), (chr2(r) - markerOffset).toFloat(), markerPaint)
@@ -96,7 +96,7 @@ class NorthPoleFishingGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val offset = 30
             val col = ((event.x + offset) / cellWidth).toInt()
             val row = ((event.y + offset) / cellHeight).toInt()
@@ -108,8 +108,8 @@ class NorthPoleFishingGameView(context: Context) : CellsGameView(context) {
                     obj = GridLineObject.Empty,
                     dir = if (yOffset in -offset..offset) 1 else 2
             )
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

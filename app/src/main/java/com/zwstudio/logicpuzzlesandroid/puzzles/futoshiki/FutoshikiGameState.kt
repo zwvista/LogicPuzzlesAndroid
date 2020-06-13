@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, FutoshikiGameMove, FutoshikiGameState>(game) {
     var objArray = game.objArray.copyOf()

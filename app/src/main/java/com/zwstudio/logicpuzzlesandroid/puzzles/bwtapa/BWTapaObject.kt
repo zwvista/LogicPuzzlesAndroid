@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class BWTapaObject {
     open fun objTypeAsString() = "empty"

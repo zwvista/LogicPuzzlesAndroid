@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame, BoxItAgainGameMove, BoxItAgainGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)

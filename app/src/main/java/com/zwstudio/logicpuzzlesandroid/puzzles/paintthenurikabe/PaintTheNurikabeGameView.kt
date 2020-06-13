@@ -8,14 +8,14 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PaintTheNurikabeGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as PaintTheNurikabeGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as PaintTheNurikabeGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -46,15 +46,15 @@ class PaintTheNurikabeGameView(context: Context) : CellsGameView(context) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o: PaintTheNurikabeObject = game().getObject(p)
+                val o: PaintTheNurikabeObject = game.getObject(p)
                 when (o) {
                     PaintTheNurikabeObject.Painted -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
                     PaintTheNurikabeObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }
-                val n = game().pos2hint[p]
+                val n = game.pos2hint[p]
                 if (n != null) {
-                    val state = game().pos2State(p)
+                    val state = game.pos2State(p)
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
@@ -62,21 +62,21 @@ class PaintTheNurikabeGameView(context: Context) : CellsGameView(context) {
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
-                if (game().dots[r, c, 1] == GridLineObject.Line)
+                if (game.dots[r, c, 1] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-                if (game().dots[r, c, 2] == GridLineObject.Line)
+                if (game.dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game().isSolved) {
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = PaintTheNurikabeGameMove(Position(row, col))
-            if (game().switchObject(move))
-                activity().app.soundManager.playSoundTap()
+            if (game.switchObject(move))
+                activity.app.soundManager.playSoundTap()
         }
         return true
     }

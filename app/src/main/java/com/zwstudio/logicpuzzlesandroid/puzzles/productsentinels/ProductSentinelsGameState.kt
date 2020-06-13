@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState>(game) {
     var objArray = Array<ProductSentinelsObject>(rows * cols) { ProductSentinelsEmptyObject() }

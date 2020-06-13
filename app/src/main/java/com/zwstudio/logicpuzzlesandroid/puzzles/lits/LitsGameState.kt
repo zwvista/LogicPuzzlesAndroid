@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lits
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, LitsGameState>(game) {
     var objArray = Array<LitsObject>(rows * cols) { LitsEmptyObject() }

@@ -11,10 +11,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import kotlin.math.abs
 
 class NumberPathGameView(context: Context) : CellsGameView(context) {
-    private fun activity() = context as NumberPathGameActivity
-    private fun game() = activity().game
-    private val rows get() = if (isInEditMode) 5 else game().rows
-    private val cols get() = if (isInEditMode) 5 else game().cols
+    private val activity get() = context as NumberPathGameActivity
+    private val game get() = activity.game
+    private val rows get() = if (isInEditMode) 5 else game.rows
+    private val cols get() = if (isInEditMode) 5 else game.cols
     override val rowsInView get() = rows
     override val colsInView get() = cols
 
@@ -39,7 +39,7 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val n = game()[r, c]
+                val n = game[r, c]
                 textPaint.color = Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
@@ -49,7 +49,7 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 val dirs = intArrayOf(1, 2)
                 for (dir in dirs) {
-                    val b = game().getObject(r, c)[dir]
+                    val b = game.getObject(r, c)[dir]
                     if (!b) continue
                     if (dir == 1)
                         canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
@@ -60,12 +60,12 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (game().isSolved) return true
+        if (game.isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
         if (col >= cols || row >= rows) return true
         val p = Position(row, col)
-        fun f() = activity().app.soundManager.playSoundTap()
+        fun f() = activity.app.soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 run {
@@ -78,7 +78,7 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
                 val n = NumberPathGame.offset.indexOfFirst { it == p - pLastMove!! }
                 if (n != -1) {
                     val move = NumberPathGameMove(pLastMove!!, n)
-                    if (game().setObject(move)) f()
+                    if (game.setObject(move)) f()
                 }
                 pLastMove = p
             }
@@ -89,7 +89,7 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
                     val dx2 = abs(dx)
                     val dy2 = abs(dy)
                     val move = NumberPathGameMove(Position(row, col), if (-dy2 <= dx && dx <= dy2) if (dy > 0) 2 else 0 else if (-dx2 <= dy && dy <= dx2) if (dx > 0) 1 else 3 else 0)
-                    game().setObject(move)
+                    game.setObject(move)
                 }
                 run {
                     pLastMove = null

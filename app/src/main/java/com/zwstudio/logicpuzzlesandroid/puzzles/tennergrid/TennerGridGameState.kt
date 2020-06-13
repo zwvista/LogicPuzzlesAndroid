@@ -1,8 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame, TennerGridGameMove, TennerGridGameState>(game) {
     var objArray = game.objArray.copyOf()

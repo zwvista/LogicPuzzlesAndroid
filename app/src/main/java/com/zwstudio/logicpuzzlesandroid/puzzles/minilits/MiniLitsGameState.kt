@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.minilits
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState>(game) {
     var objArray = Array<MiniLitsObject>(rows * cols) { MiniLitsEmptyObject() }

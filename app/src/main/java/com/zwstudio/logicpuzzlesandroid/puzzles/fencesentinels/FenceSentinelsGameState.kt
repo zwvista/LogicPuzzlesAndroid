@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fencesentinels
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSentinelsGame, FenceSentinelsGameMove, FenceSentinelsGameState>(game) {
     var objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }

@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.battleships
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>(game) {
     var objArray = Array(rows * cols) { BattleShipsObject.Empty }

@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame, NeighboursGameMove, NeighboursGameState>(game) {
     var objArray = Cloner().deepClone(game.objArray)

@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState>(game) {
     var objArray = Array<TierraDelFuegoObject>(rows * cols) { TierraDelFuegoEmptyObject() }

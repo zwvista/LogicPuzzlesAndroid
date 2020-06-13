@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapdifferently
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class TapDifferentlyObject {
     open fun objTypeAsString() = "empty"

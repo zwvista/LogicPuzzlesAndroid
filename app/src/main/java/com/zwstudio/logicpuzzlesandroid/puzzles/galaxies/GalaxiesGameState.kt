@@ -2,7 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.galaxies
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 
 class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>(game) {
     var objArray: Array<Array<GridLineObject>> = Cloner().deepClone(game.objArray)

@@ -1,10 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusySeasGameMove, BusySeasGameState>(game) {
     var objArray = Array<BusySeasObject>(rows * cols) { BusySeasEmptyObject() }
