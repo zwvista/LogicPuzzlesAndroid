@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class PairakabeMainActivity : GameMainActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
     @Bean
     protected lateinit var document: PairakabeDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class PairakabeMainActivity : GameMainActivity<PairakabeGame, PairakabeDocument,
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         PairakabeGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class PairakabeMainActivity : GameMainActivity<PairakabeGame, PairakabeDocument,
 class PairakabeOptionsActivity : GameOptionsActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
     @Bean
     protected lateinit var document: PairakabeDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class PairakabeHelpActivity : GameHelpActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
     @Bean
     protected lateinit var document: PairakabeDocument
-    override fun doc() = document
+    override val doc get() = document
 }

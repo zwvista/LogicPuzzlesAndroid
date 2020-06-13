@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 class BootyIslandMainActivity : GameMainActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
     @Bean
     protected lateinit var document: BootyIslandDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -25,7 +25,7 @@ class BootyIslandMainActivity : GameMainActivity<BootyIslandGame, BootyIslandDoc
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         BootyIslandGameActivity_.intent(this).start()
     }
 }
@@ -34,12 +34,12 @@ class BootyIslandMainActivity : GameMainActivity<BootyIslandGame, BootyIslandDoc
 class BootyIslandOptionsActivity : GameOptionsActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
     @Bean
     protected lateinit var document: BootyIslandDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class BootyIslandHelpActivity : GameHelpActivity<BootyIslandGame, BootyIslandDocument, BootyIslandGameMove, BootyIslandGameState>() {
     @Bean
     protected lateinit var document: BootyIslandDocument
-    override fun doc() = document
+    override val doc get() = document
 }

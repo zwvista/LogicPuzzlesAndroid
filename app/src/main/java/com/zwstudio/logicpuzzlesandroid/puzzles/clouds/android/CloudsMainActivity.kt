@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class CloudsMainActivity : GameMainActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState>() {
     @Bean
     protected lateinit var document: CloudsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class CloudsMainActivity : GameMainActivity<CloudsGame, CloudsDocument, CloudsGa
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         CloudsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class CloudsMainActivity : GameMainActivity<CloudsGame, CloudsDocument, CloudsGa
 class CloudsOptionsActivity : GameOptionsActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState>() {
     @Bean
     protected lateinit var document: CloudsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class CloudsHelpActivity : GameHelpActivity<CloudsGame, CloudsDocument, CloudsGameMove, CloudsGameState>() {
     @Bean
     protected lateinit var document: CloudsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

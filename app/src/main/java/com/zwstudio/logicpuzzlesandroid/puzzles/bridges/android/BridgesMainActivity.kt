@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class BridgesMainActivity : GameMainActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState>() {
     @Bean
     protected lateinit var document: BridgesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class BridgesMainActivity : GameMainActivity<BridgesGame, BridgesDocument, Bridg
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         BridgesGameActivity_.intent(this).start()
     }
 }
@@ -33,7 +33,7 @@ class BridgesMainActivity : GameMainActivity<BridgesGame, BridgesDocument, Bridg
 class BridgesOptionsActivity : GameOptionsActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState>() {
     @Bean
     protected lateinit var document: BridgesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     protected fun onDefault() {}
 }
@@ -42,5 +42,5 @@ class BridgesOptionsActivity : GameOptionsActivity<BridgesGame, BridgesDocument,
 class BridgesHelpActivity : GameHelpActivity<BridgesGame, BridgesDocument, BridgesGameMove, BridgesGameState>() {
     @Bean
     protected lateinit var document: BridgesDocument
-    override fun doc() = document
+    override val doc get() = document
 }

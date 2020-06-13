@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TatamiMainActivity : GameMainActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
     @Bean
     protected lateinit var document: TatamiDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TatamiMainActivity : GameMainActivity<TatamiGame, TatamiDocument, TatamiGa
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TatamiGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TatamiMainActivity : GameMainActivity<TatamiGame, TatamiDocument, TatamiGa
 class TatamiOptionsActivity : GameOptionsActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
     @Bean
     protected lateinit var document: TatamiDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TatamiHelpActivity : GameHelpActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
     @Bean
     protected lateinit var document: TatamiDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class PaintTheNurikabeMainActivity : GameMainActivity<PaintTheNurikabeGame, PaintTheNurikabeDocument, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>() {
     @Bean
     protected lateinit var document: PaintTheNurikabeDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class PaintTheNurikabeMainActivity : GameMainActivity<PaintTheNurikabeGame, Pain
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         PaintTheNurikabeGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class PaintTheNurikabeMainActivity : GameMainActivity<PaintTheNurikabeGame, Pain
 class PaintTheNurikabeOptionsActivity : GameOptionsActivity<PaintTheNurikabeGame, PaintTheNurikabeDocument, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>() {
     @Bean
     protected lateinit var document: PaintTheNurikabeDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class PaintTheNurikabeHelpActivity : GameHelpActivity<PaintTheNurikabeGame, PaintTheNurikabeDocument, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>() {
     @Bean
     protected lateinit var document: PaintTheNurikabeDocument
-    override fun doc() = document
+    override val doc get() = document
 }

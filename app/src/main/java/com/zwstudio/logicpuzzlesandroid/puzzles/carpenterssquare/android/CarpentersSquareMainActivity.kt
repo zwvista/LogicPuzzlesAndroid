@@ -20,7 +20,7 @@ import java.sql.SQLException
 class CarpentersSquareMainActivity : GameMainActivity<CarpentersSquareGame, CarpentersSquareDocument, CarpentersSquareGameMove, CarpentersSquareGameState>() {
     @Bean
     protected lateinit var document: CarpentersSquareDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -28,7 +28,7 @@ class CarpentersSquareMainActivity : GameMainActivity<CarpentersSquareGame, Carp
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         CarpentersSquareGameActivity_.intent(this).start()
     }
 }
@@ -37,7 +37,7 @@ class CarpentersSquareMainActivity : GameMainActivity<CarpentersSquareGame, Carp
 class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame, CarpentersSquareDocument, CarpentersSquareGameMove, CarpentersSquareGameState>() {
     @Bean
     protected lateinit var document: CarpentersSquareDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @AfterViews
     override fun init() {
@@ -62,13 +62,13 @@ class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.adapter = adapter
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 
     @ItemSelect
     override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec = doc().gameProgress()
-        doc().setMarkerOption(rec, position)
+        val rec = doc.gameProgress()
+        doc.setMarkerOption(rec, position)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
@@ -77,14 +77,14 @@ class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame
     }
 
     protected fun onDefault() {
-        val rec = doc().gameProgress()
-        doc().setMarkerOption(rec, 0)
+        val rec = doc.gameProgress()
+        doc.setMarkerOption(rec, 0)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 }
 
@@ -92,5 +92,5 @@ class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame
 class CarpentersSquareHelpActivity : GameHelpActivity<CarpentersSquareGame, CarpentersSquareDocument, CarpentersSquareGameMove, CarpentersSquareGameState>() {
     @Bean
     protected lateinit var document: CarpentersSquareDocument
-    override fun doc() = document
+    override val doc get() = document
 }

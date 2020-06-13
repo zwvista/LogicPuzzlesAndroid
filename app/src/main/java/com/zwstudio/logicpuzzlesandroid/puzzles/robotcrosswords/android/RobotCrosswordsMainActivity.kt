@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class RobotCrosswordsMainActivity : GameMainActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
     @Bean
     protected lateinit var document: RobotCrosswordsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class RobotCrosswordsMainActivity : GameMainActivity<RobotCrosswordsGame, RobotC
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         RobotCrosswordsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class RobotCrosswordsMainActivity : GameMainActivity<RobotCrosswordsGame, RobotC
 class RobotCrosswordsOptionsActivity : GameOptionsActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
     @Bean
     protected lateinit var document: RobotCrosswordsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class RobotCrosswordsHelpActivity : GameHelpActivity<RobotCrosswordsGame, RobotCrosswordsDocument, RobotCrosswordsGameMove, RobotCrosswordsGameState>() {
     @Bean
     protected lateinit var document: RobotCrosswordsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

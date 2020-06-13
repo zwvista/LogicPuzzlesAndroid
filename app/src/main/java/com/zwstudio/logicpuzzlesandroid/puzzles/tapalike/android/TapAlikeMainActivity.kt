@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TapAlikeMainActivity : GameMainActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
     @Bean
     protected lateinit var document: TapAlikeDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TapAlikeMainActivity : GameMainActivity<TapAlikeGame, TapAlikeDocument, Ta
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TapAlikeGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TapAlikeMainActivity : GameMainActivity<TapAlikeGame, TapAlikeDocument, Ta
 class TapAlikeOptionsActivity : GameOptionsActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
     @Bean
     protected lateinit var document: TapAlikeDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TapAlikeHelpActivity : GameHelpActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
     @Bean
     protected lateinit var document: TapAlikeDocument
-    override fun doc() = document
+    override val doc get() = document
 }

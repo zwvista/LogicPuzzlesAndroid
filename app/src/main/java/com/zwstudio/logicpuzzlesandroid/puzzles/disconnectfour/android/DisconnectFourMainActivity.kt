@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class DisconnectFourMainActivity : GameMainActivity<DisconnectFourGame, DisconnectFourDocument, DisconnectFourGameMove, DisconnectFourGameState>() {
     @Bean
     protected lateinit var document: DisconnectFourDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class DisconnectFourMainActivity : GameMainActivity<DisconnectFourGame, Disconne
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         DisconnectFourGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class DisconnectFourMainActivity : GameMainActivity<DisconnectFourGame, Disconne
 class DisconnectFourOptionsActivity : GameOptionsActivity<DisconnectFourGame, DisconnectFourDocument, DisconnectFourGameMove, DisconnectFourGameState>() {
     @Bean
     protected lateinit var document: DisconnectFourDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class DisconnectFourHelpActivity : GameHelpActivity<DisconnectFourGame, DisconnectFourDocument, DisconnectFourGameMove, DisconnectFourGameState>() {
     @Bean
     protected lateinit var document: DisconnectFourDocument
-    override fun doc() = document
+    override val doc get() = document
 }

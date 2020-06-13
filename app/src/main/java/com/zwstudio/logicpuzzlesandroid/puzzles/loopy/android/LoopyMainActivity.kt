@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class LoopyMainActivity : GameMainActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState>() {
     @Bean
     protected lateinit var document: LoopyDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class LoopyMainActivity : GameMainActivity<LoopyGame, LoopyDocument, LoopyGameMo
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         LoopyGameActivity_.intent(this).start()
     }
 }
@@ -33,7 +33,7 @@ class LoopyMainActivity : GameMainActivity<LoopyGame, LoopyDocument, LoopyGameMo
 class LoopyOptionsActivity : GameOptionsActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState>() {
     @Bean
     protected lateinit var document: LoopyDocument
-    override fun doc() = document
+    override val doc get() = document
 
     protected fun onDefault() {}
 }
@@ -42,5 +42,5 @@ class LoopyOptionsActivity : GameOptionsActivity<LoopyGame, LoopyDocument, Loopy
 class LoopyHelpActivity : GameHelpActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState>() {
     @Bean
     protected lateinit var document: LoopyDocument
-    override fun doc() = document
+    override val doc get() = document
 }

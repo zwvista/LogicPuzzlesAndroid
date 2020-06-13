@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class RobotFencesMainActivity : GameMainActivity<RobotFencesGame, RobotFencesDocument, RobotFencesGameMove, RobotFencesGameState>() {
     @Bean
     protected lateinit var document: RobotFencesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class RobotFencesMainActivity : GameMainActivity<RobotFencesGame, RobotFencesDoc
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         RobotFencesGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class RobotFencesMainActivity : GameMainActivity<RobotFencesGame, RobotFencesDoc
 class RobotFencesOptionsActivity : GameOptionsActivity<RobotFencesGame, RobotFencesDocument, RobotFencesGameMove, RobotFencesGameState>() {
     @Bean
     protected lateinit var document: RobotFencesDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class RobotFencesHelpActivity : GameHelpActivity<RobotFencesGame, RobotFencesDocument, RobotFencesGameMove, RobotFencesGameState>() {
     @Bean
     protected lateinit var document: RobotFencesDocument
-    override fun doc() = document
+    override val doc get() = document
 }

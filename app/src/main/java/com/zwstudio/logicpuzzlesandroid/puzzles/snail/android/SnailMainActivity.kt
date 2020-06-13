@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class SnailMainActivity : GameMainActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
     protected lateinit var document: SnailDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class SnailMainActivity : GameMainActivity<SnailGame, SnailDocument, SnailGameMo
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         SnailGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class SnailMainActivity : GameMainActivity<SnailGame, SnailDocument, SnailGameMo
 class SnailOptionsActivity : GameOptionsActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
     protected lateinit var document: SnailDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class SnailHelpActivity : GameHelpActivity<SnailGame, SnailDocument, SnailGameMove, SnailGameState>() {
     @Bean
     protected lateinit var document: SnailDocument
-    override fun doc() = document
+    override val doc get() = document
 }

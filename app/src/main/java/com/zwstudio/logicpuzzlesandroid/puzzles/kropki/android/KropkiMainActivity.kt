@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class KropkiMainActivity : GameMainActivity<KropkiGame, KropkiDocument, KropkiGameMove, KropkiGameState>() {
     @Bean
     protected lateinit var document: KropkiDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class KropkiMainActivity : GameMainActivity<KropkiGame, KropkiDocument, KropkiGa
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         KropkiGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class KropkiMainActivity : GameMainActivity<KropkiGame, KropkiDocument, KropkiGa
 class KropkiOptionsActivity : GameOptionsActivity<KropkiGame, KropkiDocument, KropkiGameMove, KropkiGameState>() {
     @Bean
     protected lateinit var document: KropkiDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class KropkiHelpActivity : GameHelpActivity<KropkiGame, KropkiDocument, KropkiGameMove, KropkiGameState>() {
     @Bean
     protected lateinit var document: KropkiDocument
-    override fun doc() = document
+    override val doc get() = document
 }

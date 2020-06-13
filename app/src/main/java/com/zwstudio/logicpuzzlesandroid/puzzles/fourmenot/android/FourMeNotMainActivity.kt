@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class FourMeNotMainActivity : GameMainActivity<FourMeNotGame, FourMeNotDocument, FourMeNotGameMove, FourMeNotGameState>() {
     @Bean
     protected lateinit var document: FourMeNotDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class FourMeNotMainActivity : GameMainActivity<FourMeNotGame, FourMeNotDocument,
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         FourMeNotGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class FourMeNotMainActivity : GameMainActivity<FourMeNotGame, FourMeNotDocument,
 class FourMeNotOptionsActivity : GameOptionsActivity<FourMeNotGame, FourMeNotDocument, FourMeNotGameMove, FourMeNotGameState>() {
     @Bean
     protected lateinit var document: FourMeNotDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class FourMeNotHelpActivity : GameHelpActivity<FourMeNotGame, FourMeNotDocument, FourMeNotGameMove, FourMeNotGameState>() {
     @Bean
     protected lateinit var document: FourMeNotDocument
-    override fun doc() = document
+    override val doc get() = document
 }

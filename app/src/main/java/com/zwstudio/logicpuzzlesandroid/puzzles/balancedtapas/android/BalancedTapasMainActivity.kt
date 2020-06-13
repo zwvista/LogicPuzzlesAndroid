@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 class BalancedTapasMainActivity : GameMainActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
     @Bean
     protected lateinit var document: BalancedTapasDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -25,7 +25,7 @@ class BalancedTapasMainActivity : GameMainActivity<BalancedTapasGame, BalancedTa
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         BalancedTapasGameActivity_.intent(this).start()
     }
 }
@@ -34,12 +34,12 @@ class BalancedTapasMainActivity : GameMainActivity<BalancedTapasGame, BalancedTa
 class BalancedTapasOptionsActivity : GameOptionsActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
     @Bean
     protected lateinit var document: BalancedTapasDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class BalancedTapasHelpActivity : GameHelpActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
     @Bean
     protected lateinit var document: BalancedTapasDocument
-    override fun doc() = document
+    override val doc get() = document
 }

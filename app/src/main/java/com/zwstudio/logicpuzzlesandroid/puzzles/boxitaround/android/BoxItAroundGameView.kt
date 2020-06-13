@@ -17,8 +17,8 @@ class BoxItAroundGameView(context: Context) : CellsGameView(context) {
     private fun game() = activity().game
     private val rows get() = if (isInEditMode) 5 else game().rows - 1
     private val cols get() = if (isInEditMode) 5 else game().cols - 1
-    override fun rowsInView() = rows
-    override fun colsInView() = cols
+    override val rowsInView get() = rows
+    override val colsInView get() = cols
 
     private val gridPaint = Paint()
     private val line1Paint = Paint()

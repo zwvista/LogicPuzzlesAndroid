@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class NoughtsAndCrossesMainActivity : GameMainActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
     protected lateinit var document: NoughtsAndCrossesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class NoughtsAndCrossesMainActivity : GameMainActivity<NoughtsAndCrossesGame, No
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         NoughtsAndCrossesGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class NoughtsAndCrossesMainActivity : GameMainActivity<NoughtsAndCrossesGame, No
 class NoughtsAndCrossesOptionsActivity : GameOptionsActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
     protected lateinit var document: NoughtsAndCrossesDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class NoughtsAndCrossesHelpActivity : GameHelpActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
     protected lateinit var document: NoughtsAndCrossesDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EActivity
 class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame, NoughtsAndCrossesDocument, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>() {
     @Bean
     protected lateinit var document: NoughtsAndCrossesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @AfterViews
     protected override fun init() {
@@ -24,19 +24,19 @@ class NoughtsAndCrossesGameActivity : GameGameActivity<NoughtsAndCrossesGame, No
     }
 
     protected override fun startGame() {
-        val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
+        val selectedLevelID = doc.selectedLevelID
+        val level = doc.levels[doc.levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
-        game = NoughtsAndCrossesGame(level.layout, level.settings["num"]!![0], this, doc())
+        game = NoughtsAndCrossesGame(level.layout, level.settings["num"]!![0], this, doc)
         try {
             // restore game state
-            for (rec in doc().moveProgress()) {
-                val move = doc().loadMove(rec)
+            for (rec in doc.moveProgress()) {
+                val move = doc.loadMove(rec)
                 game.setObject(move)
             }
-            val moveIndex = doc().levelProgress().moveIndex
+            val moveIndex = doc.levelProgress().moveIndex
             if (moveIndex in 0 until game.moveCount)
                 while (moveIndex != game.moveIndex)
                     game.undo()

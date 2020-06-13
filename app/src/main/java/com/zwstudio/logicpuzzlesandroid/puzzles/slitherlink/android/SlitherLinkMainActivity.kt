@@ -21,7 +21,7 @@ import java.sql.SQLException
 class SlitherLinkMainActivity : GameMainActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState>() {
     @Bean
     protected lateinit var document: SlitherLinkDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -29,7 +29,7 @@ class SlitherLinkMainActivity : GameMainActivity<SlitherLinkGame, SlitherLinkDoc
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         SlitherLinkGameActivity_.intent(this).start()
     }
 }
@@ -38,7 +38,7 @@ class SlitherLinkMainActivity : GameMainActivity<SlitherLinkGame, SlitherLinkDoc
 class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState>() {
     @Bean
     protected lateinit var document: SlitherLinkDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @AfterViews
     protected override fun init() {
@@ -63,13 +63,13 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.setAdapter(adapter)
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 
     @ItemSelect
     protected override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec: GameProgress = doc().gameProgress()
-        doc().setMarkerOption(rec, position)
+        val rec: GameProgress = doc.gameProgress()
+        doc.setMarkerOption(rec, position)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
@@ -78,14 +78,14 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
     }
 
     protected fun onDefault() {
-        val rec: GameProgress = doc().gameProgress()
-        doc().setMarkerOption(rec, 0)
+        val rec: GameProgress = doc.gameProgress()
+        doc.setMarkerOption(rec, 0)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 }
 
@@ -93,5 +93,5 @@ class SlitherLinkOptionsActivity : GameOptionsActivity<SlitherLinkGame, SlitherL
 class SlitherLinkHelpActivity : GameHelpActivity<SlitherLinkGame, SlitherLinkDocument, SlitherLinkGameMove, SlitherLinkGameState>() {
     @Bean
     protected lateinit var document: SlitherLinkDocument
-    override fun doc() = document
+    override val doc get() = document
 }

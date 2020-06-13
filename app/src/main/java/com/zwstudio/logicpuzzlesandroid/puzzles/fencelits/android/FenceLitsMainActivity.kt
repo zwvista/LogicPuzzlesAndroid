@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class FenceLitsMainActivity : GameMainActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState>() {
     @Bean
     protected lateinit var document: FenceLitsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class FenceLitsMainActivity : GameMainActivity<FenceLitsGame, FenceLitsDocument,
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         FenceLitsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class FenceLitsMainActivity : GameMainActivity<FenceLitsGame, FenceLitsDocument,
 class FenceLitsOptionsActivity : GameOptionsActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState>() {
     @Bean
     protected lateinit var document: FenceLitsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class FenceLitsHelpActivity : GameHelpActivity<FenceLitsGame, FenceLitsDocument, FenceLitsGameMove, FenceLitsGameState>() {
     @Bean
     protected lateinit var document: FenceLitsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

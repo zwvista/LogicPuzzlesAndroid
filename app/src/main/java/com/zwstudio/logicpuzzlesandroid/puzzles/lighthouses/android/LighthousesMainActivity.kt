@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class LighthousesMainActivity : GameMainActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState>() {
     @Bean
     protected lateinit var document: LighthousesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class LighthousesMainActivity : GameMainActivity<LighthousesGame, LighthousesDoc
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         LighthousesGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class LighthousesMainActivity : GameMainActivity<LighthousesGame, LighthousesDoc
 class LighthousesOptionsActivity : GameOptionsActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState>() {
     @Bean
     protected lateinit var document: LighthousesDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class LighthousesHelpActivity : GameHelpActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState>() {
     @Bean
     protected lateinit var document: LighthousesDocument
-    override fun doc() = document
+    override val doc get() = document
 }

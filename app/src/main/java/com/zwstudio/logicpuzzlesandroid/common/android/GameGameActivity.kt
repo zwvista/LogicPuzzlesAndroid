@@ -16,7 +16,7 @@ import org.androidannotations.annotations.ViewById
 
 @EActivity
 abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity(), GameInterface<G, GM, GS> {
-    abstract fun doc(): GD
+    abstract val doc: GD
 
     @ViewById
     protected lateinit var activity_game_game: ViewGroup
@@ -53,7 +53,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
         val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)
         activity_game_game.addView(gameView, params)
-        tvGame.text = doc().gameTitle
+        tvGame.text = doc.gameTitle
         startGame()
     }
 
@@ -70,7 +70,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
     @Click
     protected fun btnClear() {
         yesNoDialog("Do you really want to reset the level?") {
-            doc().clearGame()
+            doc.clearGame()
             startGame()
         }
     }
@@ -78,7 +78,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
     protected abstract fun startGame()
     override fun moveAdded(game: G, move: GM) {
         if (levelInitilizing) return
-        doc().moveAdded(game, move)
+        doc.moveAdded(game, move)
     }
 
     private fun updateMovesUI(game: G) {
@@ -95,18 +95,18 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
     override fun levelUpdated(game: G, stateFrom: GS, stateTo: GS) {
         gameView.invalidate()
         updateMovesUI(game)
-        if (!levelInitilizing) doc().levelUpdated(game)
+        if (!levelInitilizing) doc.levelUpdated(game)
     }
 
     override fun gameSolved(game: G) {
         if (levelInitilizing) return
         app.soundManager.playSoundSolved()
-        doc().gameSolved(game)
+        doc.gameSolved(game)
         updateSolutionUI()
     }
 
     protected fun updateSolutionUI() {
-        val rec = doc().levelProgressSolution()
+        val rec = doc.levelProgressSolution()
         val hasSolution = rec.moveIndex != 0
         tvSolution.text = "Solution: " + if (!hasSolution) "None" else rec.moveIndex.toString()
         btnLoadSolution.isEnabled = hasSolution
@@ -115,20 +115,20 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
 
     @Click
     protected fun btnSaveSolution() {
-        doc().saveSolution(game)
+        doc.saveSolution(game)
         updateSolutionUI()
     }
 
     @Click
     protected fun btnLoadSolution() {
-        doc().loadSolution()
+        doc.loadSolution()
         startGame()
     }
 
     @Click
     protected fun btnDeleteSolution() {
         yesNoDialog("Do you really want to reset the level?") {
-            doc().deleteSolution()
+            doc.deleteSolution()
             updateSolutionUI()
         }
     }

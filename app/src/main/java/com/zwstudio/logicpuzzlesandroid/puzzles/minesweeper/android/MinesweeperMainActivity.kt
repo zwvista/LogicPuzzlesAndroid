@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class MinesweeperMainActivity : GameMainActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
     @Bean
     protected lateinit var document: MinesweeperDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class MinesweeperMainActivity : GameMainActivity<MinesweeperGame, MinesweeperDoc
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         MinesweeperGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class MinesweeperMainActivity : GameMainActivity<MinesweeperGame, MinesweeperDoc
 class MinesweeperOptionsActivity : GameOptionsActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
     @Bean
     protected lateinit var document: MinesweeperDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class MinesweeperHelpActivity : GameHelpActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
     @Bean
     protected lateinit var document: MinesweeperDocument
-    override fun doc() = document
+    override val doc get() = document
 }

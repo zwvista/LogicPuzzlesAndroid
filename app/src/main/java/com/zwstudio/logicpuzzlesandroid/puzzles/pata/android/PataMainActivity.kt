@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class PataMainActivity : GameMainActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
     @Bean
     protected lateinit var document: PataDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class PataMainActivity : GameMainActivity<PataGame, PataDocument, PataGameMove, 
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         PataGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class PataMainActivity : GameMainActivity<PataGame, PataDocument, PataGameMove, 
 class PataOptionsActivity : GameOptionsActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
     @Bean
     protected lateinit var document: PataDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class PataHelpActivity : GameHelpActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
     @Bean
     protected lateinit var document: PataDocument
-    override fun doc() = document
+    override val doc get() = document
 }

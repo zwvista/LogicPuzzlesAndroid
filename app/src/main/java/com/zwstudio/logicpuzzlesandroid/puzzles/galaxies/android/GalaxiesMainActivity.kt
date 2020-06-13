@@ -20,7 +20,7 @@ import java.sql.SQLException
 class GalaxiesMainActivity : GameMainActivity<GalaxiesGame, GalaxiesDocument, GalaxiesGameMove, GalaxiesGameState>() {
     @Bean
     protected lateinit var document: GalaxiesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -28,7 +28,7 @@ class GalaxiesMainActivity : GameMainActivity<GalaxiesGame, GalaxiesDocument, Ga
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         GalaxiesGameActivity_.intent(this).start()
     }
 }
@@ -37,7 +37,7 @@ class GalaxiesMainActivity : GameMainActivity<GalaxiesGame, GalaxiesDocument, Ga
 class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame, GalaxiesDocument, GalaxiesGameMove, GalaxiesGameState>() {
     @Bean
     protected lateinit var document: GalaxiesDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @AfterViews
     override fun init() {
@@ -62,13 +62,13 @@ class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame, GalaxiesDocume
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.adapter = adapter
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 
     @ItemSelect
     override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec = doc().gameProgress()
-        doc().setMarkerOption(rec, position)
+        val rec = doc.gameProgress()
+        doc.setMarkerOption(rec, position)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
@@ -77,14 +77,14 @@ class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame, GalaxiesDocume
     }
 
     protected fun onDefault() {
-        val rec = doc().gameProgress()
-        doc().setMarkerOption(rec, 0)
+        val rec = doc.gameProgress()
+        doc.setMarkerOption(rec, 0)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 }
 
@@ -92,5 +92,5 @@ class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame, GalaxiesDocume
 class GalaxiesHelpActivity : GameHelpActivity<GalaxiesGame, GalaxiesDocument, GalaxiesGameMove, GalaxiesGameState>() {
     @Bean
     protected lateinit var document: GalaxiesDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 class CastleBaileyMainActivity : GameMainActivity<CastleBaileyGame, CastleBaileyDocument, CastleBaileyGameMove, CastleBaileyGameState>() {
     @Bean
     protected lateinit var document: CastleBaileyDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -25,7 +25,7 @@ class CastleBaileyMainActivity : GameMainActivity<CastleBaileyGame, CastleBailey
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         CastleBaileyGameActivity_.intent(this).start()
     }
 }
@@ -34,12 +34,12 @@ class CastleBaileyMainActivity : GameMainActivity<CastleBaileyGame, CastleBailey
 class CastleBaileyOptionsActivity : GameOptionsActivity<CastleBaileyGame, CastleBaileyDocument, CastleBaileyGameMove, CastleBaileyGameState>() {
     @Bean
     protected lateinit var document: CastleBaileyDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class CastleBaileyHelpActivity : GameHelpActivity<CastleBaileyGame, CastleBaileyDocument, CastleBaileyGameMove, CastleBaileyGameState>() {
     @Bean
     protected lateinit var document: CastleBaileyDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -20,8 +20,8 @@ class MagnetsGameView(context: Context) : CellsGameView(context) {
     private fun game() = activity().game
     private val rows get() = if (isInEditMode) 5 else game().rows
     private val cols get() = if (isInEditMode) 5 else game().cols
-    override fun rowsInView() = rows + 2
-    override fun colsInView() = cols + 2
+    override val rowsInView get() = rows + 2
+    override val colsInView get() = cols + 2
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()

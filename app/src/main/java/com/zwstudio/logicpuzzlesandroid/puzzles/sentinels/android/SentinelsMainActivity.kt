@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class SentinelsMainActivity : GameMainActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
     @Bean
     protected lateinit var document: SentinelsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class SentinelsMainActivity : GameMainActivity<SentinelsGame, SentinelsDocument,
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         SentinelsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class SentinelsMainActivity : GameMainActivity<SentinelsGame, SentinelsDocument,
 class SentinelsOptionsActivity : GameOptionsActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
     @Bean
     protected lateinit var document: SentinelsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class SentinelsHelpActivity : GameHelpActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
     @Bean
     protected lateinit var document: SentinelsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

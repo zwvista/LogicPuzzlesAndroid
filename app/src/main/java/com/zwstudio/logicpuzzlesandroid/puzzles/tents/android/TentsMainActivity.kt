@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TentsMainActivity : GameMainActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState>() {
     @Bean
     protected lateinit var document: TentsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TentsMainActivity : GameMainActivity<TentsGame, TentsDocument, TentsGameMo
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TentsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TentsMainActivity : GameMainActivity<TentsGame, TentsDocument, TentsGameMo
 class TentsOptionsActivity : GameOptionsActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState>() {
     @Bean
     protected lateinit var document: TentsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TentsHelpActivity : GameHelpActivity<TentsGame, TentsDocument, TentsGameMove, TentsGameState>() {
     @Bean
     protected lateinit var document: TentsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

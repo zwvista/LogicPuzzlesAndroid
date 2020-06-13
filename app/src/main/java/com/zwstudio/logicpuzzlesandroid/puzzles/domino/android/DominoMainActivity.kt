@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class DominoMainActivity : GameMainActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
     @Bean
     protected lateinit var document: DominoDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class DominoMainActivity : GameMainActivity<DominoGame, DominoDocument, DominoGa
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         DominoGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class DominoMainActivity : GameMainActivity<DominoGame, DominoDocument, DominoGa
 class DominoOptionsActivity : GameOptionsActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
     @Bean
     protected lateinit var document: DominoDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class DominoHelpActivity : GameHelpActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
     @Bean
     protected lateinit var document: DominoDocument
-    override fun doc() = document
+    override val doc get() = document
 }

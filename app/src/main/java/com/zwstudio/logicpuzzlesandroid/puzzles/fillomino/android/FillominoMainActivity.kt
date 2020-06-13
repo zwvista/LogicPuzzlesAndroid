@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class FillominoMainActivity : GameMainActivity<FillominoGame, FillominoDocument, FillominoGameMove, FillominoGameState>() {
     @Bean
     protected lateinit var document: FillominoDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class FillominoMainActivity : GameMainActivity<FillominoGame, FillominoDocument,
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         FillominoGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class FillominoMainActivity : GameMainActivity<FillominoGame, FillominoDocument,
 class FillominoOptionsActivity : GameOptionsActivity<FillominoGame, FillominoDocument, FillominoGameMove, FillominoGameState>() {
     @Bean
     protected lateinit var document: FillominoDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class FillominoHelpActivity : GameHelpActivity<FillominoGame, FillominoDocument, FillominoGameMove, FillominoGameState>() {
     @Bean
     protected lateinit var document: FillominoDocument
-    override fun doc() = document
+    override val doc get() = document
 }

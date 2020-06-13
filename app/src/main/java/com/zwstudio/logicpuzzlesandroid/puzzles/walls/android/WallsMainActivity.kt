@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class WallsMainActivity : GameMainActivity<WallsGame, WallsDocument, WallsGameMove, WallsGameState>() {
     @Bean
     protected lateinit var document: WallsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class WallsMainActivity : GameMainActivity<WallsGame, WallsDocument, WallsGameMo
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         WallsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class WallsMainActivity : GameMainActivity<WallsGame, WallsDocument, WallsGameMo
 class WallsOptionsActivity : GameOptionsActivity<WallsGame, WallsDocument, WallsGameMove, WallsGameState>() {
     @Bean
     protected lateinit var document: WallsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class WallsHelpActivity : GameHelpActivity<WallsGame, WallsDocument, WallsGameMove, WallsGameState>() {
     @Bean
     protected lateinit var document: WallsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class MathraxMainActivity : GameMainActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
     @Bean
     protected lateinit var document: MathraxDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class MathraxMainActivity : GameMainActivity<MathraxGame, MathraxDocument, Mathr
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         MathraxGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class MathraxMainActivity : GameMainActivity<MathraxGame, MathraxDocument, Mathr
 class MathraxOptionsActivity : GameOptionsActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
     @Bean
     protected lateinit var document: MathraxDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class MathraxHelpActivity : GameHelpActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
     @Bean
     protected lateinit var document: MathraxDocument
-    override fun doc() = document
+    override val doc get() = document
 }

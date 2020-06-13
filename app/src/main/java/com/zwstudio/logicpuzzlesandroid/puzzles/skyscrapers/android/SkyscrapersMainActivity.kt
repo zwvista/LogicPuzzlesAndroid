@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class SkyscrapersMainActivity : GameMainActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState>() {
     @Bean
     protected lateinit var document: SkyscrapersDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class SkyscrapersMainActivity : GameMainActivity<SkyscrapersGame, SkyscrapersDoc
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         SkyscrapersGameActivity_.intent(this).start()
     }
 }
@@ -33,7 +33,7 @@ class SkyscrapersMainActivity : GameMainActivity<SkyscrapersGame, SkyscrapersDoc
 class SkyscrapersOptionsActivity : GameOptionsActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState>() {
     @Bean
     protected lateinit var document: SkyscrapersDocument
-    override fun doc() = document
+    override val doc get() = document
 
     protected fun onDefault() {}
 }
@@ -42,5 +42,5 @@ class SkyscrapersOptionsActivity : GameOptionsActivity<SkyscrapersGame, Skyscrap
 class SkyscrapersHelpActivity : GameHelpActivity<SkyscrapersGame, SkyscrapersDocument, SkyscrapersGameMove, SkyscrapersGameState>() {
     @Bean
     protected lateinit var document: SkyscrapersDocument
-    override fun doc() = document
+    override val doc get() = document
 }

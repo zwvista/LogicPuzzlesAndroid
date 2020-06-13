@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class MosaikMainActivity : GameMainActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState>() {
     @Bean
     protected lateinit var document: MosaikDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class MosaikMainActivity : GameMainActivity<MosaikGame, MosaikDocument, MosaikGa
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         MosaikGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class MosaikMainActivity : GameMainActivity<MosaikGame, MosaikDocument, MosaikGa
 class MosaikOptionsActivity : GameOptionsActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState>() {
     @Bean
     protected lateinit var document: MosaikDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class MosaikHelpActivity : GameHelpActivity<MosaikGame, MosaikDocument, MosaikGameMove, MosaikGameState>() {
     @Bean
     protected lateinit var document: MosaikDocument
-    override fun doc() = document
+    override val doc get() = document
 }

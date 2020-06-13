@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class NumberLinkMainActivity : GameMainActivity<NumberLinkGame, NumberLinkDocument, NumberLinkGameMove, NumberLinkGameState>() {
     @Bean
     protected lateinit var document: NumberLinkDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class NumberLinkMainActivity : GameMainActivity<NumberLinkGame, NumberLinkDocume
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         NumberLinkGameActivity_.intent(this).start()
     }
 }
@@ -33,7 +33,7 @@ class NumberLinkMainActivity : GameMainActivity<NumberLinkGame, NumberLinkDocume
 class NumberLinkOptionsActivity : GameOptionsActivity<NumberLinkGame, NumberLinkDocument, NumberLinkGameMove, NumberLinkGameState>() {
     @Bean
     protected lateinit var document: NumberLinkDocument
-    override fun doc() = document
+    override val doc get() = document
 
     protected fun onDefault() {}
 }
@@ -42,5 +42,5 @@ class NumberLinkOptionsActivity : GameOptionsActivity<NumberLinkGame, NumberLink
 class NumberLinkHelpActivity : GameHelpActivity<NumberLinkGame, NumberLinkDocument, NumberLinkGameMove, NumberLinkGameState>() {
     @Bean
     protected lateinit var document: NumberLinkDocument
-    override fun doc() = document
+    override val doc get() = document
 }

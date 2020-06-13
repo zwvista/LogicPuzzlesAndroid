@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class ParksMainActivity : GameMainActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState>() {
     @Bean
     protected lateinit var document: ParksDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class ParksMainActivity : GameMainActivity<ParksGame, ParksDocument, ParksGameMo
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         ParksGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class ParksMainActivity : GameMainActivity<ParksGame, ParksDocument, ParksGameMo
 class ParksOptionsActivity : GameOptionsActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState>() {
     @Bean
     protected lateinit var document: ParksDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class ParksHelpActivity : GameHelpActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState>() {
     @Bean
     protected lateinit var document: ParksDocument
-    override fun doc() = document
+    override val doc get() = document
 }

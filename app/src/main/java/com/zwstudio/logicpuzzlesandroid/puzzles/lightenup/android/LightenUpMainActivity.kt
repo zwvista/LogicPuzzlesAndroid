@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class LightenUpMainActivity : GameMainActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState>() {
     @Bean
     protected lateinit var document: LightenUpDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class LightenUpMainActivity : GameMainActivity<LightenUpGame, LightenUpDocument,
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         LightenUpGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class LightenUpMainActivity : GameMainActivity<LightenUpGame, LightenUpDocument,
 class LightenUpOptionsActivity : GameOptionsActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState>() {
     @Bean
     protected lateinit var document: LightenUpDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class LightenUpHelpActivity : GameHelpActivity<LightenUpGame, LightenUpDocument, LightenUpGameMove, LightenUpGameState>() {
     @Bean
     protected lateinit var document: LightenUpDocument
-    override fun doc() = document
+    override val doc get() = document
 }

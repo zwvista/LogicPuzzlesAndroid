@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 open class MagnetsMainActivity : GameMainActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @Bean
     protected lateinit var document: MagnetsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ open class MagnetsMainActivity : GameMainActivity<MagnetsGame, MagnetsDocument, 
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         MagnetsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ open class MagnetsMainActivity : GameMainActivity<MagnetsGame, MagnetsDocument, 
 open class MagnetsOptionsActivity : GameOptionsActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @Bean
     protected lateinit var document: MagnetsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 open class MagnetsHelpActivity : GameHelpActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
     @Bean
     protected lateinit var document: MagnetsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

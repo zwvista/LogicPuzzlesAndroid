@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class LineSweeperMainActivity : GameMainActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState>() {
     @Bean
     protected lateinit var document: LineSweeperDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class LineSweeperMainActivity : GameMainActivity<LineSweeperGame, LineSweeperDoc
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         LineSweeperGameActivity_.intent(this).start()
     }
 }
@@ -33,7 +33,7 @@ class LineSweeperMainActivity : GameMainActivity<LineSweeperGame, LineSweeperDoc
 class LineSweeperOptionsActivity : GameOptionsActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState>() {
     @Bean
     protected lateinit var document: LineSweeperDocument
-    override fun doc() = document
+    override val doc get() = document
 
     protected fun onDefault() {}
 }
@@ -42,5 +42,5 @@ class LineSweeperOptionsActivity : GameOptionsActivity<LineSweeperGame, LineSwee
 class LineSweeperHelpActivity : GameHelpActivity<LineSweeperGame, LineSweeperDocument, LineSweeperGameMove, LineSweeperGameState>() {
     @Bean
     protected lateinit var document: LineSweeperDocument
-    override fun doc() = document
+    override val doc get() = document
 }

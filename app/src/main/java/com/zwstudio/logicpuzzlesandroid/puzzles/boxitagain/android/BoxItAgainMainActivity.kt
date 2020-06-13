@@ -20,7 +20,7 @@ import java.sql.SQLException
 class BoxItAgainMainActivity : GameMainActivity<BoxItAgainGame, BoxItAgainDocument, BoxItAgainGameMove, BoxItAgainGameState>() {
     @Bean
     protected lateinit var document: BoxItAgainDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -28,7 +28,7 @@ class BoxItAgainMainActivity : GameMainActivity<BoxItAgainGame, BoxItAgainDocume
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         BoxItAgainGameActivity_.intent(this).start()
     }
 }
@@ -37,7 +37,7 @@ class BoxItAgainMainActivity : GameMainActivity<BoxItAgainGame, BoxItAgainDocume
 class BoxItAgainOptionsActivity : GameOptionsActivity<BoxItAgainGame, BoxItAgainDocument, BoxItAgainGameMove, BoxItAgainGameState>() {
     @Bean
     protected lateinit var document: BoxItAgainDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @AfterViews
     override fun init() {
@@ -62,13 +62,13 @@ class BoxItAgainOptionsActivity : GameOptionsActivity<BoxItAgainGame, BoxItAgain
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.adapter = adapter
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 
     @ItemSelect
     override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec = doc().gameProgress()
-        doc().setMarkerOption(rec, position)
+        val rec = doc.gameProgress()
+        doc.setMarkerOption(rec, position)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
@@ -77,14 +77,14 @@ class BoxItAgainOptionsActivity : GameOptionsActivity<BoxItAgainGame, BoxItAgain
     }
 
     protected fun onDefault() {
-        val rec = doc().gameProgress()
-        doc().setMarkerOption(rec, 0)
+        val rec = doc.gameProgress()
+        doc.setMarkerOption(rec, 0)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 }
 
@@ -92,5 +92,5 @@ class BoxItAgainOptionsActivity : GameOptionsActivity<BoxItAgainGame, BoxItAgain
 class BoxItAgainHelpActivity : GameHelpActivity<BoxItAgainGame, BoxItAgainDocument, BoxItAgainGameMove, BoxItAgainGameState>() {
     @Bean
     protected lateinit var document: BoxItAgainDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -16,8 +16,8 @@ class FutoshikiGameView(context: Context) : CellsGameView(context) {
     private fun game() = activity().game
     private val rows get() = if (isInEditMode) 5 else game().rows
     private val cols get() = if (isInEditMode) 5 else game().cols
-    override fun rowsInView() = rows
-    override fun colsInView() = cols
+    override val rowsInView get() = rows
+    override val colsInView get() = cols
 
     private val gridPaint = Paint()
     private val linePaint = Paint()

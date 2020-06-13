@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TapARowMainActivity : GameMainActivity<TapARowGame, TapARowDocument, TapARowGameMove, TapARowGameState>() {
     @Bean
     protected lateinit var document: TapARowDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TapARowMainActivity : GameMainActivity<TapARowGame, TapARowDocument, TapAR
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TapARowGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TapARowMainActivity : GameMainActivity<TapARowGame, TapARowDocument, TapAR
 class TapARowOptionsActivity : GameOptionsActivity<TapARowGame, TapARowDocument, TapARowGameMove, TapARowGameState>() {
     @Bean
     protected lateinit var document: TapARowDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TapARowHelpActivity : GameHelpActivity<TapARowGame, TapARowDocument, TapARowGameMove, TapARowGameState>() {
     @Bean
     protected lateinit var document: TapARowDocument
-    override fun doc() = document
+    override val doc get() = document
 }

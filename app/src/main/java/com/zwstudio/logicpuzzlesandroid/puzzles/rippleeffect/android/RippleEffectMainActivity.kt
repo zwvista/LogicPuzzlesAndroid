@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class RippleEffectMainActivity : GameMainActivity<RippleEffectGame, RippleEffectDocument, RippleEffectGameMove, RippleEffectGameState>() {
     @Bean
     protected lateinit var document: RippleEffectDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class RippleEffectMainActivity : GameMainActivity<RippleEffectGame, RippleEffect
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         RippleEffectGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class RippleEffectMainActivity : GameMainActivity<RippleEffectGame, RippleEffect
 class RippleEffectOptionsActivity : GameOptionsActivity<RippleEffectGame, RippleEffectDocument, RippleEffectGameMove, RippleEffectGameState>() {
     @Bean
     protected lateinit var document: RippleEffectDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class RippleEffectHelpActivity : GameHelpActivity<RippleEffectGame, RippleEffectDocument, RippleEffectGameMove, RippleEffectGameState>() {
     @Bean
     protected lateinit var document: RippleEffectDocument
-    override fun doc() = document
+    override val doc get() = document
 }

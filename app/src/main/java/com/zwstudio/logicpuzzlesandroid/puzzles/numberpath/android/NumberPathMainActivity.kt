@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class NumberPathMainActivity : GameMainActivity<NumberPathGame, NumberPathDocument, NumberPathGameMove, NumberPathGameState>() {
     @Bean
     protected lateinit var document: NumberPathDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class NumberPathMainActivity : GameMainActivity<NumberPathGame, NumberPathDocume
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         NumberPathGameActivity_.intent(this).start()
     }
 }
@@ -33,7 +33,7 @@ class NumberPathMainActivity : GameMainActivity<NumberPathGame, NumberPathDocume
 class NumberPathOptionsActivity : GameOptionsActivity<NumberPathGame, NumberPathDocument, NumberPathGameMove, NumberPathGameState>() {
     @Bean
     protected lateinit var document: NumberPathDocument
-    override fun doc() = document
+    override val doc get() = document
 
     protected fun onDefault() {}
 }
@@ -42,5 +42,5 @@ class NumberPathOptionsActivity : GameOptionsActivity<NumberPathGame, NumberPath
 class NumberPathHelpActivity : GameHelpActivity<NumberPathGame, NumberPathDocument, NumberPathGameMove, NumberPathGameState>() {
     @Bean
     protected lateinit var document: NumberPathDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TapDifferentlyMainActivity : GameMainActivity<TapDifferentlyGame, TapDifferentlyDocument, TapDifferentlyGameMove, TapDifferentlyGameState>() {
     @Bean
     protected lateinit var document: TapDifferentlyDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TapDifferentlyMainActivity : GameMainActivity<TapDifferentlyGame, TapDiffe
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TapDifferentlyGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TapDifferentlyMainActivity : GameMainActivity<TapDifferentlyGame, TapDiffe
 class TapDifferentlyOptionsActivity : GameOptionsActivity<TapDifferentlyGame, TapDifferentlyDocument, TapDifferentlyGameMove, TapDifferentlyGameState>() {
     @Bean
     protected lateinit var document: TapDifferentlyDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TapDifferentlyHelpActivity : GameHelpActivity<TapDifferentlyGame, TapDifferentlyDocument, TapDifferentlyGameMove, TapDifferentlyGameState>() {
     @Bean
     protected lateinit var document: TapDifferentlyDocument
-    override fun doc() = document
+    override val doc get() = document
 }

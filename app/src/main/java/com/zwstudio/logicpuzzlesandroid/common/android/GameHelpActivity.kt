@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.common.android
 
-import android.R
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
@@ -13,7 +12,7 @@ import org.androidannotations.annotations.ViewById
 
 @EActivity
 abstract class GameHelpActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity() {
-    abstract fun doc(): GD
+    abstract val doc: GD
 
     @ViewById
     protected lateinit var tvGame: TextView
@@ -24,8 +23,8 @@ abstract class GameHelpActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
     @AfterViews
     protected fun init() {
         val adapter = ArrayAdapter(this,
-            R.layout.simple_list_item_1, doc().help)
+            android.R.layout.simple_list_item_1, doc.help)
         lvHelp.adapter = adapter
-        tvGame.text = doc().gameTitle + " Help"
+        tvGame.text = doc.gameTitle + " Help"
     }
 }

@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class MasyuMainActivity : GameMainActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState>() {
     @Bean
     protected lateinit var document: MasyuDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class MasyuMainActivity : GameMainActivity<MasyuGame, MasyuDocument, MasyuGameMo
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         MasyuGameActivity_.intent(this).start()
     }
 }
@@ -33,7 +33,7 @@ class MasyuMainActivity : GameMainActivity<MasyuGame, MasyuDocument, MasyuGameMo
 class MasyuOptionsActivity : GameOptionsActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState>() {
     @Bean
     protected lateinit var document: MasyuDocument
-    override fun doc() = document
+    override val doc get() = document
 
     protected fun onDefault() {}
 }
@@ -42,5 +42,5 @@ class MasyuOptionsActivity : GameOptionsActivity<MasyuGame, MasyuDocument, Masyu
 class MasyuHelpActivity : GameHelpActivity<MasyuGame, MasyuDocument, MasyuGameMove, MasyuGameState>() {
     @Bean
     protected lateinit var document: MasyuDocument
-    override fun doc() = document
+    override val doc get() = document
 }

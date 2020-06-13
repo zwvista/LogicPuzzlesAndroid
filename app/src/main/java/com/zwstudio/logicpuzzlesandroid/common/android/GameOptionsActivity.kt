@@ -13,7 +13,7 @@ import org.androidannotations.annotations.*
 
 @EActivity
 abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity() {
-    abstract fun doc(): GD
+    abstract val doc: GD
 
     @ViewById
     lateinit var spnMarker: Spinner
@@ -43,22 +43,22 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.adapter = adapter
-        spnMarker.setSelection(doc().markerOption)
-        ctvAllowedObjectsOnly.isChecked = doc().isAllowedObjectsOnly
+        spnMarker.setSelection(doc.markerOption)
+        ctvAllowedObjectsOnly.isChecked = doc.isAllowedObjectsOnly
     }
 
     @ItemSelect
     protected open fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec = doc().gameProgress()
-        doc().setMarkerOption(rec, position)
+        val rec = doc.gameProgress()
+        doc.setMarkerOption(rec, position)
         app.daoGameProgress.update(rec)
     }
 
     @Click
     protected fun ctvAllowedObjectsOnly() {
-        val rec = doc().gameProgress()
-        ctvAllowedObjectsOnly.isChecked = !doc().isAllowedObjectsOnly
-        doc().setAllowedObjectsOnly(rec, !doc().isAllowedObjectsOnly)
+        val rec = doc.gameProgress()
+        ctvAllowedObjectsOnly.isChecked = !doc.isAllowedObjectsOnly
+        doc.setAllowedObjectsOnly(rec, !doc.isAllowedObjectsOnly)
         app.daoGameProgress.update(rec)
     }
 
@@ -70,12 +70,12 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>
     @Click
     protected fun btnDefault() {
         yesNoDialog("Do you really want to reset the options?") {
-            val rec = doc().gameProgress()
-            doc().setMarkerOption(rec, 0)
-            doc().setAllowedObjectsOnly(rec, false)
+            val rec = doc.gameProgress()
+            doc.setMarkerOption(rec, 0)
+            doc.setAllowedObjectsOnly(rec, false)
             app.daoGameProgress.update(rec)
-            spnMarker.setSelection(doc().markerOption)
-            ctvAllowedObjectsOnly.isChecked = doc().isAllowedObjectsOnly
+            spnMarker.setSelection(doc.markerOption)
+            ctvAllowedObjectsOnly.isChecked = doc.isAllowedObjectsOnly
         }
     }
 

@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 class ABCPathMainActivity : GameMainActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
     @Bean
     protected lateinit var document: ABCPathDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -25,7 +25,7 @@ class ABCPathMainActivity : GameMainActivity<ABCPathGame, ABCPathDocument, ABCPa
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         ABCPathGameActivity_.intent(this).start()
     }
 }
@@ -34,12 +34,12 @@ class ABCPathMainActivity : GameMainActivity<ABCPathGame, ABCPathDocument, ABCPa
 class ABCPathOptionsActivity : GameOptionsActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
     @Bean
     protected lateinit var document: ABCPathDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class ABCPathHelpActivity : GameHelpActivity<ABCPathGame, ABCPathDocument, ABCPathGameMove, ABCPathGameState>() {
     @Bean
     protected lateinit var document: ABCPathDocument
-    override fun doc() = document
+    override val doc get() = document
 }

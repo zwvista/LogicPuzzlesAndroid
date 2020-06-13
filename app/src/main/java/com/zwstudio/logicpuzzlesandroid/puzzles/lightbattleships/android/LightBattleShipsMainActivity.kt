@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class LightBattleShipsMainActivity : GameMainActivity<LightBattleShipsGame, LightBattleShipsDocument, LightBattleShipsGameMove, LightBattleShipsGameState>() {
     @Bean
     protected lateinit var document: LightBattleShipsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class LightBattleShipsMainActivity : GameMainActivity<LightBattleShipsGame, Ligh
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         LightBattleShipsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class LightBattleShipsMainActivity : GameMainActivity<LightBattleShipsGame, Ligh
 class LightBattleShipsOptionsActivity : GameOptionsActivity<LightBattleShipsGame, LightBattleShipsDocument, LightBattleShipsGameMove, LightBattleShipsGameState>() {
     @Bean
     protected lateinit var document: LightBattleShipsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class LightBattleShipsHelpActivity : GameHelpActivity<LightBattleShipsGame, LightBattleShipsDocument, LightBattleShipsGameMove, LightBattleShipsGameState>() {
     @Bean
     protected lateinit var document: LightBattleShipsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

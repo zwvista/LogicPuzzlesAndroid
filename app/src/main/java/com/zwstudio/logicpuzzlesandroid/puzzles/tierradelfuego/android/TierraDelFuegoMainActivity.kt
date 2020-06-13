@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TierraDelFuegoMainActivity : GameMainActivity<TierraDelFuegoGame, TierraDelFuegoDocument, TierraDelFuegoGameMove, TierraDelFuegoGameState>() {
     @Bean
     protected lateinit var document: TierraDelFuegoDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TierraDelFuegoMainActivity : GameMainActivity<TierraDelFuegoGame, TierraDe
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TierraDelFuegoGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TierraDelFuegoMainActivity : GameMainActivity<TierraDelFuegoGame, TierraDe
 class TierraDelFuegoOptionsActivity : GameOptionsActivity<TierraDelFuegoGame, TierraDelFuegoDocument, TierraDelFuegoGameMove, TierraDelFuegoGameState>() {
     @Bean
     protected lateinit var document: TierraDelFuegoDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TierraDelFuegoHelpActivity : GameHelpActivity<TierraDelFuegoGame, TierraDelFuegoDocument, TierraDelFuegoGameMove, TierraDelFuegoGameState>() {
     @Bean
     protected lateinit var document: TierraDelFuegoDocument
-    override fun doc() = document
+    override val doc get() = document
 }

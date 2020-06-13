@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class KakuroMainActivity : GameMainActivity<KakuroGame, KakuroDocument, KakuroGameMove, KakuroGameState>() {
     @Bean
     protected lateinit var document: KakuroDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class KakuroMainActivity : GameMainActivity<KakuroGame, KakuroDocument, KakuroGa
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         KakuroGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class KakuroMainActivity : GameMainActivity<KakuroGame, KakuroDocument, KakuroGa
 class KakuroOptionsActivity : GameOptionsActivity<KakuroGame, KakuroDocument, KakuroGameMove, KakuroGameState>() {
     @Bean
     protected lateinit var document: KakuroDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class KakuroHelpActivity : GameHelpActivity<KakuroGame, KakuroDocument, KakuroGameMove, KakuroGameState>() {
     @Bean
     protected lateinit var document: KakuroDocument
-    override fun doc() = document
+    override val doc get() = document
 }

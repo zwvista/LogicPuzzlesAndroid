@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EActivity
 class PairakabeGameActivity : GameGameActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
     @Bean
     protected lateinit var document: PairakabeDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @AfterViews
     protected override fun init() {
@@ -24,19 +24,19 @@ class PairakabeGameActivity : GameGameActivity<PairakabeGame, PairakabeDocument,
     }
 
     protected override fun startGame() {
-        val selectedLevelID = doc().selectedLevelID
-        val level = doc().levels[doc().levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
+        val selectedLevelID = doc.selectedLevelID
+        val level = doc.levels[doc.levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
         tvLevel.text = selectedLevelID
         updateSolutionUI()
         levelInitilizing = true
-        game = PairakabeGame(level.layout, this, doc())
+        game = PairakabeGame(level.layout, this, doc)
         try {
             // restore game state
-            for (rec in doc().moveProgress()) {
-                val move = doc().loadMove(rec)
+            for (rec in doc.moveProgress()) {
+                val move = doc.loadMove(rec)
                 game.setObject(move)
             }
-            val moveIndex = doc().levelProgress().moveIndex
+            val moveIndex = doc.levelProgress().moveIndex
             if (moveIndex in 0 until game.moveCount)
                 while (moveIndex != game.moveIndex)
                     game.undo()

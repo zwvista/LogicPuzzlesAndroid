@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class GardenerMainActivity : GameMainActivity<GardenerGame, GardenerDocument, GardenerGameMove, GardenerGameState>() {
     @Bean
     protected lateinit var document: GardenerDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class GardenerMainActivity : GameMainActivity<GardenerGame, GardenerDocument, Ga
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         GardenerGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class GardenerMainActivity : GameMainActivity<GardenerGame, GardenerDocument, Ga
 class GardenerOptionsActivity : GameOptionsActivity<GardenerGame, GardenerDocument, GardenerGameMove, GardenerGameState>() {
     @Bean
     protected lateinit var document: GardenerDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class GardenerHelpActivity : GameHelpActivity<GardenerGame, GardenerDocument, GardenerGameMove, GardenerGameState>() {
     @Bean
     protected lateinit var document: GardenerDocument
-    override fun doc() = document
+    override val doc get() = document
 }

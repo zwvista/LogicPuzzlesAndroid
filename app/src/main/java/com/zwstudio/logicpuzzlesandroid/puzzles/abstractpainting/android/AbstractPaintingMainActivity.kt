@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 class AbstractPaintingMainActivity : GameMainActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
     protected lateinit var document: AbstractPaintingDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -25,7 +25,7 @@ class AbstractPaintingMainActivity : GameMainActivity<AbstractPaintingGame, Abst
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         AbstractPaintingGameActivity_.intent(this).start()
     }
 }
@@ -34,12 +34,12 @@ class AbstractPaintingMainActivity : GameMainActivity<AbstractPaintingGame, Abst
 class AbstractPaintingHelpActivity : GameHelpActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
     protected lateinit var document: AbstractPaintingDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_options)
 class AbstractPaintingOptionsActivity : GameOptionsActivity<AbstractPaintingGame, AbstractPaintingDocument, AbstractPaintingGameMove, AbstractPaintingGameState>() {
     @Bean
     protected lateinit var document: AbstractPaintingDocument
-    override fun doc() = document
+    override val doc get() = document
 }

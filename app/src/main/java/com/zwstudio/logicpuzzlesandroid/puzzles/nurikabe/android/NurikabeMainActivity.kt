@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class NurikabeMainActivity : GameMainActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState>() {
     @Bean
     protected lateinit var document: NurikabeDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class NurikabeMainActivity : GameMainActivity<NurikabeGame, NurikabeDocument, Nu
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         NurikabeGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class NurikabeMainActivity : GameMainActivity<NurikabeGame, NurikabeDocument, Nu
 class NurikabeOptionsActivity : GameOptionsActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState>() {
     @Bean
     protected lateinit var document: NurikabeDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class NurikabeHelpActivity : GameHelpActivity<NurikabeGame, NurikabeDocument, NurikabeGameMove, NurikabeGameState>() {
     @Bean
     protected lateinit var document: NurikabeDocument
-    override fun doc() = document
+    override val doc get() = document
 }

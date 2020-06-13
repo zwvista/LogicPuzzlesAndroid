@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 class HitoriMainActivity : GameMainActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState>() {
     @Bean
     protected lateinit var document: HitoriDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -25,7 +25,7 @@ class HitoriMainActivity : GameMainActivity<HitoriGame, HitoriDocument, HitoriGa
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         HitoriGameActivity_.intent(this).start()
     }
 }
@@ -34,12 +34,12 @@ class HitoriMainActivity : GameMainActivity<HitoriGame, HitoriDocument, HitoriGa
 class HitoriOptionsActivity : GameOptionsActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState>() {
     @Bean
     protected lateinit var document: HitoriDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class HitoriHelpActivity : GameHelpActivity<HitoriGame, HitoriDocument, HitoriGameMove, HitoriGameState>() {
     @Bean
     protected lateinit var document: HitoriDocument
-    override fun doc() = document
+    override val doc get() = document
 }

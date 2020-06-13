@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class FutoshikiMainActivity : GameMainActivity<FutoshikiGame, FutoshikiDocument, FutoshikiGameMove, FutoshikiGameState>() {
     @Bean
     protected lateinit var document: FutoshikiDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class FutoshikiMainActivity : GameMainActivity<FutoshikiGame, FutoshikiDocument,
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         FutoshikiGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class FutoshikiMainActivity : GameMainActivity<FutoshikiGame, FutoshikiDocument,
 class FutoshikiOptionsActivity : GameOptionsActivity<FutoshikiGame, FutoshikiDocument, FutoshikiGameMove, FutoshikiGameState>() {
     @Bean
     protected lateinit var document: FutoshikiDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class FutoshikiHelpActivity : GameHelpActivity<FutoshikiGame, FutoshikiDocument, FutoshikiGameMove, FutoshikiGameState>() {
     @Bean
     protected lateinit var document: FutoshikiDocument
-    override fun doc() = document
+    override val doc get() = document
 }

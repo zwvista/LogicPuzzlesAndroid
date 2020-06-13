@@ -21,7 +21,7 @@ import java.sql.SQLException
 class NeighboursMainActivity : GameMainActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState>() {
     @Bean
     protected lateinit var document: NeighboursDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -29,7 +29,7 @@ class NeighboursMainActivity : GameMainActivity<NeighboursGame, NeighboursDocume
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         NeighboursGameActivity_.intent(this).start()
     }
 }
@@ -38,7 +38,7 @@ class NeighboursMainActivity : GameMainActivity<NeighboursGame, NeighboursDocume
 class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState>() {
     @Bean
     protected lateinit var document: NeighboursDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @AfterViews
     protected override fun init() {
@@ -63,13 +63,13 @@ class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame, Neighbours
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnMarker.adapter = adapter
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 
     @ItemSelect
     protected override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec: GameProgress = doc().gameProgress()
-        doc().setMarkerOption(rec, position)
+        val rec: GameProgress = doc.gameProgress()
+        doc.setMarkerOption(rec, position)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
@@ -78,14 +78,14 @@ class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame, Neighbours
     }
 
     protected fun onDefault() {
-        val rec: GameProgress = doc().gameProgress()
-        doc().setMarkerOption(rec, 0)
+        val rec: GameProgress = doc.gameProgress()
+        doc.setMarkerOption(rec, 0)
         try {
             app.daoGameProgress.update(rec)
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        spnMarker.setSelection(doc().markerOption)
+        spnMarker.setSelection(doc.markerOption)
     }
 }
 
@@ -93,5 +93,5 @@ class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame, Neighbours
 class NeighboursHelpActivity : GameHelpActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState>() {
     @Bean
     protected lateinit var document: NeighboursDocument
-    override fun doc() = document
+    override val doc get() = document
 }

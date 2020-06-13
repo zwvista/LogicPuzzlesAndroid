@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class PowerGridMainActivity : GameMainActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState>() {
     @Bean
     protected lateinit var document: PowerGridDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class PowerGridMainActivity : GameMainActivity<PowerGridGame, PowerGridDocument,
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         PowerGridGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class PowerGridMainActivity : GameMainActivity<PowerGridGame, PowerGridDocument,
 class PowerGridOptionsActivity : GameOptionsActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState>() {
     @Bean
     protected lateinit var document: PowerGridDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class PowerGridHelpActivity : GameHelpActivity<PowerGridGame, PowerGridDocument, PowerGridGameMove, PowerGridGameState>() {
     @Bean
     protected lateinit var document: PowerGridDocument
-    override fun doc() = document
+    override val doc get() = document
 }

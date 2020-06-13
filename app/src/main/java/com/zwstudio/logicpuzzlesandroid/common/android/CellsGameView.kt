@@ -12,20 +12,20 @@ import android.view.View
 abstract class CellsGameView(context: Context) : View(context) {
     protected var cellWidth = 0
     protected var cellHeight = 0
-    protected abstract fun rowsInView(): Int
-    protected abstract fun colsInView(): Int
+    protected abstract val rowsInView: Int
+    protected abstract val colsInView: Int
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val size = measuredWidth.coerceAtMost(measuredHeight) / rowsInView().coerceAtLeast(colsInView())
-        setMeasuredDimension(size * colsInView(), size * rowsInView())
+        val size = measuredWidth.coerceAtMost(measuredHeight) / rowsInView.coerceAtLeast(colsInView)
+        setMeasuredDimension(size * colsInView, size * rowsInView)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        if (colsInView() < 1 || rowsInView() < 1) return
-        cellWidth = width / colsInView() - 1
-        cellHeight = height / rowsInView() - 1
+        if (colsInView < 1 || rowsInView < 1) return
+        cellWidth = width / colsInView - 1
+        cellHeight = height / rowsInView - 1
         invalidate()
     }
 

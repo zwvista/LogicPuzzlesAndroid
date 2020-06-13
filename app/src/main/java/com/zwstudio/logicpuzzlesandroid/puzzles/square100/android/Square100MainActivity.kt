@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class Square100MainActivity : GameMainActivity<Square100Game, Square100Document, Square100GameMove, Square100GameState>() {
     @Bean
     protected lateinit var document: Square100Document
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class Square100MainActivity : GameMainActivity<Square100Game, Square100Document,
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         Square100GameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class Square100MainActivity : GameMainActivity<Square100Game, Square100Document,
 class Square100OptionsActivity : GameOptionsActivity<Square100Game, Square100Document, Square100GameMove, Square100GameState>() {
     @Bean
     protected lateinit var document: Square100Document
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class Square100HelpActivity : GameHelpActivity<Square100Game, Square100Document, Square100GameMove, Square100GameState>() {
     @Bean
     protected lateinit var document: Square100Document
-    override fun doc() = document
+    override val doc get() = document
 }

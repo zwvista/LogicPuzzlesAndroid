@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity
 class NorthPoleFishingMainActivity : GameMainActivity<NorthPoleFishingGame, NorthPoleFishingDocument, NorthPoleFishingGameMove, NorthPoleFishingGameState>() {
     @Bean
     protected lateinit var document: NorthPoleFishingDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -25,7 +25,7 @@ class NorthPoleFishingMainActivity : GameMainActivity<NorthPoleFishingGame, Nort
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         NorthPoleFishingGameActivity_.intent(this).start()
     }
 }
@@ -34,12 +34,12 @@ class NorthPoleFishingMainActivity : GameMainActivity<NorthPoleFishingGame, Nort
 class NorthPoleFishingOptionsActivity : GameOptionsActivity<NorthPoleFishingGame, NorthPoleFishingDocument, NorthPoleFishingGameMove, NorthPoleFishingGameState>() {
     @Bean
     protected lateinit var document: NorthPoleFishingDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class NorthPoleFishingHelpActivity : GameHelpActivity<NorthPoleFishingGame, NorthPoleFishingDocument, NorthPoleFishingGameMove, NorthPoleFishingGameState>() {
     @Bean
     protected lateinit var document: NorthPoleFishingDocument
-    override fun doc() = document
+    override val doc get() = document
 }

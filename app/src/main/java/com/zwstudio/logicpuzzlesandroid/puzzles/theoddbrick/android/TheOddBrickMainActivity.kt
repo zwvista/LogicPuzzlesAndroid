@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TheOddBrickMainActivity : GameMainActivity<TheOddBrickGame, TheOddBrickDocument, TheOddBrickGameMove, TheOddBrickGameState>() {
     @Bean
     protected lateinit var document: TheOddBrickDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TheOddBrickMainActivity : GameMainActivity<TheOddBrickGame, TheOddBrickDoc
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TheOddBrickGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TheOddBrickMainActivity : GameMainActivity<TheOddBrickGame, TheOddBrickDoc
 class TheOddBrickOptionsActivity : GameOptionsActivity<TheOddBrickGame, TheOddBrickDocument, TheOddBrickGameMove, TheOddBrickGameState>() {
     @Bean
     protected lateinit var document: TheOddBrickDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TheOddBrickHelpActivity : GameHelpActivity<TheOddBrickGame, TheOddBrickDocument, TheOddBrickGameMove, TheOddBrickGameState>() {
     @Bean
     protected lateinit var document: TheOddBrickDocument
-    override fun doc() = document
+    override val doc get() = document
 }

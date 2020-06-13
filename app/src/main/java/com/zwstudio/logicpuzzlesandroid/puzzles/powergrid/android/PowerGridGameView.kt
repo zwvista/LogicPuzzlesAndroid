@@ -22,8 +22,8 @@ class PowerGridGameView(context: Context) : CellsGameView(context) {
     private fun game() = activity().game
     private val rows get() = if (isInEditMode) 5 else game().rows
     private val cols get() = if (isInEditMode) 5 else game().cols
-    override fun rowsInView() = rows + 1
-    override fun colsInView() = cols + 1
+    override val rowsInView get() = rows + 1
+    override val colsInView get() = cols + 1
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()

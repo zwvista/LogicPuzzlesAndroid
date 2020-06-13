@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class MineShipsMainActivity : GameMainActivity<MineShipsGame, MineShipsDocument, MineShipsGameMove, MineShipsGameState>() {
     @Bean
     protected lateinit var document: MineShipsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class MineShipsMainActivity : GameMainActivity<MineShipsGame, MineShipsDocument,
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         MineShipsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class MineShipsMainActivity : GameMainActivity<MineShipsGame, MineShipsDocument,
 class MineShipsOptionsActivity : GameOptionsActivity<MineShipsGame, MineShipsDocument, MineShipsGameMove, MineShipsGameState>() {
     @Bean
     protected lateinit var document: MineShipsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class MineShipsHelpActivity : GameHelpActivity<MineShipsGame, MineShipsDocument, MineShipsGameMove, MineShipsGameState>() {
     @Bean
     protected lateinit var document: MineShipsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TapaMainActivity : GameMainActivity<TapaGame, TapaDocument, TapaGameMove, TapaGameState>() {
     @Bean
     protected lateinit var document: TapaDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TapaMainActivity : GameMainActivity<TapaGame, TapaDocument, TapaGameMove, 
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TapaGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TapaMainActivity : GameMainActivity<TapaGame, TapaDocument, TapaGameMove, 
 class TapaOptionsActivity : GameOptionsActivity<TapaGame, TapaDocument, TapaGameMove, TapaGameState>() {
     @Bean
     protected lateinit var document: TapaDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TapaHelpActivity : GameHelpActivity<TapaGame, TapaDocument, TapaGameMove, TapaGameState>() {
     @Bean
     protected lateinit var document: TapaDocument
-    override fun doc() = document
+    override val doc get() = document
 }

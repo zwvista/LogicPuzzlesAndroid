@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class TennerGridMainActivity : GameMainActivity<TennerGridGame, TennerGridDocument, TennerGridGameMove, TennerGridGameState>() {
     @Bean
     protected lateinit var document: TennerGridDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class TennerGridMainActivity : GameMainActivity<TennerGridGame, TennerGridDocume
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         TennerGridGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class TennerGridMainActivity : GameMainActivity<TennerGridGame, TennerGridDocume
 class TennerGridOptionsActivity : GameOptionsActivity<TennerGridGame, TennerGridDocument, TennerGridGameMove, TennerGridGameState>() {
     @Bean
     protected lateinit var document: TennerGridDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class TennerGridHelpActivity : GameHelpActivity<TennerGridGame, TennerGridDocument, TennerGridGameMove, TennerGridGameState>() {
     @Bean
     protected lateinit var document: TennerGridDocument
-    override fun doc() = document
+    override val doc get() = document
 }

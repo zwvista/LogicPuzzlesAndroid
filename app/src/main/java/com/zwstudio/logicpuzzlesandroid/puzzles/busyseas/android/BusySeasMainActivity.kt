@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class BusySeasMainActivity : GameMainActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState>() {
     @Bean
     protected lateinit var document: BusySeasDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class BusySeasMainActivity : GameMainActivity<BusySeasGame, BusySeasDocument, Bu
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         BusySeasGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class BusySeasMainActivity : GameMainActivity<BusySeasGame, BusySeasDocument, Bu
 class BusySeasOptionsActivity : GameOptionsActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState>() {
     @Bean
     protected lateinit var document: BusySeasDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class BusySeasHelpActivity : GameHelpActivity<BusySeasGame, BusySeasDocument, BusySeasGameMove, BusySeasGameState>() {
     @Bean
     protected lateinit var document: BusySeasDocument
-    override fun doc() = document
+    override val doc get() = document
 }

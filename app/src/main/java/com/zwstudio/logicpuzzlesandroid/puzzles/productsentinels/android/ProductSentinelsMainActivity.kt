@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class ProductSentinelsMainActivity : GameMainActivity<ProductSentinelsGame, ProductSentinelsDocument, ProductSentinelsGameMove, ProductSentinelsGameState>() {
     @Bean
     protected lateinit var document: ProductSentinelsDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class ProductSentinelsMainActivity : GameMainActivity<ProductSentinelsGame, Prod
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         ProductSentinelsGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class ProductSentinelsMainActivity : GameMainActivity<ProductSentinelsGame, Prod
 class ProductSentinelsOptionsActivity : GameOptionsActivity<ProductSentinelsGame, ProductSentinelsDocument, ProductSentinelsGameMove, ProductSentinelsGameState>() {
     @Bean
     protected lateinit var document: ProductSentinelsDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class ProductSentinelsHelpActivity : GameHelpActivity<ProductSentinelsGame, ProductSentinelsDocument, ProductSentinelsGameMove, ProductSentinelsGameState>() {
     @Bean
     protected lateinit var document: ProductSentinelsDocument
-    override fun doc() = document
+    override val doc get() = document
 }

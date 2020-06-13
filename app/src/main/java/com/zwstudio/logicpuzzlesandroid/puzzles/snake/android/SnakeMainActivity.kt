@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class SnakeMainActivity : GameMainActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
     @Bean
     protected lateinit var document: SnakeDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class SnakeMainActivity : GameMainActivity<SnakeGame, SnakeDocument, SnakeGameMo
     }
 
     protected override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         SnakeGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class SnakeMainActivity : GameMainActivity<SnakeGame, SnakeDocument, SnakeGameMo
 class SnakeOptionsActivity : GameOptionsActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
     @Bean
     protected lateinit var document: SnakeDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class SnakeHelpActivity : GameHelpActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
     @Bean
     protected lateinit var document: SnakeDocument
-    override fun doc() = document
+    override val doc get() = document
 }

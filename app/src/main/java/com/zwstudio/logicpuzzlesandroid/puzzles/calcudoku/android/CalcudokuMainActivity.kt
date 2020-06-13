@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EActivity
 class CalcudokuMainActivity : GameMainActivity<CalcudokuGame, CalcudokuDocument, CalcudokuGameMove, CalcudokuGameState>() {
     @Bean
     protected lateinit var document: CalcudokuDocument
-    override fun doc() = document
+    override val doc get() = document
 
     @Click
     fun btnOptions() {
@@ -24,7 +24,7 @@ class CalcudokuMainActivity : GameMainActivity<CalcudokuGame, CalcudokuDocument,
     }
 
     override fun resumeGame() {
-        doc().resumeGame()
+        doc.resumeGame()
         CalcudokuGameActivity_.intent(this).start()
     }
 }
@@ -33,12 +33,12 @@ class CalcudokuMainActivity : GameMainActivity<CalcudokuGame, CalcudokuDocument,
 class CalcudokuOptionsActivity : GameOptionsActivity<CalcudokuGame, CalcudokuDocument, CalcudokuGameMove, CalcudokuGameState>() {
     @Bean
     protected lateinit var document: CalcudokuDocument
-    override fun doc() = document
+    override val doc get() = document
 }
 
 @EActivity(R.layout.activity_game_help)
 class CalcudokuHelpActivity : GameHelpActivity<CalcudokuGame, CalcudokuDocument, CalcudokuGameMove, CalcudokuGameState>() {
     @Bean
     protected lateinit var document: CalcudokuDocument
-    override fun doc() = document
+    override val doc get() = document
 }
