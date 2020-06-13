@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
-import android.util.AttributeSet
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -16,7 +15,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsAreaType
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.magnets.domain.MagnetsObject
 
-class MagnetsGameView : CellsGameView {
+class MagnetsGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as MagnetsGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -27,14 +26,10 @@ class MagnetsGameView : CellsGameView {
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
-    private lateinit var dPositive: Drawable
-    private lateinit var dNegative: Drawable
+    private val dPositive: Drawable
+    private val dNegative: Drawable
 
-    constructor(context: Context?) : super(context) { init(null, 0) }
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
-
-    private fun init(attrs: AttributeSet?, defStyle: Int) {
+    init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
         markerPaint.color = Color.WHITE

@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.text.TextPaint
-import android.util.AttributeSet
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -13,7 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.carpenterssquare.domain.*
 
-class CarpentersSquareGameView : CellsGameView {
+class CarpentersSquareGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as CarpentersSquareGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows() - 1
@@ -28,11 +27,7 @@ class CarpentersSquareGameView : CellsGameView {
     private val textPaint = TextPaint()
     private val fixedPaint = Paint()
 
-    constructor(context: Context?) : super(context) { init(null, 0) }
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
-
-    private fun init(attrs: AttributeSet?, defStyle: Int) {
+    init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
         line1Paint.color = Color.WHITE

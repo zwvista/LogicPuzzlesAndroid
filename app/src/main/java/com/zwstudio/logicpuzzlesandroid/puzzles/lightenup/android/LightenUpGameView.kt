@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
-import android.util.AttributeSet
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
@@ -18,7 +17,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpLightb
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpMarkerObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightenup.domain.LightenUpWallObject
 
-class LightenUpGameView : CellsGameView {
+class LightenUpGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as LightenUpGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -30,13 +29,9 @@ class LightenUpGameView : CellsGameView {
     private val wallPaint = Paint()
     private val lightPaint = Paint()
     private val textPaint = TextPaint()
-    private lateinit var dLightbulb: Drawable
+    private val dLightbulb: Drawable
 
-    constructor(context: Context?) : super(context) { init(null, 0) }
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
-
-    private fun init(attrs: AttributeSet?, defStyle: Int) {
+    init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
         wallPaint.color = Color.WHITE

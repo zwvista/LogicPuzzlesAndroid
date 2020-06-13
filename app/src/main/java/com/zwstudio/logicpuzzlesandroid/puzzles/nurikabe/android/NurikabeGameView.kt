@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.text.TextPaint
-import android.util.AttributeSet
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -15,7 +14,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeHintObje
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeMarkerObject
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.domain.NurikabeWallObject
 
-class NurikabeGameView : CellsGameView {
+class NurikabeGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as NurikabeGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -27,16 +26,12 @@ class NurikabeGameView : CellsGameView {
     private val wallPaint = Paint()
     private val textPaint = TextPaint()
 
-    constructor(context: Context?) : super(context) { init(null, 0) }
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
-
-    private fun init(attrs: AttributeSet?, defStyle: Int) {
+    init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
         wallPaint.color = Color.WHITE
         wallPaint.style = Paint.Style.FILL_AND_STROKE
-        textPaint.setAntiAlias(true)
+        textPaint.isAntiAlias = true
     }
 
     protected override fun onDraw(canvas: Canvas) {

@@ -6,14 +6,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.text.TextPaint
-import android.util.AttributeSet
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.puzzles.mineships.domain.*
 
-class MineShipsGameView : CellsGameView {
+class MineShipsGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as MineShipsGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -27,11 +26,7 @@ class MineShipsGameView : CellsGameView {
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
 
-    constructor(context: Context?) : super(context) { init(null, 0) }
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
-
-    private fun init(attrs: AttributeSet?, defStyle: Int) {
+    init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
         whitePaint.color = Color.WHITE
@@ -42,7 +37,7 @@ class MineShipsGameView : CellsGameView {
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        textPaint.setAntiAlias(true)
+        textPaint.isAntiAlias = true
     }
 
     protected override fun onDraw(canvas: Canvas) {

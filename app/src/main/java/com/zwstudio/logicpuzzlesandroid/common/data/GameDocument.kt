@@ -9,7 +9,6 @@ import org.androidannotations.annotations.EBean
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
-import java.util.*
 
 interface GameDocumentInterface {
     val markerOption: Int
@@ -67,13 +66,10 @@ abstract class GameDocument<G : Game<*, *, *>, GM> : GameDocumentInterface {
                 when (parser.name) {
                     "level" -> {
                         val id = parser.getAttributeValue(null, "id")
-                        val settings: MutableMap<String, String> = HashMap()
-                        var i = 0
-                        while (i < parser.attributeCount) {
+                        val settings = mutableMapOf<String, String>()
+                        for (i in 0 until parser.attributeCount)
                             settings[parser.getAttributeName(i)] = parser.getAttributeValue(i)
-                            i++
-                        }
-                        var layout = parser.nextText().split("\n".toRegex()).map { it.replace("\r", "") }
+                        var layout = parser.nextText().split("\n").map { it.replace("\r", "") }
                         layout = getCdata(layout).map { it.replace("`", "") }
                         val level = GameLevel()
                         level.id = id
@@ -82,7 +78,7 @@ abstract class GameDocument<G : Game<*, *, *>, GM> : GameDocumentInterface {
                         levels.add(level)
                     }
                     "help" -> {
-                        help = parser.nextText().split("\n".toRegex()).map { it.replace("\r", "") }
+                        help = parser.nextText().split("\n").map { it.replace("\r", "") }
                         help = getCdata(help)
                     }
                     else -> {}

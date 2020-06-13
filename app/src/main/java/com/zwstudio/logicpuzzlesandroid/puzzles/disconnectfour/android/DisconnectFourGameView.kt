@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.util.AttributeSet
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
@@ -14,7 +13,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour.domain.DisconnectFourGameMove
 import com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour.domain.DisconnectFourObject
 
-class DisconnectFourGameView : CellsGameView {
+class DisconnectFourGameView(context: Context) : CellsGameView(context) {
     private fun activity() = context as DisconnectFourGameActivity
     private fun game() = activity().game
     private fun rows() = if (isInEditMode) 5 else game().rows()
@@ -27,13 +26,9 @@ class DisconnectFourGameView : CellsGameView {
     private val markerPaint = Paint()
     private val fixedPaint = Paint()
     private val forbiddenPaint = Paint()
-    private lateinit var dTree: Drawable
+    private val dTree: Drawable
 
-    constructor(context: Context?) : super(context) { init(null, 0) }
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs, 0) }
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(attrs, defStyle) }
-
-    private fun init(attrs: AttributeSet?, defStyle: Int) {
+    init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
         wallPaint.color = Color.WHITE
