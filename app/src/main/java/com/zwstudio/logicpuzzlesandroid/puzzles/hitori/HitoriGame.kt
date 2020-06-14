@@ -37,9 +37,6 @@ class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameM
         levelInitilized(state)
     }
 
-    fun switchObject(move: HitoriGameMove) = changeObject(move, HitoriGameState::switchObject)
-    fun setObject(move: HitoriGameMove) = changeObject(move, HitoriGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 

@@ -51,9 +51,6 @@ class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove
         levelInitilized(state)
     }
 
-    fun switchObject(move: SnakeGameMove) = changeObject(move, SnakeGameState::switchObject)
-    fun setObject(move: SnakeGameMove) = changeObject(move, SnakeGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

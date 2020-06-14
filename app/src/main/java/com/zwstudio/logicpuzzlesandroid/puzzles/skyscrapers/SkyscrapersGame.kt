@@ -39,9 +39,6 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
         levelInitilized(state)
     }
 
-    fun switchObject(move: SkyscrapersGameMove) = changeObject(move, SkyscrapersGameState::switchObject)
-    fun setObject(move: SkyscrapersGameMove) = changeObject(move, SkyscrapersGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getState(row: Int, col: Int) = currentState.getState(row, col)

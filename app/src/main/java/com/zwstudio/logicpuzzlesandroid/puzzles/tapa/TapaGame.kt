@@ -49,9 +49,6 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
         levelInitilized(state)
     }
 
-    fun switchObject(move: TapaGameMove) = changeObject(move, TapaGameState::switchObject)
-    fun setObject(move: TapaGameMove) = changeObject(move, TapaGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

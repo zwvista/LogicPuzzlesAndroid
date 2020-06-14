@@ -49,9 +49,6 @@ class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameM
         levelInitilized(state)
     }
 
-    fun switchObject(move: BWTapaGameMove) = changeObject(move, BWTapaGameState::switchObject)
-    fun setObject(move: BWTapaGameMove) = changeObject(move, BWTapaGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

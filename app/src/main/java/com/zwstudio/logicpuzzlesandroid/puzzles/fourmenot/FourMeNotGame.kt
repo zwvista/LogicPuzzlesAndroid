@@ -37,9 +37,6 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
         levelInitilized(state)
     }
 
-    fun switchObject(move: FourMeNotGameMove) = changeObject(move, FourMeNotGameState::switchObject)
-    fun setObject(move: FourMeNotGameMove) = changeObject(move, FourMeNotGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

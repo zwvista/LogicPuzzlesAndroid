@@ -37,8 +37,6 @@ class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, Num
         levelInitilized(state)
     }
 
-    fun setObject(move: NumberLinkGameMove) = changeObject(move, NumberLinkGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

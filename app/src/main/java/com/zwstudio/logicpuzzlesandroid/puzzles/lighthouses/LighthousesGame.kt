@@ -38,9 +38,6 @@ class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, L
         levelInitilized(state)
     }
 
-    fun switchObject(move: LighthousesGameMove) = changeObject(move, LighthousesGameState::switchObject)
-    fun setObject(move: LighthousesGameMove) = changeObject(move, LighthousesGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

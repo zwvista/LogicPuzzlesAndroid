@@ -47,9 +47,6 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
         levelInitilized(state)
     }
 
-    fun switchObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::switchObject)
-    fun setObject(move: LoopyGameMove) = changeObject(move, LoopyGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

@@ -31,9 +31,6 @@ class HolidayIslandGame(layout: List<String>, gi: GameInterface<HolidayIslandGam
         levelInitilized(state)
     }
 
-    fun switchObject(move: HolidayIslandGameMove) = changeObject(move, HolidayIslandGameState::switchObject)
-    fun setObject(move: HolidayIslandGameMove) = changeObject(move, HolidayIslandGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

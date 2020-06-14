@@ -55,8 +55,6 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
         levelInitilized(state)
     }
 
-    fun switchObject(move: BattleShipsGameMove) = changeObject(move, BattleShipsGameState::switchObject)
-    fun setObject(move: BattleShipsGameMove) = changeObject(move, BattleShipsGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

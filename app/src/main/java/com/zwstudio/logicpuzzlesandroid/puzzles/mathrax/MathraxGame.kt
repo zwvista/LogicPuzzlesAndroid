@@ -54,9 +54,6 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
         levelInitilized(state)
     }
 
-    fun switchObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::switchObject)
-    fun setObject(move: MathraxGameMove) = changeObject(move, MathraxGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

@@ -53,8 +53,6 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
         levelInitilized(state)
     }
 
-    fun switchObject(move: BalancedTapasGameMove) = changeObject(move, BalancedTapasGameState::switchObject)
-    fun setObject(move: BalancedTapasGameMove) = changeObject(move, BalancedTapasGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

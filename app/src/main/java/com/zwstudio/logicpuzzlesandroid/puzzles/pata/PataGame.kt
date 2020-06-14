@@ -49,9 +49,6 @@ class PataGame(layout: List<String>, gi: GameInterface<PataGame, PataGameMove, P
         levelInitilized(state)
     }
 
-    fun switchObject(move: PataGameMove) = changeObject(move, PataGameState::switchObject)
-    fun setObject(move: PataGameMove) = changeObject(move, PataGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

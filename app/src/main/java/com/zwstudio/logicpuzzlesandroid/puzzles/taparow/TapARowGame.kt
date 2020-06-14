@@ -49,9 +49,6 @@ class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGa
         levelInitilized(state)
     }
 
-    fun switchObject(move: TapARowGameMove) = changeObject(move, TapARowGameState::switchObject)
-    fun setObject(move: TapARowGameMove) = changeObject(move, TapARowGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

@@ -62,9 +62,6 @@ class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSqu
         levelInitilized(state)
     }
 
-    fun switchObject(move: CarpentersSquareGameMove) = changeObject(move, CarpentersSquareGameState::switchObject)
-    fun setObject(move: CarpentersSquareGameMove) = changeObject(move, CarpentersSquareGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

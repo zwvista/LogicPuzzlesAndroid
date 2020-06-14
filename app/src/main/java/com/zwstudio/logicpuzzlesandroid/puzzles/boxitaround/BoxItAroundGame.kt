@@ -58,9 +58,6 @@ class BoxItAroundGame(layout: List<String>, gi: GameInterface<BoxItAroundGame, B
         levelInitilized(state)
     }
 
-    fun switchObject(move: BoxItAroundGameMove) = changeObject(move, BoxItAroundGameState::switchObject)
-    fun setObject(move: BoxItAroundGameMove) = changeObject(move, BoxItAroundGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getState(p: Position) = currentState.pos2state[p]

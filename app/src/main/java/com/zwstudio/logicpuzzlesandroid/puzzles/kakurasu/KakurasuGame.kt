@@ -40,9 +40,6 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
         levelInitilized(state)
     }
 
-    fun switchObject(move: KakurasuGameMove) = changeObject(move, KakurasuGameState::switchObject)
-    fun setObject(move: KakurasuGameMove) = changeObject(move, KakurasuGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

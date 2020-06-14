@@ -53,9 +53,6 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
         levelInitilized(state)
     }
 
-    fun switchObject(move: TentsGameMove) = changeObject(move, TentsGameState::switchObject)
-    fun setObject(move: TentsGameMove) = changeObject(move, TentsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

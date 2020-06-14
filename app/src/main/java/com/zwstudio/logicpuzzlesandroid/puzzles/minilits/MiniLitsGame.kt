@@ -90,9 +90,6 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
         levelInitilized(state)
     }
 
-    fun switchObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::switchObject)
-    fun setObject(move: MiniLitsGameMove) = changeObject(move, MiniLitsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

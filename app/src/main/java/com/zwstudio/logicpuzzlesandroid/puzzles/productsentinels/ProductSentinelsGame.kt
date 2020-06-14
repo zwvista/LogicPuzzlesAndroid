@@ -33,9 +33,6 @@ class ProductSentinelsGame(layout: List<String>, gi: GameInterface<ProductSentin
         levelInitilized(state)
     }
 
-    fun switchObject(move: ProductSentinelsGameMove) = changeObject(move, ProductSentinelsGameState::switchObject)
-    fun setObject(move: ProductSentinelsGameMove) = changeObject(move, ProductSentinelsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

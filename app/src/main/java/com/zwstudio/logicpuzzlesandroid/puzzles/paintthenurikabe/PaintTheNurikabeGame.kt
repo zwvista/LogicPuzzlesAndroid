@@ -86,9 +86,6 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
         levelInitilized(state)
     }
 
-    fun switchObject(move: PaintTheNurikabeGameMove) = changeObject(move, PaintTheNurikabeGameState::switchObject)
-    fun setObject(move: PaintTheNurikabeGameMove) = changeObject(move, PaintTheNurikabeGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

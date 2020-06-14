@@ -92,9 +92,6 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
         levelInitilized(state)
     }
 
-    fun switchObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::switchObject)
-    fun setObject(move: KropkiGameMove) = changeObject(move, KropkiGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getHorzState(p: Position) = currentState.pos2horzHint[p]

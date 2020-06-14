@@ -31,9 +31,6 @@ class WallsGame(layout: List<String>, gi: GameInterface<WallsGame, WallsGameMove
         levelInitilized(state)
     }
 
-    fun switchObject(move: WallsGameMove) = changeObject(move, WallsGameState::switchObject)
-    fun setObject(move: WallsGameMove) = changeObject(move, WallsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

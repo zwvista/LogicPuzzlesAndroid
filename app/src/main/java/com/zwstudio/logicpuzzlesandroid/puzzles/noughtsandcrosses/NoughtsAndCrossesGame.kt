@@ -48,9 +48,6 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
         levelInitilized(state)
     }
 
-    fun switchObject(move: NoughtsAndCrossesGameMove) = changeObject(move, NoughtsAndCrossesGameState::switchObject)
-    fun setObject(move: NoughtsAndCrossesGameMove) = changeObject(move, NoughtsAndCrossesGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

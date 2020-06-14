@@ -42,9 +42,6 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
         levelInitilized(state)
     }
 
-    fun switchObject(move: AbcGameMove) = changeObject(move, AbcGameState::switchObject)
-    fun setObject(move: AbcGameMove) = changeObject(move, AbcGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getState(row: Int, col: Int) = currentState.getState(row, col)

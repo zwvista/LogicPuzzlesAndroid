@@ -63,9 +63,6 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         levelInitilized(state)
     }
 
-    fun switchObject(move: SnailGameMove) = changeObject(move, SnailGameState::switchObject)
-    fun setObject(move: SnailGameMove) = changeObject(move, SnailGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

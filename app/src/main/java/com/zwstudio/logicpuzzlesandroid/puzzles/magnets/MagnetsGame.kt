@@ -49,9 +49,6 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
         levelInitilized(state)
     }
 
-    fun switchObject(move: MagnetsGameMove) = changeObject(move, MagnetsGameState::switchObject)
-    fun setObject(move: MagnetsGameMove) = changeObject(move, MagnetsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(id: Int) = currentState.row2state[id]

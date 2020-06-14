@@ -39,9 +39,6 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
         levelInitilized(state)
     }
 
-    fun switchObject(move: PowerGridGameMove) = changeObject(move, PowerGridGameState::switchObject)
-    fun setObject(move: PowerGridGameMove) = changeObject(move, PowerGridGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

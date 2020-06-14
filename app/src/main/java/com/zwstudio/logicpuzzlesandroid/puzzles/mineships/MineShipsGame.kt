@@ -37,8 +37,6 @@ class MineShipsGame(layout: List<String>, gi: GameInterface<MineShipsGame, MineS
         levelInitilized(state)
     }
 
-    fun switchObject(move: MineShipsGameMove) = changeObject(move, MineShipsGameState::switchObject)
-    fun setObject(move: MineShipsGameMove) = changeObject(move, MineShipsGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

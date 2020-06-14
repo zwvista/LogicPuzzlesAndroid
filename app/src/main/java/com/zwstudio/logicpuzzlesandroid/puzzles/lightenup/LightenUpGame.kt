@@ -34,9 +34,6 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
         levelInitilized(state)
     }
 
-    fun switchObject(move: LightenUpGameMove) = changeObject(move, LightenUpGameState::switchObject)
-    fun setObject(move: LightenUpGameMove) = changeObject(move, LightenUpGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

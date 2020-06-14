@@ -78,9 +78,6 @@ class OrchardsGame(layout: List<String>, gi: GameInterface<OrchardsGame, Orchard
         levelInitilized(state)
     }
 
-    fun switchObject(move: OrchardsGameMove) = changeObject(move, OrchardsGameState::switchObject)
-    fun setObject(move: OrchardsGameMove) = changeObject(move, OrchardsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

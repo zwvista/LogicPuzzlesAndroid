@@ -90,8 +90,6 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
         levelInitilized(state)
     }
 
-    fun switchObject(move: AbstractPaintingGameMove) = changeObject(move, AbstractPaintingGameState::switchObject)
-    fun setObject(move: AbstractPaintingGameMove) = changeObject(move, AbstractPaintingGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

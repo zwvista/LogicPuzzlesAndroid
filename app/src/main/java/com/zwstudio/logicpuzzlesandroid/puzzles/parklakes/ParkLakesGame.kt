@@ -31,9 +31,6 @@ class ParkLakesGame(layout: List<String>, gi: GameInterface<ParkLakesGame, ParkL
         levelInitilized(state)
     }
 
-    fun switchObject(move: ParkLakesGameMove) = changeObject(move, ParkLakesGameState::switchObject)
-    fun setObject(move: ParkLakesGameMove) = changeObject(move, ParkLakesGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

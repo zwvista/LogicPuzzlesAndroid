@@ -31,9 +31,6 @@ class TierraDelFuegoGame(layout: List<String>, gi: GameInterface<TierraDelFuegoG
         levelInitilized(state)
     }
 
-    fun switchObject(move: TierraDelFuegoGameMove) = changeObject(move, TierraDelFuegoGameState::switchObject)
-    fun setObject(move: TierraDelFuegoGameMove) = changeObject(move, TierraDelFuegoGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

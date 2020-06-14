@@ -37,9 +37,6 @@ class DisconnectFourGame(layout: List<String>, gi: GameInterface<DisconnectFourG
         levelInitilized(state)
     }
 
-    fun switchObject(move: DisconnectFourGameMove) = changeObject(move, DisconnectFourGameState::switchObject)
-    fun setObject(move: DisconnectFourGameMove) = changeObject(move, DisconnectFourGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

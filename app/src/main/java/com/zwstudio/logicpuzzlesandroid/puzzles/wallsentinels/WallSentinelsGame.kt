@@ -51,9 +51,6 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
         levelInitilized(state)
     }
 
-    fun switchObject(move: WallSentinelsGameMove) = changeObject(move, WallSentinelsGameState::switchObject)
-    fun setObject(move: WallSentinelsGameMove) = changeObject(move, WallSentinelsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

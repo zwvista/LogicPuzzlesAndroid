@@ -68,9 +68,6 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
         levelInitilized(state)
     }
 
-    fun switchObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::switchObject)
-    fun setObject(move: RobotCrosswordsGameMove) = changeObject(move, RobotCrosswordsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getHorzState(p: Position) = currentState.pos2horzState[p]

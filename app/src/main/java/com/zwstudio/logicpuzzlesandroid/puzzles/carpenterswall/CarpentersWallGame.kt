@@ -49,9 +49,6 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
         levelInitilized(state)
     }
 
-    fun switchObject(move: CarpentersWallGameMove) = changeObject(move, CarpentersWallGameState::switchObject)
-    fun setObject(move: CarpentersWallGameMove) = changeObject(move, CarpentersWallGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

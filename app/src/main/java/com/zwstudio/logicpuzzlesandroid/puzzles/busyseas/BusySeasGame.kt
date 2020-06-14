@@ -32,9 +32,6 @@ class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame, BusySea
         levelInitilized(state)
     }
 
-    fun switchObject(move: BusySeasGameMove) = changeObject(move, BusySeasGameState::switchObject)
-    fun setObject(move: BusySeasGameMove) = changeObject(move, BusySeasGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

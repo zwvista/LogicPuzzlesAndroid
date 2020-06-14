@@ -35,9 +35,6 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
         levelInitilized(state)
     }
 
-    fun switchObject(move: Square100GameMove) = changeObject(move, Square100GameState::switchObject)
-    fun setObject(move: Square100GameMove) = changeObject(move, Square100GameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowHint(row: Int) = currentState.row2hint[row]

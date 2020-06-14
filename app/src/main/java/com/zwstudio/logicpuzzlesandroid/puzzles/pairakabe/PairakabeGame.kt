@@ -40,9 +40,6 @@ class PairakabeGame(layout: List<String>, gi: GameInterface<PairakabeGame, Paira
         levelInitilized(state)
     }
 
-    fun switchObject(move: PairakabeGameMove) = changeObject(move, PairakabeGameState::switchObject)
-    fun setObject(move: PairakabeGameMove) = changeObject(move, PairakabeGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

@@ -88,9 +88,6 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
         levelInitilized(state)
     }
 
-    fun switchObject(move: RobotFencesGameMove) = changeObject(move, RobotFencesGameState::switchObject)
-    fun setObject(move: RobotFencesGameMove) = changeObject(move, RobotFencesGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

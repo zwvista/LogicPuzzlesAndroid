@@ -40,8 +40,6 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
         levelInitilized(state)
     }
 
-    fun switchObject(move: KakuroGameMove) = changeObject(move, KakuroGameState::switchObject)
-    fun setObject(move: KakuroGameMove) = changeObject(move, KakuroGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getHorzState(p: Position) = currentState.pos2horzHint[p]
     fun getVertState(p: Position) = currentState.pos2vertHint[p]

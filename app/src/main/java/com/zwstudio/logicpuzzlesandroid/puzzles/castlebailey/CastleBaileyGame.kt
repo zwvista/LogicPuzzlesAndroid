@@ -38,9 +38,6 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
         levelInitilized(state)
     }
 
-    fun switchObject(move: CastleBaileyGameMove) = changeObject(move, CastleBaileyGameState::switchObject)
-    fun setObject(move: CastleBaileyGameMove) = changeObject(move, CastleBaileyGameState::setObject)
-
     fun getObject(p: Position): CastleBaileyObject = currentState[p]
     fun getObject(row: Int, col: Int): CastleBaileyObject = currentState[row, col]
     fun getPosState(p: Position) = currentState.pos2state[p]

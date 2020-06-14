@@ -84,9 +84,6 @@ class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<Pa
         levelInitilized(state)
     }
 
-    fun switchObject(move: ParksGameMove) = changeObject(move, ParksGameState::switchObject)
-    fun setObject(move: ParksGameMove) = changeObject(move, ParksGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

@@ -41,9 +41,6 @@ class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsG
         levelInitilized(state)
     }
 
-    fun switchObject(move: FenceSentinelsGameMove) = changeObject(move, FenceSentinelsGameState::switchObject)
-    fun setObject(move: FenceSentinelsGameMove) = changeObject(move, FenceSentinelsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

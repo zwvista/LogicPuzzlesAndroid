@@ -49,9 +49,6 @@ class TapAlikeGame(layout: List<String>, gi: GameInterface<TapAlikeGame, TapAlik
         levelInitilized(state)
     }
 
-    fun switchObject(move: TapAlikeGameMove) = changeObject(move, TapAlikeGameState::switchObject)
-    fun setObject(move: TapAlikeGameMove) = changeObject(move, TapAlikeGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

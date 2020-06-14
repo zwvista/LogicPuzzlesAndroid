@@ -35,9 +35,6 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
         levelInitilized(state)
     }
 
-    fun switchObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::switchObject)
-    fun setObject(move: TennerGridGameMove) = changeObject(move, TennerGridGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getPosState(p: Position) = currentState.pos2state[p]

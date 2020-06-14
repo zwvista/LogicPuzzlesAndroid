@@ -113,9 +113,6 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
         levelInitilized(state)
     }
 
-    fun switchObject(move: LitsGameMove) = changeObject(move, LitsGameState::switchObject)
-    fun setObject(move: LitsGameMove) = changeObject(move, LitsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

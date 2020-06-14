@@ -36,7 +36,6 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
         levelInitilized(state)
     }
 
-    fun setObject(move: MasyuGameMove) = changeObject(move, MasyuGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

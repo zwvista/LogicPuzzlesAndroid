@@ -62,9 +62,6 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
         levelInitilized(state)
     }
 
-    fun switchObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::switchObject)
-    fun setObject(move: NeighboursGameMove) = changeObject(move, NeighboursGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

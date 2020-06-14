@@ -41,9 +41,6 @@ class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, S
         levelInitilized(state)
     }
 
-    fun switchObject(move: SlitherLinkGameMove) = changeObject(move, SlitherLinkGameState::switchObject)
-    fun setObject(move: SlitherLinkGameMove) = changeObject(move, SlitherLinkGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

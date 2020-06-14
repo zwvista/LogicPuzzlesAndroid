@@ -43,9 +43,6 @@ class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameM
         levelInitilized(state)
     }
 
-    fun switchObject(move: CloudsGameMove) = changeObject(move, CloudsGameState::switchObject)
-    fun setObject(move: CloudsGameMove) = changeObject(move, CloudsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

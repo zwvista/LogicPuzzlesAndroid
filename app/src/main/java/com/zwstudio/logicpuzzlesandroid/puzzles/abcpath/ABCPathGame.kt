@@ -48,8 +48,6 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
         levelInitilized(state)
     }
 
-    fun switchObject(move: ABCPathGameMove) = changeObject(move, ABCPathGameState::switchObject)
-    fun setObject(move: ABCPathGameMove) = changeObject(move, ABCPathGameState::setObject)
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getState(row: Int, col: Int) = currentState.pos2state[Position(row, col)]

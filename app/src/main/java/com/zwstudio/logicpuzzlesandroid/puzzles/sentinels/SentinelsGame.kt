@@ -34,9 +34,6 @@ class SentinelsGame(layout: List<String>, gi: GameInterface<SentinelsGame, Senti
         levelInitilized(state)
     }
 
-    fun switchObject(move: SentinelsGameMove) = changeObject(move, SentinelsGameState::switchObject)
-    fun setObject(move: SentinelsGameMove) = changeObject(move, SentinelsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

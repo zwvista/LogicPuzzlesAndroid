@@ -49,9 +49,6 @@ class TapDifferentlyGame(layout: List<String>, gi: GameInterface<TapDifferentlyG
         levelInitilized(state)
     }
 
-    fun switchObject(move: TapDifferentlyGameMove) = changeObject(move, TapDifferentlyGameState::switchObject)
-    fun setObject(move: TapDifferentlyGameMove) = changeObject(move, TapDifferentlyGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

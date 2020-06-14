@@ -53,9 +53,6 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
         levelInitilized(state)
     }
 
-    fun switchObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::switchObject)
-    fun setObject(move: TataminoGameMove) = changeObject(move, TataminoGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getPosState(p: Position) = currentState.pos2state[p]

@@ -55,9 +55,6 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
         levelInitilized(state)
     }
 
-    fun switchObject(move: FillominoGameMove) = changeObject(move, FillominoGameState::switchObject)
-    fun setObject(move: FillominoGameMove) = changeObject(move, FillominoGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getPosState(p: Position) = currentState.pos2state[p]

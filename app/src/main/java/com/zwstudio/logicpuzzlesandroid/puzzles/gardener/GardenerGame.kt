@@ -87,9 +87,6 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
         levelInitilized(state)
     }
 
-    fun switchObject(move: GardenerGameMove) = changeObject(move, GardenerGameState::switchObject)
-    fun setObject(move: GardenerGameMove) = changeObject(move, GardenerGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

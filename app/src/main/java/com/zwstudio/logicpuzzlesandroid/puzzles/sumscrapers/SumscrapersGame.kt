@@ -39,9 +39,6 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
         levelInitilized(state)
     }
 
-    fun switchObject(move: SumscrapersGameMove) = changeObject(move, SumscrapersGameState::switchObject)
-    fun setObject(move: SumscrapersGameMove) = changeObject(move, SumscrapersGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getState(row: Int, col: Int) = currentState.getState(row, col)

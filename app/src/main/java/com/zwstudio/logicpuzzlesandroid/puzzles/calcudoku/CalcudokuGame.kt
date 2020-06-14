@@ -97,9 +97,6 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
         levelInitilized(state)
     }
 
-    fun switchObject(move: CalcudokuGameMove) = changeObject(move, CalcudokuGameState::switchObject)
-    fun setObject(move: CalcudokuGameMove) = changeObject(move, CalcudokuGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

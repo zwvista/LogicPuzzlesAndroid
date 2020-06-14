@@ -62,9 +62,6 @@ class OverUnderGame(layout: List<String>, gi: GameInterface<OverUnderGame, OverU
     operator fun set(row: Int, col: Int, dotObj: Array<GridLineObject>) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
 
-    fun switchObject(move: OverUnderGameMove) = changeObject(move, OverUnderGameState::switchObject)
-    fun setObject(move: OverUnderGameMove) = changeObject(move, OverUnderGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

@@ -87,9 +87,6 @@ class TatamiGame(layout: List<String>, gi: GameInterface<TatamiGame, TatamiGameM
         levelInitilized(state)
     }
 
-    fun switchObject(move: TatamiGameMove) = changeObject(move, TatamiGameState::switchObject)
-    fun setObject(move: TatamiGameMove) = changeObject(move, TatamiGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

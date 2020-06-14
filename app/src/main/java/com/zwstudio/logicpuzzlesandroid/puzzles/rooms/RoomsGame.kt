@@ -59,9 +59,6 @@ class RoomsGame(layout: List<String>, gi: GameInterface<RoomsGame, RoomsGameMove
         levelInitilized(state)
     }
 
-    fun switchObject(move: RoomsGameMove) = changeObject(move, RoomsGameState::switchObject)
-    fun setObject(move: RoomsGameMove) = changeObject(move, RoomsGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]

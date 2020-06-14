@@ -88,9 +88,6 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
         levelInitilized(state)
     }
 
-    fun switchObject(move: TheOddBrickGameMove) = changeObject(move, TheOddBrickGameState::switchObject)
-    fun setObject(move: TheOddBrickGameMove) = changeObject(move, TheOddBrickGameState::setObject)
-
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]

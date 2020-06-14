@@ -36,8 +36,6 @@ class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, B
         levelInitilized(state)
     }
 
-    fun switchObject(move: BootyIslandGameMove) = changeObject(move, BootyIslandGameState::switchObject)
-    fun setObject(move: BootyIslandGameMove) = changeObject(move, BootyIslandGameState::setObject)
     fun getObject(p: Position): BootyIslandObject = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]
