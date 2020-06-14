@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class FenceSentinelsDocument : GameDocument<FenceSentinelsGame, FenceSentinelsGameMove>() {
+class FenceSentinelsDocument : GameDocument<FenceSentinelsGameMove>() {
     override fun saveMove(move: FenceSentinelsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class RippleEffectDocument : GameDocument<RippleEffectGame, RippleEffectGameMove>() {
+class RippleEffectDocument : GameDocument<RippleEffectGameMove>() {
     override fun saveMove(move: RippleEffectGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

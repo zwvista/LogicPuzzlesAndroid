@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class AbcDocument : GameDocument<AbcGame, AbcGameMove>() {
+class AbcDocument : GameDocument<AbcGameMove>() {
     override fun saveMove(move: AbcGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

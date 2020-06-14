@@ -18,7 +18,7 @@ interface GameDocumentInterface {
 }
 
 @EBean(scope = EBean.Scope.Singleton)
-abstract class GameDocument<G : Game<*, *, *>, GM> : GameDocumentInterface {
+abstract class GameDocument<GM> : GameDocumentInterface {
     val gameID: String
         get() {
             val name = javaClass.simpleName

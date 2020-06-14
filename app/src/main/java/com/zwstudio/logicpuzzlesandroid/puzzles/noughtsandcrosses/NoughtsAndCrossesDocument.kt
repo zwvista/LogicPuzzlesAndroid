@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class NoughtsAndCrossesDocument : GameDocument<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove>() {
+class NoughtsAndCrossesDocument : GameDocument<NoughtsAndCrossesGameMove>() {
     override fun saveMove(move: NoughtsAndCrossesGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

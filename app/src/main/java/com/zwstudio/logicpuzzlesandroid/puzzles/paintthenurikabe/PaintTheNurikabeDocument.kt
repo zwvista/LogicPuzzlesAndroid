@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PaintTheNurikabeDocument : GameDocument<PaintTheNurikabeGame, PaintTheNurikabeGameMove>() {
+class PaintTheNurikabeDocument : GameDocument<PaintTheNurikabeGameMove>() {
     override fun saveMove(move: PaintTheNurikabeGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

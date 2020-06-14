@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class MiniLitsDocument : GameDocument<MiniLitsGame, MiniLitsGameMove>() {
+class MiniLitsDocument : GameDocument<MiniLitsGameMove>() {
     override fun saveMove(move: MiniLitsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

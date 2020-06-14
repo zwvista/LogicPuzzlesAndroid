@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class MasyuDocument : GameDocument<MasyuGame, MasyuGameMove>() {
+class MasyuDocument : GameDocument<MasyuGameMove>() {
     override fun saveMove(move: MasyuGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

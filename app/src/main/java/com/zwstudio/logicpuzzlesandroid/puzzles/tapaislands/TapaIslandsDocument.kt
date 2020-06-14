@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class TapaIslandsDocument : GameDocument<TapaIslandsGame, TapaIslandsGameMove>() {
+class TapaIslandsDocument : GameDocument<TapaIslandsGameMove>() {
     override fun saveMove(move: TapaIslandsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

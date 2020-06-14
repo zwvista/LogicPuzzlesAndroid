@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import org.androidannotations.annotations.EBean
 
 @EBean
-class BoxItAgainDocument : GameDocument<BoxItAgainGame, BoxItAgainGameMove>() {
+class BoxItAgainDocument : GameDocument<BoxItAgainGameMove>() {
     override fun saveMove(move: BoxItAgainGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
