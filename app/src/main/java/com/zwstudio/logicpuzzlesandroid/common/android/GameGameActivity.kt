@@ -78,7 +78,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
 
     protected fun startGame() {
         val selectedLevelID = doc.selectedLevelID
-        val level = doc.levels[doc.levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
+        val level = doc.levels.firstOrNull { it.id == selectedLevelID } ?: doc.levels.first()
         tvLevel.text = selectedLevelID
         updateSolutionUI()
 
