@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
+import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
@@ -19,27 +20,8 @@ class LightenUpGameActivity : GameGameActivity<LightenUpGame, LightenUpDocument,
         super.init()
     }
 
-    override fun startGame() {
-        val selectedLevelID = doc.selectedLevelID
-        val level = doc.levels[doc.levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
-        tvLevel.text = selectedLevelID
-        updateSolutionUI()
-        levelInitilizing = true
-        game = LightenUpGame(level.layout, this, doc)
-        try {
-            // restore game state
-            for (rec in doc.moveProgress()) {
-                val move = doc.loadMove(rec)
-                game.setObject(move)
-            }
-            val moveIndex = doc.levelProgress().moveIndex
-            if (moveIndex in 0 until game.moveCount)
-                while (moveIndex != game.moveIndex)
-                    game.undo()
-        } finally {
-            levelInitilizing = false
-        }
-    }
+    override fun newGame(level: GameLevel) =
+        LightenUpGame(level.layout, this, doc)
 
     @Click
     protected fun btnHelp() {

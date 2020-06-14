@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
+import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
@@ -75,7 +76,30 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, G
         }
     }
 
-    protected abstract fun startGame()
+    protected fun startGame() {
+        val selectedLevelID = doc.selectedLevelID
+        val level = doc.levels[doc.levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
+        tvLevel.text = selectedLevelID
+        updateSolutionUI()
+
+        levelInitilizing = true
+        game = newGame(level)
+        try {
+            // restore game state
+            for (rec in doc.moveProgress()) {
+                val move = doc.loadMove(rec)
+                game.setObject(move)
+            }
+            val moveIndex = doc.levelProgress().moveIndex
+            if (moveIndex in 0 until game.moveCount)
+                while (moveIndex != game.moveIndex)
+                    game.undo()
+        } finally {
+            levelInitilizing = false
+        }
+    }
+    protected abstract fun newGame(level: GameLevel): G
+
     override fun moveAdded(game: G, move: GM) {
         if (levelInitilizing) return
         doc.moveAdded(game, move)

@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.square100
 
 import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
+import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.Click
@@ -19,27 +20,8 @@ class Square100GameActivity : GameGameActivity<Square100Game, Square100Document,
         super.init()
     }
 
-    protected override fun startGame() {
-        val selectedLevelID = doc.selectedLevelID
-        val level = doc.levels[doc.levels.indexOfFirst { it.id == selectedLevelID }.coerceAtLeast(0)]
-        tvLevel.text = selectedLevelID
-        updateSolutionUI()
-        levelInitilizing = true
-        game = Square100Game(level.layout, this, doc)
-        try {
-            // restore game state
-            for (rec in doc.moveProgress()) {
-                val move = doc.loadMove(rec)
-                game.setObject(move)
-            }
-            val moveIndex = doc.levelProgress().moveIndex
-            if (moveIndex in 0 until game.moveCount)
-                while (moveIndex != game.moveIndex)
-                    game.undo()
-        } finally {
-            levelInitilizing = false
-        }
-    }
+    override fun newGame(level: GameLevel) =
+        Square100Game(level.layout, this, doc)
 
     @Click
     protected fun btnHelp() {

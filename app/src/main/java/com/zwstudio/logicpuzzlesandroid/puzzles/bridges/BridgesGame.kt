@@ -59,6 +59,8 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
             state.switchBridges(move)
         }
 
+    override fun setObject(move: BridgesGameMove) = switchBridges(move)
+
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
 }

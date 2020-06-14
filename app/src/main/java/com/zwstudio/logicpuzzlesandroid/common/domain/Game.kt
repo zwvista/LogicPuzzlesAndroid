@@ -74,8 +74,8 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState<GM>>(val gi: GameInterfa
         return changed
     }
 
-    fun switchObject(move: GM) = changeObject(move) { state, move -> state.switchObject(move) }
-    fun setObject(move: GM) = changeObject(move) { state, move -> state.setObject(move) }
+    open fun switchObject(move: GM) = changeObject(move) { state, move -> state.switchObject(move) }
+    open fun setObject(move: GM) = changeObject(move) { state, move -> state.setObject(move) }
 
     init {
         cloner.dontClone(this.javaClass)
