@@ -14,7 +14,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
         updateIsSolved()
     }
 
-    fun setObject(move: LoopyGameMove): Boolean {
+    override fun setObject(move: LoopyGameMove): Boolean {
         if (!isValidMove(move)) return false
         val dir = move.dir
         val dir2 = (dir + 2) % 4
@@ -27,7 +27,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
         return true
     }
 
-    fun switchObject(move: LoopyGameMove): Boolean {
+    override fun switchObject(move: LoopyGameMove): Boolean {
         if (!isValidMove(move)) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]

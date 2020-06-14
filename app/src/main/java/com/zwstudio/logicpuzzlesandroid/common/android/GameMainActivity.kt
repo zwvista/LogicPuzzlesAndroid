@@ -12,7 +12,7 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
 @EActivity
-abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity() {
+abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState<GM>> : BaseActivity() {
     abstract val doc: GD
 
     @ViewById

@@ -18,7 +18,7 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
         updateIsSolved()
     }
 
-    fun setObject(move: KropkiGameMove): Boolean {
+    override fun setObject(move: KropkiGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -26,7 +26,7 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
         return true
     }
 
-    fun switchObject(move: KropkiGameMove): Boolean {
+    override fun switchObject(move: KropkiGameMove): Boolean {
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]

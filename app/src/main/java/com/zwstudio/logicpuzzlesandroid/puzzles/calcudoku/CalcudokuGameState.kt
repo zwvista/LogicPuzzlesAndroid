@@ -19,7 +19,7 @@ class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, Ca
         updateIsSolved()
     }
 
-    fun setObject(move: CalcudokuGameMove): Boolean {
+    override fun setObject(move: CalcudokuGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -27,7 +27,7 @@ class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, Ca
         return true
     }
 
-    fun switchObject(move: CalcudokuGameMove): Boolean {
+    override fun switchObject(move: CalcudokuGameMove): Boolean {
         val p = move.p
         if (!isValid(p)) return false
         val o = get(p)

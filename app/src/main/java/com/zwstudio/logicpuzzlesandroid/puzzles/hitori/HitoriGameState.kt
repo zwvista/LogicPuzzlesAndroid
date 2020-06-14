@@ -16,7 +16,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
     operator fun set(row: Int, col: Int, obj: HitoriObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: HitoriObject) {this[p.row, p.col] = obj}
 
-    fun setObject(move: HitoriGameMove): Boolean {
+    override fun setObject(move: HitoriGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -24,7 +24,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         return true
     }
 
-    fun switchObject(move: HitoriGameMove): Boolean {
+    override fun switchObject(move: HitoriGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         fun f(obj: HitoriObject) =
             when (obj) {

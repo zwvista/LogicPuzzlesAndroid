@@ -22,14 +22,14 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         var tetrominoIndex = -1
     }
 
-    fun setObject(move: LitsGameMove): Boolean {
+    override fun setObject(move: LitsGameMove): Boolean {
         if (!isValid(move.p) || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: LitsGameMove): Boolean {
+    override fun switchObject(move: LitsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when(o) {

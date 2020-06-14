@@ -16,7 +16,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
         updateIsSolved()
     }
 
-    fun setObject(move: SlitherLinkGameMove): Boolean {
+    override fun setObject(move: SlitherLinkGameMove): Boolean {
         if (!isValidMove(move)) return false
         val dir = move.dir
         val dir2 = (dir + 2) % 4
@@ -30,7 +30,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
         return true
     }
 
-    fun switchObject(move: SlitherLinkGameMove): Boolean {
+    override fun switchObject(move: SlitherLinkGameMove): Boolean {
         if (!isValidMove(move)) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]

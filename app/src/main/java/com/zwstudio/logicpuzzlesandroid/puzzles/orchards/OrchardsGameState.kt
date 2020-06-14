@@ -15,14 +15,14 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
         updateIsSolved()
     }
 
-    fun setObject(move: OrchardsGameMove): Boolean {
+    override fun setObject(move: OrchardsGameMove): Boolean {
         if (!isValid(move.p) || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: OrchardsGameMove): Boolean {
+    override fun switchObject(move: OrchardsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

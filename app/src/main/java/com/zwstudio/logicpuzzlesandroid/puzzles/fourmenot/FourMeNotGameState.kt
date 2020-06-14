@@ -15,14 +15,14 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         updateIsSolved()
     }
 
-    fun setObject(move: FourMeNotGameMove): Boolean {
+    override fun setObject(move: FourMeNotGameMove): Boolean {
         if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: FourMeNotGameMove): Boolean {
+    override fun switchObject(move: FourMeNotGameMove): Boolean {
         if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]

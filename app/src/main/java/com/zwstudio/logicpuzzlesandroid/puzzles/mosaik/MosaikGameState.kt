@@ -20,14 +20,14 @@ class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameM
         updateIsSolved()
     }
 
-    fun setObject(move: MosaikGameMove): Boolean {
+    override fun setObject(move: MosaikGameMove): Boolean {
         if (this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: MosaikGameMove): Boolean {
+    override fun switchObject(move: MosaikGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

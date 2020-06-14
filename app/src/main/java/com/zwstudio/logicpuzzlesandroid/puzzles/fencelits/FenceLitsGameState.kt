@@ -14,7 +14,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
         updateIsSolved()
     }
 
-    fun setObject(move: FenceLitsGameMove): Boolean {
+    override fun setObject(move: FenceLitsGameMove): Boolean {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
@@ -27,7 +27,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
         return true
     }
 
-    fun switchObject(move: FenceLitsGameMove): Boolean {
+    override fun switchObject(move: FenceLitsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

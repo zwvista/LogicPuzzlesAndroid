@@ -16,7 +16,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         updateIsSolved()
     }
 
-    fun setObject(move: BalancedTapasGameMove): Boolean {
+    override fun setObject(move: BalancedTapasGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -27,7 +27,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         return true
     }
 
-    fun switchObject(move: BalancedTapasGameMove): Boolean {
+    override fun switchObject(move: BalancedTapasGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

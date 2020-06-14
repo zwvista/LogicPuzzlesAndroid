@@ -16,14 +16,14 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         updateIsSolved()
     }
 
-    fun setObject(move: TierraDelFuegoGameMove): Boolean {
+    override fun setObject(move: TierraDelFuegoGameMove): Boolean {
         if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: TierraDelFuegoGameMove): Boolean {
+    override fun switchObject(move: TierraDelFuegoGameMove): Boolean {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]

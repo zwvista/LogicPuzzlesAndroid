@@ -15,14 +15,14 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             this[p] = HolidayIslandHintObject(tiles = n)
     }
 
-    fun setObject(move: HolidayIslandGameMove): Boolean {
+    override fun setObject(move: HolidayIslandGameMove): Boolean {
         if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: HolidayIslandGameMove): Boolean {
+    override fun switchObject(move: HolidayIslandGameMove): Boolean {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]

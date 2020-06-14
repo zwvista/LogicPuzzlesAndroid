@@ -14,7 +14,7 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
         updateIsSolved()
     }
 
-    fun setObject(move: BoxItUpGameMove): Boolean {
+    override fun setObject(move: BoxItUpGameMove): Boolean {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
@@ -28,7 +28,7 @@ class BoxItUpGameState(game: BoxItUpGame) : CellsGameState<BoxItUpGame, BoxItUpG
         return true
     }
 
-    fun switchObject(move: BoxItUpGameMove): Boolean {
+    override fun switchObject(move: BoxItUpGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

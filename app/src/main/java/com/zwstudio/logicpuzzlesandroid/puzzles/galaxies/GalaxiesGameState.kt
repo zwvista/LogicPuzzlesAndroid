@@ -18,7 +18,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, Galax
         updateIsSolved()
     }
 
-    fun setObject(move: GalaxiesGameMove): Boolean {
+    override fun setObject(move: GalaxiesGameMove): Boolean {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
@@ -32,7 +32,7 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, Galax
         return true
     }
 
-    fun switchObject(move: GalaxiesGameMove): Boolean {
+    override fun switchObject(move: GalaxiesGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

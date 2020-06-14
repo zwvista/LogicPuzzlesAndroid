@@ -19,14 +19,14 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
         updateIsSolved()
     }
 
-    fun setObject(move: WallsGameMove): Boolean {
+    override fun setObject(move: WallsGameMove): Boolean {
         if (!isValid(move.p) || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: WallsGameMove): Boolean {
+    override fun switchObject(move: WallsGameMove): Boolean {
         val o = this[move.p]
         move.obj = if (o is WallsEmptyObject) WallsHorzObject() else if (o is WallsHorzObject) WallsVertObject() else if (o is WallsVertObject) WallsEmptyObject() else o
         return setObject(move)

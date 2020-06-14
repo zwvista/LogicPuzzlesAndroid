@@ -19,7 +19,7 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
         updateIsSolved()
     }
 
-    fun setObject(move: KakurasuGameMove): Boolean {
+    override fun setObject(move: KakurasuGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -27,7 +27,7 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
         return true
     }
 
-    fun switchObject(move: KakurasuGameMove): Boolean {
+    override fun switchObject(move: KakurasuGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         if (!isValid(move.p)) return false
         val o = this[move.p]

@@ -18,14 +18,14 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
         updateIsSolved()
     }
 
-    fun setObject(move: TentsGameMove): Boolean {
+    override fun setObject(move: TentsGameMove): Boolean {
         if (!isValid(move.p) || this[move.p] === move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: TentsGameMove): Boolean {
+    override fun switchObject(move: TentsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

@@ -3,11 +3,13 @@ package com.zwstudio.logicpuzzlesandroid.common.domain
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 
-open class GameState {
+open class GameState<GM> {
     var isSolved = false
+    open fun setObject(move: GM) = false
+    open fun switchObject(move: GM) = false
 }
 
-interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState> {
+interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState<GM>> {
     fun moveAdded(game: G, move: GM)
     fun levelInitilized(game: G, state: GS)
     fun levelUpdated(game: G, stateFrom: GS, stateTo: GS)
@@ -15,7 +17,7 @@ interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState> {
 }
 
 @Suppress("UNCHECKED_CAST")
-open class Game<G : Game<G, GM, GS>, GM, GS : GameState>(val gi: GameInterface<G, GM, GS>, val gdi: GameDocumentInterface) {
+open class Game<G : Game<G, GM, GS>, GM, GS : GameState<GM>>(val gi: GameInterface<G, GM, GS>, val gdi: GameDocumentInterface) {
     protected var cloner = Cloner()
     protected var stateIndex = 0
     protected var states = mutableListOf<GS>()

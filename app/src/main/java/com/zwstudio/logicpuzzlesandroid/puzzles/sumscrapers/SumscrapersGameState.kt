@@ -25,7 +25,7 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
         updateIsSolved()
     }
 
-    fun setObject(move: SumscrapersGameMove): Boolean {
+    override fun setObject(move: SumscrapersGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -33,7 +33,7 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
         return true
     }
 
-    fun switchObject(move: SumscrapersGameMove): Boolean {
+    override fun switchObject(move: SumscrapersGameMove): Boolean {
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]

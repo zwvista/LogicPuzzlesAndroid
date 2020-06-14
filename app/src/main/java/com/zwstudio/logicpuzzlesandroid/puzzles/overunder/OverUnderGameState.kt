@@ -16,7 +16,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame, Ov
         updateIsSolved()
     }
 
-    fun setObject(move: OverUnderGameMove): Boolean {
+    override fun setObject(move: OverUnderGameMove): Boolean {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
@@ -30,7 +30,7 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame, Ov
         return true
     }
 
-    fun switchObject(move: OverUnderGameMove): Boolean {
+    override fun switchObject(move: OverUnderGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj =  when (o) {

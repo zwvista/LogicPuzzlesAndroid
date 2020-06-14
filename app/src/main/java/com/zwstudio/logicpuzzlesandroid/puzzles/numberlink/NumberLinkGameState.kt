@@ -15,7 +15,7 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
         updateIsSolved()
     }
 
-    fun setObject(move: NumberLinkGameMove): Boolean {
+    override fun setObject(move: NumberLinkGameMove): Boolean {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p = move.p

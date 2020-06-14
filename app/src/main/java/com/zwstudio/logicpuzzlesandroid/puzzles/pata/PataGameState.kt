@@ -17,7 +17,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         updateIsSolved()
     }
 
-    fun setObject(move: PataGameMove): Boolean {
+    override fun setObject(move: PataGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -27,7 +27,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         return true
     }
 
-    fun switchObject(move: PataGameMove): Boolean {
+    override fun switchObject(move: PataGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

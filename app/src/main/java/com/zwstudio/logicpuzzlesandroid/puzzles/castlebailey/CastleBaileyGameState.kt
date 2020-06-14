@@ -16,7 +16,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
     operator fun set(row: Int, col: Int, obj: CastleBaileyObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: CastleBaileyObject) {this[p.row, p.col] = obj}
 
-    fun setObject(move: CastleBaileyGameMove): Boolean {
+    override fun setObject(move: CastleBaileyGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -24,7 +24,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
         return true
     }
 
-    fun switchObject(move: CastleBaileyGameMove): Boolean {
+    override fun switchObject(move: CastleBaileyGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

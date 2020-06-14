@@ -16,7 +16,7 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         updateIsSolved()
     }
 
-    fun setObject(move: DigitalBattleShipsGameMove): Boolean {
+    override fun setObject(move: DigitalBattleShipsGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -24,7 +24,7 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         return true
     }
 
-    fun switchObject(move: DigitalBattleShipsGameMove): Boolean {
+    override fun switchObject(move: DigitalBattleShipsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

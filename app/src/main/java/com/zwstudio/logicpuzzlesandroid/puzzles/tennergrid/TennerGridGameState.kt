@@ -17,7 +17,7 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
         updateIsSolved()
     }
 
-    fun setObject(move: TennerGridGameMove): Boolean {
+    override fun setObject(move: TennerGridGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] >= 0 || this[p] == move.obj) return false
         this[p] = move.obj
@@ -25,7 +25,7 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
         return true
     }
 
-    fun switchObject(move: TennerGridGameMove): Boolean {
+    override fun switchObject(move: TennerGridGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] >= 0) return false
         val o = this[p]

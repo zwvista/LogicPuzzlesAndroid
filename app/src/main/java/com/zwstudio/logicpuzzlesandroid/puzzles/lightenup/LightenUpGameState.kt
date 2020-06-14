@@ -36,7 +36,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
         return true
     }
 
-    fun setObject(move: LightenUpGameMove): Boolean {
+    override fun setObject(move: LightenUpGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -51,7 +51,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
         return false
     }
 
-    fun switchObject(move: LightenUpGameMove): Boolean {
+    override fun switchObject(move: LightenUpGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         fun f(obj: LightenUpObject) = when(obj) {

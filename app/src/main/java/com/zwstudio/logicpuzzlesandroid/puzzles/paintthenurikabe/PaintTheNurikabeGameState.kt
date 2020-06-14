@@ -18,7 +18,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         updateIsSolved()
     }
 
-    fun setObject(move: PaintTheNurikabeGameMove): Boolean {
+    override fun setObject(move: PaintTheNurikabeGameMove): Boolean {
         val p = move.p
         val o = move.obj
         if (!isValid(p) || this[p] == o) return false
@@ -29,7 +29,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         return true
     }
 
-    fun switchObject(move: PaintTheNurikabeGameMove): Boolean {
+    override fun switchObject(move: PaintTheNurikabeGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

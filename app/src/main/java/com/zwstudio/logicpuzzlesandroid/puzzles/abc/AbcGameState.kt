@@ -27,7 +27,7 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
         else -> HintState.Normal
     }
 
-    fun setObject(move: AbcGameMove): Boolean {
+    override fun setObject(move: AbcGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -35,7 +35,7 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
         return true
     }
 
-    fun switchObject(move: AbcGameMove): Boolean {
+    override fun switchObject(move: AbcGameMove): Boolean {
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]

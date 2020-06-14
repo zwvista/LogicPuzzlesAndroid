@@ -16,7 +16,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
     operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
-    fun setObject(move: LineSweeperGameMove): Boolean {
+    override fun setObject(move: LineSweeperGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game.isHint(p)) return false
         val dir = move.dir

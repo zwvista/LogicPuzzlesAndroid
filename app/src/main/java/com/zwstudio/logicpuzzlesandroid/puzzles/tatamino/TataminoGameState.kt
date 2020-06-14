@@ -18,7 +18,7 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
         updateIsSolved()
     }
 
-    fun setObject(move: TataminoGameMove): Boolean {
+    override fun setObject(move: TataminoGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -26,7 +26,7 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
         return true
     }
 
-    fun switchObject(move: TataminoGameMove): Boolean {
+    override fun switchObject(move: TataminoGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != ' ') return false
         val o = this[p]

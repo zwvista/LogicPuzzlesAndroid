@@ -19,7 +19,7 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, Fu
         updateIsSolved()
     }
 
-    fun setObject(move: FutoshikiGameMove): Boolean {
+    override fun setObject(move: FutoshikiGameMove): Boolean {
         val p = move.p
         if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ') || this[move.p] == move.obj) return false
         this[move.p] = move.obj
@@ -27,7 +27,7 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, Fu
         return true
     }
 
-    fun switchObject(move: FutoshikiGameMove): Boolean {
+    override fun switchObject(move: FutoshikiGameMove): Boolean {
         val p = move.p
         if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ')) return false
         val o = this[p].toInt()

@@ -12,7 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
 import org.androidannotations.annotations.*
 
 @EActivity
-abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState> : BaseActivity() {
+abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<G, GM>, GM, GS : GameState<GM>> : BaseActivity() {
     abstract val doc: GD
 
     @ViewById

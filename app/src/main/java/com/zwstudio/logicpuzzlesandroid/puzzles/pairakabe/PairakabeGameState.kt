@@ -15,7 +15,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             this[p] = PairakabeHintObject()
     }
 
-    fun setObject(move: PairakabeGameMove): Boolean {
+    override fun setObject(move: PairakabeGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -25,7 +25,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
         return true
     }
 
-    fun switchObject(move: PairakabeGameMove): Boolean {
+    override fun switchObject(move: PairakabeGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

@@ -20,7 +20,7 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         updateIsSolved()
     }
 
-    fun setObject(move: SnailGameMove): Boolean {
+    override fun setObject(move: SnailGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -28,7 +28,7 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         return true
     }
 
-    fun switchObject(move: SnailGameMove): Boolean {
+    override fun switchObject(move: SnailGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

@@ -19,7 +19,7 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
     operator fun set(row: Int, col: Int, obj: AbstractPaintingObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: AbstractPaintingObject) {this[p.row, p.col] = obj}
 
-    fun setObject(move: AbstractPaintingGameMove): Boolean {
+    override fun setObject(move: AbstractPaintingGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         // 3. The region of the painting can be entirely hidden or revealed.
@@ -29,7 +29,7 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
         return true
     }
 
-    fun switchObject(move: AbstractPaintingGameMove): Boolean {
+    override fun switchObject(move: AbstractPaintingGameMove): Boolean {
         val p = move.p
         if (!isValid(p)) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]

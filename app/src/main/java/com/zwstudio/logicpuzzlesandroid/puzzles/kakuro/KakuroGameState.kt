@@ -17,7 +17,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
         updateIsSolved()
     }
 
-    fun setObject(move: KakuroGameMove): Boolean {
+    override fun setObject(move: KakuroGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == null || this[p] == move.obj) return false
         this[p] = move.obj
@@ -25,7 +25,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
         return true
     }
 
-    fun switchObject(move: KakuroGameMove): Boolean {
+    override fun switchObject(move: KakuroGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == null) return false
         val o = this[p]!!

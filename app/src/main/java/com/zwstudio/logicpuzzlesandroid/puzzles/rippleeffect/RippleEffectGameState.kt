@@ -17,7 +17,7 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
         updateIsSolved()
     }
 
-    fun setObject(move: RippleEffectGameMove): Boolean {
+    override fun setObject(move: RippleEffectGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return false
         this[p] = move.obj
@@ -25,7 +25,7 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
         return true
     }
 
-    fun switchObject(move: RippleEffectGameMove): Boolean {
+    override fun switchObject(move: RippleEffectGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != 0) return false
         move.obj = (this[p] + 1) % (game.areas[game.pos2area[p]!!].size + 1)

@@ -17,14 +17,14 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
         updateIsSolved()
     }
 
-    fun setObject(move: DisconnectFourGameMove): Boolean {
+    override fun setObject(move: DisconnectFourGameMove): Boolean {
         if (!isValid(move.p) || game[move.p] != DisconnectFourObject.Empty || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: DisconnectFourGameMove): Boolean {
+    override fun switchObject(move: DisconnectFourGameMove): Boolean {
         if (!isValid(move.p) || game[move.p] != DisconnectFourObject.Empty) return false
         val o = this[move.p]
         move.obj = if (o == DisconnectFourObject.Empty) DisconnectFourObject.Yellow else if (o == DisconnectFourObject.Yellow) DisconnectFourObject.Red else DisconnectFourObject.Empty

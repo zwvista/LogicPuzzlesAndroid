@@ -18,7 +18,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         updateIsSolved()
     }
 
-    fun setObject(move: TapARowGameMove): Boolean {
+    override fun setObject(move: TapARowGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -28,7 +28,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         return true
     }
 
-    fun switchObject(move: TapARowGameMove): Boolean {
+    override fun switchObject(move: TapARowGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

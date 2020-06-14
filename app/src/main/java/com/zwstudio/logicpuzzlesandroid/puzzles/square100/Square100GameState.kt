@@ -18,7 +18,7 @@ class Square100GameState(game: Square100Game) : CellsGameState<Square100Game, Sq
         updateIsSolved()
     }
 
-    fun setObject(move: Square100GameMove): Boolean {
+    override fun setObject(move: Square100GameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -26,7 +26,7 @@ class Square100GameState(game: Square100Game) : CellsGameState<Square100Game, Sq
         return true
     }
 
-    fun switchObject(move: Square100GameMove): Boolean {
+    override fun switchObject(move: Square100GameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

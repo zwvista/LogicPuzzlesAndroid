@@ -17,7 +17,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         updateIsSolved()
     }
 
-    fun setObject(move: TapaIslandsGameMove): Boolean {
+    override fun setObject(move: TapaIslandsGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -27,7 +27,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         return true
     }
 
-    fun switchObject(move: TapaIslandsGameMove): Boolean {
+    override fun switchObject(move: TapaIslandsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

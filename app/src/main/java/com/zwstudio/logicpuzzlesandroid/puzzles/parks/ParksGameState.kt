@@ -15,14 +15,14 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
         updateIsSolved()
     }
 
-    fun setObject(move: ParksGameMove): Boolean {
+    override fun setObject(move: ParksGameMove): Boolean {
         if (!isValid(move.p) || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: ParksGameMove): Boolean {
+    override fun switchObject(move: ParksGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

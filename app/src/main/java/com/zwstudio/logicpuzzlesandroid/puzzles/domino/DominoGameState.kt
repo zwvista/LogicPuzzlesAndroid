@@ -14,7 +14,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
         updateIsSolved()
     }
 
-    fun setObject(move: DominoGameMove): Boolean {
+    override fun setObject(move: DominoGameMove): Boolean {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
@@ -27,7 +27,7 @@ class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameM
         return true
     }
 
-    fun switchObject(move: DominoGameMove): Boolean {
+    override fun switchObject(move: DominoGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

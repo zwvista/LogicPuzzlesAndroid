@@ -14,7 +14,7 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
         updateIsSolved()
     }
 
-    fun setObject(move: CarpentersSquareGameMove): Boolean {
+    override fun setObject(move: CarpentersSquareGameMove): Boolean {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
@@ -28,7 +28,7 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
         return true
     }
 
-    fun switchObject(move: CarpentersSquareGameMove): Boolean {
+    override fun switchObject(move: CarpentersSquareGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

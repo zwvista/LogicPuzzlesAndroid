@@ -14,7 +14,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         updateIsSolved()
     }
 
-    fun setObject(move: CarpentersWallGameMove): Boolean {
+    override fun setObject(move: CarpentersWallGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -24,7 +24,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         return true
     }
 
-    fun switchObject(move: CarpentersWallGameMove): Boolean {
+    override fun switchObject(move: CarpentersWallGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         if (o.isHint) return false

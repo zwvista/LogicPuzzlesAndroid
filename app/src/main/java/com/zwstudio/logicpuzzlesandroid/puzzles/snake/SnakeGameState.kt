@@ -18,7 +18,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
         updateIsSolved()
     }
 
-    fun setObject(move: SnakeGameMove): Boolean {
+    override fun setObject(move: SnakeGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game.pos2snake.contains(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -26,7 +26,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
         return true
     }
 
-    fun switchObject(move: SnakeGameMove): Boolean {
+    override fun switchObject(move: SnakeGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p) || game.pos2snake.contains(p)) return false

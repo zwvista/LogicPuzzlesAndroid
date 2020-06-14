@@ -17,14 +17,14 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         updateIsSolved()
     }
 
-    fun setObject(move: ParkLakesGameMove): Boolean {
+    override fun setObject(move: ParkLakesGameMove): Boolean {
         if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: ParkLakesGameMove): Boolean {
+    override fun switchObject(move: ParkLakesGameMove): Boolean {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]

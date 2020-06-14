@@ -17,7 +17,7 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
     operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
-    fun setObject(move: ABCPathGameMove): Boolean {
+    override fun setObject(move: ABCPathGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return false
         this[p] = move.obj
@@ -25,7 +25,7 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
         return true
     }
 
-    fun switchObject(move: ABCPathGameMove): Boolean {
+    override fun switchObject(move: ABCPathGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != ' ') return false
         val o = this[p]

@@ -16,7 +16,7 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         updateIsSolved()
     }
 
-    fun setObject(move: CloudsGameMove): Boolean {
+    override fun setObject(move: CloudsGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -24,7 +24,7 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         return true
     }
 
-    fun switchObject(move: CloudsGameMove): Boolean {
+    override fun switchObject(move: CloudsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

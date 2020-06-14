@@ -19,7 +19,7 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
         updateIsSolved()
     }
 
-    fun setObject(move: TheOddBrickGameMove): Boolean {
+    override fun setObject(move: TheOddBrickGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return false
         this[p] = move.obj
@@ -27,7 +27,7 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
         return true
     }
 
-    fun switchObject(move: TheOddBrickGameMove): Boolean {
+    override fun switchObject(move: TheOddBrickGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != 0) return false
         val o = this[p]

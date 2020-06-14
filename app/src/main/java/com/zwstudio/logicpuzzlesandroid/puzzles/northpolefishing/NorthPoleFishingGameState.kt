@@ -16,7 +16,7 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
     operator fun set(row: Int, col: Int, dir: Int, obj: GridLineObject) {objArray[row * cols + col][dir] = obj}
     operator fun set(p: Position, dir: Int, obj: GridLineObject) {this[p.row, p.col, dir] = obj}
 
-    fun setObject(move: NorthPoleFishingGameMove): Boolean {
+    override fun setObject(move: NorthPoleFishingGameMove): Boolean {
         val p1 = move.p
         val dir = move.dir
         val dir2 = (dir + 2) % 4
@@ -30,7 +30,7 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
         return true
     }
 
-    fun switchObject(move: NorthPoleFishingGameMove): Boolean {
+    override fun switchObject(move: NorthPoleFishingGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p, move.dir]
         move.obj = when (o) {

@@ -17,7 +17,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         updateIsSolved()
     }
 
-    fun setObject(move: MineShipsGameMove): Boolean {
+    override fun setObject(move: MineShipsGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game.pos2hint.containsKey(p) || this[p] === move.obj) return false
         this[p] = move.obj
@@ -25,7 +25,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         return true
     }
 
-    fun switchObject(move: MineShipsGameMove): Boolean {
+    override fun switchObject(move: MineShipsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

@@ -19,14 +19,14 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
     operator fun set(row: Int, col: Int, dotObj: Int) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
-    fun setObject(move: MathraxGameMove): Boolean {
+    override fun setObject(move: MathraxGameMove): Boolean {
         if (!isValid(move.p) || game[move.p] != 0 || this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: MathraxGameMove): Boolean {
+    override fun switchObject(move: MathraxGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != 0) return false
         val o = this[p]

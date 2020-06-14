@@ -18,7 +18,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
     operator fun set(row: Int, col: Int, obj: BattleShipsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BattleShipsObject) {this[p.row, p.col] = obj}
 
-    fun setObject(move: BattleShipsGameMove): Boolean {
+    override fun setObject(move: BattleShipsGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game.pos2obj.containsKey(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -26,7 +26,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         return true
     }
 
-    fun switchObject(move: BattleShipsGameMove): Boolean {
+    override fun switchObject(move: BattleShipsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false

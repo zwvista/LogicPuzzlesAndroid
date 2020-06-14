@@ -15,7 +15,7 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             this[p] = NurikabeHintObject()
     }
 
-    fun setObject(move: NurikabeGameMove): Boolean {
+    override fun setObject(move: NurikabeGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -25,7 +25,7 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
         return true
     }
 
-    fun switchObject(move: NurikabeGameMove): Boolean {
+    override fun switchObject(move: NurikabeGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

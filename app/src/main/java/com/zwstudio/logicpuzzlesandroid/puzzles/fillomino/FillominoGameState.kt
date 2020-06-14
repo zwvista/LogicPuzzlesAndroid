@@ -18,7 +18,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
         updateIsSolved()
     }
 
-    fun setObject(move: FillominoGameMove): Boolean {
+    override fun setObject(move: FillominoGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || this[p] == move.obj) return false
         this[p] = move.obj
@@ -26,7 +26,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
         return true
     }
 
-    fun switchObject(move: FillominoGameMove): Boolean {
+    override fun switchObject(move: FillominoGameMove): Boolean {
         val p = move.p
         if (!isValid(p) || game[p] != ' ') return false
         val o = this[p]

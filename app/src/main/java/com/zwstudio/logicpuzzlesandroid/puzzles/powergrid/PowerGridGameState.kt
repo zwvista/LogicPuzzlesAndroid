@@ -16,14 +16,14 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
         updateIsSolved()
     }
 
-    fun setObject(move: PowerGridGameMove): Boolean {
+    override fun setObject(move: PowerGridGameMove): Boolean {
         if (this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: PowerGridGameMove): Boolean {
+    override fun switchObject(move: PowerGridGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

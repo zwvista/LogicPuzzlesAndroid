@@ -16,14 +16,14 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
     operator fun set(row: Int, col: Int, obj: WallSentinelsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: WallSentinelsObject) {this[p.row, p.col] = obj}
 
-    fun setObject(move: WallSentinelsGameMove): Boolean {
+    override fun setObject(move: WallSentinelsGameMove): Boolean {
         if (this[move.p] == move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    fun switchObject(move: WallSentinelsGameMove): Boolean {
+    override fun switchObject(move: WallSentinelsGameMove): Boolean {
         val o = this[move.p]
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         move.obj = when(o) {

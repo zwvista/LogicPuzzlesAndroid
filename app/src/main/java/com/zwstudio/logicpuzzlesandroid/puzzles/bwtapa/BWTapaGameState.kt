@@ -16,7 +16,7 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         updateIsSolved()
     }
 
-    fun setObject(move: BWTapaGameMove): Boolean {
+    override fun setObject(move: BWTapaGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -26,7 +26,7 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         return true
     }
 
-    fun switchObject(move: BWTapaGameMove): Boolean {
+    override fun switchObject(move: BWTapaGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p];
         move.obj = when (o) {

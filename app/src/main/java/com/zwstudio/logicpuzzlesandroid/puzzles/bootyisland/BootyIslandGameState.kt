@@ -17,7 +17,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
     operator fun set(row: Int, col: Int, obj: BootyIslandObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BootyIslandObject) {this[p.row, p.col] = obj}
 
-    fun setObject(move: BootyIslandGameMove): Boolean {
+    override fun setObject(move: BootyIslandGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -28,7 +28,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         return true
     }
 
-    fun switchObject(move: BootyIslandGameMove): Boolean {
+    override fun switchObject(move: BootyIslandGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
