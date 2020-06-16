@@ -47,7 +47,7 @@ class NoughtsAndCrossesGameView(context: Context) : CellsGameView(context) {
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
                 if (ch != ' ') {
                     val text = ch.toString()
-                    val s: HintState = game.getPosState(p)
+                    val s = game.getPosState(p)
                     textPaint.color = if (game[r, c] == ch) Color.GRAY else if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }

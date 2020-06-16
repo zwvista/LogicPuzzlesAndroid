@@ -49,7 +49,7 @@ class TierraDelFuegoGameView(context: Context) : CellsGameView(context) {
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o: TierraDelFuegoObject = game.getObject(p)
+                val o = game.getObject(p)
                 if (o is TierraDelFuegoTreeObject) {
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0

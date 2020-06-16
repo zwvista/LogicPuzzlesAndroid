@@ -20,7 +20,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
     override fun setObject(move: TapaGameMove): Boolean {
         val p = move.p
         val objOld = this[p]
-        val objNew: TapaObject = move.obj
+        val objNew = move.obj
         if (objOld is TapaHintObject || objOld == objNew) return false
         this[p] = objNew
         updateIsSolved()

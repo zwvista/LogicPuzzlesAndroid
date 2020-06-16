@@ -47,7 +47,7 @@ class SentinelsGameView(context: Context) : CellsGameView(context) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o: SentinelsObject = game.getObject(p)
+                val o = game.getObject(p)
                 if (o is SentinelsTowerObject) {
                     dTower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0

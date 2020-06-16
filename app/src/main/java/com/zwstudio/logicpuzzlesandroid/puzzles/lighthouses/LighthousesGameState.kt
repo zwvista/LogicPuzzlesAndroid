@@ -87,7 +87,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             next@ for (i in 0 until 4) {
-                val os: Position = LighthousesGame.offset[i * 2]
+                val os = LighthousesGame.offset[i * 2]
                 var p2 = p + os
                 while (isValid(p2)) {
                     val o2 = this[p2]

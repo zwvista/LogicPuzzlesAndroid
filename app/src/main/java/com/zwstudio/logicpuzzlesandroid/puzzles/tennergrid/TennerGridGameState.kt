@@ -89,7 +89,7 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
                 }
             }
             // 2. The number on the bottom row gives you the sum for that column.
-            val s: HintState = if (!isDirty && !allFixed) HintState.Normal else if (n == h) HintState.Complete else HintState.Error
+            val s = if (!isDirty && !allFixed) HintState.Normal else if (n == h) HintState.Complete else HintState.Error
             pos2state[Position(rows - 1, c)] = s
             if (s != HintState.Complete) isSolved = false
         }

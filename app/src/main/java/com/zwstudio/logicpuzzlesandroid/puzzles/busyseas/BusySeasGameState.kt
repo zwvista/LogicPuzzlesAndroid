@@ -71,7 +71,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             next@ for (i in 0 until 4) {
-                val os: Position = BusySeasGame.offset[i]
+                val os = BusySeasGame.offset[i]
                 var p2 = p + os
                 while (isValid(p2)) {
                     val o2 = this[p2]

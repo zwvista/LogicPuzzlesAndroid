@@ -71,7 +71,7 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
                 else if ((o is ParksEmptyObject || o is ParksMarkerObject) && allowedObjectsOnly && hasNeighbor())
                     this[r, c] = ParksForbiddenObject()
             }
-        val n2: Int = game.treesInEachArea
+        val n2 = game.treesInEachArea
         // 5. There must be exactly ONE Tree in each row.
         for (r in 0 until rows) {
             var n1 = 0

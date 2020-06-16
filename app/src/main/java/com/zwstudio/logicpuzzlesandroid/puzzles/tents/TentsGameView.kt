@@ -48,7 +48,7 @@ class TentsGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val o: TentsObject = game.getObject(r, c)
+                val o = game.getObject(r, c)
                 if (o is TentsTreeObject) {
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0

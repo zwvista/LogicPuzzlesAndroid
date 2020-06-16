@@ -19,7 +19,7 @@ class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<Robot
     }
 
     override fun setObject(move: RobotCrosswordsGameMove): Boolean {
-        val p: Position = move.p
+        val p = move.p
         if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return false
         this[p] = move.obj
         updateIsSolved()
@@ -27,7 +27,7 @@ class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<Robot
     }
 
     override fun switchObject(move: RobotCrosswordsGameMove): Boolean {
-        val p: Position = move.p
+        val p = move.p
         if (!isValid(p) || game[p] != 0) return false
         val o = this[p]
         move.obj = (o + 1) % 10

@@ -98,7 +98,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         fun checkForbidden(p: Position, indexes: List<Int>) {
             if (!allowedObjectsOnly) return
             for (i in indexes) {
-                val os: Position = FourMeNotGame.offset[i]
+                val os = FourMeNotGame.offset[i]
                 var p2 = p + os
                 while (isValid(p2) && this[p2] is FourMeNotTreeObject) {
                     trees.add(p2)

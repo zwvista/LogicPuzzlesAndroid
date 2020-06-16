@@ -46,7 +46,7 @@ class MinesweeperGameView(context: Context) : CellsGameView(context) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o: MinesweeperObject = game.getObject(p)
+                val o = game.getObject(p)
                 if (o is MinesweeperMineObject) {
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)

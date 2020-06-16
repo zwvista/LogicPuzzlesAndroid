@@ -86,8 +86,8 @@ class NeighboursGameView(context: Context) : CellsGameView(context) {
             val offset = 30
             val col = ((event.x + offset) / cellWidth).toInt()
             val row = ((event.y + offset) / cellHeight).toInt()
-            val xOffset: Int = event.x.toInt() - col * cellWidth - 1
-            val yOffset: Int = event.y.toInt() - row * cellHeight - 1
+            val xOffset = event.x.toInt() - col * cellWidth - 1
+            val yOffset = event.y.toInt() - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
             val move = NeighboursGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
             if (game.switchObject(move))

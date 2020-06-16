@@ -40,7 +40,7 @@ class SkyscrapersGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 val n = game.getObject(r, c)
                 if (n == 0) continue
-                val s: HintState = game.getState(r, c)
+                val s = game.getState(r, c)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

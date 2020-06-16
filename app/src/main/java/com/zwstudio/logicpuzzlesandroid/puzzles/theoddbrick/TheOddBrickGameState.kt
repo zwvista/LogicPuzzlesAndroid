@@ -54,7 +54,7 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
             val nums2 = nums.toSet().toList()
             // 3. Each row and column contains numbers 1 to N, where N is the side of
             // the board.
-            val s: HintState = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
+            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
             return s
         }

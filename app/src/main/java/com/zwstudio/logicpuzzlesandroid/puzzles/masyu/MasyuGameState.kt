@@ -18,8 +18,8 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
     }
 
     override fun setObject(move: MasyuGameMove): Boolean {
-        val p: Position = move.p
-        val dir: Int = move.dir
+        val p = move.p
+        val dir = move.dir
         val p2 = p + MasyuGame.offset[dir]
         val dir2 = (dir + 2) % 4
         this[p][dir] = !this[p][dir]

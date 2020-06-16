@@ -30,7 +30,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
     }
 
     override fun switchObject(move: MiniLitsGameMove): Boolean {
-        val markerOption: MarkerOptions = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is MiniLitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsMarkerObject() else MiniLitsTreeObject()

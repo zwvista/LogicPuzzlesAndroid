@@ -36,7 +36,7 @@ class PairakabeGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val o: PairakabeObject = game.getObject(r, c)
+                val o = game.getObject(r, c)
                 if (o is PairakabeHintObject) {
                     val n = game.pos2hint[Position(r, c)]!!
                     if (n >= 0) {

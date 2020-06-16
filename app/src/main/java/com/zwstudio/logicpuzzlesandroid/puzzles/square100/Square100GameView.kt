@@ -48,13 +48,13 @@ class Square100GameView(context: Context) : CellsGameView(context) {
             }
         if (isInEditMode) return
         for (r in 0 until rows) {
-            val n: Int = game.getRowHint(r)
+            val n = game.getRowHint(r)
             textPaint.color = if (n == 100) Color.GREEN else Color.RED
             val text = n.toString()
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols) {
-            val n: Int = game.getColHint(c)
+            val n = game.getColHint(c)
             textPaint.color = if (n == 100) Color.GREEN else Color.RED
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)

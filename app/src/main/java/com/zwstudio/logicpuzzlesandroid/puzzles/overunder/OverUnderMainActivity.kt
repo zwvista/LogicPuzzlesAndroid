@@ -9,7 +9,6 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import com.zwstudio.logicpuzzlesandroid.common.data.GameProgress
 import org.androidannotations.annotations.*
 import java.sql.SQLException
 
@@ -64,7 +63,7 @@ class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame, OverUnderDoc
 
     @ItemSelect
     protected override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        val rec: GameProgress = doc.gameProgress()
+        val rec = doc.gameProgress()
         doc.setMarkerOption(rec, position)
         try {
             app.daoGameProgress.update(rec)
@@ -74,7 +73,7 @@ class OverUnderOptionsActivity : GameOptionsActivity<OverUnderGame, OverUnderDoc
     }
 
     protected fun onDefault() {
-        val rec: GameProgress = doc.gameProgress()
+        val rec = doc.gameProgress()
         doc.setMarkerOption(rec, 0)
         try {
             app.daoGameProgress.update(rec)

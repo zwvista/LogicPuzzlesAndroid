@@ -67,7 +67,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
         for ((p, n2) in game.pos2hint) {
             var n1 = -3
             for (i in 0 until 4) {
-                val os: Position = FenceSentinelsGame.offset[i]
+                val os = FenceSentinelsGame.offset[i]
                 var p2 = +p
                 while (isValid(p2)) {
                     n1++

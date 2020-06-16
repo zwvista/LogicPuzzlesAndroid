@@ -105,7 +105,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
             val nums = arrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
             for (i in 0 until 4) {
-                val os: Position = LightBattleShipsGame.offset[i * 2]
+                val os = LightBattleShipsGame.offset[i * 2]
                 var p2 = p + os
                 while (game.isValid(p2)) {
                     val o = get(p2)

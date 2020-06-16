@@ -56,7 +56,7 @@ class MasyuGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 val dirs = intArrayOf(1, 2)
                 for (dir in dirs) {
-                    val b: Boolean = game.getObject(r, c)[dir]
+                    val b = game.getObject(r, c)[dir]
                     if (!b) continue
                     if (dir == 1)
                         canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
@@ -91,8 +91,8 @@ class MasyuGameView(context: Context) : CellsGameView(context) {
             }
             MotionEvent.ACTION_UP -> {
                 if (p == pLastDown) {
-                    val dx: Double = event.x - (col + 0.5) * cellWidth
-                    val dy: Double = event.y - (row + 0.5) * cellHeight
+                    val dx = event.x - (col + 0.5) * cellWidth
+                    val dy = event.y - (row + 0.5) * cellHeight
                     val dx2 = abs(dx)
                     val dy2 = abs(dy)
                     val move = MasyuGameMove(Position(row, col), if (dx2 <= dy2) if (dy > 0) 2 else 0 else if (dy2 <= dx2) if (dx > 0) 1 else 3 else 0)
