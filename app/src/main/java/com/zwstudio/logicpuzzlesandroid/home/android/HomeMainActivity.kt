@@ -45,7 +45,7 @@ class HomeMainActivity : BaseActivity() {
 
     private fun resumeGame(gameName: String, gameTitle: String, toResume: Boolean) {
         doc().resumeGame(gameName, gameTitle)
-        val cls = Class.forName("com.zwstudio.logicpuzzlesandroid.puzzles.${gameName.toLowerCase(Locale.ROOT)}.android.${gameName}MainActivity_")
+        val cls = Class.forName("com.zwstudio.logicpuzzlesandroid.puzzles.${gameName.toLowerCase(Locale.ROOT)}.${gameName}MainActivity_")
         val intent = Intent(this, cls)
         intent.putExtra("toResume", toResume)
         startActivity(intent)
