@@ -28,7 +28,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         if (o.isHint) return false
-        move.obj = when(o) {
+        move.obj = when (o) {
             is CarpentersWallEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallMarkerObject() else CarpentersWallWallObject()
             is CarpentersWallWallObject -> if (markerOption == MarkerOptions.MarkerLast) CarpentersWallMarkerObject() else CarpentersWallEmptyObject()
             is CarpentersWallMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallWallObject() else CarpentersWallEmptyObject()

@@ -30,7 +30,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]
-        move.obj = when(o) {
+        move.obj = when (o) {
             is MineShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MineShipsMarkerObject() else MineShipsBattleShipUnitObject()
             is MineShipsBattleShipUnitObject -> MineShipsBattleShipMiddleObject()
             is MineShipsBattleShipMiddleObject -> MineShipsBattleShipLeftObject()

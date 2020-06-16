@@ -54,7 +54,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
     override fun switchObject(move: LightenUpGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
-        fun f(obj: LightenUpObject) = when(obj) {
+        fun f(obj: LightenUpObject) = when (obj) {
             is LightenUpEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LightenUpMarkerObject() else LightenUpLightbulbObject()
             is LightenUpLightbulbObject -> if (markerOption == MarkerOptions.MarkerLast) LightenUpMarkerObject() else LightenUpEmptyObject()
             is LightenUpMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LightenUpLightbulbObject() else LightenUpEmptyObject()

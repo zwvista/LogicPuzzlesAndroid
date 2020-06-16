@@ -40,7 +40,7 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
         if (!isValid(p)) return false
         val o = this[p]
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        move.obj = when(o) {
+        move.obj = when (o) {
             ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else 'A'
             '.' -> if (markerOption == MarkerOptions.MarkerFirst) 'A' else ' '
             game.chMax -> if (markerOption == MarkerOptions.MarkerLast) '.' else ' '

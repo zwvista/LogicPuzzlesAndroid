@@ -32,7 +32,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
     override fun switchObject(move: LitsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
-        move.obj = when(o) {
+        move.obj = when (o) {
             is LitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsMarkerObject() else LitsTreeObject()
             is LitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) LitsMarkerObject() else LitsEmptyObject()
             is LitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsTreeObject() else LitsEmptyObject()

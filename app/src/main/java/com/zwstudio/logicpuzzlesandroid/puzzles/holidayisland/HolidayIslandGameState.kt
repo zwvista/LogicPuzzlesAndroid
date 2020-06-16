@@ -26,7 +26,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return false
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
-        move.obj = when(o) {
+        move.obj = when (o) {
             is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject() else HolidayIslandTreeObject()
             is HolidayIslandTreeObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject() else HolidayIslandEmptyObject()
             is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandTreeObject() else HolidayIslandEmptyObject()
