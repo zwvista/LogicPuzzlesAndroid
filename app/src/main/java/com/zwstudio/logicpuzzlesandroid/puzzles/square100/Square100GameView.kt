@@ -66,7 +66,7 @@ class Square100GameView(context: Context) : CellsGameView(context) {
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
-            val move = Square100GameMove(Position(row, col), event.getX() >= col * cellWidth + cellWidth / 2)
+            val move = Square100GameMove(Position(row, col), event.x >= col * cellWidth + cellWidth / 2)
             if (game.switchObject(move))
                 activity.app.soundManager.playSoundTap()
         }
