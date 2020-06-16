@@ -45,18 +45,21 @@ class ParkLakesGameView(context: Context) : CellsGameView(context) {
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o is ParkLakesTreeObject) {
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    dTree.draw(canvas)
-                } else if (o is ParkLakesHintObject) {
-                    textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
-                    val text = if (o.tiles == -1) "?" else o.tiles.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                } else if (o is ParkLakesMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                when (val o = game.getObject(p)) {
+                    is ParkLakesTreeObject -> {
+                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dTree.draw(canvas)
+                    }
+                    is ParkLakesHintObject -> {
+                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                        val text = if (o.tiles == -1) "?" else o.tiles.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                    is ParkLakesMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                }
             }
     }
 

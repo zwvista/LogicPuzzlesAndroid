@@ -40,8 +40,10 @@ class HitoriGameView(context: Context) : CellsGameView(context) {
                 if (isInEditMode) continue
                 val o = game.getObject(r, c)
                 when (o) {
-                    HitoriObject.Darken -> canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), darkenPaint)
-                    HitoriObject.Marker -> canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
+                    HitoriObject.Darken ->
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), darkenPaint)
+                    HitoriObject.Marker ->
+                        canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }
                 textPaint.color = Color.WHITE

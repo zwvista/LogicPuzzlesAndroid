@@ -47,21 +47,25 @@ class LightenUpGameView(context: Context) : CellsGameView(context) {
                 val o = game.getObject(r, c)
                 if (o.lightness > 0)
                     canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), lightPaint)
-                if (o is LightenUpWallObject) {
-                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                    val n = game.pos2hint[Position(r, c)]!!
-                    if (n >= 0) {
-                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.BLACK
-                        val text = n.toString()
-                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                when (o) {
+                    is LightenUpWallObject -> {
+                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                        val n = game.pos2hint[Position(r, c)]!!
+                        if (n >= 0) {
+                            textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.BLACK
+                            val text = n.toString()
+                            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                        }
                     }
-                } else if (o is LightenUpLightbulbObject) {
-                    dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                    dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    dLightbulb.draw(canvas)
-                } else if (o is LightenUpMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+                    is LightenUpLightbulbObject -> {
+                        dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dLightbulb.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dLightbulb.draw(canvas)
+                    }
+                    is LightenUpMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+                }
             }
     }
 

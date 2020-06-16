@@ -44,12 +44,13 @@ class BattleShipsGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val o = game.getObject(r, c)
                 val path = Path()
                 val paint = if (game.pos2obj.containsKey(Position(r, c))) grayPaint else whitePaint
-                when (o) {
-                    BattleShipsObject.BattleShipUnit -> canvas.drawArc((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), 0f, 360f, true, paint)
-                    BattleShipsObject.BattleShipMiddle -> canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), paint)
+                when (val o = game.getObject(r, c)) {
+                    BattleShipsObject.BattleShipUnit ->
+                        canvas.drawArc((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), 0f, 360f, true, paint)
+                    BattleShipsObject.BattleShipMiddle ->
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), paint)
                     BattleShipsObject.BattleShipLeft -> {
                         path.addRect(cwc2(c).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), Path.Direction.CW)
                         path.addArc((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), 90f, 180f)
@@ -70,9 +71,10 @@ class BattleShipsGameView(context: Context) : CellsGameView(context) {
                         path.addArc((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), 0f, 180f)
                         canvas.drawPath(path, paint)
                     }
-                    BattleShipsObject.Marker -> canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, paint)
-                    BattleShipsObject.Forbidden -> canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, forbiddenPaint)
-                    else -> {}
+                    BattleShipsObject.Marker ->
+                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, paint)
+                    BattleShipsObject.Forbidden ->
+                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, forbiddenPaint)
                 }
             }
         if (isInEditMode) return

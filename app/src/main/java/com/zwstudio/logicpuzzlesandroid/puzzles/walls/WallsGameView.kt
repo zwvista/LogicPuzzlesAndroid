@@ -44,22 +44,25 @@ class WallsGameView(context: Context) : CellsGameView(context) {
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o is WallsHorzObject || o is WallsVertObject) {
-                    val isHorz = o is WallsHorzObject
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    if (isHorz) {
-                        canvas.save()
-                        canvas.rotate(90f, cwc2(c).toFloat(), chr2(r).toFloat())
+                when (val o = game.getObject(p)) {
+                    is WallsHorzObject,
+                    is WallsVertObject -> {
+                        val isHorz = o is WallsHorzObject
+                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dTree.setColorFilter(Color.argb(0, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        if (isHorz) {
+                            canvas.save()
+                            canvas.rotate(90f, cwc2(c).toFloat(), chr2(r).toFloat())
+                        }
+                        dTree.draw(canvas)
+                        if (isHorz) canvas.restore()
                     }
-                    dTree.draw(canvas)
-                    if (isHorz) canvas.restore()
-                } else if (o is WallsHintObject) {
-                    val text = o.walls.toString()
-                    val s = o.state
-                    textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    is WallsHintObject -> {
+                        val text = o.walls.toString()
+                        val s = o.state
+                        textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
                 }
             }
     }

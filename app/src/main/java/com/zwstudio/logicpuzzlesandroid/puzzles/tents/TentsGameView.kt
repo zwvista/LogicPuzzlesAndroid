@@ -48,21 +48,24 @@ class TentsGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val o = game.getObject(r, c)
-                if (o is TentsTreeObject) {
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    dTree.draw(canvas)
-                } else if (o is TentsTentObject) {
-                    dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                    dTent.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    dTent.draw(canvas)
-                } else if (o is TentsMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                else if (o is TentsForbiddenObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                when (val o = game.getObject(r, c)) {
+                    is TentsTreeObject -> {
+                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dTree.draw(canvas)
+                    }
+                    is TentsTentObject -> {
+                        dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTent.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dTent.draw(canvas)
+                    }
+                    is TentsMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    is TentsForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                }
             }
         if (isInEditMode) return
         for (r in 0 until rows) {

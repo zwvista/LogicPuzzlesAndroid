@@ -48,8 +48,10 @@ class PaintTheNurikabeGameView(context: Context) : CellsGameView(context) {
                 val p = Position(r, c)
                 val o = game.getObject(p)
                 when (o) {
-                    PaintTheNurikabeObject.Painted -> canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
-                    PaintTheNurikabeObject.Marker -> canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    PaintTheNurikabeObject.Painted ->
+                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
+                    PaintTheNurikabeObject.Marker ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }
                 val n = game.pos2hint[p]

@@ -73,7 +73,7 @@ class MasyuGameView(context: Context) : CellsGameView(context) {
         if (col >= cols || row >= rows) return true
         val p = Position(row, col)
         fun f() = activity.app.soundManager.playSoundTap()
-        when (event.getAction()) {
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 run {
                     pLastMove = p

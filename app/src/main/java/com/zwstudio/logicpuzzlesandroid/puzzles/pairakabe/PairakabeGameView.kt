@@ -36,18 +36,20 @@ class PairakabeGameView(context: Context) : CellsGameView(context) {
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val o = game.getObject(r, c)
-                if (o is PairakabeHintObject) {
-                    val n = game.pos2hint[Position(r, c)]!!
-                    if (n >= 0) {
-                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
-                        val text = n.toString()
-                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                when (val o = game.getObject(r, c)) {
+                    is PairakabeHintObject -> {
+                        val n = game.pos2hint[Position(r, c)]!!
+                        if (n >= 0) {
+                            textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                            val text = n.toString()
+                            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                        }
                     }
-                } else if (o is PairakabeWallObject)
-                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                else if (o is PairakabeMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+                    is PairakabeWallObject ->
+                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                    is PairakabeMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+                }
             }
     }
 

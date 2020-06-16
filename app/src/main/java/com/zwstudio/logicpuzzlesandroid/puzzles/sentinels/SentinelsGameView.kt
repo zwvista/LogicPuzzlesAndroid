@@ -47,14 +47,18 @@ class SentinelsGameView(context: Context) : CellsGameView(context) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o is SentinelsTowerObject) {
-                    dTower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                    dTower.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    dTower.draw(canvas)
-                } else if (o is SentinelsMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is SentinelsForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                when (val o = game.getObject(p)) {
+                    is SentinelsTowerObject -> {
+                        dTower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTower.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dTower.draw(canvas)
+                    }
+                    is SentinelsMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    is SentinelsForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                }
                 val n = game.pos2hint[p]
                 if (n != null) {
                     val state = game.pos2State(p)

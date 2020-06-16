@@ -57,15 +57,16 @@ class AbstractPaintingGameView(context: Context) : CellsGameView(context) {
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
         for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val o = game.getObject(r, c)
-                when (o) {
-                    AbstractPaintingObject.Painting -> canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
-                    AbstractPaintingObject.Marker -> canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, wallPaint)
-                    AbstractPaintingObject.Forbidden -> canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, forbiddenPaint)
+            for (c in 0 until cols)
+                when (game.getObject(r, c)) {
+                    AbstractPaintingObject.Painting ->
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
+                    AbstractPaintingObject.Marker ->
+                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, wallPaint)
+                    AbstractPaintingObject.Forbidden ->
+                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
-            }
         if (isInEditMode) return
         for (r in 0 until rows) {
             val s = game.getRowState(r)

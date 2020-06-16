@@ -57,16 +57,18 @@ class ParksGameView(context: Context) : CellsGameView(context) {
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o is ParksTreeObject) {
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                    dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
-                    dTree.draw(canvas)
-                } else if (o is ParksMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                else if (o is ParksForbiddenObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                when (val o = game.getObject(p)) {
+                    is ParksTreeObject -> {
+                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dTree.draw(canvas)
+                    }
+                    is ParksMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    is ParksForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                }
             }
         }
 
