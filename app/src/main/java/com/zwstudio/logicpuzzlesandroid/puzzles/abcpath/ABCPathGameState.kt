@@ -30,7 +30,7 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
         if (!isValid(p) || game[p] != ' ') return false
         val o = this[p]
         // 1.  Enter every letter from A to Y into the grid.
-        val chars = ('A' until 'Z').toMutableList()
+        val chars = ('A'..'Y').toMutableList()
         for (r in 1 until rows - 1)
             for (c in 1 until cols - 1) {
                 val p2 = Position(r, c)

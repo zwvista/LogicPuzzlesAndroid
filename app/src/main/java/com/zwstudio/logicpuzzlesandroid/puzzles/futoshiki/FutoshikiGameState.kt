@@ -67,11 +67,11 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, Fu
             return s
         }
         // 3. Remember you can't repeat the same number in a row.
-        for (r in 0..rows step 2)
-            row2state[r] = f((0..cols step 2).map { this[r, it] } )
+        for (r in 0 until rows step 2)
+            row2state[r] = f((0 until cols step 2).map { this[r, it] } )
         // 3. Remember you can't repeat the same number in a column.
-        for (c in 0..cols step 2)
-            col2state[c] = f((0..rows step 2).map { this[it, c] } )
+        for (c in 0 until cols step 2)
+            col2state[c] = f((0 until rows step 2).map { this[it, c] } )
         for ((p, h) in game.pos2hint) {
             val r = p.row
             val c = p.col
