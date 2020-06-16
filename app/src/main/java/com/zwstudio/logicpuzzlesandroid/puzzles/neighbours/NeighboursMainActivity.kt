@@ -10,7 +10,6 @@ import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import org.androidannotations.annotations.*
-import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
 class NeighboursMainActivity : GameMainActivity<NeighboursGame, NeighboursDocument, NeighboursGameMove, NeighboursGameState>() {
@@ -65,21 +64,13 @@ class NeighboursOptionsActivity : GameOptionsActivity<NeighboursGame, Neighbours
     protected override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
         val rec = doc.gameProgress()
         doc.setMarkerOption(rec, position)
-        try {
-            app.daoGameProgress.update(rec)
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        }
+        app.daoGameProgress.update(rec)
     }
 
     protected fun onDefault() {
         val rec = doc.gameProgress()
         doc.setMarkerOption(rec, 0)
-        try {
-            app.daoGameProgress.update(rec)
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        }
+        app.daoGameProgress.update(rec)
         spnMarker.setSelection(doc.markerOption)
     }
 }

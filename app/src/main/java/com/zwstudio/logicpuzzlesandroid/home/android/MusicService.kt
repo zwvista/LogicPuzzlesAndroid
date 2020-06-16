@@ -46,11 +46,7 @@ class MusicService : Service(), MediaPlayer.OnErrorListener, OnCompletionListene
         val indexes = Stream.range(0, fields.size.toLong())
             .filter { i: Int? -> StringUtils.startsWith(fields[i!!].name, "music") }.toJavaList()
         val n = rand.nextInt(indexes.size)
-        try {
-            mPlayer = MediaPlayer.create(this, fields[indexes[n]].getInt(fields[indexes[n]]))
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
+        mPlayer = MediaPlayer.create(this, fields[indexes[n]].getInt(fields[indexes[n]]))
         mPlayer!!.setVolume(100f, 100f)
         mPlayer!!.setOnErrorListener(this)
         mPlayer!!.setOnCompletionListener(this)

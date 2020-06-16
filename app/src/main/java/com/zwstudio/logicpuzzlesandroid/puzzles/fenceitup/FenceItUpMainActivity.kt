@@ -65,11 +65,7 @@ class FenceItUpOptionsActivity : GameOptionsActivity<FenceItUpGame, FenceItUpDoc
     override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
         val rec = doc.gameProgress()
         doc.setMarkerOption(rec, position)
-        try {
-            app.daoGameProgress.update(rec)
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        }
+        app.daoGameProgress.update(rec)
     }
 
     protected fun onDefault() {

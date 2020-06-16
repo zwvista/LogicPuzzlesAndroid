@@ -7,7 +7,6 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
 import com.j256.ormlite.support.ConnectionSource
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 
 /**
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
@@ -56,24 +55,20 @@ class DBHelper(context: Context) : OrmLiteSqliteOpenHelper(context, DATABASE_NAM
         val dbexist = checkdatabase()
         if (!dbexist) {
             // If database did not exist, try copying existing database from assets folder.
-            try {
-                val dir = File(databasePath)
-                dir.mkdirs()
-                val myinput = context.assets.open(DATABASE_NAME)
-                val outfilename = databasePath + DATABASE_NAME
-                Log.i(DBHelper::class.java.name, "DB Path : $outfilename")
-                val myoutput = FileOutputStream(outfilename)
-                val buffer = ByteArray(1024)
-                var length: Int
-                while (myinput.read(buffer).also { length = it } > 0) {
-                    myoutput.write(buffer, 0, length)
-                }
-                myoutput.flush()
-                myoutput.close()
-                myinput.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
+            val dir = File(databasePath)
+            dir.mkdirs()
+            val myinput = context.assets.open(DATABASE_NAME)
+            val outfilename = databasePath + DATABASE_NAME
+            Log.i(DBHelper::class.java.name, "DB Path : $outfilename")
+            val myoutput = FileOutputStream(outfilename)
+            val buffer = ByteArray(1024)
+            var length: Int
+            while (myinput.read(buffer).also { length = it } > 0) {
+                myoutput.write(buffer, 0, length)
             }
+            myoutput.flush()
+            myoutput.close()
+            myinput.close()
         }
     }
 }
