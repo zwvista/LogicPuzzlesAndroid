@@ -4,12 +4,12 @@ apply plugin: 'kotlin-allopen'
 apply plugin: "kotlin-kapt"
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.1'
     defaultConfig {
         applicationId "com.zwstudio.logicpuzzlesandroid"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -36,42 +36,13 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-    // http://stackoverflow.com/questions/4930398/can-the-android-layout-folder-contain-subfolders
-    sourceSets.each {
-        def rootResDir = it.res.srcDirs[0]
-        def getSubDirs = { dirName ->
-            def layoutsDir = new File(rootResDir, dirName)
-            def subLayoutDirs = []
-            if (layoutsDir.exists()) {
-                layoutsDir.eachDir {
-                    subLayoutDirs.add it
-                }
-            }
-            return subLayoutDirs
-        }
-        def resDirs = [
-            "anims",
-            "colors",
-            "drawables",
-            "drawables-hdpi",
-            "drawables-mdpi",
-            "drawables-xhdpi",
-            "drawables-xxhdpi",
-            "layouts",
-            "values",
-        ]
-        def srcDirs = resDirs.collect {
-            getSubDirs(it)
-        }
-        it.res.srcDirs = [srcDirs, rootResDir]
-    }
 }
 
 allOpen {
     annotation("org.androidannotations.api.KotlinOpen")
 }
 
-def AAVersion = '4.6.0'
+def AAVersion = '4.7.0'
 dependencies {
     kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
@@ -87,7 +58,5 @@ dependencies {
     implementation 'com.j256.ormlite:ormlite-core:4.48'
     implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation 'javax.persistence:persistence-api:1.0.2'
-    implementation "org.functionaljava:functionaljava:4.7"
     implementation 'uk.com.robust-it:cloning:1.9.5'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 }

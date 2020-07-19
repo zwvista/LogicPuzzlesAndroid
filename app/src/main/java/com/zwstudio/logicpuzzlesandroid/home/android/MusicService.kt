@@ -8,10 +8,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.widget.Toast
 import com.zwstudio.logicpuzzlesandroid.R.raw
-import com.zwstudio.logicpuzzlesandroid.home.android.MusicService
-import fj.data.Stream
-import org.apache.commons.lang3.StringUtils
-import java.util.*
+import kotlin.random.Random
 
 // http://stackoverflow.com/questions/27579765/play-background-music-in-all-activities-of-android-app
 // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
@@ -21,7 +18,6 @@ class MusicService : Service(), MediaPlayer.OnErrorListener, OnCompletionListene
     var mPlayer: MediaPlayer? = null
     private var length = 0
     private var playMusic = false
-    var rand = Random()
     override fun onCompletion(mp: MediaPlayer) {
         stopMusic()
         createMediaPlayer()
@@ -43,9 +39,8 @@ class MusicService : Service(), MediaPlayer.OnErrorListener, OnCompletionListene
     private fun createMediaPlayer() {
         // https://stackoverflow.com/questions/6539715/android-how-do-can-i-get-a-list-of-all-files-in-a-folder
         val fields = raw::class.java.fields
-        val indexes = Stream.range(0, fields.size.toLong())
-            .filter { i: Int? -> StringUtils.startsWith(fields[i!!].name, "music") }.toJavaList()
-        val n = rand.nextInt(indexes.size)
+        val indexes = fields.indices.filter { fields[it].name.startsWith("music") }
+        val n = Random.nextInt(indexes.size)
         mPlayer = MediaPlayer.create(this, fields[indexes[n]].getInt(fields[indexes[n]]))
         mPlayer!!.setVolume(100f, 100f)
         mPlayer!!.setOnErrorListener(this)
