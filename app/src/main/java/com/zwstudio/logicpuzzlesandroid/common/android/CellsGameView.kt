@@ -52,7 +52,7 @@ abstract class CellsGameView(context: Context) : View(context) {
     protected fun fromImageToDrawable(imageFile: String): Drawable {
         val `is` = context.applicationContext.assets.open(imageFile)
         val bmp = BitmapFactory.decodeStream(`is`)
-        val result = BitmapDrawable(bmp)
+        val result = BitmapDrawable(null, bmp)
         `is`.close()
         return result
     }

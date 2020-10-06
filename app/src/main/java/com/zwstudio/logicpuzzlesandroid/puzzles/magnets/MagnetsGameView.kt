@@ -53,7 +53,7 @@ class MagnetsGameView(context: Context) : CellsGameView(context) {
         }
         for (r in 0 until rows)
             for (c in 0 until cols)
-                when (val o = game.getObject(r, c)) {
+                when (game.getObject(r, c)) {
                     MagnetsObject.Positive -> {
                         dPositive.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dPositive.draw(canvas)

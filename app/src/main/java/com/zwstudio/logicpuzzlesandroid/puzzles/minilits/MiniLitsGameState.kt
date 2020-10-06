@@ -133,7 +133,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
             if (treeCount == 3 && info.blockIndexes.size == 1) {
                 info.trees.sort()
                 val treeOffsets = mutableListOf<Position>()
-                val p2 = Position(info.trees.map { it.row }.min()!!, info.trees.map { it.col }.min()!!)
+                val p2 = Position(info.trees.map { it.row }.minOrNull()!!, info.trees.map { it.col }.minOrNull()!!)
                 for (p in info.trees)
                     treeOffsets.add(p - p2)
                 info.tetrominoIndex = MiniLitsGame.triominos.indexOfFirst { it == treeOffsets }

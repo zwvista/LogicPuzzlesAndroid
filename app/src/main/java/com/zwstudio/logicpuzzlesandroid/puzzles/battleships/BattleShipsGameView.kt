@@ -46,7 +46,7 @@ class BattleShipsGameView(context: Context) : CellsGameView(context) {
                 if (isInEditMode) continue
                 val path = Path()
                 val paint = if (game.pos2obj.containsKey(Position(r, c))) grayPaint else whitePaint
-                when (val o = game.getObject(r, c)) {
+                when (game.getObject(r, c)) {
                     BattleShipsObject.BattleShipUnit ->
                         canvas.drawArc((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), 0f, 360f, true, paint)
                     BattleShipsObject.BattleShipMiddle ->

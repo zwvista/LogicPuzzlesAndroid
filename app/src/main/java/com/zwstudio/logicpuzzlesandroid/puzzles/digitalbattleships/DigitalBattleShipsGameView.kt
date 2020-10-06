@@ -45,7 +45,7 @@ class DigitalBattleShipsGameView(context: Context) : CellsGameView(context) {
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 val path = Path()
-                when (val o = game.getObject(r, c)) {
+                when (game.getObject(r, c)) {
                     DigitalBattleShipsObject.BattleShipUnit ->
                         canvas.drawArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 0f, 360f, true, grayPaint)
                     DigitalBattleShipsObject.BattleShipMiddle ->
