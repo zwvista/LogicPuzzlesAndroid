@@ -1,27 +1,27 @@
 package com.zwstudio.logicpuzzlesandroid.home.data
 
-import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication
-import org.androidannotations.annotations.App
+import com.zwstudio.logicpuzzlesandroid.home.android.realm
 import org.androidannotations.annotations.EBean
 
 @EBean
 open class HomeDocument {
-    @App
-    lateinit var app: LogicPuzzlesApplication
     fun gameProgress(): HomeGameProgress {
-        var rec = app.daoHomeGameProgress.queryBuilder()
-            .queryForFirst()
+        var rec = realm.where(HomeGameProgress::class.java).findFirst()
         if (rec == null) {
+            realm.beginTransaction()
             rec = HomeGameProgress()
-            app.daoHomeGameProgress.create(rec)
+            realm.insertOrUpdate(rec)
+            realm.commitTransaction()
         }
         return rec
     }
 
     fun resumeGame(gameName: String, gameTitle: String) {
+        realm.beginTransaction()
         val rec = gameProgress()
         rec.gameName = gameName
         rec.gameTitle = gameTitle
-        app.daoHomeGameProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 }

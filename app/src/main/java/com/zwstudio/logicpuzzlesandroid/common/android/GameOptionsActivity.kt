@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
+import com.zwstudio.logicpuzzlesandroid.home.android.realm
 import org.androidannotations.annotations.*
 
 @EActivity
@@ -49,17 +50,21 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, G
 
     @ItemSelect
     protected open fun spnMarkerItemSelected(selected: Boolean, position: Int) {
+        realm.beginTransaction()
         val rec = doc.gameProgress()
         doc.setMarkerOption(rec, position)
-        app.daoGameProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     @Click
     protected fun ctvAllowedObjectsOnly() {
+        realm.beginTransaction()
         val rec = doc.gameProgress()
         ctvAllowedObjectsOnly.isChecked = !doc.isAllowedObjectsOnly
         doc.setAllowedObjectsOnly(rec, !doc.isAllowedObjectsOnly)
-        app.daoGameProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     @Click
@@ -70,10 +75,12 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, G
     @Click
     protected fun btnDefault() {
         yesNoDialog("Do you really want to reset the options?") {
+            realm.beginTransaction()
             val rec = doc.gameProgress()
             doc.setMarkerOption(rec, 0)
             doc.setAllowedObjectsOnly(rec, false)
-            app.daoGameProgress.update(rec)
+            realm.insertOrUpdate(rec)
+            realm.commitTransaction()
             spnMarker.setSelection(doc.markerOption)
             ctvAllowedObjectsOnly.isChecked = doc.isAllowedObjectsOnly
         }

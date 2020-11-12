@@ -93,7 +93,7 @@ class FenceLitsGameState(game: FenceLitsGame) : CellsGameState<FenceLitsGame, Fe
                 return
             }
             val treeOffsets = mutableListOf<Position>()
-            val p2 = Position(area.map { it.row }.min()!!, area.map { it.col }.min()!!)
+            val p2 = Position(area.map { it.row }.minOrNull()!!, area.map { it.col }.minOrNull()!!)
             for (p in area)
                 treeOffsets.add(p - p2)
             if (!FenceLitsGame.tetrominoes.any { it == treeOffsets }) {

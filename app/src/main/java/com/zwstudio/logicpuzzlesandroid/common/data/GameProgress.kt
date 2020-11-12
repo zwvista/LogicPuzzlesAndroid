@@ -1,24 +1,15 @@
 package com.zwstudio.logicpuzzlesandroid.common.data
 
-import com.j256.ormlite.field.DatabaseField
-import java.io.Serializable
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+import java.util.*
 
-class GameProgress : Serializable {
-    @DatabaseField(generatedId = true)
-    private val ID = 0
-
-    @DatabaseField
+open class GameProgress : RealmObject() {
+    @PrimaryKey
+    var id = UUID.randomUUID().toString()
     var gameID: String? = null
-
-    @DatabaseField
     var levelID = "1"
-
-    @DatabaseField
     var option1: String? = null
-
-    @DatabaseField
     var option2: String? = null
-
-    @DatabaseField
     var option3: String? = null
 }

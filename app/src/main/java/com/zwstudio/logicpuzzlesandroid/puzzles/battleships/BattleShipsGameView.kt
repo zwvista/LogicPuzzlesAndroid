@@ -75,6 +75,7 @@ class BattleShipsGameView(context: Context) : CellsGameView(context) {
                         canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, paint)
                     BattleShipsObject.Forbidden ->
                         canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, forbiddenPaint)
+                    else -> {}
                 }
             }
         if (isInEditMode) return

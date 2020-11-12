@@ -9,8 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.realm
 import org.androidannotations.annotations.*
-import java.sql.SQLException
 
 @EActivity(R.layout.activity_game_main)
 class CarpentersSquareMainActivity : GameMainActivity<CarpentersSquareGame, CarpentersSquareDocument, CarpentersSquareGameMove, CarpentersSquareGameState>() {
@@ -63,19 +63,19 @@ class CarpentersSquareOptionsActivity : GameOptionsActivity<CarpentersSquareGame
 
     @ItemSelect
     override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
+        realm.beginTransaction()
         val rec = doc.gameProgress()
         doc.setMarkerOption(rec, position)
-        app.daoGameProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     protected fun onDefault() {
+        realm.beginTransaction()
         val rec = doc.gameProgress()
         doc.setMarkerOption(rec, 0)
-        try {
-            app.daoGameProgress.update(rec)
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        }
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
         spnMarker.setSelection(doc.markerOption)
     }
 }

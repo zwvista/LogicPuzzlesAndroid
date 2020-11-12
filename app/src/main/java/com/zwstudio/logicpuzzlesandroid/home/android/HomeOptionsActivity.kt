@@ -31,16 +31,20 @@ open class HomeOptionsActivity : BaseActivity() {
     @Click
     protected fun ctvPlayMusic() {
         ctvPlayMusic.isChecked = !rec.playMusic
+        realm.beginTransaction()
         rec.playMusic = !rec.playMusic
-        app.daoHomeGameProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
         app.soundManager.playOrPauseMusic()
     }
 
     @Click
     protected fun ctvPlaySound() {
         ctvPlaySound.isChecked = !rec.playSound
+        realm.beginTransaction()
         rec.playSound = !rec.playSound
-        app.daoHomeGameProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     @Click
@@ -51,9 +55,11 @@ open class HomeOptionsActivity : BaseActivity() {
     @Click
     protected fun btnDefault() {
         yesNoDialog("Do you really want to reset the options?") {
+            realm.beginTransaction()
             rec.playMusic = true
             rec.playSound = true
-            app.daoHomeGameProgress.update(rec)
+            realm.insertOrUpdate(rec)
+            realm.commitTransaction()
             ctvPlayMusic.isChecked = rec.playMusic
             app.soundManager.playOrPauseMusic()
             ctvPlaySound.isChecked = rec.playSound

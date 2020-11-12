@@ -136,7 +136,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
             if (treeCount == 4 && info.blockIndexes.size == 1) {
                 info.trees.sort()
                 val treeOffsets = mutableListOf<Position>()
-                val p2 = Position(info.trees.map { it.row }.min()!!, info.trees.map { it.col }.min()!!)
+                val p2 = Position(info.trees.map { it.row }.minOrNull()!!, info.trees.map { it.col }.minOrNull()!!)
                 for (p in info.trees)
                     treeOffsets.add(p - p2)
                 info.tetrominoIndex = LitsGame.tetrominoes.indexOfFirst { it.any { it == treeOffsets } }

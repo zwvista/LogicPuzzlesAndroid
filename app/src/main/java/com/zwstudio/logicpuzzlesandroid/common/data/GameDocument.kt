@@ -3,6 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.common.data
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.home.android.HomeChooseGameActivity
 import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication
+import com.zwstudio.logicpuzzlesandroid.home.android.realm
 import org.androidannotations.annotations.AfterInject
 import org.androidannotations.annotations.App
 import org.androidannotations.annotations.EBean
@@ -87,47 +88,52 @@ abstract class GameDocument<GM> : GameDocumentInterface {
     }
 
     fun gameProgress(): GameProgress {
-        var rec = app.daoGameProgress.queryBuilder()
-            .where().eq("gameID", gameID)
-            .queryForFirst()
+        var rec = realm.where(GameProgress::class.java)
+            .equalTo("gameID", gameID)
+            .findFirst()
         if (rec == null) {
+            realm.beginTransaction()
             rec = GameProgress()
             rec.gameID = gameID
             rec.levelID = levels[0].id
-            app.daoGameProgress.create(rec)
+            realm.insertOrUpdate(rec)
+            realm.commitTransaction()
         }
         return rec
     }
 
     private fun levelProgress(levelID: String): LevelProgress {
-        var rec = app.daoLevelProgress.queryBuilder()
-            .where().eq("gameID", gameID)
-            .and().eq("levelID", levelID).queryForFirst()
+        var rec = realm.where(LevelProgress::class.java)
+            .equalTo("gameID", gameID)
+            .equalTo("levelID", levelID).findFirst()
         if (rec == null) {
+            realm.beginTransaction()
             rec = LevelProgress()
             rec.gameID = gameID
             rec.levelID = levelID
-            app.daoLevelProgress.create(rec)
+            realm.insertOrUpdate(rec)
+            realm.commitTransaction()
         }
         return rec
     }
     fun levelProgress() = levelProgress(selectedLevelID)
     fun levelProgressSolution() = levelProgress(selectedLevelIDSolution)
 
-    private fun moveProgress(levelID: String): List<MoveProgress> {
-        val builder = app.daoMoveProgress.queryBuilder()
-        builder.where().eq("gameID", gameID)
-            .and().eq("levelID", levelID)
-        builder.orderBy("moveIndex", true)
-        return builder.query()
-    }
+    private fun moveProgress(levelID: String): List<MoveProgress> =
+        realm.where(MoveProgress::class.java)
+            .equalTo("gameID", gameID)
+            .equalTo("levelID", levelID)
+            .sort("moveIndex")
+            .findAll()
     fun moveProgress() = moveProgress(selectedLevelID)
     fun moveProgressSolution() = moveProgress(selectedLevelIDSolution)
 
     fun levelUpdated(game: Game<*, *, *>) {
+        realm.beginTransaction()
         val rec = levelProgress()
         rec.moveIndex = game.moveIndex
-        app.daoLevelProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     fun gameSolved(game: Game<*, *, *>) {
@@ -137,42 +143,48 @@ abstract class GameDocument<GM> : GameDocumentInterface {
     }
 
     fun moveAdded(game: Game<*, *, *>, move: GM) {
-        val builder = app.daoMoveProgress.deleteBuilder()
-        builder.where().eq("gameID", gameID)
-            .and().eq("levelID", selectedLevelID)
-            .and().ge("moveIndex", game.moveIndex)
-        builder.delete()
+        realm.beginTransaction()
+        realm.where(MoveProgress::class.java)
+            .equalTo("gameID", gameID)
+            .equalTo("levelID", selectedLevelID)
+            .greaterThanOrEqualTo("moveIndex", game.moveIndex)
+            .findAll().deleteAllFromRealm()
         val rec = MoveProgress()
         rec.gameID = gameID
         rec.levelID = selectedLevelID
         rec.moveIndex = game.moveIndex
         saveMove(move, rec)
-        app.daoMoveProgress.create(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     protected abstract fun saveMove(move: GM, rec: MoveProgress)
     abstract fun loadMove(rec: MoveProgress): GM
     fun resumeGame() {
+        realm.beginTransaction()
         val rec = gameProgress()
         rec.levelID = selectedLevelID
-        app.daoGameProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     fun clearGame() {
-        val builder = app.daoMoveProgress.deleteBuilder()
-        builder.where().eq("gameID", gameID)
-            .and().eq("levelID", selectedLevelID)
-        builder.delete()
+        realm.beginTransaction()
+        realm.where(MoveProgress::class.java)
+            .equalTo("gameID", gameID)
+            .equalTo("levelID", selectedLevelID)
+            .findAll().deleteAllFromRealm()
         val rec = levelProgress()
         rec.moveIndex = 0
-        app.daoLevelProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     private fun copyMoves(moveProgressFrom: List<MoveProgress>, levelIDTo: String) {
-        val builder = app.daoMoveProgress.deleteBuilder()
-        builder.where().eq("gameID", gameID)
-            .and().eq("levelID", levelIDTo)
-        builder.delete()
+        realm.where(MoveProgress::class.java)
+            .equalTo("gameID", gameID)
+            .equalTo("levelID", levelIDTo)
+            .findAll().deleteAllFromRealm()
         for (recMP in moveProgressFrom) {
             val move = loadMove(recMP)
             val recMPS = MoveProgress()
@@ -180,42 +192,50 @@ abstract class GameDocument<GM> : GameDocumentInterface {
             recMPS.levelID = levelIDTo
             recMPS.moveIndex = recMP.moveIndex
             saveMove(move, recMPS)
-            app.daoMoveProgress.create(recMPS)
+            realm.insertOrUpdate(recMPS)
         }
     }
 
     fun saveSolution(game: Game<*, *, *>) {
+        realm.beginTransaction()
         copyMoves(moveProgress(), selectedLevelIDSolution)
         val rec = levelProgressSolution()
         rec.moveIndex = game.moveIndex
-        app.daoLevelProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     fun loadSolution() {
+        realm.beginTransaction()
         val mps = moveProgressSolution()
         copyMoves(mps, selectedLevelID)
         val rec = levelProgress()
         rec.moveIndex = mps.size
-        app.daoLevelProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     fun deleteSolution() {
-        val builder = app.daoMoveProgress.deleteBuilder()
-        builder.where().eq("gameID", gameID)
-            .and().eq("levelID", selectedLevelIDSolution)
-        builder.delete()
+        realm.beginTransaction()
+        realm.where(MoveProgress::class.java)
+            .equalTo("gameID", gameID)
+            .equalTo("levelID", selectedLevelIDSolution)
+            .findAll().deleteAllFromRealm()
         val rec = levelProgressSolution()
         rec.moveIndex = 0
-        app.daoLevelProgress.update(rec)
+        realm.insertOrUpdate(rec)
+        realm.commitTransaction()
     }
 
     fun resetAllLevels() {
-        val builder = app.daoMoveProgress.deleteBuilder()
-        builder.where().eq("gameID", gameID)
-        builder.delete()
-        val builder2 = app.daoLevelProgress.deleteBuilder()
-        builder2.where().eq("gameID", gameID)
-        builder2.delete()
+        realm.beginTransaction()
+        realm.where(MoveProgress::class.java)
+            .equalTo("gameID", gameID)
+            .findAll().deleteAllFromRealm()
+        realm.where(LevelProgress::class.java)
+            .equalTo("gameID", gameID)
+            .findAll().deleteAllFromRealm()
+        realm.commitTransaction()
     }
 
     override val markerOption get() = gameProgress().option1?.toInt() ?: 0
