@@ -37,11 +37,11 @@ dependencies {
     kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'androidx.appcompat:appcompat:1.2.0'
     testImplementation 'junit:junit:4.13.1'
     implementation 'javax.persistence:persistence-api:1.0.2'
-    implementation 'uk.com.robust-it:cloning:1.9.5'
+    implementation 'uk.com.robust-it:cloning:1.9.12'
 }
