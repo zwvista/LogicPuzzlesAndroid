@@ -19,10 +19,7 @@ class HomeMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
         // Set the hardware buttons to control the music
         volumeControlStream = AudioManager.STREAM_MUSIC

@@ -22,10 +22,7 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, G
         super.onCreate(savedInstanceState)
         binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         val lst = lstMarkers
         val adapter = object : ArrayAdapter<String>(this,
             android.R.layout.simple_spinner_item, lst) {

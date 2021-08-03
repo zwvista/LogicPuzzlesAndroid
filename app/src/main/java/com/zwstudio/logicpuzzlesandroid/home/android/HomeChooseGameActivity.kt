@@ -20,10 +20,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeChooseGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         if (lstGameNames.isEmpty()) {
             lstGameNames = assets.list("xml")!!
                 .map { it.substring(0, it.length - ".xml".length) }

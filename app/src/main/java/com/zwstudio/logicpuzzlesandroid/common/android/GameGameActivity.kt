@@ -28,10 +28,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         super.onCreate(savedInstanceState)
         binding = ActivityGameGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         /*
             <view
                 android:layout_width="wrap_content"

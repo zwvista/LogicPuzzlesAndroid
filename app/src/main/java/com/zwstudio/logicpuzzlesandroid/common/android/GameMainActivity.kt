@@ -21,10 +21,7 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         super.onCreate(savedInstanceState)
         binding = ActivityGameMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         val onClickListener = View.OnClickListener { v ->
             doc.selectedLevelID = (v as Button).text.toString()
             resumeGame()

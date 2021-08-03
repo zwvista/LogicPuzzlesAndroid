@@ -17,10 +17,7 @@ abstract class GameHelpActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         super.onCreate(savedInstanceState)
         binding = ActivityGameHelpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_1, doc.help)
         binding.lvHelp.adapter = adapter

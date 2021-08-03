@@ -16,10 +16,7 @@ class HomeOptionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         val rec = doc.gameProgress()
         binding.ctvPlayMusic.isChecked = rec.playMusic
         binding.ctvPlaySound.isChecked = rec.playSound
