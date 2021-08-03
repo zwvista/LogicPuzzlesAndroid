@@ -9,14 +9,8 @@ import android.media.SoundPool
 import android.os.IBinder
 import com.zwstudio.logicpuzzlesandroid.R.raw
 import com.zwstudio.logicpuzzlesandroid.home.android.MusicService.ServiceBinder
-import org.androidannotations.annotations.App
-import org.androidannotations.annotations.EBean
 
-@EBean
-open class SoundManager {
-    @App
-    lateinit var app: LogicPuzzlesApplication
-
+class SoundManager(val app: LogicPuzzlesApplication) {
     // http://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
     private var mIsBound = false
     private var mServ: MusicService? = null

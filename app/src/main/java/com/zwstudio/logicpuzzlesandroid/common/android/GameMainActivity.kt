@@ -1,34 +1,30 @@
 package com.zwstudio.logicpuzzlesandroid.common.android
 
+import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import com.zwstudio.logicpuzzlesandroid.databinding.ActivityGameMainBinding
 
-@EActivity
-abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, GS : GameState<GM>> : BaseActivity() {
+abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, GS : GameState<GM>> : AppCompatActivity() {
     abstract val doc: GD
-
-    @ViewById
-    protected lateinit var tvGame: TextView
-    @ViewById
-    protected lateinit var btnResumeLevel: Button
-    @ViewById
-    protected lateinit var btnPrevPage: Button
-    @ViewById
-    protected lateinit var btnNextPage: Button
     var currentPage = 0
     var countPerPage = 12
     var numPages = 1
 
-    @AfterViews
-    protected fun init() {
+    protected lateinit var binding: ActivityGameMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityGameMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
         val onClickListener = View.OnClickListener { v ->
             doc.selectedLevelID = (v as Button).text.toString()
             resumeGame()
@@ -39,22 +35,37 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
             val button = findViewById<Button>(resID)
             button.setOnClickListener(onClickListener)
         }
+        binding.btnPrevPage.setOnClickListener {
+            currentPage = (currentPage - 1 + numPages) % numPages
+            showCurrentPage()
+        }
+        binding.btnNextPage.setOnClickListener {
+            currentPage = (currentPage + 1) % numPages
+            showCurrentPage()
+        }
+        binding.btnResumeLevel.setOnClickListener {
+            resumeGame()
+        }
+        binding.btnResetAllLevels.setOnClickListener {
+            yesNoDialog("Do you really want to reset the options?") { doc.resetAllLevels() }
+        }
+
         numPages = (doc.levels.size + countPerPage - 1) / countPerPage
         val index = doc.levels.indexOfFirst { it.id == doc.selectedLevelID }.coerceAtLeast(0)
         currentPage = index / countPerPage
         if (numPages == 1) {
-            btnPrevPage.visibility = View.INVISIBLE
-            btnNextPage.visibility = View.INVISIBLE
+            binding.btnPrevPage.visibility = View.INVISIBLE
+            binding.btnNextPage.visibility = View.INVISIBLE
         }
         showCurrentPage()
-        tvGame.text = doc.gameTitle
+        binding.tvGame.text = doc.gameTitle
         val toResume = intent.getBooleanExtra("toResume", false)
         if (toResume) resumeGame()
     }
 
     override fun onResume() {
         super.onResume()
-        btnResumeLevel.text = "Resume Level " + doc.selectedLevelID
+        binding.btnResumeLevel.text = "Resume Level " + doc.selectedLevelID
     }
 
     private fun showCurrentPage() {
@@ -68,27 +79,5 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         }
     }
 
-    @Click
-    protected fun btnPrevPage() {
-        currentPage = (currentPage - 1 + numPages) % numPages
-        showCurrentPage()
-    }
-
-    @Click
-    protected fun btnNextPage() {
-        currentPage = (currentPage + 1) % numPages
-        showCurrentPage()
-    }
-
-    @Click
-    protected fun btnResumeLevel() {
-        resumeGame()
-    }
-
     protected abstract fun resumeGame()
-
-    @Click
-    protected fun btnResetAllLevels() {
-        yesNoDialog("Do you really want to reset the options?") { doc.resetAllLevels() }
-    }
 }

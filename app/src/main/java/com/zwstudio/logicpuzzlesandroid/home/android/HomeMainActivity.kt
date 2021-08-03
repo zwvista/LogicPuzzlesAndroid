@@ -3,60 +3,58 @@ package com.zwstudio.logicpuzzlesandroid.home.android
 import android.app.Activity
 import android.content.Intent
 import android.media.AudioManager
-import android.widget.Button
-import com.zwstudio.logicpuzzlesandroid.R
-import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity
-import org.androidannotations.annotations.*
+import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import com.zwstudio.logicpuzzlesandroid.databinding.ActivityHomeMainBinding
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
+import org.koin.android.ext.android.inject
 import java.util.*
 
-@EActivity(R.layout.activity_home_main)
-class HomeMainActivity : BaseActivity() {
-    fun doc() = app.homeDocument
+class HomeMainActivity : AppCompatActivity() {
+    private val doc: HomeDocument by inject()
+    private lateinit var binding: ActivityHomeMainBinding
 
-    @ViewById
-    lateinit var btnResumeGame: Button
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomeMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
 
-    @AfterViews
-    protected fun init() {
+    override fun onStart() {
+        super.onStart()
         // http://www.vogella.com/tutorials/AndroidMedia/article.html#tutorial_soundpool
         // Set the hardware buttons to control the music
         volumeControlStream = AudioManager.STREAM_MUSIC
+        fun btnResumeGame() {
+            resumeGame(doc.gameProgress().gameName, doc.gameProgress().gameTitle, true)
+        }
+        binding.btnResumeGame.setOnClickListener {
+            btnResumeGame()
+        }
+        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                btnResumeGame()
+            }
+        }
+        binding.btnChooseGame.setOnClickListener {
+            resultLauncher.launch(Intent(this, HomeChooseGameActivity::class.java))
+        }
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, HomeOptionsActivity::class.java))
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        btnResumeGame.text = "Resume Game " + doc().gameProgress().gameTitle
-    }
-
-    @Click
-    protected fun btnResumeGame() {
-        resumeGame(doc().gameProgress().gameName, doc().gameProgress().gameTitle, true)
-    }
-
-    @Click
-    protected fun btnChooseGame() {
-        HomeChooseGameActivity_.intent(this).startForResult(CHOOSE_GAME_REQUEST)
-    }
-
-    @Click
-    protected fun btnOptions() {
-        HomeOptionsActivity_.intent(this).start()
+        binding.btnResumeGame.text = "Resume Game " + doc.gameProgress().gameTitle
     }
 
     private fun resumeGame(gameName: String, gameTitle: String, toResume: Boolean) {
-        doc().resumeGame(gameName, gameTitle)
-        val cls = Class.forName("com.zwstudio.logicpuzzlesandroid.puzzles.${gameName.toLowerCase(Locale.ROOT)}.${gameName}MainActivity_")
+        doc.resumeGame(gameName, gameTitle)
+        val cls = Class.forName("com.zwstudio.logicpuzzlesandroid.puzzles.${gameName.toLowerCase(Locale.ROOT)}.${gameName}MainActivity")
         val intent = Intent(this, cls)
         intent.putExtra("toResume", toResume)
         startActivity(intent)
-    }
-
-    @OnActivityResult(CHOOSE_GAME_REQUEST)
-    fun onResult(resultCode: Int) {
-        if (resultCode == Activity.RESULT_OK) btnResumeGame()
-    }
-
-    companion object {
-        const val CHOOSE_GAME_REQUEST = 123
     }
 }

@@ -9,8 +9,9 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class AbcGameView(context: Context) : CellsGameView(context) {
+class AbcGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as AbcGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -57,7 +58,7 @@ class AbcGameView(context: Context) : CellsGameView(context) {
             val row = (event.y / cellHeight).toInt()
             val move = AbcGameMove(Position(row, col))
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

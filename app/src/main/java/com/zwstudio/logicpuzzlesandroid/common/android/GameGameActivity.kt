@@ -1,47 +1,37 @@
 package com.zwstudio.logicpuzzlesandroid.common.android
 
 import android.graphics.Color
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.RelativeLayout
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import com.zwstudio.logicpuzzlesandroid.databinding.ActivityGameGameBinding
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity
-abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, GS : GameState<GM>> : BaseActivity(), GameInterface<G, GM, GS> {
+abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, GS : GameState<GM>> : AppCompatActivity(), GameInterface<G, GM, GS> {
     abstract val doc: GD
-
-    @ViewById
-    protected lateinit var activity_game_game: ViewGroup
+    private val soundManager: SoundManager by inject()
     protected lateinit var gameView: View
-    @ViewById
-    protected lateinit var tvGame: TextView
-    @ViewById
-    protected lateinit var tvLevel: TextView
-    @ViewById
-    protected lateinit var tvSolved: TextView
-    @ViewById
-    protected lateinit var tvMoves: TextView
-    @ViewById
-    protected lateinit var tvSolution: TextView
-    @ViewById
-    protected lateinit var btnSaveSolution: Button
-    @ViewById
-    protected lateinit var btnLoadSolution: Button
-    @ViewById
-    protected lateinit var btnDeleteSolution: Button
     lateinit var game: G
     protected var levelInitilizing = false
 
-    protected fun init() {
+    protected lateinit var binding: ActivityGameGameBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityGameGameBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
         /*
             <view
                 android:layout_width="wrap_content"
@@ -53,33 +43,41 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         */
         val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)
-        activity_game_game.addView(gameView, params)
-        tvGame.text = doc.gameTitle
-        startGame()
-    }
-
-    @Click
-    protected fun btnUndo() {
-        game.undo()
-    }
-
-    @Click
-    protected fun btnRedo() {
-        game.redo()
-    }
-
-    @Click
-    protected fun btnClear() {
-        yesNoDialog("Do you really want to reset the level?") {
-            doc.clearGame()
+        binding.activityGameGame.addView(gameView, params)
+        binding.tvGame.text = doc.gameTitle
+        binding.btnUndo.setOnClickListener {
+            game.undo()
+        }
+        binding.btnRedo.setOnClickListener {
+            game.redo()
+        }
+        binding.btnClear.setOnClickListener {
+            yesNoDialog("Do you really want to reset the level?") {
+                doc.clearGame()
+                startGame()
+            }
+        }
+        binding.btnSaveSolution.setOnClickListener {
+            doc.saveSolution(game)
+            updateSolutionUI()
+        }
+        binding.btnLoadSolution.setOnClickListener {
+            doc.loadSolution()
             startGame()
         }
+        binding.btnDeleteSolution.setOnClickListener {
+            yesNoDialog("Do you really want to delete the solution?") {
+                doc.deleteSolution()
+                updateSolutionUI()
+            }
+        }
+        startGame()
     }
 
     protected fun startGame() {
         val selectedLevelID = doc.selectedLevelID
         val level = doc.levels.firstOrNull { it.id == selectedLevelID } ?: doc.levels.first()
-        tvLevel.text = selectedLevelID
+        binding.tvLevel.text = selectedLevelID
         updateSolutionUI()
 
         levelInitilizing = true
@@ -106,9 +104,9 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
     }
 
     private fun updateMovesUI(game: G) {
-        tvMoves.text = String.format("Moves: %d(%d)", game.moveIndex, game.moveCount)
-        tvSolved.setTextColor(if (game.isSolved) Color.WHITE else Color.BLACK)
-        btnSaveSolution.isEnabled = game.isSolved
+        binding.tvMoves.text = String.format("Moves: %d(%d)", game.moveIndex, game.moveCount)
+        binding.tvSolved.setTextColor(if (game.isSolved) Color.WHITE else Color.BLACK)
+        binding.btnSaveSolution.isEnabled = game.isSolved
     }
 
     override fun levelInitilized(game: G, state: GS) {
@@ -124,7 +122,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
 
     override fun gameSolved(game: G) {
         if (levelInitilizing) return
-        app.soundManager.playSoundSolved()
+        soundManager.playSoundSolved()
         doc.gameSolved(game)
         updateSolutionUI()
     }
@@ -132,28 +130,8 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
     protected fun updateSolutionUI() {
         val rec = doc.levelProgressSolution()
         val hasSolution = rec.moveIndex != 0
-        tvSolution.text = "Solution: " + if (!hasSolution) "None" else rec.moveIndex.toString()
-        btnLoadSolution.isEnabled = hasSolution
-        btnDeleteSolution.isEnabled = hasSolution
-    }
-
-    @Click
-    protected fun btnSaveSolution() {
-        doc.saveSolution(game)
-        updateSolutionUI()
-    }
-
-    @Click
-    protected fun btnLoadSolution() {
-        doc.loadSolution()
-        startGame()
-    }
-
-    @Click
-    protected fun btnDeleteSolution() {
-        yesNoDialog("Do you really want to delete the solution?") {
-            doc.deleteSolution()
-            updateSolutionUI()
-        }
+        binding.tvSolution.text = "Solution: " + if (!hasSolution) "None" else rec.moveIndex.toString()
+        binding.btnLoadSolution.isEnabled = hasSolution
+        binding.btnDeleteSolution.isEnabled = hasSolution
     }
 }

@@ -1,30 +1,29 @@
 package com.zwstudio.logicpuzzlesandroid.common.android
 
+import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import com.zwstudio.logicpuzzlesandroid.databinding.ActivityGameHelpBinding
 
-@EActivity
-abstract class GameHelpActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, GS : GameState<GM>> : BaseActivity() {
+abstract class GameHelpActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, GS : GameState<GM>> : AppCompatActivity() {
     abstract val doc: GD
 
-    @ViewById
-    protected lateinit var tvGame: TextView
+    protected lateinit var binding: ActivityGameHelpBinding
 
-    @ViewById
-    protected lateinit var lvHelp: ListView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityGameHelpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
 
-    @AfterViews
-    protected fun init() {
+    override fun onStart() {
+        super.onStart()
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_1, doc.help)
-        lvHelp.adapter = adapter
-        tvGame.text = doc.gameTitle + " Help"
+        binding.lvHelp.adapter = adapter
+        binding.tvGame.text = doc.gameTitle + " Help"
     }
 }

@@ -1,10 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.home.data
 
 import com.zwstudio.logicpuzzlesandroid.home.android.realm
-import org.androidannotations.annotations.EBean
 
-@EBean
-open class HomeDocument {
+class HomeDocument {
     fun gameProgress(): HomeGameProgress {
         var rec = realm.where(HomeGameProgress::class.java).findFirst()
         if (rec == null) {

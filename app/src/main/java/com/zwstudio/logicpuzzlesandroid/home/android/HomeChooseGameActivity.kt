@@ -1,63 +1,64 @@
 package com.zwstudio.logicpuzzlesandroid.home.android
 
 import android.app.Activity
+import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import com.zwstudio.logicpuzzlesandroid.R
-import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity
-import org.androidannotations.annotations.*
+import androidx.appcompat.app.AppCompatActivity
+import com.zwstudio.logicpuzzlesandroid.databinding.ActivityHomeChooseGameBinding
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
+import org.koin.android.ext.android.inject
 import java.util.*
 
-@EActivity(R.layout.activity_home_choose_game)
-open class HomeChooseGameActivity : BaseActivity() {
-    fun doc() = app.homeDocument
+class HomeChooseGameActivity : AppCompatActivity() {
+    val doc: HomeDocument by inject()
+    private lateinit var binding: ActivityHomeChooseGameBinding
 
-    @ViewById
-    lateinit var lvGames: ListView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomeChooseGameBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
 
-    @AfterViews
-    protected fun init() {
+    override fun onStart() {
+        super.onStart()
         if (lstGameNames.isEmpty()) {
-            lstGameNames = app.applicationContext.assets.list("xml")!!
+            lstGameNames = assets.list("xml")!!
                 .map { it.substring(0, it.length - ".xml".length) }
                 .sortedBy { it.toUpperCase(Locale.ROOT) }
             lstGameTitles = lstGameNames.map { (name2title[it] ?: it) }
         }
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_single_choice, lstGameTitles)
-        lvGames.adapter = adapter
-        val gameName = doc().gameProgress().gameName
-        lvGames.choiceMode = ListView.CHOICE_MODE_SINGLE
+        binding.lvGames.adapter = adapter
+        val gameName = doc.gameProgress().gameName
+        binding.lvGames.choiceMode = ListView.CHOICE_MODE_SINGLE
         val selectedPosition = lstGameNames.indexOf(gameName)
-        lvGames.setItemChecked(selectedPosition, true)
+        binding.lvGames.setItemChecked(selectedPosition, true)
 
         // https://stackoverflow.com/questions/7733813/how-can-you-tell-when-a-layout-has-been-drawn/7735122#7735122
-        lvGames.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        binding.lvGames.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                lvGames.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                binding.lvGames.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 // https://stackoverflow.com/questions/5540223/center-a-listview-on-its-current-selection
-                val h1 = lvGames.height
+                val h1 = binding.lvGames.height
                 // https://stackoverflow.com/questions/3361423/android-get-listview-item-height
-                val childView = adapter.getView(selectedPosition, null, lvGames)
+                val childView = adapter.getView(selectedPosition, null, binding.lvGames)
                 childView.measure(UNBOUNDED, UNBOUNDED)
                 val h2 = childView.measuredHeight
-                lvGames.smoothScrollToPositionFromTop(selectedPosition, h1 / 2 - h2 / 2)
+                binding.lvGames.smoothScrollToPositionFromTop(selectedPosition, h1 / 2 - h2 / 2)
             }
         })
-    }
-
-    @ItemClick
-    protected fun lvGamesItemClicked(position: Int) {
-        doc().resumeGame(lstGameNames[position], lstGameTitles[position])
-        setResult(Activity.RESULT_OK, null)
-        finish()
-    }
-
-    @Click
-    protected fun btnCancel() {
-        finish()
+        binding.lvGames.setOnItemClickListener { parent, view, position, id ->
+            doc.resumeGame(lstGameNames[position], lstGameTitles[position])
+            setResult(Activity.RESULT_OK, null)
+            finish()
+        }
+        binding.btnCancel.setOnClickListener {
+            finish()
+        }
     }
 
     companion object {

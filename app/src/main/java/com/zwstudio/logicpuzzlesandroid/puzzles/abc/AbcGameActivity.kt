@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class AbcGameActivity : GameGameActivity<AbcGame, AbcDocument, AbcGameMove, AbcGameState>() {
-    @Bean
-    protected lateinit var document: AbcDocument
+    private val document: AbcDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = AbcGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = AbcGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, AbcHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         AbcGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        AbcHelpActivity_.intent(this).start()
-    }
 }

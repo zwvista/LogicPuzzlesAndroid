@@ -1,12 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.common.data
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.home.android.HomeChooseGameActivity
-import com.zwstudio.logicpuzzlesandroid.home.android.LogicPuzzlesApplication
 import com.zwstudio.logicpuzzlesandroid.home.android.realm
-import org.androidannotations.annotations.AfterInject
-import org.androidannotations.annotations.App
-import org.androidannotations.annotations.EBean
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
@@ -18,8 +15,7 @@ interface GameDocumentInterface {
     fun setAllowedObjectsOnly(rec: GameProgress, o: Boolean)
 }
 
-@EBean(scope = EBean.Scope.Singleton)
-abstract class GameDocument<GM> : GameDocumentInterface {
+abstract class GameDocument<GM>(val context: Context) : GameDocumentInterface {
     val gameID: String
         get() {
             val name = javaClass.simpleName
@@ -38,13 +34,9 @@ abstract class GameDocument<GM> : GameDocumentInterface {
 
     var help = listOf<String>()
 
-    @App
-    lateinit var app: LogicPuzzlesApplication
-
-    @AfterInject
-    fun init() {
+    init {
         val filename = gameID + ".xml"
-        val in_s = app.applicationContext.assets.open("xml/$filename")
+        val in_s = context.assets.open("xml/$filename")
         loadXml(in_s)
         in_s.close()
         selectedLevelID = gameProgress().levelID

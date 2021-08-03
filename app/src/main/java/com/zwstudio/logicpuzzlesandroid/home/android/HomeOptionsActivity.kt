@@ -1,68 +1,58 @@
 package com.zwstudio.logicpuzzlesandroid.home.android
 
-import android.widget.CheckedTextView
-import com.zwstudio.logicpuzzlesandroid.R
-import com.zwstudio.logicpuzzlesandroid.common.android.BaseActivity
-import com.zwstudio.logicpuzzlesandroid.home.data.HomeGameProgress
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.yesNoDialog
+import com.zwstudio.logicpuzzlesandroid.databinding.ActivityHomeOptionsBinding
+import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_home_options)
-open class HomeOptionsActivity : BaseActivity() {
-    fun doc() = app.homeDocument
+class HomeOptionsActivity : AppCompatActivity() {
+    private val doc: HomeDocument by inject()
+    private val soundManager: SoundManager by inject()
+    private lateinit var binding: ActivityHomeOptionsBinding
 
-    @ViewById
-    lateinit var ctvPlayMusic: CheckedTextView
-
-    @ViewById
-    lateinit var ctvPlaySound: CheckedTextView
-    
-    lateinit var rec: HomeGameProgress
-
-    @AfterViews
-    protected fun init() {
-        rec = doc().gameProgress()
-        ctvPlayMusic.isChecked = rec.playMusic
-        ctvPlaySound.isChecked = rec.playSound
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomeOptionsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
-    @Click
-    protected fun ctvPlayMusic() {
-        ctvPlayMusic.isChecked = !rec.playMusic
-        realm.beginTransaction()
-        rec.playMusic = !rec.playMusic
-        realm.insertOrUpdate(rec)
-        realm.commitTransaction()
-        app.soundManager.playOrPauseMusic()
-    }
+    override fun onStart() {
+        super.onStart()
+        val rec = doc.gameProgress()
+        binding.ctvPlayMusic.isChecked = rec.playMusic
+        binding.ctvPlaySound.isChecked = rec.playSound
 
-    @Click
-    protected fun ctvPlaySound() {
-        ctvPlaySound.isChecked = !rec.playSound
-        realm.beginTransaction()
-        rec.playSound = !rec.playSound
-        realm.insertOrUpdate(rec)
-        realm.commitTransaction()
-    }
-
-    @Click
-    protected fun btnDone() {
-        finish()
-    }
-
-    @Click
-    protected fun btnDefault() {
-        yesNoDialog("Do you really want to reset the options?") {
+        binding.ctvPlayMusic.setOnClickListener {
+            binding.ctvPlayMusic.isChecked = !rec.playMusic
             realm.beginTransaction()
-            rec.playMusic = true
-            rec.playSound = true
+            rec.playMusic = !rec.playMusic
             realm.insertOrUpdate(rec)
             realm.commitTransaction()
-            ctvPlayMusic.isChecked = rec.playMusic
-            app.soundManager.playOrPauseMusic()
-            ctvPlaySound.isChecked = rec.playSound
+            soundManager.playOrPauseMusic()
+        }
+        binding.ctvPlaySound.setOnClickListener {
+            binding.ctvPlaySound.isChecked = !rec.playSound
+            realm.beginTransaction()
+            rec.playSound = !rec.playSound
+            realm.insertOrUpdate(rec)
+            realm.commitTransaction()
+        }
+        binding.btnDone.setOnClickListener {
+            finish()
+        }
+        binding.btnDefault.setOnClickListener {
+            yesNoDialog("Do you really want to reset the options?") {
+                realm.beginTransaction()
+                rec.playMusic = true
+                rec.playSound = true
+                realm.insertOrUpdate(rec)
+                realm.commitTransaction()
+                binding.ctvPlayMusic.isChecked = rec.playMusic
+                soundManager.playOrPauseMusic()
+                binding.ctvPlaySound.isChecked = rec.playSound
+            }
         }
     }
 }
