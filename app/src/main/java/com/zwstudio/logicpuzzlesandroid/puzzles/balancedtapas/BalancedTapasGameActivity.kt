@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class BalancedTapasGameActivity : GameGameActivity<BalancedTapasGame, BalancedTapasDocument, BalancedTapasGameMove, BalancedTapasGameState>() {
-    @Bean
-    protected lateinit var document: BalancedTapasDocument
+    private val document: BalancedTapasDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = BalancedTapasGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = BalancedTapasGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, BalancedTapasHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         BalancedTapasGame(level.layout, level.settings["LeftPart"]!!, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        BalancedTapasHelpActivity_.intent(this).start()
-    }
 }

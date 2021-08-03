@@ -1,13 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class NeighboursDocument : GameDocument<NeighboursGameMove>() {
+class NeighboursDocument(context: Context) : GameDocument<NeighboursGameMove>(context) {
     override fun saveMove(move: NeighboursGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

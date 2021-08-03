@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class CarpentersWallMainActivity : GameMainActivity<CarpentersWallGame, CarpentersWallDocument, CarpentersWallGameMove, CarpentersWallGameState>() {
-    @Bean
-    protected lateinit var document: CarpentersWallDocument
+    private val document: CarpentersWallDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        CarpentersWallOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, CarpentersWallOptionsActivity::class.java))
+        }
     }
 
     override fun resumeGame() {
         doc.resumeGame()
-        CarpentersWallGameActivity_.intent(this).start()
+        startActivity(Intent(this, CarpentersWallGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class CarpentersWallOptionsActivity : GameOptionsActivity<CarpentersWallGame, CarpentersWallDocument, CarpentersWallGameMove, CarpentersWallGameState>() {
-    @Bean
-    protected lateinit var document: CarpentersWallDocument
+    private val document: CarpentersWallDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class CarpentersWallHelpActivity : GameHelpActivity<CarpentersWallGame, CarpentersWallDocument, CarpentersWallGameMove, CarpentersWallGameState>() {
-    @Bean
-    protected lateinit var document: CarpentersWallDocument
+    private val document: CarpentersWallDocument by inject()
     override val doc get() = document
 }

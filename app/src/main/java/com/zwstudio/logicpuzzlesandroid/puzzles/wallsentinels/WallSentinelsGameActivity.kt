@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class WallSentinelsGameActivity : GameGameActivity<WallSentinelsGame, WallSentinelsDocument, WallSentinelsGameMove, WallSentinelsGameState>() {
-    @Bean
-    protected lateinit var document: WallSentinelsDocument
+    private val document: WallSentinelsDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = WallSentinelsGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = WallSentinelsGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, WallSentinelsHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         WallSentinelsGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        WallSentinelsHelpActivity_.intent(this).start()
-    }
 }

@@ -10,8 +10,9 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class DisconnectFourGameView(context: Context) : CellsGameView(context) {
+class DisconnectFourGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as DisconnectFourGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -75,7 +76,7 @@ class DisconnectFourGameView(context: Context) : CellsGameView(context) {
             if (col >= cols || row >= rows) return true
             val move = DisconnectFourGameMove(Position(row, col))
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

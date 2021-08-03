@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.skyscrapers
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class SkyscrapersDocument : GameDocument<SkyscrapersGameMove>() {
+class SkyscrapersDocument(context: Context) : GameDocument<SkyscrapersGameMove>(context) {
     override fun saveMove(move: SkyscrapersGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatami
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class TatamiMainActivity : GameMainActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
-    @Bean
-    protected lateinit var document: TatamiDocument
+    private val document: TatamiDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        TatamiOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, TatamiOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        TatamiGameActivity_.intent(this).start()
+        startActivity(Intent(this, TatamiGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class TatamiOptionsActivity : GameOptionsActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
-    @Bean
-    protected lateinit var document: TatamiDocument
+    private val document: TatamiDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class TatamiHelpActivity : GameHelpActivity<TatamiGame, TatamiDocument, TatamiGameMove, TatamiGameState>() {
-    @Bean
-    protected lateinit var document: TatamiDocument
+    private val document: TatamiDocument by inject()
     override val doc get() = document
 }

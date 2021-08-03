@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class PairakabeMainActivity : GameMainActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
-    @Bean
-    protected lateinit var document: PairakabeDocument
+    private val document: PairakabeDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        PairakabeOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, PairakabeOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        PairakabeGameActivity_.intent(this).start()
+        startActivity(Intent(this, PairakabeGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class PairakabeOptionsActivity : GameOptionsActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
-    @Bean
-    protected lateinit var document: PairakabeDocument
+    private val document: PairakabeDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class PairakabeHelpActivity : GameHelpActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
-    @Bean
-    protected lateinit var document: PairakabeDocument
+    private val document: PairakabeDocument by inject()
     override val doc get() = document
 }

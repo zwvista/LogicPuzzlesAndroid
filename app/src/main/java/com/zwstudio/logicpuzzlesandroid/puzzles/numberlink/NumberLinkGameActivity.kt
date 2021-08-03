@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.numberlink
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class NumberLinkGameActivity : GameGameActivity<NumberLinkGame, NumberLinkDocument, NumberLinkGameMove, NumberLinkGameState>() {
-    @Bean
-    protected lateinit var document: NumberLinkDocument
+    private val document: NumberLinkDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    protected override fun init() {
-        gameView = NumberLinkGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = NumberLinkGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, NumberLinkHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         NumberLinkGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        NumberLinkHelpActivity_.intent(this).start()
-    }
 }

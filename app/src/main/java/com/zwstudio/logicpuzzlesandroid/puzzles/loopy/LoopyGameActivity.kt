@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.loopy
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class LoopyGameActivity : GameGameActivity<LoopyGame, LoopyDocument, LoopyGameMove, LoopyGameState>() {
-    @Bean
-    protected lateinit var document: LoopyDocument
+    private val document: LoopyDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = LoopyGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = LoopyGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, LoopyHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         LoopyGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        LoopyHelpActivity_.intent(this).start()
-    }
 }

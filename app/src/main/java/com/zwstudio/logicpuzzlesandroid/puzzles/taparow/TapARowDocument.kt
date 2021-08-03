@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.taparow
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class TapARowDocument : GameDocument<TapARowGameMove>() {
+class TapARowDocument(context: Context) : GameDocument<TapARowGameMove>(context) {
     override fun saveMove(move: TapARowGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

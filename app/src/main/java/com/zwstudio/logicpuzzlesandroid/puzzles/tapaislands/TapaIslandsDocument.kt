@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapaislands
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class TapaIslandsDocument : GameDocument<TapaIslandsGameMove>() {
+class TapaIslandsDocument(context: Context) : GameDocument<TapaIslandsGameMove>(context) {
     override fun saveMove(move: TapaIslandsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

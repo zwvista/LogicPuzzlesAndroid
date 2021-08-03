@@ -9,8 +9,9 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class NorthPoleFishingGameView(context: Context) : CellsGameView(context) {
+class NorthPoleFishingGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as NorthPoleFishingGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows - 1
@@ -109,7 +110,7 @@ class NorthPoleFishingGameView(context: Context) : CellsGameView(context) {
                     dir = if (yOffset in -offset..offset) 1 else 2
             )
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

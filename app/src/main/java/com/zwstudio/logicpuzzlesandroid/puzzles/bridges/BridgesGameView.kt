@@ -9,8 +9,9 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class BridgesGameView(context: Context) : CellsGameView(context) {
+class BridgesGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as BridgesGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -71,7 +72,7 @@ class BridgesGameView(context: Context) : CellsGameView(context) {
         if (col >= cols || row >= rows) return true
         val p = Position(row, col)
         val isI = game.isIsland(p)
-        fun f() = activity.app.soundManager.playSoundTap()
+        fun f() = soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (isI) {
                 pLast = p

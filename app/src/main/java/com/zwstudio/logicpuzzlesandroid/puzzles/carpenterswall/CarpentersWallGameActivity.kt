@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class CarpentersWallGameActivity : GameGameActivity<CarpentersWallGame, CarpentersWallDocument, CarpentersWallGameMove, CarpentersWallGameState>() {
-    @Bean
-    protected lateinit var document: CarpentersWallDocument
+    private val document: CarpentersWallDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = CarpentersWallGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = CarpentersWallGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, CarpentersWallHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         CarpentersWallGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        CarpentersWallHelpActivity_.intent(this).start()
-    }
 }

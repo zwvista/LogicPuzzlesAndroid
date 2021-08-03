@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kropki
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class KropkiDocument : GameDocument<KropkiGameMove>() {
+class KropkiDocument(context: Context) : GameDocument<KropkiGameMove>(context) {
     override fun saveMove(move: KropkiGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

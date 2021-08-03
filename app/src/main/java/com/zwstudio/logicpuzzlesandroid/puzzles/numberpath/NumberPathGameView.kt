@@ -8,9 +8,10 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import kotlin.math.abs
 
-class NumberPathGameView(context: Context) : CellsGameView(context) {
+class NumberPathGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as NumberPathGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -65,7 +66,7 @@ class NumberPathGameView(context: Context) : CellsGameView(context) {
         val row = (event.y / cellHeight).toInt()
         if (col >= cols || row >= rows) return true
         val p = Position(row, col)
-        fun f() = activity.app.soundManager.playSoundTap()
+        fun f() = soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 run {

@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapa
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class TapaGameActivity : GameGameActivity<TapaGame, TapaDocument, TapaGameMove, TapaGameState>() {
-    @Bean
-    protected lateinit var document: TapaDocument
+    private val document: TapaDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    protected override fun init() {
-        gameView = TapaGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = TapaGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, TapaHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         TapaGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        TapaHelpActivity_.intent(this).start()
-    }
 }

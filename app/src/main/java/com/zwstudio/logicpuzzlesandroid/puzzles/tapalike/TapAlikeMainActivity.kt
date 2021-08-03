@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapalike
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class TapAlikeMainActivity : GameMainActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
-    @Bean
-    protected lateinit var document: TapAlikeDocument
+    private val document: TapAlikeDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        TapAlikeOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, TapAlikeOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        TapAlikeGameActivity_.intent(this).start()
+        startActivity(Intent(this, TapAlikeGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class TapAlikeOptionsActivity : GameOptionsActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
-    @Bean
-    protected lateinit var document: TapAlikeDocument
+    private val document: TapAlikeDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class TapAlikeHelpActivity : GameHelpActivity<TapAlikeGame, TapAlikeDocument, TapAlikeGameMove, TapAlikeGameState>() {
-    @Bean
-    protected lateinit var document: TapAlikeDocument
+    private val document: TapAlikeDocument by inject()
     override val doc get() = document
 }

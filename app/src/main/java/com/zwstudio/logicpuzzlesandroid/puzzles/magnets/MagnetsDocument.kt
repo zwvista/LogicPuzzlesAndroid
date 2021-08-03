@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.magnets
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-open class MagnetsDocument : GameDocument<MagnetsGameMove>() {
+open class MagnetsDocument(context: Context) : GameDocument<MagnetsGameMove>(context) {
     override fun saveMove(move: MagnetsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

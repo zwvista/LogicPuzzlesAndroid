@@ -1,42 +1,41 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fencesentinels
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.TextView
-import com.zwstudio.logicpuzzlesandroid.R
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.home.android.realm
-import org.androidannotations.annotations.*
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class FenceSentinelsMainActivity : GameMainActivity<FenceSentinelsGame, FenceSentinelsDocument, FenceSentinelsGameMove, FenceSentinelsGameState>() {
-    @Bean
-    protected lateinit var document: FenceSentinelsDocument
+    private val document: FenceSentinelsDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        FenceSentinelsOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, FenceSentinelsOptionsActivity::class.java))
+        }
     }
 
     override fun resumeGame() {
         doc.resumeGame()
-        FenceSentinelsGameActivity_.intent(this).start()
+        startActivity(Intent(this, FenceSentinelsGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class FenceSentinelsOptionsActivity : GameOptionsActivity<FenceSentinelsGame, FenceSentinelsDocument, FenceSentinelsGameMove, FenceSentinelsGameState>() {
-    @Bean
-    protected lateinit var document: FenceSentinelsDocument
+    private val document: FenceSentinelsDocument by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         val lst = lstMarkers
         val adapter = object : ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lstMarkers) {
@@ -57,17 +56,15 @@ class FenceSentinelsOptionsActivity : GameOptionsActivity<FenceSentinelsGame, Fe
             }
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-        spnMarker.adapter = adapter
-        spnMarker.setSelection(doc.markerOption)
-    }
-
-    @ItemSelect
-    override fun spnMarkerItemSelected(selected: Boolean, position: Int) {
-        realm.beginTransaction()
-        val rec = doc.gameProgress()
-        doc.setMarkerOption(rec, position)
-        realm.insertOrUpdate(rec)
-        realm.commitTransaction()
+        binding.spnMarker.adapter = adapter
+        binding.spnMarker.setSelection(doc.markerOption)
+        binding.spnMarker.setOnItemClickListener { parent, view, position, id ->
+            realm.beginTransaction()
+            val rec = doc.gameProgress()
+            doc.setMarkerOption(rec, position)
+            realm.insertOrUpdate(rec)
+            realm.commitTransaction()
+        }
     }
 
     protected fun onDefault() {
@@ -76,13 +73,11 @@ class FenceSentinelsOptionsActivity : GameOptionsActivity<FenceSentinelsGame, Fe
         doc.setMarkerOption(rec, 0)
         realm.insertOrUpdate(rec)
         realm.commitTransaction()
-        spnMarker.setSelection(doc.markerOption)
+        binding.spnMarker.setSelection(doc.markerOption)
     }
 }
 
-@EActivity(R.layout.activity_game_help)
 class FenceSentinelsHelpActivity : GameHelpActivity<FenceSentinelsGame, FenceSentinelsDocument, FenceSentinelsGameMove, FenceSentinelsGameState>() {
-    @Bean
-    protected lateinit var document: FenceSentinelsDocument
+    private val document: FenceSentinelsDocument by inject()
     override val doc get() = document
 }

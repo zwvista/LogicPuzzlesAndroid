@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class LighthousesGameActivity : GameGameActivity<LighthousesGame, LighthousesDocument, LighthousesGameMove, LighthousesGameState>() {
-    @Bean
-    protected lateinit var document: LighthousesDocument
+    private val document: LighthousesDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = LighthousesGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = LighthousesGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, LighthousesHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         LighthousesGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        LighthousesHelpActivity_.intent(this).start()
-    }
 }

@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snake
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class SnakeMainActivity : GameMainActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
-    @Bean
-    protected lateinit var document: SnakeDocument
+    private val document: SnakeDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        SnakeOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, SnakeOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        SnakeGameActivity_.intent(this).start()
+        startActivity(Intent(this, SnakeGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class SnakeOptionsActivity : GameOptionsActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
-    @Bean
-    protected lateinit var document: SnakeDocument
+    private val document: SnakeDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class SnakeHelpActivity : GameHelpActivity<SnakeGame, SnakeDocument, SnakeGameMove, SnakeGameState>() {
-    @Bean
-    protected lateinit var document: SnakeDocument
+    private val document: SnakeDocument by inject()
     override val doc get() = document
 }

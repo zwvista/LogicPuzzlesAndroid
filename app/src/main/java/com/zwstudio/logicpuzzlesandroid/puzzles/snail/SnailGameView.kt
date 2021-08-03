@@ -9,8 +9,9 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class SnailGameView(context: Context) : CellsGameView(context) {
+class SnailGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as SnailGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -69,7 +70,7 @@ class SnailGameView(context: Context) : CellsGameView(context) {
             if (col >= cols || row >= rows) return true
             val move = SnailGameMove(Position(row, col))
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

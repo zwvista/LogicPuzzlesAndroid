@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class PairakabeGameActivity : GameGameActivity<PairakabeGame, PairakabeDocument, PairakabeGameMove, PairakabeGameState>() {
-    @Bean
-    protected lateinit var document: PairakabeDocument
+    private val document: PairakabeDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    protected override fun init() {
-        gameView = PairakabeGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = PairakabeGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, PairakabeHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         PairakabeGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        PairakabeHelpActivity_.intent(this).start()
-    }
 }

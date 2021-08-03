@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mathrax
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class MathraxMainActivity : GameMainActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
-    @Bean
-    protected lateinit var document: MathraxDocument
+    private val document: MathraxDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        MathraxOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, MathraxOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        MathraxGameActivity_.intent(this).start()
+        startActivity(Intent(this, MathraxGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class MathraxOptionsActivity : GameOptionsActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
-    @Bean
-    protected lateinit var document: MathraxDocument
+    private val document: MathraxDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class MathraxHelpActivity : GameHelpActivity<MathraxGame, MathraxDocument, MathraxGameMove, MathraxGameState>() {
-    @Bean
-    protected lateinit var document: MathraxDocument
+    private val document: MathraxDocument by inject()
     override val doc get() = document
 }

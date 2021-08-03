@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class DigitalBattleShipsDocument : GameDocument<DigitalBattleShipsGameMove>() {
+class DigitalBattleShipsDocument(context: Context) : GameDocument<DigitalBattleShipsGameMove>(context) {
     override fun saveMove(move: DigitalBattleShipsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

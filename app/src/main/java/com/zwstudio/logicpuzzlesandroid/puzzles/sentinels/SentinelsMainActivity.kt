@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.sentinels
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class SentinelsMainActivity : GameMainActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
-    @Bean
-    protected lateinit var document: SentinelsDocument
+    private val document: SentinelsDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        SentinelsOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, SentinelsOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        SentinelsGameActivity_.intent(this).start()
+        startActivity(Intent(this, SentinelsGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class SentinelsOptionsActivity : GameOptionsActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
-    @Bean
-    protected lateinit var document: SentinelsDocument
+    private val document: SentinelsDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class SentinelsHelpActivity : GameHelpActivity<SentinelsGame, SentinelsDocument, SentinelsGameMove, SentinelsGameState>() {
-    @Bean
-    protected lateinit var document: SentinelsDocument
+    private val document: SentinelsDocument by inject()
     override val doc get() = document
 }

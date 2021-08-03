@@ -10,8 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class FillominoGameView(context: Context) : CellsGameView(context) {
+class FillominoGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as FillominoGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -63,7 +64,7 @@ class FillominoGameView(context: Context) : CellsGameView(context) {
             if (col >= cols || row >= rows) return true
             val move = FillominoGameMove(Position(row, col))
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

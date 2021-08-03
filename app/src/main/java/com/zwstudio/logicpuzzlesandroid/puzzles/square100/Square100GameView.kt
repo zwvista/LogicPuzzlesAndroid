@@ -8,8 +8,9 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class Square100GameView(context: Context) : CellsGameView(context) {
+class Square100GameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as Square100GameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -68,7 +69,7 @@ class Square100GameView(context: Context) : CellsGameView(context) {
             if (col >= cols || row >= rows) return true
             val move = Square100GameMove(Position(row, col), event.x >= col * cellWidth + cellWidth / 2)
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

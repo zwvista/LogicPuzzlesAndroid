@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bridges
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class BridgesDocument : GameDocument<BridgesGameMove>() {
+class BridgesDocument(context: Context) : GameDocument<BridgesGameMove>(context) {
     override fun saveMove(move: BridgesGameMove, rec: MoveProgress) {
         rec.row = move.pFrom.row
         rec.col = move.pFrom.col

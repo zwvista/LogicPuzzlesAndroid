@@ -1,32 +1,27 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.parks
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class ParksGameActivity : GameGameActivity<ParksGame, ParksDocument, ParksGameMove, ParksGameState>() {
-    @Bean
-    protected lateinit var document: ParksDocument
+    private val document: ParksDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    protected override fun init() {
-        gameView = ParksGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = ParksGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, ParksHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel): ParksGame {
         val treesInEachArea = (level.settings["TreesInEachArea"] ?: "1").toInt()
         return ParksGame(level.layout, treesInEachArea, this, doc)
-    }
-
-    @Click
-    protected fun btnHelp() {
-        ParksHelpActivity_.intent(this).start()
     }
 }

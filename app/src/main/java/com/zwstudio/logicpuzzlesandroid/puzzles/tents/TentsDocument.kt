@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tents
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class TentsDocument : GameDocument<TentsGameMove>() {
+class TentsDocument(context: Context) : GameDocument<TentsGameMove>(context) {
     override fun saveMove(move: TentsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

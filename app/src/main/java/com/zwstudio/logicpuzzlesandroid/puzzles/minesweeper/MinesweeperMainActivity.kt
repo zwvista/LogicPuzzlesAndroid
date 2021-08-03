@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.minesweeper
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class MinesweeperMainActivity : GameMainActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
-    @Bean
-    protected lateinit var document: MinesweeperDocument
+    private val document: MinesweeperDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        MinesweeperOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, MinesweeperOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        MinesweeperGameActivity_.intent(this).start()
+        startActivity(Intent(this, MinesweeperGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class MinesweeperOptionsActivity : GameOptionsActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
-    @Bean
-    protected lateinit var document: MinesweeperDocument
+    private val document: MinesweeperDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class MinesweeperHelpActivity : GameHelpActivity<MinesweeperGame, MinesweeperDocument, MinesweeperGameMove, MinesweeperGameState>() {
-    @Bean
-    protected lateinit var document: MinesweeperDocument
+    private val document: MinesweeperDocument by inject()
     override val doc get() = document
 }

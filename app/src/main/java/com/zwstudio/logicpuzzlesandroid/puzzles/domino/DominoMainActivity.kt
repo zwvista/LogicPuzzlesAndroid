@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.domino
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class DominoMainActivity : GameMainActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
-    @Bean
-    protected lateinit var document: DominoDocument
+    private val document: DominoDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        DominoOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, DominoOptionsActivity::class.java))
+        }
     }
 
     override fun resumeGame() {
         doc.resumeGame()
-        DominoGameActivity_.intent(this).start()
+        startActivity(Intent(this, DominoGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class DominoOptionsActivity : GameOptionsActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
-    @Bean
-    protected lateinit var document: DominoDocument
+    private val document: DominoDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class DominoHelpActivity : GameHelpActivity<DominoGame, DominoDocument, DominoGameMove, DominoGameState>() {
-    @Bean
-    protected lateinit var document: DominoDocument
+    private val document: DominoDocument by inject()
     override val doc get() = document
 }

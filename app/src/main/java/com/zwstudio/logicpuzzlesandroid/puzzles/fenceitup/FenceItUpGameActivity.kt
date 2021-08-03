@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fenceitup
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class FenceItUpGameActivity : GameGameActivity<FenceItUpGame, FenceItUpDocument, FenceItUpGameMove, FenceItUpGameState>() {
-    @Bean
-    protected lateinit var document: FenceItUpDocument
+    private val document: FenceItUpDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = FenceItUpGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = FenceItUpGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, FenceItUpHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         FenceItUpGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        FenceItUpHelpActivity_.intent(this).start()
-    }
 }

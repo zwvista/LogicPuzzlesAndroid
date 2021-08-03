@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.magnets
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 open class MagnetsMainActivity : GameMainActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
-    @Bean
-    protected lateinit var document: MagnetsDocument
+    private val document: MagnetsDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        MagnetsOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, MagnetsOptionsActivity::class.java))
+        }
     }
 
     override fun resumeGame() {
         doc.resumeGame()
-        MagnetsGameActivity_.intent(this).start()
+        startActivity(Intent(this, MagnetsGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 open class MagnetsOptionsActivity : GameOptionsActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
-    @Bean
-    protected lateinit var document: MagnetsDocument
+    private val document: MagnetsDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 open class MagnetsHelpActivity : GameHelpActivity<MagnetsGame, MagnetsDocument, MagnetsGameMove, MagnetsGameState>() {
-    @Bean
-    protected lateinit var document: MagnetsDocument
+    private val document: MagnetsDocument by inject()
     override val doc get() = document
 }

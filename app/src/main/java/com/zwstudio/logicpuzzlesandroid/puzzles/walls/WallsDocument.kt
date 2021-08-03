@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.walls
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class WallsDocument : GameDocument<WallsGameMove>() {
+class WallsDocument(context: Context) : GameDocument<WallsGameMove>(context) {
     override fun saveMove(move: WallsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

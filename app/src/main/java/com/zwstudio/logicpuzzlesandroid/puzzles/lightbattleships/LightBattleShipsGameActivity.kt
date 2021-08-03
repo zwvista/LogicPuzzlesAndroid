@@ -1,30 +1,25 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameGameActivity
 import com.zwstudio.logicpuzzlesandroid.common.data.GameLevel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_game)
 class LightBattleShipsGameActivity : GameGameActivity<LightBattleShipsGame, LightBattleShipsDocument, LightBattleShipsGameMove, LightBattleShipsGameState>() {
-    @Bean
-    protected lateinit var document: LightBattleShipsDocument
+    private val document: LightBattleShipsDocument by inject()
+    private val soundManager: SoundManager by inject()
     override val doc get() = document
 
-    @AfterViews
-    override fun init() {
-        gameView = LightBattleShipsGameView(this)
-        super.init()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        gameView = LightBattleShipsGameView(this, soundManager)
+        super.onCreate(savedInstanceState)
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, LightBattleShipsHelpActivity::class.java))
+        }
     }
 
     override fun newGame(level: GameLevel) =
         LightBattleShipsGame(level.layout, this, doc)
-
-    @Click
-    protected fun btnHelp() {
-        LightBattleShipsHelpActivity_.intent(this).start()
-    }
 }

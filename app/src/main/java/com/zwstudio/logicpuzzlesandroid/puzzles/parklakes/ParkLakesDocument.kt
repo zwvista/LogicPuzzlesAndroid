@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.parklakes
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class ParkLakesDocument : GameDocument<ParkLakesGameMove>() {
+class ParkLakesDocument(context: Context) : GameDocument<ParkLakesGameMove>(context) {
     override fun saveMove(move: ParkLakesGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

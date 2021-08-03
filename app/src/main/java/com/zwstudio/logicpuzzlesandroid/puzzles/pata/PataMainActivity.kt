@@ -1,40 +1,35 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pata
 
-import com.zwstudio.logicpuzzlesandroid.R
+import android.content.Intent
+import android.os.Bundle
 import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
 import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EActivity
+import org.koin.android.ext.android.inject
 
-@EActivity(R.layout.activity_game_main)
 class PataMainActivity : GameMainActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
-    @Bean
-    protected lateinit var document: PataDocument
+    private val document: PataDocument by inject()
     override val doc get() = document
 
-    @Click
-    fun btnOptions() {
-        PataOptionsActivity_.intent(this).start()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, PataOptionsActivity::class.java))
+        }
     }
 
-    protected override fun resumeGame() {
+    override fun resumeGame() {
         doc.resumeGame()
-        PataGameActivity_.intent(this).start()
+        startActivity(Intent(this, PataGameActivity::class.java))
     }
 }
 
-@EActivity(R.layout.activity_game_options)
 class PataOptionsActivity : GameOptionsActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
-    @Bean
-    protected lateinit var document: PataDocument
+    private val document: PataDocument by inject()
     override val doc get() = document
 }
 
-@EActivity(R.layout.activity_game_help)
 class PataHelpActivity : GameHelpActivity<PataGame, PataDocument, PataGameMove, PataGameState>() {
-    @Bean
-    protected lateinit var document: PataDocument
+    private val document: PataDocument by inject()
     override val doc get() = document
 }

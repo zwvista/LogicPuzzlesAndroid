@@ -9,8 +9,9 @@ import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class LineSweeperGameView(context: Context) : CellsGameView(context) {
+class LineSweeperGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as LineSweeperGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows - 1
@@ -70,7 +71,7 @@ class LineSweeperGameView(context: Context) : CellsGameView(context) {
         if (col >= cols || row >= rows) return true
         val p = Position(row, col)
         val isH = game.isHint(p)
-        fun f() = activity.app.soundManager.playSoundTap()
+        fun f() = soundManager.playSoundTap()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (!isH) {
                 pLastMove = p

@@ -1,13 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class NorthPoleFishingDocument : GameDocument<NorthPoleFishingGameMove>() {
+class NorthPoleFishingDocument(context: Context) : GameDocument<NorthPoleFishingGameMove>(context) {
     override fun saveMove(move: NorthPoleFishingGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

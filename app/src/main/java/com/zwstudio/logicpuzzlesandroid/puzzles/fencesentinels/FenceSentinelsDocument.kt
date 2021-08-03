@@ -1,13 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fencesentinels
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class FenceSentinelsDocument : GameDocument<FenceSentinelsGameMove>() {
+class FenceSentinelsDocument(context: Context) : GameDocument<FenceSentinelsGameMove>(context) {
     override fun saveMove(move: FenceSentinelsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

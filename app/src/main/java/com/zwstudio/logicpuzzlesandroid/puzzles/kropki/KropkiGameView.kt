@@ -10,8 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class KropkiGameView(context: Context) : CellsGameView(context) {
+class KropkiGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as KropkiGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
@@ -88,7 +89,7 @@ class KropkiGameView(context: Context) : CellsGameView(context) {
             if (col >= cols || row >= rows) return true
             val move = KropkiGameMove(Position(row, col))
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

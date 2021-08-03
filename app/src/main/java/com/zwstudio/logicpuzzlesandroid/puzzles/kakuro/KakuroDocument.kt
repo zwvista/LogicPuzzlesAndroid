@@ -1,12 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kakuro
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class KakuroDocument : GameDocument<KakuroGameMove>() {
+class KakuroDocument(context: Context) : GameDocument<KakuroGameMove>(context) {
     override fun saveMove(move: KakuroGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col

@@ -10,8 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class BoxItAroundGameView(context: Context) : CellsGameView(context) {
+class BoxItAroundGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as BoxItAroundGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows - 1
@@ -91,7 +92,7 @@ class BoxItAroundGameView(context: Context) : CellsGameView(context) {
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
             val move = BoxItAroundGameMove(Position(row, col), if (yOffset >= -offset && yOffset <= offset) 1 else 2)
             if (game.switchObject(move))
-                activity.app.soundManager.playSoundTap()
+                soundManager.playSoundTap()
         }
         return true
     }

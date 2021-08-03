@@ -1,13 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround
 
+import android.content.Context
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import org.androidannotations.annotations.EBean
 
-@EBean
-class BoxItAroundDocument : GameDocument<BoxItAroundGameMove>() {
+class BoxItAroundDocument(context: Context) : GameDocument<BoxItAroundGameMove>(context) {
     override fun saveMove(move: BoxItAroundGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
