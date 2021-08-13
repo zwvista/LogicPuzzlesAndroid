@@ -46,7 +46,7 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, G
         binding.spnMarker.adapter = adapter
         binding.spnMarker.setSelection(doc.markerOption)
         binding.ctvAllowedObjectsOnly.isChecked = doc.isAllowedObjectsOnly
-        binding.spnMarker.setOnItemClickListener { parent, view, position, id ->
+        binding.spnMarker.setOnItemClickListener { _, _, position, _ ->
             realm.beginTransaction()
             val rec = doc.gameProgress()
             doc.setMarkerOption(rec, position)

@@ -11,7 +11,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
-        classpath "io.realm:realm-gradle-plugin:10.7.0"
+        classpath "io.realm:realm-gradle-plugin:10.7.1"
     }
 }
 

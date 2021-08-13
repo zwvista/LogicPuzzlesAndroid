@@ -29,7 +29,7 @@ abstract class GameDocument<GM>(val context: Context) : GameDocumentInterface {
         }
 
     var levels = mutableListOf<GameLevel>()
-    lateinit var selectedLevelID: String
+    var selectedLevelID: String
     val selectedLevelIDSolution get() = "$selectedLevelID Solution"
 
     var help = listOf<String>()

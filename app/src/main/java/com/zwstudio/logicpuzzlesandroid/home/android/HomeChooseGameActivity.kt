@@ -24,7 +24,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
         if (lstGameNames.isEmpty()) {
             lstGameNames = assets.list("xml")!!
                 .map { it.substring(0, it.length - ".xml".length) }
-                .sortedBy { it.toUpperCase(Locale.ROOT) }
+                .sortedBy { it.uppercase(Locale.ROOT) }
             lstGameTitles = lstGameNames.map { (name2title[it] ?: it) }
         }
         val adapter = ArrayAdapter(this,
@@ -48,7 +48,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
                 binding.lvGames.smoothScrollToPositionFromTop(selectedPosition, h1 / 2 - h2 / 2)
             }
         })
-        binding.lvGames.setOnItemClickListener { parent, view, position, id ->
+        binding.lvGames.setOnItemClickListener { _, _, position, _ ->
             doc.resumeGame(lstGameNames[position], lstGameTitles[position])
             setResult(Activity.RESULT_OK, null)
             finish()
