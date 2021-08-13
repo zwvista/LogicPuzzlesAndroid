@@ -8,20 +8,20 @@ sealed class MiniLitsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> MiniLitsMarkerObject()
+            "marker" -> MiniLitsMarkerObject
             "tree" -> MiniLitsTreeObject()
-            else -> MiniLitsEmptyObject()
+            else -> MiniLitsEmptyObject
         }
     }
 }
 
-class MiniLitsEmptyObject : MiniLitsObject()
+object MiniLitsEmptyObject : MiniLitsObject()
 
-class MiniLitsForbiddenObject : MiniLitsObject() {
+object MiniLitsForbiddenObject : MiniLitsObject() {
     override fun objAsString() = "forbidden"
 }
 
-class MiniLitsMarkerObject : MiniLitsObject() {
+object MiniLitsMarkerObject : MiniLitsObject() {
     override fun objAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class MiniLitsTreeObject(var state: AllowedObjectState = AllowedObjectState.Norm
     override fun objAsString() = "tree"
 }
 
-class MiniLitsGameMove(val p: Position, var obj: MiniLitsObject = MiniLitsEmptyObject())
+class MiniLitsGameMove(val p: Position, var obj: MiniLitsObject = MiniLitsEmptyObject)

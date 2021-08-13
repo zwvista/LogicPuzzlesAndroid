@@ -8,20 +8,20 @@ sealed class OrchardsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> OrchardsMarkerObject()
+            "marker" -> OrchardsMarkerObject
             "tree" -> OrchardsTreeObject()
-            else -> OrchardsEmptyObject()
+            else -> OrchardsEmptyObject
         }
     }
 }
 
-class OrchardsEmptyObject : OrchardsObject()
+object OrchardsEmptyObject : OrchardsObject()
 
-class OrchardsForbiddenObject : OrchardsObject() {
+object OrchardsForbiddenObject : OrchardsObject() {
     override fun objAsString() = "forbidden"
 }
 
-class OrchardsMarkerObject : OrchardsObject() {
+object OrchardsMarkerObject : OrchardsObject() {
     override fun objAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class OrchardsTreeObject(var state: AllowedObjectState = AllowedObjectState.Norm
     override fun objAsString() = "tree"
 }
 
-class OrchardsGameMove(val p: Position, var obj: OrchardsObject = OrchardsEmptyObject())
+class OrchardsGameMove(val p: Position, var obj: OrchardsObject = OrchardsEmptyObject)

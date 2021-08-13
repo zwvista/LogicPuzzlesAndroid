@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.pairakabe
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, PairakabeGameMove, PairakabeGameState>(game) {
-    var objArray = Array<PairakabeObject>(rows * cols) { PairakabeEmptyObject() }
+    var objArray = Array<PairakabeObject>(rows * cols) { PairakabeEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -29,9 +29,9 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is PairakabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeMarkerObject() else PairakabeWallObject()
-            is PairakabeWallObject -> if (markerOption == MarkerOptions.MarkerLast) PairakabeMarkerObject() else PairakabeEmptyObject()
-            is PairakabeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeWallObject() else PairakabeEmptyObject()
+            is PairakabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeMarkerObject else PairakabeWallObject
+            is PairakabeWallObject -> if (markerOption == MarkerOptions.MarkerLast) PairakabeMarkerObject else PairakabeEmptyObject
+            is PairakabeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeWallObject else PairakabeEmptyObject
             else -> o
         }
         return setObject(move)

@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import java.util.*
 
 class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGame, TapaIslandsGameMove, TapaIslandsGameState>(game) {
-    var objArray = Array<TapaIslandsObject>(rows * cols) { TapaIslandsEmptyObject() }
+    var objArray = Array<TapaIslandsObject>(rows * cols) { TapaIslandsEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -31,9 +31,9 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TapaIslandsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsMarkerObject() else TapaIslandsWallObject()
-            is TapaIslandsWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapaIslandsMarkerObject() else TapaIslandsEmptyObject()
-            is TapaIslandsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsWallObject() else TapaIslandsEmptyObject()
+            is TapaIslandsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsMarkerObject else TapaIslandsWallObject()
+            is TapaIslandsWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapaIslandsMarkerObject else TapaIslandsEmptyObject
+            is TapaIslandsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsWallObject() else TapaIslandsEmptyObject
             else -> o
         }
         return setObject(move)

@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mineships
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, MineShipsGameMove, MineShipsGameState>(game) {
-    var objArray = Array<MineShipsObject>(rows * cols) { MineShipsEmptyObject() }
+    var objArray = Array<MineShipsObject>(rows * cols) { MineShipsEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -31,14 +31,14 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         if (!isValid(p)) return false
         val o = this[p]
         move.obj = when (o) {
-            is MineShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MineShipsMarkerObject() else MineShipsBattleShipUnitObject()
-            is MineShipsBattleShipUnitObject -> MineShipsBattleShipMiddleObject()
-            is MineShipsBattleShipMiddleObject -> MineShipsBattleShipLeftObject()
-            is MineShipsBattleShipLeftObject -> MineShipsBattleShipTopObject()
-            is MineShipsBattleShipTopObject -> MineShipsBattleShipRightObject()
-            is MineShipsBattleShipRightObject -> MineShipsBattleShipBottomObject()
-            is MineShipsBattleShipBottomObject -> if (markerOption == MarkerOptions.MarkerLast) MineShipsMarkerObject() else MineShipsEmptyObject()
-            is MineShipsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MineShipsBattleShipUnitObject() else MineShipsEmptyObject()
+            is MineShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MineShipsMarkerObject else MineShipsBattleShipUnitObject
+            is MineShipsBattleShipUnitObject -> MineShipsBattleShipMiddleObject
+            is MineShipsBattleShipMiddleObject -> MineShipsBattleShipLeftObject
+            is MineShipsBattleShipLeftObject -> MineShipsBattleShipTopObject
+            is MineShipsBattleShipTopObject -> MineShipsBattleShipRightObject
+            is MineShipsBattleShipRightObject -> MineShipsBattleShipBottomObject
+            is MineShipsBattleShipBottomObject -> if (markerOption == MarkerOptions.MarkerLast) MineShipsMarkerObject else MineShipsEmptyObject
+            is MineShipsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MineShipsBattleShipUnitObject else MineShipsEmptyObject
             else -> o
         }
         return setObject(move)
@@ -65,7 +65,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         for (r in 0 until rows)
             for (c in 0 until cols)
                 if (this[r, c] is MineShipsForbiddenObject)
-                    this[r, c] = MineShipsEmptyObject()
+                    this[r, c] = MineShipsEmptyObject
         // 3. A number tells you how many pieces of ship are around it.
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
@@ -84,7 +84,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
                 isSolved = false
             else if (allowedObjectsOnly)
                 for (p2 in rng)
-                    this[p2] = MineShipsForbiddenObject()
+                    this[p2] = MineShipsForbiddenObject
         }
         if (!isSolved) return
         val g = Graph()
@@ -131,7 +131,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
                     val o = this[p2]
                     if (o is MineShipsEmptyObject || o is MineShipsMarkerObject) {
                         if (allowedObjectsOnly)
-                            this[p2] = MineShipsForbiddenObject()
+                            this[p2] = MineShipsForbiddenObject
                     } else if (!(o is MineShipsForbiddenObject || o is MineShipsHintObject))
                         isSolved = false
                 }

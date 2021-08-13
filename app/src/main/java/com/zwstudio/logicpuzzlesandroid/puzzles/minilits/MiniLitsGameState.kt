@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.minilits
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState>(game) {
-    var objArray = Array<MiniLitsObject>(rows * cols) { MiniLitsEmptyObject() }
+    var objArray = Array<MiniLitsObject>(rows * cols) { MiniLitsEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -33,9 +33,9 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is MiniLitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsMarkerObject() else MiniLitsTreeObject()
-            is MiniLitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) MiniLitsMarkerObject() else MiniLitsEmptyObject()
-            is MiniLitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsTreeObject() else MiniLitsEmptyObject()
+            is MiniLitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsMarkerObject else MiniLitsTreeObject()
+            is MiniLitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) MiniLitsMarkerObject else MiniLitsEmptyObject
+            is MiniLitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsTreeObject() else MiniLitsEmptyObject
             else -> o
         }
         return setObject(move)
@@ -65,7 +65,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
                 val p = Position(r, c)
                 val o: MiniLitsObject? = this[p]
                 if (o is MiniLitsForbiddenObject)
-                    this[r, c] = MiniLitsEmptyObject()
+                    this[r, c] = MiniLitsEmptyObject
                 else if (o is MiniLitsTreeObject) {
                     o.state = AllowedObjectState.Normal
                     val node = Node(p.toString())
@@ -124,7 +124,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
                 for (p in game.areas[i]) {
                     val o = this[p]
                     if (o is MiniLitsEmptyObject || o is MiniLitsMarkerObject)
-                        this[p] = MiniLitsForbiddenObject()
+                        this[p] = MiniLitsForbiddenObject
                 }
             if (treeCount > 3 || treeCount == 3 && info.blockIndexes.size > 1)
                 notSolved(info)

@@ -8,20 +8,20 @@ sealed class TapAlikeObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "marker" -> TapAlikeMarkerObject()
+            "marker" -> TapAlikeMarkerObject
             "wall" -> TapAlikeWallObject()
-            else -> TapAlikeEmptyObject()
+            else -> TapAlikeEmptyObject
         }
     }
 }
 
-class TapAlikeEmptyObject : TapAlikeObject()
+object TapAlikeEmptyObject : TapAlikeObject()
 
 class TapAlikeHintObject(var state: HintState = HintState.Normal) : TapAlikeObject() {
     override fun objTypeAsString() = "hint"
 }
 
-class TapAlikeMarkerObject : TapAlikeObject() {
+object TapAlikeMarkerObject : TapAlikeObject() {
     override fun objTypeAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class TapAlikeWallObject(var state: HintState = HintState.Normal) : TapAlikeObje
     override fun objTypeAsString() = "wall"
 }
 
-class TapAlikeGameMove(val p: Position, var obj: TapAlikeObject = TapAlikeEmptyObject())
+class TapAlikeGameMove(val p: Position, var obj: TapAlikeObject = TapAlikeEmptyObject)

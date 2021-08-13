@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState>(game) {
-    var objArray = Array<ProductSentinelsObject>(rows * cols) { ProductSentinelsEmptyObject() }
+    var objArray = Array<ProductSentinelsObject>(rows * cols) { ProductSentinelsEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -28,9 +28,9 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is ProductSentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ProductSentinelsMarkerObject() else ProductSentinelsTowerObject()
-            is ProductSentinelsTowerObject -> if (markerOption == MarkerOptions.MarkerLast) ProductSentinelsMarkerObject() else ProductSentinelsEmptyObject()
-            is ProductSentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ProductSentinelsTowerObject() else ProductSentinelsEmptyObject()
+            is ProductSentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ProductSentinelsMarkerObject else ProductSentinelsTowerObject()
+            is ProductSentinelsTowerObject -> if (markerOption == MarkerOptions.MarkerLast) ProductSentinelsMarkerObject else ProductSentinelsEmptyObject
+            is ProductSentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ProductSentinelsTowerObject() else ProductSentinelsEmptyObject
             else -> o
         }
         return setObject(move)
@@ -67,7 +67,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
                     o.state = AllowedObjectState.Normal
                 else {
                     if (o is ProductSentinelsForbiddenObject)
-                        this[r, c] = ProductSentinelsEmptyObject()
+                        this[r, c] = ProductSentinelsEmptyObject
                     val p = Position(r, c)
                     val node = Node(p.toString())
                     g.addNode(node)
@@ -95,7 +95,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
                 if (o is ProductSentinelsTowerObject)
                     o.state = if (o.state == AllowedObjectState.Normal && !hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if ((o is ProductSentinelsEmptyObject || o is ProductSentinelsMarkerObject) && allowedObjectsOnly && hasNeighbor())
-                    this[r, c] = ProductSentinelsForbiddenObject()
+                    this[r, c] = ProductSentinelsForbiddenObject
             }
         // 2. The number tells you the product of the tiles that Sentinel can control
         // (see) from there vertically and horizontally. This includes the tile
@@ -121,7 +121,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
                 isSolved = false
             else
                 for (p2 in rng)
-                    this[p2] = ProductSentinelsForbiddenObject()
+                    this[p2] = ProductSentinelsForbiddenObject
         }
         if (!isSolved) return
         // 4. There must be a single continuous Garden

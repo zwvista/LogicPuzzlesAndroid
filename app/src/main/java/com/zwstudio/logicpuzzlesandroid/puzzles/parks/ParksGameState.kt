@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.parks
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove, ParksGameState>(game) {
-    var objArray = Array<ParksObject>(rows * cols) { ParksEmptyObject() }
+    var objArray = Array<ParksObject>(rows * cols) { ParksEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -26,9 +26,9 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is ParksEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParksMarkerObject() else ParksTreeObject()
-            is ParksTreeObject -> if (markerOption == MarkerOptions.MarkerLast) ParksMarkerObject() else ParksEmptyObject()
-            is ParksMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParksTreeObject() else ParksEmptyObject()
+            is ParksEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParksMarkerObject else ParksTreeObject()
+            is ParksTreeObject -> if (markerOption == MarkerOptions.MarkerLast) ParksMarkerObject else ParksEmptyObject
+            is ParksMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParksTreeObject() else ParksEmptyObject
             else -> o
         }
         return setObject(move)
@@ -56,7 +56,7 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
         for (r in 0 until rows)
             for (c in 0 until cols)
             if (this[r, c] is ParksForbiddenObject)
-                this[r, c] = ParksEmptyObject()
+                this[r, c] = ParksEmptyObject
         // 3. A Tree can't touch another Tree, not even diagonally.
         for (r in 0 until rows)
             for (c in 0 until cols) {
@@ -69,7 +69,7 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
                 if (o is ParksTreeObject)
                     o.state = if (!hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if ((o is ParksEmptyObject || o is ParksMarkerObject) && allowedObjectsOnly && hasNeighbor())
-                    this[r, c] = ParksForbiddenObject()
+                    this[r, c] = ParksForbiddenObject
             }
         val n2 = game.treesInEachArea
         // 5. There must be exactly ONE Tree in each row.
@@ -84,7 +84,7 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
                 if (o is ParksTreeObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if ((o is ParksEmptyObject || o is ParksMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    this[r, c] = ParksForbiddenObject()
+                    this[r, c] = ParksForbiddenObject
             }
         }
         // 5. There must be exactly ONE Tree in each column.
@@ -99,7 +99,7 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
                 if (o is ParksTreeObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if ((o is ParksEmptyObject || o is ParksMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    this[r, c] = ParksForbiddenObject()
+                    this[r, c] = ParksForbiddenObject
             }
         }
         // 4. Each park must have exactly ONE Tree.
@@ -114,7 +114,7 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
                 if (o is ParksTreeObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if ((o is ParksEmptyObject || o is ParksMarkerObject) && n1 >= n2 && allowedObjectsOnly)
-                    this[p] = ParksForbiddenObject()
+                    this[p] = ParksForbiddenObject
             }
         }
     }

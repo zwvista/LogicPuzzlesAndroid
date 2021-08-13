@@ -9,16 +9,16 @@ sealed class HolidayIslandObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> HolidayIslandMarkerObject()
+            "marker" -> HolidayIslandMarkerObject
             "tree" -> HolidayIslandTreeObject()
-            else -> HolidayIslandEmptyObject()
+            else -> HolidayIslandEmptyObject
         }
     }
 }
 
-class HolidayIslandEmptyObject : HolidayIslandObject()
+object HolidayIslandEmptyObject : HolidayIslandObject()
 
-class HolidayIslandForbiddenObject : HolidayIslandObject() {
+object HolidayIslandForbiddenObject : HolidayIslandObject() {
     override fun objAsString() = "forbidden"
 
 }
@@ -27,7 +27,7 @@ class HolidayIslandHintObject(var state: HintState = HintState.Normal, var tiles
     override fun objAsString() = "hint"
 }
 
-class HolidayIslandMarkerObject : HolidayIslandObject() {
+object HolidayIslandMarkerObject : HolidayIslandObject() {
     override fun objAsString() = "marker"
 }
 
@@ -35,4 +35,4 @@ class HolidayIslandTreeObject(var state: AllowedObjectState = AllowedObjectState
     override fun objAsString() = "tree"
 }
 
-class HolidayIslandGameMove(val p: Position, var obj: HolidayIslandObject = HolidayIslandEmptyObject())
+class HolidayIslandGameMove(val p: Position, var obj: HolidayIslandObject = HolidayIslandEmptyObject)

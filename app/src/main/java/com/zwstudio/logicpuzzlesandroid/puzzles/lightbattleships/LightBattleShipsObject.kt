@@ -14,46 +14,46 @@ sealed class LightBattleShipsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> LightBattleShipsMarkerObject()
-            "battleShipTop" -> LightBattleShipsBattleShipTopObject()
-            "battleShipBottom" -> LightBattleShipsBattleShipBottomObject()
-            "battleShipLeft" -> LightBattleShipsBattleShipLeftObject()
-            "battleShipRight" -> LightBattleShipsBattleShipRightObject()
-            "battleShipMiddle" -> LightBattleShipsBattleShipMiddleObject()
-            "battleShipUnit" -> LightBattleShipsBattleShipUnitObject()
+            "marker" -> LightBattleShipsMarkerObject
+            "battleShipTop" -> LightBattleShipsBattleShipTopObject
+            "battleShipBottom" -> LightBattleShipsBattleShipBottomObject
+            "battleShipLeft" -> LightBattleShipsBattleShipLeftObject
+            "battleShipRight" -> LightBattleShipsBattleShipRightObject
+            "battleShipMiddle" -> LightBattleShipsBattleShipMiddleObject
+            "battleShipUnit" -> LightBattleShipsBattleShipUnitObject
             else -> LightBattleShipsEmptyObject()
         }
     }
 }
 
-class LightBattleShipsBattleShipBottomObject : LightBattleShipsObject() {
+object LightBattleShipsBattleShipBottomObject : LightBattleShipsObject() {
     override fun objAsString() = "battleShipBottom"
 }
 
-class LightBattleShipsBattleShipLeftObject : LightBattleShipsObject() {
+object LightBattleShipsBattleShipLeftObject : LightBattleShipsObject() {
     override fun objAsString() = "battleShipLeft"
 }
 
-class LightBattleShipsBattleShipMiddleObject : LightBattleShipsObject() {
+object LightBattleShipsBattleShipMiddleObject : LightBattleShipsObject() {
     override fun objAsString() = "battleShipMiddle"
 }
 
-class LightBattleShipsBattleShipRightObject : LightBattleShipsObject() {
+object LightBattleShipsBattleShipRightObject : LightBattleShipsObject() {
     override fun objAsString() = "battleShipRight"
 }
 
-class LightBattleShipsBattleShipTopObject : LightBattleShipsObject() {
+object LightBattleShipsBattleShipTopObject : LightBattleShipsObject() {
     override fun objAsString() = "battleShipTop"
 }
 
-class LightBattleShipsBattleShipUnitObject : LightBattleShipsObject() {
+object LightBattleShipsBattleShipUnitObject : LightBattleShipsObject() {
     override fun objAsString() = "battleShipUnit"
 }
 
 class LightBattleShipsEmptyObject : LightBattleShipsObject()
 
 
-class LightBattleShipsForbiddenObject : LightBattleShipsObject() {
+object LightBattleShipsForbiddenObject : LightBattleShipsObject() {
     override fun objAsString() = "forbidden"
 }
 
@@ -61,7 +61,7 @@ class LightBattleShipsHintObject(var state: HintState = HintState.Normal) : Ligh
     override fun objAsString() = "hint"
 }
 
-class LightBattleShipsMarkerObject : LightBattleShipsObject() {
+object LightBattleShipsMarkerObject : LightBattleShipsObject() {
     override fun objAsString() = "marker"
 }
 

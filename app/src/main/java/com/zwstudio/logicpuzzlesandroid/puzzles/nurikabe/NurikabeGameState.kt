@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
-    var objArray = Array<NurikabeObject>(rows * cols) { NurikabeEmptyObject() }
+    var objArray = Array<NurikabeObject>(rows * cols) { NurikabeEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -29,9 +29,9 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is NurikabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeMarkerObject() else NurikabeWallObject()
-            is NurikabeWallObject -> if (markerOption == MarkerOptions.MarkerLast) NurikabeMarkerObject() else NurikabeEmptyObject()
-            is NurikabeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeWallObject() else NurikabeEmptyObject()
+            is NurikabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeMarkerObject else NurikabeWallObject
+            is NurikabeWallObject -> if (markerOption == MarkerOptions.MarkerLast) NurikabeMarkerObject else NurikabeEmptyObject
+            is NurikabeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeWallObject else NurikabeEmptyObject
             else -> o
         }
         return setObject(move)

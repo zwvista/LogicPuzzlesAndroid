@@ -8,16 +8,16 @@ sealed class MinesweeperObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "mine" -> MinesweeperMineObject()
-            "marker" -> MinesweeperMarkerObject()
-            else -> MinesweeperEmptyObject()
+            "mine" -> MinesweeperMineObject
+            "marker" -> MinesweeperMarkerObject
+            else -> MinesweeperEmptyObject
         }
     }
 }
 
-class MinesweeperEmptyObject : MinesweeperObject()
+object MinesweeperEmptyObject : MinesweeperObject()
 
-class MinesweeperForbiddenObject : MinesweeperObject() {
+object MinesweeperForbiddenObject : MinesweeperObject() {
     override fun objAsString() = "forbidden"
 }
 
@@ -25,12 +25,12 @@ class MinesweeperHintObject(var state: HintState = HintState.Normal) : Minesweep
     override fun objAsString() = "hint"
 }
 
-class MinesweeperMarkerObject : MinesweeperObject() {
+object MinesweeperMarkerObject : MinesweeperObject() {
     override fun objAsString() = "marker"
 }
 
-class MinesweeperMineObject : MinesweeperObject() {
+object MinesweeperMineObject : MinesweeperObject() {
     override fun objAsString() = "mine"
 }
 
-class MinesweeperGameMove(val p: Position, var obj: MinesweeperObject = MinesweeperEmptyObject())
+class MinesweeperGameMove(val p: Position, var obj: MinesweeperObject = MinesweeperEmptyObject)

@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bridges
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesGameMove, BridgesGameState>(game) {
-    var objArray = Array<BridgesObject>(rows * cols) { BridgesEmptyObject() }
+    var objArray = Array<BridgesObject>(rows * cols) { BridgesEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -32,9 +32,9 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
                 0 -> {
                     // 4. Bridges can't cross each other.
                     if (this[p] !is BridgesEmptyObject) return false
-                    this[p] = BridgesBridgeObject()
+                    this[p] = BridgesBridgeObject
                 }
-                2 -> this[p] = BridgesEmptyObject()
+                2 -> this[p] = BridgesEmptyObject
             }
             p += os
         }

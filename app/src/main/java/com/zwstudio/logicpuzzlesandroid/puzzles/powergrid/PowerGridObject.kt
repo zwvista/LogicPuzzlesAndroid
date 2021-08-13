@@ -8,20 +8,20 @@ sealed class PowerGridObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> PowerGridMarkerObject()
+            "marker" -> PowerGridMarkerObject
             "tower" -> PowerGridPostObject()
-            else -> PowerGridMarkerObject()
+            else -> PowerGridMarkerObject
         }
     }
 }
 
-class PowerGridEmptyObject : PowerGridObject()
+object PowerGridEmptyObject : PowerGridObject()
 
-class PowerGridForbiddenObject : PowerGridObject() {
+object PowerGridForbiddenObject : PowerGridObject() {
     override fun objAsString() = "forbidden"
 }
 
-class PowerGridMarkerObject : PowerGridObject() {
+object PowerGridMarkerObject : PowerGridObject() {
     override fun objAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class PowerGridPostObject(var state: AllowedObjectState = AllowedObjectState.Nor
     override fun objAsString() = "tower"
 }
 
-class PowerGridGameMove(val p: Position, var obj: PowerGridObject = PowerGridEmptyObject())
+class PowerGridGameMove(val p: Position, var obj: PowerGridObject = PowerGridEmptyObject)

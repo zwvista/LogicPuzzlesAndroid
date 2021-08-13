@@ -8,20 +8,20 @@ sealed class LitsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> LitsMarkerObject()
+            "marker" -> LitsMarkerObject
             "tree" -> LitsTreeObject()
-            else -> LitsEmptyObject()
+            else -> LitsEmptyObject
         }
     }
 }
 
-class LitsEmptyObject : LitsObject()
+object LitsEmptyObject : LitsObject()
 
-class LitsForbiddenObject : LitsObject() {
+object LitsForbiddenObject : LitsObject() {
     override fun objAsString() = "forbidden"
 }
 
-class LitsMarkerObject : LitsObject() {
+object LitsMarkerObject : LitsObject() {
     override fun objAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class LitsTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) 
     override fun objAsString() = "tree"
 }
 
-class LitsGameMove(val p: Position, var obj: LitsObject = LitsEmptyObject())
+class LitsGameMove(val p: Position, var obj: LitsObject = LitsEmptyObject)

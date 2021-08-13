@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState>(game) {
-    var objArray = Array<ParkLakesObject>(rows * cols) { ParkLakesEmptyObject() }
+    var objArray = Array<ParkLakesObject>(rows * cols) { ParkLakesEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -29,9 +29,9 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is ParkLakesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesMarkerObject() else ParkLakesTreeObject()
-            is ParkLakesTreeObject -> if (markerOption == MarkerOptions.MarkerLast) ParkLakesMarkerObject() else ParkLakesEmptyObject()
-            is ParkLakesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesTreeObject() else ParkLakesEmptyObject()
+            is ParkLakesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesMarkerObject else ParkLakesTreeObject()
+            is ParkLakesTreeObject -> if (markerOption == MarkerOptions.MarkerLast) ParkLakesMarkerObject else ParkLakesEmptyObject
+            is ParkLakesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesTreeObject() else ParkLakesEmptyObject
             else -> o
         }
         return setObject(move)

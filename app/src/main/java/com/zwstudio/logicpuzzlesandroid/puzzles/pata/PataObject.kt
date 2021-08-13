@@ -8,20 +8,20 @@ sealed class PataObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "marker" -> PataMarkerObject()
+            "marker" -> PataMarkerObject
             "wall" -> PataWallObject()
-            else -> PataEmptyObject()
+            else -> PataEmptyObject
         }
     }
 }
 
-class PataEmptyObject : PataObject()
+object PataEmptyObject : PataObject()
 
 class PataHintObject(var state: HintState = HintState.Normal) : PataObject() {
     override fun objTypeAsString() = "hint"
 }
 
-class PataMarkerObject : PataObject() {
+object PataMarkerObject : PataObject() {
     override fun objTypeAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class PataWallObject(var state: HintState = HintState.Normal) : PataObject() {
     override fun objTypeAsString() = "wall"
 }
 
-class PataGameMove(val p: Position, var obj: PataObject = PataEmptyObject())
+class PataGameMove(val p: Position, var obj: PataObject = PataEmptyObject)

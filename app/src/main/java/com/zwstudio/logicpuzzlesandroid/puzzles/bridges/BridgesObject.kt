@@ -5,9 +5,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 sealed class BridgesObject
 
-class BridgesBridgeObject : BridgesObject()
+object BridgesBridgeObject : BridgesObject()
 
-class BridgesEmptyObject : BridgesObject()
+object BridgesEmptyObject : BridgesObject()
 
 class BridgesIslandObject : BridgesObject() {
     var state = HintState.Normal

@@ -8,20 +8,20 @@ sealed class TentsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> TentsMarkerObject()
+            "marker" -> TentsMarkerObject
             "tent" -> TentsTentObject()
-            else -> TentsEmptyObject()
+            else -> TentsEmptyObject
         }
     }
 }
 
-class TentsEmptyObject : TentsObject()
+object TentsEmptyObject : TentsObject()
 
-class TentsForbiddenObject : TentsObject() {
+object TentsForbiddenObject : TentsObject() {
     override fun objAsString() = "forbidden"
 }
 
-class TentsMarkerObject : TentsObject() {
+object TentsMarkerObject : TentsObject() {
     override fun objAsString() = "marker"
 }
 
@@ -33,4 +33,4 @@ class TentsTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal)
     override fun objAsString() = "tree"
 }
 
-class TentsGameMove(val p: Position, var obj: TentsObject = TentsEmptyObject())
+class TentsGameMove(val p: Position, var obj: TentsObject = TentsEmptyObject)

@@ -9,16 +9,16 @@ sealed class TierraDelFuegoObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> TierraDelFuegoMarkerObject()
+            "marker" -> TierraDelFuegoMarkerObject
             "tree" -> TierraDelFuegoTreeObject()
-            else -> TierraDelFuegoEmptyObject()
+            else -> TierraDelFuegoEmptyObject
         }
     }
 }
 
-class TierraDelFuegoEmptyObject : TierraDelFuegoObject()
+object TierraDelFuegoEmptyObject : TierraDelFuegoObject()
 
-class TierraDelFuegoForbiddenObject : TierraDelFuegoObject() {
+object TierraDelFuegoForbiddenObject : TierraDelFuegoObject() {
     override fun objAsString() = "forbidden"
 }
 
@@ -26,7 +26,7 @@ class TierraDelFuegoHintObject(var state: HintState = HintState.Normal, var id: 
     override fun objAsString() = "hint"
 }
 
-class TierraDelFuegoMarkerObject : TierraDelFuegoObject() {
+object TierraDelFuegoMarkerObject : TierraDelFuegoObject() {
     override fun objAsString() = "marker"
 }
 
@@ -34,4 +34,4 @@ class TierraDelFuegoTreeObject(var state: AllowedObjectState = AllowedObjectStat
     override fun objAsString() = "tree"
 }
 
-class TierraDelFuegoGameMove(val p: Position, var obj: TierraDelFuegoObject = TierraDelFuegoEmptyObject())
+class TierraDelFuegoGameMove(val p: Position, var obj: TierraDelFuegoObject = TierraDelFuegoEmptyObject)

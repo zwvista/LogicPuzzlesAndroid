@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import java.util.*
 
 class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, PataGameState>(game) {
-    var objArray = Array<PataObject>(rows * cols) { PataEmptyObject() }
+    var objArray = Array<PataObject>(rows * cols) { PataEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -31,9 +31,9 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is PataEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PataMarkerObject() else PataWallObject()
-            is PataWallObject -> if (markerOption == MarkerOptions.MarkerLast) PataMarkerObject() else PataEmptyObject()
-            is PataMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PataWallObject() else PataEmptyObject()
+            is PataEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PataMarkerObject else PataWallObject()
+            is PataWallObject -> if (markerOption == MarkerOptions.MarkerLast) PataMarkerObject else PataEmptyObject
+            is PataMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PataWallObject() else PataEmptyObject
             else -> o
         }
         return setObject(move)

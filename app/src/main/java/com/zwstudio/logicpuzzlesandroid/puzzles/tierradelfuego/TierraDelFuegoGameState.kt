@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState>(game) {
-    var objArray = Array<TierraDelFuegoObject>(rows * cols) { TierraDelFuegoEmptyObject() }
+    var objArray = Array<TierraDelFuegoObject>(rows * cols) { TierraDelFuegoEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -28,9 +28,9 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TierraDelFuegoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoMarkerObject() else TierraDelFuegoTreeObject()
-            is TierraDelFuegoTreeObject -> if (markerOption == MarkerOptions.MarkerLast) TierraDelFuegoMarkerObject() else TierraDelFuegoEmptyObject()
-            is TierraDelFuegoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoTreeObject() else TierraDelFuegoEmptyObject()
+            is TierraDelFuegoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoMarkerObject else TierraDelFuegoTreeObject()
+            is TierraDelFuegoTreeObject -> if (markerOption == MarkerOptions.MarkerLast) TierraDelFuegoMarkerObject else TierraDelFuegoEmptyObject
+            is TierraDelFuegoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoTreeObject() else TierraDelFuegoEmptyObject
             else -> o
 
         }
@@ -67,7 +67,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
                 g.addNode(node)
                 pos2node[p] = node
                 if (o is TierraDelFuegoForbiddenObject)
-                    this[p] = TierraDelFuegoEmptyObject()
+                    this[p] = TierraDelFuegoEmptyObject
                 else if (o is TierraDelFuegoTreeObject)
                     o.state = AllowedObjectState.Normal
                 else if (o is TierraDelFuegoHintObject)
@@ -100,7 +100,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
                             if (!isValid(p2)) continue
                             val o = this[p2]
                             if (o is TierraDelFuegoEmptyObject || o is TierraDelFuegoMarkerObject)
-                                this[p] = TierraDelFuegoForbiddenObject()
+                                this[p] = TierraDelFuegoForbiddenObject
                         }
                 if (area.size > 2)
                     for (p in area)

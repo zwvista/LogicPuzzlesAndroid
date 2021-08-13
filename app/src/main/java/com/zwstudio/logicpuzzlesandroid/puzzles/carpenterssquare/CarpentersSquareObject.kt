@@ -7,12 +7,12 @@ sealed class CarpenterSquareHint
 
 class CarpentersSquareCornerHint(var tiles: Int = 0) : CarpenterSquareHint()
 
-class CarpentersSquareDownHint : CarpenterSquareHint()
+object CarpentersSquareDownHint : CarpenterSquareHint()
 
-class CarpentersSquareLeftHint : CarpenterSquareHint()
+object CarpentersSquareLeftHint : CarpenterSquareHint()
 
-class CarpentersSquareRightHint : CarpenterSquareHint()
+object CarpentersSquareRightHint : CarpenterSquareHint()
 
-class CarpentersSquareUpHint : CarpenterSquareHint()
+object CarpentersSquareUpHint : CarpenterSquareHint()
 
 class CarpentersSquareGameMove(val p: Position, var dir: Int = 0, var obj: GridLineObject = GridLineObject.Empty)

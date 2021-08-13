@@ -9,16 +9,16 @@ sealed class ProductSentinelsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> ProductSentinelsMarkerObject()
+            "marker" -> ProductSentinelsMarkerObject
             "tower" -> ProductSentinelsTowerObject()
-            else -> ProductSentinelsMarkerObject()
+            else -> ProductSentinelsMarkerObject
         }
     }
 }
 
-class ProductSentinelsEmptyObject : ProductSentinelsObject()
+object ProductSentinelsEmptyObject : ProductSentinelsObject()
 
-class ProductSentinelsForbiddenObject : ProductSentinelsObject() {
+object ProductSentinelsForbiddenObject : ProductSentinelsObject() {
     override fun objAsString() = "forbidden"
 }
 
@@ -26,7 +26,7 @@ class ProductSentinelsHintObject(var state: HintState = HintState.Normal) : Prod
     override fun objAsString() = "hint"
 }
 
-class ProductSentinelsMarkerObject : ProductSentinelsObject() {
+object ProductSentinelsMarkerObject : ProductSentinelsObject() {
     override fun objAsString() = "marker"
 }
 
@@ -34,4 +34,4 @@ class ProductSentinelsTowerObject(var state: AllowedObjectState = AllowedObjectS
     override fun objAsString() = "tower"
 }
 
-class ProductSentinelsGameMove(val p: Position, var obj: ProductSentinelsObject = ProductSentinelsEmptyObject())
+class ProductSentinelsGameMove(val p: Position, var obj: ProductSentinelsObject = ProductSentinelsEmptyObject)

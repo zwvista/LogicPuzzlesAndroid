@@ -8,20 +8,20 @@ sealed class WallSentinelsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> WallSentinelsMarkerObject()
-            "wall" -> WallSentinelsWallObject()
-            else -> WallSentinelsEmptyObject()
+            "marker" -> WallSentinelsMarkerObject
+            "wall" -> WallSentinelsWallObject
+            else -> WallSentinelsEmptyObject
         }
     }
 }
 
-class WallSentinelsEmptyObject : WallSentinelsObject()
+object WallSentinelsEmptyObject : WallSentinelsObject()
 
-class WallSentinelsWallObject : WallSentinelsObject() {
+object WallSentinelsWallObject : WallSentinelsObject() {
     override fun objAsString() = "wall"
 }
 
-class WallSentinelsMarkerObject : WallSentinelsObject() {
+object WallSentinelsMarkerObject : WallSentinelsObject() {
     override fun objAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class WallSentinelsHintWallObject(val tiles: Int, var state: HintState = HintSta
 
 class WallSentinelsHintLandObject(val tiles: Int, var state: HintState = HintState.Normal) : WallSentinelsObject()
 
-class WallSentinelsGameMove(val p: Position, var obj: WallSentinelsObject = WallSentinelsEmptyObject())
+class WallSentinelsGameMove(val p: Position, var obj: WallSentinelsObject = WallSentinelsEmptyObject)

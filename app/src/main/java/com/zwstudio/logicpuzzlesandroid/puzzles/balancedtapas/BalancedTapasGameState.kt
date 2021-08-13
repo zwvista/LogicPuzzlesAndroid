@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(game) {
-    var objArray = Array<BalancedTapasObject>(rows * cols) { BalancedTapasEmptyObject() }
+    var objArray = Array<BalancedTapasObject>(rows * cols) { BalancedTapasEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -32,8 +32,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         val o = this[move.p]
         move.obj = when (o) {
             is BalancedTapasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasMarkerObject() else BalancedTapasWallObject()
-            is BalancedTapasWallObject -> if (markerOption == MarkerOptions.MarkerLast) BalancedTapasMarkerObject() else BalancedTapasEmptyObject()
-            is BalancedTapasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasWallObject() else BalancedTapasEmptyObject()
+            is BalancedTapasWallObject -> if (markerOption == MarkerOptions.MarkerLast) BalancedTapasMarkerObject() else BalancedTapasEmptyObject
+            is BalancedTapasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasWallObject() else BalancedTapasEmptyObject
             else -> o
         }
         return setObject(move)

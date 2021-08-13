@@ -27,9 +27,9 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is FourMeNotEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotMarkerObject() else FourMeNotTreeObject()
-            is FourMeNotTreeObject -> if (markerOption == MarkerOptions.MarkerLast) FourMeNotMarkerObject() else FourMeNotEmptyObject()
-            is FourMeNotMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotTreeObject() else FourMeNotEmptyObject()
+            is FourMeNotEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotMarkerObject else FourMeNotTreeObject()
+            is FourMeNotTreeObject -> if (markerOption == MarkerOptions.MarkerLast) FourMeNotMarkerObject else FourMeNotEmptyObject
+            is FourMeNotMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotTreeObject() else FourMeNotEmptyObject
             else -> o
         }
         return setObject(move)
@@ -61,7 +61,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is FourMeNotForbiddenObject)
-                    this[p] = FourMeNotEmptyObject()
+                    this[p] = FourMeNotEmptyObject
                 else if (o is FourMeNotTreeObject) {
                     o.state = AllowedObjectState.Normal
                     val node = Node(p.toString())
@@ -105,7 +105,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
                     p2 += os
                 }
             }
-            if (areTreesInvalid()) this[p] = FourMeNotForbiddenObject()
+            if (areTreesInvalid()) this[p] = FourMeNotForbiddenObject
             trees.clear()
         }
         for (r in 0 until rows) {

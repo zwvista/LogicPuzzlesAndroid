@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 import java.util.*
 
 class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState>(game) {
-    var objArray = Array<TapDifferentlyObject>(rows * cols) { TapDifferentlyEmptyObject() }
+    var objArray = Array<TapDifferentlyObject>(rows * cols) { TapDifferentlyEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -32,9 +32,9 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TapDifferentlyEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyMarkerObject() else TapDifferentlyWallObject()
-            is TapDifferentlyWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapDifferentlyMarkerObject() else TapDifferentlyEmptyObject()
-            is TapDifferentlyMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyWallObject() else TapDifferentlyEmptyObject()
+            is TapDifferentlyEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyMarkerObject else TapDifferentlyWallObject()
+            is TapDifferentlyWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapDifferentlyMarkerObject else TapDifferentlyEmptyObject
+            is TapDifferentlyMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyWallObject() else TapDifferentlyEmptyObject
             else -> o
         }
         return setObject(move)

@@ -8,20 +8,20 @@ sealed class TapDifferentlyObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "marker" -> TapDifferentlyMarkerObject()
+            "marker" -> TapDifferentlyMarkerObject
             "wall" -> TapDifferentlyWallObject()
-            else -> TapDifferentlyEmptyObject()
+            else -> TapDifferentlyEmptyObject
         }
     }
 }
 
-class TapDifferentlyEmptyObject : TapDifferentlyObject()
+object TapDifferentlyEmptyObject : TapDifferentlyObject()
 
 class TapDifferentlyHintObject(var state: HintState = HintState.Normal) : TapDifferentlyObject() {
     override fun objTypeAsString() = "hint"
 }
 
-class TapDifferentlyMarkerObject : TapDifferentlyObject() {
+object TapDifferentlyMarkerObject : TapDifferentlyObject() {
     override fun objTypeAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class TapDifferentlyWallObject(var state: HintState = HintState.Normal) : TapDif
     override fun objTypeAsString() = "wall"
 }
 
-class TapDifferentlyGameMove(val p: Position, var obj: TapDifferentlyObject = TapDifferentlyEmptyObject())
+class TapDifferentlyGameMove(val p: Position, var obj: TapDifferentlyObject = TapDifferentlyEmptyObject)

@@ -8,20 +8,20 @@ sealed class TapaIslandsObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "marker" -> TapaIslandsMarkerObject()
+            "marker" -> TapaIslandsMarkerObject
             "wall" -> TapaIslandsWallObject()
-            else -> TapaIslandsEmptyObject()
+            else -> TapaIslandsEmptyObject
         }
     }
 }
 
-class TapaIslandsEmptyObject : TapaIslandsObject()
+object TapaIslandsEmptyObject : TapaIslandsObject()
 
 class TapaIslandsHintObject(var state: HintState = HintState.Normal) : TapaIslandsObject() {
     override fun objTypeAsString() = "hint"
 }
 
-class TapaIslandsMarkerObject : TapaIslandsObject() {
+object TapaIslandsMarkerObject : TapaIslandsObject() {
     override fun objTypeAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class TapaIslandsWallObject(var state: HintState = HintState.Normal) : TapaIslan
     override fun objTypeAsString() = "wall"
 }
 
-class TapaIslandsGameMove(val p: Position, var obj: TapaIslandsObject = TapaIslandsEmptyObject())
+class TapaIslandsGameMove(val p: Position, var obj: TapaIslandsObject = TapaIslandsEmptyObject)

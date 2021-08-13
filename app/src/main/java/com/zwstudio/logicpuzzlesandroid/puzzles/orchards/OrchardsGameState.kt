@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.orchards
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, OrchardsGameMove, OrchardsGameState>(game) {
-    var objArray = Array<OrchardsObject>(rows * cols) { OrchardsEmptyObject() }
+    var objArray = Array<OrchardsObject>(rows * cols) { OrchardsEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -26,9 +26,9 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is OrchardsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsMarkerObject() else OrchardsTreeObject()
-            is OrchardsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) OrchardsMarkerObject() else OrchardsEmptyObject()
-            is OrchardsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsTreeObject() else OrchardsEmptyObject()
+            is OrchardsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsMarkerObject else OrchardsTreeObject()
+            is OrchardsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) OrchardsMarkerObject else OrchardsEmptyObject
+            is OrchardsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsTreeObject() else OrchardsEmptyObject
             else -> o
 
         }
@@ -61,7 +61,7 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
                 val p = Position(r, c)
                 val o: OrchardsObject? = get(p)
                 if (o is OrchardsForbiddenObject)
-                    this[r, c] = OrchardsEmptyObject()
+                    this[r, c] = OrchardsEmptyObject
                 else if (o is OrchardsTreeObject) {
                     o.state = AllowedObjectState.Normal
                     val node = Node(p.toString())
@@ -106,7 +106,7 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if (o is OrchardsEmptyObject || o is OrchardsMarkerObject)
                     if (n1 == n2 && allowedObjectsOnly)
-                        this[p] = OrchardsForbiddenObject()
+                        this[p] = OrchardsForbiddenObject
             }
         }
     }

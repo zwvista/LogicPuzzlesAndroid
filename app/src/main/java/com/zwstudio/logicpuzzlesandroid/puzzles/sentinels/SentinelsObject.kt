@@ -9,16 +9,16 @@ sealed class SentinelsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> SentinelsMarkerObject()
+            "marker" -> SentinelsMarkerObject
             "tower" -> SentinelsTowerObject()
-            else -> SentinelsMarkerObject()
+            else -> SentinelsMarkerObject
         }
     }
 }
 
-class SentinelsEmptyObject : SentinelsObject()
+object SentinelsEmptyObject : SentinelsObject()
 
-class SentinelsForbiddenObject : SentinelsObject() {
+object SentinelsForbiddenObject : SentinelsObject() {
     override fun objAsString() = "forbidden"
 }
 
@@ -26,7 +26,7 @@ class SentinelsHintObject(var state: HintState = HintState.Normal) : SentinelsOb
     override fun objAsString() = "hint"
 }
 
-class SentinelsMarkerObject : SentinelsObject() {
+object SentinelsMarkerObject : SentinelsObject() {
     override fun objAsString() = "marker"
 }
 
@@ -34,4 +34,4 @@ class SentinelsTowerObject(var state: AllowedObjectState = AllowedObjectState.No
     override fun objAsString() = "tower"
 }
 
-class SentinelsGameMove(val p: Position, var obj: SentinelsObject = SentinelsEmptyObject())
+class SentinelsGameMove(val p: Position, var obj: SentinelsObject = SentinelsEmptyObject)

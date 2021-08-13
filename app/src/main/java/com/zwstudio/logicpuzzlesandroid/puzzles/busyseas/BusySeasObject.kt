@@ -16,9 +16,9 @@ sealed class BusySeasObject {
     }
 }
 
-class BusySeasEmptyObject : BusySeasObject()
+object BusySeasEmptyObject : BusySeasObject()
 
-class BusySeasForbiddenObject : BusySeasObject() {
+object BusySeasForbiddenObject : BusySeasObject() {
     override fun objAsString() = "forbidden"
 }
 
@@ -34,4 +34,4 @@ class BusySeasMarkerObject : BusySeasObject() {
     override fun objAsString() = "marker"
 }
 
-class BusySeasGameMove(val p: Position, var obj: BusySeasObject = BusySeasEmptyObject())
+class BusySeasGameMove(val p: Position, var obj: BusySeasObject = BusySeasEmptyObject)

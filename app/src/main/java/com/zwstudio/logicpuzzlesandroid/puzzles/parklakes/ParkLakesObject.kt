@@ -9,20 +9,20 @@ sealed class ParkLakesObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> ParkLakesMarkerObject()
+            "marker" -> ParkLakesMarkerObject
             "tree" -> ParkLakesTreeObject()
-            else -> ParkLakesEmptyObject()
+            else -> ParkLakesEmptyObject
         }
     }
 }
 
-class ParkLakesEmptyObject : ParkLakesObject()
+object ParkLakesEmptyObject : ParkLakesObject()
 
 class ParkLakesHintObject(var state: HintState = HintState.Normal, var tiles: Int = 0) : ParkLakesObject() {
     override fun objAsString() = "hint"
 }
 
-class ParkLakesMarkerObject : ParkLakesObject() {
+object ParkLakesMarkerObject : ParkLakesObject() {
     override fun objAsString() = "marker"
 }
 
@@ -30,4 +30,4 @@ class ParkLakesTreeObject(var state: AllowedObjectState = AllowedObjectState.Nor
     override fun objAsString() = "tree"
 }
 
-class ParkLakesGameMove(val p: Position, var obj: ParkLakesObject = ParkLakesEmptyObject())
+class ParkLakesGameMove(val p: Position, var obj: ParkLakesObject = ParkLakesEmptyObject)

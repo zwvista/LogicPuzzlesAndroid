@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tents
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove, TentsGameState>(game) {
-    var objArray = Array<TentsObject>(rows * cols) { TentsEmptyObject() }
+    var objArray = Array<TentsObject>(rows * cols) { TentsEmptyObject }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
 
@@ -31,9 +31,9 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
         if (!isValid(p)) return false
         val o = this[p]
         move.obj = when (o) {
-            is TentsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsMarkerObject() else TentsTentObject()
-            is TentsTentObject -> if (markerOption == MarkerOptions.MarkerLast) TentsMarkerObject() else TentsEmptyObject()
-            is TentsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsTentObject() else TentsEmptyObject()
+            is TentsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsMarkerObject else TentsTentObject()
+            is TentsTentObject -> if (markerOption == MarkerOptions.MarkerLast) TentsMarkerObject else TentsEmptyObject
+            is TentsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsTentObject() else TentsEmptyObject
             else -> o
         }
         return setObject(move)
@@ -83,7 +83,7 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
         for (r in 0 until rows)
             for (c in 0 until cols)
                 if (this[r, c] is TentsForbiddenObject)
-                    this[r, c] = TentsEmptyObject()
+                    this[r, c] = TentsEmptyObject
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -121,7 +121,7 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
                     if (s == AllowedObjectState.Error) isSolved = false
                 } else if ((o is TentsEmptyObject || o is TentsMarkerObject) && allowedObjectsOnly &&
                     (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasTree() || hasTent(false)))
-                    this[r, c] = TentsForbiddenObject()
+                    this[r, c] = TentsForbiddenObject
             }
     }
 }

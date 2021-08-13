@@ -10,16 +10,16 @@ sealed class BootyIslandObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> BootyIslandMarkerObject()
+            "marker" -> BootyIslandMarkerObject
             "treasure" -> BootyIslandTreasureObject()
-            else -> BootyIslandEmptyObject()
+            else -> BootyIslandEmptyObject
         }
     }
 }
 
-class BootyIslandEmptyObject : BootyIslandObject()
+object BootyIslandEmptyObject : BootyIslandObject()
 
-class BootyIslandForbiddenObject : BootyIslandObject() {
+object BootyIslandForbiddenObject : BootyIslandObject() {
     override fun objAsString() = "forbidden"
 }
 
@@ -27,7 +27,7 @@ class BootyIslandHintObject(var state: HintState = HintState.Normal) : BootyIsla
     override fun objAsString() = "hint"
 }
 
-class BootyIslandMarkerObject : BootyIslandObject() {
+object BootyIslandMarkerObject : BootyIslandObject() {
     override fun objAsString() = "marker"
 }
 
@@ -35,4 +35,4 @@ class BootyIslandTreasureObject(var state: AllowedObjectState = AllowedObjectSta
     override fun objAsString() = "treasure"
 }
 
-class BootyIslandGameMove(val p: Position, var obj: BootyIslandObject = BootyIslandEmptyObject())
+class BootyIslandGameMove(val p: Position, var obj: BootyIslandObject = BootyIslandEmptyObject)

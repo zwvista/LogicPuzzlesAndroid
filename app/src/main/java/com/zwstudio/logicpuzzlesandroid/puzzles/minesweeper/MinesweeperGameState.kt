@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGame, MinesweeperGameMove, MinesweeperGameState>(game) {
-    var objArray = Array<MinesweeperObject>(rows * cols) { MinesweeperEmptyObject() }
+    var objArray = Array<MinesweeperObject>(rows * cols) { MinesweeperEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -31,9 +31,9 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is MinesweeperEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMarkerObject() else MinesweeperMineObject()
-            is MinesweeperMineObject -> if (markerOption == MarkerOptions.MarkerLast) MinesweeperMarkerObject() else MinesweeperEmptyObject()
-            is MinesweeperMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMineObject() else MinesweeperEmptyObject()
+            is MinesweeperEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMarkerObject else MinesweeperMineObject
+            is MinesweeperMineObject -> if (markerOption == MarkerOptions.MarkerLast) MinesweeperMarkerObject else MinesweeperEmptyObject
+            is MinesweeperMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMineObject else MinesweeperEmptyObject
             else -> o
         }
         return setObject(move)
@@ -56,7 +56,7 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
         for (r in 0 until rows)
             for (c in 0 until cols)
                 if (this[r, c] is MinesweeperForbiddenObject)
-                    this[r, c] = MinesweeperEmptyObject()
+                    this[r, c] = MinesweeperEmptyObject
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             val rng = mutableListOf<Position>()
@@ -76,7 +76,7 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
                 isSolved = false
             else if (allowedObjectsOnly)
                 for (p2 in rng)
-                    this[p2] = MinesweeperForbiddenObject()
+                    this[p2] = MinesweeperForbiddenObject
         }
     }
 }

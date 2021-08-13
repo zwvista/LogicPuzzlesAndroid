@@ -8,20 +8,20 @@ sealed class BWTapaObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str)  {
-            "marker" -> BWTapaMarkerObject()
+            "marker" -> BWTapaMarkerObject
             "wall" -> BWTapaWallObject()
-            else -> BWTapaEmptyObject()
+            else -> BWTapaEmptyObject
         }
     }
 }
 
-class BWTapaEmptyObject : BWTapaObject()
+object BWTapaEmptyObject : BWTapaObject()
 
 class BWTapaHintObject(var state: HintState = HintState.Normal) : BWTapaObject() {
     override fun objTypeAsString() = "hint"
 }
 
-class BWTapaMarkerObject : BWTapaObject() {
+object BWTapaMarkerObject : BWTapaObject() {
     override fun objTypeAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class BWTapaWallObject(var state: HintState = HintState.Normal) : BWTapaObject()
     override fun objTypeAsString() = "wall"
 }
 
-class BWTapaGameMove(val p: Position, var obj: BWTapaObject = BWTapaEmptyObject())
+class BWTapaGameMove(val p: Position, var obj: BWTapaObject = BWTapaEmptyObject)

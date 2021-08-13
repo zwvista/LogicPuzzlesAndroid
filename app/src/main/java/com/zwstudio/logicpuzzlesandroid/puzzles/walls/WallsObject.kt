@@ -8,25 +8,25 @@ sealed class WallsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "horz" -> WallsHorzObject()
-            "vert" -> WallsVertObject()
-            else -> WallsEmptyObject()
+            "horz" -> WallsHorzObject
+            "vert" -> WallsVertObject
+            else -> WallsEmptyObject
         }
     }
 }
 
-class WallsEmptyObject : WallsObject()
+object WallsEmptyObject : WallsObject()
 
 class WallsHintObject(var walls: Int = 0, var state: HintState = HintState.Normal) : WallsObject() {
     override fun objAsString() = "hint"
 }
 
-class WallsHorzObject : WallsObject() {
+object WallsHorzObject : WallsObject() {
     override fun objAsString() = "horz"
 }
 
-class WallsVertObject : WallsObject() {
+object WallsVertObject : WallsObject() {
     override fun objAsString() = "vert"
 }
 
-class WallsGameMove(val p: Position, var obj: WallsObject = WallsEmptyObject())
+class WallsGameMove(val p: Position, var obj: WallsObject = WallsEmptyObject)

@@ -39,10 +39,10 @@ class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSqu
                 when (val ch = str[c]) {
                     in '0'..'9' -> pos2hint[p] = CarpentersSquareCornerHint(ch - '0')
                     'O' -> pos2hint[p] = CarpentersSquareCornerHint()
-                    '^' -> pos2hint[p] = CarpentersSquareUpHint()
-                    'v' -> pos2hint[p] = CarpentersSquareDownHint()
-                    '<' -> pos2hint[p] = CarpentersSquareLeftHint()
-                    '>' -> pos2hint[p] = CarpentersSquareRightHint()
+                    '^' -> pos2hint[p] = CarpentersSquareUpHint
+                    'v' -> pos2hint[p] = CarpentersSquareDownHint
+                    '<' -> pos2hint[p] = CarpentersSquareLeftHint
+                    '>' -> pos2hint[p] = CarpentersSquareRightHint
                 }
             }
         }

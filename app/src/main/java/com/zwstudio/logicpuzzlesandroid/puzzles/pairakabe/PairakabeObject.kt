@@ -8,25 +8,25 @@ sealed class PairakabeObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "wall" -> PairakabeWallObject()
-            "marker" -> PairakabeMarkerObject()
-            else -> PairakabeEmptyObject()
+            "wall" -> PairakabeWallObject
+            "marker" -> PairakabeMarkerObject
+            else -> PairakabeEmptyObject
         }
     }
 }
 
-class PairakabeEmptyObject : PairakabeObject()
+object PairakabeEmptyObject : PairakabeObject()
 
 class PairakabeHintObject(var state: HintState = HintState.Normal) : PairakabeObject() {
     override fun objAsString() = "hint"
 }
 
-class PairakabeMarkerObject : PairakabeObject() {
+object PairakabeMarkerObject : PairakabeObject() {
     override fun objAsString() = "marker"
 }
 
-class PairakabeWallObject : PairakabeObject() {
+object PairakabeWallObject : PairakabeObject() {
     override fun objAsString() = "wall"
 }
 
-class PairakabeGameMove(val p: Position, var obj: PairakabeObject = PairakabeEmptyObject())
+class PairakabeGameMove(val p: Position, var obj: PairakabeObject = PairakabeEmptyObject)

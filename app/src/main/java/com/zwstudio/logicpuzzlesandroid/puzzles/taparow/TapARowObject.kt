@@ -8,20 +8,20 @@ sealed class TapARowObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "marker" -> TapARowMarkerObject()
+            "marker" -> TapARowMarkerObject
             "wall" -> TapARowWallObject()
-            else -> TapARowEmptyObject()
+            else -> TapARowEmptyObject
         }
     }
 }
 
-class TapARowEmptyObject : TapARowObject()
+object TapARowEmptyObject : TapARowObject()
 
 class TapARowHintObject(var state: HintState = HintState.Normal) : TapARowObject() {
     override fun objTypeAsString() = "hint"
 }
 
-class TapARowMarkerObject : TapARowObject() {
+object TapARowMarkerObject : TapARowObject() {
     override fun objTypeAsString() = "marker"
 }
 
@@ -29,4 +29,4 @@ class TapARowWallObject(var state: HintState = HintState.Normal) : TapARowObject
     override fun objTypeAsString() = "wall"
 }
 
-class TapARowGameMove(val p: Position, var obj: TapARowObject = TapARowEmptyObject())
+class TapARowGameMove(val p: Position, var obj: TapARowObject = TapARowEmptyObject)

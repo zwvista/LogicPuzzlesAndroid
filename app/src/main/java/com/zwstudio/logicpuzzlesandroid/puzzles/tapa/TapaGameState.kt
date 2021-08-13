@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import java.util.*
 
 class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, TapaGameState>(game) {
-    var objArray = Array<TapaObject>(rows * cols) { TapaEmptyObject() }
+    var objArray = Array<TapaObject>(rows * cols) { TapaEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -31,9 +31,9 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaMarkerObject() else TapaWallObject()
-            is TapaWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapaMarkerObject() else TapaEmptyObject()
-            is TapaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaWallObject() else TapaEmptyObject()
+            is TapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaMarkerObject else TapaWallObject()
+            is TapaWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapaMarkerObject else TapaEmptyObject
+            is TapaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaWallObject() else TapaEmptyObject
             else -> o
         }
         return setObject(move)

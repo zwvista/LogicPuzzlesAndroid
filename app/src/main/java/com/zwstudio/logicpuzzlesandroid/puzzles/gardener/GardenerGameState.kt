@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.gardener
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, GardenerGameMove, GardenerGameState>(game) {
-    var objArray = Array<GardenerObject>(rows * cols) { GardenerEmptyObject() }
+    var objArray = Array<GardenerObject>(rows * cols) { GardenerEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
     var invalidSpacesHorz = mutableSetOf<Position>()
     var invalidSpacesVert = mutableSetOf<Position>()
@@ -28,9 +28,9 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is GardenerEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject() else GardenerTreeObject()
-            is GardenerTreeObject -> if (markerOption == MarkerOptions.MarkerLast) GardenerMarkerObject() else GardenerEmptyObject()
-            is GardenerMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerTreeObject() else GardenerEmptyObject()
+            is GardenerEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject else GardenerTreeObject()
+            is GardenerTreeObject -> if (markerOption == MarkerOptions.MarkerLast) GardenerMarkerObject else GardenerEmptyObject
+            is GardenerMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerTreeObject() else GardenerEmptyObject
             else -> o
         }
         return setObject(move)
@@ -64,7 +64,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
         for (r in 0 until rows)
             for (c in 0 until cols)
                 if (this[r, c] is GardenerForbiddenObject)
-                    this[r, c] = GardenerEmptyObject()
+                    this[r, c] = GardenerEmptyObject
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
@@ -85,7 +85,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
                 } else {
                     // 4. Flowers can't be horizontally or vertically touching.
                     if (o !is GardenerForbiddenObject && allowedObjectsOnly && hasNeighbor())
-                        this[p] = GardenerForbiddenObject()
+                        this[p] = GardenerForbiddenObject
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -122,7 +122,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
                 for (p2 in area) {
                     val o = this[p2]
                     if (o is GardenerEmptyObject || o is GardenerMarkerObject)
-                        this[p2] = GardenerForbiddenObject()
+                        this[p2] = GardenerForbiddenObject
                 }
         }
         val spaces = mutableListOf<Position>()

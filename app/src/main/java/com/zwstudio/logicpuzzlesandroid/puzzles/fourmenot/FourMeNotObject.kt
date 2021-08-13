@@ -8,25 +8,25 @@ sealed class FourMeNotObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> FourMeNotMarkerObject()
+            "marker" -> FourMeNotMarkerObject
             "tree" -> FourMeNotTreeObject()
-            else -> FourMeNotEmptyObject()
+            else -> FourMeNotEmptyObject
         }
     }
 }
 
-class FourMeNotBlockObject : FourMeNotObject() {
+object FourMeNotBlockObject : FourMeNotObject() {
     override fun objAsString() = "block"
 }
 
-class FourMeNotEmptyObject : FourMeNotObject()
+object FourMeNotEmptyObject : FourMeNotObject()
 
 
-class FourMeNotForbiddenObject : FourMeNotObject() {
+object FourMeNotForbiddenObject : FourMeNotObject() {
     override fun objAsString() = "forbidden"
 }
 
-class FourMeNotMarkerObject : FourMeNotObject() {
+object FourMeNotMarkerObject : FourMeNotObject() {
     override fun objAsString() = "marker"
 }
 
@@ -34,4 +34,4 @@ class FourMeNotTreeObject(var state: AllowedObjectState = AllowedObjectState.Nor
     override fun objAsString() = "tree"
 }
 
-class FourMeNotGameMove(val p: Position, var obj: FourMeNotObject = FourMeNotEmptyObject())
+class FourMeNotGameMove(val p: Position, var obj: FourMeNotObject = FourMeNotEmptyObject)

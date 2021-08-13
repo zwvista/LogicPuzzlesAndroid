@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 import java.util.*
 
 class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAlikeGameMove, TapAlikeGameState>(game) {
-    var objArray = Array<TapAlikeObject>(rows * cols) { TapAlikeEmptyObject() }
+    var objArray = Array<TapAlikeObject>(rows * cols) { TapAlikeEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -32,9 +32,9 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TapAlikeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeMarkerObject() else TapAlikeWallObject()
-            is TapAlikeWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapAlikeMarkerObject() else TapAlikeEmptyObject()
-            is TapAlikeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeWallObject() else TapAlikeEmptyObject()
+            is TapAlikeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeMarkerObject else TapAlikeWallObject()
+            is TapAlikeWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapAlikeMarkerObject else TapAlikeEmptyObject
+            is TapAlikeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeWallObject() else TapAlikeEmptyObject
             else -> o
         }
         return setObject(move)

@@ -13,54 +13,54 @@ sealed class MineShipsObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "marker" -> MineShipsMarkerObject()
-            "battleShipTop" -> MineShipsBattleShipTopObject()
-            "battleShipBottom" -> MineShipsBattleShipBottomObject()
-            "battleShipLeft" -> MineShipsBattleShipLeftObject()
-            "battleShipRight" -> MineShipsBattleShipRightObject()
-            "battleShipMiddle" -> MineShipsBattleShipMiddleObject()
-            "battleShipUnit" -> MineShipsBattleShipUnitObject()
-            else -> MineShipsEmptyObject()
+            "marker" -> MineShipsMarkerObject
+            "battleShipTop" -> MineShipsBattleShipTopObject
+            "battleShipBottom" -> MineShipsBattleShipBottomObject
+            "battleShipLeft" -> MineShipsBattleShipLeftObject
+            "battleShipRight" -> MineShipsBattleShipRightObject
+            "battleShipMiddle" -> MineShipsBattleShipMiddleObject
+            "battleShipUnit" -> MineShipsBattleShipUnitObject
+            else -> MineShipsEmptyObject
         }
     }
 }
 
-class MineShipsBattleShipBottomObject : MineShipsObject() {
+object MineShipsBattleShipBottomObject : MineShipsObject() {
     override fun objAsString() = "battleShipBottom"
 }
 
-class MineShipsBattleShipLeftObject : MineShipsObject() {
+object MineShipsBattleShipLeftObject : MineShipsObject() {
     override fun objAsString() = "battleShipLeft"
 }
 
-class MineShipsBattleShipMiddleObject : MineShipsObject() {
+object MineShipsBattleShipMiddleObject : MineShipsObject() {
     override fun objAsString() = "battleShipMiddle"
 }
 
-class MineShipsBattleShipRightObject : MineShipsObject() {
+object MineShipsBattleShipRightObject : MineShipsObject() {
     override fun objAsString() = "battleShipRight"
 }
 
-class MineShipsBattleShipTopObject : MineShipsObject() {
+object MineShipsBattleShipTopObject : MineShipsObject() {
     override fun objAsString() = "battleShipTop"
 }
 
-class MineShipsBattleShipUnitObject : MineShipsObject() {
+object MineShipsBattleShipUnitObject : MineShipsObject() {
     override fun objAsString() = "battleShipUnit"
 }
 
-class MineShipsEmptyObject : MineShipsObject() {
+object MineShipsEmptyObject : MineShipsObject() {
     override fun objAsString() = "empty"
 }
 
-class MineShipsForbiddenObject : MineShipsObject()
+object MineShipsForbiddenObject : MineShipsObject()
 
 class MineShipsHintObject(var state: HintState = HintState.Normal) : MineShipsObject() {
     override fun objAsString() = "hint"
 }
 
-class MineShipsMarkerObject : MineShipsObject() {
+object MineShipsMarkerObject : MineShipsObject() {
     override fun objAsString() = "marker"
 }
 
-class MineShipsGameMove(val p: Position, var obj: MineShipsObject = MineShipsEmptyObject())
+class MineShipsGameMove(val p: Position, var obj: MineShipsObject = MineShipsEmptyObject)

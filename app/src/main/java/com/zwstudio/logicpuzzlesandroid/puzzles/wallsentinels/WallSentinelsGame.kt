@@ -32,7 +32,7 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
     init {
         size = Position(layout.size, layout[0].length / 2)
         // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-        objArray = MutableList(rows * cols) { WallSentinelsEmptyObject() }
+        objArray = MutableList(rows * cols) { WallSentinelsEmptyObject }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {

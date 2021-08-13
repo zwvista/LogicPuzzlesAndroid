@@ -8,25 +8,25 @@ sealed class NurikabeObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "wall" -> NurikabeWallObject()
-            "marker" -> NurikabeMarkerObject()
-            else -> NurikabeEmptyObject()
+            "wall" -> NurikabeWallObject
+            "marker" -> NurikabeMarkerObject
+            else -> NurikabeEmptyObject
         }
     }
 }
 
-class NurikabeEmptyObject : NurikabeObject()
+object NurikabeEmptyObject : NurikabeObject()
 
 class NurikabeHintObject(var state: HintState = HintState.Normal) : NurikabeObject() {
     override fun objAsString() = "hint"
 }
 
-class NurikabeMarkerObject : NurikabeObject() {
+object NurikabeMarkerObject : NurikabeObject() {
     override fun objAsString() = "marker"
 }
 
-class NurikabeWallObject : NurikabeObject() {
+object NurikabeWallObject : NurikabeObject() {
     override fun objAsString() = "wall"
 }
 
-class NurikabeGameMove(val p: Position, var obj: NurikabeObject = NurikabeEmptyObject())
+class NurikabeGameMove(val p: Position, var obj: NurikabeObject = NurikabeEmptyObject)

@@ -10,12 +10,12 @@ sealed class BalancedTapasObject {
         fun objTypeFromString(str: String) = when (str) {
             "marker" -> BalancedTapasMarkerObject()
             "wall" -> BalancedTapasWallObject()
-            else -> BalancedTapasEmptyObject()
+            else -> BalancedTapasEmptyObject
         }
     }
 }
 
-class BalancedTapasEmptyObject : BalancedTapasObject()
+object BalancedTapasEmptyObject : BalancedTapasObject()
 
 class BalancedTapasHintObject(var state: HintState = HintState.Normal) : BalancedTapasObject() {
     override fun objTypeAsString() = "hint"
@@ -29,4 +29,4 @@ class BalancedTapasWallObject(var state: HintState = HintState.Normal) : Balance
     override fun objTypeAsString() = "wall"
 }
 
-class BalancedTapasGameMove(val p: Position, var obj: BalancedTapasObject = BalancedTapasEmptyObject())
+class BalancedTapasGameMove(val p: Position, var obj: BalancedTapasObject = BalancedTapasEmptyObject)

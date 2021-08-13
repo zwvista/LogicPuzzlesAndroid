@@ -32,14 +32,14 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         val p = move.p
         val o = this[p]
         move.obj = when (o) {
-            is LightBattleShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsMarkerObject() else LightBattleShipsBattleShipUnitObject()
-            is LightBattleShipsBattleShipUnitObject -> LightBattleShipsBattleShipMiddleObject()
-            is LightBattleShipsBattleShipMiddleObject -> LightBattleShipsBattleShipLeftObject()
-            is LightBattleShipsBattleShipLeftObject -> LightBattleShipsBattleShipTopObject()
-            is LightBattleShipsBattleShipTopObject -> LightBattleShipsBattleShipRightObject()
-            is LightBattleShipsBattleShipRightObject -> LightBattleShipsBattleShipBottomObject()
-            is LightBattleShipsBattleShipBottomObject -> if (markerOption == MarkerOptions.MarkerLast) LightBattleShipsMarkerObject() else LightBattleShipsEmptyObject()
-            is LightBattleShipsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsBattleShipUnitObject() else LightBattleShipsEmptyObject()
+            is LightBattleShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsMarkerObject else LightBattleShipsBattleShipUnitObject
+            is LightBattleShipsBattleShipUnitObject -> LightBattleShipsBattleShipMiddleObject
+            is LightBattleShipsBattleShipMiddleObject -> LightBattleShipsBattleShipLeftObject
+            is LightBattleShipsBattleShipLeftObject -> LightBattleShipsBattleShipTopObject
+            is LightBattleShipsBattleShipTopObject -> LightBattleShipsBattleShipRightObject
+            is LightBattleShipsBattleShipRightObject -> LightBattleShipsBattleShipBottomObject
+            is LightBattleShipsBattleShipBottomObject -> if (markerOption == MarkerOptions.MarkerLast) LightBattleShipsMarkerObject else LightBattleShipsEmptyObject()
+            is LightBattleShipsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsBattleShipUnitObject else LightBattleShipsEmptyObject()
             else -> o
         }
         return setObject(move)
@@ -97,7 +97,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                     o.state = s
                     if (s == HintState.Error) isSolved = false
                 } else if ((o is LightBattleShipsEmptyObject || o is LightBattleShipsMarkerObject) && allowedObjectsOnly && hasNeighbor(false))
-                    this[r, c] = LightBattleShipsForbiddenObject()
+                    this[r, c] = LightBattleShipsForbiddenObject
             }
         // 2. Each number is a Lighthouse, telling you how many pieces of ship
         // there are in that row and column, summed together.
@@ -122,7 +122,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                 isSolved = false
             else if (allowedObjectsOnly)
                 for (p2 in rng)
-                    this[p2] = LightBattleShipsForbiddenObject()
+                    this[p2] = LightBattleShipsForbiddenObject
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
@@ -168,7 +168,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                     if (this[p2].isShipPiece())
                         isSolved = false
                     else if (allowedObjectsOnly)
-                        this[p2] = LightBattleShipsForbiddenObject()
+                        this[p2] = LightBattleShipsForbiddenObject
                 }
             shipNumbers[area.size]++
         }

@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIslandGame, HolidayIslandGameMove, HolidayIslandGameState>(game) {
-    var objArray = Array<HolidayIslandObject>(rows * cols) {  HolidayIslandEmptyObject() }
+    var objArray = Array<HolidayIslandObject>(rows * cols) { HolidayIslandEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -27,9 +27,9 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject() else HolidayIslandTreeObject()
-            is HolidayIslandTreeObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject() else HolidayIslandEmptyObject()
-            is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandTreeObject() else HolidayIslandEmptyObject()
+            is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject else HolidayIslandTreeObject()
+            is HolidayIslandTreeObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject else HolidayIslandEmptyObject
+            is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandTreeObject() else HolidayIslandEmptyObject
             else -> o
         }
         return setObject(move)
@@ -63,7 +63,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
                 val p = Position(r, c)
                 val o = this[p]
                 if (o is HolidayIslandForbiddenObject)
-                    this[p] = HolidayIslandEmptyObject()
+                    this[p] = HolidayIslandEmptyObject
                 else if (o is HolidayIslandHintObject) {
                     o.state = HintState.Normal
                     rngHints.add(p)
@@ -140,7 +140,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             if (allowedObjectsOnly && n1 <= n2)
                 for (p2 in rng)
                     if (p2 != p)
-                        this[p2] = HolidayIslandForbiddenObject()
+                        this[p2] = HolidayIslandForbiddenObject
         }
     }
 }

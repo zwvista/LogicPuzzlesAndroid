@@ -24,13 +24,13 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = Array(rows * cols) { FourMeNotEmptyObject() }
+        objArray = Array(rows * cols) { FourMeNotEmptyObject }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols)
                 when (str[c]) {
                     'F' -> this[r, c] = FourMeNotTreeObject()
-                    'B' -> this[r, c] = FourMeNotBlockObject()
+                    'B' -> this[r, c] = FourMeNotBlockObject
                 }
         }
         val state = FourMeNotGameState(this)

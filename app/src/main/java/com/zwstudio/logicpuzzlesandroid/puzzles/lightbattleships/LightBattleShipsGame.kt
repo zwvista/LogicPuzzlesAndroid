@@ -29,13 +29,13 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val ch = str[c]) {
-                    '^' -> pos2obj[p] = LightBattleShipsBattleShipTopObject()
-                    'v' -> pos2obj[p] = LightBattleShipsBattleShipBottomObject()
-                    '<' -> pos2obj[p] = LightBattleShipsBattleShipLeftObject()
-                    '>' -> pos2obj[p] = LightBattleShipsBattleShipRightObject()
-                    '+' -> pos2obj[p] = LightBattleShipsBattleShipMiddleObject()
-                    'o' -> pos2obj[p] = LightBattleShipsBattleShipUnitObject()
-                    '.' -> pos2obj[p] = LightBattleShipsMarkerObject()
+                    '^' -> pos2obj[p] = LightBattleShipsBattleShipTopObject
+                    'v' -> pos2obj[p] = LightBattleShipsBattleShipBottomObject
+                    '<' -> pos2obj[p] = LightBattleShipsBattleShipLeftObject
+                    '>' -> pos2obj[p] = LightBattleShipsBattleShipRightObject
+                    '+' -> pos2obj[p] = LightBattleShipsBattleShipMiddleObject
+                    'o' -> pos2obj[p] = LightBattleShipsBattleShipUnitObject
+                    '.' -> pos2obj[p] = LightBattleShipsMarkerObject
                     in '0'..'9' -> pos2hint[Position(r, c)] = ch - '0'
                 }
             }

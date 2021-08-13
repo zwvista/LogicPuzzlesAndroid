@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(game) {
-    var objArray = Array<BootyIslandObject>(rows * 2) { BootyIslandEmptyObject() }
+    var objArray = Array<BootyIslandObject>(rows * 2) { BootyIslandEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
@@ -32,9 +32,9 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is BootyIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandMarkerObject() else BootyIslandTreasureObject()
-            is BootyIslandTreasureObject -> if (markerOption == MarkerOptions.MarkerLast) BootyIslandMarkerObject() else BootyIslandEmptyObject()
-            is BootyIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandTreasureObject() else BootyIslandEmptyObject()
+            is BootyIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandMarkerObject else BootyIslandTreasureObject()
+            is BootyIslandTreasureObject -> if (markerOption == MarkerOptions.MarkerLast) BootyIslandMarkerObject else BootyIslandEmptyObject
+            is BootyIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandTreasureObject() else BootyIslandEmptyObject
             else -> o
         }
         return setObject(move)
@@ -69,7 +69,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
             for (c in 0 until cols) {
                 val o = this[r, c]
                 if (o is BootyIslandForbiddenObject)
-                    this[r, c] = BootyIslandEmptyObject()
+                    this[r, c] = BootyIslandEmptyObject
                 else if (o is BootyIslandTreasureObject)
                     o.state = AllowedObjectState.Normal
             }
@@ -91,7 +91,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                     o.state = s
                     if (s == AllowedObjectState.Error) isSolved = false
                 } else if ((o is BootyIslandEmptyObject || o is BootyIslandMarkerObject) && allowedObjectsOnly && hasNeighbor())
-                    this[r, c] = BootyIslandForbiddenObject()
+                    this[r, c] = BootyIslandForbiddenObject
             }
         // 2. In fact there's only one Treasure for each row.
         for (r in 0 until rows) {
@@ -106,7 +106,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                 if (o is BootyIslandTreasureObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if ((o is BootyIslandEmptyObject || o is BootyIslandMarkerObject) && n1 == n2 && allowedObjectsOnly)
-                    this[r, c] = BootyIslandForbiddenObject()
+                    this[r, c] = BootyIslandForbiddenObject
             }
         }
         // 2. In fact there's only one Treasure for each column.
@@ -122,7 +122,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                 if (o is BootyIslandTreasureObject)
                     o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
                 else if ((o is BootyIslandEmptyObject || o is BootyIslandMarkerObject) && n1 == n2 && allowedObjectsOnly)
-                    this[r, c] = BootyIslandForbiddenObject()
+                    this[r, c] = BootyIslandForbiddenObject
             }
         }
         // 3. On the island you can see maps with a number: these tell you how

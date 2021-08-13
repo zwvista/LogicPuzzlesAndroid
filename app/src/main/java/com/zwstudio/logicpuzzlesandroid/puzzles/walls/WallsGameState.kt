@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove, WallsGameState>(game) {
-    var objArray = Array<WallsObject>(rows * cols) { WallsEmptyObject() }
+    var objArray = Array<WallsObject>(rows * cols) { WallsEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -28,7 +28,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
 
     override fun switchObject(move: WallsGameMove): Boolean {
         val o = this[move.p]
-        move.obj = if (o is WallsEmptyObject) WallsHorzObject() else if (o is WallsHorzObject) WallsVertObject() else if (o is WallsVertObject) WallsEmptyObject() else o
+        move.obj = if (o is WallsEmptyObject) WallsHorzObject else if (o is WallsHorzObject) WallsVertObject else if (o is WallsVertObject) WallsEmptyObject else o
         return setObject(move)
     }
 

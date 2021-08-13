@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 import java.util.*
 
 class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowGameMove, TapARowGameState>(game) {
-    var objArray = Array<TapARowObject>(rows * cols) { TapARowEmptyObject() }
+    var objArray = Array<TapARowObject>(rows * cols) { TapARowEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -32,9 +32,9 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TapARowEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowMarkerObject() else TapARowWallObject()
-            is TapARowWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapARowMarkerObject() else TapARowEmptyObject()
-            is TapARowMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowWallObject() else TapARowEmptyObject()
+            is TapARowEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowMarkerObject else TapARowWallObject()
+            is TapARowWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapARowMarkerObject else TapARowEmptyObject
+            is TapARowMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowWallObject() else TapARowEmptyObject
             else -> o
         }
         return setObject(move)

@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusySeasGameMove, BusySeasGameState>(game) {
-    var objArray = Array<BusySeasObject>(rows * cols) { BusySeasEmptyObject() }
+    var objArray = Array<BusySeasObject>(rows * cols) { BusySeasEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -29,8 +29,8 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
         val o = this[move.p]
         move.obj = when (o) {
             is BusySeasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasMarkerObject() else BusySeasLighthouseObject()
-            is BusySeasLighthouseObject -> if (markerOption == MarkerOptions.MarkerLast) BusySeasMarkerObject() else BusySeasEmptyObject()
-            is BusySeasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasLighthouseObject() else BusySeasEmptyObject()
+            is BusySeasLighthouseObject -> if (markerOption == MarkerOptions.MarkerLast) BusySeasMarkerObject() else BusySeasEmptyObject
+            is BusySeasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasLighthouseObject() else BusySeasEmptyObject
             else -> o
         }
         return setObject(move)
@@ -44,7 +44,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
                 if (o is BusySeasLighthouseObject)
                     o.state = AllowedObjectState.Normal
                 else if (o is BusySeasForbiddenObject)
-                    this[r, c] = BusySeasEmptyObject()
+                    this[r, c] = BusySeasEmptyObject
             }
         for (r in 0 until rows)
             for (c in 0 until cols) {
@@ -92,7 +92,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
                 isSolved = false
             else
                 for (p2 in rng)
-                    this[p2] = BusySeasForbiddenObject()
+                    this[p2] = BusySeasForbiddenObject
         }
     }
 }
