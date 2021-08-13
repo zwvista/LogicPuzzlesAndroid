@@ -48,7 +48,7 @@ class LightBattleShipsGameView(context: Context, val soundManager: SoundManager)
                 val p = Position(r, c)
                 val path = Path()
                 val paint = if (game.pos2obj.containsKey(p)) grayPaint else whitePaint
-                when (val o = game.getObject(p)) {
+                when (game.getObject(p)) {
                     is LightBattleShipsBattleShipUnitObject ->
                         canvas.drawArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 0f, 360f, true, paint)
                     is LightBattleShipsBattleShipMiddleObject ->

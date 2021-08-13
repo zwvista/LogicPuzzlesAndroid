@@ -4,10 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -53,13 +54,13 @@ class TentsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                     is TentsTreeObject -> {
                         dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTree.draw(canvas)
                     }
                     is TentsTentObject -> {
                         dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTent.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dTent.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTent.draw(canvas)
                     }
                     is TentsMarkerObject ->

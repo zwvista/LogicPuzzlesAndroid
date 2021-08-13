@@ -4,10 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -68,10 +69,10 @@ class MagnetsGameView(context: Context, val soundManager: SoundManager) : CellsG
                     else -> {}
                 }
         dPositive.setBounds(cwc(cols), chr(rows), cwc(cols + 1), chr(rows + 1))
-        dPositive.setColorFilter(Color.argb(75, 0, 0, 0), PorterDuff.Mode.SRC_ATOP)
+        dPositive.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(75, 0, 0, 0), BlendModeCompat.SRC_ATOP)
         dPositive.draw(canvas)
         dNegative.setBounds(cwc(cols + 1), chr(rows + 1), cwc(cols + 2), chr(rows + 2))
-        dNegative.setColorFilter(Color.argb(75, 0, 0, 0), PorterDuff.Mode.SRC_ATOP)
+        dNegative.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(75, 0, 0, 0), BlendModeCompat.SRC_ATOP)
         dNegative.draw(canvas)
         for (r in 0 until rows)
             for (c in 0..1) {

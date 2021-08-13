@@ -4,10 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -52,7 +53,7 @@ class PowerGridGameView(context: Context, val soundManager: SoundManager) : Cell
                     is PowerGridPostObject -> {
                         dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dPost.setColorFilter(Color.argb(alpaha, 255, 0, 0), PorterDuff.Mode.SRC_ATOP)
+                        dPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dPost.draw(canvas)
                     }
                     is PowerGridMarkerObject ->

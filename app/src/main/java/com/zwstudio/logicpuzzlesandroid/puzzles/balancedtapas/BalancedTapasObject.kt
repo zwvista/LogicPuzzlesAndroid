@@ -8,7 +8,7 @@ sealed class BalancedTapasObject {
 
     companion object {
         fun objTypeFromString(str: String) = when (str) {
-            "marker" -> BalancedTapasMarkerObject()
+            "marker" -> BalancedTapasMarkerObject
             "wall" -> BalancedTapasWallObject()
             else -> BalancedTapasEmptyObject
         }
@@ -21,7 +21,7 @@ class BalancedTapasHintObject(var state: HintState = HintState.Normal) : Balance
     override fun objTypeAsString() = "hint"
 }
 
-class BalancedTapasMarkerObject : BalancedTapasObject() {
+object BalancedTapasMarkerObject : BalancedTapasObject() {
     override fun objTypeAsString() = "marker"
 }
 
