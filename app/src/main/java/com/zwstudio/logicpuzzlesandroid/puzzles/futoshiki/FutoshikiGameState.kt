@@ -30,8 +30,8 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, Fu
     override fun switchObject(move: FutoshikiGameMove): Boolean {
         val p = move.p
         if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ')) return false
-        val o = this[p].toInt()
-        move.obj = if (o == ' '.toInt()) '1' else if (o == '1'.toInt() + rows / 2) ' ' else (o + 1).toChar()
+        val o = this[p].code
+        move.obj = if (o == ' '.code) '1' else if (o == '1'.code + rows / 2) ' ' else (o + 1).toChar()
         return setObject(move)
     }
 

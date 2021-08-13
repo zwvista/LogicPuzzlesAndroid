@@ -35,7 +35,7 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
         size = Position(layout.size, layout[0].length)
         dots = GridDots(rows + 1, cols + 1)
         objArray = CharArray(rows * cols)
-        chMax = ('0'.toInt() + rows).toChar()
+        chMax = ('0'.code + rows).toChar()
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {

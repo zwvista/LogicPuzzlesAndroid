@@ -44,7 +44,7 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
             ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else 'A'
             '.' -> if (markerOption == MarkerOptions.MarkerFirst) 'A' else ' '
             game.chMax -> if (markerOption == MarkerOptions.MarkerLast) '.' else ' '
-            else -> (o.toInt() + 1).toChar()
+            else -> (o.code + 1).toChar()
         }
         return setObject(move)
     }

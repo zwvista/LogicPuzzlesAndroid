@@ -45,7 +45,7 @@ class CalcudokuGameView(context: Context, val soundManager: SoundManager) : Cell
                 val n = game.getObject(r, c)
                 if (n == 0) continue
                 val text = n.toString()
-                textPaint.color = if (game[r, c].toInt() == n) Color.GRAY else Color.WHITE
+                textPaint.color = if (game[r, c].code == n) Color.GRAY else Color.WHITE
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return

@@ -30,7 +30,7 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
         val p = move.p
         if (!isValid(p) || game[p] != ' ') return false
         val o = this[p]
-        move.obj = if (o == ' ') '1' else if (o == game.chMax) ' ' else (o.toInt() + 1).toChar()
+        move.obj = if (o == ' ') '1' else if (o == game.chMax) ' ' else (o.code + 1).toChar()
         return setObject(move)
     }
 
