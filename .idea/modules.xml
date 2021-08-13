@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LogicPuzzlesAndroid.iml" filepath="$PROJECT_DIR$/LogicPuzzlesAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LogicPuzzlesAndroid.iml" filepath="$PROJECT_DIR$/.idea/modules/LogicPuzzlesAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LogicPuzzlesAndroid.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LogicPuzzlesAndroid.app.iml" />
     </modules>
   </component>
