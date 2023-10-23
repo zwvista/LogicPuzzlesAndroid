@@ -68,6 +68,7 @@ class CarpentersWallGameView(context: Context, val soundManager: SoundManager) :
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                     is CarpentersWallMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+                    else -> {}
                 }
             }
     }

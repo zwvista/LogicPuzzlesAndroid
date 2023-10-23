@@ -194,6 +194,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
                         o.state = s
                         if (s != HintState.Complete) isSolved = false
                     }
+                    else -> {}
                 }
         }
     }

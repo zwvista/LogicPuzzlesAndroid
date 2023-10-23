@@ -65,6 +65,7 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
+                    else -> {}
                 }
             }
     }

@@ -68,6 +68,7 @@ class TapaGameView(context: Context, val soundManager: SoundManager) : CellsGame
                     }
                     is TapaMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+                    else -> {}
                 }
             }
     }

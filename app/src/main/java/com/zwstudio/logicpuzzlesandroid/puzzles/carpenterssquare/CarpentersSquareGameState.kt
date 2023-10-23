@@ -156,6 +156,7 @@ class CarpentersSquareGameState(game: CarpentersSquareGame) : CellsGameState<Car
                         pos2state[p] = s
                         if (s != HintState.Complete) isSolved = false
                     }
+                    else -> {}
                 }
         }
     }

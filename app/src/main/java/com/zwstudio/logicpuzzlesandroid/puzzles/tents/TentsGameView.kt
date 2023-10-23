@@ -67,6 +67,7 @@ class TentsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     is TentsForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                    else -> {}
                 }
             }
         if (isInEditMode) return

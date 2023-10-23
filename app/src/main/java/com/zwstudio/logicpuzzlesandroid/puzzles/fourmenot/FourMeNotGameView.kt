@@ -68,6 +68,7 @@ class FourMeNotGameView(context: Context, val soundManager: SoundManager) : Cell
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     is FourMeNotBlockObject ->
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                    else -> {}
                 }
             }
     }
