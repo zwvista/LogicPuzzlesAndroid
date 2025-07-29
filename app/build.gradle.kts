@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -9,8 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.zwstudio.logicpuzzlesandroid"
         minSdk = 26
-        compileSdk = 34
-        targetSdk = 34
+        compileSdk = 35
         multiDexEnabled = true
         versionCode = 1
         versionName = "1.0"
@@ -33,14 +34,14 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1", {
+    androidTestImplementation(libs.espresso.core, {
         exclude(group = "com.android.support", module = "support-annotations")
     })
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    testImplementation("junit:junit:4.13.2")
-    implementation("javax.persistence:persistence-api:1.0.2")
-    implementation("uk.com.robust-it:cloning:1.9.12")
-    implementation("io.insert-koin:koin-android:4.1.0")
+    implementation(libs.appcompat)
+    testImplementation(libs.junit)
+    implementation(libs.persistence.api)
+    implementation(libs.cloning)
+    implementation(libs.koin.android)
     // debugImplementation because LeakCanary should only run in debug builds.
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
+    debugImplementation(libs.leakcanary.android)
 }

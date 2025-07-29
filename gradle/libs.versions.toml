@@ -1,0 +1,26 @@
+[versions]
+appcompat = "1.7.1"
+cloning = "1.9.12"
+espressoCore = "3.6.1"
+gradle = "8.11.1"
+junit = "4.13.2"
+koinAndroid = "4.1.0"
+kotlinAllopen = "2.2.0"
+leakcanaryAndroid = "2.14"
+persistenceApi = "1.0.2"
+realmGradlePlugin = "10.19.0"
+
+[libraries]
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+cloning = { module = "uk.com.robust-it:cloning", version.ref = "cloning" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+junit = { module = "junit:junit", version.ref = "junit" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
+kotlin-allopen = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlinAllopen" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinAllopen" }
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
+persistence-api = { module = "javax.persistence:persistence-api", version.ref = "persistenceApi" }
+realm-gradle-plugin = { module = "io.realm:realm-gradle-plugin", version.ref = "realmGradlePlugin" }
+
+[plugins]
