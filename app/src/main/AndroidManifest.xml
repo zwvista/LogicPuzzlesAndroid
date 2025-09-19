@@ -493,6 +493,18 @@
         <activity android:name=".puzzles.loopy.LoopyOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.makethedifference.MaketheDifferenceMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.makethedifference.MaketheDifferenceGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.makethedifference.MaketheDifferenceHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.makethedifference.MaketheDifferenceOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.masyu.MasyuMainActivity"
                   android:screenOrientation="portrait">
         </activity>

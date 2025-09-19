@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.logicpuzzlesandroid.databinding.ActivityHomeChooseGameBinding
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
 import org.koin.android.ext.android.inject
+import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 
 class HomeChooseGameActivity : AppCompatActivity() {
@@ -82,6 +83,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "HolidayIsland" to "Holiday Island",
             "LightBattleShips" to "Light Battle Ships",
             "LightenUp" to "Lighten Up",
+            "MaketheDifference" to "Make the Difference",
             "MineShips" to "Mine Ships",
             "MiniLits" to "Mini-Lits",
             "NorthPoleFishing" to "North Pole Fishing",
