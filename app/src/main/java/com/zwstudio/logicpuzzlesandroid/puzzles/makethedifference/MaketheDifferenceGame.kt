@@ -30,15 +30,15 @@ class MaketheDifferenceGame(layout: List<String>, gi: GameInterface<MaketheDiffe
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
-        size = Position(layout.size + 1, layout[0].length / 2 + 1)
+        size = Position(layout.size + 1, layout[0].length + 1)
         objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
         for (r in 0 until rows - 1) {
             val str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                val s = str.substring(c * 2, c * 2 + 2)
-                if (s == "  ") continue
-                val n = s.trim(' ').toInt()
+                val ch = str[c]
+                if (ch == ' ') continue
+                val n = ch - '0'
                 pos2hint[p] = n
             }
         }
