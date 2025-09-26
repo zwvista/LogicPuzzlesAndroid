@@ -39,7 +39,7 @@ class PowerGridGameView(context: Context, val soundManager: SoundManager) : Cell
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dPost = fromImageToDrawable("images/tree.png")
+        dPost = fromImageToDrawable("images/TileContent/tree.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

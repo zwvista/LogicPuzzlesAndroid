@@ -27,9 +27,9 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is FourMeNotEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotMarkerObject else FourMeNotTreeObject()
-            is FourMeNotTreeObject -> if (markerOption == MarkerOptions.MarkerLast) FourMeNotMarkerObject else FourMeNotEmptyObject
-            is FourMeNotMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotTreeObject() else FourMeNotEmptyObject
+            is FourMeNotEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotMarkerObject else FourMeNotFlowerObject()
+            is FourMeNotFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) FourMeNotMarkerObject else FourMeNotEmptyObject
+            is FourMeNotMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotFlowerObject() else FourMeNotEmptyObject
             else -> o
         }
         return setObject(move)
@@ -62,7 +62,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
                 val o = this[p]
                 if (o is FourMeNotForbiddenObject)
                     this[p] = FourMeNotEmptyObject
-                else if (o is FourMeNotTreeObject) {
+                else if (o is FourMeNotFlowerObject) {
                     o.state = AllowedObjectState.Normal
                     val node = Node(p.toString())
                     g.addNode(node)
@@ -83,58 +83,58 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
-        val trees = mutableListOf<Position>()
+        val flowers = mutableListOf<Position>()
         // 3. At the same time, you can't line up horizontally or vertically more
         // than 3 flowers (thus Forbidden Four).
-        fun areTreesInvalid() = trees.size > 3
-        fun checkTrees() {
-            if (areTreesInvalid()) {
+        fun areFlowersInvalid() = flowers.size > 3
+        fun checkFlowers() {
+            if (areFlowersInvalid()) {
                 isSolved = false
-                for (p in trees)
-                    (this[p] as FourMeNotTreeObject).state = AllowedObjectState.Error
+                for (p in flowers)
+                    (this[p] as FourMeNotFlowerObject).state = AllowedObjectState.Error
             }
-            trees.clear()
+            flowers.clear()
         }
         fun checkForbidden(p: Position, indexes: List<Int>) {
             if (!allowedObjectsOnly) return
             for (i in indexes) {
                 val os = FourMeNotGame.offset[i]
                 var p2 = p + os
-                while (isValid(p2) && this[p2] is FourMeNotTreeObject) {
-                    trees.add(p2)
+                while (isValid(p2) && this[p2] is FourMeNotFlowerObject) {
+                    flowers.add(p2)
                     p2 += os
                 }
             }
-            if (areTreesInvalid()) this[p] = FourMeNotForbiddenObject
-            trees.clear()
+            if (areFlowersInvalid()) this[p] = FourMeNotForbiddenObject
+            flowers.clear()
         }
         for (r in 0 until rows) {
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is FourMeNotTreeObject)
-                    trees.add(p)
+                if (o is FourMeNotFlowerObject)
+                    flowers.add(p)
                 else {
-                    checkTrees()
+                    checkFlowers()
                     if (o is FourMeNotEmptyObject || o is FourMeNotMarkerObject)
                         checkForbidden(p, listOf(1, 3))
                 }
             }
-            checkTrees()
+            checkFlowers()
         }
         for (c in 0 until cols) {
             for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = get(p)
-                if (o is FourMeNotTreeObject)
-                    trees.add(p)
+                if (o is FourMeNotFlowerObject)
+                    flowers.add(p)
                 else {
-                    checkTrees()
+                    checkFlowers()
                     if (o is FourMeNotEmptyObject || o is FourMeNotMarkerObject)
                         checkForbidden(p, listOf(0, 2))
                 }
             }
-            checkTrees()
+            checkFlowers()
         }
     }
 }

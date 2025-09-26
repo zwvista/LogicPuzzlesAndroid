@@ -39,7 +39,7 @@ class BootyIslandGameView(context: Context, val soundManager: SoundManager) : Ce
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTreasure = fromImageToDrawable("images/tree.png")
+        dTreasure = fromImageToDrawable("images/TileContent/tree.png")
     }
 
     override fun onDraw(canvas: Canvas) {

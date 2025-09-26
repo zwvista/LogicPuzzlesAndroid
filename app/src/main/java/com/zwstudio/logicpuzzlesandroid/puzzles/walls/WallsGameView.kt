@@ -34,7 +34,7 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
-        dTree = fromImageToDrawable("images/tree.png")
+        dTree = fromImageToDrawable("images/TileContent/tree.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

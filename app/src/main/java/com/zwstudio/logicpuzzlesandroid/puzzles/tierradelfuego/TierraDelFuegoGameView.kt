@@ -39,7 +39,7 @@ class TierraDelFuegoGameView(context: Context, val soundManager: SoundManager) :
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dTree = fromImageToDrawable("images/tree.png")
+        dTree = fromImageToDrawable("images/TileContent/tree.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

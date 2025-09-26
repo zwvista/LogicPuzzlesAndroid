@@ -48,7 +48,7 @@ class GardenerGameView(context: Context, val soundManager: SoundManager) : Cells
         hintPaint.style = Paint.Style.FILL
         hintPaint.strokeWidth = 5f
         hintPaint.color = Color.RED
-        dTree = fromImageToDrawable("images/tree.png")
+        dTree = fromImageToDrawable("images/TileContent/tree.png")
     }
 
     override fun onDraw(canvas: Canvas) {

@@ -26,7 +26,7 @@ class FourMeNotGameView(context: Context, val soundManager: SoundManager) : Cell
     private val markerPaint = Paint()
     private val fixedPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val dTree: Drawable
+    private val dFlower: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -41,7 +41,7 @@ class FourMeNotGameView(context: Context, val soundManager: SoundManager) : Cell
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTree = fromImageToDrawable("images/tree.png")
+        dFlower = fromImageToDrawable("images/TileContent/flower_blue.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -54,12 +54,12 @@ class FourMeNotGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is FourMeNotTreeObject -> {
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is FourMeNotFlowerObject -> {
+                        dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTree.draw(canvas)
-                        if (game[p] is FourMeNotTreeObject)
+                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dFlower.draw(canvas)
+                        if (game[p] is FourMeNotFlowerObject)
                             canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
                     }
                     is FourMeNotMarkerObject ->

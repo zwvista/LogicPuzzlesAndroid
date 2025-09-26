@@ -9,7 +9,7 @@ sealed class FourMeNotObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> FourMeNotMarkerObject
-            "tree" -> FourMeNotTreeObject()
+            "flower" -> FourMeNotFlowerObject()
             else -> FourMeNotEmptyObject
         }
     }
@@ -30,8 +30,8 @@ object FourMeNotMarkerObject : FourMeNotObject() {
     override fun objAsString() = "marker"
 }
 
-class FourMeNotTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : FourMeNotObject() {
-    override fun objAsString() = "tree"
+class FourMeNotFlowerObject(var state: AllowedObjectState = AllowedObjectState.Normal) : FourMeNotObject() {
+    override fun objAsString() = "flower"
 }
 
 class FourMeNotGameMove(val p: Position, var obj: FourMeNotObject = FourMeNotEmptyObject)

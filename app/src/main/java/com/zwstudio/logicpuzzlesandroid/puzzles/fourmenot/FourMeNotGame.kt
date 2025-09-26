@@ -29,7 +29,7 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
             val str = layout[r]
             for (c in 0 until cols)
                 when (str[c]) {
-                    'F' -> this[r, c] = FourMeNotTreeObject()
+                    'F' -> this[r, c] = FourMeNotFlowerObject()
                     'B' -> this[r, c] = FourMeNotBlockObject
                 }
         }
