@@ -12,7 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.databinding.ActivityGameMainBinding
 abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, GS : GameState<GM>> : AppCompatActivity() {
     abstract val doc: GD
     var currentPage = 0
-    var countPerPage = 12
+    var countPerPage = 36
     var numPages = 1
 
     protected lateinit var binding: ActivityGameMainBinding
