@@ -34,8 +34,8 @@ class MagnetsGameView(context: Context, val soundManager: SoundManager) : CellsG
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
-        dPositive = fromImageToDrawable("images/positive.png")
-        dNegative = fromImageToDrawable("images/negative.png")
+        dPositive = fromImageToDrawable("images/128/128_navigate_plus_red.png")
+        dNegative = fromImageToDrawable("images/128/128_navigate_right.png")
     }
 
     override fun onDraw(canvas: Canvas) {

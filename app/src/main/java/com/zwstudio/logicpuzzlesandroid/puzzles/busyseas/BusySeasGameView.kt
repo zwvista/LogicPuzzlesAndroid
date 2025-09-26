@@ -39,7 +39,7 @@ class BusySeasGameView(context: Context, val soundManager: SoundManager) : Cells
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dLightbulb = fromImageToDrawable("images/lightbulb.png")
+        dLightbulb = fromImageToDrawable("images/TileContent/lightbulb_on.png")
     }
 
     override fun onDraw(canvas: Canvas) {
