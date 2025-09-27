@@ -79,10 +79,8 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
             areas.add(area)
             rng.removeAll(area)
         }
-        for ((p, value) in pos2hint) {
-            val n = value.second
-            pos2hint[p] = Pair(n, pos2area[p]!!)
-        }
+        for ((p, value) in pos2hint)
+            pos2hint[p] = Pair(value.first, pos2area[p]!!)
         val state = GardenerGameState(this)
         levelInitilized(state)
     }

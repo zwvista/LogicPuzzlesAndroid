@@ -28,9 +28,9 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is GardenerEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject else GardenerTreeObject()
-            is GardenerTreeObject -> if (markerOption == MarkerOptions.MarkerLast) GardenerMarkerObject else GardenerEmptyObject
-            is GardenerMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerTreeObject() else GardenerEmptyObject
+            is GardenerEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject else GardenerFlowerObject()
+            is GardenerFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) GardenerMarkerObject else GardenerEmptyObject
+            is GardenerMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerFlowerObject() else GardenerEmptyObject
             else -> o
         }
         return setObject(move)
@@ -74,10 +74,10 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
                 fun hasNeighbor(): Boolean {
                     return GardenerGame.offset.any {
                         val p2 = p + it
-                        isValid(p2) && this[p2] is GardenerTreeObject
+                        isValid(p2) && this[p2] is GardenerFlowerObject
                     }
                 }
-                if (o is GardenerTreeObject) {
+                if (o is GardenerFlowerObject) {
                     // 4. Flowers can't be horizontally or vertically touching.
                     val s = if (!hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
                     o.state = s
@@ -114,7 +114,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             val area = game.areas[i]
             var n1 = 0
             for (p2 in area)
-                if (this[p2] is GardenerTreeObject) n1++
+                if (this[p2] is GardenerFlowerObject) n1++
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
@@ -144,7 +144,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is GardenerTreeObject)
+                if (o is GardenerFlowerObject)
                     checkSpaces(true)
                 else
                     spaces.add(p)
@@ -155,7 +155,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is GardenerTreeObject)
+                if (o is GardenerFlowerObject)
                     checkSpaces(false)
                 else
                     spaces.add(p)

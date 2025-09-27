@@ -9,7 +9,7 @@ sealed class GardenerObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> GardenerMarkerObject
-            "tree" -> GardenerTreeObject()
+            "flower" -> GardenerFlowerObject()
             else -> GardenerEmptyObject
         }
     }
@@ -25,8 +25,8 @@ object GardenerMarkerObject : GardenerObject() {
     override fun objAsString() = "marker"
 }
 
-class GardenerTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : GardenerObject() {
-    override fun objAsString() = "tree"
+class GardenerFlowerObject(var state: AllowedObjectState = AllowedObjectState.Normal) : GardenerObject() {
+    override fun objAsString() = "flower"
 }
 
 class GardenerGameMove(val p: Position, var obj: GardenerObject = GardenerEmptyObject)

@@ -30,7 +30,7 @@ class GardenerGameView(context: Context, val soundManager: SoundManager) : Cells
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
     private val hintPaint = Paint()
-    private val dTree: Drawable
+    private val dFlower: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -48,7 +48,7 @@ class GardenerGameView(context: Context, val soundManager: SoundManager) : Cells
         hintPaint.style = Paint.Style.FILL
         hintPaint.strokeWidth = 5f
         hintPaint.color = Color.RED
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
+        dFlower = fromImageToDrawable("images/TileContent/flower_red.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -68,11 +68,11 @@ class GardenerGameView(context: Context, val soundManager: SoundManager) : Cells
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is GardenerTreeObject -> {
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is GardenerFlowerObject -> {
+                        dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTree.draw(canvas)
+                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dFlower.draw(canvas)
                     }
                     is GardenerMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)

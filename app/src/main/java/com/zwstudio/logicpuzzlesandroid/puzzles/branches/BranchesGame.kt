@@ -24,9 +24,8 @@ class BranchesGame(layout: List<String>, gi: GameInterface<BranchesGame, Branche
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch == ' ') continue
-                val n = if (Character.isDigit(ch)) ch - '0' else ch - 'A' + 10
-                pos2hint[p] = n
+                if (ch != ' ')
+                    pos2hint[p] = if (Character.isDigit(ch)) ch - '0' else ch - 'A' + 10
             }
         }
         val state = BranchesGameState(this)
