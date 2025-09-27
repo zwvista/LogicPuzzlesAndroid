@@ -17,7 +17,7 @@ sealed class WallsObject {
 
 object WallsEmptyObject : WallsObject()
 
-class WallsHintObject(var walls: Int = 0, var state: HintState = HintState.Normal) : WallsObject() {
+class WallsHintObject(var state: HintState = HintState.Normal) : WallsObject() {
     override fun objAsString() = "hint"
 }
 

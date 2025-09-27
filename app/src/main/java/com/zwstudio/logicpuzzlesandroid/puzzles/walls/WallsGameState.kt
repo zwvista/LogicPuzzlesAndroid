@@ -15,7 +15,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
 
     init {
         for ((p, n) in game.pos2hint)
-            this[p] = WallsHintObject(n)
+            this[p] = WallsHintObject()
         updateIsSolved()
     }
 
@@ -60,7 +60,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                 // board must be filled with wall pieces.
                     isSolved = false
                 else if (o is WallsHintObject) {
-                    val n2 = o.walls
+                    val n2 = game.pos2hint[p]!!
                     var n1 = 0
                     for (i in 0 until 4) {
                         val os = WallsGame.offset[i]
@@ -83,7 +83,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                     // connected to it.
                     val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
                     if (s != HintState.Complete) isSolved = false
-                    (this[p] as WallsHintObject).state = s
+                    o.state = s
                 }
             }
     }

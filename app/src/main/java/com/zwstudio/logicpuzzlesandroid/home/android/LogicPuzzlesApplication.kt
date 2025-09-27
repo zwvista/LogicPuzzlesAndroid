@@ -15,6 +15,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland.BootyIslandDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitagain.BoxItAgainDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitaround.BoxItAroundDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.boxitup.BoxItUpDocument
+import com.zwstudio.logicpuzzlesandroid.puzzles.branches.BranchesDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.bridges.BridgesDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.busyseas.BusySeasDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa.BWTapaDocument
@@ -134,6 +135,7 @@ class LogicPuzzlesApplication : Application(), LifecycleObserver {
         single { BoxItAgainDocument(androidContext()) }
         single { BoxItAroundDocument(androidContext()) }
         single { BoxItUpDocument(androidContext()) }
+        single { BranchesDocument(androidContext()) }
         single { BridgesDocument(androidContext()) }
         single { BusySeasDocument(androidContext()) }
         single { CalcudokuDocument(androidContext()) }

@@ -133,6 +133,18 @@
         <activity android:name=".puzzles.boxitup.BoxItUpOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.branches.BranchesMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.branches.BranchesGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.branches.BranchesHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.branches.BranchesOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.bridges.BridgesMainActivity"
                   android:screenOrientation="portrait">
         </activity>

@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.walls
+package com.zwstudio.logicpuzzlesandroid.puzzles.branches
 
 import android.content.Context
 import android.graphics.Canvas
@@ -14,8 +14,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
-    private val activity get() = context as WallsGameActivity
+class BranchesGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
+    private val activity get() = context as BranchesGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
     private val cols get() = if (isInEditMode) 5 else game.cols
@@ -25,8 +25,12 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val textPaint = TextPaint()
-    private val dWallHorz: Drawable
-    private val dWallVert: Drawable
+    private val dBranchUp: Drawable
+    private val dBranchRight: Drawable
+    private val dBranchDown: Drawable
+    private val dBranchLeft: Drawable
+    private val dBranchHorizontal: Drawable
+    private val dBranchVertical: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -35,8 +39,12 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
-        dWallHorz = fromImageToDrawable("images/TileContent/wall_horizontal.png")
-        dWallVert = fromImageToDrawable("images/TileContent/wall_vertical.png")
+        dBranchUp = fromImageToDrawable("images/TileContent/branch_up.png")
+        dBranchRight = fromImageToDrawable("images/TileContent/branch_right.png")
+        dBranchDown = fromImageToDrawable("images/TileContent/branch_down.png")
+        dBranchLeft = fromImageToDrawable("images/TileContent/branch_left.png")
+        dBranchHorizontal = fromImageToDrawable("images/TileContent/branch_horizontal.png")
+        dBranchVertical = fromImageToDrawable("images/TileContent/branch_vertical.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -54,9 +62,13 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                     dWall.draw(canvas)
                 }
                 when (val o = game.getObject(p)) {
-                    is WallsHorzObject -> f(dWallHorz)
-                    is WallsVertObject -> f(dWallVert)
-                    is WallsHintObject -> {
+                    is BranchesUpObject -> f(dBranchUp)
+                    is BranchesRightObject -> f(dBranchRight)
+                    is BranchesDownObject -> f(dBranchDown)
+                    is BranchesLeftObject -> f(dBranchLeft)
+                    is BranchesHorizontalObject -> f(dBranchHorizontal)
+                    is BranchesVerticalObject -> f(dBranchVertical)
+                    is BranchesHintObject -> {
                         val text = game.pos2hint[p].toString()
                         val s = o.state
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
@@ -72,7 +84,7 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
-            val move = WallsGameMove(Position(row, col))
+            val move = BranchesGameMove(Position(row, col))
             if (game.switchObject(move))
                 soundManager.playSoundTap()
         }
