@@ -25,7 +25,8 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val textPaint = TextPaint()
-    private val dTree: Drawable
+    private val dWallHorz: Drawable
+    private val dWallVert: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -34,7 +35,8 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
+        dWallHorz = fromImageToDrawable("images/TileContent/wall_horizontal.png")
+        dWallVert = fromImageToDrawable("images/TileContent/wall_vertical.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -46,19 +48,14 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
+                fun f(dWall: Drawable) {
+                    dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dWall.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    dWall.draw(canvas)
+                }
                 when (val o = game.getObject(p)) {
-                    is WallsHorzObject,
-                    is WallsVertObject -> {
-                        val isHorz = o is WallsHorzObject
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        if (isHorz) {
-                            canvas.save()
-                            canvas.rotate(90f, cwc2(c).toFloat(), chr2(r).toFloat())
-                        }
-                        dTree.draw(canvas)
-                        if (isHorz) canvas.restore()
-                    }
+                    is WallsHorzObject -> f(dWallHorz)
+                    is WallsVertObject -> f(dWallVert)
                     is WallsHintObject -> {
                         val text = o.walls.toString()
                         val s = o.state
