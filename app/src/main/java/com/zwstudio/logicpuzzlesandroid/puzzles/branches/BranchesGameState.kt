@@ -80,8 +80,8 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
                                 is BranchesRightObject -> { if (i == 1) n1++; break }
                                 is BranchesDownObject -> { if (i == 2) n1++; break }
                                 is BranchesLeftObject -> { if (i == 3) n1++; break }
-                                is BranchesHorizontalObject -> if (i % 2 == 0) n1++ else break
-                                is BranchesVerticalObject -> if (i % 2 == 1) n1++ else break
+                                is BranchesHorizontalObject -> if (i % 2 == 1) n1++ else break
+                                is BranchesVerticalObject -> if (i % 2 == 0) n1++ else break
                                 else -> break
                             }
                             p2 += os
