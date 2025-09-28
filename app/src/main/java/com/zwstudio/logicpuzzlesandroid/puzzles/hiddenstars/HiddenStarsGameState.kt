@@ -1,46 +1,46 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstar
+package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstars
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
-class HiddenStarGameState(game: HiddenStarGame) : CellsGameState<HiddenStarGame, HiddenStarGameMove, HiddenStarGameState>(game) {
-    var objArray = Array<HiddenStarObject>(rows * cols) { HiddenStarEmptyObject }
+class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>(game) {
+    var objArray = Array<HiddenStarsObject>(rows * cols) { HiddenStarsEmptyObject }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: HiddenStarObject) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: HiddenStarObject) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: HiddenStarsObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: HiddenStarsObject) {this[p.row, p.col] = obj}
 
     init {
         for (p in game.pos2tree)
-            this[p] = HiddenStarTreeObject()
+            this[p] = HiddenStarsTreeObject()
         updateIsSolved()
     }
 
-    override fun setObject(move: HiddenStarGameMove): Boolean {
+    override fun setObject(move: HiddenStarsGameMove): Boolean {
         if (!isValid(move.p) || this[move.p] === move.obj) return false
         this[move.p] = move.obj
         updateIsSolved()
         return true
     }
 
-    override fun switchObject(move: HiddenStarGameMove): Boolean {
+    override fun switchObject(move: HiddenStarsGameMove): Boolean {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return false
         val o = this[p]
         move.obj = when (o) {
-            is HiddenStarEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarMarkerObject else HiddenStarTentObject()
-            is HiddenStarTentObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenStarMarkerObject else HiddenStarEmptyObject
-            is HiddenStarMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarTentObject() else HiddenStarEmptyObject
+            is HiddenStarsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsMarkerObject else HiddenStarsTentObject()
+            is HiddenStarsTentObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenStarsMarkerObject else HiddenStarsEmptyObject
+            is HiddenStarsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsTentObject() else HiddenStarsEmptyObject
             else -> o
         }
         return setObject(move)
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/HiddenStar
+        iOS Game: Logic Games/Puzzle Set 1/HiddenStars
 
         Summary
         Each camper wants to put his Tent under the shade of a Tree. But he also
@@ -51,8 +51,8 @@ class HiddenStarGameState(game: HiddenStarGame) : CellsGameState<HiddenStarGame,
            their Tent in the shade, horizontally or vertically adjacent to a Tree(not
            diagonally).
         2. At the same time they need their privacy, so a Tent can't have any other
-           HiddenStar near them, not even diagonally.
-        3. The numbers on the borders tell you how many HiddenStar there are in that row
+           HiddenStars near them, not even diagonally.
+        3. The numbers on the borders tell you how many HiddenStars there are in that row
            or column.
         4. Finally, each Tree has at least one Tent touching it, horizontally or
            vertically.
@@ -64,9 +64,9 @@ class HiddenStarGameState(game: HiddenStarGame) : CellsGameState<HiddenStarGame,
             var n1 = 0
             val n2 = game.row2hint[r]
             for (c in 0 until cols)
-                if (this[r, c] is HiddenStarTentObject)
+                if (this[r, c] is HiddenStarsTentObject)
                     n1++
-            // 3. The numbers on the borders tell you how many HiddenStar there are in that row.
+            // 3. The numbers on the borders tell you how many HiddenStars there are in that row.
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
@@ -74,54 +74,54 @@ class HiddenStarGameState(game: HiddenStarGame) : CellsGameState<HiddenStarGame,
             var n1 = 0
             val n2 = game.col2hint[c]
             for (r in 0 until rows)
-                if (this[r, c] is HiddenStarTentObject)
+                if (this[r, c] is HiddenStarsTentObject)
                     n1++
-            // 3. The numbers on the borders tell you how many HiddenStar there are in that column.
+            // 3. The numbers on the borders tell you how many HiddenStars there are in that column.
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is HiddenStarForbiddenObject)
-                    this[r, c] = HiddenStarEmptyObject
+                if (this[r, c] is HiddenStarsForbiddenObject)
+                    this[r, c] = HiddenStarsEmptyObject
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[r, c]
                 fun hasTree(): Boolean {
-                    for (os in HiddenStarGame.offset) {
+                    for (os in HiddenStarsGame.offset) {
                         val p2 = p + os
-                        if (isValid(p2) && this[p2] is HiddenStarTreeObject)
+                        if (isValid(p2) && this[p2] is HiddenStarsTreeObject)
                             return true
                     }
                     return false
                 }
                 fun hasTent(isTree: Boolean): Boolean {
-                    for (os in if (isTree) HiddenStarGame.offset else HiddenStarGame.offset2) {
+                    for (os in if (isTree) HiddenStarsGame.offset else HiddenStarsGame.offset2) {
                         val p2 = p + os
-                        if (isValid(p2) && this[p2] is HiddenStarTentObject)
+                        if (isValid(p2) && this[p2] is HiddenStarsTentObject)
                             return true
                     }
                     return false
                 }
-                if (o is HiddenStarTentObject) {
+                if (o is HiddenStarsTentObject) {
                     // 1. The board represents a camping field with many Trees. Campers want to set
                     // their Tent in the shade, horizontally or vertically adjacent to a Tree(not
                     // diagonally).
                     // 2. At the same time they need their privacy, so a Tent can't have any other
-                    // HiddenStar near them, not even diagonally.
+                    // HiddenStars near them, not even diagonally.
                     val s = if (hasTree() && !hasTent(false)) AllowedObjectState.Normal else AllowedObjectState.Error
                     o.state = s
                     if (s == AllowedObjectState.Error) isSolved = false
-                } else if (o is HiddenStarTreeObject) {
+                } else if (o is HiddenStarsTreeObject) {
                     // 4. Finally, each Tree has at least one Tent touching it, horizontally or
                     // vertically.
                     val s = if (hasTent(true)) AllowedObjectState.Normal else AllowedObjectState.Error
                     o.state = s
                     if (s == AllowedObjectState.Error) isSolved = false
-                } else if ((o is HiddenStarEmptyObject || o is HiddenStarMarkerObject) && allowedObjectsOnly &&
+                } else if ((o is HiddenStarsEmptyObject || o is HiddenStarsMarkerObject) && allowedObjectsOnly &&
                     (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasTree() || hasTent(false)))
-                    this[r, c] = HiddenStarForbiddenObject
+                    this[r, c] = HiddenStarsForbiddenObject
             }
     }
 }

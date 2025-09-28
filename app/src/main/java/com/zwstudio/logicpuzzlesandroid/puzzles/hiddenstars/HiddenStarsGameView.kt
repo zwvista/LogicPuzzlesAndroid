@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstar
+package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstars
 
 import android.content.Context
 import android.graphics.Canvas
@@ -15,8 +15,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class HiddenStarGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
-    private val activity get() = context as HiddenStarGameActivity
+class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
+    private val activity get() = context as HiddenStarsGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
     private val cols get() = if (isInEditMode) 5 else game.cols
@@ -51,21 +51,21 @@ class HiddenStarGameView(context: Context, val soundManager: SoundManager) : Cel
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 when (val o = game.getObject(r, c)) {
-                    is HiddenStarTreeObject -> {
+                    is HiddenStarsTreeObject -> {
                         dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTree.draw(canvas)
                     }
-                    is HiddenStarTentObject -> {
+                    is HiddenStarsTentObject -> {
                         dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dTent.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTent.draw(canvas)
                     }
-                    is HiddenStarMarkerObject ->
+                    is HiddenStarsMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is HiddenStarForbiddenObject ->
+                    is HiddenStarsForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
@@ -92,7 +92,7 @@ class HiddenStarGameView(context: Context, val soundManager: SoundManager) : Cel
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
-            val move = HiddenStarGameMove(Position(row, col))
+            val move = HiddenStarsGameMove(Position(row, col))
             if (game.switchObject(move))
                 soundManager.playSoundTap()
         }

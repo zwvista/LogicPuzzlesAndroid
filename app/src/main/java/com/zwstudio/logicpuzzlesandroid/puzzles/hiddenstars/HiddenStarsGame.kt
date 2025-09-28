@@ -1,11 +1,11 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstar
+package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstars
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class HiddenStarGame(layout: List<String>, gi: GameInterface<HiddenStarGame, HiddenStarGameMove, HiddenStarGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenStarGame, HiddenStarGameMove, HiddenStarGameState>(gi, gdi) {
+class HiddenStarsGame(layout: List<String>, gi: GameInterface<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>(gi, gdi) {
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
@@ -49,7 +49,7 @@ class HiddenStarGame(layout: List<String>, gi: GameInterface<HiddenStarGame, Hid
                 }
             }
         }
-        val state = HiddenStarGameState(this)
+        val state = HiddenStarsGameState(this)
         levelInitilized(state)
     }
 
