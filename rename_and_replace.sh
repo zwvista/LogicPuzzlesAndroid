@@ -2,11 +2,11 @@
 set -e
 
 # 协程变量（源字符串和目标字符串）
-SRC="Walls"
-DST="Branches"
+SRC="Tents"
+DST="HiddenStar"
 
 # 切换到 Branches 目录
-cd "$(dirname "$0")/app/src/main/java/com/zwstudio/logicpuzzlesandroid/puzzles/branches"
+cd "$(dirname "$0")/app/src/main/java/com/zwstudio/logicpuzzlesandroid/puzzles/hiddenstar"
 
 # 1. 改文件名
 for f in ${SRC}*; do
