@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.parks
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
-class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<ParksGame, ParksGameMove, ParksGameState>, gdi: GameDocumentInterface) : CellsGame<ParksGame, ParksGameMove, ParksGameState>(gi, gdi) {
+class ParksGame(layout: List<String>, val treesInEachArea: Int, gi: GameInterface<ParksGame, ParksGameMove, ParksGameState>, gdi: GameDocumentInterface) : CellsGame<ParksGame, ParksGameMove, ParksGameState>(gi, gdi) {
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
@@ -27,12 +27,10 @@ class ParksGame(layout: List<String>, treesInEachArea: Int, gi: GameInterface<Pa
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    var treesInEachArea = 1
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
         dots = GridDots(rows + 1, cols + 1)
-        this.treesInEachArea = treesInEachArea
         for (r in 0 until rows + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols) {

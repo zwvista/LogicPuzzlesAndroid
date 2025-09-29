@@ -20,6 +20,8 @@ class HiddenStarsGameActivity : GameGameActivity<HiddenStarsGame, HiddenStarsDoc
         }
     }
 
-    override fun newGame(level: GameLevel) =
-        HiddenStarsGame(level.layout, this, doc)
+    override fun newGame(level: GameLevel): HiddenStarsGame {
+        val onlyOneArrow = (level.settings["OnlyOneArrow"] ?: "0") == "1"
+        return HiddenStarsGame(level.layout, onlyOneArrow, this, doc)
+    }
 }

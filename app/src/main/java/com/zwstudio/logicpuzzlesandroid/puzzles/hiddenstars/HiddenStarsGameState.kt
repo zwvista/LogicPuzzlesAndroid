@@ -88,26 +88,32 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
                 val p = Position(r, c)
                 val o = this[r, c]
                 fun hasArrow(): Boolean {
+                    var n = 0
                     for (i in 0..<8) {
                         val os = HiddenStarsGame.offset2[i]
                         var p2 = p + os
                         while (isValid(p2)) {
                             if (this[p2] is HiddenStarsArrowObject && (game.pos2arrow[p2]!! + 4) % 8 == i)
-                                return true
+                                n++
                             p2 += os
                         }
                     }
-                    return false
+                    // 4. Some levels have a variation of these rules: Stars must be pointed
+                    // by one and only one Arrow.
+                    return game.onlyOneArrow && n == 1 || n >= 1
                 }
                 fun hasStar(): Boolean {
+                    var n = 0
                     val os = HiddenStarsGame.offset2[game.pos2arrow[p]!!]
                     var p2 = p + os
                     while (isValid(p2)) {
                         if (this[p2] is HiddenStarsStarObject)
-                            return true
+                            n++
                         p2 += os
                     }
-                    return false
+                    // 4. Some levels have a variation of these rules: Stars must be pointed
+                    // by one and only one Arrow.
+                    return game.onlyOneArrow && n == 1 || n >= 1
                 }
                 if (o is HiddenStarsStarObject) {
                     // 2. Each star is pointed at by at least one Arrow.

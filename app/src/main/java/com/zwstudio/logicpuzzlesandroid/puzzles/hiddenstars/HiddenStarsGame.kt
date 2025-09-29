@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class HiddenStarsGame(layout: List<String>, gi: GameInterface<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>(gi, gdi) {
+class HiddenStarsGame(layout: List<String>, val onlyOneArrow: Boolean, gi: GameInterface<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>(gi, gdi) {
     companion object {
         var offset = arrayOf(
             Position(-1, 0),
