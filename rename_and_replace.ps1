@@ -1,11 +1,11 @@
 # powershell -ExecutionPolicy Bypass -File .\rename_and_replace.ps1
 
 # 协程变量（源字符串和目标字符串）
-$SRC = "BootyIsland"
-$DST = "Branches"
+$SRC = "NumberPath"
+$DST = "HiddenPath"
 
 # 切换到 Branches 目录
-Set-Location "$PSScriptRoot\Branches"
+Set-Location "$PSScriptRoot\app\src\main\java\com\zwstudio\logicpuzzlesandroid\puzzles\hiddenpath"
 
 # 1. 改文件名
 Get-ChildItem -Filter "$SRC*" | ForEach-Object {
