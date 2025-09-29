@@ -3,6 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.common.android
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.TextView
@@ -34,7 +35,7 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, G
                 return v
             }
 
-            override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
                 val ctv = v.findViewById<CheckedTextView>(android.R.id.text1)
@@ -46,12 +47,18 @@ abstract class GameOptionsActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, G
         binding.spnMarker.adapter = adapter
         binding.spnMarker.setSelection(doc.markerOption)
         binding.ctvAllowedObjectsOnly.isChecked = doc.isAllowedObjectsOnly
-        binding.spnMarker.setOnItemClickListener { _, _, position, _ ->
-            realm.beginTransaction()
-            val rec = doc.gameProgress()
-            doc.setMarkerOption(rec, position)
-            realm.insertOrUpdate(rec)
-            realm.commitTransaction()
+        binding.spnMarker.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                realm.beginTransaction()
+                val rec = doc.gameProgress()
+                doc.setMarkerOption(rec, position)
+                realm.insertOrUpdate(rec)
+                realm.commitTransaction()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // 当没有选项被选中时调用（可选）
+            }
         }
         binding.ctvAllowedObjectsOnly.setOnClickListener {
             realm.beginTransaction()

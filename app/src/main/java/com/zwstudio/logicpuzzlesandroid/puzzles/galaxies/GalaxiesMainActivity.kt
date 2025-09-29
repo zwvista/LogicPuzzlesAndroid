@@ -47,7 +47,7 @@ class GalaxiesOptionsActivity : GameOptionsActivity<GalaxiesGame, GalaxiesDocume
                 return v
             }
 
-            override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getDropDownView(position, convertView, parent)
                 val s = lst[position]
                 val ctv = v.findViewById<CheckedTextView>(android.R.id.text1)
