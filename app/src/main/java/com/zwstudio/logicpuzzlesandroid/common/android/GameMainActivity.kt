@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.zwstudio.logicpuzzlesandroid.BuildConfig.APPLICATION_ID
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
 import com.zwstudio.logicpuzzlesandroid.common.domain.Game
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameState
@@ -28,7 +29,7 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         }
         // http://stackoverflow.com/questions/25905086/multiple-buttons-onclicklistener-android
         for (i in 0 until countPerPage) {
-            val resID = resources.getIdentifier("btnLevel" + (i + 1), "id", "com.zwstudio.logicpuzzlesandroid")
+            val resID = resources.getIdentifier("btnLevel" + (i + 1), "id", APPLICATION_ID)
             val button = findViewById<Button>(resID)
             button.setOnClickListener(onClickListener)
         }
@@ -67,7 +68,7 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
 
     private fun showCurrentPage() {
         for (i in 0 until countPerPage) {
-            val resID = resources.getIdentifier("btnLevel" + (i + 1), "id", "com.zwstudio.logicpuzzlesandroid")
+            val resID = resources.getIdentifier("btnLevel" + (i + 1), "id", APPLICATION_ID)
             val button = findViewById<Button>(resID)
             val index = currentPage * countPerPage + i
             val b = index < doc.levels.size

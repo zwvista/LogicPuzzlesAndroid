@@ -6,6 +6,7 @@ import android.media.AudioManager
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.zwstudio.logicpuzzlesandroid.BuildConfig.APPLICATION_ID
 import com.zwstudio.logicpuzzlesandroid.databinding.ActivityHomeMainBinding
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
 import org.koin.android.ext.android.inject
@@ -49,9 +50,7 @@ class HomeMainActivity : AppCompatActivity() {
 
     private fun resumeGame(gameName: String, gameTitle: String, toResume: Boolean) {
         doc.resumeGame(gameName, gameTitle)
-        val cls = Class.forName("com.zwstudio.logicpuzzlesandroid.puzzles.${gameName.lowercase(
-            Locale.ROOT
-        )}.${gameName}MainActivity")
+        val cls = Class.forName("${APPLICATION_ID}.puzzles.${gameName.lowercase(Locale.ROOT)}.${gameName}MainActivity")
         val intent = Intent(this, cls)
         intent.putExtra("toResume", toResume)
         startActivity(intent)
