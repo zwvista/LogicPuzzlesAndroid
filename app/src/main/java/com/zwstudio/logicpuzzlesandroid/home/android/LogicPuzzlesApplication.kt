@@ -35,6 +35,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot.FourMeNotDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki.FutoshikiDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.galaxies.GalaxiesDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerDocument
+import com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstars.HiddenStarsDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.hitori.HitoriDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.holidayisland.HolidayIslandDocument
 import com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu.KakurasuDocument
@@ -154,6 +155,7 @@ class LogicPuzzlesApplication : Application(), LifecycleObserver {
         single { FutoshikiDocument(androidContext()) }
         single { GalaxiesDocument(androidContext()) }
         single { GardenerDocument(androidContext()) }
+        single { HiddenStarsDocument(androidContext()) }
         single { HitoriDocument(androidContext()) }
         single { HolidayIslandDocument(androidContext()) }
         single { KakurasuDocument(androidContext()) }

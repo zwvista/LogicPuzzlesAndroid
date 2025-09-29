@@ -373,6 +373,18 @@
         <activity android:name=".puzzles.gardener.GardenerOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.hiddenstars.HiddenStarsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hiddenstars.HiddenStarsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hiddenstars.HiddenStarsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hiddenstars.HiddenStarsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hitori.HitoriMainActivity"
                   android:screenOrientation="portrait">
         </activity>

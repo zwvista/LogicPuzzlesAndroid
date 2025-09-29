@@ -9,7 +9,7 @@ sealed class HiddenStarsObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> HiddenStarsMarkerObject
-            "tent" -> HiddenStarsTentObject()
+            "star" -> HiddenStarsStarObject()
             else -> HiddenStarsEmptyObject
         }
     }
@@ -25,12 +25,12 @@ object HiddenStarsMarkerObject : HiddenStarsObject() {
     override fun objAsString() = "marker"
 }
 
-class HiddenStarsTentObject(var state: AllowedObjectState = AllowedObjectState.Normal) : HiddenStarsObject() {
-    override fun objAsString() = "tent"
+class HiddenStarsStarObject(var state: AllowedObjectState = AllowedObjectState.Normal) : HiddenStarsObject() {
+    override fun objAsString() = "star"
 }
 
-class HiddenStarsTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : HiddenStarsObject() {
-    override fun objAsString() = "tree"
+class HiddenStarsArrowObject(var state: AllowedObjectState = AllowedObjectState.Normal) : HiddenStarsObject() {
+    override fun objAsString() = "arrow"
 }
 
 class HiddenStarsGameMove(val p: Position, var obj: HiddenStarsObject = HiddenStarsEmptyObject)

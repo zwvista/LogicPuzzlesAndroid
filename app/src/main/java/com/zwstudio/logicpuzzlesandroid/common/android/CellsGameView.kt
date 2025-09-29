@@ -56,4 +56,7 @@ abstract class CellsGameView(context: Context) : View(context) {
         `is`.close()
         return result
     }
+
+    protected fun getArrowDrawableList(): List<Drawable> =
+        "89632147".map { fromImageToDrawable("images/TileContent/arrow${it}.png") }.toList()
 }

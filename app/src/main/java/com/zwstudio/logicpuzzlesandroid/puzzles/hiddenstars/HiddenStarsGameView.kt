@@ -27,8 +27,8 @@ class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : Ce
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dTree: Drawable
-    private val dTent: Drawable
+    private val dArrowList: List<Drawable>
+    private val dStar: Drawable
 
     init {
         gridPaint.color = Color.WHITE
@@ -40,8 +40,8 @@ class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : Ce
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
-        dTent = fromImageToDrawable("images/tent.png")
+        dArrowList = getArrowDrawableList()
+        dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -50,18 +50,20 @@ class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : Ce
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                when (val o = game.getObject(r, c)) {
-                    is HiddenStarsTreeObject -> {
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val p = Position(r, c)
+                when (val o = game.getObject(p)) {
+                    is HiddenStarsArrowObject -> {
+                        val dArrow = dArrowList[game.pos2arrow[p]!!]
+                        dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTree.draw(canvas)
+                        dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dArrow.draw(canvas)
                     }
-                    is HiddenStarsTentObject -> {
-                        dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is HiddenStarsStarObject -> {
+                        dStar.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTent.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTent.draw(canvas)
+                        dStar.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dStar.draw(canvas)
                     }
                     is HiddenStarsMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)

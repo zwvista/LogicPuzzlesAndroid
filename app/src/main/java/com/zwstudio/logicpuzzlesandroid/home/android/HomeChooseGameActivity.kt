@@ -80,6 +80,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "FenceItUp" to "Fence It Up",
             "FenceSentinels" to "Fence Sentinels",
             "FourMeNot" to "Four-Me-Not",
+            "HiddenStars" to "Hidden Stars",
             "HolidayIsland" to "Holiday Island",
             "LightBattleShips" to "Light Battle Ships",
             "LightenUp" to "Lighten Up",

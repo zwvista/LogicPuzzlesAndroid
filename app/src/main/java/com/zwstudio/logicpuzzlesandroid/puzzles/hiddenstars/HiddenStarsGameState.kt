@@ -13,8 +13,8 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
     operator fun set(p: Position, obj: HiddenStarsObject) {this[p.row, p.col] = obj}
 
     init {
-        for (p in game.pos2tree)
-            this[p] = HiddenStarsTreeObject()
+        for ((p, _) in game.pos2arrow)
+            this[p] = HiddenStarsArrowObject()
         updateIsSolved()
     }
 
@@ -31,31 +31,30 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
         if (!isValid(p)) return false
         val o = this[p]
         move.obj = when (o) {
-            is HiddenStarsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsMarkerObject else HiddenStarsTentObject()
-            is HiddenStarsTentObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenStarsMarkerObject else HiddenStarsEmptyObject
-            is HiddenStarsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsTentObject() else HiddenStarsEmptyObject
+            is HiddenStarsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsMarkerObject else HiddenStarsStarObject()
+            is HiddenStarsStarObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenStarsMarkerObject else HiddenStarsEmptyObject
+            is HiddenStarsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsStarObject() else HiddenStarsEmptyObject
             else -> o
         }
         return setObject(move)
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 1/HiddenStars
+        iOS Game: 100 Logic Games/Puzzle Set 2/Hidden Stars
 
         Summary
-        Each camper wants to put his Tent under the shade of a Tree. But he also
-        wants his privacy!
+        Each Arrow points to a Star and every Star has an arrow pointing at it
 
         Description
-        1. The board represents a camping field with many Trees. Campers want to set
-           their Tent in the shade, horizontally or vertically adjacent to a Tree(not
-           diagonally).
-        2. At the same time they need their privacy, so a Tent can't have any other
-           HiddenStars near them, not even diagonally.
-        3. The numbers on the borders tell you how many HiddenStars there are in that row
+        1. In the board you have to find hidden stars.
+        2. Each star is pointed at by at least one Arrow and each Arrow points
+           to at least one star.
+        3. The number on the borders tell you how many Stars there on that row
            or column.
-        4. Finally, each Tree has at least one Tent touching it, horizontally or
-           vertically.
+
+        Variant
+        4. Some levels have a variation of these rules: Stars must be pointed
+           by one and only one Arrow.
     */
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
@@ -64,9 +63,9 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
             var n1 = 0
             val n2 = game.row2hint[r]
             for (c in 0 until cols)
-                if (this[r, c] is HiddenStarsTentObject)
+                if (this[r, c] is HiddenStarsStarObject)
                     n1++
-            // 3. The numbers on the borders tell you how many HiddenStars there are in that row.
+            // 3. The numbers on the borders tell you how many Stars there are on that row.
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
@@ -74,9 +73,9 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
             var n1 = 0
             val n2 = game.col2hint[c]
             for (r in 0 until rows)
-                if (this[r, c] is HiddenStarsTentObject)
+                if (this[r, c] is HiddenStarsStarObject)
                     n1++
-            // 3. The numbers on the borders tell you how many HiddenStars there are in that column.
+            // 3. The numbers on the borders tell you how many Stars there are on that column.
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
@@ -88,39 +87,40 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[r, c]
-                fun hasTree(): Boolean {
-                    for (os in HiddenStarsGame.offset) {
-                        val p2 = p + os
-                        if (isValid(p2) && this[p2] is HiddenStarsTreeObject)
-                            return true
+                fun hasArrow(): Boolean {
+                    for (i in 0..<8) {
+                        val os = HiddenStarsGame.offset2[i]
+                        var p2 = p + os
+                        while (isValid(p2)) {
+                            if (this[p2] is HiddenStarsArrowObject && (game.pos2arrow[p2]!! + 4) % 8 == i)
+                                return true
+                            p2 += os
+                        }
                     }
                     return false
                 }
-                fun hasTent(isTree: Boolean): Boolean {
-                    for (os in if (isTree) HiddenStarsGame.offset else HiddenStarsGame.offset2) {
-                        val p2 = p + os
-                        if (isValid(p2) && this[p2] is HiddenStarsTentObject)
+                fun hasStar(): Boolean {
+                    val os = HiddenStarsGame.offset2[game.pos2arrow[p]!!]
+                    var p2 = p + os
+                    while (isValid(p2)) {
+                        if (this[p2] is HiddenStarsStarObject)
                             return true
+                        p2 += os
                     }
                     return false
                 }
-                if (o is HiddenStarsTentObject) {
-                    // 1. The board represents a camping field with many Trees. Campers want to set
-                    // their Tent in the shade, horizontally or vertically adjacent to a Tree(not
-                    // diagonally).
-                    // 2. At the same time they need their privacy, so a Tent can't have any other
-                    // HiddenStars near them, not even diagonally.
-                    val s = if (hasTree() && !hasTent(false)) AllowedObjectState.Normal else AllowedObjectState.Error
+                if (o is HiddenStarsStarObject) {
+                    // 2. Each star is pointed at by at least one Arrow.
+                    val s = if (hasArrow()) AllowedObjectState.Normal else AllowedObjectState.Error
                     o.state = s
                     if (s == AllowedObjectState.Error) isSolved = false
-                } else if (o is HiddenStarsTreeObject) {
-                    // 4. Finally, each Tree has at least one Tent touching it, horizontally or
-                    // vertically.
-                    val s = if (hasTent(true)) AllowedObjectState.Normal else AllowedObjectState.Error
+                } else if (o is HiddenStarsArrowObject) {
+                    // 2. Each Arrow points to at least one star.
+                    val s = if (hasStar()) AllowedObjectState.Normal else AllowedObjectState.Error
                     o.state = s
                     if (s == AllowedObjectState.Error) isSolved = false
                 } else if ((o is HiddenStarsEmptyObject || o is HiddenStarsMarkerObject) && allowedObjectsOnly &&
-                    (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasTree() || hasTent(false)))
+                    (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasArrow()))
                     this[r, c] = HiddenStarsForbiddenObject
             }
     }

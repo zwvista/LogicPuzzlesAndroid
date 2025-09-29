@@ -27,7 +27,7 @@ class HiddenStarsGame(layout: List<String>, gi: GameInterface<HiddenStarsGame, H
 
     var row2hint: IntArray
     var col2hint: IntArray
-    var pos2tree = mutableListOf<Position>()
+    var pos2arrow = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)
@@ -38,14 +38,14 @@ class HiddenStarsGame(layout: List<String>, gi: GameInterface<HiddenStarsGame, H
             for (c in 0 until cols + 1) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch == 'T')
-                    pos2tree.add(p)
-                else if (ch in '0'..'9') {
+                if (ch != ' ') {
                     val n = ch - '0'
                     if (r == rows)
                         col2hint[c] = n
                     else if (c == cols)
                         row2hint[r] = n
+                    else
+                        pos2arrow[p] = n
                 }
             }
         }
