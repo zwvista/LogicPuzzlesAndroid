@@ -26,7 +26,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             lstGameNames = assets.list("xml")!!
                 .map { it.substring(0, it.length - ".xml".length) }
                 .sortedBy { it.uppercase(Locale.ROOT) }
-            lstGameTitles = lstGameNames.map { (name2title[it] ?: it) }
+            lstGameTitles = lstGameNames.map { name2title[it] ?: splitAndJoinWords(it) }
         }
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_single_choice, lstGameTitles)
@@ -63,50 +63,27 @@ class HomeChooseGameActivity : AppCompatActivity() {
         var lstGameNames = listOf<String>()
         var lstGameTitles = listOf<String>()
         var name2title = mapOf(
-            "AbstractPainting" to "Abstract Painting",
-            "BalancedTapas" to "Balanced Tapas",
-            "BattleShips" to "Battle Ships",
-            "BootyIsland" to "Booty Island",
-            "BoxItAgain" to "Box It Again",
-            "BoxItAround" to "Box It Around",
-            "BoxItUp" to "Box It Up",
-            "BusySeas" to "Busy Seas",
+            "ABCPath" to "ABC Path",
             "BWTapa" to "B&W Tapa",
             "CarpentersSquare" to "Carpenter's Square",
             "CarpentersWall" to "Carpenter's Wall",
-            "CastleBailey" to "Castle Bailey",
-            "DigitalBattleShips" to "Digital Battle Ships",
-            "DisconnectFour" to "Disconnect Four",
-            "FenceItUp" to "Fence It Up",
-            "FenceSentinels" to "Fence Sentinels",
             "FourMeNot" to "Four-Me-Not",
-            "HiddenStars" to "Hidden Stars",
-            "HolidayIsland" to "Holiday Island",
-            "LightBattleShips" to "Light Battle Ships",
-            "LightenUp" to "Lighten Up",
             "MaketheDifference" to "Make the Difference",
-            "MineShips" to "Mine Ships",
             "MiniLits" to "Mini-Lits",
-            "NorthPoleFishing" to "North Pole Fishing",
             "NoughtsAndCrosses" to "Noughts & Crosses",
-            "NumberPath" to "Number Path",
-            "OverUnder" to "Over Under",
-            "PaintTheNurikabe" to "Paint The Nurikabe",
-            "ParkLakes" to "Park Lakes",
-            "ProductSentinels" to "Product Sentinels",
-            "RippleEffect" to "Ripple Effect",
-            "RobotCrosswords" to "Robot Crosswords",
-            "RobotFences" to "Robot Fences",
             "Square100" to "Square 100",
-            "TapaIslands" to "Tapa Islands",
             "TapAlike" to "Tap-Alike",
             "TapARow" to "Tap-A-Row",
-            "TapDifferently" to "Tap Differently",
-            "TennerGrid" to "Tenner Grid",
-            "TheOddBrick" to "The Odd Brick",
-            "TierraDelFuego" to "Tierra Del Fuego",
-            "WallSentinels" to "Wall Sentinels"
         )
         private val UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+
+        fun splitAndJoinWords(input: String): String {
+            val pattern = Regex("([a-z])([A-Z])")
+            return input.replace(pattern, "\$1 \$2")
+        }
+        fun splitAndJoinWords2(input: String): String {
+            val pattern = Regex("(?<=[a-z])(?=[A-Z])")
+            return input.replace(pattern, " ")
+        }
     }
 }
