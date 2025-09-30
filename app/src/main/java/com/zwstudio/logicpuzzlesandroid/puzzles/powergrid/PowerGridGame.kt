@@ -25,14 +25,15 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
         for (r in 0 until rows + 1) {
             val str = layout[r]
             for (c in 0 until cols + 1) {
+                val isHintRow = r == rows
+                val isHintCol = c == cols
+                if (isHintRow == isHintCol) continue
                 val ch = str[c]
-                if (ch in '0'..'9') {
-                    val n = ch - '0'
-                    if (r == rows)
-                        col2hint[c] = n
-                    else if (c == cols)
-                        row2hint[r] = n
-                }
+                val n = if (ch == ' ') -1 else ch - '0'
+                if (isHintRow)
+                    col2hint[c] = n
+                else
+                    row2hint[r] = n
             }
         }
         val state = PowerGridGameState(this)
