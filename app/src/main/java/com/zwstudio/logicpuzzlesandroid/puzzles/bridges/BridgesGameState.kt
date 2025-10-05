@@ -83,8 +83,10 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
         }
         if (!isSolved) return
         for ((p, info) in game.islandsInfo) {
-            for (p2 in info.neighbors) {
-                if (p2 == null) continue
+            val o = this[p] as BridgesIslandObject
+            for (i in 0 until 4) {
+                val p2 = info.neighbors[i]
+                if (p2 == null || o.bridges[i] == 0) continue
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
