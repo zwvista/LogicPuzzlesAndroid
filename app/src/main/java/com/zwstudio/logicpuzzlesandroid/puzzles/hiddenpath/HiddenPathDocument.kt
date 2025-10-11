@@ -9,7 +9,7 @@ class HiddenPathDocument(context: Context) : GameDocument<HiddenPathGameMove>(co
     override fun saveMove(move: HiddenPathGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.intValue1 = move.dir
+        rec.intValue1 = move.obj
     }
 
     override fun loadMove(rec: MoveProgress) =

@@ -16,6 +16,7 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
     }
 
     var objArray: IntArray
+    var pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -23,14 +24,15 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
-        size = Position(layout.size, layout[0].length / 2)
+        size = Position(layout.size, layout[0].length / 3)
         objArray = IntArray(rows * cols)
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val s = str.substring(c * 2, c * 2 + 2).trim(' ')
-                this[p] = s.toInt()
+                val s = str.substring(c * 3, c * 3 + 2)
+                this[p] = if (s == "  ") 0 else s.trim(' ').toInt()
+                pos2hint[p] = str[c * 3 + 2] - '0'
             }
         }
         val state = HiddenPathGameState(this)
