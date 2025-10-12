@@ -1,0 +1,16 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.hidoku
+
+import android.content.Context
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+
+class HidokuDocument(context: Context) : GameDocument<HidokuGameMove>(context) {
+    override fun saveMove(move: HidokuGameMove, rec: MoveProgress) {
+        rec.row = move.p.row
+        rec.col = move.p.col
+    }
+
+    override fun loadMove(rec: MoveProgress) =
+        HidokuGameMove(Position(rec.row, rec.col))
+}
