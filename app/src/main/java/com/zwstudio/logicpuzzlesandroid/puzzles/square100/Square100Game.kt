@@ -7,12 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Square100GameMove, Square100GameState>, gdi: GameDocumentInterface) : CellsGame<Square100Game, Square100GameMove, Square100GameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var objArray: Array<String>

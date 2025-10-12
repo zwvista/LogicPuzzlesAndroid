@@ -7,12 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove, MasyuGameState>, gdi: GameDocumentInterface) : CellsGame<MasyuGame, MasyuGameMove, MasyuGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var objArray: CharArray

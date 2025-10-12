@@ -5,12 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>, gdi: GameDocumentInterface) : CellsGame<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>(gi, gdi) {
     companion object {
-        val offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),

@@ -9,6 +9,7 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.KropkiGameMove
@@ -23,7 +24,6 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val linePaint = Paint()
     private val textPaint = TextPaint()
     private val dArrowList: List<Drawable>
     private val dStar: Drawable
@@ -31,9 +31,6 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        linePaint.color = Color.YELLOW
-        linePaint.style = Paint.Style.STROKE
-        linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
         dArrowList = getArrowDrawableList()
         dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
@@ -53,9 +50,10 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
                 val dImage = if (hint == 8) dStar else dArrowList[hint]
                 dImage.setBounds(cwc2(c), chr2(r), cwc(c + 1), chr(r + 1))
                 dImage.draw(canvas)
-                val n = game[p]
+                val n = game.getObject(p)
                 if (n != 0) {
-                    textPaint.color = Color.WHITE
+                    val state = game.pos2State(p)
+                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
@@ -68,7 +66,7 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = HiddenPathGameMove(Position(row, col))
-            if (game.switchObject(move))
+            if (game.setObject(move))
                 soundManager.playSoundTap()
         }
         return true

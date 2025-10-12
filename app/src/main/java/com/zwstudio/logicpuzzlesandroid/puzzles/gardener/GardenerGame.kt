@@ -5,12 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, GardenerGameMove, GardenerGameState>, gdi: GameDocumentInterface) : CellsGame<GardenerGame, GardenerGameMove, GardenerGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
         var offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),

@@ -7,12 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove, SnakeGameState>, gdi: GameDocumentInterface) : CellsGame<SnakeGame, SnakeGameMove, SnakeGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var row2hint: IntArray

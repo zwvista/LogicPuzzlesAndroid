@@ -8,12 +8,7 @@ import java.util.*
 
 class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState>, gdi: GameDocumentInterface) : CellsGame<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var objArray: IntArray

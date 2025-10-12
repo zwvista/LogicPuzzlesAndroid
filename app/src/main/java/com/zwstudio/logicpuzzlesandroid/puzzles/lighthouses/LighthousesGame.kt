@@ -7,16 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, LighthousesGameMove, LighthousesGameState>, gdi: GameDocumentInterface) : CellsGame<LighthousesGame, LighthousesGameMove, LighthousesGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(-1, 1),
-            Position(0, 1),
-            Position(1, 1),
-            Position(1, 0),
-            Position(1, -1),
-            Position(0, -1),
-            Position(-1, -1)
-        )
+        var offset = Position.Directions8
     }
 
     var pos2hint = mutableMapOf<Position, Int>()

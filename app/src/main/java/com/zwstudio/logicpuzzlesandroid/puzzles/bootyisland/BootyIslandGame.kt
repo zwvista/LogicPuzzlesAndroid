@@ -7,16 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>, gdi: GameDocumentInterface) : CellsGame<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(-1, 1),
-            Position(0, 1),
-            Position(1, 1),
-            Position(1, 0),
-            Position(1, -1),
-            Position(0, -1),
-            Position(-1, -1)
-        )
+        var offset = Position.Directions8
     }
 
     var pos2hint = mutableMapOf<Position, Int>()

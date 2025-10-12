@@ -7,12 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BranchesGame(layout: List<String>, gi: GameInterface<BranchesGame, BranchesGameMove, BranchesGameState>, gdi: GameDocumentInterface) : CellsGame<BranchesGame, BranchesGameMove, BranchesGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var pos2hint = mutableMapOf<Position, Int>()

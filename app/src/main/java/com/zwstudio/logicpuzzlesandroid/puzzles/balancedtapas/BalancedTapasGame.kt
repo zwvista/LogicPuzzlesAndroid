@@ -7,16 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterface<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>, gdi: GameDocumentInterface) : CellsGame<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(gi, gdi) {
     companion object {
-        val offset = arrayOf(
-            Position(-1, 0),
-            Position(-1, 1),
-            Position(0, 1),
-            Position(1, 1),
-            Position(1, 0),
-            Position(1, -1),
-            Position(0, -1),
-            Position(-1, -1)
-        )
+        val offset = Position.Directions8
         val offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),

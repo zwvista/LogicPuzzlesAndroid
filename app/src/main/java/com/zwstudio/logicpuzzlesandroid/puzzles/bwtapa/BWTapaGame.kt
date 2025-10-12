@@ -7,16 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BWTapaGame(layout: List<String>, gi: GameInterface<BWTapaGame, BWTapaGameMove, BWTapaGameState>, gdi: GameDocumentInterface) : CellsGame<BWTapaGame, BWTapaGameMove, BWTapaGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(-1, 1),
-            Position(0, 1),
-            Position(1, 1),
-            Position(1, 0),
-            Position(1, -1),
-            Position(0, -1),
-            Position(-1, -1)
-        )
+        var offset = Position.Directions8
         var offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),

@@ -8,12 +8,7 @@ import java.util.*
 
 class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove, SnailGameState>, gdi: GameDocumentInterface) : CellsGame<SnailGame, SnailGameMove, SnailGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var objArray: CharArray

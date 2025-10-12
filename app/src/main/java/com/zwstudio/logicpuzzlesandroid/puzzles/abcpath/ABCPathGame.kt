@@ -7,16 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGameMove, ABCPathGameState>, gdi: GameDocumentInterface) : CellsGame<ABCPathGame, ABCPathGameMove, ABCPathGameState>(gi, gdi) {
     companion object {
-        val offset = arrayOf(
-            Position(-1, 0),
-            Position(-1, 1),
-            Position(0, 1),
-            Position(1, 1),
-            Position(1, 0),
-            Position(1, -1),
-            Position(0, -1),
-            Position(-1, -1)
-        )
+        val offset = Position.Directions8
     }
 
     override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1

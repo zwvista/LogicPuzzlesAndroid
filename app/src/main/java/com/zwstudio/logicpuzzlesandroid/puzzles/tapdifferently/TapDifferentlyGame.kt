@@ -7,16 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TapDifferentlyGame(layout: List<String>, gi: GameInterface<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState>, gdi: GameDocumentInterface) : CellsGame<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(-1, 1),
-            Position(0, 1),
-            Position(1, 1),
-            Position(1, 0),
-            Position(1, -1),
-            Position(0, -1),
-            Position(-1, -1)
-        )
+        var offset = Position.Directions8
         var offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),

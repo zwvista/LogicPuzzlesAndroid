@@ -7,16 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions8
     }
 
     var objArray: IntArray
     var pos2hint = mutableMapOf<Position, Int>()
+    var maxNum: Int
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -25,7 +21,8 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
 
     init {
         size = Position(layout.size, layout[0].length / 3)
-        objArray = IntArray(rows * cols)
+        maxNum = rows * cols
+        objArray = IntArray(maxNum)
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {

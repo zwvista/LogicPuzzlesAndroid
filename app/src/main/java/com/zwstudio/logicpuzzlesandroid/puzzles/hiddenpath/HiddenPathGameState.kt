@@ -1,10 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenpath
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import org.bson.BSON.toInt
+import kotlin.math.sign
 
 class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(game) {
     var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
+    var nextNum = 0
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -17,8 +20,8 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
 
     override fun setObject(move: HiddenPathGameMove): Boolean {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
-        this[p] = move.obj
+        if (!isValid(p) || this[p] != 0) return false
+        this[p] = nextNum
         updateIsSolved()
         return true
     }
@@ -38,57 +41,31 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
         3. The goal is to jump on every tile, only once and reach the last tile.
     */
     private fun updateIsSolved() {
-//        isSolved = true
-//        val g = Graph()
-//        val pos2node = mutableMapOf<Position, Node>()
-//        val pStart = Position(0, 0)
-//        val pEnd = Position(rows - 1, cols - 1)
-//        for (r in 0 until rows)
-//            for (c in 0 until cols) {
-//                val p = Position(r, c)
-//                val n = this[p].filter { it }.size
-//                if (p == pStart || p == pEnd) {
-//                    // 1. Connect the top left corner (1) to the bottom right corner (N).
-//                    if (n != 1) {
-//                        isSolved = false
-//                        return
-//                    }
-//                    val node = Node(p.toString())
-//                    g.addNode(node)
-//                    pos2node[p] = node
-//                    continue
-//                }
-//                when (n) {
-//                    0 -> {}
-//                    2 -> {
-//                        val node = Node(p.toString())
-//                        g.addNode(node)
-//                        pos2node[p] = node
-//                    }
-//                    else -> {
-//                        isSolved = false
-//                        return
-//                    }
-//                }
-//            }
-//        val nums = mutableSetOf<Int>()
-//        for (p in pos2node.keys) {
-//            val o = this[p]
-//            nums.add(game[p])
-//            for (i in 0 until 4) {
-//                if (!o[i]) continue
-//                val p2 = p + HiddenPathGame.offset[i]
-//                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
-//            }
-//        }
-//        // 1. Connect the top left corner (1) to the bottom right corner (N), including
-//        // all the numbers between 1 and N, only once.
-//        g.rootNode = pos2node.values.first()
-//        val nodeList = g.bfs()
-//        val n1 = game[pEnd]
-//        val n2 = nums.size
-//        val n3 = nodeList.size
-//        val n4 = pos2node.size
-//        if (n1 != n2 || n1 != n3 || n1 != n4) isSolved = false
+        isSolved = true
+        val num2pos = mutableMapOf<Int, Position>()
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val n = this[p]
+                if (n != 0)
+                    num2pos[n] = p
+            }
+        nextNum = 0
+        for ((n, p) in num2pos) {
+            if (n == game.maxNum) continue
+            if (!num2pos.contains(n + 1)) {
+                isSolved = false
+                if (nextNum == 0)
+                    nextNum = n + 1
+                pos2state[p] = HintState.Normal
+            } else {
+                val d = num2pos[n + 1]!! - p
+                val os = HiddenPathGame.offset[game.pos2hint[p]!!]
+                val b = d.row.sign == os.row && d.col.sign == os.col
+                pos2state[p] = if (b) HintState.Complete else HintState.Error
+                if (!b)
+                    isSolved = false
+            }
+        }
     }
 }

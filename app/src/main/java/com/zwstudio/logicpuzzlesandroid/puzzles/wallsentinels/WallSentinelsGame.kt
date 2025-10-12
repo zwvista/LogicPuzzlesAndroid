@@ -8,12 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>, gdi: GameDocumentInterface) : CellsGame<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>(gi, gdi) {
 
     companion object {
-        val offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),

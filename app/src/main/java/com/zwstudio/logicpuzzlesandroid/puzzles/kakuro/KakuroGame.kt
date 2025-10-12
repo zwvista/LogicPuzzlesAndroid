@@ -7,12 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameMove, KakuroGameState>, gdi: GameDocumentInterface) : CellsGame<KakuroGame, KakuroGameMove, KakuroGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var pos2horzHint = mutableMapOf<Position, Int>()

@@ -7,12 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, KakurasuGameMove, KakurasuGameState>, gdi: GameDocumentInterface) : CellsGame<KakurasuGame, KakurasuGameMove, KakurasuGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
-            Position(-1, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, -1)
-        )
+        var offset = Position.Directions4
     }
 
     var row2hint: IntArray
