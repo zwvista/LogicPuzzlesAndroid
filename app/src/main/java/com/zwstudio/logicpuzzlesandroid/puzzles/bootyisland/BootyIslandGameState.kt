@@ -1,6 +1,10 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(game) {
     var objArray = Array<BootyIslandObject>(rows * 2) { BootyIslandEmptyObject }

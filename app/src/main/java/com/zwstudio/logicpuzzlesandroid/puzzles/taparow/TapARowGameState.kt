@@ -1,8 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.taparow
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
-import java.util.*
 
 class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowGameMove, TapARowGameState>(game) {
     var objArray = Array<TapARowObject>(rows * cols) { TapARowEmptyObject }

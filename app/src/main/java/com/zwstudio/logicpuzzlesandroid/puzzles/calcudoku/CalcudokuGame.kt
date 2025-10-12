@@ -1,7 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>, gdi: GameDocumentInterface) : CellsGame<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(gi, gdi) {
     companion object {

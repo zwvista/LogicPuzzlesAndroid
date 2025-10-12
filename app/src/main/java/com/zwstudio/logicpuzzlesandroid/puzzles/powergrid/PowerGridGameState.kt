@@ -1,6 +1,10 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, PowerGridGameMove, PowerGridGameState>(game) {
     var objArray = Array<PowerGridObject>(rows * cols) { PowerGridEmptyObject }

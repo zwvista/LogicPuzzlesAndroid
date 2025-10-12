@@ -1,6 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lits
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, LitsGameState>(game) {
     var objArray = Array<LitsObject>(rows * cols) { LitsEmptyObject }

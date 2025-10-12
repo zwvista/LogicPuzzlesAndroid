@@ -1,7 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pata
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import java.util.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, PataGameState>(game) {
     var objArray = Array<PataObject>(rows * cols) { PataEmptyObject }

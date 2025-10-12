@@ -1,6 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>(game) {
     // https://stackoverflow.com/questions/46846025/how-to-clone-or-copy-a-list-in-kotlin

@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
+import java.util.Arrays
 
 class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove, SnailGameState>, gdi: GameDocumentInterface) : CellsGame<SnailGame, SnailGameMove, SnailGameState>(gi, gdi) {
     companion object {

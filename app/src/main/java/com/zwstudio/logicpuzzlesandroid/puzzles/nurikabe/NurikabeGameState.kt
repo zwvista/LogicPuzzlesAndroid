@@ -1,6 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
     var objArray = Array<NurikabeObject>(rows * cols) { NurikabeEmptyObject }

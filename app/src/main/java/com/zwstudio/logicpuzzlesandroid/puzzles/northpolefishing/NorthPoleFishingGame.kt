@@ -1,7 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NorthPoleFishingGame(layout: List<String>, gi: GameInterface<NorthPoleFishingGame, NorthPoleFishingGameMove, NorthPoleFishingGameState>, gdi: GameDocumentInterface) : CellsGame<NorthPoleFishingGame, NorthPoleFishingGameMove, NorthPoleFishingGameState>(gi, gdi) {
     companion object {

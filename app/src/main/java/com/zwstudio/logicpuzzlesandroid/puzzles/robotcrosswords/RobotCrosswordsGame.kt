@@ -4,7 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState>, gdi: GameDocumentInterface) : CellsGame<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState>(gi, gdi) {
     companion object {

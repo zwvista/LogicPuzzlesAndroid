@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenpath
 
-import android.R.attr.text
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,12 +8,9 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
-import com.zwstudio.logicpuzzlesandroid.puzzles.kropki.KropkiGameMove
-import kotlin.math.abs
 
 class HiddenPathGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as HiddenPathGameActivity

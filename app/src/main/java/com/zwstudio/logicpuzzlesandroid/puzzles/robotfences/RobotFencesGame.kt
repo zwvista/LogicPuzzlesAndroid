@@ -1,7 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.robotfences
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState>, gdi: GameDocumentInterface) : CellsGame<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState>(gi, gdi) {
     companion object {

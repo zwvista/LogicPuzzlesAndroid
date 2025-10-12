@@ -1,7 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>, gdi: GameDocumentInterface) : CellsGame<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>(gi, gdi) {
     companion object {

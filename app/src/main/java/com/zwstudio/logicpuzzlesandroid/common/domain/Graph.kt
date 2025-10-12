@@ -1,6 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.common.domain
 
-import java.util.*
+import java.util.Stack
 
 class Node(var label: String) {
     var visited = false

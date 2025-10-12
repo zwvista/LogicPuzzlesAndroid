@@ -10,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.BuildConfig.APPLICATION_ID
 import com.zwstudio.logicpuzzlesandroid.databinding.ActivityHomeMainBinding
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
 import org.koin.android.ext.android.inject
-import java.util.*
+import java.util.Locale
 
 class HomeMainActivity : AppCompatActivity() {
     private val doc: HomeDocument by inject()

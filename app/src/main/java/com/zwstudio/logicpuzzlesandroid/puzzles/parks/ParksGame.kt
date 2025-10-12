@@ -1,7 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.parks
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ParksGame(layout: List<String>, val treesInEachArea: Int, gi: GameInterface<ParksGame, ParksGameMove, ParksGameState>, gdi: GameDocumentInterface) : CellsGame<ParksGame, ParksGameMove, ParksGameState>(gi, gdi) {
     companion object {

@@ -1,7 +1,8 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenpath
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import org.bson.BSON.toInt
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import kotlin.math.sign
 
 class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(game) {

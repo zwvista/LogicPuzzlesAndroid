@@ -1,7 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino
 
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, TataminoGameMove, TataminoGameState>, gdi: GameDocumentInterface) : CellsGame<TataminoGame, TataminoGameMove, TataminoGameState>(gi, gdi) {
     companion object {

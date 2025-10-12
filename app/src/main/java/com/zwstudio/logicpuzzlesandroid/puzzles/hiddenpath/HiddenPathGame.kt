@@ -4,8 +4,6 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.castlebailey.CastleBaileyObject
-import java.nio.file.Files.size
 
 class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(gi, gdi) {
     companion object {

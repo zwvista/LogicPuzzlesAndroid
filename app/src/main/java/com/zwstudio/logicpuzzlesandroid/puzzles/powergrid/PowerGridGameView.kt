@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid
 
-import android.R.attr.text
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color

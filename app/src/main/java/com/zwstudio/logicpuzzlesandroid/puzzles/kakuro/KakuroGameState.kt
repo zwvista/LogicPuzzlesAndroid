@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.kakuro
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.*
 
 class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameMove, KakuroGameState>(game) {
     var pos2num = LinkedHashMap(game.pos2num)

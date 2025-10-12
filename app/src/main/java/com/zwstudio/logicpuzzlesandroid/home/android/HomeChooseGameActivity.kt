@@ -10,8 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.logicpuzzlesandroid.databinding.ActivityHomeChooseGameBinding
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
 import org.koin.android.ext.android.inject
-import org.koin.java.KoinJavaComponent.inject
-import java.util.*
+import java.util.Locale
 
 class HomeChooseGameActivity : AppCompatActivity() {
     val doc: HomeDocument by inject()

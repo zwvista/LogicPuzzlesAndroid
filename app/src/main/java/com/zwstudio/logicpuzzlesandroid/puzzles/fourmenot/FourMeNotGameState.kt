@@ -1,6 +1,12 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, FourMeNotGameMove, FourMeNotGameState>(game) {
     var objArray = game.objArray.copyOf()

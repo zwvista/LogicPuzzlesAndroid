@@ -1,6 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<CarpentersWallGame, CarpentersWallGameMove, CarpentersWallGameState>(game) {
     var objArray = game.objArray.copyOf()

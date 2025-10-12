@@ -1,7 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tapa
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import java.util.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, TapaGameState>(game) {
     var objArray = Array<TapaObject>(rows * cols) { TapaEmptyObject }
