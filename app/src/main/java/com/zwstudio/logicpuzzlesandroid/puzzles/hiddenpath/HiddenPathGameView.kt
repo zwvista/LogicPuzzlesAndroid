@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenpath
 
+import android.R.attr.text
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -50,9 +51,8 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
                 val dImage = if (hint == 8) dStar else dArrowList[hint]
                 dImage.setBounds(cwc2(c), chr2(r), cwc(c + 1), chr(r + 1))
                 dImage.draw(canvas)
-                val n = game.getObject(p)
+                val (n, state) = game.getObject(p)
                 if (n != 0) {
-                    val state = game.pos2State(p)
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

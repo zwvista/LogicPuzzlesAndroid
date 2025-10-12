@@ -11,8 +11,8 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: HiddenPathObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: HiddenPathObject) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
@@ -20,8 +20,8 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
 
     override fun setObject(move: HiddenPathGameMove): Boolean {
         val p = move.p
-        if (!isValid(p) || this[p] != 0) return false
-        this[p] = nextNum
+        if (!isValid(p) || this[p].obj != 0) return false
+        this[p].obj = nextNum
         updateIsSolved()
         return true
     }
@@ -46,7 +46,7 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val n = this[p]
+                val n = this[p].obj
                 if (n != 0)
                     num2pos[n] = p
             }
@@ -57,12 +57,12 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
                 isSolved = false
                 if (nextNum == 0)
                     nextNum = n + 1
-                pos2state[p] = HintState.Normal
+                this[p].state = HintState.Normal
             } else {
                 val d = num2pos[n + 1]!! - p
                 val os = HiddenPathGame.offset[game.pos2hint[p]!!]
                 val b = d.row.sign == os.row && d.col.sign == os.col
-                pos2state[p] = if (b) HintState.Complete else HintState.Error
+                this[p].state = if (b) HintState.Complete else HintState.Error
                 if (!b)
                     isSolved = false
             }
