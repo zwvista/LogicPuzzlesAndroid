@@ -21,6 +21,8 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
+    private val forbiddenPaint = Paint()
+    private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val dArrowList: List<Drawable>
     private val dStar: Drawable
@@ -28,6 +30,11 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
+        markerPaint.color = Color.WHITE
+        markerPaint.style = Paint.Style.STROKE
         textPaint.isAntiAlias = true
         dArrowList = getArrowDrawableList()
         dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
@@ -48,11 +55,15 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
                 dImage.setBounds(cwc2(c), chr2(r), cwc(c + 1), chr(r + 1))
                 dImage.draw(canvas)
                 val (n, state) = game.getObject(p)
-                if (n != 0) {
+                if (n != 0 && n != -1) {
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    if (game[p] != 0)
+                        canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
                 }
+                if (n == -1)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
             }
     }
 
