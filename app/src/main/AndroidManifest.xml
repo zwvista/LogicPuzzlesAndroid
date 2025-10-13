@@ -61,6 +61,18 @@
         <activity android:name=".puzzles.abstractpainting.AbstractPaintingOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.arrows.ArrowsMainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.arrows.ArrowsGameActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.arrows.ArrowsHelpActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.arrows.ArrowsOptionsActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.balancedtapas.BalancedTapasMainActivity"
                   android:screenOrientation="portrait">
         </activity>
