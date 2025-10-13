@@ -83,7 +83,7 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
         for ((p, value) in pos2hint)
             pos2hint[p] = Pair(value.first, pos2area[p]!!)
         val state = GardenerGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

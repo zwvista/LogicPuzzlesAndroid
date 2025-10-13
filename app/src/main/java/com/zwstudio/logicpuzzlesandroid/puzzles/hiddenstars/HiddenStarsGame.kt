@@ -36,7 +36,7 @@ class HiddenStarsGame(layout: List<String>, val onlyOneArrow: Boolean, gi: GameI
             }
         }
         val state = HiddenStarsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

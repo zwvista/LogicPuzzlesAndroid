@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snail
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -20,18 +21,18 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         updateIsSolved()
     }
 
-    override fun setObject(move: SnailGameMove): Boolean {
+    override fun setObject(move: SnailGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: SnailGameMove): Boolean {
+    override fun switchObject(move: SnailGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         val o = this[p]
         move.obj = when (o) {
             ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else '1'

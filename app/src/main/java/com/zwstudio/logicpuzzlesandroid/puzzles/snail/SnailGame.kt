@@ -55,7 +55,7 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         snailPathGrid = snailPath(rows)
         snailPathLine = snailPath(rows + 1)
         val state = SnailGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

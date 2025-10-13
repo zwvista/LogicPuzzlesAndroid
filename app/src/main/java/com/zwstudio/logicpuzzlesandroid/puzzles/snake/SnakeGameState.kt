@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.snake
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -23,18 +24,18 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
         updateIsSolved()
     }
 
-    override fun setObject(move: SnakeGameMove): Boolean {
+    override fun setObject(move: SnakeGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game.pos2snake.contains(p) || this[p] == move.obj) return false
+        if (!isValid(p) || game.pos2snake.contains(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: SnakeGameMove): Boolean {
+    override fun switchObject(move: SnakeGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p) || game.pos2snake.contains(p)) return false
+        if (!isValid(p) || game.pos2snake.contains(p)) return GameChangeType.None
         val o = this[p]
         move.obj = when (o) {
             SnakeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) SnakeObject.Marker else SnakeObject.Snake

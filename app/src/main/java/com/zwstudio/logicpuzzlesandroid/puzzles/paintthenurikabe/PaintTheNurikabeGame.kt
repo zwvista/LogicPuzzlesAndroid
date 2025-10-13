@@ -84,7 +84,7 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
             rng.removeAll(area)
         }
         val state = PaintTheNurikabeGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

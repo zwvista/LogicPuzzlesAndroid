@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abstractpainting
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -19,19 +20,19 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
     operator fun set(row: Int, col: Int, obj: AbstractPaintingObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: AbstractPaintingObject) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: AbstractPaintingGameMove): Boolean {
+    override fun setObject(move: AbstractPaintingGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
         // 3. The region of the painting can be entirely hidden or revealed.
         for (p2 in game.areas[game.pos2area[p]!!])
             this[p2] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: AbstractPaintingGameMove): Boolean {
+    override fun switchObject(move: AbstractPaintingGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[p]
         move.obj = when (o) {

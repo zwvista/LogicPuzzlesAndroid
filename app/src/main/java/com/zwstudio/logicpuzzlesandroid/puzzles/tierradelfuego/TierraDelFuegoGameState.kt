@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -22,15 +23,15 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         updateIsSolved()
     }
 
-    override fun setObject(move: TierraDelFuegoGameMove): Boolean {
-        if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return false
+    override fun setObject(move: TierraDelFuegoGameMove): GameChangeType {
+        if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: TierraDelFuegoGameMove): Boolean {
-        if (!isValid(move.p) || game.pos2hint[move.p] != null) return false
+    override fun switchObject(move: TierraDelFuegoGameMove): GameChangeType {
+        if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameChangeType.None
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

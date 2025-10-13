@@ -18,18 +18,18 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
     operator fun set(row: Int, col: Int, obj: BattleShipsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BattleShipsObject) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: BattleShipsGameMove): Boolean {
+    override fun setObject(move: BattleShipsGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game.pos2obj.containsKey(p) || this[p] == move.obj) return false
+        if (!isValid(p) || game.pos2obj.containsKey(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: BattleShipsGameMove): Boolean {
+    override fun switchObject(move: BattleShipsGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         val o = this[p]
         move.obj = when (o) {
             BattleShipsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.Marker else BattleShipsObject.BattleShipUnit

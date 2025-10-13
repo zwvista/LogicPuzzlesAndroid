@@ -49,7 +49,7 @@ class OverUnderGame(layout: List<String>, gi: GameInterface<OverUnderGame, OverU
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = OverUnderGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

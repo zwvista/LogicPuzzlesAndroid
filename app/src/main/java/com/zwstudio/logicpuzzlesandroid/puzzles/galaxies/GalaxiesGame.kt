@@ -71,7 +71,7 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = GalaxiesGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

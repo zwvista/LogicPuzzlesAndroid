@@ -50,7 +50,7 @@ class MaketheDifferenceGame(layout: List<String>, gi: GameInterface<MaketheDiffe
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = MaketheDifferenceGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

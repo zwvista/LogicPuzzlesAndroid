@@ -46,7 +46,7 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
             pos2range[p] = range
         }
         val state = HiddenPathGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

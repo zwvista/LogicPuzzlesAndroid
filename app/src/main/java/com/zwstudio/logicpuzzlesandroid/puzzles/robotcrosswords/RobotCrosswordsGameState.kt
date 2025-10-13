@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.robotcrosswords
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -18,17 +19,17 @@ class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<Robot
         updateIsSolved()
     }
 
-    override fun setObject(move: RobotCrosswordsGameMove): Boolean {
+    override fun setObject(move: RobotCrosswordsGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return false
+        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: RobotCrosswordsGameMove): Boolean {
+    override fun switchObject(move: RobotCrosswordsGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0) return false
+        if (!isValid(p) || game[p] != 0) return GameChangeType.None
         val o = this[p]
         move.obj = (o + 1) % 10
         return setObject(move)

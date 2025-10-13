@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abc
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -27,17 +28,17 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
         else -> HintState.Normal
     }
 
-    override fun setObject(move: AbcGameMove): Boolean {
+    override fun setObject(move: AbcGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: AbcGameMove): Boolean {
+    override fun switchObject(move: AbcGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         val o = this[p]
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         move.obj = when (o) {

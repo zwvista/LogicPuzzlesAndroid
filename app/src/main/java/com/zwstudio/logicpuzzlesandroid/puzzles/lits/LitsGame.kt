@@ -111,7 +111,7 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
             rng.removeAll(area)
         }
         val state = LitsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

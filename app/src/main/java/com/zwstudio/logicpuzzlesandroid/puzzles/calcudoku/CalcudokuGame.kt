@@ -95,7 +95,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
             dots[rows, c + 1, 3] = GridLineObject.Line
         }
         val state = CalcudokuGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

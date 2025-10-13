@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mosaik
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -20,14 +21,14 @@ class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameM
         updateIsSolved()
     }
 
-    override fun setObject(move: MosaikGameMove): Boolean {
-        if (this[move.p] == move.obj) return false
+    override fun setObject(move: MosaikGameMove): GameChangeType {
+        if (this[move.p] == move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: MosaikGameMove): Boolean {
+    override fun switchObject(move: MosaikGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

@@ -33,7 +33,7 @@ class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, S
             }
         }
         val state = SlitherLinkGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

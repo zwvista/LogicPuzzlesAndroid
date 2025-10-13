@@ -37,7 +37,7 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
             }
         }
         val state = TapaGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

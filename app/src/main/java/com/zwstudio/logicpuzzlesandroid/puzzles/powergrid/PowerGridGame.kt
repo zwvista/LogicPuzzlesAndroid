@@ -32,7 +32,7 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
             }
         }
         val state = PowerGridGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -46,7 +46,7 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
             }
         }
         val state = MathraxGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

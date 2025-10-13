@@ -43,7 +43,7 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
         }
 
         val state = BattleShipsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

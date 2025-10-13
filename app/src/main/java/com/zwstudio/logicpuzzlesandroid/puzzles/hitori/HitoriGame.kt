@@ -29,7 +29,7 @@ class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameM
             }
         }
         val state = HitoriGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

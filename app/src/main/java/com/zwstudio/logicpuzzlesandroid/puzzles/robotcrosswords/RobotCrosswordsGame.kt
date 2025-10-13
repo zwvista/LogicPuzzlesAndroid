@@ -59,7 +59,7 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             f(false)
         }
         val state = RobotCrosswordsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

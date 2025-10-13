@@ -32,7 +32,7 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
             }
         }
         val state = KakuroGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

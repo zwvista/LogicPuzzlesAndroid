@@ -24,7 +24,7 @@ class BranchesGame(layout: List<String>, gi: GameInterface<BranchesGame, Branche
             }
         }
         val state = BranchesGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

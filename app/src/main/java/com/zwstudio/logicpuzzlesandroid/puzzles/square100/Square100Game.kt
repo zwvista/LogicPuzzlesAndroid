@@ -27,7 +27,7 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
             }
         }
         val state = Square100GameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

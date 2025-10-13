@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.powergrid
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -20,14 +21,14 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
         updateIsSolved()
     }
 
-    override fun setObject(move: PowerGridGameMove): Boolean {
-        if (this[move.p] == move.obj) return false
+    override fun setObject(move: PowerGridGameMove): GameChangeType {
+        if (this[move.p] == move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: PowerGridGameMove): Boolean {
+    override fun switchObject(move: PowerGridGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

@@ -23,7 +23,7 @@ class ParkLakesGame(layout: List<String>, gi: GameInterface<ParkLakesGame, ParkL
             }
         }
         val state = ParkLakesGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

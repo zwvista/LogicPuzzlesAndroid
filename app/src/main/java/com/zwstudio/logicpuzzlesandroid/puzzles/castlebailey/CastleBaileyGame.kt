@@ -30,7 +30,7 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
             }
         }
         val state = CastleBaileyGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position): CastleBaileyObject = currentState[p]

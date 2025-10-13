@@ -17,14 +17,14 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
         updateIsSolved()
     }
 
-    override fun setObject(move: BusySeasGameMove): Boolean {
-        if (this[move.p] == move.obj) return false
+    override fun setObject(move: BusySeasGameMove): GameChangeType {
+        if (this[move.p] == move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: BusySeasGameMove): Boolean {
+    override fun switchObject(move: BusySeasGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

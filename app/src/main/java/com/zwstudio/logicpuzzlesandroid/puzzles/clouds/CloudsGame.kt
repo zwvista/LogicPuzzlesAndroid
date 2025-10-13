@@ -35,7 +35,7 @@ class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameM
             }
         }
         val state = CloudsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

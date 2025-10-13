@@ -49,7 +49,7 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
             dots[rows, c, 1] = GridLineObject.Line
         }
         val state = TataminoGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -76,7 +76,7 @@ class OrchardsGame(layout: List<String>, gi: GameInterface<OrchardsGame, Orchard
             rng.removeAll(area)
         }
         val state = OrchardsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

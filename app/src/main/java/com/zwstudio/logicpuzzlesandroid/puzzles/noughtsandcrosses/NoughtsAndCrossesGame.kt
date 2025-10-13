@@ -40,7 +40,7 @@ class NoughtsAndCrossesGame(layout: List<String>, var chMax: Char, gi: GameInter
             }
         }
         val state = NoughtsAndCrossesGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

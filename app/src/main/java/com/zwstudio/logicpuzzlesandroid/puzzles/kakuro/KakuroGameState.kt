@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kakuro
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -16,17 +17,17 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
         updateIsSolved()
     }
 
-    override fun setObject(move: KakuroGameMove): Boolean {
+    override fun setObject(move: KakuroGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == null || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == null || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: KakuroGameMove): Boolean {
+    override fun switchObject(move: KakuroGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == null) return false
+        if (!isValid(p) || this[p] == null) return GameChangeType.None
         val o = this[p]!!
         move.obj = (o + 1) % 10
         return setObject(move)

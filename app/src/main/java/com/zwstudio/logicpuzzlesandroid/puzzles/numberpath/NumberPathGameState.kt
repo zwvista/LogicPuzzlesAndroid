@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.numberpath
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
@@ -19,16 +20,16 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
         updateIsSolved()
     }
 
-    override fun setObject(move: NumberPathGameMove): Boolean {
+    override fun setObject(move: NumberPathGameMove): GameChangeType {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p = move.p
         val p2 = p + NumberPathGame.offset[dir]
-        if (!isValid(p2)) return false
+        if (!isValid(p2)) return GameChangeType.None
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
     /*

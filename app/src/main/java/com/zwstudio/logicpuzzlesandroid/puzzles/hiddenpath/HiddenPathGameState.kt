@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenpath
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -22,12 +23,12 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
         updateIsSolved()
     }
 
-    override fun setObject(move: HiddenPathGameMove): Boolean {
+    override fun setObject(move: HiddenPathGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p].obj != 0) return false
+        if (!isValid(p) || this[p].obj != 0) return GameChangeType.None
         this[p].obj = nextNum
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
     /*

@@ -32,7 +32,7 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
             }
         }
         val state = KakurasuGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

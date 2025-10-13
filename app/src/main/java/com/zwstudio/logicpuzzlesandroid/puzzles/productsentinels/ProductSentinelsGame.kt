@@ -25,7 +25,7 @@ class ProductSentinelsGame(layout: List<String>, gi: GameInterface<ProductSentin
             }
         }
         val state = ProductSentinelsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

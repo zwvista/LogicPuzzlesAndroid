@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.calcudoku
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -19,17 +20,17 @@ class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, Ca
         updateIsSolved()
     }
 
-    override fun setObject(move: CalcudokuGameMove): Boolean {
+    override fun setObject(move: CalcudokuGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: CalcudokuGameMove): Boolean {
+    override fun switchObject(move: CalcudokuGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         val o = get(p)
         move.obj = (o + 1) % (cols + 1)
         return setObject(move)

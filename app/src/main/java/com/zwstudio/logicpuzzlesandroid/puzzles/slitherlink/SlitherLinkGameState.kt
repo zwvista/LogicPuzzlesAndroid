@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.slitherlink
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -22,22 +23,22 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
         updateIsSolved()
     }
 
-    override fun setObject(move: SlitherLinkGameMove): Boolean {
-        if (!isValidMove(move)) return false
+    override fun setObject(move: SlitherLinkGameMove): GameChangeType {
+        if (!isValidMove(move)) return GameChangeType.None
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
         val p2 = p1 + SlitherLinkGame.offset[dir]
         val o = this[p1][dir]
-        if (o == move.obj) return false
+        if (o == move.obj) return GameChangeType.None
         this[p1][dir] = move.obj
         this[p2][dir2] = this[p1][dir]
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: SlitherLinkGameMove): Boolean {
-        if (!isValidMove(move)) return false
+    override fun switchObject(move: SlitherLinkGameMove): GameChangeType {
+        if (!isValidMove(move)) return GameChangeType.None
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

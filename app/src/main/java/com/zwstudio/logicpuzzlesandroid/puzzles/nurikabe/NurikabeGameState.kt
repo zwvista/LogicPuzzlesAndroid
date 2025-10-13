@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -20,17 +21,17 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             this[p] = NurikabeHintObject()
     }
 
-    override fun setObject(move: NurikabeGameMove): Boolean {
+    override fun setObject(move: NurikabeGameMove): GameChangeType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
-        if (objOld is NurikabeHintObject || objOld.toString() == objNew.toString()) return false
+        if (objOld is NurikabeHintObject || objOld.toString() == objNew.toString()) return GameChangeType.None
         this[p] = objNew
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: NurikabeGameMove): Boolean {
+    override fun switchObject(move: NurikabeGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

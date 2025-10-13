@@ -32,7 +32,7 @@ class NurikabeGame(layout: List<String>, gi: GameInterface<NurikabeGame, Nurikab
             }
         }
         val state = NurikabeGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

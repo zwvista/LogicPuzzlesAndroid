@@ -31,7 +31,7 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
             }
         }
         val state = FutoshikiGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

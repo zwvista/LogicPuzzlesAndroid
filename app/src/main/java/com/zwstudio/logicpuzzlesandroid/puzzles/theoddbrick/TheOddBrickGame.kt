@@ -86,7 +86,7 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
             rng.removeAll(area)
         }
         val state = TheOddBrickGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

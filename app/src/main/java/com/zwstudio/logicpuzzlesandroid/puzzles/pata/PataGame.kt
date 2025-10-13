@@ -37,7 +37,7 @@ class PataGame(layout: List<String>, gi: GameInterface<PataGame, PataGameMove, P
             }
         }
         val state = PataGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

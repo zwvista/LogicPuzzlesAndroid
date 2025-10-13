@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tents
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -22,17 +23,17 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
         updateIsSolved()
     }
 
-    override fun setObject(move: TentsGameMove): Boolean {
-        if (!isValid(move.p) || this[move.p] === move.obj) return false
+    override fun setObject(move: TentsGameMove): GameChangeType {
+        if (!isValid(move.p) || this[move.p] === move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: TentsGameMove): Boolean {
+    override fun switchObject(move: TentsGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         val o = this[p]
         move.obj = when (o) {
             is TentsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsMarkerObject else TentsTentObject()

@@ -26,7 +26,7 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
             }
         }
         val state = LightenUpGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

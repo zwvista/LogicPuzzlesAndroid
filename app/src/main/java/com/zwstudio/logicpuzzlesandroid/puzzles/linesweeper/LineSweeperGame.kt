@@ -27,7 +27,7 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
             }
         }
         val state = LineSweeperGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

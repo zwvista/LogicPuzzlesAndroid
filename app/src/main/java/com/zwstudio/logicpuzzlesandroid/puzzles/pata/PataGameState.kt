@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pata
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -21,17 +22,17 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
         updateIsSolved()
     }
 
-    override fun setObject(move: PataGameMove): Boolean {
+    override fun setObject(move: PataGameMove): GameChangeType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
-        if (objOld is PataHintObject || objOld == objNew) return false
+        if (objOld is PataHintObject || objOld == objNew) return GameChangeType.None
         this[p] = objNew
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: PataGameMove): Boolean {
+    override fun switchObject(move: PataGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

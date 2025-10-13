@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -24,17 +25,17 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
         updateIsSolved()
     }
 
-    override fun setObject(move: TataminoGameMove): Boolean {
+    override fun setObject(move: TataminoGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: TataminoGameMove): Boolean {
+    override fun switchObject(move: TataminoGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return false
+        if (!isValid(p) || game[p] != ' ') return GameChangeType.None
         val o = this[p]
         move.obj = if (o == ' ') '1' else if (o == '3') ' ' else o + 1
         return setObject(move)

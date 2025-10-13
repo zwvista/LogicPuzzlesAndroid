@@ -46,7 +46,7 @@ class HidokuGame(layout: List<String>, gi: GameInterface<HidokuGame, HidokuGameM
             pos2range[p] = range
         }
         val state = HidokuGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

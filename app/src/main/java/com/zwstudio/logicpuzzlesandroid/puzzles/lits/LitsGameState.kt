@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lits
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -28,14 +29,14 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         var tetrominoIndex = -1
     }
 
-    override fun setObject(move: LitsGameMove): Boolean {
-        if (!isValid(move.p) || this[move.p] == move.obj) return false
+    override fun setObject(move: LitsGameMove): GameChangeType {
+        if (!isValid(move.p) || this[move.p] == move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: LitsGameMove): Boolean {
+    override fun switchObject(move: LitsGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

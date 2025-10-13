@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kakurasu
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -19,17 +20,17 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
         updateIsSolved()
     }
 
-    override fun setObject(move: KakurasuGameMove): Boolean {
+    override fun setObject(move: KakurasuGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: KakurasuGameMove): Boolean {
+    override fun switchObject(move: KakurasuGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
-        if (!isValid(move.p)) return false
+        if (!isValid(move.p)) return GameChangeType.None
         val o = this[move.p]
         move.obj = when (o) {
             KakurasuObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) KakurasuObject.Marker else KakurasuObject.Cloud

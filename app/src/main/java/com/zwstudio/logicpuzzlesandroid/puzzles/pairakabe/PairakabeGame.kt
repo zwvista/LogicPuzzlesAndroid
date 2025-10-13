@@ -32,7 +32,7 @@ class PairakabeGame(layout: List<String>, gi: GameInterface<PairakabeGame, Paira
             }
         }
         val state = PairakabeGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.carpenterswall
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -19,20 +20,20 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         updateIsSolved()
     }
 
-    override fun setObject(move: CarpentersWallGameMove): Boolean {
+    override fun setObject(move: CarpentersWallGameMove): GameChangeType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
-        if (objOld.isHint || objOld == objNew) return false
+        if (objOld.isHint || objOld == objNew) return GameChangeType.None
         this[p] = objNew
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: CarpentersWallGameMove): Boolean {
+    override fun switchObject(move: CarpentersWallGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
-        if (o.isHint) return false
+        if (o.isHint) return GameChangeType.None
         move.obj = when (o) {
             is CarpentersWallEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallMarkerObject() else CarpentersWallWallObject()
             is CarpentersWallWallObject -> if (markerOption == MarkerOptions.MarkerLast) CarpentersWallMarkerObject() else CarpentersWallEmptyObject()

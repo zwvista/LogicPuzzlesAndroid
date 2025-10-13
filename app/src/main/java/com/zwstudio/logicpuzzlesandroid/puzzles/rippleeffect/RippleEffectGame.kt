@@ -87,7 +87,7 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
             rng.removeAll(area)
         }
         val state = RippleEffectGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

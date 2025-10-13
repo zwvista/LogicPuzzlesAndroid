@@ -106,7 +106,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         binding.btnSaveSolution.isEnabled = game.isSolved
     }
 
-    override fun levelInitilized(game: G, state: GS) {
+    override fun levelInitialized(game: G, state: GS) {
         gameView.invalidate()
         updateMovesUI(game)
     }
@@ -131,4 +131,6 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         binding.btnLoadSolution.isEnabled = hasSolution
         binding.btnDeleteSolution.isEnabled = hasSolution
     }
+
+    override fun stateChanged(game: G, stateFrom: GS?, stateTo: GS) {}
 }

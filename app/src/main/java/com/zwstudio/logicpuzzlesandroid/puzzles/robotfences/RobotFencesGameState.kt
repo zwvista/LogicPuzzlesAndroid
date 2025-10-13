@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.robotfences
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -19,17 +20,17 @@ class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGa
         updateIsSolved()
     }
 
-    override fun setObject(move: RobotFencesGameMove): Boolean {
+    override fun setObject(move: RobotFencesGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return false
+        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: RobotFencesGameMove): Boolean {
+    override fun switchObject(move: RobotFencesGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0) return false
+        if (!isValid(p) || game[p] != 0) return GameChangeType.None
         val o = this[p]
         move.obj = (o + 1) % (cols + 1)
         return setObject(move)

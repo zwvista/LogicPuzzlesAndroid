@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.theoddbrick
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -19,17 +20,17 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
         updateIsSolved()
     }
 
-    override fun setObject(move: TheOddBrickGameMove): Boolean {
+    override fun setObject(move: TheOddBrickGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return false
+        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: TheOddBrickGameMove): Boolean {
+    override fun switchObject(move: TheOddBrickGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0) return false
+        if (!isValid(p) || game[p] != 0) return GameChangeType.None
         val o = this[p]
         move.obj = (o + 1) % (cols + 1)
         return setObject(move)

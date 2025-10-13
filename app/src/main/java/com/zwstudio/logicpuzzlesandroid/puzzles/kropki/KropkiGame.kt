@@ -90,7 +90,7 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
             }
         }
         val state = KropkiGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

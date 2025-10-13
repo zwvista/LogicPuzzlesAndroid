@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mathrax
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -19,16 +20,16 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
     operator fun set(row: Int, col: Int, dotObj: Int) {objArray[row * cols + col] = dotObj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: MathraxGameMove): Boolean {
-        if (!isValid(move.p) || game[move.p] != 0 || this[move.p] == move.obj) return false
+    override fun setObject(move: MathraxGameMove): GameChangeType {
+        if (!isValid(move.p) || game[move.p] != 0 || this[move.p] == move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: MathraxGameMove): Boolean {
+    override fun switchObject(move: MathraxGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0) return false
+        if (!isValid(p) || game[p] != 0) return GameChangeType.None
         val o = this[p]
         move.obj = (o + 1) % (cols + 1)
         return setObject(move)

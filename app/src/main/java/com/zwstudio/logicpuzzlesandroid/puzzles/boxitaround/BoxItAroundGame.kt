@@ -50,7 +50,7 @@ class BoxItAroundGame(layout: List<String>, gi: GameInterface<BoxItAroundGame, B
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = BoxItAroundGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

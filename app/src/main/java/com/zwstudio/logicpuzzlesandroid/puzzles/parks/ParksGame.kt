@@ -76,7 +76,7 @@ class ParksGame(layout: List<String>, val treesInEachArea: Int, gi: GameInterfac
             rng.removeAll(area)
         }
         val state = ParksGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

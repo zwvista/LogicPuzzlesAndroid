@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bootyisland
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -21,18 +22,18 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
     operator fun set(row: Int, col: Int, obj: BootyIslandObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: BootyIslandObject) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: BootyIslandGameMove): Boolean {
+    override fun setObject(move: BootyIslandGameMove): GameChangeType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
         if (objOld is BootyIslandHintObject || objOld == objNew)
-            return false
+            return GameChangeType.None
         this[p] = objNew
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: BootyIslandGameMove): Boolean {
+    override fun switchObject(move: BootyIslandGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

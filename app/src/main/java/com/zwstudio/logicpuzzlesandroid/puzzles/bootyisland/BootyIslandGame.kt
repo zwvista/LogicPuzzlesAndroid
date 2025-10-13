@@ -24,7 +24,7 @@ class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, B
             }
         }
         val state = BootyIslandGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position): BootyIslandObject = currentState[p]

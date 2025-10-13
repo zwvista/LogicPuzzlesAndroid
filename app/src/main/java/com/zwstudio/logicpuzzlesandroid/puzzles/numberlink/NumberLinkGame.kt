@@ -29,7 +29,7 @@ class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, Num
             }
         }
         val state = NumberLinkGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -23,7 +23,7 @@ class HolidayIslandGame(layout: List<String>, gi: GameInterface<HolidayIslandGam
             }
         }
         val state = HolidayIslandGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

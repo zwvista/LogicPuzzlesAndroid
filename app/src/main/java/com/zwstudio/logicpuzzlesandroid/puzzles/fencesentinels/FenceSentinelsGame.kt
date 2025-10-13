@@ -33,7 +33,7 @@ class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsG
             }
         }
         val state = FenceSentinelsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

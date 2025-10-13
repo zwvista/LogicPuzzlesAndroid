@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tennergrid
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -17,17 +18,17 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
         updateIsSolved()
     }
 
-    override fun setObject(move: TennerGridGameMove): Boolean {
+    override fun setObject(move: TennerGridGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] >= 0 || this[p] == move.obj) return false
+        if (!isValid(p) || game[p] >= 0 || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: TennerGridGameMove): Boolean {
+    override fun switchObject(move: TennerGridGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] >= 0) return false
+        if (!isValid(p) || game[p] >= 0) return GameChangeType.None
         val o = this[p]
         move.obj = if (o == 9) -1 else o + 1
         return setObject(move)

@@ -41,7 +41,7 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
             }
         }
         val state = CarpentersWallGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.neighbours
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -22,21 +23,21 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
         updateIsSolved()
     }
 
-    override fun setObject(move: NeighboursGameMove): Boolean {
+    override fun setObject(move: NeighboursGameMove): GameChangeType {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
         val p2 = p1 + NeighboursGame.offset[dir]
-        if (game[p1][dir] != GridLineObject.Empty) return false
+        if (game[p1][dir] != GridLineObject.Empty) return GameChangeType.None
         val o = this[p1][dir]
-        if (o == move.obj) return false
+        if (o == move.obj) return GameChangeType.None
         this[p1][dir] = move.obj
         this[p2][dir2] = this[p1][dir]
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: NeighboursGameMove): Boolean {
+    override fun switchObject(move: NeighboursGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

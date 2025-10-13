@@ -43,7 +43,7 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
             }
         }
         val state = WallSentinelsGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

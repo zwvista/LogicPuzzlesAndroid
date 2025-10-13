@@ -16,17 +16,17 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         updateIsSolved()
     }
 
-    override fun setObject(move: BWTapaGameMove): Boolean {
+    override fun setObject(move: BWTapaGameMove): GameChangeType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
-        if (objOld is BWTapaHintObject || objOld == objNew) return false
+        if (objOld is BWTapaHintObject || objOld == objNew) return GameChangeType.None
         this[p] = objNew
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: BWTapaGameMove): Boolean {
+    override fun switchObject(move: BWTapaGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p];
         move.obj = when (o) {

@@ -49,7 +49,7 @@ class DominoGame(layout: List<String>, gi: GameInterface<DominoGame, DominoGameM
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = DominoGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

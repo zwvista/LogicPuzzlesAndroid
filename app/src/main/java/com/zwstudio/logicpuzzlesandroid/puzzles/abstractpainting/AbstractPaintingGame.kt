@@ -88,7 +88,7 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
             col2hint[c] = if (ch in '0'..'9') ch - '0' else -1
         }
         val state = AbstractPaintingGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

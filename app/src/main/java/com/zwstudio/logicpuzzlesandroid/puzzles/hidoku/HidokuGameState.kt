@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hidoku
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -22,12 +23,12 @@ class HidokuGameState(game: HidokuGame) : CellsGameState<HidokuGame, HidokuGameM
         updateIsSolved()
     }
 
-    override fun setObject(move: HidokuGameMove): Boolean {
+    override fun setObject(move: HidokuGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p].obj != 0) return false
+        if (!isValid(p) || this[p].obj != 0) return GameChangeType.None
         this[p].obj = nextNum
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
     /*

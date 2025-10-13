@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hitori
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
@@ -20,15 +21,15 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
     operator fun set(row: Int, col: Int, obj: HitoriObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: HitoriObject) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: HitoriGameMove): Boolean {
+    override fun setObject(move: HitoriGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return false
+        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: HitoriGameMove): Boolean {
+    override fun switchObject(move: HitoriGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         fun f(obj: HitoriObject) =
             when (obj) {
@@ -43,7 +44,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
                     else HitoriObject.Normal
             }
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         move.obj = f(this[p])
         return setObject(move)
     }

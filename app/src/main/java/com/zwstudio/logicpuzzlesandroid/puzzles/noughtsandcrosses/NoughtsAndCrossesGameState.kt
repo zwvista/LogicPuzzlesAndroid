@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.noughtsandcrosses
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -20,18 +21,18 @@ class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<N
         updateIsSolved()
     }
 
-    override fun setObject(move: NoughtsAndCrossesGameMove): Boolean {
+    override fun setObject(move: NoughtsAndCrossesGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return false
+        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: NoughtsAndCrossesGameMove): Boolean {
+    override fun switchObject(move: NoughtsAndCrossesGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return false
+        if (!isValid(p) || game[p] != ' ') return GameChangeType.None
         val o = this[p]
         move.obj = when (o) {
             ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else '1'

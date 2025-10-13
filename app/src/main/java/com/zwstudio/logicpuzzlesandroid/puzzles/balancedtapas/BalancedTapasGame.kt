@@ -41,7 +41,7 @@ class BalancedTapasGame(layout: List<String>, leftPart: String, gi: GameInterfac
             }
         }
         val state = BalancedTapasGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

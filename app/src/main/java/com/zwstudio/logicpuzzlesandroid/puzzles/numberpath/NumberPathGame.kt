@@ -29,7 +29,7 @@ class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, Num
             }
         }
         val state = NumberPathGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

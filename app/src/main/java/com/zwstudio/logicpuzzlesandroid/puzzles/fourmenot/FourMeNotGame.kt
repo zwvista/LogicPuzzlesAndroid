@@ -29,7 +29,7 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
                 }
         }
         val state = FourMeNotGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -70,7 +70,7 @@ class NorthPoleFishingGame(layout: List<String>, gi: GameInterface<NorthPoleFish
             dots[rows - 1, c + 1, 3] = GridLineObject.Line
         }
         val state = NorthPoleFishingGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position, dir: Int): GridLineObject = currentState[p, dir]

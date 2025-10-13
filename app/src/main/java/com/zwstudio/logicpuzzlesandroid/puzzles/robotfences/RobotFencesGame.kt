@@ -86,7 +86,7 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
             rng.removeAll(area)
         }
         val state = RobotFencesGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -17,18 +17,18 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         updateIsSolved()
     }
 
-    override fun setObject(move: MineShipsGameMove): Boolean {
+    override fun setObject(move: MineShipsGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || game.pos2hint.containsKey(p) || this[p] === move.obj) return false
+        if (!isValid(p) || game.pos2hint.containsKey(p) || this[p] === move.obj) return GameChangeType.None
         this[p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: MineShipsGameMove): Boolean {
+    override fun switchObject(move: MineShipsGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return false
+        if (!isValid(p)) return GameChangeType.None
         val o = this[p]
         move.obj = when (o) {
             is MineShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MineShipsMarkerObject else MineShipsBattleShipUnitObject

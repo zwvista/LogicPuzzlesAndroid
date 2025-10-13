@@ -31,7 +31,7 @@ class SumscrapersGame(layout: List<String>, gi: GameInterface<SumscrapersGame, S
             }
         }
         val state = SumscrapersGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

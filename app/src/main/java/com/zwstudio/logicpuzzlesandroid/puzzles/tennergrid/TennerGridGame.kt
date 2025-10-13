@@ -32,7 +32,7 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
             }
         }
         val state = TennerGridGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

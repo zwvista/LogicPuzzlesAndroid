@@ -36,7 +36,7 @@ class MosaikGame(layout: List<String>, gi: GameInterface<MosaikGame, MosaikGameM
             }
         }
         val state = MosaikGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

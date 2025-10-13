@@ -50,7 +50,7 @@ class FenceItUpGame(layout: List<String>, gi: GameInterface<FenceItUpGame, Fence
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = FenceItUpGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -54,7 +54,7 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = NeighboursGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

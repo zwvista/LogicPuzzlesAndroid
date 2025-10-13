@@ -26,7 +26,7 @@ class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, M
             }
         }
         val state = MinesweeperGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

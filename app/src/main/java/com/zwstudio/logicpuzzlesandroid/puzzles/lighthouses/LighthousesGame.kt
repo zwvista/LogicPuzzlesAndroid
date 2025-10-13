@@ -26,7 +26,7 @@ class LighthousesGame(layout: List<String>, gi: GameInterface<LighthousesGame, L
             }
         }
         val state = LighthousesGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

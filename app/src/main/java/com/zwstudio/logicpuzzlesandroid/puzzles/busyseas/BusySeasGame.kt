@@ -24,7 +24,7 @@ class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame, BusySea
             }
         }
         val state = BusySeasGameState(this)
-        levelInitilized(state)
+        levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]

@@ -2,6 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.gardener
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -23,14 +24,14 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
         updateIsSolved()
     }
 
-    override fun setObject(move: GardenerGameMove): Boolean {
-        if (!isValid(move.p) || this[move.p] == move.obj) return false
+    override fun setObject(move: GardenerGameMove): GameChangeType {
+        if (!isValid(move.p) || this[move.p] == move.obj) return GameChangeType.None
         this[move.p] = move.obj
         updateIsSolved()
-        return true
+        return GameChangeType.Level
     }
 
-    override fun switchObject(move: GardenerGameMove): Boolean {
+    override fun switchObject(move: GardenerGameMove): GameChangeType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
