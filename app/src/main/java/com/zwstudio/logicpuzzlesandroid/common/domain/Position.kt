@@ -1,6 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.common.domain
 
-class Position @JvmOverloads constructor(var row: Int = 0, var col: Int = 0) : Comparable<Any?> {
+data class Position @JvmOverloads constructor(var row: Int = 0, var col: Int = 0) : Comparable<Any?> {
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
         if (other is Position) {

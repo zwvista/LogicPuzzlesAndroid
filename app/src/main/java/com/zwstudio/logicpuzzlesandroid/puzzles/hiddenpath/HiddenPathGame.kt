@@ -51,4 +51,5 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun selectedPos() = currentState.selectedPos
 }

@@ -132,5 +132,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
         binding.btnDeleteSolution.isEnabled = hasSolution
     }
 
-    override fun stateChanged(game: G, stateFrom: GS?, stateTo: GS) {}
+    override fun stateChanged(game: G, stateFrom: GS?, stateTo: GS) {
+        gameView.invalidate()
+    }
 }

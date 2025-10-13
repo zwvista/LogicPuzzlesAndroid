@@ -4,12 +4,14 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import java.util.TreeMap
 
 class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(game) {
     var objArray: Array<HiddenPathObject>
-    var pos2state = mutableMapOf<Position, HintState>()
-    var currentPos = Position()
     var nextNum = 0
+    val num2pos = TreeMap<Int, Position>()
+    var selectedPos = Position()
+    var hintPos = Position()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -21,14 +23,25 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
         for (i in 0 until game.maxNum)
             objArray[i].obj = game.objArray[i]
         updateIsSolved()
+        updateState(num2pos[1]!!)
     }
 
     override fun setObject(move: HiddenPathGameMove): GameChangeType {
         val p = move.p
-        if (!isValid(p) || this[p].obj != 0) return GameChangeType.None
-        this[p].obj = nextNum
-        updateIsSolved()
-        return GameChangeType.Level
+        if (!isValid(p)) return GameChangeType.None
+        when (this[p].obj) {
+            0 -> {
+                this[p].obj = nextNum
+                updateIsSolved()
+                updateState(p)
+                return GameChangeType.Level
+            }
+            -1, game.maxNum -> return GameChangeType.None
+            else -> {
+                updateState(p)
+                return GameChangeType.InternalState
+            }
+        }
     }
 
     /*
@@ -48,7 +61,8 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val num2pos = mutableMapOf<Int, Position>()
+        num2pos.clear()
+        var currentPos = Position()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -87,5 +101,11 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
                 if (!b) // forbidden
                     this[p].obj = -1
             }
+    }
+
+    private fun updateState(p: Position) {
+        selectedPos = p
+        val n = this[p].obj
+        hintPos = num2pos.firstNotNullOf { (k, v) -> if (k > n) v else null }
     }
 }
