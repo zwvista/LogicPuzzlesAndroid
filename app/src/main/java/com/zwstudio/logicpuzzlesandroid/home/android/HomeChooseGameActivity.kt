@@ -32,8 +32,8 @@ class HomeChooseGameActivity : AppCompatActivity() {
         binding.lvGames.adapter = adapter
         val gameName = doc.gameProgress().gameName
         binding.lvGames.choiceMode = ListView.CHOICE_MODE_SINGLE
-        val selectedPosition = lstGameNames.indexOf(gameName)
-        binding.lvGames.setItemChecked(selectedPosition, true)
+        val focusPosition = lstGameNames.indexOf(gameName)
+        binding.lvGames.setItemChecked(focusPosition, true)
 
         // https://stackoverflow.com/questions/7733813/how-can-you-tell-when-a-layout-has-been-drawn/7735122#7735122
         binding.lvGames.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
@@ -42,10 +42,10 @@ class HomeChooseGameActivity : AppCompatActivity() {
                 // https://stackoverflow.com/questions/5540223/center-a-listview-on-its-current-selection
                 val h1 = binding.lvGames.height
                 // https://stackoverflow.com/questions/3361423/android-get-listview-item-height
-                val childView = adapter.getView(selectedPosition, null, binding.lvGames)
+                val childView = adapter.getView(focusPosition, null, binding.lvGames)
                 childView.measure(UNBOUNDED, UNBOUNDED)
                 val h2 = childView.measuredHeight
-                binding.lvGames.smoothScrollToPositionFromTop(selectedPosition, h1 / 2 - h2 / 2)
+                binding.lvGames.smoothScrollToPositionFromTop(focusPosition, h1 / 2 - h2 / 2)
             }
         })
         binding.lvGames.setOnItemClickListener { _, _, position, _ ->

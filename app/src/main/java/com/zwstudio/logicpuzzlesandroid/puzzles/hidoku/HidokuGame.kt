@@ -11,7 +11,6 @@ class HidokuGame(layout: List<String>, gi: GameInterface<HidokuGame, HidokuGameM
     }
 
     var objArray: IntArray
-    var pos2hint = mutableMapOf<Position, Int>()
     var pos2range = mutableMapOf<Position, List<Position>>()
     var maxNum: Int
 
@@ -28,27 +27,29 @@ class HidokuGame(layout: List<String>, gi: GameInterface<HidokuGame, HidokuGameM
             val str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val s = str.substring(c * 3, c * 3 + 2)
-                this[p] = if (s == "  ") 0 else s.trim(' ').toInt()
-                pos2hint[p] = str[c * 3 + 2] - '0'
+                val s = str.substring(c * 3, c * 3 + 3)
+                this[p] = if (s == "   ") 0 else s.trim(' ').toInt()
             }
         }
-        for ((p, hint) in pos2hint) {
-            val range = mutableListOf<Position>()
-            if (hint != 8) {
-                val os = offset[hint]
-                var p2 = p + os
-                while (isValid(p2)) {
-                    range.add(p2)
-                    p2 += os
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val range = mutableListOf<Position>()
+                for (i in 0 until 8) {
+                    val os = offset[i]
+                    var p2 = p + os
+                    while (isValid(p2)) {
+                        range.add(p2)
+                        p2 += os
+                    }
                 }
+                pos2range[p] = range
             }
-            pos2range[p] = range
-        }
         val state = HidokuGameState(this)
         levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun focusPos() = currentState.focusPos!!
 }

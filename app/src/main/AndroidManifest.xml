@@ -397,6 +397,18 @@
         <activity android:name=".puzzles.hiddenstars.HiddenStarsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.hidoku.HidokuMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hidoku.HidokuGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hidoku.HidokuHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hidoku.HidokuOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hitori.HitoriMainActivity"
                   android:screenOrientation="portrait">
         </activity>

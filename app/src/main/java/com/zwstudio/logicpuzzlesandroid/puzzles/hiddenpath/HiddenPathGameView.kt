@@ -31,8 +31,9 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        focusPaint.color = Color.YELLOW
+        focusPaint.color = Color.rgb(232, 168, 108)
         focusPaint.style = Paint.Style.STROKE
+        focusPaint.strokeWidth = 8f
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
@@ -67,7 +68,7 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
                 if (n == -1)
                     canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
             }
-        val (r, c) = game.selectedPos()
+        val (r, c) = game.focusPos()
         canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), focusPaint)
     }
 

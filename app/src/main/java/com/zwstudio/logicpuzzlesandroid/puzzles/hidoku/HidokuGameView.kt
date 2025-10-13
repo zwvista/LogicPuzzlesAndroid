@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -21,23 +20,23 @@ class HidokuGameView(context: Context, val soundManager: SoundManager) : CellsGa
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
+    private val focusPaint = Paint()
     private val forbiddenPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
-    private val dArrowList: List<Drawable>
-    private val dStar: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
+        focusPaint.color = Color.rgb(232, 168, 108)
+        focusPaint.style = Paint.Style.STROKE
+        focusPaint.strokeWidth = 8f
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.STROKE
         textPaint.isAntiAlias = true
-        dArrowList = getArrowDrawableList()
-        dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -50,10 +49,6 @@ class HidokuGameView(context: Context, val soundManager: SoundManager) : CellsGa
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val hint = game.pos2hint[p]!!
-                val dImage = if (hint == 8) dStar else dArrowList[hint]
-                dImage.setBounds(cwc2(c), chr2(r), cwc(c + 1), chr(r + 1))
-                dImage.draw(canvas)
                 val (n, state) = game.getObject(p)
                 if (n != 0 && n != -1) {
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
@@ -65,6 +60,8 @@ class HidokuGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 if (n == -1)
                     canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
             }
+        val (r, c) = game.focusPos()
+        canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), focusPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

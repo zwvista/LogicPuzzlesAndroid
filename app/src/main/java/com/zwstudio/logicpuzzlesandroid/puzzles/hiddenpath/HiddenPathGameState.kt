@@ -7,11 +7,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.TreeMap
 
 class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(game) {
-    var objArray: Array<HiddenPathObject>
+    var objArray = Array (game.maxNum) { HiddenPathObject() }
     var nextNum = 0
     val num2pos = TreeMap<Int, Position>()
-    var selectedPos = Position()
-    var hintPos = Position()
+    var focusPos: Position? = null
+    var hintPos: Position? = null
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,11 +19,10 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
     operator fun set(p: Position, obj: HiddenPathObject) {this[p.row, p.col] = obj}
 
     init {
-        objArray = Array (game.maxNum) { HiddenPathObject() }
         for (i in 0 until game.maxNum)
             objArray[i].obj = game.objArray[i]
         updateIsSolved()
-        updateState(num2pos[1]!!)
+        updateState()
     }
 
     override fun setObject(move: HiddenPathGameMove): GameChangeType {
@@ -32,13 +31,15 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
         when (this[p].obj) {
             0 -> {
                 this[p].obj = nextNum
+                focusPos = p
                 updateIsSolved()
-                updateState(p)
+                updateState()
                 return GameChangeType.Level
             }
-            -1, game.maxNum -> return GameChangeType.None
+            -1 -> return GameChangeType.None
             else -> {
-                updateState(p)
+                focusPos = p
+                updateState()
                 return GameChangeType.InternalState
             }
         }
@@ -69,10 +70,12 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
                 val n = this[p].obj
                 if (n == -1) // forbidden
                     this[p].obj = 0
-                if (n != 0)
+                if (n != 0 && n != -1)
                     num2pos[n] = p
             }
         nextNum = 0
+        if (focusPos == null)
+            focusPos = num2pos[1]!!
         for ((n, p) in num2pos) {
             if (n == game.maxNum) continue
             if (!num2pos.contains(n + 1)) {
@@ -103,9 +106,8 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
             }
     }
 
-    private fun updateState(p: Position) {
-        selectedPos = p
-        val n = this[p].obj
+    private fun updateState() {
+        val n = this[focusPos!!].obj
         hintPos = num2pos.firstNotNullOf { (k, v) -> if (k > n) v else null }
     }
 }
