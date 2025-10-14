@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -20,34 +21,37 @@ class ArrowsGameView(context: Context, val soundManager: SoundManager) : CellsGa
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val markerPaint = Paint()
     private val textPaint = TextPaint()
+    private val dArrowList: List<Drawable>
 
     init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
+        dArrowList = getArrowDrawableList()
     }
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1)
-                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+        for (r in 0 until rows)
+            for (c in 0 until cols)
+                if (!((r == 0 || r == rows - 1) && (c == 0 || c == cols - 1)))
+                    canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                val ch = game.getObject(r, c)
-                if (ch == ' ') continue
-                if (ch == '.')
-                    canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
-                else {
-                    val s = game.getState(r, c)
-                    textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
-                    val text = ch.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                val p = Position(r, c)
+                val n = game.getObject(p)
+                if (n == ArrowsGame.PUZ_UNKNOWN) continue
+                if ((r in 1 until rows - 1) != (c in 1 until cols - 1)) {
+                    val dArrow = dArrowList[n]
+                    dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dArrow.draw(canvas)
+                } else {
+                    val text = n.toString()
+                    val s = game.getPosState(p)
+                    textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                    drawTextCentered(text, cwc(c), chr(r), cellWidth, cellHeight, canvas, textPaint)
                 }
             }
     }
