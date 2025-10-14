@@ -58,14 +58,14 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
                 dImage.setBounds(cwc2(c), chr2(r), cwc(c + 1), chr(r + 1))
                 dImage.draw(canvas)
                 val (n, state) = game.getObject(p)
-                if (n != 0 && n != -1) {
+                if (n != HiddenPathGame.PUZ_UNKNOWN && n != HiddenPathGame.PUZ_FORBIDDEN) {
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                    if (game[p] != 0)
+                    if (game[p] != HiddenPathGame.PUZ_UNKNOWN)
                         canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
                 }
-                if (n == -1)
+                if (n == HiddenPathGame.PUZ_FORBIDDEN)
                     canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
             }
         val (r, c) = game.focusPos()

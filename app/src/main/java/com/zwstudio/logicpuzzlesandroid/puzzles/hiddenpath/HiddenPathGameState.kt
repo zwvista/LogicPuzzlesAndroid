@@ -4,6 +4,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.hidoku.HidokuGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.hidoku.HidokuGameMove
 import java.util.TreeMap
 
 class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(game) {
@@ -27,16 +29,23 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
 
     override fun setObject(move: HiddenPathGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p].obj != HiddenPathGame.PUZ_UNKNOWN) return GameOperationType.Invalid
+        this[p].obj = move.obj
+        focusPos = p
+        updateIsSolved()
+        updateState()
+        return GameOperationType.MoveComplete
+    }
+
+    override fun switchObject(move: HiddenPathGameMove): GameOperationType {
+        val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         when (this[p].obj) {
-            0 -> {
-                this[p].obj = nextNum
-                focusPos = p
-                updateIsSolved()
-                updateState()
-                return GameOperationType.MoveComplete
+            HidokuGame.PUZ_UNKNOWN -> {
+                move.obj = nextNum
+                return setObject(move)
             }
-            -1 -> return GameOperationType.Invalid
+            HidokuGame.PUZ_FORBIDDEN -> return GameOperationType.Invalid
             else -> {
                 focusPos = p
                 updateState()

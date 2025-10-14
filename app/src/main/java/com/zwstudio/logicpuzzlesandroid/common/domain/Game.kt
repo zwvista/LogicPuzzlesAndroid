@@ -65,11 +65,9 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState<GM>>(val gi: GameInterfa
     }
 
     protected fun changeObject(move: GM, f: (GS, GM) -> GameOperationType): Boolean {
-    // Create a deep clone of the current state to work with
         var state: GS = cloner.deepClone(currentState)
-    // Apply the state transformation function and handle the result
         when (f(state, move)) {
-            GameOperationType.Invalid -> return false  // No change made
+            GameOperationType.Invalid -> return false
             GameOperationType.PartialMove -> {
                 // swap state & currentState
                 states[stateIndex] = state.also { state = currentState }
