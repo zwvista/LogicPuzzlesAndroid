@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatami
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -18,17 +18,17 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
         updateIsSolved()
     }
 
-    override fun setObject(move: TatamiGameMove): GameChangeType {
+    override fun setObject(move: TatamiGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: TatamiGameMove): GameChangeType {
+    override fun switchObject(move: TatamiGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return GameChangeType.None
+        if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
         val o = this[p]
         move.obj = if (o == ' ') '1' else if (o == '3') ' ' else o + 1
         return setObject(move)

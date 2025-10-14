@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fillomino
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -25,17 +25,17 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
         updateIsSolved()
     }
 
-    override fun setObject(move: FillominoGameMove): GameChangeType {
+    override fun setObject(move: FillominoGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: FillominoGameMove): GameChangeType {
+    override fun switchObject(move: FillominoGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return GameChangeType.None
+        if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
         val o = this[p]
         move.obj = if (o == ' ') '1' else if (o == game.chMax) ' ' else (o.code + 1).toChar()
         return setObject(move)

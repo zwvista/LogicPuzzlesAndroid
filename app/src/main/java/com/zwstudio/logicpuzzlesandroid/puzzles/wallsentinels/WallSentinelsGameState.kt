@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.wallsentinels
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -22,14 +22,14 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
     operator fun set(row: Int, col: Int, obj: WallSentinelsObject) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: WallSentinelsObject) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: WallSentinelsGameMove): GameChangeType {
-        if (this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: WallSentinelsGameMove): GameOperationType {
+        if (this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: WallSentinelsGameMove): GameChangeType {
+    override fun switchObject(move: WallSentinelsGameMove): GameOperationType {
         val o = this[move.p]
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         move.obj = when (o) {

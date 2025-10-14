@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fourmenot
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -22,15 +22,15 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         updateIsSolved()
     }
 
-    override fun setObject(move: FourMeNotGameMove): GameChangeType {
-        if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject || this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: FourMeNotGameMove): GameOperationType {
+        if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: FourMeNotGameMove): GameChangeType {
-        if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject) return GameChangeType.None
+    override fun switchObject(move: FourMeNotGameMove): GameOperationType {
+        if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject) return GameOperationType.Invalid
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

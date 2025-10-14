@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.hiddenstars
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -23,17 +23,17 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
         updateIsSolved()
     }
 
-    override fun setObject(move: HiddenStarsGameMove): GameChangeType {
-        if (!isValid(move.p) || this[move.p] === move.obj) return GameChangeType.None
+    override fun setObject(move: HiddenStarsGameMove): GameOperationType {
+        if (!isValid(move.p) || this[move.p] === move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: HiddenStarsGameMove): GameChangeType {
+    override fun switchObject(move: HiddenStarsGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = when (o) {
             is HiddenStarsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsMarkerObject else HiddenStarsStarObject()

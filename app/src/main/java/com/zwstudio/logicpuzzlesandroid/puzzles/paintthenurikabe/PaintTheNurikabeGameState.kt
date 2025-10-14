@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.paintthenurikabe
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -24,21 +24,21 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         updateIsSolved()
     }
 
-    override fun setObject(move: PaintTheNurikabeGameMove): GameChangeType {
+    override fun setObject(move: PaintTheNurikabeGameMove): GameOperationType {
         val p = move.p
         val o = move.obj
-        if (!isValid(p) || this[p] == o) return GameChangeType.None
+        if (!isValid(p) || this[p] == o) return GameOperationType.Invalid
         this[p] = o
         for (p2 in game.areas[game.pos2area[p]!!])
             this[p2] = o
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: PaintTheNurikabeGameMove): GameChangeType {
+    override fun switchObject(move: PaintTheNurikabeGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = when (o) {
             PaintTheNurikabeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) PaintTheNurikabeObject.Marker else PaintTheNurikabeObject.Painted

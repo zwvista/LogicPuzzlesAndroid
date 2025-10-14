@@ -19,15 +19,15 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         updateIsSolved()
     }
 
-    override fun setObject(move: LightBattleShipsGameMove): GameChangeType {
+    override fun setObject(move: LightBattleShipsGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game.pos2obj.containsKey(p) || this[p] === move.obj) return GameChangeType.None
+        if (!isValid(p) || game.pos2obj.containsKey(p) || this[p] === move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: LightBattleShipsGameMove): GameChangeType {
+    override fun switchObject(move: LightBattleShipsGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
         val o = this[p]

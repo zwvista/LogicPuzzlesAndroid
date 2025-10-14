@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.overunder
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -23,21 +23,21 @@ class OverUnderGameState(game: OverUnderGame) : CellsGameState<OverUnderGame, Ov
         updateIsSolved()
     }
 
-    override fun setObject(move: OverUnderGameMove): GameChangeType {
+    override fun setObject(move: OverUnderGameMove): GameOperationType {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
         val p2 = p1 + OverUnderGame.offset[dir]
-        if (game[p1][dir] != GridLineObject.Empty) return GameChangeType.None
+        if (game[p1][dir] != GridLineObject.Empty) return GameOperationType.Invalid
         val o = this[p1][dir]
-        if (o == move.obj) return GameChangeType.None
+        if (o == move.obj) return GameOperationType.Invalid
         this[p1][dir] = move.obj
         this[p2][dir2] = this[p1][dir]
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: OverUnderGameMove): GameChangeType {
+    override fun switchObject(move: OverUnderGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj =  when (o) {

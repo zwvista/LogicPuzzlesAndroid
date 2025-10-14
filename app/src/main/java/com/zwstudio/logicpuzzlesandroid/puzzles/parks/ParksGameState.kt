@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.parks
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -20,14 +20,14 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
         updateIsSolved()
     }
 
-    override fun setObject(move: ParksGameMove): GameChangeType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: ParksGameMove): GameOperationType {
+        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: ParksGameMove): GameChangeType {
+    override fun switchObject(move: ParksGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

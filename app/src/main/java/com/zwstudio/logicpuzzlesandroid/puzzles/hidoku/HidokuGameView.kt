@@ -42,22 +42,21 @@ class HidokuGameView(context: Context, val soundManager: SoundManager) : CellsGa
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows)
-            for (c in 0 until cols) {
+            for (c in 0 until cols)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-            }
         if (isInEditMode) return
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val (n, state) = game.getObject(p)
-                if (n != 0 && n != -1) {
+                if (n != HidokuGame.PUZ_UNKNOWN && n != HidokuGame.PUZ_FORBIDDEN) {
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                    if (game[p] != 0)
+                    if (game[p] != HidokuGame.PUZ_UNKNOWN)
                         canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
                 }
-                if (n == -1)
+                if (n == HidokuGame.PUZ_FORBIDDEN)
                     canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
             }
         val (r, c) = game.focusPos()
@@ -70,7 +69,7 @@ class HidokuGameView(context: Context, val soundManager: SoundManager) : CellsGa
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = HidokuGameMove(Position(row, col))
-            if (game.setObject(move))
+            if (game.switchObject(move))
                 soundManager.playSoundTap()
         }
         return true

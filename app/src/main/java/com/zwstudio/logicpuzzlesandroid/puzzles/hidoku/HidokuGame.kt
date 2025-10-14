@@ -7,6 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HidokuGame(layout: List<String>, gi: GameInterface<HidokuGame, HidokuGameMove, HidokuGameState>, gdi: GameDocumentInterface) : CellsGame<HidokuGame, HidokuGameMove, HidokuGameState>(gi, gdi) {
     companion object {
+        const val PUZ_UNKNOWN = 0
+        const val PUZ_FORBIDDEN = -1
         var offset = Position.Directions8
     }
 

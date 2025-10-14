@@ -16,18 +16,18 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         updateIsSolved()
     }
 
-    override fun setObject(move: BalancedTapasGameMove): GameChangeType {
+    override fun setObject(move: BalancedTapasGameMove): GameOperationType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
         if (objOld is BalancedTapasHintObject || objOld == objNew)
-            return GameChangeType.None
+            return GameOperationType.Invalid
         this[p] = objNew
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: BalancedTapasGameMove): GameChangeType {
+    override fun switchObject(move: BalancedTapasGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

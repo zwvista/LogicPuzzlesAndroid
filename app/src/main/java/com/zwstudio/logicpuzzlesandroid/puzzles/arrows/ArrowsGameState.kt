@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.arrows
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -18,17 +18,17 @@ class ArrowsGameState(game: ArrowsGame) : CellsGameState<ArrowsGame, ArrowsGameM
     operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: ArrowsGameMove): GameChangeType {
+    override fun setObject(move: ArrowsGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: ArrowsGameMove): GameChangeType {
+    override fun switchObject(move: ArrowsGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         val o = get(p)
         move.obj = (o + 1) % 9
         return setObject(move)

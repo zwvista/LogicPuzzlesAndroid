@@ -5,4 +5,4 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 data class HidokuObject(var obj: Int = 0, var state: HintState = HintState.Normal)
 
-class HidokuGameMove(val p: Position)
+class HidokuGameMove(val p: Position, var obj: Int = 0)
