@@ -17,14 +17,14 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         updateIsSolved()
     }
 
-    override fun setObject(move: SentinelsGameMove): GameChangeType {
-        if (this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: SentinelsGameMove): GameOperationType {
+        if (this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: SentinelsGameMove): GameChangeType {
+    override fun switchObject(move: SentinelsGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

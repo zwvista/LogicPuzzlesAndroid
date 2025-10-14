@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.loopy
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -20,21 +20,21 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
         updateIsSolved()
     }
 
-    override fun setObject(move: LoopyGameMove): GameChangeType {
-        if (!isValidMove(move)) return GameChangeType.None
+    override fun setObject(move: LoopyGameMove): GameOperationType {
+        if (!isValidMove(move)) return GameOperationType.Invalid
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
         val p2 = p1 + LoopyGame.offset[dir]
-        if (!isValid(p2) || game[p1][dir] == GridLineObject.Line || this[p1][dir] == move.obj) return GameChangeType.None
+        if (!isValid(p2) || game[p1][dir] == GridLineObject.Line || this[p1][dir] == move.obj) return GameOperationType.Invalid
         this[p1][dir] = move.obj
         this[p2][dir2] = this[p1][dir]
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: LoopyGameMove): GameChangeType {
-        if (!isValidMove(move)) return GameChangeType.None
+    override fun switchObject(move: LoopyGameMove): GameOperationType {
+        if (!isValidMove(move)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {

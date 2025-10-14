@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.kropki
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -19,17 +19,17 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
         updateIsSolved()
     }
 
-    override fun setObject(move: KropkiGameMove): GameChangeType {
+    override fun setObject(move: KropkiGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: KropkiGameMove): GameChangeType {
+    override fun switchObject(move: KropkiGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = (o + 1) % (game.cols + 1)
         return setObject(move)

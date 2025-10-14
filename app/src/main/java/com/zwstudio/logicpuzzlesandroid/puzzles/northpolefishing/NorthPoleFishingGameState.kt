@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing
 
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -23,21 +23,21 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
     operator fun set(row: Int, col: Int, dir: Int, obj: GridLineObject) {objArray[row * cols + col][dir] = obj}
     operator fun set(p: Position, dir: Int, obj: GridLineObject) {this[p.row, p.col, dir] = obj}
 
-    override fun setObject(move: NorthPoleFishingGameMove): GameChangeType {
+    override fun setObject(move: NorthPoleFishingGameMove): GameOperationType {
         val p1 = move.p
         val dir = move.dir
         val dir2 = (dir + 2) % 4
-        if (game.dots[p1, dir] != GridLineObject.Empty) return GameChangeType.None
+        if (game.dots[p1, dir] != GridLineObject.Empty) return GameOperationType.Invalid
         val o = this[p1, dir]
-        if (o == move.obj) return GameChangeType.None
+        if (o == move.obj) return GameOperationType.Invalid
         val p2 = p1 + NorthPoleFishingGame.offset[dir]
         this[p1, dir] = move.obj
         this[p2, dir2] = this[p1, dir]
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: NorthPoleFishingGameMove): GameChangeType {
+    override fun switchObject(move: NorthPoleFishingGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p, move.dir]
         move.obj = when (o) {

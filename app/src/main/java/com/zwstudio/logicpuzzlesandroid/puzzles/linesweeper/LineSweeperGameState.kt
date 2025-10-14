@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.linesweeper
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
@@ -21,17 +21,17 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
     operator fun set(row: Int, col: Int, obj: Array<Boolean>) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: LineSweeperGameMove): GameChangeType {
+    override fun setObject(move: LineSweeperGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game.isHint(p)) return GameChangeType.None
+        if (!isValid(p) || game.isHint(p)) return GameOperationType.Invalid
         val dir = move.dir
         val p2 = p + LineSweeperGame.offset[dir * 2]
-        if (!isValid(p2) || game.isHint(p2)) return GameChangeType.None
+        if (!isValid(p2) || game.isHint(p2)) return GameOperationType.Invalid
         val dir2 = (dir + 2) % 4
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
     /*

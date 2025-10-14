@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.hidoku
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.TreeMap
@@ -26,22 +26,22 @@ class HidokuGameState(game: HidokuGame) : CellsGameState<HidokuGame, HidokuGameM
         updateState()
     }
 
-    override fun setObject(move: HidokuGameMove): GameChangeType {
+    override fun setObject(move: HidokuGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         when (this[p].obj) {
             0 -> {
                 this[p].obj = nextNum
                 focusPos = p
                 updateIsSolved()
                 updateState()
-                return GameChangeType.Level
+                return GameOperationType.MoveComplete
             }
-            -1 -> return GameChangeType.None
+            -1 -> return GameOperationType.Invalid
             else -> {
                 focusPos = p
                 updateState()
-                return GameChangeType.InternalState
+                return GameOperationType.PartialMove
             }
         }
     }

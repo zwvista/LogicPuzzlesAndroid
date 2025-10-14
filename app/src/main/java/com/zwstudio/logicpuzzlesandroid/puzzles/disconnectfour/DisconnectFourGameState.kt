@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.disconnectfour
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<DisconnectFourGame, DisconnectFourGameMove, DisconnectFourGameState>(game) {
@@ -18,15 +18,15 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
         updateIsSolved()
     }
 
-    override fun setObject(move: DisconnectFourGameMove): GameChangeType {
-        if (!isValid(move.p) || game[move.p] != DisconnectFourObject.Empty || this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: DisconnectFourGameMove): GameOperationType {
+        if (!isValid(move.p) || game[move.p] != DisconnectFourObject.Empty || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: DisconnectFourGameMove): GameChangeType {
-        if (!isValid(move.p) || game[move.p] != DisconnectFourObject.Empty) return GameChangeType.None
+    override fun switchObject(move: DisconnectFourGameMove): GameOperationType {
+        if (!isValid(move.p) || game[move.p] != DisconnectFourObject.Empty) return GameOperationType.Invalid
         val o = this[move.p]
         move.obj = if (o == DisconnectFourObject.Empty) DisconnectFourObject.Yellow else if (o == DisconnectFourObject.Yellow) DisconnectFourObject.Red else DisconnectFourObject.Empty
         return setObject(move)

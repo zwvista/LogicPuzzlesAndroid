@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -18,17 +18,17 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
         updateIsSolved()
     }
 
-    override fun setObject(move: RippleEffectGameMove): GameChangeType {
+    override fun setObject(move: RippleEffectGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: RippleEffectGameMove): GameChangeType {
+    override fun switchObject(move: RippleEffectGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0) return GameChangeType.None
+        if (!isValid(p) || game[p] != 0) return GameOperationType.Invalid
         move.obj = (this[p] + 1) % (game.areas[game.pos2area[p]!!].size + 1)
         return setObject(move)
     }

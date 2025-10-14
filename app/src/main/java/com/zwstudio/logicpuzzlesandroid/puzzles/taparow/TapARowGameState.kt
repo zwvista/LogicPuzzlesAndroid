@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.taparow
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -23,17 +23,17 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         updateIsSolved()
     }
 
-    override fun setObject(move: TapARowGameMove): GameChangeType {
+    override fun setObject(move: TapARowGameMove): GameOperationType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
-        if (objOld is TapARowHintObject || objOld == objNew) return GameChangeType.None
+        if (objOld is TapARowHintObject || objOld == objNew) return GameOperationType.Invalid
         this[p] = objNew
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: TapARowGameMove): GameChangeType {
+    override fun switchObject(move: TapARowGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

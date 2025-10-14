@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.branches
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -20,14 +20,14 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
         updateIsSolved()
     }
 
-    override fun setObject(move: BranchesGameMove): GameChangeType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: BranchesGameMove): GameOperationType {
+        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: BranchesGameMove): GameChangeType {
+    override fun switchObject(move: BranchesGameMove): GameOperationType {
         val o = this[move.p]
         move.obj = if (o is BranchesEmptyObject) BranchesUpObject
             else if (o is BranchesUpObject) BranchesRightObject

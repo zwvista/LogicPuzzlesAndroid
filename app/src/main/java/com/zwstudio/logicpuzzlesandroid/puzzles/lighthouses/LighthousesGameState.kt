@@ -17,14 +17,14 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
         updateIsSolved()
     }
 
-    override fun setObject(move: LighthousesGameMove): GameChangeType {
-        if (this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: LighthousesGameMove): GameOperationType {
+        if (this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: LighthousesGameMove): GameChangeType {
+    override fun switchObject(move: LighthousesGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = get(move.p)
         move.obj = when (o) {

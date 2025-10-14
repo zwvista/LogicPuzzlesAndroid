@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.bridges
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
@@ -20,14 +20,14 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
             this[p] = BridgesIslandObject()
     }
 
-    fun switchBridges(move: BridgesGameMove): GameChangeType {
+    fun switchBridges(move: BridgesGameMove): GameOperationType {
         val pFrom = move.pFrom
         val pTo = move.pTo
         // 4. Bridges can only run horizontally or vertically.
-        if (!(pFrom < pTo && (pFrom.row == pTo.row || pFrom.col == pTo.col))) return GameChangeType.None
+        if (!(pFrom < pTo && (pFrom.row == pTo.row || pFrom.col == pTo.col))) return GameOperationType.Invalid
         val o1 = this[pFrom]
         val o2 = this[pTo]
-        if (!(o1 is BridgesIslandObject && o2 is BridgesIslandObject)) return GameChangeType.None
+        if (!(o1 is BridgesIslandObject && o2 is BridgesIslandObject)) return GameOperationType.Invalid
         val n1 = if (pFrom.row == pTo.row) 1 else 2
         val n2 = (n1 + 2) % 4
         val os = BridgesGame.offset[n1]
@@ -36,7 +36,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
             when (o1.bridges[n1]) {
                 0 -> {
                     // 4. Bridges can't cross each other.
-                    if (this[p] !is BridgesEmptyObject) return GameChangeType.None
+                    if (this[p] !is BridgesEmptyObject) return GameOperationType.Invalid
                     this[p] = BridgesBridgeObject
                 }
                 2 -> this[p] = BridgesEmptyObject
@@ -49,7 +49,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
         o2.bridges[n2] = n
         o1.bridges[n1] = o2.bridges[n2]
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
     /*

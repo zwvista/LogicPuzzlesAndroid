@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.magnets
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -20,18 +20,18 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
         updateIsSolved()
     }
 
-    override fun setObject(move: MagnetsGameMove): GameChangeType {
+    override fun setObject(move: MagnetsGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game.singles.contains(p) || this[p] === move.obj) return GameChangeType.None
+        if (!isValid(p) || game.singles.contains(p) || this[p] === move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: MagnetsGameMove): GameChangeType {
+    override fun switchObject(move: MagnetsGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = when (o) {
             MagnetsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) MagnetsObject.Marker else MagnetsObject.Positive

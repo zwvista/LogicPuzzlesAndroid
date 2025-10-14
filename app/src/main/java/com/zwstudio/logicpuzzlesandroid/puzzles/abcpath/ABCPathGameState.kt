@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abcpath
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -18,17 +18,17 @@ class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathG
     operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
-    override fun setObject(move: ABCPathGameMove): GameChangeType {
+    override fun setObject(move: ABCPathGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: ABCPathGameMove): GameChangeType {
+    override fun switchObject(move: ABCPathGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return GameChangeType.None
+        if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
         val o = this[p]
         // 1.  Enter every letter from A to Y into the grid.
         val chars = ('A'..'Y').toMutableList()

@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.sumscrapers
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -26,17 +26,17 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
         updateIsSolved()
     }
 
-    override fun setObject(move: SumscrapersGameMove): GameChangeType {
+    override fun setObject(move: SumscrapersGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: SumscrapersGameMove): GameChangeType {
+    override fun switchObject(move: SumscrapersGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = (o + 1) % (game.intMax() + 1)
         return setObject(move)

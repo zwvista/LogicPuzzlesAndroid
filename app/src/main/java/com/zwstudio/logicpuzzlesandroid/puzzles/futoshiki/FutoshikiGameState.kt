@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.futoshiki
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -20,17 +20,17 @@ class FutoshikiGameState(game: FutoshikiGame) : CellsGameState<FutoshikiGame, Fu
         updateIsSolved()
     }
 
-    override fun setObject(move: FutoshikiGameMove): GameChangeType {
+    override fun setObject(move: FutoshikiGameMove): GameOperationType {
         val p = move.p
-        if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ') || this[move.p] == move.obj) return GameChangeType.None
+        if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ') || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: FutoshikiGameMove): GameChangeType {
+    override fun switchObject(move: FutoshikiGameMove): GameOperationType {
         val p = move.p
-        if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ')) return GameChangeType.None
+        if (!(isValid(p) && p.row % 2 == 0 && p.col % 2 == 0 && game[p] == ' ')) return GameOperationType.Invalid
         val o = this[p].code
         move.obj = if (o == ' '.code) '1' else if (o == '1'.code + rows / 2) ' ' else (o + 1).toChar()
         return setObject(move)

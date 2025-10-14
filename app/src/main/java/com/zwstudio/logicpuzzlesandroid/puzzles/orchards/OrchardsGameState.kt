@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.orchards
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
@@ -22,14 +22,14 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
         updateIsSolved()
     }
 
-    override fun setObject(move: OrchardsGameMove): GameChangeType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameChangeType.None
+    override fun setObject(move: OrchardsGameMove): GameOperationType {
+        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: OrchardsGameMove): GameChangeType {
+    override fun switchObject(move: OrchardsGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {

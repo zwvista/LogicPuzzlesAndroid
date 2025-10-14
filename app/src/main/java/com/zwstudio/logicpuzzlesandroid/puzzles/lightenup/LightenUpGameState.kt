@@ -2,7 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -20,7 +20,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
             this[p] = LightenUpWallObject(if (n <= 0) HintState.Complete else HintState.Normal)
     }
 
-    private fun objChanged(move: LightenUpGameMove, toajust: Boolean, tolighten: Boolean): GameChangeType {
+    private fun objChanged(move: LightenUpGameMove, toajust: Boolean, tolighten: Boolean): GameOperationType {
         val p = move.p
         this[p] = move.obj
         if (toajust) {
@@ -38,10 +38,10 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
             }
             updateIsSolved()
         }
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun setObject(move: LightenUpGameMove): GameChangeType {
+    override fun setObject(move: LightenUpGameMove): GameOperationType {
         val p = move.p
         val objOld = this[p]
         val objNew = move.obj
@@ -53,10 +53,10 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
         if (objOld is LightenUpLightbulbObject && objNew is LightenUpEmptyObject ||
             objOld is LightenUpLightbulbObject && objNew is LightenUpMarkerObject) return objChanged(move, true, false)
         this[p] = LightenUpWallObject()
-        return GameChangeType.None
+        return GameOperationType.Invalid
     }
 
-    override fun switchObject(move: LightenUpGameMove): GameChangeType {
+    override fun switchObject(move: LightenUpGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         fun f(obj: LightenUpObject) = when (obj) {
@@ -75,7 +75,7 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
             move.obj = if (allowedObjectsOnly && objOld.lightness > 0) f(objNew) else objNew
             return setObject(move)
         }
-        return GameChangeType.None
+        return GameOperationType.Invalid
     }
 
     /*

@@ -3,14 +3,14 @@ package com.zwstudio.logicpuzzlesandroid.common.domain
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 
-enum class GameChangeType {
-    None, InternalState, Level
+enum class GameOperationType {
+    Invalid, PartialMove, MoveComplete
 }
 
 open class GameState<GM> {
     var isSolved = false
-    open fun setObject(move: GM): GameChangeType = GameChangeType.None
-    open fun switchObject(move: GM): GameChangeType = GameChangeType.None
+    open fun setObject(move: GM): GameOperationType = GameOperationType.Invalid
+    open fun switchObject(move: GM): GameOperationType = GameOperationType.Invalid
 }
 
 interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState<GM>> {
@@ -64,19 +64,19 @@ open class Game<G : Game<G, GM, GS>, GM, GS : GameState<GM>>(val gi: GameInterfa
         levelUpdated(states[stateIndex - 1], currentState)
     }
 
-    protected fun changeObject(move: GM, f: (GS, GM) -> GameChangeType): Boolean {
+    protected fun changeObject(move: GM, f: (GS, GM) -> GameOperationType): Boolean {
     // Create a deep clone of the current state to work with
         var state: GS = cloner.deepClone(currentState)
     // Apply the state transformation function and handle the result
         when (f(state, move)) {
-            GameChangeType.None -> return false  // No change made
-            GameChangeType.InternalState -> {
+            GameOperationType.Invalid -> return false  // No change made
+            GameOperationType.PartialMove -> {
                 // swap state & currentState
                 states[stateIndex] = state.also { state = currentState }
                 gi.stateChanged(this as G, state, currentState)
                 return false
             }
-            GameChangeType.Level -> {
+            GameOperationType.MoveComplete -> {
                 if (canRedo) {
                     states.subList(stateIndex + 1, states.size).clear()
                     moves.subList(stateIndex, states.size).clear()

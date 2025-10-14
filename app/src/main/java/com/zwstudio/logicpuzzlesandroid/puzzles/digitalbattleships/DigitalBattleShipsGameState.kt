@@ -16,18 +16,18 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         updateIsSolved()
     }
 
-    override fun setObject(move: DigitalBattleShipsGameMove): GameChangeType {
+    override fun setObject(move: DigitalBattleShipsGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameChangeType.None
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: DigitalBattleShipsGameMove): GameChangeType {
+    override fun switchObject(move: DigitalBattleShipsGameMove): GameOperationType {
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return GameChangeType.None
+        if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = when (o) {
             DigitalBattleShipsObject.Empty ->

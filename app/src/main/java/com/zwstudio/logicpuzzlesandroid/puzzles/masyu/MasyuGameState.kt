@@ -1,7 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.masyu
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GameChangeType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -18,7 +18,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
         updateIsSolved()
     }
 
-    override fun setObject(move: MasyuGameMove): GameChangeType {
+    override fun setObject(move: MasyuGameMove): GameOperationType {
         val p = move.p
         val dir = move.dir
         val p2 = p + MasyuGame.offset[dir]
@@ -26,7 +26,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
         updateIsSolved()
-        return GameChangeType.Level
+        return GameOperationType.MoveComplete
     }
 
     /*
