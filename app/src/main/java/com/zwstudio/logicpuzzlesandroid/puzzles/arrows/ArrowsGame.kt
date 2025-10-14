@@ -8,12 +8,18 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class ArrowsGame(layout: List<String>, gi: GameInterface<ArrowsGame, ArrowsGameMove, ArrowsGameState>, gdi: GameDocumentInterface) : CellsGame<ArrowsGame, ArrowsGameMove, ArrowsGameState>(gi, gdi) {
     companion object {
         val PUZ_UNKNOWN = 8
-        val offset = Position.Directions4
+        val offset = Position.Directions8
     }
 
-    override fun isValid(row: Int, col: Int) =
-        row in 1 until size.row - 1 && (col == 0 || col == size.col - 1) ||
-        col in 1 until size.col - 1 && (row == 0 || row == size.row - 1)
+    fun isCorner(p: Position): Boolean {
+        val (row, col) = p
+        return (row == 0 || row == size.row - 1) && (col == 0 || col == size.col - 1)
+    }
+    fun isBorder(p: Position): Boolean {
+        val (row, col) = p
+        return row in 1 until size.row - 1 && (col == 0 || col == size.col - 1) ||
+                col in 1 until size.col - 1 && (row == 0 || row == size.row - 1)
+    }
 
     var objArray: IntArray
 
@@ -40,5 +46,6 @@ class ArrowsGame(layout: List<String>, gi: GameInterface<ArrowsGame, ArrowsGameM
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getPosState(p: Position) = currentState.pos2state[p]
+    fun getHintState(p: Position) = currentState.hint2state[p]
+    fun getArrowState(p: Position) = currentState.arrow2state[p]
 }

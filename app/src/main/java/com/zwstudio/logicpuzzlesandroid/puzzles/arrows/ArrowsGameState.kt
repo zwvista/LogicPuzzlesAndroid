@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.arrows
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -7,7 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ArrowsGameState(game: ArrowsGame) : CellsGameState<ArrowsGame, ArrowsGameMove, ArrowsGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
+    var hint2state = mutableMapOf<Position, HintState>()
+    var arrow2state = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         updateIsSolved()
@@ -47,61 +49,46 @@ class ArrowsGameState(game: ArrowsGame) : CellsGameState<ArrowsGame, ArrowsGameM
         4. There is one arrow for each tile outside the board.
     */
     private fun updateIsSolved() {
-        isSolved = false
-//        val chars = mutableListOf<Char>()
-//        for (r in 1 until rows - 1) {
-//            val h1 = this[r, 0]
-//            val h2 = this[r, cols - 1]
-//            var ch11 = ' '
-//            var ch21 = ' '
-//            chars.clear()
-//            for (c in 1 until cols - 1) {
-//                val ch12 = this[r, c]
-//                val ch22 = this[r, cols - 1 - c]
-//                if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
-//                if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
-//                if (ch12 == ' ') continue
-//                // 2. Each letter appears once in every row.
-//                if (chars.contains(ch12))
-//                    isSolved = false
-//                else
-//                    chars.add(ch12)
-//            }
-//            // 3. The letters on the borders tell you what letter you see from there.
-//            val s1 = if (ch11 == ' ') HintState.Normal else if (ch11 == h1) HintState.Complete else HintState.Error
-//            val s2 = if (ch21 == ' ') HintState.Normal else if (ch21 == h2) HintState.Complete else HintState.Error
-//            row2state[r * 2] = s1
-//            row2state[r * 2 + 1] = s2
-//            if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
-//            // 2. Each letter appears once in every row.
-//            if (chars.size != game.chMax - 'A' + 1) isSolved = false
-//        }
-//        for (c in 1 until cols - 1) {
-//            val h1 = this[0, c]
-//            val h2 = this[rows - 1, c]
-//            var ch11 = ' '
-//            var ch21 = ' '
-//            chars.clear()
-//            for (r in 1 until rows - 1) {
-//                val ch12 = this[r, c]
-//                val ch22 = this[rows - 1 - r, c]
-//                if (ch11 == ' ' && ch12 != ' ') ch11 = ch12
-//                if (ch21 == ' ' && ch22 != ' ') ch21 = ch22
-//                if (ch12 == ' ') continue
-//                // 2. Each letter appears once in every column.
-//                if (chars.contains(ch12))
-//                    isSolved = false
-//                else
-//                    chars.add(ch12)
-//            }
-//            // 3. The letters on the borders tell you what letter you see from there.
-//            val s1 = if (ch11 == ' ') HintState.Normal else if (ch11 == h1) HintState.Complete else HintState.Error
-//            val s2 = if (ch21 == ' ') HintState.Normal else if (ch21 == h2) HintState.Complete else HintState.Error
-//            col2state[c * 2] = s1
-//            col2state[c * 2 + 1] = s2
-//            if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
-//            // 2. Each letter appears once in every column.
-//            if (chars.size != game.chMax - 'A' + 1) isSolved = false
-//        }
+        isSolved = true
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val n = this[p]
+                if (game.isCorner(p))
+                    ;
+                else if (game.isBorder(p)) {
+                    if (n == ArrowsGame.PUZ_UNKNOWN)
+                        arrow2state[p] = AllowedObjectState.Normal
+                    else {
+                        val os = ArrowsGame.offset[n]
+                        var p2 = p + os
+                        var n2 = 0
+                        while (isValid(p2)) {
+                            if (!(game.isCorner(p2) || game.isBorder(p2)))
+                                n2++
+                            p2 += os
+                        }
+                        // 2. Each Arrow points to at least one number inside the board.
+                        val s = if (n2 > 0) AllowedObjectState.Normal else AllowedObjectState.Error
+                        arrow2state[p] = s
+                        if (s == AllowedObjectState.Error) isSolved = false
+                    }
+                } else {
+                    var n2 = 0
+                    for (i in 0 until 8) {
+                        val os = ArrowsGame.offset[i]
+                        var p2 = p + os
+                        while (isValid(p2)) {
+                            if (game.isBorder(p2) && this[p2] == (i + 4) % 8)
+                                n2++
+                            p2 += os
+                        }
+                        // 3. The numbers tell you how many arrows point at them.
+                        val s = if (n2 < n) HintState.Normal else if (n2 == n) HintState.Complete else HintState.Error
+                        hint2state[p] = s
+                        if (s == HintState.Error) isSolved = false
+                    }
+                }
+            }
     }
 }
