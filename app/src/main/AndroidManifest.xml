@@ -685,6 +685,18 @@
         <activity android:name=".puzzles.noughtsandcrosses.NoughtsAndCrossesOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.numbercrosswords.NumberCrosswordsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numbercrosswords.NumberCrosswordsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numbercrosswords.NumberCrosswordsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numbercrosswords.NumberCrosswordsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.numberlink.NumberLinkMainActivity"
                   android:screenOrientation="portrait">
         </activity>
@@ -1091,6 +1103,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.tierradelfuego.TierraDelFuegoOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.turntwice.TurnTwiceMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.turntwice.TurnTwiceGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.turntwice.TurnTwiceHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.turntwice.TurnTwiceOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.walls.WallsMainActivity"
