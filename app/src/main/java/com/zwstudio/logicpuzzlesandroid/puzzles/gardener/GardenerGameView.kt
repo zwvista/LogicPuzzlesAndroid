@@ -70,8 +70,8 @@ class GardenerGameView(context: Context, val soundManager: SoundManager) : Cells
                 when (val o = game.getObject(p)) {
                     is GardenerFlowerObject -> {
                         dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dFlower.draw(canvas)
                     }
                     is GardenerMarkerObject ->

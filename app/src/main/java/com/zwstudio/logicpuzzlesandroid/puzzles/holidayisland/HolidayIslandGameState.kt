@@ -33,9 +33,9 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject else HolidayIslandTreeObject()
-            is HolidayIslandTreeObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject else HolidayIslandEmptyObject
-            is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandTreeObject() else HolidayIslandEmptyObject
+            is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject else HolidayIslandWaterObject()
+            is HolidayIslandWaterObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject else HolidayIslandEmptyObject
+            is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandWaterObject() else HolidayIslandEmptyObject
             else -> o
         }
         return setObject(move)
@@ -74,7 +74,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
                     o.state = HintState.Normal
                     rngHints.add(p)
                 }
-                if (o !is HolidayIslandTreeObject) {
+                if (o !is HolidayIslandWaterObject) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -101,7 +101,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = get(p)
-                if (!(o is HolidayIslandTreeObject || o is HolidayIslandHintObject)) {
+                if (!(o is HolidayIslandWaterObject || o is HolidayIslandHintObject)) {
                     // 5. A camper can't cross water or other Tents.
                     val node = Node(p.toString())
                     g.addNode(node)

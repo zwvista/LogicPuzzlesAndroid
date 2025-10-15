@@ -26,7 +26,8 @@ class DisconnectFourGameView(context: Context, val soundManager: SoundManager) :
     private val markerPaint = Paint()
     private val fixedPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val dTree: Drawable
+    private val dRed: Drawable
+    private val dYellow: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -41,7 +42,8 @@ class DisconnectFourGameView(context: Context, val soundManager: SoundManager) :
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
+        dRed = fromImageToDrawable("images/TileContent/token_red.png")
+        dYellow = fromImageToDrawable("images/TileContent/token_yellow.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -55,16 +57,11 @@ class DisconnectFourGameView(context: Context, val soundManager: SoundManager) :
                 val p = Position(r, c)
                 val o = game.getObject(p)
                 if (o == DisconnectFourObject.Empty) continue
-                dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpaha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
-                dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                if (o == DisconnectFourObject.Red) {
-                    canvas.save()
-                    canvas.rotate(180f, cwc2(c).toFloat(), chr2(r).toFloat())
-                }
-                dTree.draw(canvas)
-                if (o == DisconnectFourObject.Red)
-                    canvas.restore()
+                val dToken = if (o == DisconnectFourObject.Red) dRed else dYellow
+                dToken.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
+                dToken.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                dToken.draw(canvas)
                 if (game[p] != DisconnectFourObject.Empty)
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
             }

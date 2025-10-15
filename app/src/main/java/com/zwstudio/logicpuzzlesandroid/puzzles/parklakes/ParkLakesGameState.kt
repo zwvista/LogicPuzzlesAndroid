@@ -36,9 +36,9 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is ParkLakesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesMarkerObject else ParkLakesTreeObject()
-            is ParkLakesTreeObject -> if (markerOption == MarkerOptions.MarkerLast) ParkLakesMarkerObject else ParkLakesEmptyObject
-            is ParkLakesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesTreeObject() else ParkLakesEmptyObject
+            is ParkLakesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesMarkerObject else ParkLakesLakeObject()
+            is ParkLakesLakeObject -> if (markerOption == MarkerOptions.MarkerLast) ParkLakesMarkerObject else ParkLakesEmptyObject
+            is ParkLakesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesLakeObject() else ParkLakesEmptyObject
             else -> o
         }
         return setObject(move)
@@ -68,7 +68,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is ParkLakesTreeObject) {
+                if (o is ParkLakesLakeObject) {
                     o.state = AllowedObjectState.Normal
                     val node = Node(p.toString())
                     g.addNode(node)
@@ -110,7 +110,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             if (!(rs == cs && rs * cs == nodeList.size)) {
                 isSolved = false
                 for (p in area)
-                    (this[p] as ParkLakesTreeObject).state = AllowedObjectState.Error
+                    (this[p] as ParkLakesLakeObject).state = AllowedObjectState.Error
             }
         }
         for ((p, n2) in game.pos2hint.entries) {
@@ -130,7 +130,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is ParkLakesTreeObject) {
+                if (this[p] !is ParkLakesLakeObject) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node

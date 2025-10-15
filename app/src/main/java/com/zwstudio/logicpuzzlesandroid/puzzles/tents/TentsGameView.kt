@@ -53,14 +53,14 @@ class TentsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                 when (val o = game.getObject(r, c)) {
                     is TentsTreeObject -> {
                         dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTree.draw(canvas)
                     }
                     is TentsTentObject -> {
                         dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTent.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTent.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTent.draw(canvas)
                     }
                     is TentsMarkerObject ->

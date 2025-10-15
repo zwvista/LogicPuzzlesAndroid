@@ -56,8 +56,8 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
                 when (val o = game.getObject(p)) {
                     is TurnTwiceFlowerObject -> {
                         dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dFlower.draw(canvas)
                         if (game[p] is TurnTwiceFlowerObject)
                             canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)

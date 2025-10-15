@@ -26,7 +26,7 @@ class ParkLakesGameView(context: Context, val soundManager: SoundManager) : Cell
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
-    private val dTree: Drawable
+    private val dLake: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -35,7 +35,7 @@ class ParkLakesGameView(context: Context, val soundManager: SoundManager) : Cell
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
+        dLake = fromImageToDrawable("images/TileContent/sea.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,11 +48,11 @@ class ParkLakesGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is ParkLakesTreeObject -> {
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTree.draw(canvas)
+                    is ParkLakesLakeObject -> {
+                        dLake.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dLake.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dLake.draw(canvas)
                     }
                     is ParkLakesHintObject -> {
                         textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE

@@ -27,7 +27,7 @@ class HolidayIslandGameView(context: Context, val soundManager: SoundManager) : 
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dTree: Drawable
+    private val dWater: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,7 +39,7 @@ class HolidayIslandGameView(context: Context, val soundManager: SoundManager) : 
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
+        dWater = fromImageToDrawable("images/TileContent/water.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -52,11 +52,11 @@ class HolidayIslandGameView(context: Context, val soundManager: SoundManager) : 
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is HolidayIslandTreeObject -> {
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTree.draw(canvas)
+                    is HolidayIslandWaterObject -> {
+                        dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dWater.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dWater.draw(canvas)
                     }
                     is HolidayIslandHintObject -> {
                         textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE

@@ -39,7 +39,7 @@ class ProductSentinelsGameView(context: Context, val soundManager: SoundManager)
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTower = fromImageToDrawable("images/TileContent/tree.png")
+        dTower = fromImageToDrawable("images/TileContent/tower.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -52,8 +52,8 @@ class ProductSentinelsGameView(context: Context, val soundManager: SoundManager)
                 when (val o = game.getObject(p)) {
                     is ProductSentinelsTowerObject -> {
                         dTower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpaha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dTower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTower.draw(canvas)
                     }
                     is ProductSentinelsMarkerObject ->

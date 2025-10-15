@@ -10,7 +10,7 @@ sealed class ParkLakesObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> ParkLakesMarkerObject
-            "tree" -> ParkLakesTreeObject()
+            "lake" -> ParkLakesLakeObject()
             else -> ParkLakesEmptyObject
         }
     }
@@ -26,8 +26,8 @@ object ParkLakesMarkerObject : ParkLakesObject() {
     override fun objAsString() = "marker"
 }
 
-class ParkLakesTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : ParkLakesObject() {
-    override fun objAsString() = "tree"
+class ParkLakesLakeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : ParkLakesObject() {
+    override fun objAsString() = "lake"
 }
 
 class ParkLakesGameMove(val p: Position, var obj: ParkLakesObject = ParkLakesEmptyObject)

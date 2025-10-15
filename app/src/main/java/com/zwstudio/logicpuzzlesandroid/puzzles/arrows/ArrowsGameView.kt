@@ -51,8 +51,8 @@ class ArrowsGameView(context: Context, val soundManager: SoundManager) : CellsGa
                     if (n == ArrowsGame.PUZ_UNKNOWN) continue
                     val dArrow = dArrowList[n]
                     dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val alpaha = if (game.getArrowState(p) == AllowedObjectState.Error) 50 else 0
-                    dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpaha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    val alpha = if (game.getArrowState(p) == AllowedObjectState.Error) 50 else 0
+                    dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                     dArrow.draw(canvas)
                 } else {
                     val text = n.toString()
