@@ -13,7 +13,7 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
     var row2hint: IntArray
     var col2hint: IntArray
 
-    override fun isValid(row: Int, col: Int) = row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
 
     init {
         size = Position(layout.size, layout[0].length / 2)

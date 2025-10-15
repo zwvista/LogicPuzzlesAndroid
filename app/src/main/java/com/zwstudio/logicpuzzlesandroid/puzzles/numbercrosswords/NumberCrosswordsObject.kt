@@ -2,4 +2,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.numbercrosswords
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class NumberCrosswordsGameMove(val p: Position, var obj: Int = 0)
+enum class NumberCrosswordsObject {
+    Normal, Darken, Marker
+}
+
+class NumberCrosswordsGameMove(val p: Position, var obj: NumberCrosswordsObject = NumberCrosswordsObject.Normal)

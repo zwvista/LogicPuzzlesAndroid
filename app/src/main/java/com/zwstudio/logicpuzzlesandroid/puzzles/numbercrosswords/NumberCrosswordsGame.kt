@@ -11,13 +11,12 @@ class NumberCrosswordsGame(layout: List<String>, gi: GameInterface<NumberCrosswo
     }
 
     var objArray: IntArray
-    fun intMax() = rows - 2
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
-    override fun isValid(row: Int, col: Int) = row >= 1 && col >= 1 && row < size.row - 1 && col < size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 0 until size.row - 1 && col in 0 until size.col - 1
 
     init {
         size = Position(layout.size, layout[0].length / 2)
@@ -36,5 +35,6 @@ class NumberCrosswordsGame(layout: List<String>, gi: GameInterface<NumberCrosswo
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getState(row: Int, col: Int) = currentState.getState(row, col)
+    fun getRowState(row: Int) = currentState.row2state[row]
+    fun getColState(col: Int) = currentState.col2state[col]
 }

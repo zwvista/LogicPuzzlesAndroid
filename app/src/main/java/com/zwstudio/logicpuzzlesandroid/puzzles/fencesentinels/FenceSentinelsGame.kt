@@ -19,7 +19,7 @@ class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsG
 
     var pos2hint = mutableMapOf<Position, Int>()
 
-    override fun isValid(row: Int, col: Int) = row >= 0 && col >= 0 && row < size.row - 1 && col < size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 0 until size.row - 1 && col in 0 until size.col - 1
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)

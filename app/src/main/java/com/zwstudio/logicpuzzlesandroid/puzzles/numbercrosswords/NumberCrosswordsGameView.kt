@@ -20,12 +20,15 @@ class NumberCrosswordsGameView(context: Context, val soundManager: SoundManager)
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
+    private val darkenPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
+        darkenPaint.color = Color.LTGRAY
+        darkenPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
@@ -33,19 +36,39 @@ class NumberCrosswordsGameView(context: Context, val soundManager: SoundManager)
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1)
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val n = game.getObject(r, c)
-                if (n == 0) continue
-                val s = game.getState(r, c)
-                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
-                val text = n.toString()
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val o = game.getObject(r, c)
+                when (o) {
+                    NumberCrosswordsObject.Darken ->
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), darkenPaint)
+                    NumberCrosswordsObject.Marker ->
+                        canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
+                    else -> {}
+                }
+                textPaint.color = Color.WHITE
+                val text = game[r, c].toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
+        if (isInEditMode) return
+        for (r in 0 until rows - 1) {
+            val s = game.getRowState(r)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game[r, cols - 1]
+            val text = n.toString()
+            drawTextCentered(text, cwc(cols - 1), chr(r), canvas, textPaint)
+        }
+        for (c in 0 until cols - 1) {
+            val s = game.getColState(c)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game[rows - 1, c]
+            val text = n.toString()
+            drawTextCentered(text, cwc(c), chr(rows - 1), canvas, textPaint)
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

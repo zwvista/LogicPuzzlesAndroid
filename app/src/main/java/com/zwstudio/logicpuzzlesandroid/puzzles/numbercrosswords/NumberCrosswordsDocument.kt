@@ -9,9 +9,9 @@ class NumberCrosswordsDocument(context: Context) : GameDocument<NumberCrosswords
     override fun saveMove(move: NumberCrosswordsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.intValue1 = move.obj
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        NumberCrosswordsGameMove(Position(rec.row, rec.col), rec.intValue1)
+        NumberCrosswordsGameMove(Position(rec.row, rec.col), NumberCrosswordsObject.values()[rec.intValue1])
 }
