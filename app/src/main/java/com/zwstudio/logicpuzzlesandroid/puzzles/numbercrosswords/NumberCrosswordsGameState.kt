@@ -71,22 +71,24 @@ class NumberCrosswordsGameState(game: NumberCrosswordsGame) : CellsGameState<Num
                 if (this[p] == NumberCrosswordsObject.Darken) continue
                 sum += game[p]
             }
-            val s = if (sum == game[r, cols - 1]) HintState.Complete else HintState.Error
+            val n = game[r, cols - 1]
+            val s = if (sum > n) HintState.Normal else if (sum == n) HintState.Complete else HintState.Error
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
         }
         // 1. Blacken some tiles, so that some of the numbers remain visible.
         // 2. Numbers outside the grid show the states of the numbers in the
         //    remaining tiles in that row or column.
-        for (c in 1 until cols - 1) {
+        for (c in 0 until cols - 1) {
             var sum = 0
-            for (r in 1 until rows - 1) {
+            for (r in 0 until rows - 1) {
                 val p = Position(r, c)
                 if (this[p] == NumberCrosswordsObject.Darken) continue
                 sum += game[p]
             }
-            val s = if (sum == game[rows - 1, c]) HintState.Complete else HintState.Error
-            row2state[c] = s
+            val n = game[rows - 1, c]
+            val s = if (sum > n) HintState.Normal else if (sum == n) HintState.Complete else HintState.Error
+            col2state[c] = s
             if (s != HintState.Complete) isSolved = false
         }
     }
