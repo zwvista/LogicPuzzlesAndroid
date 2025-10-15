@@ -34,29 +34,30 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TurnTwiceEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceMarkerObject else TurnTwiceFlowerObject()
-            is TurnTwiceFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceMarkerObject else TurnTwiceEmptyObject
-            is TurnTwiceMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceFlowerObject() else TurnTwiceEmptyObject
+            is TurnTwiceEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceMarkerObject else TurnTwiceSignPostObject()
+            is TurnTwiceSignPostObject -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceMarkerObject else TurnTwiceEmptyObject
+            is TurnTwiceMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceSignPostObject() else TurnTwiceEmptyObject
             else -> o
         }
         return setObject(move)
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 9/Four-Me-Not
+        iOS Game: 100 Logic Games/Puzzle Set 15/Turn Twice
 
         Summary
-        It seems we do a lot of gardening in this game!
+        Think and Turn Twice (or more)
 
         Description
-        1. In Four-Me-Not (or Forbidden Four) you need to create a continuous
-           flower bed without putting four flowers in a row.
-        2. More exactly, you have to join the existing flowers by adding more of
-           them, creating a single path of flowers touching horizontally or
-           vertically.
-        3. At the same time, you can't line up horizontally or vertically more
-           than 3 flowers (thus Forbidden Four).
-        4. Some tiles are marked as squares and are just fixed blocks.
+        1. In an effort to complicate signposts, you're given the task to have
+           signposts reach other by no less than two turns.
+        2. In other words, you have to place walls on the board so that a maze of
+           signposts is formed. In this maze:
+        3. In order to go from one signpost to the other, you have to turn at least
+           twice.
+        4. Walls can't touch horizontally or vertically.
+        5. All the signposts and empty spaces must form an orthogonally continuous
+           area.
     */
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
@@ -69,7 +70,7 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
                 val o = this[p]
                 if (o is TurnTwiceForbiddenObject)
                     this[p] = TurnTwiceEmptyObject
-                else if (o is TurnTwiceFlowerObject) {
+                else if (o is TurnTwiceSignPostObject) {
                     o.state = AllowedObjectState.Normal
                     val node = Node(p.toString())
                     g.addNode(node)
@@ -84,64 +85,64 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
                     g.connectNode(node, node2)
             }
         }
-        // 2. More exactly, you have to join the existing flowers by adding more of
-        // them, creating a single path of flowers touching horizontally or
+        // 2. More exactly, you have to join the existing signposts by adding more of
+        // them, creating a single path of signposts touching horizontally or
         // vertically.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
-        val flowers = mutableListOf<Position>()
+        val signposts = mutableListOf<Position>()
         // 3. At the same time, you can't line up horizontally or vertically more
-        // than 3 flowers (thus Forbidden Four).
-        fun areFlowersInvalid() = flowers.size > 3
-        fun checkFlowers() {
-            if (areFlowersInvalid()) {
+        // than 3 signposts (thus Forbidden Four).
+        fun areSignPostsInvalid() = signposts.size > 3
+        fun checkSignPosts() {
+            if (areSignPostsInvalid()) {
                 isSolved = false
-                for (p in flowers)
-                    (this[p] as TurnTwiceFlowerObject).state = AllowedObjectState.Error
+                for (p in signposts)
+                    (this[p] as TurnTwiceSignPostObject).state = AllowedObjectState.Error
             }
-            flowers.clear()
+            signposts.clear()
         }
         fun checkForbidden(p: Position, indexes: List<Int>) {
             if (!allowedObjectsOnly) return
             for (i in indexes) {
                 val os = TurnTwiceGame.offset[i]
                 var p2 = p + os
-                while (isValid(p2) && this[p2] is TurnTwiceFlowerObject) {
-                    flowers.add(p2)
+                while (isValid(p2) && this[p2] is TurnTwiceSignPostObject) {
+                    signposts.add(p2)
                     p2 += os
                 }
             }
-            if (areFlowersInvalid()) this[p] = TurnTwiceForbiddenObject
-            flowers.clear()
+            if (areSignPostsInvalid()) this[p] = TurnTwiceForbiddenObject
+            signposts.clear()
         }
         for (r in 0 until rows) {
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is TurnTwiceFlowerObject)
-                    flowers.add(p)
+                if (o is TurnTwiceSignPostObject)
+                    signposts.add(p)
                 else {
-                    checkFlowers()
+                    checkSignPosts()
                     if (o is TurnTwiceEmptyObject || o is TurnTwiceMarkerObject)
                         checkForbidden(p, listOf(1, 3))
                 }
             }
-            checkFlowers()
+            checkSignPosts()
         }
         for (c in 0 until cols) {
             for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = get(p)
-                if (o is TurnTwiceFlowerObject)
-                    flowers.add(p)
+                if (o is TurnTwiceSignPostObject)
+                    signposts.add(p)
                 else {
-                    checkFlowers()
+                    checkSignPosts()
                     if (o is TurnTwiceEmptyObject || o is TurnTwiceMarkerObject)
                         checkForbidden(p, listOf(0, 2))
                 }
             }
-            checkFlowers()
+            checkSignPosts()
         }
     }
 }

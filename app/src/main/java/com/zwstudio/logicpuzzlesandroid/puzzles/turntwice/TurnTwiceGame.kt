@@ -23,10 +23,8 @@ class TurnTwiceGame(layout: List<String>, gi: GameInterface<TurnTwiceGame, TurnT
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols)
-                when (str[c]) {
-                    'F' -> this[r, c] = TurnTwiceFlowerObject()
-                    'B' -> this[r, c] = TurnTwiceBlockObject
-                }
+                if (str[c] == 'S')
+                    this[r, c] = TurnTwiceSignPostObject()
         }
         val state = TurnTwiceGameState(this)
         levelInitialized(state)

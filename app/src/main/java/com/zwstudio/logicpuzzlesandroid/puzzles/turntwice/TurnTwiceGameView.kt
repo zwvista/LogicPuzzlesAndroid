@@ -26,7 +26,7 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
     private val markerPaint = Paint()
     private val fixedPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val dFlower: Drawable
+    private val dSignPost: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -41,7 +41,7 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dFlower = fromImageToDrawable("images/TileContent/flower_blue.png")
+        dSignPost = fromImageToDrawable("images/TileContent/signpost_blue.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -54,19 +54,19 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is TurnTwiceFlowerObject -> {
-                        dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is TurnTwiceSignPostObject -> {
+                        dSignPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dFlower.draw(canvas)
-                        if (game[p] is TurnTwiceFlowerObject)
+                        dSignPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dSignPost.draw(canvas)
+                        if (game[p] is TurnTwiceSignPostObject)
                             canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
                     }
                     is TurnTwiceMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     is TurnTwiceForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is TurnTwiceBlockObject ->
+                    is TurnTwiceWallObject ->
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                     else -> {}
                 }

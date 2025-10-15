@@ -9,14 +9,11 @@ sealed class TurnTwiceObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> TurnTwiceMarkerObject
-            "flower" -> TurnTwiceFlowerObject()
+            "signpost" -> TurnTwiceSignPostObject()
+            "wall" -> TurnTwiceWallObject
             else -> TurnTwiceEmptyObject
         }
     }
-}
-
-object TurnTwiceBlockObject : TurnTwiceObject() {
-    override fun objAsString() = "block"
 }
 
 object TurnTwiceEmptyObject : TurnTwiceObject()
@@ -30,8 +27,12 @@ object TurnTwiceMarkerObject : TurnTwiceObject() {
     override fun objAsString() = "marker"
 }
 
-class TurnTwiceFlowerObject(var state: AllowedObjectState = AllowedObjectState.Normal) : TurnTwiceObject() {
-    override fun objAsString() = "flower"
+class TurnTwiceSignPostObject(var state: AllowedObjectState = AllowedObjectState.Normal) : TurnTwiceObject() {
+    override fun objAsString() = "signpost"
+}
+
+object TurnTwiceWallObject : TurnTwiceObject() {
+    override fun objAsString() = "wall"
 }
 
 class TurnTwiceGameMove(val p: Position, var obj: TurnTwiceObject = TurnTwiceEmptyObject)
