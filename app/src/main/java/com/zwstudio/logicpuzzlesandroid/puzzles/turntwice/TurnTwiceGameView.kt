@@ -22,26 +22,22 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val wallPaint = Paint()
     private val markerPaint = Paint()
-    private val fixedPaint = Paint()
     private val forbiddenPaint = Paint()
     private val dSignPost: Drawable
+    private val dWall: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        wallPaint.color = Color.WHITE
-        wallPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
-        fixedPaint.color = Color.WHITE
-        fixedPaint.style = Paint.Style.STROKE
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dSignPost = fromImageToDrawable("images/TileContent/signpost_blue.png")
+        dSignPost = fromImageToDrawable("images/128/128_signpost.png")
+        dWall = fromImageToDrawable("images/TileContent/tower_wall.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -54,20 +50,22 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
+                    is TurnTwiceForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                    is TurnTwiceMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     is TurnTwiceSignPostObject -> {
                         dSignPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dSignPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dSignPost.draw(canvas)
-                        if (game[p] is TurnTwiceSignPostObject)
-                            canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
                     }
-                    is TurnTwiceMarkerObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is TurnTwiceForbiddenObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is TurnTwiceWallObject ->
-                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                    is TurnTwiceWallObject -> {
+                        dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dWall.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dWall.draw(canvas)
+                    }
                     else -> {}
                 }
             }

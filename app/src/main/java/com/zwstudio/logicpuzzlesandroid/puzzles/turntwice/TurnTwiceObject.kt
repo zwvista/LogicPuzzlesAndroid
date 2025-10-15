@@ -9,8 +9,7 @@ sealed class TurnTwiceObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> TurnTwiceMarkerObject
-            "signpost" -> TurnTwiceSignPostObject()
-            "wall" -> TurnTwiceWallObject
+            "wall" -> TurnTwiceWallObject()
             else -> TurnTwiceEmptyObject
         }
     }
@@ -31,7 +30,7 @@ class TurnTwiceSignPostObject(var state: AllowedObjectState = AllowedObjectState
     override fun objAsString() = "signpost"
 }
 
-object TurnTwiceWallObject : TurnTwiceObject() {
+class TurnTwiceWallObject(var state: AllowedObjectState = AllowedObjectState.Normal) : TurnTwiceObject() {
     override fun objAsString() = "wall"
 }
 

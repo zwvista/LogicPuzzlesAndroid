@@ -34,8 +34,8 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
         val markerOption = MarkerOptions.values()[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is TurnTwiceEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceMarkerObject else TurnTwiceSignPostObject()
-            is TurnTwiceSignPostObject -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceMarkerObject else TurnTwiceEmptyObject
+            is TurnTwiceEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceMarkerObject else TurnTwiceWallObject()
+            is TurnTwiceWallObject -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceMarkerObject else TurnTwiceEmptyObject
             is TurnTwiceMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceSignPostObject() else TurnTwiceEmptyObject
             else -> o
         }
@@ -60,18 +60,25 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
            area.
     */
     private fun updateIsSolved() {
+        fun isEmpty(p: Position) = this[p] !is TurnTwiceWallObject
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
+        val walls = mutableListOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o is TurnTwiceForbiddenObject)
-                    this[p] = TurnTwiceEmptyObject
-                else if (o is TurnTwiceSignPostObject) {
-                    o.state = AllowedObjectState.Normal
+                when (val o = this[p]) {
+                    is TurnTwiceForbiddenObject -> this[p] = TurnTwiceEmptyObject
+                    is TurnTwiceSignPostObject -> o.state = AllowedObjectState.Normal
+                    is TurnTwiceWallObject ->  {
+                        o.state = AllowedObjectState.Normal
+                        walls.add(p)
+                    }
+                    else -> {}
+                }
+                if (isEmpty(p)) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -85,64 +92,38 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
                     g.connectNode(node, node2)
             }
         }
-        // 2. More exactly, you have to join the existing signposts by adding more of
-        // them, creating a single path of signposts touching horizontally or
-        // vertically.
+        // 5. All the signposts and empty spaces must form an orthogonally continuous
+        // area.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
-        val signposts = mutableListOf<Position>()
-        // 3. At the same time, you can't line up horizontally or vertically more
-        // than 3 signposts (thus Forbidden Four).
-        fun areSignPostsInvalid() = signposts.size > 3
-        fun checkSignPosts() {
-            if (areSignPostsInvalid()) {
+
+        // 3. In order to go from one signpost to the other, you have to turn at least
+        // twice.
+        for ((p1, p2, path) in game.paths)
+            if (path.all { isEmpty(it) }) {
                 isSolved = false
-                for (p in signposts)
-                    (this[p] as TurnTwiceSignPostObject).state = AllowedObjectState.Error
+                (this[p1] as TurnTwiceSignPostObject).state = AllowedObjectState.Error
+                (this[p2] as TurnTwiceSignPostObject).state = AllowedObjectState.Error
             }
-            signposts.clear()
-        }
-        fun checkForbidden(p: Position, indexes: List<Int>) {
-            if (!allowedObjectsOnly) return
-            for (i in indexes) {
-                val os = TurnTwiceGame.offset[i]
-                var p2 = p + os
-                while (isValid(p2) && this[p2] is TurnTwiceSignPostObject) {
-                    signposts.add(p2)
-                    p2 += os
+
+        // 4. Walls can't touch horizontally or vertically.
+        for (p in walls)
+            for (os in TurnTwiceGame.offset) {
+                val p2 = p + os
+                if (!isValid(p2)) continue
+                when (this[p2]) {
+                    is TurnTwiceWallObject -> {
+                        isSolved = false
+                        (this[p] as TurnTwiceWallObject).state = AllowedObjectState.Error
+                        (this[p2] as TurnTwiceWallObject).state = AllowedObjectState.Error
+                    }
+                    is TurnTwiceEmptyObject -> {
+                        if (allowedObjectsOnly)
+                            this[p2] = TurnTwiceForbiddenObject
+                    }
+                    else -> {}
                 }
             }
-            if (areSignPostsInvalid()) this[p] = TurnTwiceForbiddenObject
-            signposts.clear()
-        }
-        for (r in 0 until rows) {
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                val o = this[p]
-                if (o is TurnTwiceSignPostObject)
-                    signposts.add(p)
-                else {
-                    checkSignPosts()
-                    if (o is TurnTwiceEmptyObject || o is TurnTwiceMarkerObject)
-                        checkForbidden(p, listOf(1, 3))
-                }
-            }
-            checkSignPosts()
-        }
-        for (c in 0 until cols) {
-            for (r in 0 until rows) {
-                val p = Position(r, c)
-                val o = get(p)
-                if (o is TurnTwiceSignPostObject)
-                    signposts.add(p)
-                else {
-                    checkSignPosts()
-                    if (o is TurnTwiceEmptyObject || o is TurnTwiceMarkerObject)
-                        checkForbidden(p, listOf(0, 2))
-                }
-            }
-            checkSignPosts()
-        }
     }
 }
