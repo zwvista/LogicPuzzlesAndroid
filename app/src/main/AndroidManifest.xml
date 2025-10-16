@@ -685,6 +685,18 @@
         <activity android:name=".puzzles.noughtsandcrosses.NoughtsAndCrossesOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.numbercrossing.NumberCrossingMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numbercrossing.NumberCrossingGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numbercrossing.NumberCrossingHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.numbercrossing.NumberCrossingOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.numbercrosswords.NumberCrosswordsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
