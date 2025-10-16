@@ -1093,6 +1093,18 @@
         <activity android:name=".puzzles.tents.TentsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.thermometers.ThermometersMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thermometers.ThermometersGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thermometers.ThermometersHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thermometers.ThermometersOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.theoddbrick.TheOddBrickMainActivity"
                   android:screenOrientation="portrait">
         </activity>
