@@ -27,7 +27,7 @@ class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : Ce
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dArrowList: List<Drawable>
+    private val dArrowArray: Array<Drawable>
     private val dStar: Drawable
 
     init {
@@ -40,7 +40,7 @@ class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : Ce
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dArrowList = getArrowDrawableList()
+        dArrowArray = getArrowDrawableArray()
         dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
     }
 
@@ -53,7 +53,7 @@ class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : Ce
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
                     is HiddenStarsArrowObject -> {
-                        val dArrow = dArrowList[game.pos2arrow[p]!!]
+                        val dArrow = dArrowArray[game.pos2arrow[p]!!]
                         dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)

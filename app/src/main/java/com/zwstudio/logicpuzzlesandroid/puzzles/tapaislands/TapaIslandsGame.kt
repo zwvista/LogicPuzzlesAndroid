@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TapaIslandsGame(layout: List<String>, gi: GameInterface<TapaIslandsGame, TapaIslandsGameMove, TapaIslandsGameState>, gdi: GameDocumentInterface) : CellsGame<TapaIslandsGame, TapaIslandsGameMove, TapaIslandsGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions8
-        var offset2 = arrayOf(
+        val offset = Position.Directions8
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),
             Position(1, 0),

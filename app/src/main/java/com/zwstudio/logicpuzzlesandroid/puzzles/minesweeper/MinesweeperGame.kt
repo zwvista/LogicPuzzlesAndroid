@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MinesweeperGame(layout: List<String>, gi: GameInterface<MinesweeperGame, MinesweeperGameMove, MinesweeperGameState>, gdi: GameDocumentInterface) : CellsGame<MinesweeperGame, MinesweeperGameMove, MinesweeperGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions8
+        val offset = Position.Directions8
     }
 
     var pos2hint = mutableMapOf<Position, Int>()

@@ -9,8 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, FillominoGameMove, FillominoGameState>, gdi: GameDocumentInterface) : CellsGame<FillominoGame, FillominoGameMove, FillominoGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),
             Position(1, 0),

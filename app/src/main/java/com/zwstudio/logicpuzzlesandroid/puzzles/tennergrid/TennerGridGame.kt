@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, TennerGridGameMove, TennerGridGameState>, gdi: GameDocumentInterface) : CellsGame<TennerGridGame, TennerGridGameMove, TennerGridGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
+        val offset = arrayOf(
             Position(1, -1),
             Position(1, 0),
             Position(1, 1)

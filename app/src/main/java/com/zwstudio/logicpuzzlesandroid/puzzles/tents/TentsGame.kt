@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove, TentsGameState>, gdi: GameDocumentInterface) : CellsGame<TentsGame, TentsGameMove, TentsGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = Position.Directions8
+        val offset = Position.Directions4
+        val offset2 = Position.Directions8
     }
 
     var row2hint: IntArray

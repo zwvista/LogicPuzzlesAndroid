@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TierraDelFuegoGame(layout: List<String>, gi: GameInterface<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState>, gdi: GameDocumentInterface) : CellsGame<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var pos2hint = mutableMapOf<Position, Char>()

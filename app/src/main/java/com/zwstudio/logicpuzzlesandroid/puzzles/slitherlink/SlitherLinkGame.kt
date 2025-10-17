@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState>, gdi: GameDocumentInterface) : CellsGame<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),

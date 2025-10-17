@@ -8,7 +8,7 @@ import kotlin.math.sign
 
 class TurnTwiceGame(layout: List<String>, gi: GameInterface<TurnTwiceGame, TurnTwiceGameMove, TurnTwiceGameState>, gdi: GameDocumentInterface) : CellsGame<TurnTwiceGame, TurnTwiceGameMove, TurnTwiceGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var objArray: Array<TurnTwiceObject>

@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourMeNotGameMove, FourMeNotGameState>, gdi: GameDocumentInterface) : CellsGame<FourMeNotGame, FourMeNotGameMove, FourMeNotGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var objArray: Array<FourMeNotObject>

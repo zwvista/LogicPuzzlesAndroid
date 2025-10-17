@@ -29,6 +29,7 @@ class DisconnectFourGameView(context: Context, val soundManager: SoundManager) :
     private val dRed: Drawable
     private val dYellow: Drawable
 
+
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE

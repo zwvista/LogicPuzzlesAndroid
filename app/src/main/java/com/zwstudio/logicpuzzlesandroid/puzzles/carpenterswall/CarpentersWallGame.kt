@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallGame, CarpentersWallGameMove, CarpentersWallGameState>, gdi: GameDocumentInterface) : CellsGame<CarpentersWallGame, CarpentersWallGameMove, CarpentersWallGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),
             Position(1, 0),

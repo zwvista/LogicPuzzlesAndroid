@@ -11,18 +11,18 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState>, gdi: GameDocumentInterface) : CellsGame<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
+        val offset = arrayOf(
             Position(-1, 0),
             Position(0, 1),
             Position(1, 0),
             Position(0, -1))
-        var offset2 = arrayOf(
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),
             Position(0, 0))
         var dirs = intArrayOf(1, 0, 3, 2)
-        var offset3 = arrayOf(
+        val offset3 = arrayOf(
             Position(0, 0),
             Position(0, 1),
             Position(1, 0),

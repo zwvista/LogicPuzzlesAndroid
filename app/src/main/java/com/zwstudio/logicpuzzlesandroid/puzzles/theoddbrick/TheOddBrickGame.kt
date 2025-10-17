@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, TheOddBrickGameMove, TheOddBrickGameState>, gdi: GameDocumentInterface) : CellsGame<TheOddBrickGame, TheOddBrickGameMove, TheOddBrickGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),

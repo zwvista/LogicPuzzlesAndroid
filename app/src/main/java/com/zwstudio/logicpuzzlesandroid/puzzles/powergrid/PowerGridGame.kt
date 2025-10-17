@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, PowerGridGameMove, PowerGridGameState>, gdi: GameDocumentInterface) : CellsGame<PowerGridGame, PowerGridGameMove, PowerGridGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var row2hint: IntArray

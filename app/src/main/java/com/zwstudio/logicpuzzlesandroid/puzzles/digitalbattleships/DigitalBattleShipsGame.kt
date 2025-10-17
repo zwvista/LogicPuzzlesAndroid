@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBattleShipsGame, DigitalBattleShipsGameMove, DigitalBattleShipsGameState>, gdi: GameDocumentInterface) : CellsGame<DigitalBattleShipsGame, DigitalBattleShipsGameMove, DigitalBattleShipsGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions8
+        val offset = Position.Directions8
     }
 
     var objArray: IntArray

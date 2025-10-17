@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGameMove, MagnetsGameState>, gdi: GameDocumentInterface) : CellsGame<MagnetsGame, MagnetsGameMove, MagnetsGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var row2hint: IntArray

@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, FutoshikiGameMove, FutoshikiGameState>, gdi: GameDocumentInterface) : CellsGame<FutoshikiGame, FutoshikiGameMove, FutoshikiGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var objArray: CharArray

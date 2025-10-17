@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState>, gdi: GameDocumentInterface) : CellsGame<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var objArray: IntArray

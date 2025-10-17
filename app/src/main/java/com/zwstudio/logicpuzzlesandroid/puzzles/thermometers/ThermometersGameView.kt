@@ -9,6 +9,7 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.withSave
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -27,8 +28,7 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dArrowList: List<Drawable>
-    private val dStar: Drawable
+    private val dThermometerArray: Array<Drawable>
 
     init {
         gridPaint.color = Color.WHITE
@@ -40,8 +40,13 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dArrowList = getArrowDrawableList()
-        dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
+        dThermometerArray = (0 until 6)
+            .map {
+                val n = it / 2 + 1
+                val ch = if (it % 2 == 0) "A" else "B"
+                fromImageToDrawable("images/TileContent/thermometer$n$ch.png")
+            }
+            .toTypedArray()
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -52,24 +57,25 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is ThermometersArrowObject -> {
-                        val dArrow = dArrowList[game.pos2arrow[p]!!]
-                        dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dArrow.draw(canvas)
-                    }
-                    is ThermometersStarObject -> {
-                        dStar.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dStar.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dStar.draw(canvas)
+                    is ThermometersEmptyObject, is ThermometersFilledObject -> {
+                        val n = ThermometersGame.parts.indexOf(game[p])
+                        val (m, degrees) =
+                            if (n < 4) 0 to (6 - n) % 4 * 90
+                            else if (n < 8) 4 to (8 - n) % 4 * 90
+                            else 2 to (n - 8) * 90
+                        val dThermometer = dThermometerArray[m + (if (o is ThermometersFilledObject) 1 else 0)]
+                        dThermometer.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o is ThermometersFilledObject && o.state == AllowedObjectState.Error) 50 else 0
+                        dThermometer.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        canvas.withSave {
+                            rotate(degrees.toFloat(), cwc2(c).toFloat(), chr2(r).toFloat())
+                            dThermometer.draw(this)
+                        }
                     }
                     is ThermometersMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     is ThermometersForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    else -> {}
                 }
             }
         if (isInEditMode) return

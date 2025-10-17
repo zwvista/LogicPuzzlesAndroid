@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SentinelsGame(layout: List<String>, gi: GameInterface<SentinelsGame, SentinelsGameMove, SentinelsGameState>, gdi: GameDocumentInterface) : CellsGame<SentinelsGame, SentinelsGameMove, SentinelsGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var pos2hint = mutableMapOf<Position, Int>()

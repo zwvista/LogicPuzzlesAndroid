@@ -9,7 +9,7 @@ class HidokuGame(layout: List<String>, gi: GameInterface<HidokuGame, HidokuGameM
     companion object {
         const val PUZ_UNKNOWN = 0
         const val PUZ_FORBIDDEN = -1
-        var offset = Position.Directions8
+        val offset = Position.Directions8
     }
 
     var objArray: IntArray

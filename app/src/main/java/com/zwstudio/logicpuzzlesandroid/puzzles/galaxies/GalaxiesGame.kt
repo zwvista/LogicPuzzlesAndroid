@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>, gdi: GameDocumentInterface) : CellsGame<GalaxiesGame, GalaxiesGameMove, GalaxiesGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),

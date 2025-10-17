@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MosaikGame(layout: List<String>, gi: GameInterface<MosaikGame, MosaikGameMove, MosaikGameState>, gdi: GameDocumentInterface) : CellsGame<MosaikGame, MosaikGameMove, MosaikGameState>(gi, gdi) {
     companion object {
-        var offset = arrayOf(
+        val offset = arrayOf(
             Position(-1, 0),
             Position(-1, 1),
             Position(0, 1),

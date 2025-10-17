@@ -20,8 +20,6 @@ class ThermometersGameActivity : GameGameActivity<ThermometersGame, Thermometers
         }
     }
 
-    override fun newGame(level: GameLevel): ThermometersGame {
-        val onlyOneArrow = (level.settings["OnlyOneArrow"] ?: "0") == "1"
-        return ThermometersGame(level.layout, onlyOneArrow, this, doc)
-    }
+    override fun newGame(level: GameLevel) =
+        ThermometersGame(level.layout, this, doc)
 }

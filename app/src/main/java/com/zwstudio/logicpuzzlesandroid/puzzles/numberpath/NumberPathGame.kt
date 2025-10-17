@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NumberPathGame(layout: List<String>, gi: GameInterface<NumberPathGame, NumberPathGameMove, NumberPathGameState>, gdi: GameDocumentInterface) : CellsGame<NumberPathGame, NumberPathGameMove, NumberPathGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var objArray: IntArray

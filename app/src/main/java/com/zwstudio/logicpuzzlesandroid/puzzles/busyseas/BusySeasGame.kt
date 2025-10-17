@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BusySeasGame(layout: List<String>, gi: GameInterface<BusySeasGame, BusySeasGameMove, BusySeasGameState>, gdi: GameDocumentInterface) : CellsGame<BusySeasGame, BusySeasGameMove, BusySeasGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
     
     var pos2hint = mutableMapOf<Position, Int>()

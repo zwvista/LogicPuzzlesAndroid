@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ParksGame(layout: List<String>, val treesInEachArea: Int, gi: GameInterface<ParksGame, ParksGameMove, ParksGameState>, gdi: GameDocumentInterface) : CellsGame<ParksGame, ParksGameMove, ParksGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions8
-        var offset2 = arrayOf(
+        val offset = Position.Directions8
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),

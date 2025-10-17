@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGameMove, BridgesGameState>, gdi: GameDocumentInterface) : CellsGame<BridgesGame, BridgesGameMove, BridgesGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
+        val offset = Position.Directions4
     }
 
     var islandsInfo = mutableMapOf<Position, BridgesIslandInfo>()

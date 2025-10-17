@@ -25,13 +25,13 @@ class ArrowsGameView(context: Context, val soundManager: SoundManager) : CellsGa
 
     private val gridPaint = Paint()
     private val textPaint = TextPaint()
-    private val dArrowList: List<Drawable>
+    private val dArrowArray: Array<Drawable>
 
     init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
         textPaint.isAntiAlias = true
-        dArrowList = getArrowDrawableList()
+        dArrowArray = getArrowDrawableArray()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -49,7 +49,7 @@ class ArrowsGameView(context: Context, val soundManager: SoundManager) : CellsGa
                     ;
                 else if (game.isBorder(p)) {
                     if (n == ArrowsGame.PUZ_UNKNOWN) continue
-                    val dArrow = dArrowList[n]
+                    val dArrow = dArrowArray[n]
                     dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     val alpha = if (game.getArrowState(p) == AllowedObjectState.Error) 50 else 0
                     dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)

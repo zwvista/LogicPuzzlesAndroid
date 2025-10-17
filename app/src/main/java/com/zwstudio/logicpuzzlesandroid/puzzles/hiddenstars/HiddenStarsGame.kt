@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HiddenStarsGame(layout: List<String>, val onlyOneArrow: Boolean, gi: GameInterface<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = Position.Directions8
+        val offset = Position.Directions4
+        val offset2 = Position.Directions8
     }
 
     var row2hint: IntArray

@@ -25,7 +25,7 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
     private val forbiddenPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
-    private val dArrowList: List<Drawable>
+    private val dArrowArray: Array<Drawable>
     private val dStar: Drawable
 
     init {
@@ -40,7 +40,7 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.STROKE
         textPaint.isAntiAlias = true
-        dArrowList = getArrowDrawableList()
+        dArrowArray = getArrowDrawableArray()
         dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
     }
 
@@ -54,7 +54,7 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val hint = game.pos2hint[p]!!
-                val dImage = if (hint == 8) dStar else dArrowList[hint]
+                val dImage = if (hint == 8) dStar else dArrowArray[hint]
                 dImage.setBounds(cwc2(c), chr2(r), cwc(c + 1), chr(r + 1))
                 dImage.draw(canvas)
                 val (n, state) = game.getObject(p)

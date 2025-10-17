@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState>, gdi: GameDocumentInterface) : CellsGame<RobotFencesGame, RobotFencesGameMove, RobotFencesGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),

@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGameMove, TapARowGameState>, gdi: GameDocumentInterface) : CellsGame<TapARowGame, TapARowGameMove, TapARowGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions8
-        var offset2 = arrayOf(
+        val offset = Position.Directions8
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(0, 1),
             Position(1, 0),

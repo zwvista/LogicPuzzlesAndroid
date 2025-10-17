@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BoxItUpGame(layout: List<String>, gi: GameInterface<BoxItUpGame, BoxItUpGameMove, BoxItUpGameState>, gdi: GameDocumentInterface) : CellsGame<BoxItUpGame, BoxItUpGameMove, BoxItUpGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),

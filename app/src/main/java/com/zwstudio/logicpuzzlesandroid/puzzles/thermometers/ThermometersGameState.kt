@@ -18,8 +18,6 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
     operator fun set(p: Position, obj: ThermometersObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, _) in game.pos2arrow)
-            this[p] = ThermometersArrowObject()
         updateIsSolved()
     }
 
@@ -36,103 +34,78 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
         if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = when (o) {
-            is ThermometersEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersMarkerObject else ThermometersStarObject()
-            is ThermometersStarObject -> if (markerOption == MarkerOptions.MarkerLast) ThermometersMarkerObject else ThermometersEmptyObject
-            is ThermometersMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersStarObject() else ThermometersEmptyObject
+            is ThermometersEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersMarkerObject else ThermometersFilledObject()
+            is ThermometersFilledObject -> if (markerOption == MarkerOptions.MarkerLast) ThermometersMarkerObject else ThermometersEmptyObject
+            is ThermometersMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersFilledObject() else ThermometersEmptyObject
             else -> o
         }
         return setObject(move)
     }
 
     /*
-        iOS Game: 100 Logic Games/Puzzle Set 2/Hidden Stars
+        iOS Game: 100 Logic Games/Puzzle Set 14/Thermometers
 
         Summary
-        Each Arrow points to a Star and every Star has an arrow pointing at it
+        Puzzle Fever
 
         Description
-        1. In the board you have to find hidden stars.
-        2. Each star is pointed at by at least one Arrow and each Arrow points
-           to at least one star.
-        3. The number on the borders tell you how many Stars there on that row
-           or column.
-
-        Variant
-        4. Some levels have a variation of these rules: Stars must be pointed
-           by one and only one Arrow.
+        1. On the board a few Thermometers are laid down. Your goal is  to fill
+           them according to the hints.
+        2. In a Thermometer, mercury always starts at the bulb and can progressively
+           fill the Thermometer towards the end.
+        3. A Thermometer can also be completely empty, including the bulb.
+        4. The numbers on the border tell you how many filled cells are present
+           on that Row or Column.
     */
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        // 2. In a Thermometer, mercury always starts at the bulb and can progressively
+        // fill the Thermometer towards the end.
+        for (thermometer in game.thermometers) {
+            var canbeFilled = true
+            for (p in thermometer)
+                if (this[p] is ThermometersFilledObject) {
+                    val s = if(canbeFilled) AllowedObjectState.Normal else AllowedObjectState.Error
+                    if (s == AllowedObjectState.Error) isSolved = false
+                    this[p] = ThermometersFilledObject(s)
+                } else {
+                    if (allowedObjectsOnly && !canbeFilled)
+                        this[p] = ThermometersForbiddenObject
+                    else if (this[p] is ThermometersForbiddenObject)
+                        this[p] = ThermometersEmptyObject
+                    canbeFilled = false
+                }
+        }
         for (r in 0 until rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
             for (c in 0 until cols)
-                if (this[r, c] is ThermometersStarObject)
+                if (this[r, c] is ThermometersFilledObject)
                     n1++
-            // 3. The numbers on the borders tell you how many Stars there are on that row.
+            // 4. The numbers on the border tell you how many filled cells are present
+            // on that Row.
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
+            if (n1 == n2 && allowedObjectsOnly)
+                for (c in 0 until cols)
+                    if (this[r, c] !is ThermometersFilledObject)
+                        this[r, c] = ThermometersForbiddenObject
         }
         for (c in 0 until cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
             for (r in 0 until rows)
-                if (this[r, c] is ThermometersStarObject)
+                if (this[r, c] is ThermometersFilledObject)
                     n1++
-            // 3. The numbers on the borders tell you how many Stars there are on that column.
+            // 4. The numbers on the border tell you how many filled cells are present
+            // on that Column.
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
+            if (n1 == n2 && allowedObjectsOnly)
+                for (r in 0 until rows)
+                    if (this[r, c] !is ThermometersFilledObject)
+                        this[r, c] = ThermometersForbiddenObject
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols)
-                if (this[r, c] is ThermometersForbiddenObject)
-                    this[r, c] = ThermometersEmptyObject
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                val o = this[r, c]
-                fun hasArrow(): Boolean {
-                    var n = 0
-                    for (i in 0..<8) {
-                        val os = ThermometersGame.offset2[i]
-                        var p2 = p + os
-                        while (isValid(p2)) {
-                            if (this[p2] is ThermometersArrowObject && (game.pos2arrow[p2]!! + 4) % 8 == i)
-                                n++
-                            p2 += os
-                        }
-                    }
-                    // 4. Some levels have a variation of these rules: Stars must be pointed
-                    // by one and only one Arrow.
-                    return game.onlyOneArrow && n == 1 || n >= 1
-                }
-                fun hasStar(): Boolean {
-                    var n = 0
-                    val os = ThermometersGame.offset2[game.pos2arrow[p]!!]
-                    var p2 = p + os
-                    while (isValid(p2)) {
-                        if (this[p2] is ThermometersStarObject)
-                            n++
-                        p2 += os
-                    }
-                    // 4. Some levels have a variation of these rules: Stars must be pointed
-                    // by one and only one Arrow.
-                    return game.onlyOneArrow && n == 1 || n >= 1
-                }
-                if (o is ThermometersStarObject) {
-                    // 2. Each star is pointed at by at least one Arrow.
-                    val s = if (hasArrow()) AllowedObjectState.Normal else AllowedObjectState.Error
-                    o.state = s
-                    if (s == AllowedObjectState.Error) isSolved = false
-                } else if (o is ThermometersArrowObject) {
-                    // 2. Each Arrow points to at least one star.
-                    val s = if (hasStar()) AllowedObjectState.Normal else AllowedObjectState.Error
-                    o.state = s
-                    if (s == AllowedObjectState.Error) isSolved = false
-                } else if ((o is ThermometersEmptyObject || o is ThermometersMarkerObject) && allowedObjectsOnly &&
-                    (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasArrow()))
-                    this[r, c] = ThermometersForbiddenObject
-            }
     }
 }

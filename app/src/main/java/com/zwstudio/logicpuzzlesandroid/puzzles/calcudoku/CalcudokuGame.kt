@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>, gdi: GameDocumentInterface) : CellsGame<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(gi, gdi) {
     companion object {
-        var offset = Position.Directions4
-        var offset2 = arrayOf(
+        val offset = Position.Directions4
+        val offset2 = arrayOf(
             Position(0, 0),
             Position(1, 1),
             Position(1, 1),
