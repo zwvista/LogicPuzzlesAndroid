@@ -26,6 +26,7 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val dHorz: Drawable
     private val dVert: Drawable
     private val dCross: Drawable
@@ -42,6 +43,9 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
         markerPaint.color = Color.YELLOW
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         dHorz = fromImageToDrawable("images/TileContent/navigate_minus.png")
         dVert = fromImageToDrawable("images/TileContent/navigate_pipe.png")
         dCross = fromImageToDrawable("images/128/128_navigate_plus_red.png")
@@ -57,35 +61,41 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
                 val ch = game.pos2symbol[p]
                 if (ch != null) {
                     val dSymbol = if (ch == WarehouseGame.PUZ_HORZ) dHorz else if (ch == WarehouseGame.PUZ_VERT) dVert else dCross
-                    val alpha = if (game.getState(p) == AllowedObjectState.Error) 50 else 0
+                    val alpha = if (game.getPosState(p) == AllowedObjectState.Error) 50 else 0
                     dSymbol.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dSymbol.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                     dSymbol.draw(canvas)
                 }
             }
-            if (isInEditMode) return
-            val markerOffset = 20
-            for (r in 0 until rows + 1)
-                for (c in 0 until cols + 1) {
-                    val dotObj = game.getObject(r, c)
-                    when (dotObj[1]) {
-                        GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
-                                if (game[r, c][1] == GridLineObject.Line) line1Paint else line2Paint)
-                        GridLineObject.Marker -> {
-                            canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
-                            canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
-                        }
-                        else -> {}
+        if (isInEditMode) return
+        val markerOffset = 20
+        for (r in 0 until rows + 1)
+            for (c in 0 until cols + 1) {
+                val p = Position(r, c)
+                val dotObj = game.getObject(p)
+                when (dotObj[1]) {
+                    GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
+                            if (game[r, c][1] == GridLineObject.Line) line1Paint else line2Paint)
+                    GridLineObject.Marker -> {
+                        canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), markerPaint)
+                        canvas.drawLine(cwc2(c) - markerOffset.toFloat(), chr(r) + markerOffset.toFloat(), cwc2(c) + markerOffset.toFloat(), chr(r) - markerOffset.toFloat(), markerPaint)
                     }
-                    when (dotObj[2]) {
-                        GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
-                                if (game[r, c][2] == GridLineObject.Line) line1Paint else line2Paint)
-                        GridLineObject.Marker -> {
-                            canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
-                            canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
-                        }
-                        else -> {}
+                    else -> {}
+                }
+                when (dotObj[2]) {
+                    GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
+                            if (game[r, c][2] == GridLineObject.Line) line1Paint else line2Paint)
+                    GridLineObject.Marker -> {
+                        canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), markerPaint)
+                        canvas.drawLine(cwc(c) - markerOffset.toFloat(), chr2(r) + markerOffset.toFloat(), cwc(c) + markerOffset.toFloat(), chr2(r) - markerOffset.toFloat(), markerPaint)
                     }
+                    else -> {}
+                }
+                if ((1 until rows).contains(r) && (1 until cols).contains(c)) {
+                    val s = game.getDotState(p)
+                    if (s == AllowedObjectState.Error)
+                        canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                }
             }
     }
 
