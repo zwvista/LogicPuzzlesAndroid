@@ -56,26 +56,26 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is ThermometersEmptyObject, is ThermometersFilledObject -> {
-                        val n = ThermometersGame.parts.indexOf(game[p])
-                        val (m, degrees) =
-                            if (n < 4) 0 to (6 - n) % 4 * 90
-                            else if (n < 8) 4 to (8 - n) % 4 * 90
-                            else 2 to (n - 8) * 90
-                        val dThermometer = dThermometerArray[m + (if (o is ThermometersFilledObject) 1 else 0)]
-                        dThermometer.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o is ThermometersFilledObject && o.state == AllowedObjectState.Error) 50 else 0
-                        dThermometer.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        canvas.withSave {
-                            rotate(degrees.toFloat(), cwc2(c).toFloat(), chr2(r).toFloat())
-                            dThermometer.draw(this)
-                        }
-                    }
+                val o = game.getObject(p)
+                val n = ThermometersGame.parts.indexOf(game[p])
+                val (m, degrees) =
+                    if (n < 4) 0 to (n + 2) % 4 * 90
+                    else if (n < 8) 4 to (n - 4) % 4 * 90
+                    else 2 to (n - 8) * 90
+                val dThermometer = dThermometerArray[m + (if (o is ThermometersFilledObject) 1 else 0)]
+                dThermometer.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val alpha = if (o is ThermometersFilledObject && o.state == AllowedObjectState.Error) 50 else 0
+                dThermometer.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                canvas.withSave {
+                    rotate(degrees.toFloat(), cwc2(c).toFloat(), chr2(r).toFloat())
+                    dThermometer.draw(this)
+                }
+                when (o) {
                     is ThermometersMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     is ThermometersForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                    else -> {}
                 }
             }
         if (isInEditMode) return
