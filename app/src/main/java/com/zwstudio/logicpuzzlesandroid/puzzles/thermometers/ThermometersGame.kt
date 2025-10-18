@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class ThermometersGame(layout: List<String>, gi: GameInterface<ThermometersGame, ThermometersGameMove, ThermometersGameState>, gdi: GameDocumentInterface) : CellsGame<ThermometersGame, ThermometersGameMove, ThermometersGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = Position.Directions8
         const val bulbs = "^>v<"
         const val parts = "URDLurdl|-"
     }

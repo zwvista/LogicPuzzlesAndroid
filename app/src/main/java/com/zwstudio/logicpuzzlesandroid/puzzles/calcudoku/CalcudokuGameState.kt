@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, CalcudokuGameMove, CalcudokuGameState>(game) {
     var objArray = IntArray(rows * cols)
-    var row2state = Array<HintState>(rows) { HintState.Normal }
-    var col2state = Array<HintState>(cols) { HintState.Normal }
+    var row2state = Array(rows) { HintState.Normal }
+    var col2state = Array(cols) { HintState.Normal }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
