@@ -63,7 +63,7 @@ class ZenLandscaperGameState(game: ZenLandscaperGame) : CellsGameState<ZenLandsc
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                for (i in 2 until 5) {
+                for (i in 2 .. 4) {
                     val os = ZenLandscaperGame.offset[i]
                     val tiles = mutableListOf(p)
                     var p2 = p + os
