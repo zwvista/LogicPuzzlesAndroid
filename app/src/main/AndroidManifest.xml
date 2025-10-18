@@ -1165,6 +1165,18 @@
         <activity android:name=".puzzles.wallsentinels.WallSentinelsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.zenlandscaper.ZenLandscaperMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zenlandscaper.ZenLandscaperGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zenlandscaper.ZenLandscaperHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zenlandscaper.ZenLandscaperOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
