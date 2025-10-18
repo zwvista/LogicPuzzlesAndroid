@@ -35,8 +35,8 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
-        dWallHorz = fromImageToDrawable("images/TileContent/wall_horizontal.png")
-        dWallVert = fromImageToDrawable("images/TileContent/wall_vertical.png")
+        dWallHorz = fromImageToDrawable("images/wall_horizontal.png")
+        dWallVert = fromImageToDrawable("images/wall_vertical.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

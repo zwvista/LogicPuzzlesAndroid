@@ -40,7 +40,7 @@ class ParksGameView(context: Context, val soundManager: SoundManager) : CellsGam
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
+        dTree = fromImageToDrawable("images/tree.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

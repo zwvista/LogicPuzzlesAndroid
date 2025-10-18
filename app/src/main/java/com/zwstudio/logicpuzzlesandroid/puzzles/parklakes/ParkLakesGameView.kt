@@ -35,7 +35,7 @@ class ParkLakesGameView(context: Context, val soundManager: SoundManager) : Cell
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dLake = fromImageToDrawable("images/TileContent/sea.png")
+        dLake = fromImageToDrawable("images/sea.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

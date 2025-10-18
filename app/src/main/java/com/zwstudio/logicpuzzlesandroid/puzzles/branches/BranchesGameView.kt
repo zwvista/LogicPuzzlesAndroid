@@ -39,12 +39,12 @@ class BranchesGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
-        dBranchUp = fromImageToDrawable("images/TileContent/branch_up.png")
-        dBranchRight = fromImageToDrawable("images/TileContent/branch_right.png")
-        dBranchDown = fromImageToDrawable("images/TileContent/branch_down.png")
-        dBranchLeft = fromImageToDrawable("images/TileContent/branch_left.png")
-        dBranchHorizontal = fromImageToDrawable("images/TileContent/branch_horizontal.png")
-        dBranchVertical = fromImageToDrawable("images/TileContent/branch_vertical.png")
+        dBranchUp = fromImageToDrawable("images/branch_up.png")
+        dBranchRight = fromImageToDrawable("images/branch_right.png")
+        dBranchDown = fromImageToDrawable("images/branch_down.png")
+        dBranchLeft = fromImageToDrawable("images/branch_left.png")
+        dBranchHorizontal = fromImageToDrawable("images/branch_horizontal.png")
+        dBranchVertical = fromImageToDrawable("images/branch_vertical.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

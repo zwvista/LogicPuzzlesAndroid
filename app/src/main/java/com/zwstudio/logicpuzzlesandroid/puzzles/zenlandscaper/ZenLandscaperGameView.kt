@@ -31,7 +31,7 @@ class ZenLandscaperGameView(context: Context, val soundManager: SoundManager) : 
             .map {
                 val n = if(it == 6) 1 else it / 2 + 2
                 val ch = if (it % 2 == 0) "" else "-f"
-                fromImageToDrawable("images/TileContent/B$n$ch.jpg")
+                fromImageToDrawable("images/B$n$ch.png")
             }
             .toTypedArray()
     }

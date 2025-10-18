@@ -58,5 +58,5 @@ abstract class CellsGameView(context: Context) : View(context) {
     }
 
     protected fun getArrowDrawableArray(): Array<Drawable> =
-        "89632147".map { fromImageToDrawable("images/TileContent/arrow${it}.png") }.toTypedArray()
+        "89632147".map { fromImageToDrawable("images/arrow${it}.png") }.toTypedArray()
 }

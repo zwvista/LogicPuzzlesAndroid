@@ -39,7 +39,7 @@ class HolidayIslandGameView(context: Context, val soundManager: SoundManager) : 
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dWater = fromImageToDrawable("images/TileContent/water.png")
+        dWater = fromImageToDrawable("images/water.png")
     }
 
     override fun onDraw(canvas: Canvas) {

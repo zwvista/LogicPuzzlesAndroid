@@ -39,7 +39,7 @@ class ProductSentinelsGameView(context: Context, val soundManager: SoundManager)
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTower = fromImageToDrawable("images/TileContent/tower.png")
+        dTower = fromImageToDrawable("images/tower.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

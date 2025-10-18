@@ -37,7 +37,7 @@ class LightenUpGameView(context: Context, val soundManager: SoundManager) : Cell
         lightPaint.color = Color.YELLOW
         lightPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
-        dLightbulb = fromImageToDrawable("images/TileContent/lightbulb_on.png")
+        dLightbulb = fromImageToDrawable("images/lightbulb_on.png")
     }
 
     override fun onDraw(canvas: Canvas) {

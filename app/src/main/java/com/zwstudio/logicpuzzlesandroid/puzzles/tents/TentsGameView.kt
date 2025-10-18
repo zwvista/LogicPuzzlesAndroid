@@ -40,7 +40,7 @@ class TentsGameView(context: Context, val soundManager: SoundManager) : CellsGam
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dTree = fromImageToDrawable("images/TileContent/tree.png")
+        dTree = fromImageToDrawable("images/tree.png")
         dTent = fromImageToDrawable("images/tent.png")
     }
 

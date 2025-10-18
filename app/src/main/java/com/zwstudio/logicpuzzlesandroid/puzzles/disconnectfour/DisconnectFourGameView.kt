@@ -43,8 +43,8 @@ class DisconnectFourGameView(context: Context, val soundManager: SoundManager) :
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dRed = fromImageToDrawable("images/TileContent/token_red.png")
-        dYellow = fromImageToDrawable("images/TileContent/token_yellow.png")
+        dRed = fromImageToDrawable("images/token_red.png")
+        dYellow = fromImageToDrawable("images/token_yellow.png")
     }
 
     override fun onDraw(canvas: Canvas) {

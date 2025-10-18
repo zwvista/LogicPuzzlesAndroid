@@ -41,7 +41,7 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
         markerPaint.style = Paint.Style.STROKE
         textPaint.isAntiAlias = true
         dArrowArray = getArrowDrawableArray()
-        dStar = fromImageToDrawable("images/TileContent/star_yellow.png")
+        dStar = fromImageToDrawable("images/star_yellow.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

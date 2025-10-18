@@ -44,7 +44,7 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
             .map {
                 val n = it / 2 + 1
                 val ch = if (it % 2 == 0) "A" else "B"
-                fromImageToDrawable("images/TileContent/thermometer$n$ch.png")
+                fromImageToDrawable("images/thermometer$n$ch.png")
             }
             .toTypedArray()
     }

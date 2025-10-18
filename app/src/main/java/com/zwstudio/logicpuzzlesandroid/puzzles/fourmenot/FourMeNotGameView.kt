@@ -41,7 +41,7 @@ class FourMeNotGameView(context: Context, val soundManager: SoundManager) : Cell
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dFlower = fromImageToDrawable("images/TileContent/flower_blue.png")
+        dFlower = fromImageToDrawable("images/flower_blue.png")
     }
 
     override fun onDraw(canvas: Canvas) {

@@ -46,9 +46,9 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dHorz = fromImageToDrawable("images/TileContent/navigate_minus.png")
-        dVert = fromImageToDrawable("images/TileContent/navigate_pipe.png")
-        dCross = fromImageToDrawable("images/128/128_navigate_plus_red.png")
+        dHorz = fromImageToDrawable("images/navigate_minus.png")
+        dVert = fromImageToDrawable("images/navigate_pipe.png")
+        dCross = fromImageToDrawable("images/navigate_plus_red.png")
     }
 
     override fun onDraw(canvas: Canvas) {
