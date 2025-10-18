@@ -34,7 +34,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
     }
 
     override fun switchObject(move: TapDifferentlyGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is TapDifferentlyEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyMarkerObject else TapDifferentlyWallObject()

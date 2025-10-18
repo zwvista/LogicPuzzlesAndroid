@@ -28,7 +28,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
     }
 
     override fun switchObject(move: BalancedTapasGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is BalancedTapasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasMarkerObject else BalancedTapasWallObject()

@@ -30,7 +30,7 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
     }
 
     override fun switchObject(move: SnailGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]

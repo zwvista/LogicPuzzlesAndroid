@@ -30,7 +30,7 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
     }
 
     override fun switchObject(move: HitoriGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         fun f(obj: HitoriObject) =
             when (obj) {
                 HitoriObject.Normal ->

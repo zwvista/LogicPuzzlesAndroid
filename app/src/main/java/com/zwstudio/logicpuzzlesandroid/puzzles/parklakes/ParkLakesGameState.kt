@@ -33,7 +33,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
 
     override fun switchObject(move: ParkLakesGameMove): GameOperationType {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameOperationType.Invalid
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is ParkLakesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesMarkerObject else ParkLakesLakeObject()

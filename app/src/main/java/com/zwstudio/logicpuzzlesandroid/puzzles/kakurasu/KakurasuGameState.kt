@@ -29,7 +29,7 @@ class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, Kakur
     }
 
     override fun switchObject(move: KakurasuGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         if (!isValid(move.p)) return GameOperationType.Invalid
         val o = this[move.p]
         move.obj = when (o) {

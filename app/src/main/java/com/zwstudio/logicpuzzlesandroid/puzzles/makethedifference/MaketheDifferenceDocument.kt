@@ -18,6 +18,6 @@ class MaketheDifferenceDocument(context: Context) : GameDocument<MaketheDifferen
         MaketheDifferenceGameMove(
             Position(rec.row, rec.col),
             rec.intValue1,
-            GridLineObject.values()[rec.intValue2]
+            GridLineObject.entries[rec.intValue2]
         )
 }

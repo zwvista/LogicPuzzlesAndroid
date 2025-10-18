@@ -13,5 +13,5 @@ class KakurasuDocument(context: Context) : GameDocument<KakurasuGameMove>(contex
     }
 
     override fun loadMove(rec: MoveProgress) =
-        KakurasuGameMove(Position(rec.row, rec.col), KakurasuObject.values()[rec.intValue1])
+        KakurasuGameMove(Position(rec.row, rec.col), KakurasuObject.entries[rec.intValue1])
 }

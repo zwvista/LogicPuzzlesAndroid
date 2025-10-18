@@ -25,7 +25,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
     }
 
     override fun switchObject(move: LighthousesGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = get(move.p)
         move.obj = when (o) {
             is LighthousesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LighthousesMarkerObject() else LighthousesLighthouseObject()

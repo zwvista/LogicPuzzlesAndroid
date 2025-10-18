@@ -29,7 +29,7 @@ class NumberCrosswordsGameState(game: NumberCrosswordsGame) : CellsGameState<Num
     }
 
     override fun switchObject(move: NumberCrosswordsGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         fun f(obj: NumberCrosswordsObject) =
             when (obj) {
                 NumberCrosswordsObject.Normal ->

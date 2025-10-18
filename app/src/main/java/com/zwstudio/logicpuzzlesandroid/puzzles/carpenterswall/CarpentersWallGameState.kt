@@ -31,7 +31,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
     }
 
     override fun switchObject(move: CarpentersWallGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         if (o.isHint) return GameOperationType.Invalid
         move.obj = when (o) {

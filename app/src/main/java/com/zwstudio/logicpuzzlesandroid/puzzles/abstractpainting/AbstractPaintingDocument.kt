@@ -13,5 +13,5 @@ class AbstractPaintingDocument(context: Context) : GameDocument<AbstractPainting
     }
 
     override fun loadMove(rec: MoveProgress) =
-        AbstractPaintingGameMove(Position(rec.row, rec.col), AbstractPaintingObject.values()[rec.intValue1])
+        AbstractPaintingGameMove(Position(rec.row, rec.col), AbstractPaintingObject.entries[rec.intValue1])
 }

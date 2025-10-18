@@ -13,5 +13,5 @@ class CloudsDocument(context: Context) : GameDocument<CloudsGameMove>(context) {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CloudsGameMove(Position(rec.row, rec.col), CloudsObject.values()[rec.intValue1])
+        CloudsGameMove(Position(rec.row, rec.col), CloudsObject.entries[rec.intValue1])
 }

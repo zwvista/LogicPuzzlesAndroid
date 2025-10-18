@@ -35,7 +35,7 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
 
     override fun switchObject(move: LoopyGameMove): GameOperationType {
         if (!isValidMove(move)) return GameOperationType.Invalid
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {
             GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line

@@ -15,5 +15,5 @@ class GalaxiesDocument(context: Context) : GameDocument<GalaxiesGameMove>(contex
     }
 
     override fun loadMove(rec: MoveProgress) =
-        GalaxiesGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        GalaxiesGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }

@@ -13,5 +13,5 @@ class PaintTheNurikabeDocument(context: Context) : GameDocument<PaintTheNurikabe
     }
 
     override fun loadMove(rec: MoveProgress) =
-        PaintTheNurikabeGameMove(Position(rec.row, rec.col), PaintTheNurikabeObject.values()[rec.intValue1])
+        PaintTheNurikabeGameMove(Position(rec.row, rec.col), PaintTheNurikabeObject.entries[rec.intValue1])
 }

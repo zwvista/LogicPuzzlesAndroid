@@ -33,7 +33,7 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
     override fun switchObject(move: AbstractPaintingGameMove): GameOperationType {
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[p]
         move.obj = when (o) {
             AbstractPaintingObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Marker else AbstractPaintingObject.Painting

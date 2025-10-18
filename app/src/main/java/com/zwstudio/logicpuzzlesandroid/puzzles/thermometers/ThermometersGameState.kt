@@ -29,7 +29,7 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
     }
 
     override fun switchObject(move: ThermometersGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]

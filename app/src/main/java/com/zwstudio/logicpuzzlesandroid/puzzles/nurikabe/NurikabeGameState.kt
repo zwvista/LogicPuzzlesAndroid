@@ -32,7 +32,7 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
     }
 
     override fun switchObject(move: NurikabeGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is NurikabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeMarkerObject else NurikabeWallObject

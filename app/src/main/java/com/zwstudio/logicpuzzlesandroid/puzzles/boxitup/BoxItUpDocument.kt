@@ -15,5 +15,5 @@ class BoxItUpDocument(context: Context) : GameDocument<BoxItUpGameMove>(context)
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BoxItUpGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        BoxItUpGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }

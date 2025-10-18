@@ -33,7 +33,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
     }
 
     override fun switchObject(move: SnakeGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p) || game.pos2snake.contains(p)) return GameOperationType.Invalid
         val o = this[p]

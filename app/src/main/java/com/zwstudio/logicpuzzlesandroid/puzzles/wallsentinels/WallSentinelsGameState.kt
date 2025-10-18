@@ -31,7 +31,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
 
     override fun switchObject(move: WallSentinelsGameMove): GameOperationType {
         val o = this[move.p]
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (o) {
             is WallSentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsMarkerObject else WallSentinelsWallObject
             is WallSentinelsWallObject -> if (markerOption == MarkerOptions.MarkerLast) WallSentinelsMarkerObject else WallSentinelsEmptyObject

@@ -40,7 +40,7 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (o) {
             ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else 'A'
             '.' -> if (markerOption == MarkerOptions.MarkerFirst) 'A' else ' '

@@ -15,5 +15,5 @@ class NorthPoleFishingDocument(context: Context) : GameDocument<NorthPoleFishing
     }
 
     override fun loadMove(rec: MoveProgress) =
-        NorthPoleFishingGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        NorthPoleFishingGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }

@@ -38,7 +38,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
     }
 
     override fun switchObject(move: NeighboursGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {
             GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line

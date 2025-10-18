@@ -1,18 +1,19 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.warehouse
 
 import com.rits.cloning.Cloner
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WarehouseGameState(game: WarehouseGame) : CellsGameState<WarehouseGame, WarehouseGameMove, WarehouseGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    var dot2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -36,7 +37,7 @@ class WarehouseGameState(game: WarehouseGame) : CellsGameState<WarehouseGame, Wa
     }
 
     override fun switchObject(move: WarehouseGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {
             GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
@@ -82,17 +83,17 @@ class WarehouseGameState(game: WarehouseGame) : CellsGameState<WarehouseGame, Wa
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.pos2hint.containsKey(it) }
+            val rng = area.filter { game.pos2symbol.containsKey(it) }
             // 2. Each Box must contain one number.
             if (rng.size != 1) {
                 for (p in rng)
-                    pos2state[p] = HintState.Normal
+                    pos2state[p] = AllowedObjectState.Error
                 isSolved = false
                 continue
             }
             val p2 = rng[0]
             val n1 = area.size
-            val n2 = game.pos2hint[p2]
+            val n2 = game.pos2symbol[p2]
             var r2 = 0
             var r1 = rows
             var c2 = 0
@@ -114,11 +115,24 @@ class WarehouseGameState(game: WarehouseGame) : CellsGameState<WarehouseGame, Wa
                     }
                 return false
             }
-            // 1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
-            // 2. The number represents the area of that Box.
-            val s = if (rs * cs == n1 && rs * cs == n2 && !hasLine()) HintState.Complete else HintState.Error
+            // 3. a cross means it's a square box.
+            // 4. a horizontal bar means the box is wider than taller.
+            // 5. a vertical bar means the box is taller than wider.
+            val ch = game.pos2symbol[p2]!!
+            val s = if ((if (ch == WarehouseGame.PUZ_HORZ) rs < cs
+                else if (ch == WarehouseGame.PUZ_VERT) rs > cs
+                else rs == cs) && !hasLine()) AllowedObjectState.Normal else AllowedObjectState.Error
             pos2state[p2] = s
-            if (s != HintState.Complete) isSolved = false
+            if (s != AllowedObjectState.Normal) isSolved = false
         }
+        // 6. A grid dot must not be shared by the corners of four boxes.
+        dot2state.clear()
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
+                val p = Position(r, c)
+                val has4 = (0 until 4).all { this[p][it] == GridLineObject.Line }
+                dot2state[p] = if(has4) AllowedObjectState.Error else AllowedObjectState.Normal
+                if (has4) isSolved = false
+            }
     }
 }

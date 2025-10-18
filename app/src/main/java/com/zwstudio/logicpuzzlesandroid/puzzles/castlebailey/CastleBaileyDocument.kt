@@ -13,5 +13,5 @@ class CastleBaileyDocument(context: Context) : GameDocument<CastleBaileyGameMove
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CastleBaileyGameMove(Position(rec.row, rec.col), CastleBaileyObject.values()[rec.intValue1])
+        CastleBaileyGameMove(Position(rec.row, rec.col), CastleBaileyObject.entries[rec.intValue1])
 }

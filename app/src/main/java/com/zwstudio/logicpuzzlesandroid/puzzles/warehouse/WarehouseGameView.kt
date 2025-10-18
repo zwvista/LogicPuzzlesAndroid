@@ -4,11 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.TextPaint
+import android.graphics.drawable.Drawable
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -24,7 +26,9 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val markerPaint = Paint()
-    private val textPaint = TextPaint()
+    private val dHorz: Drawable
+    private val dVert: Drawable
+    private val dCross: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -38,7 +42,9 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
         markerPaint.color = Color.YELLOW
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
-        textPaint.isAntiAlias = true
+        dHorz = fromImageToDrawable("images/TileContent/navigate_minus.png")
+        dVert = fromImageToDrawable("images/TileContent/navigate_pipe.png")
+        dCross = fromImageToDrawable("images/128/128_navigate_plus_red.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -48,12 +54,13 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.getState(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                val ch = game.pos2symbol[p]
+                if (ch != null) {
+                    val dSymbol = if (ch == WarehouseGame.PUZ_HORZ) dHorz else if (ch == WarehouseGame.PUZ_VERT) dVert else dCross
+                    val alpha = if (game.getState(p) == AllowedObjectState.Error) 50 else 0
+                    dSymbol.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dSymbol.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    dSymbol.draw(canvas)
                 }
             }
             if (isInEditMode) return

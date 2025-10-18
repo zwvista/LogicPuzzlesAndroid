@@ -13,5 +13,5 @@ class SnakeDocument(context: Context) : GameDocument<SnakeGameMove>(context) {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        SnakeGameMove(Position(rec.row, rec.col), SnakeObject.values()[rec.intValue1])
+        SnakeGameMove(Position(rec.row, rec.col), SnakeObject.entries[rec.intValue1])
 }

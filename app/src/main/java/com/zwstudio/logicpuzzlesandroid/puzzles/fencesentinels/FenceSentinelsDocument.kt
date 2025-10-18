@@ -15,5 +15,5 @@ class FenceSentinelsDocument(context: Context) : GameDocument<FenceSentinelsGame
     }
 
     override fun loadMove(rec: MoveProgress) =
-        FenceSentinelsGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        FenceSentinelsGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }

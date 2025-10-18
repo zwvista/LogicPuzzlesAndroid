@@ -32,7 +32,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
 
     override fun switchObject(move: TierraDelFuegoGameMove): GameOperationType {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameOperationType.Invalid
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is TierraDelFuegoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoMarkerObject else TierraDelFuegoTreeObject()

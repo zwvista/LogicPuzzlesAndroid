@@ -36,7 +36,7 @@ class FenceItUpGameState(game: FenceItUpGame) : CellsGameState<FenceItUpGame, Fe
     }
 
     override fun switchObject(move: FenceItUpGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p][move.dir]
         move.obj = when (o) {
             GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line

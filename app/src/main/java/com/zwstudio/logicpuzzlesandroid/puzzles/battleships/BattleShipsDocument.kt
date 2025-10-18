@@ -13,5 +13,5 @@ class BattleShipsDocument(context: Context) : GameDocument<BattleShipsGameMove>(
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BattleShipsGameMove(Position(rec.row, rec.col), BattleShipsObject.values()[rec.intValue1])
+        BattleShipsGameMove(Position(rec.row, rec.col), BattleShipsObject.entries[rec.intValue1])
 }

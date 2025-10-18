@@ -13,5 +13,5 @@ class DisconnectFourDocument(context: Context) : GameDocument<DisconnectFourGame
     }
 
     override fun loadMove(rec: MoveProgress) =
-        DisconnectFourGameMove(Position(rec.row, rec.col), DisconnectFourObject.values()[rec.intValue1])
+        DisconnectFourGameMove(Position(rec.row, rec.col), DisconnectFourObject.entries[rec.intValue1])
 }

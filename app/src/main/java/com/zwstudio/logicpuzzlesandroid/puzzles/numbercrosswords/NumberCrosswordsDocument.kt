@@ -13,5 +13,5 @@ class NumberCrosswordsDocument(context: Context) : GameDocument<NumberCrosswords
     }
 
     override fun loadMove(rec: MoveProgress) =
-        NumberCrosswordsGameMove(Position(rec.row, rec.col), NumberCrosswordsObject.values()[rec.intValue1])
+        NumberCrosswordsGameMove(Position(rec.row, rec.col), NumberCrosswordsObject.entries[rec.intValue1])
 }

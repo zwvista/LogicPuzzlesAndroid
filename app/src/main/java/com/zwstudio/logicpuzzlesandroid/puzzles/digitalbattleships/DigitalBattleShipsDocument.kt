@@ -13,5 +13,5 @@ class DigitalBattleShipsDocument(context: Context) : GameDocument<DigitalBattleS
     }
 
     override fun loadMove(rec: MoveProgress) =
-        DigitalBattleShipsGameMove(Position(rec.row, rec.col), DigitalBattleShipsObject.values()[rec.intValue1])
+        DigitalBattleShipsGameMove(Position(rec.row, rec.col), DigitalBattleShipsObject.entries[rec.intValue1])
 }

@@ -8,6 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WarehouseGame(layout: List<String>, gi: GameInterface<WarehouseGame, WarehouseGameMove, WarehouseGameState>, gdi: GameDocumentInterface) : CellsGame<WarehouseGame, WarehouseGameMove, WarehouseGameState>(gi, gdi) {
     companion object {
+        const val PUZ_HORZ = 'H'
+        const val PUZ_VERT = 'V'
+        const val PUZ_CROSS = '+'
         val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
@@ -19,22 +22,21 @@ class WarehouseGame(layout: List<String>, gi: GameInterface<WarehouseGame, Wareh
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    var pos2hint = mutableMapOf<Position, Int>()
+    var pos2symbol = mutableMapOf<Position, Char>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
-        size = Position(layout.size + 1, layout[0].length / 2 + 1)
+        size = Position(layout.size + 1, layout[0].length + 1)
         objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
         for (r in 0 until rows - 1) {
             val str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                val s = str.substring(c * 2, c * 2 + 2)
-                if (s == "  ") continue
-                val n = s.trim(' ').toInt()
-                pos2hint[p] = n
+                val ch = str[c]
+                if (ch == ' ') continue
+                pos2symbol[p] = ch
             }
         }
         for (r in 0 until rows - 1) {

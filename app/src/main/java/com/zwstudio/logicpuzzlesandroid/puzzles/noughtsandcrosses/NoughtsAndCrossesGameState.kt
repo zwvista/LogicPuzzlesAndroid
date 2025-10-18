@@ -30,7 +30,7 @@ class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<N
     }
 
     override fun switchObject(move: NoughtsAndCrossesGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
         val o = this[p]

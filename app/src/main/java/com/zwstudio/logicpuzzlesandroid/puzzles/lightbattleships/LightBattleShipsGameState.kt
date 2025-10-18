@@ -28,7 +28,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
     }
 
     override fun switchObject(move: LightBattleShipsGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         val o = this[p]
         move.obj = when (o) {

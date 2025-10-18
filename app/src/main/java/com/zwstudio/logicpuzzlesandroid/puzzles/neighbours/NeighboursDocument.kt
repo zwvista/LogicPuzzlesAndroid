@@ -15,5 +15,5 @@ class NeighboursDocument(context: Context) : GameDocument<NeighboursGameMove>(co
     }
 
     override fun loadMove(rec: MoveProgress) =
-        NeighboursGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        NeighboursGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }

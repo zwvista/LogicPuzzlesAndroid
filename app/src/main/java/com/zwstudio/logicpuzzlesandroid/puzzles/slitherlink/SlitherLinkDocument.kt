@@ -15,5 +15,5 @@ class SlitherLinkDocument(context: Context) : GameDocument<SlitherLinkGameMove>(
     }
 
     override fun loadMove(rec: MoveProgress) =
-        SlitherLinkGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        SlitherLinkGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }

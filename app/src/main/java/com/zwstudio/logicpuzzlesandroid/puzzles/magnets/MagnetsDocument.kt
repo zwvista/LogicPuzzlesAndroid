@@ -13,5 +13,5 @@ open class MagnetsDocument(context: Context) : GameDocument<MagnetsGameMove>(con
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MagnetsGameMove(Position(rec.row, rec.col), MagnetsObject.values()[rec.intValue1])
+        MagnetsGameMove(Position(rec.row, rec.col), MagnetsObject.entries[rec.intValue1])
 }

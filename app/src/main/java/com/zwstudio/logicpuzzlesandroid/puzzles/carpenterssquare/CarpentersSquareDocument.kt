@@ -15,5 +15,5 @@ class CarpentersSquareDocument(context: Context) : GameDocument<CarpentersSquare
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CarpentersSquareGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        CarpentersSquareGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }

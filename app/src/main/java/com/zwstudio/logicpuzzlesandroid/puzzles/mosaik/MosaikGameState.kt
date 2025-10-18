@@ -29,7 +29,7 @@ class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameM
     }
 
     override fun switchObject(move: MosaikGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             MosaikObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) MosaikObject.Marker else MosaikObject.Filled

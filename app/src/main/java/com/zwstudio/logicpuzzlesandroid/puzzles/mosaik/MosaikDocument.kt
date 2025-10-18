@@ -13,5 +13,5 @@ class MosaikDocument(context: Context) : GameDocument<MosaikGameMove>(context) {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MosaikGameMove(Position(rec.row, rec.col), MosaikObject.values()[rec.intValue1])
+        MosaikGameMove(Position(rec.row, rec.col), MosaikObject.entries[rec.intValue1])
 }

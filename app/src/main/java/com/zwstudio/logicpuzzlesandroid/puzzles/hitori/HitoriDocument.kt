@@ -13,5 +13,5 @@ class HitoriDocument(context: Context) : GameDocument<HitoriGameMove>(context) {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        HitoriGameMove(Position(rec.row, rec.col), HitoriObject.values()[rec.intValue1])
+        HitoriGameMove(Position(rec.row, rec.col), HitoriObject.entries[rec.intValue1])
 }

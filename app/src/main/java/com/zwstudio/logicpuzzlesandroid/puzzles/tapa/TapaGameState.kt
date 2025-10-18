@@ -33,7 +33,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
     }
 
     override fun switchObject(move: TapaGameMove): GameOperationType {
-        val markerOption = MarkerOptions.values()[game.gdi.markerOption]
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
             is TapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaMarkerObject else TapaWallObject()

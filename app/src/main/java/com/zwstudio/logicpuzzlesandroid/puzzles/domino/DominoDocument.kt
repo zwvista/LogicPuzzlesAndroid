@@ -15,5 +15,5 @@ class DominoDocument(context: Context) : GameDocument<DominoGameMove>(context) {
     }
 
     override fun loadMove(rec: MoveProgress) =
-        DominoGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.values()[rec.intValue2])
+        DominoGameMove(Position(rec.row, rec.col), rec.intValue1, GridLineObject.entries[rec.intValue2])
 }
