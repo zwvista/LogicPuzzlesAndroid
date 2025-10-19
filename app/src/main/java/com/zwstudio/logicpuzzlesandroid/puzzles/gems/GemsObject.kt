@@ -2,4 +2,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.gems
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class GemsGameMove(val p: Position, var obj: Int = 0)
+enum class GemsObject {
+    Empty, Gem, Marker, Pebble
+}
+
+class GemsGameMove(val p: Position, var obj: GemsObject = GemsObject.Empty)

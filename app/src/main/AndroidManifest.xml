@@ -397,6 +397,18 @@
         <activity android:name=".puzzles.gardener.GardenerOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.gems.GemsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gems.GemsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gems.GemsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gems.GemsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hiddenpath.HiddenPathMainActivity"
                   android:screenOrientation="portrait">
         </activity>
