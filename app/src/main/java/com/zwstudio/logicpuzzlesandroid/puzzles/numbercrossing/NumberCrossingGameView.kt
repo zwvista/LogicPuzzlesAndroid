@@ -21,6 +21,7 @@ class NumberCrossingGameView(context: Context, val soundManager: SoundManager) :
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
@@ -28,6 +29,9 @@ class NumberCrossingGameView(context: Context, val soundManager: SoundManager) :
         gridPaint.style = Paint.Style.STROKE
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
 
@@ -39,12 +43,16 @@ class NumberCrossingGameView(context: Context, val soundManager: SoundManager) :
         if (isInEditMode) return
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                val n = game.getObject(r, c)
-                if (n == NumberCrossingGame.PUZ_UNKNOWN) continue
-                val s = game.getState(r, c)
-                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                val p = Position(r, c)
+                val n = game.getObject(p)
+                if (n == NumberCrossingGame.PUZ_FORBIDDEN)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                else if (n != NumberCrossingGame.PUZ_UNKNOWN) {
+                    val s = game.getPosState(p)
+                    textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
+                    val text = n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
             }
     }
 

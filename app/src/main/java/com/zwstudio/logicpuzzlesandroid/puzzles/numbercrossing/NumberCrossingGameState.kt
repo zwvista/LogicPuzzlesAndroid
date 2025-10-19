@@ -7,20 +7,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var row2state = Array(rows * 2) { HintState.Normal }
-    var col2state = Array(cols * 2) { HintState.Normal }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
-    fun getState(row: Int, col: Int) = when {
-        row == 0 && col >= 1 && col < cols - 1 -> col2state[col * 2]
-        row == rows - 1 && col >= 1 && col < cols - 1 -> col2state[col * 2 + 1]
-        col == 0 && row >= 1 && row < rows - 1 -> row2state[row * 2]
-        col == cols - 1 && row >= 1 && row < rows - 1 -> row2state[row * 2 + 1]
-        else -> HintState.Normal
-    }
 
     init {
         updateIsSolved()
@@ -28,7 +20,7 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
 
     override fun setObject(move: NumberCrossingGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == NumberCrossingGame.PUZ_FORBIDDEN || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -36,7 +28,7 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
 
     override fun switchObject(move: NumberCrossingGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == NumberCrossingGame.PUZ_FORBIDDEN) return GameOperationType.Invalid
         val o = this[p]
         move.obj =
             if (o == NumberCrossingGame.PUZ_UNKNOWN) 1
@@ -60,14 +52,29 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
            on that column or row.
     */
     private fun updateIsSolved() {
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 1 until rows - 1) {
-            val (h1, h2) = this[r, 0] to this[r, cols - 1]
+            val (p1, p2) = Position(r, 0) to Position(r, cols - 1)
+            val (h1, h2) = this[p1] to this[p2]
             var (n1, n2) = 0 to 0
             for (c in 1 until cols - 1) {
-                val o = this[r, c]
-                if (o == NumberCrossingGame.PUZ_UNKNOWN) continue
+                val p = Position(r, c)
+                val o = this[p]
+                if (o < 0) continue
                 n1 += 1; n2 += o
+                pos2state[p] = HintState.Normal
+                // 2. Numbers cannot touch each other, not even diagonally.
+                for (os in NumberCrossingGame.offset) {
+                    val p2 = p + os
+                    val o2 = this[p2]
+                    if (o2 > 0) {
+                        pos2state[p2] = HintState.Error
+                        pos2state[p2] = HintState.Error
+                        isSolved = false
+                    } else if (allowedObjectsOnly && o2 == NumberCrossingGame.PUZ_UNKNOWN)
+                        this[p2] = NumberCrossingGame.PUZ_FORBIDDEN
+                }
             }
             // 3. On the top and left of the grid, you're given how many numbers are in that
             //    column or row.
@@ -75,16 +82,30 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             //    on that column or row.
             val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
             val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-            row2state[r * 2] = s1; row2state[r * 2 + 1] = s2
+            pos2state[p1] = s1; pos2state[p2] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
         }
         for (c in 1 until cols - 1) {
-            val (h1, h2) = this[0, c] to this[rows - 1, c]
+            val (p1, p2) = Position(0, c) to Position(rows - 1, c)
+            val (h1, h2) = this[p1] to this[p2]
             var (n1, n2) = 0 to 0
             for (r in 1 until rows - 1) {
-                val o = this[r, c]
-                if (o == NumberCrossingGame.PUZ_UNKNOWN) continue
+                val p = Position(r, c)
+                val o = this[p]
+                if (o < 0) continue
                 n1 += 1; n2 += o
+                pos2state[p] = HintState.Normal
+                // 2. Numbers cannot touch each other, not even diagonally.
+                for (os in NumberCrossingGame.offset) {
+                    val p2 = p + os
+                    val o2 = this[p2]
+                    if (o2 > 0) {
+                        pos2state[p2] = HintState.Error
+                        pos2state[p2] = HintState.Error
+                        isSolved = false
+                    } else if (allowedObjectsOnly && o2 == NumberCrossingGame.PUZ_UNKNOWN)
+                        this[p2] = NumberCrossingGame.PUZ_FORBIDDEN
+                }
             }
             // 3. On the top and left of the grid, you're given how many numbers are in that
             //    column or row.
@@ -92,7 +113,7 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             //    on that column or row.
             val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
             val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-            col2state[c * 2] = s1; col2state[c * 2 + 1] = s2
+            pos2state[p1] = s1; pos2state[p2] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
         }
     }

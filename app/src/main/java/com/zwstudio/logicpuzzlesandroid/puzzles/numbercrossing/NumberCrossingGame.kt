@@ -8,7 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class NumberCrossingGame(layout: List<String>, gi: GameInterface<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>, gdi: GameDocumentInterface) : CellsGame<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>(gi, gdi) {
     companion object {
         const val PUZ_UNKNOWN = -1
-        val offset = Position.Directions4
+        const val PUZ_FORBIDDEN = -2
+        val offset = Position.Directions8
     }
 
     var objArray: IntArray
@@ -37,5 +38,5 @@ class NumberCrossingGame(layout: List<String>, gi: GameInterface<NumberCrossingG
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getState(row: Int, col: Int) = currentState.getState(row, col)
+    fun getPosState(p: Position) = currentState.pos2state[p]
 }
