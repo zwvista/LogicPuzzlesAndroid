@@ -26,8 +26,8 @@ class FieldsGameView(context: Context, val soundManager: SoundManager) : CellsGa
     private val markerPaint = Paint()
     private val fixedPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val dRed: Drawable
-    private val dYellow: Drawable
+    private val dMeadow: Drawable
+    private val dSoil: Drawable
 
 
     init {
@@ -43,8 +43,8 @@ class FieldsGameView(context: Context, val soundManager: SoundManager) : CellsGa
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dRed = fromImageToDrawable("images/token_red.png")
-        dYellow = fromImageToDrawable("images/token_yellow.png")
+        dMeadow = fromImageToDrawable("images/meadow_background.png")
+        dSoil = fromImageToDrawable("images/soil.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -58,11 +58,11 @@ class FieldsGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 val p = Position(r, c)
                 val o = game.getObject(p)
                 if (o == FieldsObject.Empty) continue
-                val dToken = if (o == FieldsObject.Red) dRed else dYellow
-                dToken.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val dField = if (o == FieldsObject.Meadow) dMeadow else dSoil
+                dField.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
-                dToken.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                dToken.draw(canvas)
+                dField.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                dField.draw(canvas)
                 if (game[p] != FieldsObject.Empty)
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
             }

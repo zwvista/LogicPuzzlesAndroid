@@ -3,6 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fields
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FieldsGameState(game: FieldsGame) : CellsGameState<FieldsGame, FieldsGameMove, FieldsGameState>(game) {
@@ -28,71 +30,71 @@ class FieldsGameState(game: FieldsGame) : CellsGameState<FieldsGame, FieldsGameM
     override fun switchObject(move: FieldsGameMove): GameOperationType {
         if (!isValid(move.p) || game[move.p] != FieldsObject.Empty) return GameOperationType.Invalid
         val o = this[move.p]
-        move.obj = if (o == FieldsObject.Empty) FieldsObject.Yellow else if (o == FieldsObject.Yellow) FieldsObject.Red else FieldsObject.Empty
+        move.obj = if (o == FieldsObject.Empty) FieldsObject.Meadow else if (o == FieldsObject.Meadow) FieldsObject.Soil else FieldsObject.Empty
         return setObject(move)
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 11/Disconnect Four
+        iOS Game: 100 Logic Games 2/Puzzle Set 1/Fields
 
         Summary
-        Win by not winning!
+        Twice of the blessings of a Nurikabe
 
         Description
-        1. The opposite of the famous game 'Connect Four', where you must line
-           up four tokens of the same colour.
-        2. In this puzzle you have to ensure that there are no more than three
-           tokens of the same colour lined up horizontally, vertically or
-           diagonally.
+        1. Fill the board with either meadows or soil, creating a path of soil
+           and a path of meadows, with the same rules for each of them.
+        2. The path is continuous and connected horizontally or vertically, but
+           cannot touch diagonally.
+        3. The path can't form 2x2 squares.
+        4. These type of paths are called Nurikabe.
     */
     private fun updateIsSolved() {
         isSolved = true
+        val meadows = mutableListOf<Position>()
+        val soils = mutableListOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 pos2state[p] = AllowedObjectState.Normal
-            }
-        var oLast: FieldsObject
-        val trees = mutableListOf<Position>()
-        fun checkTrees() {
-            if (trees.size > 3) {
-                isSolved = false
-                for (p in trees)
-                    pos2state[p] = AllowedObjectState.Error
-            }
-            trees.clear()
-        }
-        for (r in 0 until rows) {
-            oLast = FieldsObject.Empty
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                val o = this[p]
-                if (o != oLast) {
-                    checkTrees()
-                    oLast = o
+                when (this[p]) {
+                    FieldsObject.Empty -> isSolved = false
+                    FieldsObject.Meadow -> meadows.add(p)
+                    FieldsObject.Soil -> soils.add(p)
                 }
-                if (o == FieldsObject.Empty)
-                    isSolved = false
-                else
-                    trees.add(p)
             }
-            checkTrees()
-        }
-        for (c in 0 until cols) {
-            oLast = FieldsObject.Empty
-            for (r in 0 until rows) {
+        // 3. The path can't form 2x2 squares.
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o != oLast) {
-                    checkTrees()
-                    oLast = o
-                }
-                if (o == FieldsObject.Empty)
+                val square = FieldsGame.offset2.map { p + it }
+                val objSet = square.map { this[it] }.toSet()
+                if (objSet.size == 1 && objSet.first() != FieldsObject.Empty) {
                     isSolved = false
-                else
-                    trees.add(p)
+                    for (p in square)
+                        pos2state[p] = AllowedObjectState.Error
+                }
             }
-            checkTrees()
+        // 1. Fill the board with either meadows or soil, creating a path of soil
+        //    and a path of meadows, with the same rules for each of them.
+        // 2. The path is continuous and connected horizontally or vertically, but
+        //    cannot touch diagonally.
+        for (fields in listOf(meadows, soils)) {
+            val g = Graph()
+            val pos2node = mutableMapOf<Position, Node>()
+            for (p in fields) {
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+            for (p in pos2node.keys)
+                for (os in FieldsGame.offset) {
+                    val p2 = p + os
+                    if (pos2node.containsKey(p2))
+                        g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                }
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            if (nodeList.size != pos2node.size) isSolved = false
         }
     }
 }

@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class FieldsGame(layout: List<String>, gi: GameInterface<FieldsGame, FieldsGameMove, FieldsGameState>, gdi: GameDocumentInterface) : CellsGame<FieldsGame, FieldsGameMove, FieldsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val offset2 = Position.Square2x2Offset
     }
 
     var objArray: Array<FieldsObject>
@@ -24,8 +25,8 @@ class FieldsGame(layout: List<String>, gi: GameInterface<FieldsGame, FieldsGameM
             val str = layout[r]
             for (c in 0 until cols)
                 when (str[c]) {
-                    'Y' -> this[r, c] = FieldsObject.Yellow
-                    'R' -> this[r, c] = FieldsObject.Red
+                    'M' -> this[r, c] = FieldsObject.Meadow
+                    'S' -> this[r, c] = FieldsObject.Soil
                 }
         }
         val state = FieldsGameState(this)

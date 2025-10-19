@@ -325,6 +325,18 @@
         <activity android:name=".puzzles.fencesentinels.FenceSentinelsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.fields.FieldsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fields.FieldsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fields.FieldsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fields.FieldsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fillomino.FillominoMainActivity"
                   android:screenOrientation="portrait">
         </activity>

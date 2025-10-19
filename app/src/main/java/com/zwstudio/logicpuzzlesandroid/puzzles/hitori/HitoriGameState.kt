@@ -122,13 +122,12 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
                     return
                 }
             }
-        for (p in pos2node.keys) {
+        for (p in pos2node.keys)
             for (os in HitoriGame.offset) {
                 val p2 = p + os
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-        }
         // 3. In the end all the un-shaded squares must form a single continuous area.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
