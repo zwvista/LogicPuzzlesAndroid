@@ -32,7 +32,7 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
         val o = this[p]
         move.obj =
             if (o == NumberCrossingGame.PUZ_UNKNOWN) 1
-            else if (o == game.intMax()) NumberCrossingGame.PUZ_UNKNOWN
+            else if (o == 9) NumberCrossingGame.PUZ_UNKNOWN
             else o + 1
         return setObject(move)
     }
@@ -67,6 +67,7 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
                 // 2. Numbers cannot touch each other, not even diagonally.
                 for (os in NumberCrossingGame.offset) {
                     val p2 = p + os
+                    if (!isValid(p2)) continue
                     val o2 = this[p2]
                     if (o2 > 0) {
                         pos2state[p2] = HintState.Error
@@ -84,6 +85,10 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
             pos2state[p1] = s1; pos2state[p2] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
+            if (allowedObjectsOnly && (s1 != HintState.Normal || s2 != HintState.Normal))
+                for (c in 1 until cols - 1)
+                    if (this[r, c] == NumberCrossingGame.PUZ_UNKNOWN)
+                        this[r, c] = NumberCrossingGame.PUZ_FORBIDDEN
         }
         for (c in 1 until cols - 1) {
             val (p1, p2) = Position(0, c) to Position(rows - 1, c)
@@ -98,6 +103,7 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
                 // 2. Numbers cannot touch each other, not even diagonally.
                 for (os in NumberCrossingGame.offset) {
                     val p2 = p + os
+                    if (!isValid(p2)) continue
                     val o2 = this[p2]
                     if (o2 > 0) {
                         pos2state[p2] = HintState.Error
@@ -115,6 +121,10 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
             pos2state[p1] = s1; pos2state[p2] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
+            if (allowedObjectsOnly && (s1 != HintState.Normal || s2 != HintState.Normal))
+                for (r in 1 until rows - 1)
+                    if (this[r, c] == NumberCrossingGame.PUZ_UNKNOWN)
+                        this[r, c] = NumberCrossingGame.PUZ_FORBIDDEN
         }
     }
 }

@@ -13,7 +13,6 @@ class NumberCrossingGame(layout: List<String>, gi: GameInterface<NumberCrossingG
     }
 
     var objArray: IntArray
-    fun intMax() = rows - 2
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
