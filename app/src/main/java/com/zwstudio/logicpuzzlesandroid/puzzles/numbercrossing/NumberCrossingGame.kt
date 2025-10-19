@@ -8,7 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class NumberCrossingGame(layout: List<String>, gi: GameInterface<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>, gdi: GameDocumentInterface) : CellsGame<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>(gi, gdi) {
     companion object {
         const val PUZ_UNKNOWN = -1
-        const val PUZ_FORBIDDEN = -2
+        const val PUZ_MARKER = -2
+        const val PUZ_FORBIDDEN = -3
         val offset = Position.Directions8
     }
 

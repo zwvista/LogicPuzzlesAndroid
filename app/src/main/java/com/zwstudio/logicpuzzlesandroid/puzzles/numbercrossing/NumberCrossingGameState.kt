@@ -3,6 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.numbercrossing
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>(game) {
@@ -29,10 +30,12 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
     override fun switchObject(move: NumberCrossingGameMove): GameOperationType {
         val p = move.p
         if (!isValid(p) || this[p] == NumberCrossingGame.PUZ_FORBIDDEN) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[p]
         move.obj =
-            if (o == NumberCrossingGame.PUZ_UNKNOWN) 1
-            else if (o == 9) NumberCrossingGame.PUZ_UNKNOWN
+            if (o == NumberCrossingGame.PUZ_UNKNOWN) if (markerOption == MarkerOptions.MarkerFirst) NumberCrossingGame.PUZ_MARKER else 1
+            else if (o == NumberCrossingGame.PUZ_MARKER) if (markerOption == MarkerOptions.MarkerFirst) 1 else NumberCrossingGame.PUZ_UNKNOWN
+            else if (o == 9) if (markerOption == MarkerOptions.MarkerLast) NumberCrossingGame.PUZ_MARKER else NumberCrossingGame.PUZ_UNKNOWN
             else o + 1
         return setObject(move)
     }

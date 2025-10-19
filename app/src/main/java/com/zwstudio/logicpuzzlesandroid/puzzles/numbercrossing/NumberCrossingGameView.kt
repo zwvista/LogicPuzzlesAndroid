@@ -45,7 +45,9 @@ class NumberCrossingGameView(context: Context, val soundManager: SoundManager) :
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val n = game.getObject(p)
-                if (n == NumberCrossingGame.PUZ_FORBIDDEN)
+                if (n == NumberCrossingGame.PUZ_MARKER)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                else if (n == NumberCrossingGame.PUZ_FORBIDDEN)
                     canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                 else if (n != NumberCrossingGame.PUZ_UNKNOWN) {
                     val s = game.getPosState(p)
