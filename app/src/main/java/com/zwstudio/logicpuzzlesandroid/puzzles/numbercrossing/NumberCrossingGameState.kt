@@ -38,109 +38,62 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
-        move.obj = (o + 1) % (game.intMax() + 1)
+        move.obj =
+            if (o == NumberCrossingGame.PUZ_UNKNOWN) 1
+            else if (o == game.intMax()) NumberCrossingGame.PUZ_UNKNOWN
+            else o + 1
         return setObject(move)
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 6/NumberCrossing
+        iOS Game: 100 Logic Games/Puzzle Set 17/Number Crossing
 
         Summary
-        Sum the skyline!
+        Digital Crosswords
 
         Description
-        1. The grid in the center represents a city from above. Each cell contain
-           a skyscraper, of different height.
-        2. The goal is to guess the height of each Skyscraper.
-        3. Each row and column can't have two Skyscrapers of the same height.
-        4. The numbers on the boarders tell the SUM of the heights of the Skyscrapers
-           you see from there, keeping mind that a higher skyscraper hides a lower one.
-           Skyscrapers are numbered from 1 (lowest) to the grid size (highest).
-        5. Each row and column can't have similar Skyscrapers.
+        1. Find the numbers in the board.
+        2. Numbers cannot touch each other, not even diagonally.
+        3. On the top and left of the grid, you're given how many numbers are in that
+           column or row.
+        4. On the bottom and right of the grid, you're given the sum of the numbers
+           on that column or row.
     */
     private fun updateIsSolved() {
         isSolved = true
-        val numss = mutableListOf<List<Int>>()
-        val nums = mutableListOf<Int>()
         for (r in 1 until rows - 1) {
-            val h1 = this[r, 0]
-            val h2 = this[r, cols - 1]
-            var n1 = 0
-            var n2 = 0
-            var n11 = 0
-            var n21 = 0
-            nums.clear()
+            val (h1, h2) = this[r, 0] to this[r, cols - 1]
+            var (n1, n2) = 0 to 0
             for (c in 1 until cols - 1) {
-                val n12 = this[r, c]
-                val n22 = this[r, cols - 1 - c]
-                if (n11 < n12) {
-                    n11 = n12
-                    n1 += n12
-                }
-                if (n21 < n22) {
-                    n21 = n22
-                    n2 += n22
-                }
-                if (n12 == 0) continue
-                if (nums.contains(n12))
-                    isSolved = false
-                else
-                    nums.add(n12)
+                val o = this[r, c]
+                if (o == NumberCrossingGame.PUZ_UNKNOWN) continue
+                n1 += 1; n2 += o
             }
-            // 4. The numbers on the boarders tell you the SUM of the heights skyscrapers
-            // you see from there, keeping mind that a higher skyscraper hides a lower one.
-            // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
-            val s1 = if (n1 == 0) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-            val s2 = if (n2 == 0) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-            row2state[r * 2] = s1
-            row2state[r * 2 + 1] = s2
+            // 3. On the top and left of the grid, you're given how many numbers are in that
+            //    column or row.
+            // 4. On the bottom and right of the grid, you're given the sum of the numbers
+            //    on that column or row.
+            val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
+            val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
+            row2state[r * 2] = s1; row2state[r * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
-            if (nums.size != game.intMax()) isSolved = false
-            // 5. Each row and column can't have similar Skyscrapers.
-            if (numss.contains(nums))
-                isSolved = false
-            else
-                numss.add(nums)
         }
         for (c in 1 until cols - 1) {
-            val h1 = this[0, c]
-            val h2 = this[rows - 1, c]
-            var n1 = 0
-            var n2 = 0
-            var n11 = 0
-            var n21 = 0
-            nums.clear()
+            val (h1, h2) = this[0, c] to this[rows - 1, c]
+            var (n1, n2) = 0 to 0
             for (r in 1 until rows - 1) {
-                val n12 = this[r, c]
-                val n22 = this[rows - 1 - r, c]
-                if (n11 < n12) {
-                    n11 = n12
-                    n1 += n12
-                }
-                if (n21 < n22) {
-                    n21 = n22
-                    n2 += n22
-                }
-                if (n12 == 0) continue
-                if (nums.contains(n12))
-                    isSolved = false
-                else
-                    nums.add(n12)
+                val o = this[r, c]
+                if (o == NumberCrossingGame.PUZ_UNKNOWN) continue
+                n1 += 1; n2 += o
             }
-            // 4. The numbers on the boarders tell you the SUM of the heights skyscrapers
-            // you see from there, keeping mind that a higher skyscraper hides a lower one.
-            // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
-            val s1 = if (n1 == 0) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-            val s2 = if (n2 == 0) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-            col2state[c * 2] = s1
-            col2state[c * 2 + 1] = s2
+            // 3. On the top and left of the grid, you're given how many numbers are in that
+            //    column or row.
+            // 4. On the bottom and right of the grid, you're given the sum of the numbers
+            //    on that column or row.
+            val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
+            val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
+            col2state[c * 2] = s1; col2state[c * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
-            if (nums.size != game.intMax()) isSolved = false
-            // 5. Each row and column can't have similar Skyscrapers.
-            if (numss.contains(nums))
-                isSolved = false
-            else
-                numss.add(nums)
         }
     }
 }

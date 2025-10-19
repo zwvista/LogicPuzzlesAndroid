@@ -7,6 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NumberCrossingGame(layout: List<String>, gi: GameInterface<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>, gdi: GameDocumentInterface) : CellsGame<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>(gi, gdi) {
     companion object {
+        const val PUZ_UNKNOWN = -1
         val offset = Position.Directions4
     }
 
@@ -26,7 +27,7 @@ class NumberCrossingGame(layout: List<String>, gi: GameInterface<NumberCrossingG
             val str = layout[r]
             for (c in 0 until cols) {
                 val s = str.substring(c * 2, c * 2 + 2).trim(' ')
-                val n = if (s == "") 0 else s.toInt()
+                val n = if (s == "") PUZ_UNKNOWN else s.toInt()
                 this[r, c] = n
             }
         }
