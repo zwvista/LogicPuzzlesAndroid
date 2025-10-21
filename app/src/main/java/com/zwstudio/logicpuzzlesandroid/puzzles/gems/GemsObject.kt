@@ -1,9 +1,34 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.gems
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-enum class GemsObject {
-    Empty, Gem, Marker, Pebble
+sealed class GemsObject {
+    open fun objAsString() = "empty"
+
+    companion object {
+        fun objFromString(str: String) = when (str) {
+            "marker" -> GemsMarkerObject
+            "pebble" -> GemsPebbleObject
+            "gem" -> GemsGemObject()
+            else -> GemsEmptyObject
+        }
+    }
 }
 
-class GemsGameMove(val p: Position, var obj: GemsObject = GemsObject.Empty)
+object GemsEmptyObject : GemsObject()
+
+class GemsHintObject(var state: HintState = HintState.Normal) : GemsObject()
+
+object GemsMarkerObject : GemsObject() {
+    override fun objAsString() = "marker"
+}
+
+object GemsPebbleObject : GemsObject()
+
+class GemsGemObject(var state: AllowedObjectState = AllowedObjectState.Normal) : GemsObject() {
+    override fun objAsString() = "gem"
+}
+
+class GemsGameMove(val p: Position, var obj: GemsObject = GemsEmptyObject)

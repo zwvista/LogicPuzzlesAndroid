@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -47,29 +48,26 @@ class GemsGameView(context: Context, val soundManager: SoundManager) : CellsGame
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (r in 1 until rows - 1 && c in 1 until cols - 1) {
-                    when (val o = game.getObject(p)) {
-                        GemsObject.Marker ->
-                            canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                        GemsObject.Gem -> {
-                            dGem.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                            val alpha = if (game.getPosState(p) == HintState.Error) 50 else 0
-                            dGem.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                            dGem.draw(canvas)
-                        }
-                        GemsObject.Pebble -> {
-                            dPebble.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                            dPebble.draw(canvas)
-                        }
-                        else -> {}
+                when (val o = game.getObject(p)) {
+                    is GemsMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    is GemsGemObject -> {
+                        dGem.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dGem.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dGem.draw(canvas)
                     }
-                } else {
-                    val n = game.pos2hint[p]
-                    if (n == null) continue
-                    val s = game.getPosState(p) ?: HintState.Normal
-                    textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    is GemsPebbleObject -> {
+                        dPebble.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dPebble.draw(canvas)
+                    }
+                    is GemsHintObject -> {
+                        val (n, s) = game.pos2hint[p]!! to o.state
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
+                        val text = n.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                    else -> {}
                 }
             }
     }
