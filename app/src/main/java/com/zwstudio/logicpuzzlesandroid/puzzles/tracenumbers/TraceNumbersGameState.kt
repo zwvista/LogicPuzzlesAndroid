@@ -2,8 +2,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tracenumbers
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumbersGame, TraceNumbersGameMove, TraceNumbersGameState>(game) {
@@ -48,92 +46,49 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
     */
     private fun updateIsSolved() {
         isSolved = true
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
-        val pos2Dirs = mutableMapOf<Position, List<Int>>()
+        val chOneList = mutableListOf<Position>()
+        val ch2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = get(r, c)
                 val ch = game[r, c]
-                val dirs = mutableListOf<Int>()
-                for (i in 0 until 4)
-                    if (o[i])
-                        dirs.add(i)
+                val dirs = (0 until 4).filter { o[it] }
                 when (dirs.size) {
-                    0 ->                     // 1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
-                        if (ch != ' ') {
-                            isSolved = false
-                            return
-                        }
-                    2 -> {
-                        val node = Node(p.toString())
-                        g.addNode(node)
-                        pos2node[p] = node
-                        pos2Dirs[p] = dirs
-                        when (ch) {
-                            'B' ->                         // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
-                                if (dirs[1] - dirs[0] == 2) {
-                                    isSolved = false
-                                    return
-                                }
-                            'W' ->                         // 3. Lines passing through White Pearls must go straight through them.
-                                if (dirs[1] - dirs[0] != 2) {
-                                    isSolved = false
-                                    return
-                                }
-                        }
+                    1 -> {
+                        // 2. You should draw as many lines into the grid as number sets:
+                        //    a line starts with the number 1, goes through the numbers in
+                        //    order up to the highest, where it ends.
+                        if (!(ch == TraceNumbersGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
+                        if (ch == TraceNumbersGame.PUZ_ONE) chOneList.add(p)
+                        ch2dirs[p] = dirs
                     }
+                    2 -> ch2dirs[p] = dirs
                     else -> {
-                        // 1. The goal is to draw a single Loop(Necklace)
-                        // that never branches-off or crosses itself.
-                        isSolved = false
-                        return
+                        // 3. In doing this, you have to pass through all tiles on the board.
+                        //    Lines cannot cross.
+                        isSolved = false; return
                     }
                 }
             }
-        for ((p, _) in pos2node) {
-            val dirs = pos2Dirs[p]!!
-            val ch = game[p]
-            var bW = ch != 'W'
-            for (i in dirs) {
-                val p2 = p + TraceNumbersGame.offset[i]
-                val node2 = pos2node[p2]
-                if (node2 == null) {
-                    isSolved = false
-                    return
-                }
-                val dirs2 = pos2Dirs[p2]!!
-                when (ch) {
-                    'B' ->                         // 4. Lines passing through Black Pearls must go straight
-                        // in the next tile in both directions.
-                        if (!((i == 0 || i == 2) && dirs2[0] == 0 && dirs2[1] == 2 ||
-                                (i == 1 || i == 3) && dirs2[0] == 1 && dirs2[1] == 3)) {
-                            isSolved = false
-                            return
-                        }
-                    'W' -> {
-                        // 3. At least at one side of the White Pearl(or both),
-                        // Lines passing through White Pearls must do a 90 degree turn.
-                        val n1 = (i + 1) % 4
-                        val n2 = (i + 3) % 4
-                        if (dirs2[0] == n1 || dirs2[0] == n2 || dirs2[1] == n1 || dirs2[1] == n2) bW = true
-                        if (dirs[1] - dirs[0] != 2) {
-                            isSolved = false
-                            return
-                        }
-                    }
-                }
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+        // 2. You should draw as many lines into the grid as number sets:
+        //    a line starts with the number 1, goes through the numbers in
+        //    order up to the highest, where it ends.
+        for (p in chOneList) {
+            var chars = TraceNumbersGame.PUZ_ONE.toString()
+            var i = ch2dirs[p]!![0]
+            var os = TraceNumbersGame.offset[i]
+            var p2 = p + os
+            while (true) {
+                val ch = game[p2]
+                if (ch != ' ') chars += ch
+                val dirs = ch2dirs[p2]!!.filter { it != (i + 2) % 4 }
+                if (dirs.isEmpty()) break
+                i = dirs[0]
+                os = TraceNumbersGame.offset[i]
+                p2 += os
             }
-            if (!bW) {
-                isSolved = false
-                return
-            }
+            if (chars != game.expectedChars) { isSolved = false; return }
         }
-        // 1. The goal is to draw a single Loop(Necklace).
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
     }
 }

@@ -21,8 +21,6 @@ class TraceNumbersGameView(context: Context, val soundManager: SoundManager) : C
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
-    private val pearlBlackPaint = Paint()
-    private val pearlWhitePaint = Paint()
     private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
@@ -33,11 +31,7 @@ class TraceNumbersGameView(context: Context, val soundManager: SoundManager) : C
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        pearlBlackPaint.color = Color.WHITE
-        pearlBlackPaint.style = Paint.Style.STROKE
-        pearlBlackPaint.strokeWidth = 5f
-        pearlWhitePaint.color = Color.WHITE
-        pearlWhitePaint.style = Paint.Style.FILL_AND_STROKE
+        textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
 
@@ -49,8 +43,7 @@ class TraceNumbersGameView(context: Context, val soundManager: SoundManager) : C
                 if (isInEditMode) continue
                 val ch = game[r, c]
                 if (ch != ' ')
-                    canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true,
-                    if (ch == 'B') pearlBlackPaint else pearlWhitePaint)
+                    drawTextCentered(ch.toString(), cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
         for (r in 0 until rows)
