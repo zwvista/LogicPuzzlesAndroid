@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.TextPaint
+import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -21,9 +21,10 @@ class CoffeeAndSugarGameView(context: Context, val soundManager: SoundManager) :
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
-    private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
+    private val dCoffee: Drawable
+    private val dSugar: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -31,8 +32,8 @@ class CoffeeAndSugarGameView(context: Context, val soundManager: SoundManager) :
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        textPaint.color = Color.WHITE
-        textPaint.isAntiAlias = true
+        dCoffee = fromImageToDrawable("images/cup.png")
+        dSugar = fromImageToDrawable("images/cube_white.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -42,8 +43,10 @@ class CoffeeAndSugarGameView(context: Context, val soundManager: SoundManager) :
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val ch = game[r, c]
-                if (ch != ' ')
-                    drawTextCentered(ch.toString(), cwc(c), chr(r), canvas, textPaint)
+                if (ch == ' ') continue
+                val d = if (ch == CoffeeAndSugarGame.PUZ_COFFEE) dCoffee else dSugar
+                d.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                d.draw(canvas)
             }
         if (isInEditMode) return
         for (r in 0 until rows)

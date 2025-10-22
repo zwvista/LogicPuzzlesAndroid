@@ -80,7 +80,6 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
             var os = TraceNumbersGame.offset[i]
             var p2 = p + os
             while (true) {
-                if (!isValid(p2)) { isSolved = false; return }
                 val ch = game[p2]
                 if (ch != ' ') chars += ch
                 val j = (i + 2) % 4

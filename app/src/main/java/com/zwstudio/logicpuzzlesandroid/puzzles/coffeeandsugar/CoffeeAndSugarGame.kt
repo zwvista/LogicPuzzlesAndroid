@@ -4,10 +4,12 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.tracenumbers.TraceNumbersGame.Companion.PUZ_ONE
 
 class CoffeeAndSugarGame(layout: List<String>, gi: GameInterface<CoffeeAndSugarGame, CoffeeAndSugarGameMove, CoffeeAndSugarGameState>, gdi: GameDocumentInterface) : CellsGame<CoffeeAndSugarGame, CoffeeAndSugarGameMove, CoffeeAndSugarGameState>(gi, gdi) {
     companion object {
-        const val PUZ_ONE = '1'
+        const val PUZ_COFFEE = 'C'
+        const val PUZ_SUGAR = 'S'
         val offset = Position.Directions4
     }
 
