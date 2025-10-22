@@ -25,7 +25,9 @@ object GemsMarkerObject : GemsObject() {
     override fun objAsString() = "marker"
 }
 
-object GemsPebbleObject : GemsObject()
+object GemsPebbleObject : GemsObject() {
+    override fun objAsString() = "pebble"
+}
 
 class GemsGemObject(var state: AllowedObjectState = AllowedObjectState.Normal) : GemsObject() {
     override fun objAsString() = "gem"

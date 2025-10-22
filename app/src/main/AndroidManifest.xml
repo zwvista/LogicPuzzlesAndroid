@@ -1153,6 +1153,18 @@
         <activity android:name=".puzzles.tierradelfuego.TierraDelFuegoOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.tracenumbers.TraceNumbersMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tracenumbers.TraceNumbersGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tracenumbers.TraceNumbersHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tracenumbers.TraceNumbersOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.turntwice.TurnTwiceMainActivity"
                   android:screenOrientation="portrait">
         </activity>
