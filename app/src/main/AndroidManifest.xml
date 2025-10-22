@@ -253,6 +253,18 @@
         <activity android:name=".puzzles.clouds.CloudsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.digitalbattleships.DigitalBattleShipsMainActivity"
                   android:screenOrientation="portrait">
         </activity>

@@ -1,11 +1,11 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.tracenumbers
+package com.zwstudio.logicpuzzlesandroid.puzzles.coffeeandsugar
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
 
-class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumbersGame, TraceNumbersGameMove, TraceNumbersGameState>(game) {
+class CoffeeAndSugarGameState(game: CoffeeAndSugarGame) : CellsGameState<CoffeeAndSugarGame, CoffeeAndSugarGameMove, CoffeeAndSugarGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -17,7 +17,7 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
         updateIsSolved()
     }
 
-    override fun setObject(move: TraceNumbersGameMove): GameOperationType {
+    override fun setObject(move: CoffeeAndSugarGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
         val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
         if (!isValid(p2)) return GameOperationType.Invalid
@@ -28,7 +28,7 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 3/TraceNumbers
+        iOS Game: Logic Games/Puzzle Set 3/CoffeeAndSugar
 
         Summary
         Draw a Necklace that goes through every Pearl
@@ -59,8 +59,8 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
                         // 2. You should draw as many lines into the grid as number sets:
                         //    a line starts with the number 1, goes through the numbers in
                         //    order up to the highest, where it ends.
-                        if (!(ch == TraceNumbersGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
-                        if (ch == TraceNumbersGame.PUZ_ONE) chOneList.add(p)
+                        if (!(ch == CoffeeAndSugarGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
+                        if (ch == CoffeeAndSugarGame.PUZ_ONE) chOneList.add(p)
                         ch2dirs[p] = dirs
                     }
                     2 -> ch2dirs[p] = dirs
@@ -75,21 +75,17 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
         //    a line starts with the number 1, goes through the numbers in
         //    order up to the highest, where it ends.
         for (p in chOneList) {
-            var chars = TraceNumbersGame.PUZ_ONE.toString()
+            var chars = CoffeeAndSugarGame.PUZ_ONE.toString()
             var i = ch2dirs[p]!![0]
-            var os = TraceNumbersGame.offset[i]
+            var os = CoffeeAndSugarGame.offset[i]
             var p2 = p + os
             while (true) {
-                if (!isValid(p2)) { isSolved = false; return }
                 val ch = game[p2]
                 if (ch != ' ') chars += ch
-                val j = (i + 2) % 4
-                var dirs = ch2dirs[p2]!!
-                if (!dirs.contains(j)) { isSolved = false; return }
-                dirs = dirs.filter { it != j }
+                val dirs = ch2dirs[p2]!!.filter { it != (i + 2) % 4 }
                 if (dirs.isEmpty()) break
                 i = dirs[0]
-                os = TraceNumbersGame.offset[i]
+                os = CoffeeAndSugarGame.offset[i]
                 p2 += os
             }
             if (chars != game.expectedChars) { isSolved = false; return }

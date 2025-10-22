@@ -19,10 +19,9 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
     }
 
     override fun setObject(move: MasyuGameMove): GameOperationType {
-        val p = move.p
-        val dir = move.dir
-        val p2 = p + MasyuGame.offset[dir]
-        val dir2 = (dir + 2) % 4
+        val (p, dir) = move.p to move.dir
+        val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
+        if (!isValid(p2)) return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
         updateIsSolved()
