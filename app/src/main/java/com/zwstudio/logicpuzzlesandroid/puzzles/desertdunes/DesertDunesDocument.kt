@@ -1,0 +1,17 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.desertdunes
+
+import android.content.Context
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocument
+import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+
+class DesertDunesDocument(context: Context) : GameDocument<DesertDunesGameMove>(context) {
+    override fun saveMove(move: DesertDunesGameMove, rec: MoveProgress) {
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.strValue1 = move.obj.objAsString()
+    }
+
+    override fun loadMove(rec: MoveProgress) =
+        DesertDunesGameMove(Position(rec.row, rec.col), DesertDunesObject.objFromString(rec.strValue1!!))
+}
