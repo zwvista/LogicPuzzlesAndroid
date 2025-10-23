@@ -30,4 +30,5 @@ class DesertDunesGame(layout: List<String>, gi: GameInterface<DesertDunesGame, D
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun emptyOfDunes() = currentState.emptyOfDunes
 }
