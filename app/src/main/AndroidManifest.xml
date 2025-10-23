@@ -265,6 +265,18 @@
         <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.desertdunes.DesertDunesMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.desertdunes.DesertDunesGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.desertdunes.DesertDunesHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.desertdunes.DesertDunesOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.digitalbattleships.DigitalBattleShipsMainActivity"
                   android:screenOrientation="portrait">
         </activity>

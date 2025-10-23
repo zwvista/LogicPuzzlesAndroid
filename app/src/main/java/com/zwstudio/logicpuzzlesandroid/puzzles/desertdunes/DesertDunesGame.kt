@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class DesertDunesGame(layout: List<String>, gi: GameInterface<DesertDunesGame, DesertDunesGameMove, DesertDunesGameState>, gdi: GameDocumentInterface) : CellsGame<DesertDunesGame, DesertDunesGameMove, DesertDunesGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val offset2 = Position.Square2x2Offset
     }
 
     var pos2hint = mutableMapOf<Position, Int>()
@@ -29,5 +30,4 @@ class DesertDunesGame(layout: List<String>, gi: GameInterface<DesertDunesGame, D
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
 }

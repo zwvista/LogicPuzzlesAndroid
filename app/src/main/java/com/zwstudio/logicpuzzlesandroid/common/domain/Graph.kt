@@ -8,8 +8,8 @@ class Node(var label: String) {
 
 class Graph {
     lateinit var rootNode: Node
-    private var nodes = mutableListOf<Node>()
-    private var adjMatrix //Edges will be represented as adjacency Matrix
+    var nodes = mutableListOf<Node>()
+    var adjMatrix //Edges will be represented as adjacency Matrix
         : Array<IntArray>? = null
     var size = 0
 
@@ -24,7 +24,7 @@ class Graph {
         val startIndex = nodes.indexOf(start)
         val endIndex = nodes.indexOf(end)
         adjMatrix!![startIndex][endIndex] = 1
-        adjMatrix!![endIndex][startIndex] = 1
+//        adjMatrix!![endIndex][startIndex] = 1
     }
 
     private fun getUnvisitedChildNode(n: Node): Node? {

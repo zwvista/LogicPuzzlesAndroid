@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.desertdunes
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -8,8 +9,8 @@ sealed class DesertDunesObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
-            "horz" -> DesertDunesHorzObject
-            "vert" -> DesertDunesVertObject
+            "marker" -> DesertDunesMarkerObject
+            "dune" -> DesertDunesDuneObject()
             else -> DesertDunesEmptyObject
         }
     }
@@ -21,12 +22,16 @@ class DesertDunesHintObject(var state: HintState = HintState.Normal) : DesertDun
     override fun objAsString() = "hint"
 }
 
-object DesertDunesHorzObject : DesertDunesObject() {
-    override fun objAsString() = "horz"
+object DesertDunesMarkerObject : DesertDunesObject() {
+    override fun objAsString() = "marker"
 }
 
-object DesertDunesVertObject : DesertDunesObject() {
-    override fun objAsString() = "vert"
+object DesertDunesForbiddenObject : DesertDunesObject() {
+    override fun objAsString() = "forbidden"
+}
+
+class DesertDunesDuneObject(var state: AllowedObjectState = AllowedObjectState.Normal) : DesertDunesObject() {
+    override fun objAsString() = "dune"
 }
 
 class DesertDunesGameMove(val p: Position, var obj: DesertDunesObject = DesertDunesEmptyObject)

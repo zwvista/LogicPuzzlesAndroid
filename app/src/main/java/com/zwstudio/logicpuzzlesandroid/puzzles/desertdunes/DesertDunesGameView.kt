@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -24,9 +25,12 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dWallHorz: Drawable
-    private val dWallVert: Drawable
+    private val dSand: Drawable
+    private val dPalmTree: Drawable
+    private val dDune: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -34,9 +38,16 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        markerPaint.color = Color.WHITE
+        markerPaint.style = Paint.Style.FILL_AND_STROKE
+        markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dWallHorz = fromImageToDrawable("images/wall_horizontal.png")
-        dWallVert = fromImageToDrawable("images/wall_vertical.png")
+        dSand = fromImageToDrawable("images/C1.png")
+        dPalmTree = fromImageToDrawable("images/palmtree.png")
+        dDune = fromImageToDrawable("images/dune.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,19 +59,26 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                fun f(dWall: Drawable) {
-                    dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dWall.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                    dWall.draw(canvas)
-                }
+                dSand.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dSand.draw(canvas)
                 when (val o = game.getObject(p)) {
-                    is DesertDunesHorzObject -> f(dWallHorz)
-                    is DesertDunesVertObject -> f(dWallVert)
+                    is DesertDunesMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    is DesertDunesForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     is DesertDunesHintObject -> {
+                        dPalmTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dPalmTree.draw(canvas)
                         val text = game.pos2hint[p].toString()
                         val s = o.state
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                    is DesertDunesDuneObject -> {
+                        dDune.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dDune.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dDune.draw(canvas)
                     }
                     else -> {}
                 }
