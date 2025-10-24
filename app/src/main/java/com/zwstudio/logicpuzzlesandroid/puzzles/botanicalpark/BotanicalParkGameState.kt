@@ -71,7 +71,7 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
                 fun hasArrow(): Boolean {
                     var n = 0
                     for (i in 0..<8) {
-                        val os = BotanicalParkGame.offset2[i]
+                        val os = BotanicalParkGame.offset[i]
                         var p2 = p + os
                         while (isValid(p2)) {
                             if (this[p2] is BotanicalParkArrowObject && (game.pos2arrow[p2]!! + 4) % 8 == i)
@@ -85,7 +85,7 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
                 }
                 fun hasTree(): Boolean {
                     var n = 0
-                    val os = BotanicalParkGame.offset2[game.pos2arrow[p]!!]
+                    val os = BotanicalParkGame.offset[game.pos2arrow[p]!!]
                     var p2 = p + os
                     while (isValid(p2)) {
                         if (this[p2] is BotanicalParkTreeObject)
