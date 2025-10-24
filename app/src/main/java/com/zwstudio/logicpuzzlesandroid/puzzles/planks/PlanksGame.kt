@@ -3,6 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.planks
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PlanksGame(layout: List<String>, gi: GameInterface<PlanksGame, PlanksGameMove, PlanksGameState>, gdi: GameDocumentInterface) : CellsGame<PlanksGame, PlanksGameMove, PlanksGameState>(gi, gdi) {
@@ -17,20 +18,35 @@ class PlanksGame(layout: List<String>, gi: GameInterface<PlanksGame, PlanksGameM
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    var objArray: MutableList<MutableList<GridLineObject>>
+    var nails = mutableSetOf<Position>()
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
+        objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
         for (r in 0 until rows - 1) {
             val str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch in '0'..'9') {
-                    val n = ch - '0'
-                    pos2hint[p] = n
-                }
+                if (ch == ' ') continue
+                nails.add(p)
             }
+        }
+        for (r in 0 until rows - 1) {
+            this[r, 0][2] = GridLineObject.Line
+            this[r + 1, 0][0] = GridLineObject.Line
+            this[r, cols - 1][2] = GridLineObject.Line
+            this[r + 1, cols - 1][0] = GridLineObject.Line
+        }
+        for (c in 0 until cols - 1) {
+            this[0, c][1] = GridLineObject.Line
+            this[0, c + 1][3] = GridLineObject.Line
+            this[rows - 1, c][1] = GridLineObject.Line
+            this[rows - 1, c + 1][3] = GridLineObject.Line
         }
         val state = PlanksGameState(this)
         levelInitialized(state)
@@ -38,5 +54,4 @@ class PlanksGame(layout: List<String>, gi: GameInterface<PlanksGame, PlanksGameM
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
 }
