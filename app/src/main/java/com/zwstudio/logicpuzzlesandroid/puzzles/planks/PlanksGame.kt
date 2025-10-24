@@ -54,4 +54,5 @@ class PlanksGame(layout: List<String>, gi: GameInterface<PlanksGame, PlanksGameM
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2orient(p: Position) = currentState.pos2orient[p]
 }

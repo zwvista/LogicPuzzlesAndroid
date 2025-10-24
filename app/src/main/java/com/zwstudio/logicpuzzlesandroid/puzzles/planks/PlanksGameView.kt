@@ -24,6 +24,8 @@ class PlanksGameView(context: Context, val soundManager: SoundManager) : CellsGa
     private val line2Paint = Paint()
     private val markerPaint = Paint()
     private val dNail: Drawable
+    private val dWoodHorz: Drawable
+    private val dWoodVert: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -38,6 +40,8 @@ class PlanksGameView(context: Context, val soundManager: SoundManager) : CellsGa
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
         dNail = fromImageToDrawable("images/nail_head.png")
+        dWoodHorz = fromImageToDrawable("images/wood horizontal.png")
+        dWoodVert = fromImageToDrawable("images/wood vertical.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -47,6 +51,11 @@ class PlanksGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
+                game.pos2orient(p)?.let {
+                    val d = if (it) dWoodHorz else dWoodVert
+                    d.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    d.draw(canvas)
+                }
                 if (game.nails.contains(p)) {
                     dNail.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dNail.draw(canvas)

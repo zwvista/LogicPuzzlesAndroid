@@ -3,12 +3,15 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.planks
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PlanksGameState(game: PlanksGame) : CellsGameState<PlanksGame, PlanksGameMove, PlanksGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    var pos2orient = mutableMapOf<Position, Boolean>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -59,49 +62,69 @@ class PlanksGameState(game: PlanksGame) : CellsGameState<PlanksGame, PlanksGameM
     */
     private fun updateIsSolved() {
         isSolved = true
-//        // 2. Each number in a tile tells you on how many of its four sides are touched
-//        // by the path.
-//        for ((p, n2) in game.pos2hint) {
-//            var n1 = 0
-//            if (this[p][1] == GridLineObject.Line) n1++
-//            if (this[p][2] == GridLineObject.Line) n1++
-//            if (this[p + Position(1, 1)][0] == GridLineObject.Line) n1++
-//            if (this[p + Position(1, 1)][3] == GridLineObject.Line) n1++
-//            pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-//            if (n1 != n2) isSolved = false
-//        }
-//        if (!isSolved) return
-//        val g = Graph()
-//        val pos2node = mutableMapOf<Position, Node>()
-//        for (r in 0 until rows)
-//            for (c in 0 until cols) {
-//                val p = Position(r, c)
-//                val n = this[p].filter { it == GridLineObject.Line }.size
-//                when (n) {
-//                    0 -> {}
-//                    2 -> {
-//                        val node = Node(p.toString())
-//                        g.addNode(node)
-//                        pos2node[p] = node
-//                    }
-//                    else -> {
-//                        // 1. The path cannot have branches or cross itself.
-//                        isSolved = false
-//                        return
-//                    }
-//                }
-//            }
-//        for (p in pos2node.keys) {
-//            val dotObj = this[p]
-//            for (i in 0 until 4) {
-//                if (dotObj[i] != GridLineObject.Line) continue
-//                val p2 = p + PlanksGame.offset[i]
-//                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
-//            }
-//        }
-//        // 1. Draw a single looping path with the aid of the numbered hints.
-//        g.rootNode = pos2node.values.first()
-//        val nodeList = g.bfs()
-//        if (nodeList.size != pos2node.size) isSolved = false
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                for (i in 0 until 4)
+                    if (this[p + PlanksGame.offset2[i]][PlanksGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + PlanksGame.offset[i]]!!)
+            }
+        pos2orient.clear()
+        val planks = mutableListOf<MutableList<Position>>()
+        val pos2plank = mutableMapOf<Position, Int>()
+        val g2 = Graph()
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }.toMutableList()
+            for (p in area)
+                pos2node.remove(p)
+            val rng = area.filter { game.nails.contains(it) }
+            if (rng.isEmpty()) continue
+            // 2. Planks are 3 tiles long.
+            if (area.size != 3) { isSolved = false; continue }
+            area.sort()
+            val (os1, os2) = area[1] - area[0] to area[2] - area[1]
+            // 2. Planks can be oriented vertically or horizontally.
+            if (!(os1 == os2 && (os1 == PlanksGame.offset[1] || os1 == PlanksGame.offset[2]))) { isSolved = false; continue }
+            // 1. On the board there are a few nails. Each one nails a plank to
+            //    the board.
+            // 2. The Nail can be in any of the 3 tiles.
+            if (rng.size != 1) { isSolved = false; continue }
+            val n = planks.size
+            planks.add(area)
+            for (p in area) {
+                pos2plank[p] = n
+                pos2orient[p] = os1 == PlanksGame.offset[1]
+            }
+            val node = Node(n.toString())
+            g2.addNode(node)
+        }
+        for ((i, plank) in planks.withIndex()) {
+            val neighbors = mutableSetOf<Int>()
+            for (p in plank)
+                for (os in PlanksGame.offset) {
+                    val n = pos2plank[p + os]
+                    if (n == null || n == i) {continue}
+                    neighbors.add(n)
+                }
+            // 3. Each Plank touches orthogonally exactly two other Planks.
+            if (neighbors.size != 2) { isSolved = false; return }
+            for (n in neighbors) { g2.connectNode(g2.nodes[i], g2.nodes[n]) }
+        }
+        if (!isSolved) return
+        // 4. All the Planks form a ring, or a closed loop.
+        g2.rootNode = g2.nodes[0]
+        val nodeList = g2.bfs()
+        if (nodeList.size != g2.nodes.size) isSolved = false
     }
 }
