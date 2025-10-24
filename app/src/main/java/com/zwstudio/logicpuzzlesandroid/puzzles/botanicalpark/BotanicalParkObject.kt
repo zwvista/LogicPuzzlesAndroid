@@ -9,7 +9,7 @@ sealed class BotanicalParkObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> BotanicalParkMarkerObject
-            "tree" -> BotanicalParkTreeObject()
+            "plant" -> BotanicalParkPlantObject()
             else -> BotanicalParkEmptyObject
         }
     }
@@ -25,8 +25,8 @@ object BotanicalParkMarkerObject : BotanicalParkObject() {
     override fun objAsString() = "marker"
 }
 
-class BotanicalParkTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : BotanicalParkObject() {
-    override fun objAsString() = "tree"
+class BotanicalParkPlantObject(var state: AllowedObjectState = AllowedObjectState.Normal) : BotanicalParkObject() {
+    override fun objAsString() = "plant"
 }
 
 class BotanicalParkArrowObject(var state: AllowedObjectState = AllowedObjectState.Normal) : BotanicalParkObject() {

@@ -21,7 +21,7 @@ class BotanicalParkGameActivity : GameGameActivity<BotanicalParkGame, BotanicalP
     }
 
     override fun newGame(level: GameLevel): BotanicalParkGame {
-        val onlyOneArrow = (level.settings["OnlyOneArrow"] ?: "0") == "1"
-        return BotanicalParkGame(level.layout, onlyOneArrow, this, doc)
+        val plantsInEachArea = (level.settings["PlantsInEachArea"] ?: "1").toInt()
+        return BotanicalParkGame(level.layout, plantsInEachArea, this, doc)
     }
 }

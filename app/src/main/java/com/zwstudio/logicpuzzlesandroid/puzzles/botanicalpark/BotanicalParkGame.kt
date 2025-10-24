@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class BotanicalParkGame(layout: List<String>, val onlyOneArrow: Boolean, gi: GameInterface<BotanicalParkGame, BotanicalParkGameMove, BotanicalParkGameState>, gdi: GameDocumentInterface) : CellsGame<BotanicalParkGame, BotanicalParkGameMove, BotanicalParkGameState>(gi, gdi) {
+class BotanicalParkGame(layout: List<String>, val plantsInEachArea: Int, gi: GameInterface<BotanicalParkGame, BotanicalParkGameMove, BotanicalParkGameState>, gdi: GameDocumentInterface) : CellsGame<BotanicalParkGame, BotanicalParkGameMove, BotanicalParkGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions8
     }

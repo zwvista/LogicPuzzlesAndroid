@@ -33,9 +33,9 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
         if (!isValid(p)) return GameOperationType.Invalid
         val o = this[p]
         move.obj = when (o) {
-            is BotanicalParkEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BotanicalParkMarkerObject else BotanicalParkTreeObject()
-            is BotanicalParkTreeObject -> if (markerOption == MarkerOptions.MarkerLast) BotanicalParkMarkerObject else BotanicalParkEmptyObject
-            is BotanicalParkMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BotanicalParkTreeObject() else BotanicalParkEmptyObject
+            is BotanicalParkEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BotanicalParkMarkerObject else BotanicalParkPlantObject()
+            is BotanicalParkPlantObject -> if (markerOption == MarkerOptions.MarkerLast) BotanicalParkMarkerObject else BotanicalParkEmptyObject
+            is BotanicalParkMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BotanicalParkPlantObject() else BotanicalParkEmptyObject
             else -> o
         }
         return setObject(move)
@@ -64,51 +64,73 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
             for (c in 0 until cols)
                 if (this[r, c] is BotanicalParkForbiddenObject)
                     this[r, c] = BotanicalParkEmptyObject
+        // 3. Plants cannot touch, not even diagonally.
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                fun hasNeighbor() = BotanicalParkGame.offset.any {
+                    val p2 = p + it
+                    isValid(p2) && this[p2] is BotanicalParkPlantObject
+                }
+                val o = this[r, c]
+                if (o is BotanicalParkPlantObject)
+                    o.state = if (!hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
+                else if ((o is BotanicalParkEmptyObject || o is BotanicalParkMarkerObject) && allowedObjectsOnly && hasNeighbor())
+                    this[r, c] = BotanicalParkForbiddenObject
+            }
+        val n2 = game.plantsInEachArea
+        // 2. There is exactly one plant in every row.
+        for (r in 0 until rows) {
+            var n1 = 0
+            for (c in 0 until cols)
+                if (this[r, c] is BotanicalParkPlantObject)
+                    n1++
+            if (n1 != n2) isSolved = false
+            for (c in 0 until cols) {
+                val o = this[r, c]
+                if (o is BotanicalParkPlantObject)
+                    o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
+                else if ((o is BotanicalParkEmptyObject || o is BotanicalParkMarkerObject) && n1 >= n2 && allowedObjectsOnly)
+                    this[r, c] = BotanicalParkForbiddenObject
+            }
+        }
+        // 2. There is exactly one plant in every column.
+        for (c in 0 until cols) {
+            var n1 = 0
+            for (r in 0 until rows)
+                if (this[r, c] is BotanicalParkPlantObject)
+                    n1++
+            if (n1 != n2) isSolved = false
+            for (r in 0 until rows) {
+                val o = this[r, c]
+                if (o is BotanicalParkPlantObject)
+                    o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
+                else if ((o is BotanicalParkEmptyObject || o is BotanicalParkMarkerObject) && n1 >= n2 && allowedObjectsOnly)
+                    this[r, c] = BotanicalParkForbiddenObject
+            }
+        }
+        // 2. Each arrow points to at least one plant.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[r, c]
-                fun hasArrow(): Boolean {
-                    var n = 0
-                    for (i in 0..<8) {
-                        val os = BotanicalParkGame.offset[i]
-                        var p2 = p + os
-                        while (isValid(p2)) {
-                            if (this[p2] is BotanicalParkArrowObject && (game.pos2arrow[p2]!! + 4) % 8 == i)
-                                n++
-                            p2 += os
-                        }
-                    }
-                    // 4. Some levels have a variation of these rules: Stars must be pointed
-                    // by one and only one Arrow.
-                    return game.onlyOneArrow && n == 1 || n >= 1
-                }
-                fun hasTree(): Boolean {
+                fun hasPlant(): Boolean {
                     var n = 0
                     val os = BotanicalParkGame.offset[game.pos2arrow[p]!!]
                     var p2 = p + os
                     while (isValid(p2)) {
-                        if (this[p2] is BotanicalParkTreeObject)
+                        if (this[p2] is BotanicalParkPlantObject)
                             n++
                         p2 += os
                     }
-                    // 4. Some levels have a variation of these rules: Stars must be pointed
-                    // by one and only one Arrow.
-                    return game.onlyOneArrow && n == 1 || n >= 1
+                    return n >= 1
                 }
-                if (o is BotanicalParkTreeObject) {
-                    // 2. Each star is pointed at by at least one Arrow.
-                    val s = if (hasArrow()) AllowedObjectState.Normal else AllowedObjectState.Error
-                    o.state = s
-                    if (s == AllowedObjectState.Error) isSolved = false
-                } else if (o is BotanicalParkArrowObject) {
+                if (o is BotanicalParkArrowObject) {
                     // 2. Each Arrow points to at least one star.
-                    val s = if (hasTree()) AllowedObjectState.Normal else AllowedObjectState.Error
+                    val s = if (hasPlant()) AllowedObjectState.Normal else AllowedObjectState.Error
                     o.state = s
                     if (s == AllowedObjectState.Error) isSolved = false
-                } else if ((o is BotanicalParkEmptyObject || o is BotanicalParkMarkerObject) && allowedObjectsOnly &&
-                    (!hasArrow()))
-                    this[r, c] = BotanicalParkForbiddenObject
+                }
             }
     }
 }

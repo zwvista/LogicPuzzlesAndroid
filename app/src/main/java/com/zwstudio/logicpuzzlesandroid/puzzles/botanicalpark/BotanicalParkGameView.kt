@@ -25,7 +25,7 @@ class BotanicalParkGameView(context: Context, val soundManager: SoundManager) : 
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val dArrowArray: Array<Drawable>
-    private val dTree: Drawable
+    private val dPlant: Drawable
 
     init {
         gridPaint.color = Color.WHITE
@@ -37,7 +37,7 @@ class BotanicalParkGameView(context: Context, val soundManager: SoundManager) : 
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         dArrowArray = getArrowDrawableArray()
-        dTree = fromImageToDrawable("images/tree.png")
+        dPlant = fromImageToDrawable("images/tree.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -55,11 +55,11 @@ class BotanicalParkGameView(context: Context, val soundManager: SoundManager) : 
                         dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dArrow.draw(canvas)
                     }
-                    is BotanicalParkTreeObject -> {
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is BotanicalParkPlantObject -> {
+                        dPlant.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTree.draw(canvas)
+                        dPlant.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dPlant.draw(canvas)
                     }
                     is BotanicalParkMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
