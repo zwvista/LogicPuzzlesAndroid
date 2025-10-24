@@ -877,6 +877,18 @@
         <activity android:name=".puzzles.pata.PataOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.planks.PlanksMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.planks.PlanksGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.planks.PlanksHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.planks.PlanksOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.powergrid.PowerGridMainActivity"
                   android:screenOrientation="portrait">
         </activity>
