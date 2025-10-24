@@ -541,6 +541,18 @@
         <activity android:name=".puzzles.kropki.KropkiOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.landscaper.LandscaperMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.landscaper.LandscaperGameAct∑ivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.landscaper.LandscaperHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>∑
+        <activity android:name=".puzzles.landscaper.LandscaperOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.lightbattleships.LightBattleShipsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
