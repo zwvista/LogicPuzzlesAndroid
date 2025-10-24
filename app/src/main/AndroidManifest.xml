@@ -109,6 +109,18 @@
         <activity android:name=".puzzles.bootyisland.BootyIslandOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.botanicalpark.BotanicalParkMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.botanicalpark.BotanicalParkGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.botanicalpark.BotanicalParkHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.botanicalpark.BotanicalParkOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.boxitagain.BoxItAgainMainActivity"
                   android:screenOrientation="portrait">
         </activity>
