@@ -544,7 +544,7 @@
         <activity android:name=".puzzles.landscaper.LandscaperMainActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.landscaper.LandscaperGameAct∑ivity"
+        <activity android:name=".puzzles.landscaper.LandscaperGameActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.landscaper.LandscaperHelpActivity"

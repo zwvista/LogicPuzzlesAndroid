@@ -59,51 +59,73 @@ class LandscaperGameState(game: LandscaperGame) : CellsGameState<LandscaperGame,
     private fun updateIsSolved() {
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                pos2state[p] = AllowedObjectState.Normal
-            }
+            for (c in 0 until cols)
+                pos2state[Position(r, c)] = AllowedObjectState.Normal
         var oLast: LandscaperObject
-        val trees = mutableListOf<Position>()
-        fun checkTrees() {
-            if (trees.size > 3) {
+        val tokens = mutableListOf<Position>()
+        fun checkTokens() {
+            if (tokens.size > 2) {
                 isSolved = false
-                for (p in trees)
+                for (p in tokens)
                     pos2state[p] = AllowedObjectState.Error
             }
-            trees.clear()
+            tokens.clear()
         }
+        val rowDispos = mutableSetOf<String>()
+        val rowCounts = mutableSetOf<List<Int>>()
         for (r in 0 until rows) {
             oLast = LandscaperObject.Empty
+            var dispo = ""
+            var (nTree, nFlower) = 0 to 0
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
+                dispo += o.ordinal.toString()
                 if (o != oLast) {
-                    checkTrees()
+                    checkTokens()
                     oLast = o
                 }
-                if (o == LandscaperObject.Empty)
-                    isSolved = false
-                else
-                    trees.add(p)
+                when (o) {
+                    LandscaperObject.Empty -> isSolved = false
+                    LandscaperObject.Tree -> { nTree++; tokens.add(p) }
+                    LandscaperObject.Flower -> { nFlower++; tokens.add(p) }
+                }
             }
-            checkTrees()
+            checkTokens()
+            rowDispos.add(dispo)
+            rowCounts.add(listOf(nTree, nFlower))
         }
+        val colDispos = mutableSetOf<String>()
+        val colCounts = mutableSetOf<List<Int>>()
         for (c in 0 until cols) {
             oLast = LandscaperObject.Empty
+            var dispo = ""
+            var (nTree, nFlower) = 0 to 0
             for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = this[p]
+                dispo += o.ordinal.toString()
                 if (o != oLast) {
-                    checkTrees()
+                    checkTokens()
                     oLast = o
                 }
-                if (o == LandscaperObject.Empty)
-                    isSolved = false
-                else
-                    trees.add(p)
+                when (o) {
+                    LandscaperObject.Empty -> isSolved = false
+                    LandscaperObject.Tree -> { nTree++; tokens.add(p) }
+                    LandscaperObject.Flower -> { nFlower++; tokens.add(p) }
+                }
             }
-            checkTrees()
+            checkTokens()
+            colDispos.add(dispo)
+            colCounts.add(listOf(nTree, nFlower))
         }
+        if (!isSolved) return
+        fun checkCount(counts: List<Int>): Boolean {
+            val (nTree, nFlower) = counts[0] to counts[1]
+            return rows % 2 == 0 && nTree == nFlower || nTree == nFlower + 1
+        }
+        if (!(rowDispos.size == rows && colDispos.size == cols && rowCounts.size == 1 && colCounts.size == 1 &&
+            checkCount(rowCounts.first()) && checkCount(colCounts.first())))
+            isSolved = false
     }
 }
