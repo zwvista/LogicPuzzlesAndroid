@@ -10,7 +10,6 @@ import android.view.MotionEvent
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -25,8 +24,9 @@ class ArchipelagoGameView(context: Context, val soundManager: SoundManager) : Ce
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dLake: Drawable
+    private val dWater: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -34,8 +34,11 @@ class ArchipelagoGameView(context: Context, val soundManager: SoundManager) : Ce
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dLake = fromImageToDrawable("images/sea.png")
+        dWater = fromImageToDrawable("images/sea.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,15 +51,14 @@ class ArchipelagoGameView(context: Context, val soundManager: SoundManager) : Ce
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is ArchipelagoLakeObject -> {
-                        dLake.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dLake.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dLake.draw(canvas)
+                    is ArchipelagoWaterObject -> {
+                        dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dWater.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dWater.draw(canvas)
                     }
                     is ArchipelagoHintObject -> {
                         textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
-                        val text = if (o.tiles == -1) "?" else o.tiles.toString()
+                        val text = game.pos2hint[p]!!.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
                     is ArchipelagoMarkerObject ->
@@ -64,6 +66,8 @@ class ArchipelagoGameView(context: Context, val soundManager: SoundManager) : Ce
                     else -> {}
                 }
             }
+        for ((r, c) in game.invalid2x2Squares())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

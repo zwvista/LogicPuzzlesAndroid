@@ -10,7 +10,7 @@ sealed class ArchipelagoObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> ArchipelagoMarkerObject
-            "lake" -> ArchipelagoLakeObject()
+            "water" -> ArchipelagoWaterObject()
             else -> ArchipelagoEmptyObject
         }
     }
@@ -18,7 +18,7 @@ sealed class ArchipelagoObject {
 
 object ArchipelagoEmptyObject : ArchipelagoObject()
 
-class ArchipelagoHintObject(var state: HintState = HintState.Normal, var tiles: Int = 0) : ArchipelagoObject() {
+class ArchipelagoHintObject(var state: HintState = HintState.Normal) : ArchipelagoObject() {
     override fun objAsString() = "hint"
 }
 
@@ -26,8 +26,8 @@ object ArchipelagoMarkerObject : ArchipelagoObject() {
     override fun objAsString() = "marker"
 }
 
-class ArchipelagoLakeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : ArchipelagoObject() {
-    override fun objAsString() = "lake"
+class ArchipelagoWaterObject(var state: AllowedObjectState = AllowedObjectState.Normal) : ArchipelagoObject() {
+    override fun objAsString() = "water"
 }
 
 class ArchipelagoGameMove(val p: Position, var obj: ArchipelagoObject = ArchipelagoEmptyObject)

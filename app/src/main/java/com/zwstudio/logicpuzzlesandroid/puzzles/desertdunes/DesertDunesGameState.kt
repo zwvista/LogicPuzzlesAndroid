@@ -12,7 +12,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerGame
 
 class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGame, DesertDunesGameMove, DesertDunesGameState>(game) {
     var objArray = Array<DesertDunesObject>(rows * cols) { DesertDunesEmptyObject }
-    val emptyOfDunes = mutableListOf<Position>()
+    val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -67,12 +67,12 @@ class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGa
                 if (this[r, c] is DesertDunesForbiddenObject)
                     this[r, c] = DesertDunesEmptyObject
         // 5. No area of desert of 2x2 should be empty of Dunes.
-        emptyOfDunes.clear()
+        invalid2x2Squares.clear()
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val isEmptyOfDunes = DesertDunesGame.offset2.map { p + it }.all { this[it] !is DesertDunesDuneObject }
-                if (isEmptyOfDunes) { emptyOfDunes.add(p + Position.SouthEast); isSolved = false }
+                if (isEmptyOfDunes) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
             }
         // 4. Dunes cannot touch each other horizontally or vertically.
         for (r in 0 until rows)

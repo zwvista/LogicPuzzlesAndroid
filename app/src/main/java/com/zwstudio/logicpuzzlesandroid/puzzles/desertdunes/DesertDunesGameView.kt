@@ -83,7 +83,7 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
                     else -> {}
                 }
             }
-        for ((r, c) in game.emptyOfDunes())
+        for ((r, c) in game.invalid2x2Squares())
             canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 

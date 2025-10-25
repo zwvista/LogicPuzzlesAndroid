@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.archipelago
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -12,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGam
 
 class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGame, ArchipelagoGameMove, ArchipelagoGameState>(game) {
     var objArray = Array<ArchipelagoObject>(rows * cols) { ArchipelagoEmptyObject }
+    val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -20,12 +20,12 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
 
     init {
         for ((p, n) in game.pos2hint)
-            this[p] = ArchipelagoHintObject(tiles = n)
+            this[p] = ArchipelagoHintObject()
         updateIsSolved()
     }
 
     override fun setObject(move: ArchipelagoGameMove): GameOperationType {
-        if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -36,9 +36,9 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val o = this[move.p]
         move.obj = when (o) {
-            is ArchipelagoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoMarkerObject else ArchipelagoLakeObject()
-            is ArchipelagoLakeObject -> if (markerOption == MarkerOptions.MarkerLast) ArchipelagoMarkerObject else ArchipelagoEmptyObject
-            is ArchipelagoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoLakeObject() else ArchipelagoEmptyObject
+            is ArchipelagoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoMarkerObject else ArchipelagoWaterObject()
+            is ArchipelagoWaterObject -> if (markerOption == MarkerOptions.MarkerLast) ArchipelagoMarkerObject else ArchipelagoEmptyObject
+            is ArchipelagoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoWaterObject() else ArchipelagoEmptyObject
             else -> o
         }
         return setObject(move)
@@ -62,19 +62,24 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
     */
     private fun updateIsSolved() {
         isSolved = true
-        var g = Graph()
+        // 6. Finally, no 2*2 square can be occupied by water only (just like Nurikabe).
+        invalid2x2Squares.clear()
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                val isFullOfWater = ArchipelagoGame.offset2.map { p + it }.all { this[it] is ArchipelagoWaterObject }
+                if (isFullOfWater) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
+            }
+        val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is ArchipelagoLakeObject) {
-                    o.state = AllowedObjectState.Normal
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
-                } else if (o is ArchipelagoHintObject)
-                    o.state = HintState.Normal
+                if (o is ArchipelagoWaterObject) continue
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
             }
         for ((p, node) in pos2node) {
             for (os in TierraDelFuegoGame.offset) {
@@ -90,6 +95,7 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
+            val n1 = nodeList.size
             var r2 = 0
             var r1 = rows
             var c2 = 0
@@ -107,44 +113,40 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
             areas.add(area)
             val rs = r2 - r1 + 1
             val cs = c2 - c1 + 1
-            if (!(rs == cs && rs * cs == nodeList.size)) {
+            // 1. Each number represents a rectangular island in the Archipelago.
+            val isRect = rs * cs == n1
+            val hints = area.filter { this[it] is ArchipelagoHintObject }
+            if (hints.size > 1) {
                 isSolved = false
-                for (p in area)
-                    (this[p] as ArchipelagoLakeObject).state = AllowedObjectState.Error
+                for (p in hints) { this[p] = ArchipelagoHintObject() }
+            } else if (hints.size == 1) {
+                val p = hints[0]
+                val n2 = game.pos2hint[p]!!
+                // 2. The number in itself identifies how many squares the island occupies.
+                val s = if (!isRect || n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+                this[p] = ArchipelagoHintObject(state = s)
+                if (s != HintState.Complete) isSolved = false
             }
         }
-        for ((p, n2) in game.pos2hint.entries) {
-            var n1 = 0
-            for (os in ArchipelagoGame.offset) {
-                val i = pos2area[p + os] ?: continue
-                n1 += areas[i].size
-            }
-            // 3. A number tells you the total size of any lakes orthogonally touching it,
-            // while a question mark tells you that there is at least one lake orthogonally
-            // touching it.
-            val s = if (n1 == 0) HintState.Normal else if (n1 == n2 || n2 == -1) HintState.Complete else HintState.Error
-            (this[p] as ArchipelagoHintObject).state = s
-            if (s != HintState.Complete) isSolved = false
+        val g2 = Graph()
+        for (i in areas.indices) {
+            val node = Node("$i")
+            g2.addNode(node)
         }
-        g = Graph()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                if (this[p] !is ArchipelagoLakeObject) {
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
+        for ((i, area) in areas.withIndex()) {
+            val indexes = mutableSetOf<Int>()
+            for (p in area)
+                for (os in ArchipelagoGame.offset3) {
+                    val j = pos2area[p + os]
+                    if (j != null && j != i)
+                        indexes.add(j)
                 }
-            }
-        for ((p, node) in pos2node)
-            for (os in TierraDelFuegoGame.offset) {
-                val p2 = p + os
-                val node2 = pos2node[p2] ?: continue
-                g.connectNode(node, node2)
-            }
-        // 5. All the land tiles are connected horizontally or vertically.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
+            if (indexes.isEmpty()) { isSolved = false; return }
+            for (j in indexes)
+                g2.connectNode(g2.nodes[i], g2.nodes[j])
+        }
+        g2.rootNode = g2.nodes[0]
+        val nodeList = g2.bfs()
+        if (nodeList.size != g2.nodes.size) isSolved = false
     }
 }
