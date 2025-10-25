@@ -1009,6 +1009,18 @@
         <activity android:name=".puzzles.sentinels.SentinelsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.sheepandwolves.SheepAndWolvesMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sheepandwolves.SheepAndWolvesGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sheepandwolves.SheepAndWolvesHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sheepandwolves.SheepAndWolvesOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.skyscrapers.SkyscrapersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
