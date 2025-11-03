@@ -51,28 +51,25 @@ class SheepAndWolvesGameState(game: SheepAndWolvesGame) : CellsGameState<SheepAn
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 3/SheepAndWolves
+        iOS Game: 100 Logic Games/Puzzle Set 12/Sheep & Wolves
 
         Summary
-        Draw a loop a-la-minesweeper!
+        Where's a dog when you need one?
 
         Description
-        1. Draw a single looping path with the aid of the numbered hints. The path
-           cannot have branches or cross itself.
-        2. Each number in a tile tells you on how many of its four sides are touched
-           by the path.
-        3. For example:
-        4. A 0 tells you that the path doesn't touch that square at all.
-        5. A 1 tells you that the path touches that square ONLY one-side.
-        6. A 3 tells you that the path does a U-turn around that square.
-        7. There can't be tiles marked with 4 because that would form a single
-           closed loop in it.
-        8. Empty tiles can have any number of sides touched by that path.
+        1. Plays like SlitherLink:
+        2. Draw a single looping path with the aid of the numbered hints. The
+           path cannot have branches or cross itself.
+        3. Each number tells you on how many of its four sides are touched by
+           the path.
+        4. With this added rule:
+        5. In the end all the sheep must be corralled inside the loop, while
+           all the wolves must be outside.
     */
     private fun updateIsSolved() {
         isSolved = true
-        // 2. Each number in a tile tells you on how many of its four sides are touched
-        // by the path.
+        // 3. Each number tells you on how many of its four sides are touched by
+        //    the path.
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             if (this[p][1] == GridLineObject.Line) n1++
@@ -97,7 +94,7 @@ class SheepAndWolvesGameState(game: SheepAndWolvesGame) : CellsGameState<SheepAn
                         pos2node[p] = node
                     }
                     else -> {
-                        // 1. The path cannot have branches or cross itself.
+                        // 2. The path cannot have branches or cross itself.
                         isSolved = false
                         return
                     }
@@ -111,9 +108,45 @@ class SheepAndWolvesGameState(game: SheepAndWolvesGame) : CellsGameState<SheepAn
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         }
-        // 1. Draw a single looping path with the aid of the numbered hints.
+        // 2. Draw a single looping path with the aid of the numbered hints.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
+        if (!isSolved) return
+        val sheep0 = game.sheep.first()
+        val d = 0
+        var n = 0
+        val os = SheepAndWolvesGame.offset[d]
+        var p2 = sheep0
+        while (isValid(p2)) {
+            if (this[p2 + SheepAndWolvesGame.offset2[d]][SheepAndWolvesGame.dirs[d]] == GridLineObject.Line) { n += 1 }
+            p2 += os
+        }
+        if (n % 2 == 0) isSolved = false
+        if (!isSolved) return
+        // 5. In the end all the sheep must be corralled inside the loop, while
+        //    all the wolves must be outside.
+        val g2 = Graph()
+        val pos2node2 = mutableMapOf<Position, Node>()
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                val node = Node(p.toString())
+                g2.addNode(node)
+                pos2node2[p] = node
+            }
+        for ((p, node) in pos2node2)
+            for (i in 0 until 4) {
+                if (this[p + SheepAndWolvesGame.offset2[i]][SheepAndWolvesGame.dirs[i]] == GridLineObject.Line) continue
+                val p2 = p + SheepAndWolvesGame.offset[i]
+                val node2 = pos2node2[p2]
+                if (node2 != null)
+                    g2.connectNode(node, node2)
+            }
+        g2.rootNode = pos2node2[sheep0]!!
+        val nodeList2 = g2.bfs()
+        if (!game.sheep.all { nodeList2.contains(pos2node2[it]!!) } ||
+            game.wolves.any { nodeList2.contains(pos2node2[it]!!) })
+            isSolved = false
     }
 }

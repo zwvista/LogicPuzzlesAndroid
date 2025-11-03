@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -24,6 +25,8 @@ class SheepAndWolvesGameView(context: Context, val soundManager: SoundManager) :
     private val linePaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
+    private val dSheep: Drawable
+    private val dWolf: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -35,6 +38,8 @@ class SheepAndWolvesGameView(context: Context, val soundManager: SoundManager) :
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
+        dSheep = fromImageToDrawable("images/sheep.png")
+        dWolf = fromImageToDrawable("images/wolf.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -50,6 +55,14 @@ class SheepAndWolvesGameView(context: Context, val soundManager: SoundManager) :
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
+                if (game.sheep.contains(p)) {
+                    dSheep.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dSheep.draw(canvas)
+                }
+                if (game.wolves.contains(p)) {
+                    dWolf.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dWolf.draw(canvas)
                 }
             }
         if (isInEditMode) return

@@ -18,6 +18,8 @@ class SheepAndWolvesGame(layout: List<String>, gi: GameInterface<SheepAndWolvesG
     }
 
     var pos2hint = mutableMapOf<Position, Int>()
+    var sheep = mutableSetOf<Position>()
+    var wolves = mutableSetOf<Position>()
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
@@ -25,10 +27,11 @@ class SheepAndWolvesGame(layout: List<String>, gi: GameInterface<SheepAndWolvesG
             val str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                val ch = str[c]
-                if (ch in '0'..'9') {
-                    val n = ch - '0'
-                    pos2hint[p] = n
+                when (val ch = str[c]) {
+                    in '0'..'9' -> pos2hint[p] = ch - '0'
+                    'S' -> sheep.add(p)
+                    'W' -> wolves.add(p)
+                    else -> {}
                 }
             }
         }
