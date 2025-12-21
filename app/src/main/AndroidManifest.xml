@@ -457,6 +457,18 @@
         <activity android:name=".puzzles.gems.GemsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.heliumandiron.HeliumAndIronMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.heliumandiron.HeliumAndIronGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.heliumandiron.HeliumAndIronHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.heliumandiron.HeliumAndIronOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hiddenpath.HiddenPathMainActivity"
                   android:screenOrientation="portrait">
         </activity>
