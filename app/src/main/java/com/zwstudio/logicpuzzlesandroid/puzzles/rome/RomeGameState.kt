@@ -60,47 +60,50 @@ class RomeGameState(game: RomeGame) : CellsGameState<RomeGame, RomeGameMove, Rom
                 val p = Position(r, c)
                 pos2state[p] = AllowedObjectState.Normal
             }
-        var oLast: RomeObject
-        val trees = mutableListOf<Position>()
-        fun checkTrees() {
-            if (trees.size > 3) {
+        // 3. Arrows in an area should all be different, i.e. there can't be two
+        //    similar arrows in an area.
+        for (area in game.areas) {
+            val symbol2range = mutableMapOf<RomeObject, MutableList<Position>>()
+            for (p in area)
+                symbol2range.getOrPut(this[p]) { mutableListOf() }.add(p)
+            for ((_, range) in symbol2range)
+                if (range.size > 1)
+                    for (p in range) {
+                        isSolved = false
+                        pos2state[p] = AllowedObjectState.Error
+                    }
+            if (symbol2range.contains(RomeObject.Empty))
                 isSolved = false
-                for (p in trees)
-                    pos2state[p] = AllowedObjectState.Error
-            }
-            trees.clear()
         }
+        if (!isSolved) return
+        // 1. All the roads lead to Rome.
+        // 2. Hence you should fill the remaining spaces with arrows and in the
+        //    end, starting at any tile and following the arrows, you should get
+        //    at the Rome icon.
+        val validRange = mutableSetOf<Position>()
+        val invalidRange = mutableSetOf<Position>()
         for (r in 0 until rows) {
-            oLast = RomeObject.Empty
             for (c in 0 until cols) {
-                val p = Position(r, c)
-                val o = this[p]
-                if (o != oLast) {
-                    checkTrees()
-                    oLast = o
+                var p = Position(r, c)
+                val range = mutableSetOf<Position>()
+                while (true) {
+                    val o = this[p]
+                    if (o == RomeObject.Rome || validRange.contains(p)) {
+                        for (p2 in range) { validRange.add(p2) }
+                        break
+                    }
+                    if (!isValid(p) || invalidRange.contains(p) || range.contains(p)) {
+                        isSolved = false
+                        for (p2 in range) { invalidRange.add(p2) }
+                        break
+                    }
+                    range.add(p)
+                    val os = RomeGame.offset[o.ordinal - 2]
+                    p += os
                 }
-                if (o == RomeObject.Empty)
-                    isSolved = false
-                else
-                    trees.add(p)
             }
-            checkTrees()
         }
-        for (c in 0 until cols) {
-            oLast = RomeObject.Empty
-            for (r in 0 until rows) {
-                val p = Position(r, c)
-                val o = this[p]
-                if (o != oLast) {
-                    checkTrees()
-                    oLast = o
-                }
-                if (o == RomeObject.Empty)
-                    isSolved = false
-                else
-                    trees.add(p)
-            }
-            checkTrees()
-        }
+        for (p in invalidRange)
+            pos2state[p] = AllowedObjectState.Error
     }
 }
