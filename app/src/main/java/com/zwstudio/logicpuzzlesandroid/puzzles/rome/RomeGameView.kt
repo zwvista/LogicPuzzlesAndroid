@@ -10,6 +10,7 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -22,49 +23,58 @@ class RomeGameView(context: Context, val soundManager: SoundManager) : CellsGame
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val wallPaint = Paint()
-    private val markerPaint = Paint()
+    private val linePaint = Paint()
     private val fixedPaint = Paint()
-    private val forbiddenPaint = Paint()
-    private val dRed: Drawable
-    private val dYellow: Drawable
-
+    private val dUp: Drawable
+    private val dRight: Drawable
+    private val dDown: Drawable
+    private val dLeft: Drawable
+    private val dRome: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        wallPaint.color = Color.WHITE
-        wallPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.strokeWidth = 5f
+        linePaint.color = Color.YELLOW
+        linePaint.style = Paint.Style.STROKE
+        linePaint.strokeWidth = 20f
         fixedPaint.color = Color.WHITE
         fixedPaint.style = Paint.Style.STROKE
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
-        dRed = fromImageToDrawable("images/token_red.png")
-        dYellow = fromImageToDrawable("images/token_yellow.png")
+        dUp = fromImageToDrawable("images/arrow_bw_up.png")
+        dRight = fromImageToDrawable("images/arrow_bw_right.png")
+        dDown = fromImageToDrawable("images/arrow_bw_down.png")
+        dLeft = fromImageToDrawable("images/arrow_bw_left.png")
+        dRome = fromImageToDrawable("images/rome.png")
     }
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows)
-            for (c in 0 until cols)
-                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-        if (isInEditMode) return
-        for (r in 0 until rows)
             for (c in 0 until cols) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) continue
                 val p = Position(r, c)
                 val o = game.getObject(p)
                 if (o == RomeObject.Empty) continue
-                val dToken = if (o == RomeObject.Rome) dRed else dYellow
+                val dToken = when (o) {
+                    RomeObject.Up -> dUp
+                    RomeObject.Right -> dRight
+                    RomeObject.Down -> dDown
+                    RomeObject.Left -> dLeft
+                    else -> dRome
+                }
                 dToken.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
                 dToken.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                 dToken.draw(canvas)
                 if (game[p] != RomeObject.Empty)
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+            }
+        for (r in 0 until rows + 1)
+            for (c in 0 until cols + 1) {
+                if (game.dots[r, c, 1] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+                if (game.dots[r, c, 2] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
     }
 

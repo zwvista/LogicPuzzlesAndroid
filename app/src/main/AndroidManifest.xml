@@ -985,6 +985,18 @@
         <activity android:name=".puzzles.robotfences.RobotFencesOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.rome.RomeMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rome.RomeGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rome.RomeHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rome.RomeOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.rooms.RoomsMainActivity"
                   android:screenOrientation="portrait">
         </activity>

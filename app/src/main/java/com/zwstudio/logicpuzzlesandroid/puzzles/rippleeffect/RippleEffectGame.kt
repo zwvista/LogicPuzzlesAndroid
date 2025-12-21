@@ -74,7 +74,7 @@ class RippleEffectGame(layout: List<String>, gi: GameInterface<RippleEffectGame,
                 val p = Position(r, c)
                 for (i in 0 until 4)
                     if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i * 2]]!!)
+                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!
