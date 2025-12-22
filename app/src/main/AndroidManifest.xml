@@ -313,6 +313,18 @@
         <activity android:name=".puzzles.digitalbattleships.DigitalBattleShipsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.digitalpath.DigitalPathMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitalpath.DigitalPathGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitalpath.DigitalPathHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitalpath.DigitalPathOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.disconnectfour.DisconnectFourMainActivity"
                   android:screenOrientation="portrait">
         </activity>

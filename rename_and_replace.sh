@@ -2,11 +2,11 @@
 set -e
 
 # 协程变量（源字符串和目标字符串）
-SRC="Rome"
-DST="HeliumAndIron"
+SRC="Tatami"
+DST="DigitalPath"
 
 # 切换到 Branches 目录
-cd "$(dirname "$0")/app/src/main/java/com/zwstudio/logicpuzzlesandroid/puzzles/heliumandiron"
+cd "$(dirname "$0")/app/src/main/java/com/zwstudio/logicpuzzlesandroid/puzzles/digitalpath"
 
 # 1. 改文件名
 for f in ${SRC}*; do
