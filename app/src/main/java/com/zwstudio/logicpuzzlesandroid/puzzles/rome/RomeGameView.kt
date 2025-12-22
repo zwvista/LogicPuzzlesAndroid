@@ -55,17 +55,17 @@ class RomeGameView(context: Context, val soundManager: SoundManager) : CellsGame
                 val p = Position(r, c)
                 val o = game.getObject(p)
                 if (o == RomeObject.Empty) continue
-                val dToken = when (o) {
+                val dObject = when (o) {
                     RomeObject.Up -> dUp
                     RomeObject.Right -> dRight
                     RomeObject.Down -> dDown
                     RomeObject.Left -> dLeft
                     else -> dRome
                 }
-                dToken.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
-                dToken.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                dToken.draw(canvas)
+                dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                dObject.draw(canvas)
                 if (game[p] != RomeObject.Empty)
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
             }

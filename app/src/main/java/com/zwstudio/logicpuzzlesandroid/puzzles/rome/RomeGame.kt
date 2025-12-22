@@ -19,7 +19,7 @@ class RomeGame(layout: List<String>, gi: GameInterface<RomeGame, RomeGameMove, R
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        var symbols = " R^>v<"
+        var chars = " R^>v<"
     }
 
     var areas = mutableListOf<List<Position>>()
@@ -55,7 +55,7 @@ class RomeGame(layout: List<String>, gi: GameInterface<RomeGame, RomeGameMove, R
                 }
                 if (c == cols) break
                 val ch2 = str[c * 2 + 1]
-                val n = symbols.indexOf(ch2)
+                val n = chars.indexOf(ch2)
                 set(Position(r, c), RomeObject.entries[n])
             }
         }
