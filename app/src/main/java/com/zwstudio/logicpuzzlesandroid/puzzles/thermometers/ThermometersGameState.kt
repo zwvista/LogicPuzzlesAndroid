@@ -32,8 +32,7 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             is ThermometersEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersMarkerObject else ThermometersFilledObject()
             is ThermometersFilledObject -> if (markerOption == MarkerOptions.MarkerLast) ThermometersMarkerObject else ThermometersEmptyObject
             is ThermometersMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersFilledObject() else ThermometersEmptyObject

@@ -56,10 +56,8 @@ class RomeGameState(game: RomeGame) : CellsGameState<RomeGame, RomeGameMove, Rom
     private fun updateIsSolved() {
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                pos2state[p] = AllowedObjectState.Normal
-            }
+            for (c in 0 until cols)
+                pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 3. Arrows in an area should all be different, i.e. there can't be two
         //    similar arrows in an area.
         for (area in game.areas) {
@@ -67,11 +65,11 @@ class RomeGameState(game: RomeGame) : CellsGameState<RomeGame, RomeGameMove, Rom
             for (p in area)
                 symbol2range.getOrPut(this[p]) { mutableListOf() }.add(p)
             for ((_, range) in symbol2range)
-                if (range.size > 1)
-                    for (p in range) {
-                        isSolved = false
+                if (range.size > 1) {
+                    isSolved = false
+                    for (p in range)
                         pos2state[p] = AllowedObjectState.Error
-                    }
+                }
             if (symbol2range.contains(RomeObject.Empty))
                 isSolved = false
         }
@@ -82,7 +80,7 @@ class RomeGameState(game: RomeGame) : CellsGameState<RomeGame, RomeGameMove, Rom
         //    at the Rome icon.
         val validRange = mutableSetOf<Position>()
         val invalidRange = mutableSetOf<Position>()
-        for (r in 0 until rows) {
+        for (r in 0 until rows)
             for (c in 0 until cols) {
                 var p = Position(r, c)
                 val range = mutableSetOf<Position>()
@@ -102,7 +100,6 @@ class RomeGameState(game: RomeGame) : CellsGameState<RomeGame, RomeGameMove, Rom
                     p += os
                 }
             }
-        }
         for (p in invalidRange)
             pos2state[p] = AllowedObjectState.Error
     }

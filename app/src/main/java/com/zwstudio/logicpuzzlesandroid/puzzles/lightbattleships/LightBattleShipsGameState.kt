@@ -30,8 +30,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
     override fun switchObject(move: LightBattleShipsGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             is LightBattleShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsMarkerObject else LightBattleShipsBattleShipUnitObject
             is LightBattleShipsBattleShipUnitObject -> LightBattleShipsBattleShipMiddleObject
             is LightBattleShipsBattleShipMiddleObject -> LightBattleShipsBattleShipLeftObject

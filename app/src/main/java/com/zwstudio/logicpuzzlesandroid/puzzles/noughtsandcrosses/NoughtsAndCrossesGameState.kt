@@ -33,8 +33,7 @@ class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<N
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else '1'
             '.' -> if (markerOption == MarkerOptions.MarkerFirst) '1' else ' '
             game.chMax -> if (markerOption == MarkerOptions.MarkerLast) '.' else ' '

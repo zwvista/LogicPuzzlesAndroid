@@ -3,6 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.heliumandiron
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HeliumAndIronGameState(game: HeliumAndIronGame) : CellsGameState<HeliumAndIronGame, HeliumAndIronGameMove, HeliumAndIronGameState>(game) {
@@ -26,84 +27,82 @@ class HeliumAndIronGameState(game: HeliumAndIronGame) : CellsGameState<HeliumAnd
     }
 
     override fun switchObject(move: HeliumAndIronGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] != HeliumAndIronObject.Empty) return GameOperationType.Invalid
-        val o = this[move.p]
-        move.obj = when (o) {
-            HeliumAndIronObject.Empty -> HeliumAndIronObject.Up
-            HeliumAndIronObject.Up -> HeliumAndIronObject.Right
-            HeliumAndIronObject.Right -> HeliumAndIronObject.Down
-            HeliumAndIronObject.Down -> HeliumAndIronObject.Left
-            HeliumAndIronObject.Left -> HeliumAndIronObject.Empty
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
+        val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
+        move.obj = when (val o = this[p]) {
+            HeliumAndIronObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) HeliumAndIronObject.Marker else HeliumAndIronObject.Balloon
+            HeliumAndIronObject.Balloon -> HeliumAndIronObject.Weight
+            HeliumAndIronObject.Weight -> if (markerOption == MarkerOptions.MarkerLast) HeliumAndIronObject.Marker else HeliumAndIronObject.Empty
+            HeliumAndIronObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) HeliumAndIronObject.Balloon else HeliumAndIronObject.Empty
             else -> o
         }
         return setObject(move)
     }
 
     /*
-        iOS Game: 100 Logic Games 2/Puzzle Set 2/HeliumAndIron
+        iOS Game: 100 Logic Games 2/Puzzle Set 2/Helium And Iron
 
         Summary
-        All roads lead to ...
+        One rises, the other falls
 
         Description
-        1. All the roads lead to HeliumAndIron.
-        2. Hence you should fill the remaining spaces with arrows and in the
-           end, starting at any tile and following the arrows, you should get
-           at the HeliumAndIron icon.
-        3. Arrows in an area should all be different, i.e. there can't be two
-           similar arrows in an area.
+        1. Place a Balloon and a Weight in each Area.
+        2. Helium Balloons ten to float to the top, while Iron Weight tend to fall
+           to the ground.
+        3. A Balloon can be placed on the top of the board, under another Balloon,
+           or under a Block.
+        4. A Weight can be placed on the bottom of the board, over another Weight,
+           or over a Block.
     */
     private fun updateIsSolved() {
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                pos2state[p] = AllowedObjectState.Normal
-            }
-        // 3. Arrows in an area should all be different, i.e. there can't be two
-        //    similar arrows in an area.
+            for (c in 0 until cols)
+                pos2state[Position(r, c)] = AllowedObjectState.Normal
+        // 1. Place a Balloon and a Weight in each Area.
         for (area in game.areas) {
+            if (area.size == 1) continue
             val symbol2range = mutableMapOf<HeliumAndIronObject, MutableList<Position>>()
-            for (p in area)
-                symbol2range.getOrPut(this[p]) { mutableListOf() }.add(p)
+            symbol2range[HeliumAndIronObject.Balloon] = mutableListOf()
+            symbol2range[HeliumAndIronObject.Weight] = mutableListOf()
+            for (p in area) {
+                val o = this[p]
+                if (o == HeliumAndIronObject.Balloon || o == HeliumAndIronObject.Weight)
+                    symbol2range[o]!!.add(p)
+            }
             for ((_, range) in symbol2range)
-                if (range.size > 1)
-                    for (p in range) {
-                        isSolved = false
+                if (range.size != 1) {
+                    isSolved = false
+                    for (p in range)
                         pos2state[p] = AllowedObjectState.Error
-                    }
-            if (symbol2range.contains(HeliumAndIronObject.Empty))
-                isSolved = false
+                }
         }
         if (!isSolved) return
-        // 1. All the roads lead to HeliumAndIron.
-        // 2. Hence you should fill the remaining spaces with arrows and in the
-        //    end, starting at any tile and following the arrows, you should get
-        //    at the HeliumAndIron icon.
-        val validRange = mutableSetOf<Position>()
-        val invalidRange = mutableSetOf<Position>()
-        for (r in 0 until rows) {
-            for (c in 0 until cols) {
-                var p = Position(r, c)
-                val range = mutableSetOf<Position>()
-                while (true) {
-                    val o = this[p]
-                    if (o == HeliumAndIronObject.HeliumAndIron || validRange.contains(p)) {
-                        for (p2 in range) { validRange.add(p2) }
-                        break
-                    }
-                    if (!isValid(p) || invalidRange.contains(p) || range.contains(p)) {
-                        isSolved = false
-                        for (p2 in range) { invalidRange.add(p2) }
-                        break
-                    }
-                    range.add(p)
-                    val os = HeliumAndIronGame.offset[o.ordinal - 2]
-                    p += os
+        // 2. Helium Balloons ten to float to the top, while Iron Weight tend to fall
+        //    to the ground.
+        for (c in 0 until cols)
+            for (r in 0 until rows) {
+                val p = Position(r, c)
+                // 3. A Balloon can be placed on the top of the board, under another Balloon,
+                //    or under a Block.
+                when (this[p]) {
+                    HeliumAndIronObject.Balloon ->
+                        // 3. A Balloon can be placed on the top of the board, under another Balloon,
+                        //    or under a Block.
+                        if (!(r == 0 || this[r - 1, c] == HeliumAndIronObject.Balloon || this[r - 1, c] == HeliumAndIronObject.Block)) {
+                            isSolved = false
+                            pos2state[p] = AllowedObjectState.Error
+                        }
+                    HeliumAndIronObject.Weight ->
+                        // 4. A Weight can be placed on the bottom of the board, over another Weight,
+                        //    or over a Block.
+                        if (!(r == rows - 1 || this[r + 1, c] == HeliumAndIronObject.Weight || this[r + 1, c] == HeliumAndIronObject.Block)) {
+                            isSolved = false
+                            pos2state[p] = AllowedObjectState.Error
+                        }
+                    else -> {}
                 }
             }
-        }
-        for (p in invalidRange)
-            pos2state[p] = AllowedObjectState.Error
     }
 }

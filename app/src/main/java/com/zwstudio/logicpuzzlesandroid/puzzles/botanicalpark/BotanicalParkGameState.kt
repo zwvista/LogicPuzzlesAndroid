@@ -31,8 +31,7 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             is BotanicalParkEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BotanicalParkMarkerObject else BotanicalParkPlantObject()
             is BotanicalParkPlantObject -> if (markerOption == MarkerOptions.MarkerLast) BotanicalParkMarkerObject else BotanicalParkEmptyObject
             is BotanicalParkMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BotanicalParkPlantObject() else BotanicalParkEmptyObject

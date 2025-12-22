@@ -34,8 +34,7 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             is TentsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsMarkerObject else TentsTentObject()
             is TentsTentObject -> if (markerOption == MarkerOptions.MarkerLast) TentsMarkerObject else TentsEmptyObject
             is TentsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsTentObject() else TentsEmptyObject

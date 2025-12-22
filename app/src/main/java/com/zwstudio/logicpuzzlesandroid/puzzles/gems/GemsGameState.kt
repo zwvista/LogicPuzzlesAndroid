@@ -33,8 +33,7 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             is GemsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GemsMarkerObject else GemsPebbleObject
             is GemsPebbleObject -> GemsGemObject()
             is GemsGemObject -> if (markerOption == MarkerOptions.MarkerLast) GemsMarkerObject else GemsEmptyObject

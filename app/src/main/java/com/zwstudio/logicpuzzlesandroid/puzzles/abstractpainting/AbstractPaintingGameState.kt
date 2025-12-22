@@ -34,8 +34,7 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             AbstractPaintingObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Marker else AbstractPaintingObject.Painting
             AbstractPaintingObject.Painting -> if (markerOption == MarkerOptions.MarkerLast) AbstractPaintingObject.Marker else AbstractPaintingObject.Empty
             AbstractPaintingObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) AbstractPaintingObject.Painting else AbstractPaintingObject.Empty

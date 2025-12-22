@@ -34,8 +34,7 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             CloudsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CloudsObject.Marker else CloudsObject.Cloud
             CloudsObject.Cloud -> if (markerOption == MarkerOptions.MarkerLast) CloudsObject.Marker else CloudsObject.Empty
             CloudsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CloudsObject.Cloud else CloudsObject.Empty

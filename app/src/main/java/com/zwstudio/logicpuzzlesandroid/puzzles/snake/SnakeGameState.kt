@@ -36,8 +36,7 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p) || game.pos2snake.contains(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             SnakeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) SnakeObject.Marker else SnakeObject.Snake
             SnakeObject.Snake -> if (markerOption == MarkerOptions.MarkerLast) SnakeObject.Marker else SnakeObject.Empty
             SnakeObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) SnakeObject.Snake else SnakeObject.Empty

@@ -32,8 +32,7 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             MagnetsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) MagnetsObject.Marker else MagnetsObject.Positive
             MagnetsObject.Positive -> MagnetsObject.Negative
             MagnetsObject.Negative -> if (markerOption == MarkerOptions.MarkerLast) MagnetsObject.Marker else MagnetsObject.Empty

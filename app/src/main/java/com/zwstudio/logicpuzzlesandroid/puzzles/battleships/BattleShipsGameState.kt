@@ -30,8 +30,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             BattleShipsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.Marker else BattleShipsObject.BattleShipUnit
             BattleShipsObject.BattleShipUnit -> BattleShipsObject.BattleShipMiddle
             BattleShipsObject.BattleShipMiddle -> BattleShipsObject.BattleShipLeft

@@ -34,8 +34,7 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             is HiddenStarsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsMarkerObject else HiddenStarsStarObject()
             is HiddenStarsStarObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenStarsMarkerObject else HiddenStarsEmptyObject
             is HiddenStarsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsStarObject() else HiddenStarsEmptyObject

@@ -24,12 +24,10 @@ class HeliumAndIronGameView(context: Context, val soundManager: SoundManager) : 
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
-    private val fixedPaint = Paint()
-    private val dUp: Drawable
-    private val dRight: Drawable
-    private val dDown: Drawable
-    private val dLeft: Drawable
-    private val dHeliumAndIron: Drawable
+    private val markerPaint = Paint()
+    private val dBalloon: Drawable
+    private val dWeight: Drawable
+    private val dBlock: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -37,13 +35,11 @@ class HeliumAndIronGameView(context: Context, val soundManager: SoundManager) : 
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        fixedPaint.color = Color.WHITE
-        fixedPaint.style = Paint.Style.STROKE
-        dUp = fromImageToDrawable("images/arrow_bw_up.png")
-        dRight = fromImageToDrawable("images/arrow_bw_right.png")
-        dDown = fromImageToDrawable("images/arrow_bw_down.png")
-        dLeft = fromImageToDrawable("images/arrow_bw_left.png")
-        dHeliumAndIron = fromImageToDrawable("images/rome.png")
+        markerPaint.color = Color.WHITE
+        markerPaint.style = Paint.Style.STROKE
+        dBalloon = fromImageToDrawable("images/balloon (1).png")
+        dWeight = fromImageToDrawable("images/dumbbell (1).png")
+        dBlock = fromImageToDrawable("images/wood horizontal.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -53,21 +49,22 @@ class HeliumAndIronGameView(context: Context, val soundManager: SoundManager) : 
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o == HeliumAndIronObject.Empty) continue
-                val dToken = when (o) {
-                    HeliumAndIronObject.Up -> dUp
-                    HeliumAndIronObject.Right -> dRight
-                    HeliumAndIronObject.Down -> dDown
-                    HeliumAndIronObject.Left -> dLeft
-                    else -> dHeliumAndIron
+
+                fun f(dToken: Drawable) {
+                    dToken.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
+                    dToken.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    dToken.draw(canvas)
                 }
-                dToken.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
-                dToken.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                dToken.draw(canvas)
-                if (game[p] != HeliumAndIronObject.Empty)
-                    canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+
+                when (val o = game.getObject(p)) {
+                    HeliumAndIronObject.Marker ->
+                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
+                    HeliumAndIronObject.Balloon -> f(dBalloon)
+                    HeliumAndIronObject.Weight -> f(dWeight)
+                    HeliumAndIronObject.Block -> f(dBlock)
+                    else -> {}
+                }
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {

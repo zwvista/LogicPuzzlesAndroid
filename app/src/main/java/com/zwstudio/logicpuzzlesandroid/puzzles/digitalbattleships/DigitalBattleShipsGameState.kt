@@ -28,8 +28,7 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             DigitalBattleShipsObject.Empty ->
                 if (markerOption == MarkerOptions.MarkerFirst) DigitalBattleShipsObject.Marker else DigitalBattleShipsObject.BattleShipUnit
             DigitalBattleShipsObject.BattleShipUnit -> DigitalBattleShipsObject.BattleShipMiddle

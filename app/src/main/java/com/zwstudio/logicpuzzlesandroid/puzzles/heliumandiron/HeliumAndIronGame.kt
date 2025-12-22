@@ -55,8 +55,7 @@ class HeliumAndIronGame(layout: List<String>, gi: GameInterface<HeliumAndIronGam
                 }
                 if (c == cols) break
                 val ch2 = str[c * 2 + 1]
-                val n = symbols.indexOf(ch2)
-                set(Position(r, c), HeliumAndIronObject.entries[n])
+                set(Position(r, c), if (ch2 == 'B') HeliumAndIronObject.Block else HeliumAndIronObject.Empty)
             }
         }
         val rng = mutableSetOf<Position>()
