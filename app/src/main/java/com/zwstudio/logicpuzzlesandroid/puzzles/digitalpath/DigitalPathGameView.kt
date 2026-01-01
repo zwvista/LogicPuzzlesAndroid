@@ -40,11 +40,11 @@ class DigitalPathGameView(context: Context, val soundManager: SoundManager) : Ce
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val ch = game.getObject(p)
-                if (ch == ' ') continue
+                val n = game.getObject(p)
+                if (n == 0) continue
                 val s = game.pos2State(p)
-                textPaint.color = if (game[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val text = ch.toString()
+                textPaint.color = if (game[p] == n) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         for (r in 0 until rows + 1)

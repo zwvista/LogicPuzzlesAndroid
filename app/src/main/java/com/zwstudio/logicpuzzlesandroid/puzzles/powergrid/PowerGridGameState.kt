@@ -30,8 +30,7 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
 
     override fun switchObject(move: PowerGridGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is PowerGridEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PowerGridMarkerObject else PowerGridPostObject()
             is PowerGridPostObject -> if (markerOption == MarkerOptions.MarkerLast) PowerGridMarkerObject else PowerGridEmptyObject
             is PowerGridMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PowerGridPostObject() else PowerGridEmptyObject

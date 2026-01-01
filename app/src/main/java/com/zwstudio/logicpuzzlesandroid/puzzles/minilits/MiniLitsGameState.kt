@@ -38,8 +38,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
 
     override fun switchObject(move: MiniLitsGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is MiniLitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsMarkerObject else MiniLitsTreeObject()
             is MiniLitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) MiniLitsMarkerObject else MiniLitsEmptyObject
             is MiniLitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsTreeObject() else MiniLitsEmptyObject
@@ -83,9 +82,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
         for ((p, node) in pos2node) {
             for (os in MiniLitsGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         val blocks = mutableListOf<List<Position>>()

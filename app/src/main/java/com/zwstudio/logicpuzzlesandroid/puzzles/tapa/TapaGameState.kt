@@ -34,8 +34,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
 
     override fun switchObject(move: TapaGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is TapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaMarkerObject else TapaWallObject()
             is TapaWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapaMarkerObject else TapaEmptyObject
             is TapaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaWallObject() else TapaEmptyObject
@@ -142,9 +141,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
         for ((p, node) in pos2node)
             for (os in TapaGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         // 1. The goal is to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.

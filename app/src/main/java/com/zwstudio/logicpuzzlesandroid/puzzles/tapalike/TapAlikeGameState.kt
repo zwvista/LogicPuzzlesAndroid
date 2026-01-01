@@ -35,8 +35,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
 
     override fun switchObject(move: TapAlikeGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is TapAlikeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeMarkerObject else TapAlikeWallObject()
             is TapAlikeWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapAlikeMarkerObject else TapAlikeEmptyObject
             is TapAlikeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeWallObject() else TapAlikeEmptyObject
@@ -127,9 +126,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         for ((p, node) in pos2node) {
             for (os in TapaGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         // The goal is to fill some tiles forming a single orthogonally continuous

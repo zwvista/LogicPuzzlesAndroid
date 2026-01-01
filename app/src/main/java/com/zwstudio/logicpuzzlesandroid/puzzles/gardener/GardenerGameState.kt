@@ -33,8 +33,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
 
     override fun switchObject(move: GardenerGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is GardenerEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject else GardenerFlowerObject()
             is GardenerFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) GardenerMarkerObject else GardenerEmptyObject
             is GardenerMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerFlowerObject() else GardenerEmptyObject
@@ -101,9 +100,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
         for ((p, node) in pos2node) {
             for (os in GardenerGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         // 5. All the remaining Garden space where there are no Flowers must be

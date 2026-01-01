@@ -34,8 +34,7 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
     override fun switchObject(move: ArchipelagoGameMove): GameOperationType {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is ArchipelagoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoMarkerObject else ArchipelagoWaterObject()
             is ArchipelagoWaterObject -> if (markerOption == MarkerOptions.MarkerLast) ArchipelagoMarkerObject else ArchipelagoEmptyObject
             is ArchipelagoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoWaterObject() else ArchipelagoEmptyObject
@@ -84,9 +83,7 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
         for ((p, node) in pos2node) {
             for (os in TierraDelFuegoGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         val areas = mutableListOf<List<Position>>()

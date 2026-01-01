@@ -31,8 +31,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
     override fun switchObject(move: HolidayIslandGameMove): GameOperationType {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject else HolidayIslandWaterObject()
             is HolidayIslandWaterObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject else HolidayIslandEmptyObject
             is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandWaterObject() else HolidayIslandEmptyObject
@@ -83,9 +82,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         for ((p, node) in pos2node) {
             for (os in HolidayIslandGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         run {

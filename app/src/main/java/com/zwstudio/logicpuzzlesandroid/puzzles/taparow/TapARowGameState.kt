@@ -35,8 +35,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
 
     override fun switchObject(move: TapARowGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is TapARowEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowMarkerObject else TapARowWallObject()
             is TapARowWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapARowMarkerObject else TapARowEmptyObject
             is TapARowMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowWallObject() else TapARowEmptyObject
@@ -125,9 +124,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         for ((p, node) in pos2node)
             for (os in TapaGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         // The goal is to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.

@@ -28,8 +28,7 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
 
     override fun switchObject(move: BWTapaGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p];
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is BWTapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaMarkerObject else BWTapaWallObject()
             is BWTapaWallObject -> if (markerOption == MarkerOptions.MarkerLast) BWTapaMarkerObject else BWTapaEmptyObject
             is BWTapaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaWallObject() else BWTapaEmptyObject

@@ -32,8 +32,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
 
     override fun switchObject(move: CastleBaileyGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             CastleBaileyObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Marker else CastleBaileyObject.Wall
             CastleBaileyObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) CastleBaileyObject.Marker else CastleBaileyObject.Empty
             CastleBaileyObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Wall else CastleBaileyObject.Empty
@@ -109,9 +108,7 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
         for ((p, node) in pos2node)
             for (os in CastleBaileyGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         // 6. To facilitate movement in the castle, the Bailey must have a single
         // continuous area (Garden).

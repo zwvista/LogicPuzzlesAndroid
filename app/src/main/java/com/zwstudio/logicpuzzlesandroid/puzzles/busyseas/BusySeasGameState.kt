@@ -26,8 +26,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
 
     override fun switchObject(move: BusySeasGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is BusySeasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasMarkerObject() else BusySeasLighthouseObject()
             is BusySeasLighthouseObject -> if (markerOption == MarkerOptions.MarkerLast) BusySeasMarkerObject() else BusySeasEmptyObject
             is BusySeasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasLighthouseObject() else BusySeasEmptyObject

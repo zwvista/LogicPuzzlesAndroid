@@ -19,22 +19,26 @@ class DigitalPathGame(layout: List<String>, gi: GameInterface<DigitalPathGame, D
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        val offset3 = Position.Square2x2Offset
+        val PUZ_EMPTY = 0
+        val PUZ_MARKER = -1
+        val PUZ_FORBIDDEN = -2
     }
 
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    var objArray: CharArray
+    var objArray: IntArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
         dots = GridDots(rows + 1, cols + 1)
-        objArray = CharArray(rows * cols)
+        objArray = IntArray(rows * cols)
         for (r in 0 until rows + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols) {
@@ -54,7 +58,7 @@ class DigitalPathGame(layout: List<String>, gi: GameInterface<DigitalPathGame, D
                 }
                 if (c == cols) break
                 val ch2 = str[c * 2 + 1]
-                this[Position(r, c)] = ch2
+                this[Position(r, c)] = if (ch2 == ' ') PUZ_EMPTY else ch2 - '0'
             }
         }
         val rng = mutableSetOf<Position>()
@@ -73,7 +77,7 @@ class DigitalPathGame(layout: List<String>, gi: GameInterface<DigitalPathGame, D
                 val p = Position(r, c)
                 for (i in 0 until 4)
                     if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i * 2]]!!)
+                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!

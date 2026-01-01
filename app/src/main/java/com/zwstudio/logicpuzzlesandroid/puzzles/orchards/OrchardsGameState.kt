@@ -31,8 +31,7 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
 
     override fun switchObject(move: OrchardsGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is OrchardsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsMarkerObject else OrchardsTreeObject()
             is OrchardsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) OrchardsMarkerObject else OrchardsEmptyObject
             is OrchardsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsTreeObject() else OrchardsEmptyObject

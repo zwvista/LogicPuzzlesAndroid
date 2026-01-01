@@ -32,8 +32,7 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
     override fun switchObject(move: TurnTwiceGameMove): GameOperationType {
         if (!isValid(move.p) || game[move.p] !is TurnTwiceEmptyObject) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is TurnTwiceEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceMarkerObject else TurnTwiceWallObject()
             is TurnTwiceWallObject -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceMarkerObject else TurnTwiceEmptyObject
             is TurnTwiceMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceSignPostObject() else TurnTwiceEmptyObject
@@ -87,9 +86,7 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
         for ((p, node) in pos2node) {
             for (os in TurnTwiceGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         // 5. All the signposts and empty spaces must form an orthogonally continuous

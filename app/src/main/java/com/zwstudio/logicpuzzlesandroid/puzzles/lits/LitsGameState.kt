@@ -38,8 +38,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
 
     override fun switchObject(move: LitsGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is LitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsMarkerObject else LitsTreeObject()
             is LitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) LitsMarkerObject else LitsEmptyObject
             is LitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsTreeObject() else LitsEmptyObject
@@ -85,9 +84,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         for ((p, node) in pos2node)
             for (os in LitsGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         val blocks = mutableListOf<List<Position>>()
         while (pos2node.isNotEmpty()) {

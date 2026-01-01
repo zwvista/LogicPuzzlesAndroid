@@ -32,8 +32,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
     override fun switchObject(move: FourMeNotGameMove): GameOperationType {
         if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is FourMeNotEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotMarkerObject else FourMeNotFlowerObject()
             is FourMeNotFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) FourMeNotMarkerObject else FourMeNotEmptyObject
             is FourMeNotMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotFlowerObject() else FourMeNotEmptyObject
@@ -79,9 +78,7 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
         for ((p, node) in pos2node) {
             for (os in FourMeNotGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         // 2. More exactly, you have to join the existing flowers by adding more of

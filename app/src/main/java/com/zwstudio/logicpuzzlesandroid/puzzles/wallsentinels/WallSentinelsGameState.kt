@@ -30,9 +30,8 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
     }
 
     override fun switchObject(move: WallSentinelsGameMove): GameOperationType {
-        val o = this[move.p]
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is WallSentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsMarkerObject else WallSentinelsWallObject
             is WallSentinelsWallObject -> if (markerOption == MarkerOptions.MarkerLast) WallSentinelsMarkerObject else WallSentinelsEmptyObject
             is WallSentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsWallObject else WallSentinelsEmptyObject
@@ -125,9 +124,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
         for ((p, node) in pos2node)
             for (os in WallSentinelsGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         // 7. Lastly there is a single, orthogonally contiguous, Wall - just like Nurikabe.
         g.rootNode = pos2node.values.first()

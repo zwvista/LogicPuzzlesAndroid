@@ -34,8 +34,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
     override fun switchObject(move: ParkLakesGameMove): GameOperationType {
         if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is ParkLakesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesMarkerObject else ParkLakesLakeObject()
             is ParkLakesLakeObject -> if (markerOption == MarkerOptions.MarkerLast) ParkLakesMarkerObject else ParkLakesEmptyObject
             is ParkLakesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesLakeObject() else ParkLakesEmptyObject
@@ -79,9 +78,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         for ((p, node) in pos2node) {
             for (os in TierraDelFuegoGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         val areas = mutableListOf<List<Position>>()

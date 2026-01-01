@@ -9,9 +9,9 @@ class DigitalPathDocument(context: Context) : GameDocument<DigitalPathGameMove>(
     override fun saveMove(move: DigitalPathGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.toString()
+        rec.intValue1 = move.obj
     }
 
     override fun loadMove(rec: MoveProgress) =
-        DigitalPathGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
+        DigitalPathGameMove(Position(rec.row, rec.col), rec.intValue1)
 }

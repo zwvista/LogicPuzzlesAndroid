@@ -39,9 +39,8 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
     override fun switchObject(move: AbcGameMove): GameOperationType {
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (o) {
+        move.obj = when (val o = this[p]) {
             ' ' -> if (markerOption == MarkerOptions.MarkerFirst) '.' else 'A'
             '.' -> if (markerOption == MarkerOptions.MarkerFirst) 'A' else ' '
             game.chMax -> if (markerOption == MarkerOptions.MarkerLast) '.' else ' '

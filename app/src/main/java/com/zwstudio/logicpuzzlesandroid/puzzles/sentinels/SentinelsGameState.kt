@@ -26,8 +26,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
 
     override fun switchObject(move: SentinelsGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is SentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsMarkerObject else SentinelsTowerObject()
             is SentinelsTowerObject -> if (markerOption == MarkerOptions.MarkerLast) SentinelsMarkerObject else SentinelsEmptyObject
             is SentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsTowerObject() else SentinelsEmptyObject
@@ -122,9 +121,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         for ((p, node) in pos2node) {
             for (os in SentinelsGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         // 4. There must be a single continuous Garden

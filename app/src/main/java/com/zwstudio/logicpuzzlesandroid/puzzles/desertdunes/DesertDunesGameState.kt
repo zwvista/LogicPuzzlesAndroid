@@ -34,8 +34,7 @@ class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGa
 
     override fun switchObject(move: DesertDunesGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is DesertDunesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) DesertDunesMarkerObject else DesertDunesDuneObject()
             is DesertDunesDuneObject -> if (markerOption == MarkerOptions.MarkerLast) DesertDunesMarkerObject else DesertDunesEmptyObject
             is DesertDunesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) DesertDunesDuneObject() else DesertDunesEmptyObject
@@ -105,9 +104,7 @@ class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGa
         for ((p, node) in pos2node) {
             for (os in GardenerGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         g.rootNode = pos2node.values.first()

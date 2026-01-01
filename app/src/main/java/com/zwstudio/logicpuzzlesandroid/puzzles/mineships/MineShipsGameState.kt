@@ -101,9 +101,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         for ((p, node) in pos2node) {
             for (i in 0 until 4) {
                 val p2 = p + MineShipsGame.offset[i * 2]
-                val node2 = pos2node[p2]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
         val shipNumbers = mutableListOf(0, 0, 0, 0, 0)

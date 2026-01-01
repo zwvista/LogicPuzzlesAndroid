@@ -27,8 +27,7 @@ class RomeGameState(game: RomeGame) : CellsGameState<RomeGame, RomeGameMove, Rom
 
     override fun switchObject(move: RomeGameMove): GameOperationType {
         if (!isValid(move.p) || game[move.p] != RomeObject.Empty) return GameOperationType.Invalid
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             RomeObject.Empty -> RomeObject.Up
             RomeObject.Up -> RomeObject.Right
             RomeObject.Right -> RomeObject.Down

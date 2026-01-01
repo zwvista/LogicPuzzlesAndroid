@@ -34,8 +34,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
 
     override fun switchObject(move: PataGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             is PataEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PataMarkerObject else PataWallObject()
             is PataWallObject -> if (markerOption == MarkerOptions.MarkerLast) PataMarkerObject else PataEmptyObject
             is PataMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PataWallObject() else PataEmptyObject
