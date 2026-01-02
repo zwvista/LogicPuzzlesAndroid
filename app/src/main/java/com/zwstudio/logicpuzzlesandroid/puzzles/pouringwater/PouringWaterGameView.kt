@@ -17,8 +17,8 @@ class PouringWaterGameView(context: Context, val soundManager: SoundManager) : C
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
     private val cols get() = if (isInEditMode) 5 else game.cols
-    override val rowsInView get() = rows
-    override val colsInView get() = cols
+    override val rowsInView get() = rows + 1
+    override val colsInView get() = cols + 1
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
@@ -42,10 +42,6 @@ class PouringWaterGameView(context: Context, val soundManager: SoundManager) : C
                 val p = Position(r, c)
                 val ch = game.getObject(p)
                 if (ch == ' ') continue
-                val s = game.pos2State(p)
-                textPaint.color = if (game[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val text = ch.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
@@ -54,6 +50,21 @@ class PouringWaterGameView(context: Context, val soundManager: SoundManager) : C
                 if (game.dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
+        if (isInEditMode) return
+        for (r in 0 until rows) {
+            val s = game.getRowState(r)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game.row2hint[r]
+            val text = n.toString()
+            drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
+        }
+        for (c in 0 until cols) {
+            val s = game.getColState(c)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+            val n = game.col2hint[c]
+            val text = n.toString()
+            drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

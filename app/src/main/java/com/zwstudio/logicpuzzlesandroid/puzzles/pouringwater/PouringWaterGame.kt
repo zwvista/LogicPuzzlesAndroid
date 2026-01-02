@@ -24,17 +24,14 @@ class PouringWaterGame(layout: List<String>, gi: GameInterface<PouringWaterGame,
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    var objArray: CharArray
-
-    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
-    operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    var row2hint: IntArray
+    var col2hint: IntArray
 
     init {
-        size = Position(layout.size / 2, layout[0].length / 2)
+        size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)
         dots = GridDots(rows + 1, cols + 1)
-        objArray = CharArray(rows * cols)
+        row2hint = IntArray(rows)
+        col2hint = IntArray(cols)
         for (r in 0 until rows + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols) {
@@ -44,17 +41,24 @@ class PouringWaterGame(layout: List<String>, gi: GameInterface<PouringWaterGame,
                     dots[r, c + 1, 3] = GridLineObject.Line
                 }
             }
-            if (r == rows) break
             str = layout[r * 2 + 1]
-            for (c in 0 until cols + 1) {
-                val ch = str[c * 2]
-                if (ch == '|') {
-                    dots[r, c, 2] = GridLineObject.Line
-                    dots[r + 1, c, 0] = GridLineObject.Line
+            if (r < rows) {
+                for (c in 0 until cols + 1) {
+                    val ch = str[c * 2]
+                    if (ch == '|') {
+                        dots[r, c, 2] = GridLineObject.Line
+                        dots[r + 1, c, 0] = GridLineObject.Line
+                    }
                 }
-                if (c == cols) break
-                val ch2 = str[c * 2 + 1]
-                this[Position(r, c)] = ch2
+                val ch2 = str[cols * 2 + 1]
+                if (ch2 != ' ')
+                    row2hint[r] = ch2 - '0'
+            } else {
+                for (c in 0 until cols) {
+                    val ch2 = str[c * 2 + 1]
+                    if (ch2 != ' ')
+                        col2hint[c] = ch2 - '0'
+                }
             }
         }
         val rng = mutableSetOf<Position>()
@@ -73,7 +77,7 @@ class PouringWaterGame(layout: List<String>, gi: GameInterface<PouringWaterGame,
                 val p = Position(r, c)
                 for (i in 0 until 4)
                     if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i * 2]]!!)
+                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!
@@ -90,5 +94,6 @@ class PouringWaterGame(layout: List<String>, gi: GameInterface<PouringWaterGame,
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
+    fun getRowState(row: Int) = currentState.row2state[row]
+    fun getColState(col: Int) = currentState.col2state[col]
 }
