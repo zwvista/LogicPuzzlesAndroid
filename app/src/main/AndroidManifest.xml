@@ -961,6 +961,18 @@
         <activity android:name=".puzzles.planks.PlanksOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pouringwater.PouringWaterMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pouringwater.PouringWaterGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pouringwater.PouringWaterHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pouringwater.PouringWaterOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.powergrid.PowerGridMainActivity"
                   android:screenOrientation="portrait">
         </activity>
