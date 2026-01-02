@@ -589,6 +589,18 @@
         <activity android:name=".puzzles.landscaper.LandscaperOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.liarliar.LiarLiarMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.liarliar.LiarLiarGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.liarliar.LiarLiarHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>∑
+        <activity android:name=".puzzles.liarliar.LiarLiarOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.lightbattleships.LightBattleShipsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
