@@ -21,6 +21,8 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
+    private val darkenPaint = Paint()
+    private val markerPaint = Paint()
     private val linePaint = Paint()
     private val textPaint = TextPaint()
 
@@ -30,6 +32,9 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        darkenPaint.color = Color.LTGRAY
+        darkenPaint.style = Paint.Style.FILL_AND_STROKE
+        markerPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
 
@@ -40,12 +45,18 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val ch = game.getObject(p)
-                if (ch == ' ') continue
-                val s = game.pos2State(p)
-                textPaint.color = if (game[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val text = ch.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                when (val o = game.getObject(p)) {
+                    is LiarLiarMarkedObject ->
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), darkenPaint)
+                    is LiarLiarHintObject -> {
+                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                        val text = game.pos2hint[p]!!.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                    is LiarLiarMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    else -> {}
+                }
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {

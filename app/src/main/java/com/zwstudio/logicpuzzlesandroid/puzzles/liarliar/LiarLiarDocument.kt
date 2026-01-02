@@ -13,5 +13,5 @@ class LiarLiarDocument(context: Context) : GameDocument<LiarLiarGameMove>(contex
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LiarLiarGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
+        LiarLiarGameMove(Position(rec.row, rec.col), LiarLiarObject.objFromString(rec.strValue1!!))
 }
