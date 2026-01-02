@@ -25,7 +25,7 @@ abstract class GameDocument<GM>(val context: Context) : GameDocumentInterface {
     val gameTitle: String
         get() {
             val name = gameID
-            return HomeChooseGameActivity.name2title[name] ?: name
+            return HomeChooseGameActivity.name2Title(name)
         }
 
     var levels = mutableListOf<GameLevel>()

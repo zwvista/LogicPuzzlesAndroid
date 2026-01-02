@@ -25,7 +25,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             lstGameNames = assets.list("xml")!!
                 .map { it.substring(0, it.length - ".xml".length) }
                 .sortedBy { it.uppercase(Locale.ROOT) }
-            lstGameTitles = lstGameNames.map { name2title[it] ?: splitAndJoinWords(it) }
+            lstGameTitles = lstGameNames.map { name2Title(it) }
         }
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_single_choice, lstGameTitles)
@@ -61,7 +61,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
     companion object {
         var lstGameNames = listOf<String>()
         var lstGameTitles = listOf<String>()
-        var name2title = mapOf(
+        private var name2title = mapOf(
             "ABCPath" to "ABC Path",
             "BWTapa" to "B&W Tapa",
             "CarpentersSquare" to "Carpenter's Square",
@@ -76,11 +76,13 @@ class HomeChooseGameActivity : AppCompatActivity() {
         )
         private val UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
 
-        fun splitAndJoinWords(input: String): String {
+        fun name2Title(name: String): String =
+            name2title[name] ?: splitAndJoinWords(name)
+        private fun splitAndJoinWords(input: String): String {
             val pattern = Regex("([a-z])([A-Z])")
             return input.replace(pattern, "\$1 \$2")
         }
-        fun splitAndJoinWords2(input: String): String {
+        private fun splitAndJoinWords2(input: String): String {
             val pattern = Regex("(?<=[a-z])(?=[A-Z])")
             return input.replace(pattern, " ")
         }
