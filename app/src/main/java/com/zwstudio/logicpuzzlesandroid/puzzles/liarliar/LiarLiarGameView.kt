@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -21,7 +22,8 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val markedPaint = Paint()
+    private val markedNormalPaint = Paint()
+    private val markedErrorPaint = Paint()
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val linePaint = Paint()
@@ -33,8 +35,10 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        markedPaint.color = Color.LTGRAY
-        markedPaint.style = Paint.Style.FILL_AND_STROKE
+        markedNormalPaint.color = Color.LTGRAY
+        markedNormalPaint.style = Paint.Style.FILL_AND_STROKE
+        markedErrorPaint.color = Color.RED
+        markedErrorPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.color = Color.WHITE
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
@@ -53,7 +57,7 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
                     is LiarLiarForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     is LiarLiarMarkedObject ->
-                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), markedPaint)
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), if (o.state == AllowedObjectState.Error) markedErrorPaint else markedNormalPaint)
                     is LiarLiarHintObject -> {
                         textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
                         val text = game.pos2hint[p]!!.toString()
