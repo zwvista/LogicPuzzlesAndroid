@@ -4,9 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -21,16 +25,24 @@ class PouringWaterGameView(context: Context, val soundManager: SoundManager) : C
     override val colsInView get() = cols + 1
 
     private val gridPaint = Paint()
+    private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val linePaint = Paint()
     private val textPaint = TextPaint()
+    private val dWater: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
+        markerPaint.color = Color.WHITE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
+        dWater = fromImageToDrawable("images/sea.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -41,7 +53,19 @@ class PouringWaterGameView(context: Context, val soundManager: SoundManager) : C
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 val ch = game.getObject(p)
-                if (ch == ' ') continue
+                when (val o = game.getObject(p)) {
+                    is PouringWaterForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                    is PouringWaterMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    is PouringWaterWaterObject -> {
+                        dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dWater.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dWater.draw(canvas)
+                    }
+                    else -> {}
+                }
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {

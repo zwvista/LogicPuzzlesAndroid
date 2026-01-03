@@ -104,12 +104,12 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
                     for (p in rng)
                         this[p] = LiarLiarMarkedObject(state = AllowedObjectState.Error)
                 }
-                if (allowedObjectsOnly)
-                    for (os in LiarLiarGame.offset) {
-                        val p2 = p + os
-                        if (isValid(p2) && this[p2] is LiarLiarEmptyObject)
-                            this[p2] = LiarLiarForbiddenObject
-                    }
+                if (!allowedObjectsOnly) continue
+                for (os in LiarLiarGame.offset) {
+                    val p2 = p + os
+                    if (isValid(p2) && this[p2] is LiarLiarEmptyObject)
+                        this[p2] = LiarLiarForbiddenObject
+                }
             }
         if (!isSolved) return
         // 6. All of the non-marked cells must be connected.

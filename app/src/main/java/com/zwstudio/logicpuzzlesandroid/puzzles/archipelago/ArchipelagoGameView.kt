@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -53,7 +54,8 @@ class ArchipelagoGameView(context: Context, val soundManager: SoundManager) : Ce
                 when (val o = game.getObject(p)) {
                     is ArchipelagoWaterObject -> {
                         dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        dWater.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dWater.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dWater.draw(canvas)
                     }
                     is ArchipelagoHintObject -> {

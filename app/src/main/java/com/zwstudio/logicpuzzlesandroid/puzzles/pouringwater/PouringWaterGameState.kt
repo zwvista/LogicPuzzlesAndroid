@@ -3,17 +3,18 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.pouringwater
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWaterGame, PouringWaterGameMove, PouringWaterGameState>(game) {
-    var objArray = Array(rows * cols) { ' ' }
+    var objArray = Array<PouringWaterObject>(rows * cols) { PouringWaterEmptyObject }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: PouringWaterObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: PouringWaterObject) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
@@ -30,8 +31,13 @@ class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWate
     override fun switchObject(move: PouringWaterGameMove): GameOperationType {
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = if (o == ' ') '1' else if (o == '3') ' ' else o + 1
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
+        move.obj = when (val o = this[p]) {
+            is PouringWaterEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PouringWaterMarkerObject else PouringWaterWaterObject()
+            is PouringWaterWaterObject -> if (markerOption == MarkerOptions.MarkerLast) PouringWaterMarkerObject else PouringWaterEmptyObject
+            is PouringWaterMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PouringWaterWaterObject() else PouringWaterEmptyObject
+            else -> o
+        }
         return setObject(move)
     }
 
