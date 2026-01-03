@@ -9,7 +9,7 @@ class LiarLiarDocument(context: Context) : GameDocument<LiarLiarGameMove>(contex
     override fun saveMove(move: LiarLiarGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.toString()
+        rec.strValue1 = move.obj.objAsString()
     }
 
     override fun loadMove(rec: MoveProgress) =
