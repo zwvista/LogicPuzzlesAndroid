@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.liarliar
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
@@ -9,13 +10,17 @@ sealed class LiarLiarObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> LiarLiarMarkerObject
-            "marked" -> LiarLiarMarkedObject
+            "marked" -> LiarLiarMarkedObject()
             else -> LiarLiarEmptyObject
         }
     }
 }
 
 object LiarLiarEmptyObject : LiarLiarObject()
+
+object LiarLiarForbiddenObject : LiarLiarObject() {
+    override fun objAsString() = "forbidden"
+}
 
 class LiarLiarHintObject(var state: HintState = HintState.Normal) : LiarLiarObject() {
     override fun objAsString() = "hint"
@@ -25,7 +30,7 @@ object LiarLiarMarkerObject : LiarLiarObject() {
     override fun objAsString() = "marker"
 }
 
-object LiarLiarMarkedObject : LiarLiarObject() {
+class LiarLiarMarkedObject(var state: AllowedObjectState = AllowedObjectState.Normal) : LiarLiarObject() {
     override fun objAsString() = "marked"
 }
 

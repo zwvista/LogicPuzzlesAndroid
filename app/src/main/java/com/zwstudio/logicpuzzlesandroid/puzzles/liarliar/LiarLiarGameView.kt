@@ -21,8 +21,9 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val darkenPaint = Paint()
+    private val markedPaint = Paint()
     private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val linePaint = Paint()
     private val textPaint = TextPaint()
 
@@ -32,9 +33,12 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        darkenPaint.color = Color.LTGRAY
-        darkenPaint.style = Paint.Style.FILL_AND_STROKE
+        markedPaint.color = Color.LTGRAY
+        markedPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.color = Color.WHITE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
 
@@ -46,8 +50,10 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
+                    is LiarLiarForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     is LiarLiarMarkedObject ->
-                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), darkenPaint)
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), markedPaint)
                     is LiarLiarHintObject -> {
                         textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
                         val text = game.pos2hint[p]!!.toString()
