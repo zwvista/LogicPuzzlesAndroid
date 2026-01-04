@@ -1261,6 +1261,18 @@
         <activity android:name=".puzzles.stacks.StacksOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.straightandturn.StraightAndTurnMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.straightandturn.StraightAndTurnGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.straightandturn.StraightAndTurnHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.straightandturn.StraightAndTurnOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.sumscrapers.SumscrapersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
