@@ -1,0 +1,61 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.islandconnections
+
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+
+class IslandConnectionsGame(layout: List<String>, gi: GameInterface<IslandConnectionsGame, IslandConnectionsGameMove, IslandConnectionsGameState>, gdi: GameDocumentInterface) : CellsGame<IslandConnectionsGame, IslandConnectionsGameMove, IslandConnectionsGameState>(gi, gdi) {
+    companion object {
+        val offset = Position.Directions4
+    }
+
+    var islandsInfo = mutableMapOf<Position, IslandConnectionsIslandInfo>()
+    fun isIsland(p: Position) = islandsInfo.containsKey(p)
+
+    init {
+        size = Position(layout.size, layout[0].length)
+        for (r in 0 until rows) {
+            val str = layout[r]
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val ch = str[c]
+                if (ch in '0'..'9') {
+                    val info = IslandConnectionsIslandInfo()
+                    info.bridges = ch - '0'
+                    islandsInfo[p] = info
+                }
+            }
+        }
+        for ((p, info) in islandsInfo) {
+            for (i in 0 until 4) {
+                val os = offset[i]
+                var p2 = p + os
+                while (isValid(p2)) {
+                    if (isIsland(p2)) {
+                        info.neighbors[i] = p2
+                        break
+                    }
+                    p2 += os
+                }
+            }
+        }
+        val state = IslandConnectionsGameState(this)
+        levelInitialized(state)
+    }
+
+    fun switchIslandConnections(move: IslandConnectionsGameMove) =
+        changeObject(move) { state, move ->
+            if (move.pTo < move.pFrom) {
+                val t = move.pFrom
+                move.pFrom = move.pTo
+                move.pTo = t
+            }
+            state.switchIslandConnections(move)
+        }
+
+    override fun setObject(move: IslandConnectionsGameMove) = switchIslandConnections(move)
+
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+}

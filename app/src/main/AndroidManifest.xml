@@ -565,6 +565,18 @@
         <activity android:name=".puzzles.insanetatamis.InsaneTatamisOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.islandconnections.IslandConnectionsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.islandconnections.IslandConnectionsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.islandconnections.IslandConnectionsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.islandconnections.IslandConnectionsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.kakurasu.KakurasuMainActivity"
                   android:screenOrientation="portrait">
         </activity>
