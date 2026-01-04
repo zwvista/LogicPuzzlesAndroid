@@ -217,6 +217,18 @@
         <activity android:name=".puzzles.bwtapa.BWTapaOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.caffelatte.CaffelatteMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.caffelatte.CaffelatteGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.caffelatte.CaffelatteHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.caffelatte.CaffelatteOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.calcudoku.CalcudokuMainActivity"
                   android:screenOrientation="portrait">
         </activity>
