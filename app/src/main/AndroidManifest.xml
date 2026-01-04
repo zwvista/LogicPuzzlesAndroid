@@ -733,6 +733,18 @@
         <activity android:name=".puzzles.lits.LitsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.loopandblocks.LoopAndBlocksMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.loopandblocks.LoopAndBlocksGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.loopandblocks.LoopAndBlocksHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.loopandblocks.LoopAndBlocksOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.loopy.LoopyMainActivity"
                   android:screenOrientation="portrait">
         </activity>

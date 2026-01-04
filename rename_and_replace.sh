@@ -2,11 +2,11 @@
 set -e
 
 # 协程变量（源字符串和目标字符串）
-SRC="Tatami"
-DST="Stacks"
+SRC="TraceNumbers"
+DST="LoopAndBlocks"
 
 # 切换到 Branches 目录
-cd "$(dirname "$0")/app/src/main/java/com/zwstudio/logicpuzzlesandroid/puzzles/stacks"
+cd "$(dirname "$0")/app/src/main/java/com/zwstudio/logicpuzzlesandroid/puzzles/loopandblocks"
 
 # 1. 改文件名
 for f in ${SRC}*; do
