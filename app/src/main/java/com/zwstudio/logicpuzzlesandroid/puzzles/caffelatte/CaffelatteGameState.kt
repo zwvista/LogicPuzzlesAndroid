@@ -57,7 +57,7 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
                 ch2dirs[p] = dirs
                 val cnt = dirs.size
                 if (ch == ' ') {
-                    if (!(cnt == 0 || cnt == 2)) {
+                    if (!(cnt == 0 || cnt == 2 && (dirs[0] + 2) % 4 == dirs[1])) {
                         isSolved = false; return
                     }
                     if (cnt == 2) rng.add(p)
@@ -75,8 +75,11 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
         }
         for (p in rng)
             for (i in 0 until 4)
-                if (this[p][i])
-                    g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
+                if (this[p][i]) {
+                    val node2 = pos2node[p + offset[i]]
+                    if (node2 == null) { isSolved = false; return }
+                    g.connectNode(pos2node[p]!!, node2)
+                }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!
             val nodeList = g.bfs()
