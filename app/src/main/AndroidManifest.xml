@@ -1357,6 +1357,18 @@
         <activity android:name=".puzzles.warehouse.WarehouseOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.wishsandwich.WishSandwichMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wishsandwich.WishSandwichGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wishsandwich.WishSandwichHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wishsandwich.WishSandwichOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.zenlandscaper.ZenLandscaperMainActivity"
                   android:screenOrientation="portrait">
         </activity>
