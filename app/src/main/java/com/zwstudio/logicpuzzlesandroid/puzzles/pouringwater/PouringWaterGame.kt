@@ -19,6 +19,7 @@ class PouringWaterGame(layout: List<String>, gi: GameInterface<PouringWaterGame,
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        const val PUZ_UNKNOWN = -1
     }
 
     var areas = mutableListOf<List<Position>>()
@@ -51,13 +52,11 @@ class PouringWaterGame(layout: List<String>, gi: GameInterface<PouringWaterGame,
                     }
                 }
                 val ch2 = str[cols * 2 + 1]
-                if (ch2 != ' ')
-                    row2hint[r] = ch2 - '0'
+                row2hint[r] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
             } else {
                 for (c in 0 until cols) {
                     val ch2 = str[c * 2 + 1]
-                    if (ch2 != ' ')
-                        col2hint[c] = ch2 - '0'
+                    col2hint[c] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
                 }
             }
         }
