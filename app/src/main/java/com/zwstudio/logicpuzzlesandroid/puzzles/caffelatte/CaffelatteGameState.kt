@@ -57,6 +57,7 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
                 ch2dirs[p] = dirs
                 val cnt = dirs.size
                 if (ch == ' ') {
+                    // 2. Links must be straight lines, not crossing each other.
                     if (!(cnt == 0 || cnt == 2 && (dirs[0] + 2) % 4 == dirs[1])) {
                         isSolved = false; return
                     }
@@ -66,6 +67,9 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
                     rng.add(p)
                 }
             }
+        // 1. Make Cappuccino by linking each cup to one or more coffee beans and cows.
+        // 4. When linking multiple beans and cows, you can also link cows to cows and
+        //    beans to beans, other than linking them to the cup.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (p in rng) {
@@ -88,7 +92,9 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
             val nBean = area.count { game[it] == CaffelatteGame.PUZ_BEAN }
             val nCup = area.count { game[it] == CaffelatteGame.PUZ_CUP }
             val nMilk = area.count { game[it] == CaffelatteGame.PUZ_MILK }
-            if (!(nCup == 1 && nBean == nMilk)) {
+            // 3. To each cup there must be linked an equal number of beans and cows. At
+            //    least one of each.
+            if (!(nCup == 1 && nBean > 0 && nBean == nMilk)) {
                 isSolved = false; return
             }
         }
