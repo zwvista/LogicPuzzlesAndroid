@@ -2,11 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.runinaloop
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.LoopyGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.straightandturn.StraightAndTurnGame
 
 class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame, RunInALoopGameMove, RunInALoopGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -43,40 +41,35 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
+        val pos2Dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val n = this[p].filter { it }.size
-                when (n) {
+                val dirs = (0 until 4).filter { this[p][it] }
+                when (dirs.size) {
                     0 ->
+                        // 1. Draw a loop that runs through all tiles.
                         if (game[p] != RunInALoopGame.PUZ_BLOCK) {
                             isSolved = false; return
                         }
-                    2 -> {
-                        val node = Node(p.toString())
-                        g.addNode(node)
-                        pos2node[p] = node
-                    }
+                    2 -> pos2Dirs[p] = dirs
                     else -> {
-                        // 1. Draw a loop that runs through all tiles.
                         // 2. The loop cannot cross itself.
                         isSolved = false; return
                     }
                 }
             }
-        for (p in pos2node.keys) {
-            val o = get(p)
-            for (i in 0 until 4) {
-                if (!o[i]) continue
-                val p2 = p + LoopyGame.offset[i]
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
-            }
+        // Check the loop
+        val p = pos2Dirs.keys.first()
+        var p2 = p
+        var n = -1
+        while (true) {
+            val dirs = pos2Dirs[p2]
+            if (dirs == null) { isSolved = false; return }
+            pos2Dirs.remove(p2)
+            n = dirs.first { (it + 2) % 4 != n }
+            p2 += StraightAndTurnGame.offset[n]
+            if (p2 != p) return
         }
-        // 1. Draw a single looping path.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
     }
 }
