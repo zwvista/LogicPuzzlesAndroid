@@ -13,6 +13,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class InsaneTatamisGameState(game: InsaneTatamisGame) : CellsGameState<InsaneTatamisGame, InsaneTatamisGameMove, InsaneTatamisGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
     var pos2state = mutableMapOf<Position, HintState>()
+    val invalidDots = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -118,5 +119,13 @@ class InsaneTatamisGameState(game: InsaneTatamisGame) : CellsGameState<InsaneTat
             pos2state[p2] = s
             if (s != HintState.Complete) isSolved = false
         }
+        // 4. A grid dot must not be shared by the corners of four areas.
+        invalidDots.clear()
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1) {
+                val p = Position(r, c)
+                if ((0..<4).all { this[p][it] == GridLineObject.Line })
+                    invalidDots.add(p)
+            }
     }
 }

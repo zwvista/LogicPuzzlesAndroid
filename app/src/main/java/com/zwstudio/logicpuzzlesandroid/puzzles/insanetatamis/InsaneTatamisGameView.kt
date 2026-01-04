@@ -24,6 +24,7 @@ class InsaneTatamisGameView(context: Context, val soundManager: SoundManager) : 
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
@@ -38,6 +39,9 @@ class InsaneTatamisGameView(context: Context, val soundManager: SoundManager) : 
         markerPaint.color = Color.YELLOW
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
 
@@ -80,6 +84,8 @@ class InsaneTatamisGameView(context: Context, val soundManager: SoundManager) : 
                     else -> {}
                 }
             }
+        for ((r, c) in game.invalidDots())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
