@@ -86,18 +86,14 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
             for (p in area)
                 pos2node.remove(p)
             val rng = area.filter { game.pos2hint.containsKey(it) }
-            // 3. Some tiles can be left unboxed, the board isn't entirely covered by boxes.
-            if (rng.isEmpty()) continue
             // 2. Each Box must contain one number.
-            if (rng.size != 1) {
+            if (rng.size > 1) {
                 for (p in rng)
                     pos2state[p] = HintState.Normal
                 isSolved = false
                 continue
             }
-            val p2 = rng[0]
             val n1 = area.size
-            val n2 = game.pos2hint[p2]
             var r2 = 0
             var r1 = rows
             var c2 = 0
@@ -110,6 +106,10 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
             }
             val rs = r2 - r1 + 1
             val cs = c2 - c1 + 1
+            var s = if (rs * cs == n1) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            // 3. Some tiles can be left unboxed, the board isn't entirely covered by boxes.
+            if (rng.isEmpty()) continue
             fun hasLine(): Boolean {
                 for (r in r1..r2)
                     for (c in c1..c2) {
@@ -119,9 +119,11 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
                     }
                 return false
             }
+            val p2 = rng[0]
+            val n2 = game.pos2hint[p2]
             // 1. Just like Box It Up, you have to divide the Board in Boxes (Rectangles).
             // 2. The number represents the area of that Box.
-            val s = if (rs * cs == n1 && rs * cs == n2 && !hasLine()) HintState.Complete else HintState.Error
+            s = if (s == HintState.Complete && n1 == n2 && !hasLine()) HintState.Complete else HintState.Error
             pos2state[p2] = s
             if (s != HintState.Complete) isSolved = false
         }
