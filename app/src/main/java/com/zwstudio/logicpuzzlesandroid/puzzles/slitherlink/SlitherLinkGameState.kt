@@ -74,10 +74,8 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
         // by the path.
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
-            if (this[p][1] == GridLineObject.Line) n1++
-            if (this[p][2] == GridLineObject.Line) n1++
-            if (this[p + Position(1, 1)][0] == GridLineObject.Line) n1++
-            if (this[p + Position(1, 1)][3] == GridLineObject.Line) n1++
+            for (i in 0 until 4)
+                if (this[p + SlitherLinkGame.offset2[i]][SlitherLinkGame.dirs[i]] == GridLineObject.Line) n1++
             pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
