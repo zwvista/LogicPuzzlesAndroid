@@ -8,8 +8,9 @@ sealed class WishSandwichObject {
 
     companion object {
         fun objFromString(str: String) = when (str) {
+            "bread" -> WishSandwichBreadObject()
+            "ham" -> WishSandwichHamObject()
             "marker" -> WishSandwichMarkerObject
-            "tower" -> WishSandwichPostObject()
             else -> WishSandwichMarkerObject
         }
     }
@@ -17,16 +18,20 @@ sealed class WishSandwichObject {
 
 object WishSandwichEmptyObject : WishSandwichObject()
 
+class WishSandwichBreadObject(var state: AllowedObjectState = AllowedObjectState.Normal) : WishSandwichObject() {
+    override fun objAsString() = "bread"
+}
+
 object WishSandwichForbiddenObject : WishSandwichObject() {
     override fun objAsString() = "forbidden"
 }
 
-object WishSandwichMarkerObject : WishSandwichObject() {
-    override fun objAsString() = "marker"
+class WishSandwichHamObject(var state: AllowedObjectState = AllowedObjectState.Normal) : WishSandwichObject() {
+    override fun objAsString() = "ham"
 }
 
-class WishSandwichPostObject(var state: AllowedObjectState = AllowedObjectState.Normal) : WishSandwichObject() {
-    override fun objAsString() = "tower"
+object WishSandwichMarkerObject : WishSandwichObject() {
+    override fun objAsString() = "marker"
 }
 
 class WishSandwichGameMove(val p: Position, var obj: WishSandwichObject = WishSandwichEmptyObject)

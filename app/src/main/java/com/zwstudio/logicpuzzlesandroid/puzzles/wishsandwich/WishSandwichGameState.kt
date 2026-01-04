@@ -31,9 +31,10 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
     override fun switchObject(move: WishSandwichGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[move.p]) {
-            is WishSandwichEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichMarkerObject else WishSandwichPostObject()
-            is WishSandwichPostObject -> if (markerOption == MarkerOptions.MarkerLast) WishSandwichMarkerObject else WishSandwichEmptyObject
-            is WishSandwichMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichPostObject() else WishSandwichEmptyObject
+            is WishSandwichEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichMarkerObject else WishSandwichBreadObject()
+            is WishSandwichBreadObject -> WishSandwichHamObject()
+            is WishSandwichHamObject -> if (markerOption == MarkerOptions.MarkerLast) WishSandwichMarkerObject else WishSandwichEmptyObject
+            is WishSandwichMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichBreadObject() else WishSandwichEmptyObject
             else -> o
         }
         return setObject(move)
@@ -46,8 +47,8 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
         ...ever heard of it ?
 
         Description
-        1. Each row and column contains two Slices of Bread and a number of Pieces of
-           Ham, which is given in the top right corner.
+        1. Each row and column contains two Slices of Bread and N-3 Pieces of Pieces of Ham
+           (N being the board size). i.e. a board side 6, will have 3 Pieces of Ham.
         2. A number at the edge indicates how many Pieces of Ham you managed to put
            between the two Slices of Bread in that row or column.
     */
@@ -55,58 +56,82 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val o = this[r, c]
-                if (o is WishSandwichForbiddenObject)
-                    this[r, c] = WishSandwichEmptyObject
-                else if (o is WishSandwichPostObject)
-                    o.state = AllowedObjectState.Normal
-            }
+            for (c in 0 until cols)
+                this[r, c] = when (val o = this[r, c]) {
+                    is WishSandwichForbiddenObject -> WishSandwichEmptyObject
+                    is WishSandwichBreadObject -> WishSandwichBreadObject()
+                    is WishSandwichHamObject -> WishSandwichHamObject()
+                    else -> o
+                }
         for (r in 0 until rows) {
-            val posts = mutableListOf<Position>()
+            val breads = mutableListOf<Position>()
+            val hams = mutableListOf<Position>()
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is WishSandwichPostObject)
-                    posts.add(p)
+                when (this[p]) {
+                    is WishSandwichBreadObject -> breads.add(p)
+                    is WishSandwichHamObject -> hams.add(p)
+                    else -> {}
+                }
             }
-            val n1 = posts.size
-            val n2 = game.row2hint[r] + 1
-            // 2. There are two Posts in each Row.
-            // 3. The numbers on the side tell you the length of the cables between
-            // the two Posts (in that Row).
-            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && n2 == posts[1].col - posts[0].col) HintState.Complete else HintState.Error
-            row2state[r] = s
-            if (s != HintState.Complete) isSolved = false
-            if (s == HintState.Error)
-                for (p in posts)
-                    (this[p] as WishSandwichPostObject).state = AllowedObjectState.Error
-            if (allowedObjectsOnly && n1 > 0)
-                for (c in 0 until cols)
-                    if (this[r, c] is WishSandwichEmptyObject && (n1 > 1 || n1 == 1 && n2 != Math.abs(posts[0].col - c)))
-                        this[r, c] = WishSandwichForbiddenObject
+            if (breads.size > 2)
+                for (p in breads)
+                    this[p] = WishSandwichBreadObject(state = AllowedObjectState.Error)
+            if (hams.size > rows - 3)
+                for (p in hams)
+                    this[p] = WishSandwichHamObject(state = AllowedObjectState.Error)
+            if (breads.size != 2) {
+                isSolved = false
+                row2state[r] = HintState.Normal
+            } else {
+                val n2 = game.row2hint[r]
+                if (n2 < 0) continue
+                // 1. Each row and column contains two Slices of Bread and N-3 Pieces of Pieces of Ham
+                //    (N being the board size). i.e. a board side 6, will have 3 Pieces of Ham.
+                val n1 = hams.count { it.col > breads[0].col && it.col < breads[1].col }
+                val s = if (n1 == n2) HintState.Complete else HintState.Error
+                row2state[r] = s
+                if (s != HintState.Complete) isSolved = false
+                if (allowedObjectsOnly && hams.size == rows - 3)
+                    (0 until cols).filter { this[r, it] is WishSandwichEmptyObject }.forEach {
+                        this[r, it] = WishSandwichForbiddenObject
+                    }
+            }
         }
         for (c in 0 until cols) {
-            val posts = mutableListOf<Position>()
+            val breads = mutableListOf<Position>()
+            val hams = mutableListOf<Position>()
             for (r in 0 until rows) {
                 val p = Position(r, c)
-                if (this[p] is WishSandwichPostObject)
-                    posts.add(p)
+                when (this[p]) {
+                    is WishSandwichBreadObject -> breads.add(p)
+                    is WishSandwichHamObject -> hams.add(p)
+                    else -> {}
+                }
             }
-            val n1 = posts.size
-            val n2 = game.col2hint[c] + 1
-            // 2. There are two Posts in each Column.
-            // 3. The numbers on the side tell you the length of the cables between
-            // the two Posts (in that Column).
-            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && n2 == posts[1].row - posts[0].row) HintState.Complete else HintState.Error
-            col2state[c] = s
-            if (s != HintState.Complete) isSolved = false
-            if (s == HintState.Error)
-                for (p in posts)
-                    (this[p] as WishSandwichPostObject).state = AllowedObjectState.Error
-            if (allowedObjectsOnly && n1 > 0)
-                for (r in 0 until rows)
-                    if (this[r, c] is WishSandwichEmptyObject && (n1 > 1 || n1 == 1 && n2 != Math.abs(posts[0].row - r)))
-                        this[r, c] = WishSandwichForbiddenObject
+            if (breads.size > 2)
+                for (p in breads)
+                    this[p] = WishSandwichBreadObject(state = AllowedObjectState.Error)
+            if (hams.size > rows - 3)
+                for (p in hams)
+                    this[p] = WishSandwichHamObject(state = AllowedObjectState.Error)
+            if (breads.size != 2) {
+                isSolved = false
+                col2state[c] = HintState.Normal
+            } else {
+                val n2 = game.col2hint[c]
+                if (n2 < 0) continue
+                // 1. Each row and column contains two Slices of Bread and N-3 Pieces of Pieces of Ham
+                //    (N being the board size). i.e. a board side 6, will have 3 Pieces of Ham.
+                val n1 = hams.count { it.row > breads[0].row && it.row < breads[1].row }
+                val s = if (n1 == n2) HintState.Complete else HintState.Error
+                col2state[c] = s
+                if (s != HintState.Complete) isSolved = false
+                if (allowedObjectsOnly && hams.size == rows - 3)
+                    (0 until rows).filter { this[it, c] is WishSandwichEmptyObject }.forEach {
+                        this[it, c] = WishSandwichForbiddenObject
+                    }
+            }
         }
     }
 }

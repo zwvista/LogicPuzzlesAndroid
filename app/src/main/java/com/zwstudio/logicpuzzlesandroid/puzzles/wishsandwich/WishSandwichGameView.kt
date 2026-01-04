@@ -27,7 +27,8 @@ class WishSandwichGameView(context: Context, val soundManager: SoundManager) : C
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private val dPost: Drawable
+    private val dBread: Drawable
+    private val dHam: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,7 +40,8 @@ class WishSandwichGameView(context: Context, val soundManager: SoundManager) : C
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dPost = fromImageToDrawable("images/telegraph.png")
+        dBread = fromImageToDrawable("images/bread_slice.png")
+        dHam = fromImageToDrawable("images/ham_slice.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -50,11 +52,17 @@ class WishSandwichGameView(context: Context, val soundManager: SoundManager) : C
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is WishSandwichPostObject -> {
-                        dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is WishSandwichBreadObject -> {
+                        dBread.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dPost.draw(canvas)
+                        dBread.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dBread.draw(canvas)
+                    }
+                    is WishSandwichHamObject -> {
+                        dHam.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dHam.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dHam.draw(canvas)
                     }
                     is WishSandwichMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
