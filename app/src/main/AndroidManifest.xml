@@ -421,6 +421,18 @@
         <activity android:name=".puzzles.fourmenot.FourMeNotOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.freeplanks.FreePlanksMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.freeplanks.FreePlanksGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.freeplanks.FreePlanksHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.freeplanks.FreePlanksOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.futoshiki.FutoshikiMainActivity"
                   android:screenOrientation="portrait">
         </activity>
