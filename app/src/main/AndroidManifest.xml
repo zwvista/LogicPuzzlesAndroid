@@ -601,6 +601,18 @@
         <activity android:name=".puzzles.kropki.KropkiOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.lakesandmeadows.LakesAndMeadowsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lakesandmeadows.LakesAndMeadowsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.lakesandmeadows.LakesAndMeadowsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>∑
+        <activity android:name=".puzzles.lakesandmeadows.LakesAndMeadowsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.landscaper.LandscaperMainActivity"
                   android:screenOrientation="portrait">
         </activity>
