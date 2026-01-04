@@ -541,6 +541,18 @@
         <activity android:name=".puzzles.holidayisland.HolidayIslandOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.insanetatamis.InsaneTatamisMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.insanetatamis.InsaneTatamisGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.insanetatamis.InsaneTatamisHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.insanetatamis.InsaneTatamisOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.kakurasu.KakurasuMainActivity"
                   android:screenOrientation="portrait">
         </activity>
