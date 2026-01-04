@@ -265,6 +265,18 @@
         <activity android:name=".puzzles.castlebailey.CastleBaileyOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.chocolate.ChocolateMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.chocolate.ChocolateGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.chocolate.ChocolateHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.chocolate.ChocolateOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.clouds.CloudsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
