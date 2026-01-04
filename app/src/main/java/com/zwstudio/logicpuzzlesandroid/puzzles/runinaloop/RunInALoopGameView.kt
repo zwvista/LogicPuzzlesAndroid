@@ -21,6 +21,7 @@ class RunInALoopGameView(context: Context, val soundManager: SoundManager) : Cel
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val blockPaint = Paint()
     private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
@@ -31,6 +32,8 @@ class RunInALoopGameView(context: Context, val soundManager: SoundManager) : Cel
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        blockPaint.color = Color.LTGRAY
+        blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
@@ -43,7 +46,7 @@ class RunInALoopGameView(context: Context, val soundManager: SoundManager) : Cel
                 if (isInEditMode) continue
                 val ch = game[r, c]
                 if (ch != ' ')
-                    drawTextCentered(ch.toString(), cwc(c), chr(r), canvas, textPaint)
+                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
             }
         if (isInEditMode) return
         for (r in 0 until rows)

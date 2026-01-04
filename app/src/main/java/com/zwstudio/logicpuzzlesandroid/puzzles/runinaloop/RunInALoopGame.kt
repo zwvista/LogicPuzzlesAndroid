@@ -7,13 +7,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RunInALoopGame(layout: List<String>, gi: GameInterface<RunInALoopGame, RunInALoopGameMove, RunInALoopGameState>, gdi: GameDocumentInterface) : CellsGame<RunInALoopGame, RunInALoopGameMove, RunInALoopGameState>(gi, gdi) {
     companion object {
-        const val PUZ_ONE = '1'
+        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
     }
 
     var objArray: CharArray
-    var chMax = PUZ_ONE
-    var expectedChars = PUZ_ONE.toString()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -25,15 +23,9 @@ class RunInALoopGame(layout: List<String>, gi: GameInterface<RunInALoopGame, Run
         objArray = CharArray(rows * cols)
         for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
-                val ch = str[c]
-                this[r, c] = ch
-                if (chMax < ch) chMax = ch
-            }
+            for (c in 0 until cols)
+                this[r, c] = str[c]
         }
-        var ch = PUZ_ONE
-        while (ch != chMax)
-            expectedChars += ++ch
         val state = RunInALoopGameState(this)
         levelInitialized(state)
     }

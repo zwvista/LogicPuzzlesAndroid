@@ -2,7 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.runinaloop
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.loopy.LoopyGame
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
 
 class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame, RunInALoopGameMove, RunInALoopGameState>(game) {
@@ -20,7 +23,8 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
     override fun setObject(move: RunInALoopGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
         val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
-        if (!isValid(p2)) return GameOperationType.Invalid
+        if (!isValid(p2) || game[p] == RunInALoopGame.PUZ_BLOCK || game[p2] == RunInALoopGame.PUZ_BLOCK)
+            return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
         updateIsSolved()
@@ -39,52 +43,40 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        val chOneList = mutableListOf<Position>()
-        val ch2dirs = mutableMapOf<Position, List<Int>>()
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = get(r, c)
-                val ch = game[r, c]
-                val dirs = (0 until 4).filter { o[it] }
-                when (dirs.size) {
-                    1 -> {
-                        // 2. You should draw as many lines into the grid as number sets:
-                        //    a line starts with the number 1, goes through the numbers in
-                        //    order up to the highest, where it ends.
-                        if (!(ch == RunInALoopGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
-                        if (ch == RunInALoopGame.PUZ_ONE) chOneList.add(p)
-                        ch2dirs[p] = dirs
+                val n = this[p].filter { it }.size
+                when (n) {
+                    0 ->
+                        if (game[p] != RunInALoopGame.PUZ_BLOCK) {
+                            isSolved = false; return
+                        }
+                    2 -> {
+                        val node = Node(p.toString())
+                        g.addNode(node)
+                        pos2node[p] = node
                     }
-                    2 -> ch2dirs[p] = dirs
                     else -> {
-                        // 3. In doing this, you have to pass through all tiles on the board.
-                        //    Lines cannot cross.
+                        // 1. Draw a loop that runs through all tiles.
+                        // 2. The loop cannot cross itself.
                         isSolved = false; return
                     }
                 }
             }
-        // 2. You should draw as many lines into the grid as number sets:
-        //    a line starts with the number 1, goes through the numbers in
-        //    order up to the highest, where it ends.
-        for (p in chOneList) {
-            var chars = RunInALoopGame.PUZ_ONE.toString()
-            var i = ch2dirs[p]!![0]
-            var os = RunInALoopGame.offset[i]
-            var p2 = p + os
-            while (true) {
-                val ch = game[p2]
-                if (ch != ' ') chars += ch
-                val j = (i + 2) % 4
-                var dirs = ch2dirs[p2]!!
-                if (!dirs.contains(j)) { isSolved = false; return }
-                dirs = dirs.filter { it != j }
-                if (dirs.isEmpty()) break
-                i = dirs[0]
-                os = RunInALoopGame.offset[i]
-                p2 += os
+        for (p in pos2node.keys) {
+            val o = get(p)
+            for (i in 0 until 4) {
+                if (!o[i]) continue
+                val p2 = p + LoopyGame.offset[i]
+                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-            if (chars != game.expectedChars) { isSolved = false; return }
         }
+        // 1. Draw a single looping path.
+        g.rootNode = pos2node.values.first()
+        val nodeList = g.bfs()
+        if (nodeList.size != pos2node.size) isSolved = false
     }
 }
