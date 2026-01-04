@@ -8,8 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tracenumbers.TraceNumbersGame.Co
 
 class CaffelatteGame(layout: List<String>, gi: GameInterface<CaffelatteGame, CaffelatteGameMove, CaffelatteGameState>, gdi: GameDocumentInterface) : CellsGame<CaffelatteGame, CaffelatteGameMove, CaffelatteGameState>(gi, gdi) {
     companion object {
-        const val PUZ_COFFEE = 'C'
-        const val PUZ_SUGAR = 'S'
+        const val PUZ_BEAN = 'B'
+        const val PUZ_CUP = 'C'
+        const val PUZ_MILK = 'M'
         val offset = Position.Directions4
     }
 

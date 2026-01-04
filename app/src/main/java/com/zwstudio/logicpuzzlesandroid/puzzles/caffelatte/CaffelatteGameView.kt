@@ -23,8 +23,9 @@ class CaffelatteGameView(context: Context, val soundManager: SoundManager) : Cel
     private val linePaint = Paint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
-    private val dCoffee: Drawable
-    private val dSugar: Drawable
+    private val dBean: Drawable
+    private val dCup: Drawable
+    private val dMilk: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -32,8 +33,9 @@ class CaffelatteGameView(context: Context, val soundManager: SoundManager) : Cel
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        dCoffee = fromImageToDrawable("images/cup.png")
-        dSugar = fromImageToDrawable("images/cube_white.png")
+        dBean = fromImageToDrawable("images/coffeebean.png")
+        dCup = fromImageToDrawable("images/cup.png")
+        dMilk = fromImageToDrawable("images/cow_face.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -44,7 +46,7 @@ class CaffelatteGameView(context: Context, val soundManager: SoundManager) : Cel
                 if (isInEditMode) continue
                 val ch = game[r, c]
                 if (ch == ' ') continue
-                val d = if (ch == CaffelatteGame.PUZ_COFFEE) dCoffee else dSugar
+                val d = if (ch == CaffelatteGame.PUZ_BEAN) dBean else if (ch == CaffelatteGame.PUZ_CUP) dCup else dMilk
                 d.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 d.draw(canvas)
             }

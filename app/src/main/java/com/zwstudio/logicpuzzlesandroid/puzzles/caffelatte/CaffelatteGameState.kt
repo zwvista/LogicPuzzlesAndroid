@@ -56,11 +56,11 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
                 ch2dirs[p] = dirs
                 val cnt = dirs.size
                 when (ch) {
-                    CaffelatteGame.PUZ_COFFEE -> {
+                    CaffelatteGame.PUZ_BEAN -> {
                         if (cnt != 1) { isSolved = false; return }
                         coffeeList.add(p)
                     }
-                    CaffelatteGame.PUZ_SUGAR -> {
+                    CaffelatteGame.PUZ_CUP -> {
                         if (cnt != 1) { isSolved = false; return }
                         sugarList.add(p)
                     }
@@ -98,11 +98,11 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
                 var p3 = p2 + os
                 while (true) {
                     val ch = game[p3]
-                    if (!(ch == ' ' || ch == CaffelatteGame.PUZ_SUGAR)) { isSolved = false; return }
+                    if (!(ch == ' ' || ch == CaffelatteGame.PUZ_CUP)) { isSolved = false; return }
                     var dirs2 = ch2dirs[p3]!!
                     val j = (i + 2) % 4
                     if (!dirs2.contains(j)) { isSolved = false; return }
-                    if (ch == CaffelatteGame.PUZ_SUGAR) {
+                    if (ch == CaffelatteGame.PUZ_CUP) {
                         sugarList2.add(p3)
                         break
                     }
