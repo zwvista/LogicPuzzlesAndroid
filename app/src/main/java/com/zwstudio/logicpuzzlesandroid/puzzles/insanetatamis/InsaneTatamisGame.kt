@@ -55,10 +55,5 @@ class InsaneTatamisGame(layout: List<String>, gi: GameInterface<InsaneTatamisGam
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getState(p: Position) = currentState.pos2state[p]
-/**
- * This function returns a collection of invalid 2x2 squares in the current game state.
- *
- * @return A collection of invalid dots that form invalid 2x2 squares in the current game state.
- */
     fun invalidDots() = currentState.invalidDots
 }
