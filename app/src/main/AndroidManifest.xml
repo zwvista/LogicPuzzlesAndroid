@@ -1237,6 +1237,18 @@
         <activity android:name=".puzzles.square100.Square100OptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.stacks.StacksMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.stacks.StacksGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.stacks.StacksHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.stacks.StacksOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.sumscrapers.SumscrapersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
