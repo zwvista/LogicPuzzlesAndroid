@@ -1093,6 +1093,18 @@
         <activity android:name=".puzzles.rooms.RoomsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.runinaloop.RunInALoopMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.runinaloop.RunInALoopGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.runinaloop.RunInALoopHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.runinaloop.RunInALoopOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.sentinels.SentinelsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
