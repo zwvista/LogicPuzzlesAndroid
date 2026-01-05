@@ -3,8 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.runinaloop
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
-import com.zwstudio.logicpuzzlesandroid.puzzles.straightandturn.StraightAndTurnGame
 
 class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame, RunInALoopGameMove, RunInALoopGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -20,7 +18,7 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
 
     override fun setObject(move: RunInALoopGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
-        val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
+        val (p2, dir2) = p + RunInALoopGame.offset[dir] to (dir + 2) % 4
         if (!isValid(p2) || game[p] == RunInALoopGame.PUZ_BLOCK || game[p2] == RunInALoopGame.PUZ_BLOCK)
             return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
@@ -46,17 +44,12 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
-                when (dirs.size) {
-                    0 ->
-                        // 1. Draw a loop that runs through all tiles.
-                        if (game[p] != RunInALoopGame.PUZ_BLOCK) {
-                            isSolved = false; return
-                        }
-                    2 -> pos2Dirs[p] = dirs
-                    else -> {
-                        // 2. The loop cannot cross itself.
-                        isSolved = false; return
-                    }
+                if (dirs.size == 2)
+                    // 1. Draw a loop that runs through all tiles.
+                    pos2Dirs[p] = dirs
+                else if (!(dirs.isEmpty() && game[p] == RunInALoopGame.PUZ_BLOCK)) {
+                    // 2. The loop cannot cross itself.
+                    isSolved = false; return
                 }
             }
         // Check the loop
@@ -68,8 +61,8 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
             if (dirs == null) { isSolved = false; return }
             pos2Dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
-            p2 += StraightAndTurnGame.offset[n]
-            if (p2 != p) return
+            p2 += RunInALoopGame.offset[n]
+            if (p2 == p) return
         }
     }
 }
