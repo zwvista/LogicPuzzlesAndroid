@@ -85,7 +85,7 @@ class StraightAndTurnGameState(game: StraightAndTurnGame) : CellsGameState<Strai
                 // 7. The line should make a single 90 degree turn in the space between
                 //    two gems of different colour.
                 val turns = (0 until ns.size - 1).count { ns[it] != ns[it + 1] }
-                if (!(ch == ch2 && turns == 0 || ch != ch2 && turns == 1)){
+                if (!(ch == ch2 && turns == 0 || ch != ch2 && turns == 1)) {
                     isSolved = false; return
                 }
                 ch = ch2

@@ -577,6 +577,18 @@
         <activity android:name=".puzzles.holidayisland.HolidayIslandOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.inbetweensumscrapers.InbetweenSumscrapersMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.inbetweensumscrapers.InbetweenSumscrapersGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.inbetweensumscrapers.InbetweenSumscrapersHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.inbetweensumscrapers.InbetweenSumscrapersOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.insanetatamis.InsaneTatamisMainActivity"
                   android:screenOrientation="portrait">
         </activity>
