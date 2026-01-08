@@ -4,115 +4,127 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class InbetweenSumscrapersGameState(game: InbetweenSumscrapersGame) : CellsGameState<InbetweenSumscrapersGame, InbetweenSumscrapersGameMove, InbetweenSumscrapersGameState>(game) {
-    var objArray = Array<InbetweenSumscrapersObject>(rows * cols) { InbetweenSumscrapersEmptyObject }
+    var objArray = IntArray(rows * cols)
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: InbetweenSumscrapersObject) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: InbetweenSumscrapersObject) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
     }
 
     override fun setObject(move: InbetweenSumscrapersGameMove): GameOperationType {
-        if (this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: InbetweenSumscrapersGameMove): GameOperationType {
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
-            is InbetweenSumscrapersEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) InbetweenSumscrapersMarkerObject else InbetweenSumscrapersPostObject()
-            is InbetweenSumscrapersPostObject -> if (markerOption == MarkerOptions.MarkerLast) InbetweenSumscrapersMarkerObject else InbetweenSumscrapersEmptyObject
-            is InbetweenSumscrapersMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) InbetweenSumscrapersPostObject() else InbetweenSumscrapersEmptyObject
-            else -> o
-        }
+        val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
+        val o = get(p)
+        // 3. The remaining cells contain numbers increasing from 1 to N-2 (N being
+        //    the board size).
+        move.obj = if (o == rows - 2) InbetweenSumscrapersGame.PUZ_SKYSCRAPER else o + 1
         return setObject(move)
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 14/Power Grid
+        iOS Game: 100 Logic Games 2/Puzzle Set 6/Inbetween Sumscrapers
 
         Summary
-        Utility Posts
+        Sumscrapers on the ground
 
         Description
-        1. Your task is to identify Utility Posts of a Power Grid.
-        2. There are two Posts in each Row and in each Column.
-        3. The numbers on the side tell you the length of the cables between
-           the two Posts (in that Row or Column).
-        4. Or in other words, the number of empty tiles between two Posts.
-        5. Posts cannot touch themselves, not even diagonally.
-        6. Posts don't have to form a single connected chain.
-
-        Variant
-        7. On some levels, there are exactly two Posts in each diagonal too.
+        1. Find two Skyscrapers and fill the remaining cells with numbers.
+        2. Each row and column contains two skyscrapers.
+        3. The remaining cells contain numbers increasing from 1 to N-2 (N being
+           the board size).
+        4. Numbers appear once in every row and column.
+        5. Hints on the border give you the sums of the numbers between the skyscrapers.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val o = this[r, c]
-                if (o is InbetweenSumscrapersForbiddenObject)
-                    this[r, c] = InbetweenSumscrapersEmptyObject
-                else if (o is InbetweenSumscrapersPostObject)
-                    o.state = AllowedObjectState.Normal
-            }
+            for (c in 0 until cols)
+                pos2state[Position(r, c)] = AllowedObjectState.Normal
         for (r in 0 until rows) {
-            val posts = mutableListOf<Position>()
+            val skyscrapers = mutableListOf<Position>()
+            val num2rng = mutableMapOf<Int, MutableList<Position>>()
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is InbetweenSumscrapersPostObject)
-                    posts.add(p)
+                when (val n = this[p]) {
+                    InbetweenSumscrapersGame.PUZ_SKYSCRAPER -> skyscrapers.add(p)
+                    InbetweenSumscrapersGame.PUZ_EMPTY -> isSolved = false
+                    else -> num2rng.getOrPut(n) { mutableListOf() }.add(p)
+                }
             }
-            val n1 = posts.size
-            val n2 = game.row2hint[r] + 1
-            // 2. There are two Posts in each Row.
-            // 3. The numbers on the side tell you the length of the cables between
-            // the two Posts (in that Row).
-            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && n2 == posts[1].col - posts[0].col) HintState.Complete else HintState.Error
+            for ((_, rng) in num2rng) {
+                val cnt = rng.size
+                if (cnt < 2) continue
+                isSolved = false
+                for (p in rng) pos2state[p] = AllowedObjectState.Error
+            }
+            val n1 = skyscrapers.size
+            val n2 = game.row2hint[r]
+            // 2. Each row and column contains two skyscrapers.
+            if (n1 > 2)
+                for (p in skyscrapers)
+                    pos2state[p] = AllowedObjectState.Error
+            if (n2 == InbetweenSumscrapersGame.PUZ_UNKNOWN) continue
+            // 3. The remaining cells contain numbers increasing from 1 to N-2 (N being
+            //    the board size).
+            // 4. Numbers appear once in every row and column.
+            // 5. Hints on the border give you the sums of the numbers between the skyscrapers.
+            val s = if (n1 < 2) HintState.Normal else
+                if (n1 == 2 && n2 == (skyscrapers[0].col + 1 until skyscrapers[1].col).fold(0) {
+                    acc, c -> acc + this[r, c] }) HintState.Complete else HintState.Error
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
-            if (s == HintState.Error)
-                for (p in posts)
-                    (this[p] as InbetweenSumscrapersPostObject).state = AllowedObjectState.Error
-            if (allowedObjectsOnly && n1 > 0)
-                for (c in 0 until cols)
-                    if (this[r, c] is InbetweenSumscrapersEmptyObject && (n1 > 1 || n1 == 1 && n2 != Math.abs(posts[0].col - c)))
-                        this[r, c] = InbetweenSumscrapersForbiddenObject
         }
         for (c in 0 until cols) {
-            val posts = mutableListOf<Position>()
+            val skyscrapers = mutableListOf<Position>()
+            val num2rng = mutableMapOf<Int, MutableList<Position>>()
             for (r in 0 until rows) {
                 val p = Position(r, c)
-                if (this[p] is InbetweenSumscrapersPostObject)
-                    posts.add(p)
+                when (val n = this[p]) {
+                    InbetweenSumscrapersGame.PUZ_SKYSCRAPER -> skyscrapers.add(p)
+                    InbetweenSumscrapersGame.PUZ_EMPTY -> isSolved = false
+                    else -> num2rng.getOrPut(n) { mutableListOf() }.add(p)
+                }
             }
-            val n1 = posts.size
-            val n2 = game.col2hint[c] + 1
-            // 2. There are two Posts in each Column.
-            // 3. The numbers on the side tell you the length of the cables between
-            // the two Posts (in that Column).
-            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && n2 == posts[1].row - posts[0].row) HintState.Complete else HintState.Error
+            for ((_, rng) in num2rng) {
+                val cnt = rng.size
+                if (cnt < 2) continue
+                isSolved = false
+                for (p in rng) pos2state[p] = AllowedObjectState.Error
+            }
+            val n1 = skyscrapers.size
+            val n2 = game.col2hint[c]
+            // 2. Each row and column contains two skyscrapers.
+            if (n1 > 2)
+                for (p in skyscrapers)
+                    pos2state[p] = AllowedObjectState.Error
+            if (n2 == InbetweenSumscrapersGame.PUZ_UNKNOWN) continue
+            // 3. The remaining cells contain numbers increasing from 1 to N-2 (N being
+            //    the board size).
+            // 4. Numbers appear once in every row and column.
+            // 5. Hints on the border give you the sums of the numbers between the skyscrapers.
+            val s = if (n1 < 2) HintState.Normal else
+                if (n1 == 2 && n2 == (skyscrapers[0].row + 1 until skyscrapers[1].row).fold(0) {
+                    acc, r -> acc + this[r, c] }) HintState.Complete else HintState.Error
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false
-            if (s == HintState.Error)
-                for (p in posts)
-                    (this[p] as InbetweenSumscrapersPostObject).state = AllowedObjectState.Error
-            if (allowedObjectsOnly && n1 > 0)
-                for (r in 0 until rows)
-                    if (this[r, c] is InbetweenSumscrapersEmptyObject && (n1 > 1 || n1 == 1 && n2 != Math.abs(posts[0].row - r)))
-                        this[r, c] = InbetweenSumscrapersForbiddenObject
         }
     }
 }

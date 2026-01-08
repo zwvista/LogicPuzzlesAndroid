@@ -24,22 +24,14 @@ class InbetweenSumscrapersGameView(context: Context, val soundManager: SoundMana
     override val colsInView get() = cols + 1
 
     private val gridPaint = Paint()
-    private val markerPaint = Paint()
     private val textPaint = TextPaint()
-    private val forbiddenPaint = Paint()
-    private val dPost: Drawable
+    private val dSkyscraper: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
-        dPost = fromImageToDrawable("images/telegraph.png")
+        dSkyscraper = fromImageToDrawable("images/office_building.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -49,18 +41,20 @@ class InbetweenSumscrapersGameView(context: Context, val soundManager: SoundMana
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is InbetweenSumscrapersPostObject -> {
-                        dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dPost.draw(canvas)
+                val s = game.pos2state(p)
+                when (val n = game.getObject(p)) {
+                    InbetweenSumscrapersGame.PUZ_SKYSCRAPER -> {
+                        dSkyscraper.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                        dSkyscraper.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dSkyscraper.draw(canvas)
                     }
-                    is InbetweenSumscrapersMarkerObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is InbetweenSumscrapersForbiddenObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    else -> {}
+                    InbetweenSumscrapersGame.PUZ_EMPTY -> {}
+                    else -> {
+                        textPaint.color = if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
+                        val text = n.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
                 }
             }
         if (isInEditMode) return

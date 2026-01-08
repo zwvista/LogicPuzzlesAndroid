@@ -8,13 +8,16 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class InbetweenSumscrapersGame(layout: List<String>, gi: GameInterface<InbetweenSumscrapersGame, InbetweenSumscrapersGameMove, InbetweenSumscrapersGameState>, gdi: GameDocumentInterface) : CellsGame<InbetweenSumscrapersGame, InbetweenSumscrapersGameMove, InbetweenSumscrapersGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val PUZ_EMPTY = 0
+        val PUZ_SKYSCRAPER = -1
+        val PUZ_UNKNOWN = -1
     }
 
     var row2hint: IntArray
     var col2hint: IntArray
 
     init {
-        size = Position(layout.size - 1, layout[0].length - 1)
+        size = Position(layout.size - 1, layout[0].length / 2 - 1)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
         for (r in 0 until rows + 1) {
@@ -23,8 +26,8 @@ class InbetweenSumscrapersGame(layout: List<String>, gi: GameInterface<Inbetween
                 val isHintRow = r == rows
                 val isHintCol = c == cols
                 if (isHintRow == isHintCol) continue
-                val ch = str[c]
-                val n = if (ch == ' ') -1 else ch - '0'
+                val s = str.substring(c * 2, c * 2 + 2)
+                val n = if (s == "  ") PUZ_UNKNOWN else s.trim(' ').toInt()
                 if (isHintRow)
                     col2hint[c] = n
                 else
@@ -39,4 +42,5 @@ class InbetweenSumscrapersGame(layout: List<String>, gi: GameInterface<Inbetween
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]
     fun getColState(col: Int) = currentState.col2state[col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

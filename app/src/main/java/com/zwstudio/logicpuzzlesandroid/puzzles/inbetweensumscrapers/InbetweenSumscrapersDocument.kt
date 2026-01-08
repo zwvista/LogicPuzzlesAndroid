@@ -9,9 +9,9 @@ class InbetweenSumscrapersDocument(context: Context) : GameDocument<InbetweenSum
     override fun saveMove(move: InbetweenSumscrapersGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj
     }
 
     override fun loadMove(rec: MoveProgress) =
-        InbetweenSumscrapersGameMove(Position(rec.row, rec.col), InbetweenSumscrapersObject.objFromString(rec.strValue1!!))
+        InbetweenSumscrapersGameMove(Position(rec.row, rec.col), rec.intValue1)
 }
