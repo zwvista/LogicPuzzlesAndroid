@@ -1,18 +1,18 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.stacks
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class StacksGameState(game: StacksGame) : CellsGameState<StacksGame, StacksGameMove, StacksGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
@@ -20,7 +20,7 @@ class StacksGameState(game: StacksGame) : CellsGameState<StacksGame, StacksGameM
 
     override fun setObject(move: StacksGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != StacksGame.PUZ_EMPTY || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -28,97 +28,68 @@ class StacksGameState(game: StacksGame) : CellsGameState<StacksGame, StacksGameM
 
     override fun switchObject(move: StacksGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != StacksGame.PUZ_EMPTY) return GameOperationType.Invalid
         val o = this[p]
-        move.obj = if (o == ' ') '1' else if (o == '3') ' ' else o + 1
+        move.obj = if (o == game.areas[game.pos2area[p]!!].size) StacksGame.PUZ_EMPTY else o + 1
         return setObject(move)
     }
 
     /*
-        iOS Game: Logic Games/Puzzle Set 2/Stacks
+        iOS Game: 100 Logic Games 2/Puzzle Set 7/Stacks
 
         Summary
-        1,2,3... 1,2,3... Fill the mats
+        Bubbling up
 
         Description
-        1. Each rectangle represents a mat(Stacks) which is of the same size.
-           You must fill each Stacks with a number ranging from 1 to size.
-        2. Each number can appear only once in each Stacks.
-        3. In one row or column, each number must appear the same number of times.
-        4. You can't have two identical numbers touching horizontally or vertically.
+        1. Fill each area with every number ranging from 1 to the size of the area.
+        2. Two orthogonally adjacent numbers must be different.
+        3. In one area, if a number is right above another, the upper one must be
+           higher than the lower one. This only applies to numbers on top of each
+           other in the same area.
     */
     private fun updateIsSolved() {
         isSolved = true
-        val chars2 = listOf('1', '2', '3')
-        val chars3 = chars2.flatMap { Array(rows / 3) { it }.toList() }
+        for (r in 0 until rows)
+            for (c in 0 until cols)
+                pos2state[Position(r, c)] = AllowedObjectState.Normal
+        // 2. Two orthogonally adjacent numbers must be different.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] == ' ') isSolved = false
-                pos2state[p] = HintState.Normal
-            }
-        for (r in 0 until rows) {
-            var lineSolved = true
-            for (c in 0 until cols - 1) {
-                val p1 = Position(r, c)
-                val p2 = Position(r, c + 1)
-                val ch1 = this[p1]
-                val ch2 = this[p2]
-                if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
-                    // 4. You can't have two identical numbers touching horizontally.
-                    lineSolved = false
-                    isSolved = lineSolved
-                    pos2state[p1] = HintState.Error
-                    pos2state[p2] = HintState.Error
+                for (os in StacksGame.offset) {
+                    val p2 = p + os
+                    if (!(isValid(p2) && this[p] == this[p2])) continue
+                    isSolved = false
+                    pos2state[p] = AllowedObjectState.Error
+                    pos2state[p2] = AllowedObjectState.Error
                 }
             }
-            val chars = (0 until cols).map { this[r, it] }.sorted()
-            // 3. In one row, each number must appear the same number of times.
-            if (chars[0] != ' ' && chars != chars3) {
-                lineSolved = false
-                isSolved = lineSolved
-                for (c in 0 until cols)
-                    pos2state[Position(r, c)] = HintState.Error
+        for (area in game.areas) {
+            val num2rng = mutableMapOf<Int, MutableList<Position>>()
+            for (p in area) {
+                val n = this[p]
+                if (n == StacksGame.PUZ_EMPTY)
+                    isSolved = false
+                else
+                    num2rng.getOrPut(n) { mutableListOf() }.add(p)
             }
-            if (lineSolved)
-                for (c in 0 until cols)
-                    pos2state[Position(r, c)] = HintState.Complete
-        }
-        for (c in 0 until cols) {
-            var lineSolved = true
-            for (r in 0 until rows - 1) {
-                val p1 = Position(r, c)
-                val p2 = Position(r + 1, c)
-                val ch1 = this[p1]
-                val ch2 = this[p2]
-                if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
-                    // 4. You can't have two identical numbers touching vertically.
-                    lineSolved = false
-                    isSolved = lineSolved
-                    pos2state[p1] = HintState.Error
-                    pos2state[p2] = HintState.Error
+            // 1. Fill each area with every number ranging from 1 to the size of the area.
+            for ((_, rng) in num2rng)
+                if (rng.size > 1) {
+                    isSolved = false
+                    for (p in rng)
+                        pos2state[p] = AllowedObjectState.Error
                 }
-            }
-            val chars = (0 until rows).map { this[it, c] }.sorted()
-            // 3. In one column, each number must appear the same number of times.
-            if (chars[0] != ' ' && chars != chars3) {
-                lineSolved = false
-                isSolved = lineSolved
-                for (r in 0 until rows)
-                    pos2state[Position(r, c)] = HintState.Error
-            }
-            if (lineSolved)
-                for (r in 0 until rows)
-                    pos2state[Position(r, c)] = HintState.Complete
-        }
-        // 2. Each number can appear only once in each Stacks.
-        for (a in game.areas) {
-            val chars = a.map { this[it] }.sorted()
-            if (chars[0] != ' ' && chars != chars2) {
-                isSolved = false
-                for (p in a)
-                    pos2state[p] = HintState.Error
-            }
+            // 3. In one area, if a number is right above another, the upper one must be
+            //    higher than the lower one. This only applies to numbers on top of each
+            //    other in the same area.
+            for (p1 in area)
+                for (p2 in area)
+                    if (p1 - p2 == StacksGame.offset[0] && this[p1] <= this[p2]) {
+                        isSolved = false
+                        pos2state[p1] = AllowedObjectState.Error
+                        pos2state[p2] = AllowedObjectState.Error
+                    }
         }
     }
 }
