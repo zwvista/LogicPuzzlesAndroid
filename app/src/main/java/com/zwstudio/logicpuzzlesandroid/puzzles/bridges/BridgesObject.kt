@@ -14,8 +14,7 @@ class BridgesIslandObject : BridgesObject() {
     var bridges = arrayOf(0, 0, 0, 0)
 }
 
-class BridgesIslandInfo {
-    var bridges = 0
+class BridgesIslandInfo(var bridges: Int) {
     var neighbors = arrayOfNulls<Position>(4)
 }
 

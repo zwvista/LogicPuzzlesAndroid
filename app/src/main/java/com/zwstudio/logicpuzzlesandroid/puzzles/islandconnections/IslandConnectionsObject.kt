@@ -14,8 +14,7 @@ class IslandConnectionsIslandObject : IslandConnectionsObject() {
     var bridges = arrayOf(0, 0, 0, 0)
 }
 
-class IslandConnectionsIslandInfo {
-    var bridges = 0
+class IslandConnectionsIslandInfo(var bridges: Int) {
     var neighbors = arrayOfNulls<Position>(4)
 }
 

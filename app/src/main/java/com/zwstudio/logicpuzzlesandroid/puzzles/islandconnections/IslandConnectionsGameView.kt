@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -20,30 +21,41 @@ class IslandConnectionsGameView(context: Context, val soundManager: SoundManager
     override val colsInView get() = cols
 
     private val islandPaint = Paint()
+    private val shadedPaint = Paint()
     private val bridgePaint = Paint()
     private val textPaint = TextPaint()
     private var pLast: Position? = null
+    private val dWater: Drawable
 
     init {
         islandPaint.color = Color.WHITE
         islandPaint.style = Paint.Style.STROKE
+        shadedPaint.color = Color.WHITE
+        shadedPaint.style = Paint.Style.FILL
         bridgePaint.color = Color.YELLOW
         bridgePaint.style = Paint.Style.STROKE
         bridgePaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
+        dWater = fromImageToDrawable("images/sea.png")
     }
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dWater.draw(canvas)
+            }
         if (isInEditMode) return
         for ((p, info) in game.islandsInfo) {
-            val r = p.row
-            val c = p.col
+            val (r, c) = p
             val o = game.getObject(p) as IslandConnectionsIslandObject
             canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, islandPaint)
-            textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
-            val text = info.bridges.toString()
-            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+            if (info.bridges >= 0) {
+                val text = info.bridges.toString()
+                textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+            }
             val dirs = intArrayOf(1, 2)
             for (dir in dirs) {
                 val p2 = info.neighbors[dir] ?: continue
@@ -52,16 +64,13 @@ class IslandConnectionsGameView(context: Context, val soundManager: SoundManager
                 val b = o.bridges[dir]
                 if (dir == 1 && b == 1)
                     canvas.drawLine(cwc(c + 1).toFloat(), chr2(r).toFloat(), cwc(c2).toFloat(), chr2(r2).toFloat(), bridgePaint)
-                else if (dir == 1 && b == 2) {
-                    canvas.drawLine(cwc(c + 1).toFloat(), chr2(r) - 10.toFloat(), cwc(c2).toFloat(), chr2(r2) - 10.toFloat(), bridgePaint)
-                    canvas.drawLine(cwc(c + 1).toFloat(), chr2(r) + 10.toFloat(), cwc(c2).toFloat(), chr2(r2) + 10.toFloat(), bridgePaint)
-                } else if (dir == 2 && b == 1)
+                else if (dir == 2 && b == 1)
                     canvas.drawLine(cwc2(c).toFloat(), chr(r + 1).toFloat(), cwc2(c2).toFloat(), chr(r2).toFloat(), bridgePaint)
-                else if (dir == 2 && b == 2) {
-                    canvas.drawLine(cwc2(c) - 10.toFloat(), chr(r + 1).toFloat(), cwc2(c2) - 10.toFloat(), chr(r2).toFloat(), bridgePaint)
-                    canvas.drawLine(cwc2(c) + 10.toFloat(), chr(r + 1).toFloat(), cwc2(c2) + 10.toFloat(), chr(r2).toFloat(), bridgePaint)
-                }
             }
+        }
+        for (p in game.shaded) {
+            val (r, c) = p
+            canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, shadedPaint)
         }
     }
 

@@ -8,22 +8,25 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class IslandConnectionsGame(layout: List<String>, gi: GameInterface<IslandConnectionsGame, IslandConnectionsGameMove, IslandConnectionsGameState>, gdi: GameDocumentInterface) : CellsGame<IslandConnectionsGame, IslandConnectionsGameMove, IslandConnectionsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val PUZ_UNKNOWN = -1
     }
 
     var islandsInfo = mutableMapOf<Position, IslandConnectionsIslandInfo>()
+    var shaded = mutableSetOf<Position>()
     fun isIsland(p: Position) = islandsInfo.containsKey(p)
+    fun isShaded(p: Position) = shaded.contains(p)
 
     init {
-        size = Position(layout.size, layout[0].length)
-        for (r in 0 until rows) {
-            val str = layout[r]
-            for (c in 0 until cols) {
+        size = Position(layout.size * 2 - 1, layout[0].length * 2 - 1)
+        for (r in 0 until rows step 2) {
+            val str = layout[r / 2]
+            for (c in 0 until cols step 2) {
                 val p = Position(r, c)
-                val ch = str[c]
-                if (ch in '0'..'9') {
-                    val info = IslandConnectionsIslandInfo()
-                    info.bridges = ch - '0'
-                    islandsInfo[p] = info
+                when (val ch = str[c / 2]) {
+                    'S' -> shaded.add(p)
+                    'O' -> islandsInfo[p] = IslandConnectionsIslandInfo(PUZ_UNKNOWN)
+                    ' ' -> {}
+                    else -> islandsInfo[p] = IslandConnectionsIslandInfo(ch - '0')
                 }
             }
         }
@@ -31,7 +34,7 @@ class IslandConnectionsGame(layout: List<String>, gi: GameInterface<IslandConnec
             for (i in 0 until 4) {
                 val os = offset[i]
                 var p2 = p + os
-                while (isValid(p2)) {
+                while (isValid(p2) && !isShaded(p2)) {
                     if (isIsland(p2)) {
                         info.neighbors[i] = p2
                         break

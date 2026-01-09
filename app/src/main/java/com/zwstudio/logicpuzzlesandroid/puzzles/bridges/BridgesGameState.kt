@@ -80,7 +80,7 @@ class BridgesGameState(game: BridgesGame) : CellsGameState<BridgesGame, BridgesG
             val n1 = o.bridges.sum()
             val n2 = info.bridges
             o.state = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2) isSolved = false
+            if (o.state != HintState.Complete) isSolved = false
             if (!isSolved) continue
             val node = Node(p.toString())
             pos2node[p] = node

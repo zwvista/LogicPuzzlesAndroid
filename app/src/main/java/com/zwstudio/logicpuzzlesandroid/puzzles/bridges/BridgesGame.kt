@@ -20,11 +20,8 @@ class BridgesGame(layout: List<String>, gi: GameInterface<BridgesGame, BridgesGa
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch in '0'..'9') {
-                    val info = BridgesIslandInfo()
-                    info.bridges = ch - '0'
-                    islandsInfo[p] = info
-                }
+                if (ch.isDigit())
+                    islandsInfo[p] = BridgesIslandInfo(ch - '0')
             }
         }
         for ((p, info) in islandsInfo) {

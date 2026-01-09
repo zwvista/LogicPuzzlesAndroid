@@ -39,13 +39,13 @@ class IslandConnectionsGameState(game: IslandConnectionsGame) : CellsGameState<I
                     if (this[p] !is IslandConnectionsEmptyObject) return GameOperationType.Invalid
                     this[p] = IslandConnectionsBridgeObject
                 }
-                2 -> this[p] = IslandConnectionsEmptyObject
+                1 -> this[p] = IslandConnectionsEmptyObject
             }
             p += os
         }
         // 5. Lastly, you can connect two islands with either one or two IslandConnections
         // (or none, of course)
-        val n = (o1.bridges[n1] + 1) % 3
+        val n = (o1.bridges[n1] + 1) % 2
         o2.bridges[n2] = n
         o1.bridges[n1] = o2.bridges[n2]
         updateIsSolved()
@@ -76,8 +76,9 @@ class IslandConnectionsGameState(game: IslandConnectionsGame) : CellsGameState<I
             val o = this[p] as IslandConnectionsIslandObject
             val n1 = o.bridges.sum()
             val n2 = info.bridges
-            o.state = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2) isSolved = false
+            val isUnknown = n2 == IslandConnectionsGame.PUZ_UNKNOWN
+            o.state = if (isUnknown && n1 == 0 || !isUnknown && n1 < n2) HintState.Normal else if (isUnknown || n1 == n2) HintState.Complete else HintState.Error
+            if (o.state != HintState.Complete) isSolved = false
             if (!isSolved) continue
             val node = Node(p.toString())
             pos2node[p] = node
