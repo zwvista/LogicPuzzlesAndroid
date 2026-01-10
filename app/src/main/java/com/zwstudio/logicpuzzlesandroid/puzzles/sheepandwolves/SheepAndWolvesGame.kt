@@ -17,7 +17,7 @@ class SheepAndWolvesGame(layout: List<String>, gi: GameInterface<SheepAndWolvesG
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     var sheep = mutableSetOf<Position>()
     var wolves = mutableSetOf<Position>()
 

@@ -16,7 +16,7 @@ class TapAlikeGame(layout: List<String>, gi: GameInterface<TapAlikeGame, TapAlik
         )
     }
 
-    var pos2hint = mutableMapOf<Position, List<Int>>()
+    val pos2hint = mutableMapOf<Position, List<Int>>()
 
     init {
         size = Position(layout.size, layout[0].length / 4)

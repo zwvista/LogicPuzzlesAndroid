@@ -19,7 +19,7 @@ class CarpentersSquareGame(layout: List<String>, gi: GameInterface<CarpentersSqu
     }
 
     var objArray: Array<Array<GridLineObject>>
-    var pos2hint = mutableMapOf<Position, CarpenterSquareHint>()
+    val pos2hint = mutableMapOf<Position, CarpenterSquareHint>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

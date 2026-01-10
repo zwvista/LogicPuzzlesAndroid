@@ -21,7 +21,7 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots

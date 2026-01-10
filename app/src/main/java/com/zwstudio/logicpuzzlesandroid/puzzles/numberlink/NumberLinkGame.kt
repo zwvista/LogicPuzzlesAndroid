@@ -10,7 +10,7 @@ class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, Num
         val offset = Position.Directions4
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     var pos2rng = mutableMapOf<Int, MutableList<Position>>()
 
     init {

@@ -17,7 +17,7 @@ class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsG
         var dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     override fun isValid(row: Int, col: Int) = row in 0 until size.row - 1 && col in 0 until size.col - 1
 

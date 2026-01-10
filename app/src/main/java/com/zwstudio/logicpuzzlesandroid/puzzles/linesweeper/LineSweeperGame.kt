@@ -10,7 +10,7 @@ class LineSweeperGame(layout: List<String>, gi: GameInterface<LineSweeperGame, L
         val offset = Position.Directions8
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     fun isHint(p: Position) = pos2hint.containsKey(p)
 
     init {

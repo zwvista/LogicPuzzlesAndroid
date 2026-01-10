@@ -11,7 +11,7 @@ class DesertDunesGame(layout: List<String>, gi: GameInterface<DesertDunesGame, D
         val offset2 = Position.Square2x2Offset
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)

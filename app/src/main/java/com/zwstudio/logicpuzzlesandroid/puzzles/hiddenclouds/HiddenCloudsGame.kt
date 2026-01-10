@@ -11,7 +11,7 @@ class HiddenCloudsGame(layout: List<String>, gi: GameInterface<HiddenCloudsGame,
         val offset2 = Position.Square2x2Offset
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)

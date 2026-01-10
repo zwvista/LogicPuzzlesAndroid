@@ -19,7 +19,7 @@ class RoomsGame(layout: List<String>, gi: GameInterface<RoomsGame, RoomsGameMove
     }
 
     var objArray: Array<Array<GridLineObject>>
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

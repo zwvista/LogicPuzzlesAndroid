@@ -24,7 +24,7 @@ class LiarLiarGame(layout: List<String>, gi: GameInterface<LiarLiarGame, LiarLia
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)

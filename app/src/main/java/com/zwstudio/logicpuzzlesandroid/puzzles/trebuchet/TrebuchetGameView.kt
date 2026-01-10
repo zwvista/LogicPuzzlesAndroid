@@ -79,8 +79,6 @@ class TrebuchetGameView(context: Context, val soundManager: SoundManager) : Cell
                     else -> {}
                 }
             }
-        for ((r, c) in game.invalid2x2Squares())
-            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

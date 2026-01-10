@@ -19,7 +19,7 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
     }
 
     var objArray: Array<Array<GridLineObject>>
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     var areaSize = 0
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

@@ -16,7 +16,7 @@ class TapaIslandsGame(layout: List<String>, gi: GameInterface<TapaIslandsGame, T
         )
     }
 
-    var pos2hint = mutableMapOf<Position, List<Int>>()
+    val pos2hint = mutableMapOf<Position, List<Int>>()
 
     init {
         size = Position(layout.size, layout[0].length / 4)

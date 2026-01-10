@@ -11,7 +11,7 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
     }
 
     var objArray: CharArray
-    var pos2hint = mutableMapOf<Position, Char>()
+    val pos2hint = mutableMapOf<Position, Char>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

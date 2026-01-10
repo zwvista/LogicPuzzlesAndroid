@@ -19,7 +19,7 @@ class OverUnderGame(layout: List<String>, gi: GameInterface<OverUnderGame, OverU
     }
 
     var objArray: Array<Array<GridLineObject>>
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     var areaSize = 0
 
     init {

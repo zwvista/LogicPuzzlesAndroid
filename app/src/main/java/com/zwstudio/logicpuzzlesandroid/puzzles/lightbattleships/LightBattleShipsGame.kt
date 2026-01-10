@@ -10,7 +10,7 @@ class LightBattleShipsGame(layout: List<String>, gi: GameInterface<LightBattleSh
         val offset = Position.Directions8
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     var pos2obj = mutableMapOf<Position, LightBattleShipsObject>()
 
     init {

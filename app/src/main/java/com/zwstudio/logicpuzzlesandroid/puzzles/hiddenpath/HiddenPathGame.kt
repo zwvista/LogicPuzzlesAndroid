@@ -13,7 +13,7 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
     }
 
     var objArray: IntArray
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
     var pos2range = mutableMapOf<Position, List<Position>>()
     var maxNum: Int
 

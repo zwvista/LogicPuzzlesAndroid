@@ -12,7 +12,6 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerGame
 
 class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, TrebuchetGameMove, TrebuchetGameState>(game) {
     var objArray = Array<TrebuchetObject>(rows * cols) { TrebuchetEmptyObject }
-    val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -55,6 +54,7 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
            the four directions can be marked with a target, the others should be empty.
         3. Two target cells must not be orthogonally adjacent.
         4. All of the non-targeted cells must be connected.
+        5. Please note you can't target other trebuchets (yes it's a pointless war maybe)
     */
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
@@ -63,19 +63,13 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
             for (c in 0 until cols)
                 if (this[r, c] is TrebuchetForbiddenObject)
                     this[r, c] = TrebuchetEmptyObject
-        // 5. No area of desert of 2x2 should be empty of Targets.
-        invalid2x2Squares.clear()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
-                val p = Position(r, c)
-                val isEmptyOfTargets = TrebuchetGame.offset2.map { p + it }.all { this[it] !is TrebuchetTargetObject }
-                if (isEmptyOfTargets) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
-            }
-        // 4. Targets cannot touch each other horizontally or vertically.
+        // 3. Two target cells must not be orthogonally adjacent.
+        val targets = mutableSetOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (this[p] !is TrebuchetTargetObject) continue
+                targets.add(p)
                 for (os in TrebuchetGame.offset) {
                     val p2 = p + os
                     if (!isValid(p2)) continue
@@ -87,8 +81,7 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
                         this[p2] = TrebuchetForbiddenObject
                 }
             }
-        // 2. The desert among targets (including oases) should be all connected
-        //    horizontally or vertically.
+        // 4. All of the non-targeted cells must be connected.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
@@ -108,31 +101,28 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
+        // 2. The number on a Trebuchet indicates the distance it shoots. Only one of
+        //    the four directions can be marked with a target, the others should be empty.
+        // 5. Please note you can't target other trebuchets (yes it's a pointless war maybe)
         for ((p, _) in game.pos2hint) {
-            val index = g.nodes.indexOf(pos2node[p]!!)
-            g.adjMatrix!![index] = IntArray(g.size) { 0 }
+            val possibleTargets = game.pos2targets[p]!!
+            val realTargets = possibleTargets.filter { this[it] is TrebuchetTargetObject }
+            val emptyTargets = possibleTargets.filter { this[it] is TrebuchetEmptyObject }
+            val n1 = realTargets.size
+            val s: HintState = if (n1 < 1) HintState.Normal else if (n1 == 1) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) {
+                isSolved = false
+                for (p2 in realTargets)
+                    this[p2] = TrebuchetTargetObject(AllowedObjectState.Error)
+            }
+            this[p] = TrebuchetHintObject(state = s)
+            for (p2 in realTargets)
+                targets.remove(p2)
+            if (allowedObjectsOnly && s != HintState.Normal)
+                for (p2 in emptyTargets)
+                    this[p2] = TrebuchetForbiddenObject
         }
-        // 1. Put some targets on the desert so that each Oasis dweller can reach the
-        //    number of Oases marked on it.
-        for ((p, n2) in game.pos2hint) {
-            val hints = mutableSetOf<Position>()
-            // 3. Dwellers can move horizontally or vertically.
-            TrebuchetGame.offset.map { p + it }
-                .filter { isValid(it) && this[it] !is TrebuchetTargetObject }
-                .forEach { g.connectNode(pos2node[p]!!, pos2node[it]!!) }
-            g.rootNode = pos2node[p]!!
-            val nodeList = g.bfs()
-            val index = g.nodes.indexOf(pos2node[p]!!)
-            g.adjMatrix!![index] = IntArray(g.size) { 0 }
-            nodeList
-                .map { node -> pos2node.firstNotNullOf { (k, v) -> if (v == node) k else null } }
-                .filter { this[it] is TrebuchetHintObject }
-                .forEach { hints.add(it) }
-            hints.remove(p)
-            val n1 = hints.size
-            val s = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            this[p] = TrebuchetHintObject(s)
-            if (s != HintState.Complete) isSolved = false
-        }
+        for (p in targets)
+            this[p] = TrebuchetTargetObject(AllowedObjectState.Error)
     }
 }

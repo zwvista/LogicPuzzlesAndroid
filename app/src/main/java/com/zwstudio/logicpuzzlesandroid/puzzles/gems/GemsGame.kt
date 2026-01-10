@@ -10,7 +10,7 @@ class GemsGame(layout: List<String>, gi: GameInterface<GemsGame, GemsGameMove, G
         val offset = Position.Directions4
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)

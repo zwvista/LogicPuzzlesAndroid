@@ -24,7 +24,7 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    var pos2hint = mutableMapOf<Position, Pair<Int, Int>>()
+    val pos2hint = mutableMapOf<Position, Pair<Int, Int>>()
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)

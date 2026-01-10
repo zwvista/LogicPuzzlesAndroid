@@ -25,7 +25,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var objArray: CharArray
-    var pos2hint = mutableMapOf<Position, CalcudokuHint>()
+    val pos2hint = mutableMapOf<Position, CalcudokuHint>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position): Char = this[p.row, p.col]

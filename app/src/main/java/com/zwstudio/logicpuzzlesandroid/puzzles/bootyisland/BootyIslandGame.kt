@@ -10,7 +10,7 @@ class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, B
         val offset = Position.Directions8
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)
