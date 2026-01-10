@@ -66,11 +66,9 @@ class LakesAndMeadowsGameState(game: LakesAndMeadowsGame) : CellsGameState<Lakes
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (game[p] != LakesAndMeadowsObject.Block) {
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
-                }
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
             }
         for ((p, node) in pos2node)
             for (i in 0 until 4) {
@@ -85,9 +83,10 @@ class LakesAndMeadowsGameState(game: LakesAndMeadowsGame) : CellsGameState<Lakes
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.holes.contains(it) }
-            // 2. They decide each one should have a piece of land of exactly 4 squares,
-            // including one fishing hole.
+            val rng = area.filter { game.lakes.contains(it) }
+            // 1. Some of the cells have lakes in them.
+            // 2. The aim is to divide the grid into square blocks such that each
+            //    block contains exactly one lake.
             if (rng.size != 1) {
                 for (p in rng)
                     pos2state[p] = HintState.Normal
@@ -96,8 +95,26 @@ class LakesAndMeadowsGameState(game: LakesAndMeadowsGame) : CellsGameState<Lakes
             }
             val p2 = rng[0]
             val n1 = area.size
-            val n2 = 4
-            val s = if (n1 == n2) HintState.Complete else HintState.Error
+            var r2 = 0
+            var r1 = rows
+            var c2 = 0
+            var c1 = cols
+            for (p in area) {
+                if (r2 < p.row) r2 = p.row
+                if (r1 > p.row) r1 = p.row
+                if (c2 < p.col) c2 = p.col
+                if (c1 > p.col) c1 = p.col
+            }
+            val rs = r2 - r1 + 1
+            val cs = c2 - c1 + 1
+            fun hasLine(): Boolean {
+                for (r in r1..r2)
+                    for (c in c1..c2)
+                        if (r < r2 && this[r + 1, c + 1, 3] == GridLineObject.Line || c < c2 && this[r + 1, c + 1, 0] == GridLineObject.Line)
+                            return true
+                return false
+            }
+            val s = if (rs * cs == n1 && !hasLine()) HintState.Complete else HintState.Error
             pos2state[p2] = s
             if (s != HintState.Complete) isSolved = false
         }

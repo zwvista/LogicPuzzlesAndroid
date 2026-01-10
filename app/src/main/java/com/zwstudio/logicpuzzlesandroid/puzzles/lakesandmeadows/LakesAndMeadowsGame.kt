@@ -20,8 +20,7 @@ class LakesAndMeadowsGame(layout: List<String>, gi: GameInterface<LakesAndMeadow
     }
 
     var objArray: MutableList<LakesAndMeadowsObject>
-    var blocks = mutableListOf<Position>()
-    var holes = mutableListOf<Position>()
+    var lakes = mutableListOf<Position>()
     var dots: GridDots
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -37,24 +36,9 @@ class LakesAndMeadowsGame(layout: List<String>, gi: GameInterface<LakesAndMeadow
             val str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                when (str[c]) {
-                    'B' ->  {
-                        this[p] = LakesAndMeadowsObject.Block
-                        blocks.add(p)
-                        dots[r, c, 2] = GridLineObject.Line
-                        dots[r + 1, c, 0] = GridLineObject.Line
-                        dots[r, c + 1, 2] = GridLineObject.Line
-                        dots[r + 1, c + 1, 0] = GridLineObject.Line
-                        dots[r, c, 1] = GridLineObject.Line
-                        dots[r, c + 1, 3] = GridLineObject.Line
-                        dots[r + 1, c, 1] = GridLineObject.Line
-                        dots[r + 1, c + 1, 3] = GridLineObject.Line
-                    }
-                    'H' -> {
-                        this[p] = LakesAndMeadowsObject.Hole
-                        holes.add(p)
-                    }
-                }
+                if (str[c] != 'L') continue
+                this[p] = LakesAndMeadowsObject.Lake
+                lakes.add(p)
             }
         }
         for (r in 0 until rows - 1) {

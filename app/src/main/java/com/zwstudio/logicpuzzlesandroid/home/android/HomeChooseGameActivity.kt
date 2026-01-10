@@ -67,6 +67,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "CarpentersSquare" to "Carpenter's Square",
             "CarpentersWall" to "Carpenter's Wall",
             "FourMeNot" to "Four-Me-Not",
+            "LakesAndMeadows" to "Lakes and Meadows",
             "MaketheDifference" to "Make the Difference",
             "MiniLits" to "Mini-Lits",
             "NoughtsAndCrosses" to "Noughts & Crosses",
