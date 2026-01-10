@@ -1273,6 +1273,18 @@
         <activity android:name=".puzzles.stacks.StacksOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.steps.StepsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.steps.StepsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.steps.StepsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.steps.StepsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.straightandturn.StraightAndTurnMainActivity"
                   android:screenOrientation="portrait">
         </activity>
