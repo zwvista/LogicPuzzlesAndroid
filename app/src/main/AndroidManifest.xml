@@ -1081,6 +1081,18 @@
         <activity android:name=".puzzles.planks.PlanksOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.plugitin.PlugItInMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.plugitin.PlugItInGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.plugitin.PlugItInHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.plugitin.PlugItInOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pouringwater.PouringWaterMainActivity"
                   android:screenOrientation="portrait">
         </activity>
