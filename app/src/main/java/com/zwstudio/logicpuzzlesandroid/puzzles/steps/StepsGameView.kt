@@ -7,8 +7,8 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -22,6 +22,8 @@ class StepsGameView(context: Context, val soundManager: SoundManager) : CellsGam
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
@@ -30,6 +32,12 @@ class StepsGameView(context: Context, val soundManager: SoundManager) : CellsGam
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        markerPaint.color = Color.WHITE
+        markerPaint.style = Paint.Style.FILL_AND_STROKE
+        markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
 
@@ -40,12 +48,20 @@ class StepsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.getObject(p)
-                if (n == StepsGame.PUZ_EMPTY) continue
-                val s = game.pos2State(p)
-                textPaint.color = if (game[p] != StepsGame.PUZ_EMPTY) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                when (val n = game.getObject(p)) {
+                    StepsGame.PUZ_EMPTY -> {}
+                    StepsGame.PUZ_MARKER ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    StepsGame.PUZ_FORBIDDEN ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                    else -> {
+                        val s = game.pos2State(p)!!
+                        textPaint.color =
+                            if (game[p] != StepsGame.PUZ_EMPTY) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                        val text = n.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                }
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
