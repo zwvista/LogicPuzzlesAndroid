@@ -517,6 +517,18 @@
         <activity android:name=".puzzles.heliumandiron.HeliumAndIronOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.hiddenclouds.HiddenCloudsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hiddenclouds.HiddenCloudsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hiddenclouds.HiddenCloudsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hiddenclouds.HiddenCloudsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.hiddenpath.HiddenPathMainActivity"
                   android:screenOrientation="portrait">
         </activity>
