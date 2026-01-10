@@ -1069,6 +1069,18 @@
         <activity android:name=".puzzles.pata.PataOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pipemania.PipemaniaMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pipemania.PipemaniaGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pipemania.PipemaniaHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pipemania.PipemaniaOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.planks.PlanksMainActivity"
                   android:screenOrientation="portrait">
         </activity>
