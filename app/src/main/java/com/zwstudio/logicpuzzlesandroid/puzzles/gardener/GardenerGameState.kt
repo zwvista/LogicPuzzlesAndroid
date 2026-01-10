@@ -32,8 +32,9 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
     }
 
     override fun switchObject(move: GardenerGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is GardenerEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject else GardenerFlowerObject()
             is GardenerFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) GardenerMarkerObject else GardenerEmptyObject
             is GardenerMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerFlowerObject() else GardenerEmptyObject

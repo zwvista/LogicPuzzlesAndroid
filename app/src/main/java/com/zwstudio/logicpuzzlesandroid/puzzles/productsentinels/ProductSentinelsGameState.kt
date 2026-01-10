@@ -25,8 +25,9 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
     }
 
     override fun switchObject(move: ProductSentinelsGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is ProductSentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ProductSentinelsMarkerObject else ProductSentinelsTowerObject()
             is ProductSentinelsTowerObject -> if (markerOption == MarkerOptions.MarkerLast) ProductSentinelsMarkerObject else ProductSentinelsEmptyObject
             is ProductSentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ProductSentinelsTowerObject() else ProductSentinelsEmptyObject

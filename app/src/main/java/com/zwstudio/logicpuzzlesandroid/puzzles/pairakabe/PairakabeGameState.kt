@@ -32,8 +32,9 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
     }
 
     override fun switchObject(move: PairakabeGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is PairakabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeMarkerObject else PairakabeWallObject
             is PairakabeWallObject -> if (markerOption == MarkerOptions.MarkerLast) PairakabeMarkerObject else PairakabeEmptyObject
             is PairakabeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeWallObject else PairakabeEmptyObject

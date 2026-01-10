@@ -32,8 +32,10 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
     }
 
     override fun switchObject(move: TrebuchetGameMove): GameOperationType {
+        val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is TrebuchetEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetMarkerObject else TrebuchetTargetObject()
             is TrebuchetTargetObject -> if (markerOption == MarkerOptions.MarkerLast) TrebuchetMarkerObject else TrebuchetEmptyObject
             is TrebuchetMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetTargetObject() else TrebuchetEmptyObject

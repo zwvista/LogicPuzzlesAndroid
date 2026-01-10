@@ -29,8 +29,9 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
     }
 
     override fun switchObject(move: WishSandwichGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is WishSandwichEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichMarkerObject else WishSandwichBreadObject()
             is WishSandwichBreadObject -> WishSandwichHamObject()
             is WishSandwichHamObject -> if (markerOption == MarkerOptions.MarkerLast) WishSandwichMarkerObject else WishSandwichEmptyObject

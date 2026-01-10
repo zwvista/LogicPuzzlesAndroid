@@ -33,8 +33,9 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
     }
 
     override fun switchObject(move: HiddenCloudsGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is HiddenCloudsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsMarkerObject else HiddenCloudsDuneObject()
             is HiddenCloudsDuneObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenCloudsMarkerObject else HiddenCloudsEmptyObject
             is HiddenCloudsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsDuneObject() else HiddenCloudsEmptyObject

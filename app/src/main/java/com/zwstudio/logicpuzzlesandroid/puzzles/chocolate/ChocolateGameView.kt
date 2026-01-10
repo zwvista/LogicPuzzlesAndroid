@@ -4,9 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -21,8 +25,11 @@ class ChocolateGameView(context: Context, val soundManager: SoundManager) : Cell
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
+    private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val linePaint = Paint()
     private val textPaint = TextPaint()
+    private val dChocolate: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -30,7 +37,14 @@ class ChocolateGameView(context: Context, val soundManager: SoundManager) : Cell
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        markerPaint.color = Color.WHITE
+        markerPaint.style = Paint.Style.FILL_AND_STROKE
+        markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
+        dChocolate = fromImageToDrawable("images/chocolate_square.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -40,11 +54,23 @@ class ChocolateGameView(context: Context, val soundManager: SoundManager) : Cell
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val ch = game.getObject(p)
-                if (ch == ' ') continue
-                val s = game.pos2State(p)
-                textPaint.color = if (game[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val text = ch.toString()
+                when (val o = game.getObject(p)) {
+                    is ChocolateChocolateObject -> {
+                        dChocolate.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        dChocolate.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dChocolate.draw(canvas)
+                    }
+                    is ChocolateMarkerObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    is ChocolateForbiddenObject ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                    else -> {}
+                }
+                val n = game.pos2hint[p] ?: continue
+                val s = game.pos2State(p)!!
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         for (r in 0 until rows + 1)

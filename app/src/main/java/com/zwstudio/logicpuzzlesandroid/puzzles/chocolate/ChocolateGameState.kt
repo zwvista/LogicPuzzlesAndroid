@@ -1,18 +1,23 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.chocolate
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, ChocolateGameMove, ChocolateGameState>(game) {
-    var objArray = game.objArray.copyOf()
+    var objArray = Array<ChocolateObject>(rows * cols) { ChocolateEmptyObject }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: ChocolateObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: ChocolateObject) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
@@ -20,7 +25,7 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
 
     override fun setObject(move: ChocolateGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -28,9 +33,14 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
 
     override fun switchObject(move: ChocolateGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = if (o == ' ') '1' else if (o == '3') ' ' else o + 1
+        if (!isValid(p)) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
+        move.obj = when (val o = this[p]) {
+            is ChocolateEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ChocolateMarkerObject else ChocolateChocolateObject()
+            is ChocolateChocolateObject -> if (markerOption == MarkerOptions.MarkerLast) ChocolateMarkerObject else ChocolateEmptyObject
+            is ChocolateMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ChocolateChocolateObject() else ChocolateEmptyObject
+            else -> o
+        }
         return setObject(move)
     }
 
@@ -50,77 +60,69 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
         6. An area without number can have any number of tiles of chocolate.
     */
     private fun updateIsSolved() {
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val chars2 = listOf('1', '2', '3')
-        val chars3 = chars2.flatMap { Array(rows / 3) { it }.toList() }
+        for (r in 0 until rows)
+            for (c in 0 until cols)
+                if (this[r, c] is ChocolateForbiddenObject)
+                    this[r, c] = ChocolateEmptyObject
+        // 2. A Chocolate bar is a rectangular or a square.
+        // 3. Chocolate tiles form bars independently of the area borders.
+        // 4. Chocolate bars must not be orthogonally adjacent.
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] == ' ') isSolved = false
-                pos2state[p] = HintState.Normal
+                if (this[p] !is ChocolateChocolateObject) continue
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
             }
-        for (r in 0 until rows) {
-            var lineSolved = true
-            for (c in 0 until cols - 1) {
-                val p1 = Position(r, c)
-                val p2 = Position(r, c + 1)
-                val ch1 = this[p1]
-                val ch2 = this[p2]
-                if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
-                    // 4. You can't have two identical numbers touching horizontally.
-                    lineSolved = false
-                    isSolved = lineSolved
-                    pos2state[p1] = HintState.Error
-                    pos2state[p2] = HintState.Error
-                }
+        for (p in pos2node.keys)
+            for (os in CloudsGame.offset) {
+                val p2 = p + os
+                if (pos2node.containsKey(p2))
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-            val chars = (0 until cols).map { this[r, it] }.sorted()
-            // 3. In one row, each number must appear the same number of times.
-            if (chars[0] != ' ' && chars != chars3) {
-                lineSolved = false
-                isSolved = lineSolved
-                for (c in 0 until cols)
-                    pos2state[Position(r, c)] = HintState.Error
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            var r2 = 0
+            var r1 = rows
+            var c2 = 0
+            var c1 = cols
+            val bar = mutableListOf<Position>()
+            for (node in nodeList) {
+                val p = pos2node.filterValues { it == node }.keys.first()
+                pos2node.remove(p)
+                bar.add(p)
+                if (r2 < p.row) r2 = p.row
+                if (r1 > p.row) r1 = p.row
+                if (c2 < p.col) c2 = p.col
+                if (c1 > p.col) c1 = p.col
             }
-            if (lineSolved)
-                for (c in 0 until cols)
-                    pos2state[Position(r, c)] = HintState.Complete
+            val rs = r2 - r1 + 1
+            val cs = c2 - c1 + 1
+            val s = if (rs * cs == nodeList.size) AllowedObjectState.Normal else AllowedObjectState.Error
+            if (s != AllowedObjectState.Normal) isSolved = false
+            for (p in bar)
+                this[p] = ChocolateChocolateObject(s)
         }
-        for (c in 0 until cols) {
-            var lineSolved = true
-            for (r in 0 until rows - 1) {
-                val p1 = Position(r, c)
-                val p2 = Position(r + 1, c)
-                val ch1 = this[p1]
-                val ch2 = this[p2]
-                if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
-                    // 4. You can't have two identical numbers touching vertically.
-                    lineSolved = false
-                    isSolved = lineSolved
-                    pos2state[p1] = HintState.Error
-                    pos2state[p2] = HintState.Error
-                }
-            }
-            val chars = (0 until rows).map { this[it, c] }.sorted()
-            // 3. In one column, each number must appear the same number of times.
-            if (chars[0] != ' ' && chars != chars3) {
-                lineSolved = false
-                isSolved = lineSolved
-                for (r in 0 until rows)
-                    pos2state[Position(r, c)] = HintState.Error
-            }
-            if (lineSolved)
-                for (r in 0 until rows)
-                    pos2state[Position(r, c)] = HintState.Complete
-        }
-        // 2. Each number can appear only once in each Chocolate.
-        for (a in game.areas) {
-            val chars = a.map { this[it] }.sorted()
-            if (chars[0] != ' ' && chars != chars2) {
-                isSolved = false
-                for (p in a)
-                    pos2state[p] = HintState.Error
-            }
+        // 5. A tile with a number indicates how many tiles in the area must
+        //    be chocolate.
+        // 6. An area without number can have any number of tiles of chocolate.
+        for (area in game.areas) {
+            val pHint = area.firstOrNull { game.pos2hint.contains(it) } ?: continue
+            val n2 = game.pos2hint[pHint]!!
+            val n1 = area.filter { this[it] is ChocolateChocolateObject }.size
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            pos2state[pHint] = s
+            if (!(allowedObjectsOnly && s != HintState.Normal)) continue
+            val empties = area.filter { this[it] is ChocolateEmptyObject }
+            for (p in empties)
+                this[p] = ChocolateForbiddenObject
         }
     }
 }

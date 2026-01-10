@@ -30,9 +30,10 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
     }
 
     override fun switchObject(move: TurnTwiceGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] !is TurnTwiceEmptyObject) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || game[p] !is TurnTwiceEmptyObject) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is TurnTwiceEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceMarkerObject else TurnTwiceWallObject()
             is TurnTwiceWallObject -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceMarkerObject else TurnTwiceEmptyObject
             is TurnTwiceMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceSignPostObject() else TurnTwiceEmptyObject

@@ -32,9 +32,10 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
     }
 
     override fun switchObject(move: ArchipelagoGameMove): GameOperationType {
-        if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is ArchipelagoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoMarkerObject else ArchipelagoWaterObject()
             is ArchipelagoWaterObject -> if (markerOption == MarkerOptions.MarkerLast) ArchipelagoMarkerObject else ArchipelagoEmptyObject
             is ArchipelagoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoWaterObject() else ArchipelagoEmptyObject

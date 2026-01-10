@@ -30,9 +30,10 @@ class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, Pi
     }
 
     override fun switchObject(move: PipemaniaGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] !is PipemaniaEmptyObject) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || game[p] !is PipemaniaEmptyObject) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is PipemaniaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PipemaniaMarkerObject else PipemaniaFlowerObject()
             is PipemaniaFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) PipemaniaMarkerObject else PipemaniaEmptyObject
             is PipemaniaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PipemaniaFlowerObject() else PipemaniaEmptyObject

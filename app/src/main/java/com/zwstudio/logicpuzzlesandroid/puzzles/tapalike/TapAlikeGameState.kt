@@ -34,8 +34,9 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
     }
 
     override fun switchObject(move: TapAlikeGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is TapAlikeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeMarkerObject else TapAlikeWallObject()
             is TapAlikeWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapAlikeMarkerObject else TapAlikeEmptyObject
             is TapAlikeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeWallObject() else TapAlikeEmptyObject

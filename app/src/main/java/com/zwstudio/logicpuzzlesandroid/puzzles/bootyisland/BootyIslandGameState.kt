@@ -34,8 +34,9 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
     }
 
     override fun switchObject(move: BootyIslandGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is BootyIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandMarkerObject else BootyIslandTreasureObject()
             is BootyIslandTreasureObject -> if (markerOption == MarkerOptions.MarkerLast) BootyIslandMarkerObject else BootyIslandEmptyObject
             is BootyIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandTreasureObject() else BootyIslandEmptyObject

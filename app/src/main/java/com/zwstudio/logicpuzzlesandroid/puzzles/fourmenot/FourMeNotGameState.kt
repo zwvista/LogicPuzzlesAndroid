@@ -30,9 +30,10 @@ class FourMeNotGameState(game: FourMeNotGame) : CellsGameState<FourMeNotGame, Fo
     }
 
     override fun switchObject(move: FourMeNotGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] !is FourMeNotEmptyObject) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || game[p] !is FourMeNotEmptyObject) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is FourMeNotEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotMarkerObject else FourMeNotFlowerObject()
             is FourMeNotFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) FourMeNotMarkerObject else FourMeNotEmptyObject
             is FourMeNotMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FourMeNotFlowerObject() else FourMeNotEmptyObject

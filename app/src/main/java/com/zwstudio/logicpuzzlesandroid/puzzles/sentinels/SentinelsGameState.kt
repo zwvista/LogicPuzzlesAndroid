@@ -25,8 +25,9 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
     }
 
     override fun switchObject(move: SentinelsGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is SentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsMarkerObject else SentinelsTowerObject()
             is SentinelsTowerObject -> if (markerOption == MarkerOptions.MarkerLast) SentinelsMarkerObject else SentinelsEmptyObject
             is SentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsTowerObject() else SentinelsEmptyObject

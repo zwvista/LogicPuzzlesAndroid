@@ -29,8 +29,9 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
     }
 
     override fun switchObject(move: MinesweeperGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is MinesweeperEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMarkerObject else MinesweeperMineObject
             is MinesweeperMineObject -> if (markerOption == MarkerOptions.MarkerLast) MinesweeperMarkerObject else MinesweeperEmptyObject
             is MinesweeperMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMineObject else MinesweeperEmptyObject

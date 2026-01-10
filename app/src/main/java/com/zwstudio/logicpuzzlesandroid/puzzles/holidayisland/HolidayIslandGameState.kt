@@ -29,9 +29,10 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
     }
 
     override fun switchObject(move: HolidayIslandGameMove): GameOperationType {
-        if (!isValid(move.p) || game.pos2hint[move.p] != null) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject else HolidayIslandWaterObject()
             is HolidayIslandWaterObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject else HolidayIslandEmptyObject
             is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandWaterObject() else HolidayIslandEmptyObject

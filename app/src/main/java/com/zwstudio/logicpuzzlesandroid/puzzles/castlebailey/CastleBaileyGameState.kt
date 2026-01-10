@@ -31,8 +31,9 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
     }
 
     override fun switchObject(move: CastleBaileyGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             CastleBaileyObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Marker else CastleBaileyObject.Wall
             CastleBaileyObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) CastleBaileyObject.Marker else CastleBaileyObject.Empty
             CastleBaileyObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CastleBaileyObject.Wall else CastleBaileyObject.Empty

@@ -33,8 +33,9 @@ class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGa
     }
 
     override fun switchObject(move: DesertDunesGameMove): GameOperationType {
+        val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[move.p]) {
+        move.obj = when (val o = this[p]) {
             is DesertDunesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) DesertDunesMarkerObject else DesertDunesDuneObject()
             is DesertDunesDuneObject -> if (markerOption == MarkerOptions.MarkerLast) DesertDunesMarkerObject else DesertDunesEmptyObject
             is DesertDunesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) DesertDunesDuneObject() else DesertDunesEmptyObject
