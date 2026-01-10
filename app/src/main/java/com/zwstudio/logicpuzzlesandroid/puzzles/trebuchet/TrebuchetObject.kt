@@ -10,7 +10,7 @@ sealed class TrebuchetObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> TrebuchetMarkerObject
-            "dune" -> TrebuchetDuneObject()
+            "target" -> TrebuchetTargetObject()
             else -> TrebuchetEmptyObject
         }
     }
@@ -30,8 +30,8 @@ object TrebuchetForbiddenObject : TrebuchetObject() {
     override fun objAsString() = "forbidden"
 }
 
-class TrebuchetDuneObject(var state: AllowedObjectState = AllowedObjectState.Normal) : TrebuchetObject() {
-    override fun objAsString() = "dune"
+class TrebuchetTargetObject(var state: AllowedObjectState = AllowedObjectState.Normal) : TrebuchetObject() {
+    override fun objAsString() = "target"
 }
 
 class TrebuchetGameMove(val p: Position, var obj: TrebuchetObject = TrebuchetEmptyObject)

@@ -35,9 +35,9 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
     override fun switchObject(move: TrebuchetGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[move.p]) {
-            is TrebuchetEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetMarkerObject else TrebuchetDuneObject()
-            is TrebuchetDuneObject -> if (markerOption == MarkerOptions.MarkerLast) TrebuchetMarkerObject else TrebuchetEmptyObject
-            is TrebuchetMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetDuneObject() else TrebuchetEmptyObject
+            is TrebuchetEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetMarkerObject else TrebuchetTargetObject()
+            is TrebuchetTargetObject -> if (markerOption == MarkerOptions.MarkerLast) TrebuchetMarkerObject else TrebuchetEmptyObject
+            is TrebuchetMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetTargetObject() else TrebuchetEmptyObject
             else -> o
         }
         return setObject(move)
@@ -63,38 +63,38 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
             for (c in 0 until cols)
                 if (this[r, c] is TrebuchetForbiddenObject)
                     this[r, c] = TrebuchetEmptyObject
-        // 5. No area of desert of 2x2 should be empty of Dunes.
+        // 5. No area of desert of 2x2 should be empty of Targets.
         invalid2x2Squares.clear()
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                val isEmptyOfDunes = TrebuchetGame.offset2.map { p + it }.all { this[it] !is TrebuchetDuneObject }
-                if (isEmptyOfDunes) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
+                val isEmptyOfTargets = TrebuchetGame.offset2.map { p + it }.all { this[it] !is TrebuchetTargetObject }
+                if (isEmptyOfTargets) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
             }
-        // 4. Dunes cannot touch each other horizontally or vertically.
+        // 4. Targets cannot touch each other horizontally or vertically.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is TrebuchetDuneObject) continue
+                if (this[p] !is TrebuchetTargetObject) continue
                 for (os in TrebuchetGame.offset) {
                     val p2 = p + os
                     if (!isValid(p2)) continue
-                    if (this[p2] is TrebuchetDuneObject) {
+                    if (this[p2] is TrebuchetTargetObject) {
                         isSolved = false
-                        this[p] = TrebuchetDuneObject(AllowedObjectState.Error)
-                        this[p2] = TrebuchetDuneObject(AllowedObjectState.Error)
+                        this[p] = TrebuchetTargetObject(AllowedObjectState.Error)
+                        this[p2] = TrebuchetTargetObject(AllowedObjectState.Error)
                     } else if (allowedObjectsOnly && this[p2] is TrebuchetEmptyObject)
                         this[p2] = TrebuchetForbiddenObject
                 }
             }
-        // 2. The desert among dunes (including oases) should be all connected
+        // 2. The desert among targets (including oases) should be all connected
         //    horizontally or vertically.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is TrebuchetDuneObject) continue
+                if (this[p] is TrebuchetTargetObject) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -112,13 +112,13 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
             val index = g.nodes.indexOf(pos2node[p]!!)
             g.adjMatrix!![index] = IntArray(g.size) { 0 }
         }
-        // 1. Put some dunes on the desert so that each Oasis dweller can reach the
+        // 1. Put some targets on the desert so that each Oasis dweller can reach the
         //    number of Oases marked on it.
         for ((p, n2) in game.pos2hint) {
             val hints = mutableSetOf<Position>()
             // 3. Dwellers can move horizontally or vertically.
             TrebuchetGame.offset.map { p + it }
-                .filter { isValid(it) && this[it] !is TrebuchetDuneObject }
+                .filter { isValid(it) && this[it] !is TrebuchetTargetObject }
                 .forEach { g.connectNode(pos2node[p]!!, pos2node[it]!!) }
             g.rootNode = pos2node[p]!!
             val nodeList = g.bfs()

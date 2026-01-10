@@ -56,8 +56,8 @@ class StacksGameState(game: StacksGame) : CellsGameState<StacksGame, StacksGameM
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                for (os in StacksGame.offset) {
-                    val p2 = p + os
+                for (i in listOf(1, 2)) {
+                    val p2 = p + StacksGame.offset[i]
                     if (!(isValid(p2) && this[p] == this[p2])) continue
                     isSolved = false
                     pos2state[p] = AllowedObjectState.Error
