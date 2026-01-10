@@ -1477,6 +1477,18 @@
         <activity android:name=".puzzles.tracenumbers.TraceNumbersOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.trebuchet.TrebuchetMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trebuchet.TrebuchetGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trebuchet.TrebuchetHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trebuchet.TrebuchetOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.turntwice.TurnTwiceMainActivity"
                   android:screenOrientation="portrait">
         </activity>
