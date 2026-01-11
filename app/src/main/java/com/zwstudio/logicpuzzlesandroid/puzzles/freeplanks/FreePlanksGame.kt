@@ -54,5 +54,5 @@ class FreePlanksGame(layout: List<String>, gi: GameInterface<FreePlanksGame, Fre
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2orient(p: Position) = currentState.pos2orient[p]
+    fun woods() = currentState.woods
 }

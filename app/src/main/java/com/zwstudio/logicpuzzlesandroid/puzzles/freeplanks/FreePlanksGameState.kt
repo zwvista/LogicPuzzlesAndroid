@@ -11,7 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FreePlanksGameState(game: FreePlanksGame) : CellsGameState<FreePlanksGame, FreePlanksGameMove, FreePlanksGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2orient = mutableMapOf<Position, Boolean>()
+    var woods = mutableSetOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -76,10 +76,9 @@ class FreePlanksGameState(game: FreePlanksGame) : CellsGameState<FreePlanksGame,
                     if (this[p + FreePlanksGame.offset2[i]][FreePlanksGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + FreePlanksGame.offset[i]]!!)
             }
-        pos2orient.clear()
+        woods.clear()
         val planks = mutableListOf<MutableList<Position>>()
         val pos2plank = mutableMapOf<Position, Int>()
-        val g2 = Graph()
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
@@ -88,41 +87,24 @@ class FreePlanksGameState(game: FreePlanksGame) : CellsGameState<FreePlanksGame,
                 pos2node.remove(p)
             val rng = area.filter { game.nails.contains(it) }
             if (rng.isEmpty()) continue
-            // 2. FreePlanks are 3 tiles long.
+            // 2. Planks are areas of exactly three cells and can be straight or angled.
             if (area.size != 3) { isSolved = false; continue }
-            area.sort()
-            val (os1, os2) = area[1] - area[0] to area[2] - area[1]
-            // 2. FreePlanks can be oriented vertically or horizontally.
-            if (!(os1 == os2 && (os1 == FreePlanksGame.offset[1] || os1 == FreePlanksGame.offset[2]))) { isSolved = false; continue }
-            // 1. On the board there are a few nails. Each one nails a plank to
-            //    the board.
-            // 2. The Nail can be in any of the 3 tiles.
+            // 1. Locate some pieces of wood (Planks).
+            // 3. Each Plank contains one nail.
             if (rng.size != 1) { isSolved = false; continue }
             val n = planks.size
             planks.add(area)
             for (p in area) {
                 pos2plank[p] = n
-                pos2orient[p] = os1 == FreePlanksGame.offset[1]
+                woods.add(p)
             }
-            val node = Node(n.toString())
-            g2.addNode(node)
         }
-        for ((i, plank) in planks.withIndex()) {
-            val neighbors = mutableSetOf<Int>()
-            for (p in plank)
-                for (os in FreePlanksGame.offset) {
-                    val n = pos2plank[p + os]
-                    if (n == null || n == i) {continue}
-                    neighbors.add(n)
-                }
-            // 3. Each Plank touches orthogonally exactly two other FreePlanks.
-            if (neighbors.size != 2) { isSolved = false; return }
-            for (n in neighbors) { g2.connectNode(g2.nodes[i], g2.nodes[n]) }
-        }
-        if (!isSolved) return
-        // 4. All the FreePlanks form a ring, or a closed loop.
-        g2.rootNode = g2.nodes[0]
-        val nodeList = g2.bfs()
-        if (nodeList.size != g2.nodes.size) isSolved = false
+        // 4. After finding all the Planks, it must be possible to move each piece
+        //    by one cell in at least one direction.
+        for (plank in planks)
+            if (!FreePlanksGame.offset.any { os ->
+                val area = plank.map { it + os }
+                area.all { plank.contains(it) || !woods.contains(it) }
+            }) isSolved = false
     }
 }
