@@ -445,6 +445,18 @@
         <activity android:name=".puzzles.fillomino.FillominoOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.floorplan.FloorPlanMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.floorplan.FloorPlanGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.floorplan.FloorPlanHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.floorplan.FloorPlanOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fourmenot.FourMeNotMainActivity"
                   android:screenOrientation="portrait">
         </activity>
