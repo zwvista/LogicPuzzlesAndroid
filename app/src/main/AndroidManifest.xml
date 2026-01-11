@@ -1549,6 +1549,18 @@
         <activity android:name=".puzzles.turntwice.TurnTwiceOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.underground.UndergroundMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.underground.UndergroundGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.underground.UndergroundHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.underground.UndergroundOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.wallhints.WallHintsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
