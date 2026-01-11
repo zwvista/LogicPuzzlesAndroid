@@ -313,6 +313,18 @@
         <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.culturedbranches.CulturedBranchesMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.culturedbranches.CulturedBranchesGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.culturedbranches.CulturedBranchesHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.culturedbranches.CulturedBranchesOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.desertdunes.DesertDunesMainActivity"
                   android:screenOrientation="portrait">
         </activity>
