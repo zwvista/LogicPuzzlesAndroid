@@ -8,11 +8,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloudsGame, HiddenCloudsGameMove, HiddenCloudsGameState>(game) {
     var objArray = Array<HiddenCloudsObject>(rows * cols) { HiddenCloudsEmptyObject }
-    val invalid2x2Squares = mutableListOf<Position>()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -20,8 +20,6 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
     operator fun set(p: Position, obj: HiddenCloudsObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, n) in game.pos2hint)
-            this[p] = HiddenCloudsHintObject()
         updateIsSolved()
     }
 
@@ -36,28 +34,29 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is HiddenCloudsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsMarkerObject else HiddenCloudsDuneObject()
-            is HiddenCloudsDuneObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenCloudsMarkerObject else HiddenCloudsEmptyObject
-            is HiddenCloudsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsDuneObject() else HiddenCloudsEmptyObject
+            is HiddenCloudsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsMarkerObject else HiddenCloudsCloudObject()
+            is HiddenCloudsCloudObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenCloudsMarkerObject else HiddenCloudsEmptyObject
+            is HiddenCloudsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsCloudObject() else HiddenCloudsEmptyObject
             else -> o
         }
         return setObject(move)
     }
 
     /*
-        iOS Game: 100 Logic Games/Puzzle Set 17/Desert Dunes
+        iOS Game: 100 Logic Games 2/Puzzle Set 7/Hidden Clouds
 
         Summary
-        Hide and seek in the desert
+        Hide and Seek in the sky
 
         Description
-        1. Put some dunes on the desert so that each Oasis dweller can reach the
-           number of Oases marked on it.
-        2. The desert among dunes (including oases) should be all connected
-           horizontally or vertically.
-        3. Dwellers can move horizontally or vertically.
-        4. Dunes cannot touch each other horizontally or vertically.
-        5. No area of desert of 2x2 should be empty of Dunes.
+        1. Try to find the clouds.
+        2. Clouds have a square form (even of one single tile) and can't touch
+           each other horizontally or vertically.
+        3. Clouds of the same size cannot see each other horizontally or vertically,
+           that is, there must be other Clouds between them
+           (horizontally or vertically).
+        4. Numbers indicate the total number of clouds tiles in the tile itself
+           and in the four tiles around it (up down left right)
     */
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
@@ -66,76 +65,60 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
             for (c in 0 until cols)
                 if (this[r, c] is HiddenCloudsForbiddenObject)
                     this[r, c] = HiddenCloudsEmptyObject
-        // 5. No area of desert of 2x2 should be empty of Dunes.
-        invalid2x2Squares.clear()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
-                val p = Position(r, c)
-                val isEmptyOfDunes = HiddenCloudsGame.offset2.map { p + it }.all { this[it] !is HiddenCloudsDuneObject }
-                if (isEmptyOfDunes) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
-            }
-        // 4. Dunes cannot touch each other horizontally or vertically.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                if (this[p] !is HiddenCloudsDuneObject) continue
-                for (os in HiddenCloudsGame.offset) {
-                    val p2 = p + os
-                    if (!isValid(p2)) continue
-                    if (this[p2] is HiddenCloudsDuneObject) {
-                        isSolved = false
-                        this[p] = HiddenCloudsDuneObject(AllowedObjectState.Error)
-                        this[p2] = HiddenCloudsDuneObject(AllowedObjectState.Error)
-                    } else if (allowedObjectsOnly && this[p2] is HiddenCloudsEmptyObject)
-                        this[p2] = HiddenCloudsForbiddenObject
-                }
-            }
-        // 2. The desert among dunes (including oases) should be all connected
-        //    horizontally or vertically.
+        // 2. Clouds have a square form (even of one single tile) and can't touch
+        //    each other horizontally or vertically.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is HiddenCloudsDuneObject) continue
+                if (this[p] !is HiddenCloudsCloudObject) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for ((p, node) in pos2node) {
-            for (os in GardenerGame.offset) {
+        for (p in pos2node.keys)
+            for (os in CloudsGame.offset) {
                 val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
+                if (pos2node.containsKey(p2))
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-        }
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
-        for ((p, _) in game.pos2hint) {
-            val index = g.nodes.indexOf(pos2node[p]!!)
-            g.adjMatrix!![index] = IntArray(g.size) { 0 }
-        }
-        // 1. Put some dunes on the desert so that each Oasis dweller can reach the
-        //    number of Oases marked on it.
-        for ((p, n2) in game.pos2hint) {
-            val hints = mutableSetOf<Position>()
-            // 3. Dwellers can move horizontally or vertically.
-            HiddenCloudsGame.offset.map { p + it }
-                .filter { isValid(it) && this[it] !is HiddenCloudsDuneObject }
-                .forEach { g.connectNode(pos2node[p]!!, pos2node[it]!!) }
-            g.rootNode = pos2node[p]!!
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
-            val index = g.nodes.indexOf(pos2node[p]!!)
-            g.adjMatrix!![index] = IntArray(g.size) { 0 }
-            nodeList
-                .map { node -> pos2node.firstNotNullOf { (k, v) -> if (v == node) k else null } }
-                .filter { this[it] is HiddenCloudsHintObject }
-                .forEach { hints.add(it) }
-            hints.remove(p)
-            val n1 = hints.size
-            val s = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            this[p] = HiddenCloudsHintObject(s)
+            var r2 = 0
+            var r1 = rows
+            var c2 = 0
+            var c1 = cols
+            val cloud = mutableListOf<Position>()
+            for (node in nodeList) {
+                val p = pos2node.filterValues { it == node }.keys.first()
+                pos2node.remove(p)
+                cloud.add(p)
+                if (r2 < p.row) r2 = p.row
+                if (r1 > p.row) r1 = p.row
+                if (c2 < p.col) c2 = p.col
+                if (c1 > p.col) c1 = p.col
+            }
+            val rs = r2 - r1 + 1
+            val cs = c2 - c1 + 1
+            val s = if (rs * cs == nodeList.size) AllowedObjectState.Normal else AllowedObjectState.Error
+            if (s != AllowedObjectState.Normal) isSolved = false
+            for (p in cloud)
+                this[p] = HiddenCloudsCloudObject(s)
+        }
+        // 4. Numbers indicate the total number of clouds tiles in the tile itself
+        //    and in the four tiles around it (up down left right)
+        for ((p, n2) in game.pos2hint) {
+            val rng = HiddenCloudsGame.offset2.map { p + it }.filter { isValid(it) }
+            val n1 = rng.filter { this[it] is HiddenCloudsCloudObject }.size
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
+            pos2state[p] = s
+            if (!(allowedObjectsOnly && s != HintState.Normal)) continue
+            val empties = rng.filter { this[it] is HiddenCloudsEmptyObject }
+            for (p in empties)
+                this[p] = HiddenCloudsForbiddenObject
         }
     }
 }

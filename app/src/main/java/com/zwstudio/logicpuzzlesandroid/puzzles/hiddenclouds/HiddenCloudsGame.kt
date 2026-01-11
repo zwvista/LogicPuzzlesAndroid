@@ -8,7 +8,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class HiddenCloudsGame(layout: List<String>, gi: GameInterface<HiddenCloudsGame, HiddenCloudsGameMove, HiddenCloudsGameState>, gdi: GameDocumentInterface) : CellsGame<HiddenCloudsGame, HiddenCloudsGameMove, HiddenCloudsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = Position.Square2x2Offset
+        val offset2 = listOf(
+            Position.North,
+            Position.East,
+            Position.South,
+            Position.West,
+            Position.Zero,
+        )
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
@@ -20,8 +26,8 @@ class HiddenCloudsGame(layout: List<String>, gi: GameInterface<HiddenCloudsGame,
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch != ' ')
-                    pos2hint[p] = if (Character.isDigit(ch)) ch - '0' else ch - 'A' + 10
+                if (ch.isDigit())
+                    pos2hint[p] = ch - '0'
             }
         }
         val state = HiddenCloudsGameState(this)
@@ -30,5 +36,5 @@ class HiddenCloudsGame(layout: List<String>, gi: GameInterface<HiddenCloudsGame,
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun invalid2x2Squares() = currentState.invalid2x2Squares
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }

@@ -28,9 +28,7 @@ class HiddenCloudsGameView(context: Context, val soundManager: SoundManager) : C
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dSand: Drawable
-    private val dPalmTree: Drawable
-    private val dDune: Drawable
+    private val dCloud: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -45,9 +43,7 @@ class HiddenCloudsGameView(context: Context, val soundManager: SoundManager) : C
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dSand = fromImageToDrawable("images/C1.png")
-        dPalmTree = fromImageToDrawable("images/palmtree.png")
-        dDune = fromImageToDrawable("images/dune.png")
+        dCloud = fromImageToDrawable("images/cloud.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -59,32 +55,25 @@ class HiddenCloudsGameView(context: Context, val soundManager: SoundManager) : C
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                dSand.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                dSand.draw(canvas)
                 when (val o = game.getObject(p)) {
                     is HiddenCloudsMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     is HiddenCloudsForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is HiddenCloudsHintObject -> {
-                        dPalmTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        dPalmTree.draw(canvas)
-                        val text = game.pos2hint[p].toString()
-                        val s = o.state
-                        textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
-                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                    }
-                    is HiddenCloudsDuneObject -> {
-                        dDune.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is HiddenCloudsCloudObject -> {
+                        dCloud.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dDune.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dDune.draw(canvas)
+                        dCloud.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dCloud.draw(canvas)
                     }
                     else -> {}
                 }
+                val n = game.pos2hint[p] ?: continue
+                val s = game.pos2State(p)!!
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
-        for ((r, c) in game.invalid2x2Squares())
-            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
