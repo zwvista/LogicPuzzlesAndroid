@@ -26,6 +26,7 @@ class TheCityRisesGame(layout: List<String>, gi: GameInterface<TheCityRisesGame,
     var dots: GridDots
     val pos2hint = mutableMapOf<Position, Int>()
     val area2areas: Array<IntArray>
+    val area2hint: Array<Position?>
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
@@ -82,12 +83,16 @@ class TheCityRisesGame(layout: List<String>, gi: GameInterface<TheCityRisesGame,
         }
 
         area2areas = Array<IntArray>(areas.size) { IntArray(0) }
-        for ((i, area) in areas.withIndex())
+        area2hint = Array<Position?>(areas.size) { null }
+        for ((i, area) in areas.withIndex()) {
             area2areas[i] = area
                 .flatMap { p -> offset.map { p + it } }
                 .filter { isValid(it) }
                 .map { pos2area[it]!! }
+                .filter { it != i }
                 .toSortedSet().toIntArray()
+            area2hint[i] = area.firstOrNull { pos2hint[it] != null }
+        }
 
         val state = TheCityRisesGameState(this)
         levelInitialized(state)

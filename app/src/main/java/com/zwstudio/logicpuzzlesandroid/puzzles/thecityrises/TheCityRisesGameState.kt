@@ -64,12 +64,13 @@ class TheCityRisesGameState(game: TheCityRisesGame) : CellsGameState<TheCityRise
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols)
-                if (this[r, c] is TheCityRisesForbiddenObject)
-                    this[r, c] = TheCityRisesEmptyObject
-        // 2. A TheCityRises bar is a rectangular or a square.
-        // 3. TheCityRises tiles form bars independently of the area borders.
-        // 4. TheCityRises bars must not be orthogonally adjacent.
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                pos2state[p] = HintState.Normal
+                if (this[p] is TheCityRisesForbiddenObject)
+                    this[p] = TheCityRisesEmptyObject
+            }
+        // 3. Town blocks inside an area are horizontally or vertically contiguous.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
@@ -89,41 +90,51 @@ class TheCityRisesGameState(game: TheCityRisesGame) : CellsGameState<TheCityRise
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
-            val bar = mutableListOf<Position>()
+            val blocks = mutableListOf<Position>()
             for (node in nodeList) {
                 val p = pos2node.filterValues { it == node }.keys.first()
                 pos2node.remove(p)
-                bar.add(p)
-                if (r2 < p.row) r2 = p.row
-                if (r1 > p.row) r1 = p.row
-                if (c2 < p.col) c2 = p.col
-                if (c1 > p.col) c1 = p.col
+                blocks.add(p)
             }
-            val rs = r2 - r1 + 1
-            val cs = c2 - c1 + 1
-            val s = if (rs * cs == nodeList.size) AllowedObjectState.Normal else AllowedObjectState.Error
-            if (s != AllowedObjectState.Normal) isSolved = false
-            for (p in bar)
-                this[p] = TheCityRisesBlockObject(s)
-        }
-        // 5. A tile with a number indicates how many tiles in the area must
-        //    be block.
-        // 6. An area without number can have any number of tiles of block.
-        for (area in game.areas) {
-            val pHint = area.firstOrNull { game.pos2hint.contains(it) } ?: continue
+            // 4. Blocks in different areas cannot touch horizontally or vertically.
+            val cnt = blocks.map { game.pos2area[it]!! }.toSet().size
+            val s = if (cnt == 1) AllowedObjectState.Normal else AllowedObjectState.Error
+            if (s != AllowedObjectState.Normal) {
+                isSolved = false
+                for (p in blocks)
+                    this[p] = TheCityRisesBlockObject(s)
+            }
+            if (s != AllowedObjectState.Normal) continue
+            // 2. Each area describes a section of land, where the town concil has decided
+            //    to place as many city blocks as the number in it.
+            val nArea = game.pos2area[blocks[0]]!!
+            val area = game.areas[nArea]
+            val n1 = blocks.size
+            // 5. Areas without number can have any number of blocks.
+            val pHint = game.area2hint[nArea] ?: continue
             val n2 = game.pos2hint[pHint]!!
-            val n1 = area.filter { this[it] is TheCityRisesBlockObject }.size
-            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (s != HintState.Complete) isSolved = false
-            pos2state[pHint] = s
-            if (!(allowedObjectsOnly && s != HintState.Normal)) continue
-            val empties = area.filter { this[it] is TheCityRisesEmptyObject }
-            for (p in empties)
-                this[p] = TheCityRisesForbiddenObject
+            val s2 = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (s2 != HintState.Complete) isSolved = false
+            pos2state[pHint] = s2
+            if (allowedObjectsOnly && s2 != HintState.Normal)
+                area.filter { this[it] is TheCityRisesEmptyObject }.forEach {
+                    this[it] = TheCityRisesForbiddenObject
+                }
+        }
+        if (!isSolved) return
+        val area2blocks = game.areas.map { it.filter { this[it] is TheCityRisesBlockObject }.size }
+        // 5. There can't be empty areas.
+        if (area2blocks.any { it == 0 }) isSolved = false
+        // 6. Lastly, two neighbouring areas can't have the same number of blocks in them.
+        for ((i, n) in area2blocks.withIndex()) {
+            if (n == 0) continue
+            val areas = game.area2areas[i].filter { area2blocks[it] == n }
+            if (areas.isEmpty()) continue
+            isSolved = false
+            for (nArea in listOf(i) + areas) {
+                val pHint = game.area2hint[nArea] ?: continue
+                pos2state[pHint] = HintState.Error
+            }
         }
     }
 }
