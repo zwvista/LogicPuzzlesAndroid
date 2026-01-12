@@ -36,9 +36,9 @@ class TheCityRisesGameState(game: TheCityRisesGame) : CellsGameState<TheCityRise
         if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TheCityRisesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TheCityRisesMarkerObject else TheCityRisesTheCityRisesObject()
-            is TheCityRisesTheCityRisesObject -> if (markerOption == MarkerOptions.MarkerLast) TheCityRisesMarkerObject else TheCityRisesEmptyObject
-            is TheCityRisesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TheCityRisesTheCityRisesObject() else TheCityRisesEmptyObject
+            is TheCityRisesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TheCityRisesMarkerObject else TheCityRisesBlockObject()
+            is TheCityRisesBlockObject -> if (markerOption == MarkerOptions.MarkerLast) TheCityRisesMarkerObject else TheCityRisesEmptyObject
+            is TheCityRisesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TheCityRisesBlockObject() else TheCityRisesEmptyObject
             else -> o
         }
         return setObject(move)
@@ -75,7 +75,7 @@ class TheCityRisesGameState(game: TheCityRisesGame) : CellsGameState<TheCityRise
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is TheCityRisesTheCityRisesObject) continue
+                if (this[p] !is TheCityRisesBlockObject) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -108,15 +108,15 @@ class TheCityRisesGameState(game: TheCityRisesGame) : CellsGameState<TheCityRise
             val s = if (rs * cs == nodeList.size) AllowedObjectState.Normal else AllowedObjectState.Error
             if (s != AllowedObjectState.Normal) isSolved = false
             for (p in bar)
-                this[p] = TheCityRisesTheCityRisesObject(s)
+                this[p] = TheCityRisesBlockObject(s)
         }
         // 5. A tile with a number indicates how many tiles in the area must
-        //    be chocolate.
-        // 6. An area without number can have any number of tiles of chocolate.
+        //    be block.
+        // 6. An area without number can have any number of tiles of block.
         for (area in game.areas) {
             val pHint = area.firstOrNull { game.pos2hint.contains(it) } ?: continue
             val n2 = game.pos2hint[pHint]!!
-            val n1 = area.filter { this[it] is TheCityRisesTheCityRisesObject }.size
+            val n1 = area.filter { this[it] is TheCityRisesBlockObject }.size
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
             pos2state[pHint] = s

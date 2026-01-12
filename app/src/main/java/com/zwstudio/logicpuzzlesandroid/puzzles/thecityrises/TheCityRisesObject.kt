@@ -9,7 +9,7 @@ sealed class TheCityRisesObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> TheCityRisesMarkerObject
-            "chocolate" -> TheCityRisesTheCityRisesObject()
+            "block" -> TheCityRisesBlockObject()
             else -> TheCityRisesEmptyObject
         }
     }
@@ -25,8 +25,8 @@ object TheCityRisesForbiddenObject : TheCityRisesObject() {
     override fun objAsString() = "forbidden"
 }
 
-class TheCityRisesTheCityRisesObject(var state: AllowedObjectState = AllowedObjectState.Normal) : TheCityRisesObject() {
-    override fun objAsString() = "chocolate"
+class TheCityRisesBlockObject(var state: AllowedObjectState = AllowedObjectState.Normal) : TheCityRisesObject() {
+    override fun objAsString() = "block"
 }
 
 class TheCityRisesGameMove(val p: Position, var obj: TheCityRisesObject = TheCityRisesEmptyObject)
