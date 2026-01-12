@@ -2,13 +2,15 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.floorplan
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, FloorPlanGameMove, FloorPlanGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var pos2horzState = mutableMapOf<Position, HintState>()
-    var pos2vertState = mutableMapOf<Position, HintState>()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -21,7 +23,7 @@ class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, Fl
 
     override fun setObject(move: FloorPlanGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != FloorPlanGame.PUZ_EMPTY || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -29,9 +31,14 @@ class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, Fl
 
     override fun switchObject(move: FloorPlanGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != 0) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = (o + 1) % 10
+        if (!isValid(p) || game[p] != FloorPlanGame.PUZ_EMPTY) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
+        move.obj = when (val o = this[p]) {
+            FloorPlanGame.PUZ_EMPTY -> if (markerOption == MarkerOptions.MarkerFirst) FloorPlanGame.PUZ_MARKER else 1
+            FloorPlanGame.PUZ_MARKER -> if (markerOption == MarkerOptions.MarkerFirst) 1 else FloorPlanGame.PUZ_EMPTY
+            4 -> if (markerOption == MarkerOptions.MarkerLast) FloorPlanGame.PUZ_MARKER else FloorPlanGame.PUZ_EMPTY
+            else -> o + 1
+        }
         return setObject(move)
     }
 
@@ -49,17 +56,56 @@ class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, Fl
            offices with the same number can be adjacent.
     */
     private fun updateIsSolved() {
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (i in game.areas.indices) {
-            val a = game.areas[i]
-            val nums = a.map { this[it] }
-            val nums2 = nums.toSet().toList()
-            // 2. Each 'word' is formed by an uninterrupted sequence of numbers,
-            // but in any order.
-            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
-            for (p in a)
-                (if (i < game.horzAreaCount) pos2horzState else pos2vertState)[p] = s
-            if (s != HintState.Complete) isSolved = false
-        }
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                if (this[p] == FloorPlanGame.PUZ_FORBIDDEN)
+                    this[p] = FloorPlanGame.PUZ_EMPTY
+                if (this[p] > 0)
+                    pos2state[p] = HintState.Normal
+            }
+        // 2. Cells with a number represent an office. On the floor every office is
+        //    interconnected and can be reached by every other office.
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val n2 = this[p]
+                if (n2 <= 0) continue
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+                // 3. The number on a cell indicates how many offices it connects to. No two
+                //    offices with the same number can be adjacent.
+                val rng = FloorPlanGame.offset.map { p + it }.filter { isValid(it) }
+                val rng2 = rng.filter { this[it] == n2 }
+                if (rng2.isNotEmpty()) {
+                    isSolved = false
+                    pos2state[p] = HintState.Error
+                    for (p2 in rng2)
+                        pos2state[p2] = HintState.Error
+                }
+                if (pos2state[p] == HintState.Error) continue
+                val n1 = rng.filter { this[it] > 0 }.size
+                val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+                if (s != HintState.Complete) isSolved = false
+                pos2state[p] = s
+                if (allowedObjectsOnly && s != HintState.Normal)
+                    rng.filter { this[it] == FloorPlanGame.PUZ_EMPTY }.forEach {
+                        this[it] = FloorPlanGame.PUZ_FORBIDDEN
+                    }
+            }
+        if (!isSolved) return
+        for ((p, node) in pos2node)
+            for (i in 0 until 4) {
+                val p2 = p + FloorPlanGame.offset[i]
+                pos2node[p2]?.let { g.connectNode(node, it) }
+            }
+        g.rootNode = pos2node.values.first()
+        val nodeList = g.bfs()
+        if (nodeList.size != pos2node.size) isSolved = false
     }
 }

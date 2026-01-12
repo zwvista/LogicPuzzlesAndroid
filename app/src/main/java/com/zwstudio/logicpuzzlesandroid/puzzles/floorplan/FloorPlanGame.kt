@@ -8,11 +8,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class FloorPlanGame(layout: List<String>, gi: GameInterface<FloorPlanGame, FloorPlanGameMove, FloorPlanGameState>, gdi: GameDocumentInterface) : CellsGame<FloorPlanGame, FloorPlanGameMove, FloorPlanGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val PUZ_EMPTY = 0
+        val PUZ_MARKER = -1
+        val PUZ_FORBIDDEN = -2
     }
 
     var objArray: IntArray
-    var areas = mutableListOf<List<Position>>()
-    var horzAreaCount = 0
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -26,37 +27,8 @@ class FloorPlanGame(layout: List<String>, gi: GameInterface<FloorPlanGame, Floor
             val str = layout[r]
             for (c in 0 until cols) {
                 val ch = str[c]
-                this[r, c] = if (ch == '.') -1 else if (ch == ' ') 0 else ch - '0'
+                this[r, c] = if (ch == ' ') PUZ_EMPTY else ch - '0'
             }
-        }
-        val area = mutableListOf<Position>()
-        fun f(isHorz: Boolean) {
-            if (area.isEmpty()) return
-            if (area.size > 1) {
-                areas.add(ArrayList(area))
-                if (isHorz) horzAreaCount++
-            }
-            area.clear()
-        }
-        for (r in 0 until rows) {
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                if (this[p] == -1)
-                    f(true)
-                else
-                    area.add(p)
-            }
-            f(true)
-        }
-        for (c in 0 until cols) {
-            for (r in 0 until rows) {
-                val p = Position(r, c)
-                if (this[p] == -1)
-                    f(false)
-                else
-                    area.add(p)
-            }
-            f(false)
         }
         val state = FloorPlanGameState(this)
         levelInitialized(state)
@@ -64,6 +36,5 @@ class FloorPlanGame(layout: List<String>, gi: GameInterface<FloorPlanGame, Floor
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getHorzState(p: Position) = currentState.pos2horzState[p]
-    fun getVertState(p: Position) = currentState.pos2vertState[p]
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }
