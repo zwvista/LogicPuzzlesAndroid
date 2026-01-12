@@ -1477,6 +1477,18 @@
         <activity android:name=".puzzles.tents.TentsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.thecityrises.TheCityRisesMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thecityrises.TheCityRisesGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thecityrises.TheCityRisesHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thecityrises.TheCityRisesOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.thermometers.ThermometersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
