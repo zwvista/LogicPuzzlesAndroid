@@ -25,6 +25,7 @@ class UndergroundGameView(context: Context, val soundManager: SoundManager) : Ce
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val dUp: Drawable
     private val dRight: Drawable
     private val dDown: Drawable
@@ -38,6 +39,9 @@ class UndergroundGameView(context: Context, val soundManager: SoundManager) : Ce
         linePaint.strokeWidth = 20f
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.STROKE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         dUp = fromImageToDrawable("images/stairs_up.png")
         dRight = fromImageToDrawable("images/stairs_right.png")
         dDown = fromImageToDrawable("images/stairs_down.png")
@@ -62,6 +66,8 @@ class UndergroundGameView(context: Context, val soundManager: SoundManager) : Ce
                 when (val o = game.getObject(p)) {
                     UndergroundObject.Marker ->
                         canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
+                    UndergroundObject.Forbidden ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     UndergroundObject.Up -> f(dUp)
                     UndergroundObject.Right -> f(dRight)
                     UndergroundObject.Down -> f(dDown)
