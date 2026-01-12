@@ -19,7 +19,7 @@ class UndergroundGame(layout: List<String>, gi: GameInterface<UndergroundGame, U
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        var symbols = " R^>v<"
+        var chars = "^>v<"
     }
 
     var areas = mutableListOf<List<Position>>()
@@ -55,7 +55,7 @@ class UndergroundGame(layout: List<String>, gi: GameInterface<UndergroundGame, U
                 }
                 if (c == cols) break
                 val ch2 = str[c * 2 + 1]
-                set(Position(r, c), if (ch2 == 'B') UndergroundObject.Block else UndergroundObject.Empty)
+                set(Position(r, c), if (ch2 == ' ') UndergroundObject.Empty else UndergroundObject.entries[chars.indexOf(ch2) + 3])
             }
         }
         val rng = mutableSetOf<Position>()

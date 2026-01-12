@@ -25,9 +25,10 @@ class UndergroundGameView(context: Context, val soundManager: SoundManager) : Ce
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val markerPaint = Paint()
-    private val dBalloon: Drawable
-    private val dWeight: Drawable
-    private val dBlock: Drawable
+    private val dUp: Drawable
+    private val dRight: Drawable
+    private val dDown: Drawable
+    private val dLeft: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -37,9 +38,10 @@ class UndergroundGameView(context: Context, val soundManager: SoundManager) : Ce
         linePaint.strokeWidth = 20f
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.STROKE
-        dBalloon = fromImageToDrawable("images/balloon (1).png")
-        dWeight = fromImageToDrawable("images/dumbbell (1).png")
-        dBlock = fromImageToDrawable("images/wood horizontal.png")
+        dUp = fromImageToDrawable("images/stairs_up.png")
+        dRight = fromImageToDrawable("images/stairs_right.png")
+        dDown = fromImageToDrawable("images/stairs_down.png")
+        dLeft = fromImageToDrawable("images/stairs_left.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -60,9 +62,10 @@ class UndergroundGameView(context: Context, val soundManager: SoundManager) : Ce
                 when (val o = game.getObject(p)) {
                     UndergroundObject.Marker ->
                         canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
-                    UndergroundObject.Balloon -> f(dBalloon)
-                    UndergroundObject.Weight -> f(dWeight)
-                    UndergroundObject.Block -> f(dBlock)
+                    UndergroundObject.Up -> f(dUp)
+                    UndergroundObject.Right -> f(dRight)
+                    UndergroundObject.Down -> f(dDown)
+                    UndergroundObject.Left -> f(dLeft)
                     else -> {}
                 }
             }

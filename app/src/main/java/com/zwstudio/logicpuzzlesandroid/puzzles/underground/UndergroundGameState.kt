@@ -31,10 +31,12 @@ class UndergroundGameState(game: UndergroundGame) : CellsGameState<UndergroundGa
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
-            UndergroundObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) UndergroundObject.Marker else UndergroundObject.Balloon
-            UndergroundObject.Balloon -> UndergroundObject.Weight
-            UndergroundObject.Weight -> if (markerOption == MarkerOptions.MarkerLast) UndergroundObject.Marker else UndergroundObject.Empty
-            UndergroundObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) UndergroundObject.Balloon else UndergroundObject.Empty
+            UndergroundObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) UndergroundObject.Marker else UndergroundObject.Up
+            UndergroundObject.Up -> UndergroundObject.Right
+            UndergroundObject.Right -> UndergroundObject.Down
+            UndergroundObject.Down -> UndergroundObject.Left
+            UndergroundObject.Left -> if (markerOption == MarkerOptions.MarkerLast) UndergroundObject.Marker else UndergroundObject.Empty
+            UndergroundObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) UndergroundObject.Up else UndergroundObject.Empty
             else -> o
         }
         return setObject(move)
@@ -59,49 +61,5 @@ class UndergroundGameState(game: UndergroundGame) : CellsGameState<UndergroundGa
         for (r in 0 until rows)
             for (c in 0 until cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
-        // 1. Place a Balloon and a Weight in each Area.
-        for (area in game.areas) {
-            if (area.size == 1) continue
-            val symbol2range = mutableMapOf<UndergroundObject, MutableList<Position>>()
-            symbol2range[UndergroundObject.Balloon] = mutableListOf()
-            symbol2range[UndergroundObject.Weight] = mutableListOf()
-            for (p in area) {
-                val o = this[p]
-                if (o == UndergroundObject.Balloon || o == UndergroundObject.Weight)
-                    symbol2range[o]!!.add(p)
-            }
-            for ((_, range) in symbol2range)
-                if (range.size != 1) {
-                    isSolved = false
-                    for (p in range)
-                        pos2state[p] = AllowedObjectState.Error
-                }
-        }
-        if (!isSolved) return
-        // 2. Helium Balloons ten to float to the top, while Iron Weight tend to fall
-        //    to the ground.
-        for (c in 0 until cols)
-            for (r in 0 until rows) {
-                val p = Position(r, c)
-                // 3. A Balloon can be placed on the top of the board, under another Balloon,
-                //    or under a Block.
-                when (this[p]) {
-                    UndergroundObject.Balloon ->
-                        // 3. A Balloon can be placed on the top of the board, under another Balloon,
-                        //    or under a Block.
-                        if (!(r == 0 || this[r - 1, c] == UndergroundObject.Balloon || this[r - 1, c] == UndergroundObject.Block)) {
-                            isSolved = false
-                            pos2state[p] = AllowedObjectState.Error
-                        }
-                    UndergroundObject.Weight ->
-                        // 4. A Weight can be placed on the bottom of the board, over another Weight,
-                        //    or over a Block.
-                        if (!(r == rows - 1 || this[r + 1, c] == UndergroundObject.Weight || this[r + 1, c] == UndergroundObject.Block)) {
-                            isSolved = false
-                            pos2state[p] = AllowedObjectState.Error
-                        }
-                    else -> {}
-                }
-            }
     }
 }

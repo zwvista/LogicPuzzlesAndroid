@@ -61,10 +61,9 @@ class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, Fl
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
+                pos2state[p] = HintState.Normal
                 if (this[p] == FloorPlanGame.PUZ_FORBIDDEN)
                     this[p] = FloorPlanGame.PUZ_EMPTY
-                if (this[p] > 0)
-                    pos2state[p] = HintState.Normal
             }
         // 2. Cells with a number represent an office. On the floor every office is
         //    interconnected and can be reached by every other office.
