@@ -1165,6 +1165,18 @@
         <activity android:name=".puzzles.productsentinels.ProductSentinelsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.rabbits.RabbitsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rabbits.RabbitsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rabbits.RabbitsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.rabbits.RabbitsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.rippleeffect.RippleEffectMainActivity"
                   android:screenOrientation="portrait">
         </activity>

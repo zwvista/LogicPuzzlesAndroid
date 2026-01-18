@@ -1,4 +1,4 @@
-package com.zwstudio.logicpuzzlesandroid.puzzles.thecityrises
+package com.zwstudio.logicpuzzlesandroid.puzzles.rabbits
 
 import android.content.Context
 import android.graphics.Canvas
@@ -11,13 +11,12 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class TheCityRisesGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
-    private val activity get() = context as TheCityRisesGameActivity
+class RabbitsGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
+    private val activity get() = context as RabbitsGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
     private val cols get() = if (isInEditMode) 5 else game.cols
@@ -26,25 +25,21 @@ class TheCityRisesGameView(context: Context, val soundManager: SoundManager) : C
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
-    private val forbiddenPaint = Paint()
-    private val linePaint = Paint()
     private val textPaint = TextPaint()
-    private val dBlock: Drawable
+    private val forbiddenPaint = Paint()
+    private val dTower: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        linePaint.color = Color.YELLOW
-        linePaint.style = Paint.Style.STROKE
-        linePaint.strokeWidth = 20f
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
+        textPaint.isAntiAlias = true
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        textPaint.isAntiAlias = true
-        dBlock = fromImageToDrawable("images/tower_wall_noborder.png")
+        dTower = fromImageToDrawable("images/tower.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -55,30 +50,25 @@ class TheCityRisesGameView(context: Context, val soundManager: SoundManager) : C
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is TheCityRisesBlockObject -> {
-                        dBlock.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    is RabbitsTowerObject -> {
+                        dTower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dBlock.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dBlock.draw(canvas)
+                        dTower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dTower.draw(canvas)
                     }
-                    is TheCityRisesMarkerObject ->
+                    is RabbitsMarkerObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is TheCityRisesForbiddenObject ->
+                    is RabbitsForbiddenObject ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
-                val n = game.pos2hint[p] ?: continue
-                val s = game.pos2State(p)!!
-                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-            }
-        for (r in 0 until rows + 1)
-            for (c in 0 until cols + 1) {
-                if (game.dots[r, c, 1] == GridLineObject.Line)
-                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-                if (game.dots[r, c, 2] == GridLineObject.Line)
-                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+                val n = game.pos2hint[p]
+                if (n != null) {
+                    val state = game.pos2State(p)
+                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                    val text = n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
             }
     }
 
@@ -87,7 +77,7 @@ class TheCityRisesGameView(context: Context, val soundManager: SoundManager) : C
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
-            val move = TheCityRisesGameMove(Position(row, col))
+            val move = RabbitsGameMove(Position(row, col))
             if (game.switchObject(move))
                 soundManager.playSoundTap()
         }
