@@ -10,7 +10,8 @@ sealed class RabbitsObject {
     companion object {
         fun objFromString(str: String) = when (str) {
             "marker" -> RabbitsMarkerObject
-            "tower" -> RabbitsTowerObject()
+            "rabbit" -> RabbitsRabbitObject()
+            "tree" -> RabbitsTreeObject()
             else -> RabbitsMarkerObject
         }
     }
@@ -30,8 +31,12 @@ object RabbitsMarkerObject : RabbitsObject() {
     override fun objAsString() = "marker"
 }
 
-class RabbitsTowerObject(var state: AllowedObjectState = AllowedObjectState.Normal) : RabbitsObject() {
-    override fun objAsString() = "tower"
+class RabbitsRabbitObject(var state: AllowedObjectState = AllowedObjectState.Normal) : RabbitsObject() {
+    override fun objAsString() = "rabbit"
+}
+
+class RabbitsTreeObject(var state: AllowedObjectState = AllowedObjectState.Normal) : RabbitsObject() {
+    override fun objAsString() = "tree"
 }
 
 class RabbitsGameMove(val p: Position, var obj: RabbitsObject = RabbitsEmptyObject)

@@ -1,6 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.rabbits
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RabbitsGameState(game: RabbitsGame) : CellsGameState<RabbitsGame, RabbitsGameMove, RabbitsGameState>(game) {
     var objArray = Array<RabbitsObject>(rows * cols) { RabbitsEmptyObject }
@@ -28,9 +33,10 @@ class RabbitsGameState(game: RabbitsGame) : CellsGameState<RabbitsGame, RabbitsG
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is RabbitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) RabbitsMarkerObject else RabbitsTowerObject()
-            is RabbitsTowerObject -> if (markerOption == MarkerOptions.MarkerLast) RabbitsMarkerObject else RabbitsEmptyObject
-            is RabbitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) RabbitsTowerObject() else RabbitsEmptyObject
+            is RabbitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) RabbitsMarkerObject else RabbitsRabbitObject()
+            is RabbitsRabbitObject -> RabbitsTreeObject()
+            is RabbitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) RabbitsMarkerObject else RabbitsEmptyObject
+            is RabbitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) RabbitsRabbitObject() else RabbitsEmptyObject
             else -> o
         }
         return setObject(move)
@@ -53,76 +59,60 @@ class RabbitsGameState(game: RabbitsGame) : CellsGameState<RabbitsGame, RabbitsG
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val o = this[r, c]
-                if (o is RabbitsTowerObject)
-                    o.state = AllowedObjectState.Normal
-                else {
-                    if (o is RabbitsForbiddenObject)
-                        this[r, c] = RabbitsEmptyObject
-                    val p = Position(r, c)
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
-                }
-            }
-        // 4. two Towers can't touch horizontally or vertically.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                fun hasNeighbor(): Boolean {
-                    for (os in RabbitsGame.offset) {
-                        val p2 = p + os
-                        if (isValid(p2) && this[p2] is RabbitsTowerObject)
-                            return true
-                    }
-                    return false
+                when (this[p]) {
+                    is RabbitsRabbitObject -> this[p] = RabbitsRabbitObject()
+                    is RabbitsTreeObject -> this[p] = RabbitsTreeObject()
+                    is RabbitsForbiddenObject -> this[p] = RabbitsEmptyObject
+                    else -> {}
                 }
-                val o = this[r, c]
-                if (o is RabbitsTowerObject)
-                    o.state = if (o.state == AllowedObjectState.Normal && !hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
-                else if ((o is RabbitsEmptyObject || o is RabbitsMarkerObject) && allowedObjectsOnly && hasNeighbor())
-                    this[r, c] = RabbitsForbiddenObject
             }
-        // 2. The number tells you how many tiles that Sentinel can control (see) from
-        // there vertically and horizontally. This includes the tile where he is
-        // located.
+        // 4. Each row and column has exactly one Tree and one Rabbit.
+        fun f(rng: List<Position>) {
+            val rngRabbit = rng.filter { this[it] is RabbitsRabbitObject }
+            if (rngRabbit.size != 1) {
+                isSolved = false
+                for (p in rngRabbit) this[p] = RabbitsRabbitObject(state = AllowedObjectState.Error)
+            }
+            val rngTree = rng.filter { this[it] is RabbitsTreeObject }
+            if (rngTree.size != 1) {
+                isSolved = false
+                for (p in rngTree) this[p] = RabbitsTreeObject(state = AllowedObjectState.Error)
+            }
+            if (allowedObjectsOnly && rngRabbit.size >= 1 && rngTree.size >= 1) {
+                val rngEmpty = rng.filter { this[it] is RabbitsEmptyObject }
+                for (p in rngEmpty) this[p] = RabbitsForbiddenObject
+            }
+        }
+        for (r in 0 until rows) {
+            val rng = (0 until cols).map { Position(r, it) }
+            f(rng)
+        }
+        for (c in 0 until cols) {
+            val rng = (0 until rows).map { Position(it, c) }
+            f(rng)
+        }
+        // 2. Each number tells you how many Rabbits can be seen from that tile,
+        //    in an horizontal and vertical line.
+        // 3. Tree hide Rabbits, numbers don't.
         for ((p, n2) in game.pos2hint) {
-            val nums = intArrayOf(0, 0, 0, 0)
-            val rng = mutableListOf<Position>()
-            next@ for (i in 0 until 4) {
-                val os = RabbitsGame.offset[i]
+            var n1 = 0
+            next@ for (os in RabbitsGame.offset) {
                 var p2 = p + os
                 while (isValid(p2)) {
-                    val o2 = this[p2]
-                    if (o2 is RabbitsTowerObject) continue@next
-                    if (o2 is RabbitsEmptyObject)
-                        rng.add(+p2)
-                    nums[i]++
+                    when (this[p2]) {
+                        is RabbitsRabbitObject -> { n1 += 1; continue@next }
+                        is RabbitsTreeObject -> continue@next
+                        else -> {}
+                    }
                     p2 += os
                 }
             }
-            val n1 = nums[0] + nums[1] + nums[2] + nums[3] + 1
-            pos2state[p] = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2)
-                isSolved = false
-            else
-                for (p2 in rng)
-                    this[p2] = RabbitsForbiddenObject
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            this[p] = RabbitsHintObject(state = s)
+            if (s != HintState.Complete) isSolved = false
         }
-        if (!isSolved) return
-        for ((p, node) in pos2node) {
-            for (os in RabbitsGame.offset) {
-                val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
-            }
-        }
-        // 4. There must be a single continuous Garden
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
     }
 }
