@@ -1093,6 +1093,18 @@
         <activity android:name=".puzzles.pata.PataOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pathonthemountains.PathOnTheMountainsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pathonthemountains.PathOnTheMountainsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pathonthemountains.PathOnTheMountainsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pathonthemountains.PathOnTheMountainsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pipemania.PipemaniaMainActivity"
                   android:screenOrientation="portrait">
         </activity>
