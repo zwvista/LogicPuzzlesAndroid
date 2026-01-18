@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -25,6 +26,7 @@ class UnseenGameView(context: Context, val soundManager: SoundManager) : CellsGa
     private val line2Paint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
+    private val dEye: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,6 +41,7 @@ class UnseenGameView(context: Context, val soundManager: SoundManager) : CellsGa
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
+        dEye = fromImageToDrawable("images/see.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -50,6 +53,8 @@ class UnseenGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 val p = Position(r, c)
                 val n = game.pos2hint[p]
                 if (n != null) {
+                    dEye.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dEye.draw(canvas)
                     val state = game.getState(p)
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
