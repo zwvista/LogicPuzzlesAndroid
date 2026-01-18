@@ -77,7 +77,7 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
             var i = ch2dirs[p]!![0]
             var os = TurnMeUpGame.offset[i]
             var p2 = p + os
-            var nTurn = 0
+            var turns = 0
             while (true) {
                 val j = (i + 2) % 4
                 var dirs = ch2dirs[p2]!!
@@ -85,14 +85,14 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
                 if (dirs.isEmpty()) break
                 val k = dirs[0]
                 if (k != i) {
-                    nTurn++
+                    turns++
                     i = k
                 }
                 os = TurnMeUpGame.offset[i]
                 p2 += os
             }
             val ch2 = game[p2]
-            if (ch1 == TurnMeUpGame.PUZ_QM || ch2 == TurnMeUpGame.PUZ_QM || ch1 == ch2 && ch1 - '0' == nTurn) {
+            if (ch1 == TurnMeUpGame.PUZ_QM || ch2 == TurnMeUpGame.PUZ_QM || ch1 == ch2 && ch1 - '0' == turns) {
               circles.remove(p); circles.remove(p2)
             } else {
                 isSolved = false; return

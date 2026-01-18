@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -23,6 +24,7 @@ class PathOnTheMountainsGameView(context: Context, val soundManager: SoundManage
     private val linePaint = Paint()
     private val blockPaint = Paint()
     private val textPaint = TextPaint()
+    private val dMountains: Drawable
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -36,6 +38,7 @@ class PathOnTheMountainsGameView(context: Context, val soundManager: SoundManage
         blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
+        dMountains = fromImageToDrawable("images/mountains.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -45,8 +48,9 @@ class PathOnTheMountainsGameView(context: Context, val soundManager: SoundManage
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val ch = game[r, c]
-                if (ch != ' ')
-                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                if (ch == ' ') continue
+                dMountains.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dMountains.draw(canvas)
             }
         if (isInEditMode) return
         for (r in 0 until rows)

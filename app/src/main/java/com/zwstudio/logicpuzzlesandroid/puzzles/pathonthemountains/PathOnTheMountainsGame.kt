@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PathOnTheMountainsGame(layout: List<String>, gi: GameInterface<PathOnTheMountainsGame, PathOnTheMountainsGameMove, PathOnTheMountainsGameState>, gdi: GameDocumentInterface) : CellsGame<PathOnTheMountainsGame, PathOnTheMountainsGameMove, PathOnTheMountainsGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
     }
 

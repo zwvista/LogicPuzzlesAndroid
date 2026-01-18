@@ -53,42 +53,31 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = get(r, c)
-                val ch = game[r, c]
-                val dirs = mutableListOf<Int>()
-                for (i in 0 until 4)
-                    if (o[i])
-                        dirs.add(i)
-                when (dirs.size) {
-                    0 ->                     // 1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
-                        if (ch != ' ') {
-                            isSolved = false
-                            return
-                        }
-                    2 -> {
-                        val node = Node(p.toString())
-                        g.addNode(node)
-                        pos2node[p] = node
-                        pos2Dirs[p] = dirs
-                        when (ch) {
-                            'B' ->                         // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
-                                if (dirs[1] - dirs[0] == 2) {
-                                    isSolved = false
-                                    return
-                                }
-                            'W' ->                         // 3. Lines passing through White Pearls must go straight through them.
-                                if (dirs[1] - dirs[0] != 2) {
-                                    isSolved = false
-                                    return
-                                }
-                        }
+                val ch = game[p]
+                val dirs = (0 until 4).filter { this[p][it] }
+                if (dirs.size == 2) {
+                    val node = Node(p.toString())
+                    g.addNode(node)
+                    pos2node[p] = node
+                    pos2Dirs[p] = dirs
+                    when (ch) {
+                        'B' ->                         // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
+                            if (dirs[1] - dirs[0] == 2) {
+                                isSolved = false
+                                return
+                            }
+
+                        'W' ->                         // 3. Lines passing through White Pearls must go straight through them.
+                            if (dirs[1] - dirs[0] != 2) {
+                                isSolved = false
+                                return
+                            }
                     }
-                    else -> {
-                        // 1. The goal is to draw a single Loop(Necklace)
-                        // that never branches-off or crosses itself.
-                        isSolved = false
-                        return
-                    }
+                } else if (!(dirs.isEmpty() && ch == ' ')) {
+                    // 1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
+                    //    that never branches-off or crosses itself.
+                    isSolved = false
+                    return
                 }
             }
         for ((p, _) in pos2node) {

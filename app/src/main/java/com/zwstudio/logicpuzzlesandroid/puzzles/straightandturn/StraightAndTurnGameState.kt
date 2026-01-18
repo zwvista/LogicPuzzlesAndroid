@@ -54,7 +54,7 @@ class StraightAndTurnGameState(game: StraightAndTurnGame) : CellsGameState<Strai
                 if (dirs.size == 2)
                     // 1. Draw a path that crosses all gems
                     pos2Dirs[p] = dirs
-                else if (dirs.isNotEmpty()) {
+                else if (!(dirs.isEmpty() && game[p] == ' ')) {
                     // The loop cannot cross itself.
                     isSolved = false; return
                 }
