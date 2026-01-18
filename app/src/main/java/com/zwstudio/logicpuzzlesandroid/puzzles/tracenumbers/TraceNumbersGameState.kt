@@ -84,7 +84,6 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
                 if (ch != ' ') chars += ch
                 val j = (i + 2) % 4
                 var dirs = ch2dirs[p2]!!
-                if (!dirs.contains(j)) { isSolved = false; return }
                 dirs = dirs.filter { it != j }
                 if (dirs.isEmpty()) break
                 i = dirs[0]

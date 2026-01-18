@@ -42,7 +42,7 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
     */
     private fun updateIsSolved() {
         isSolved = true
-        val chOneList = mutableListOf<Position>()
+        val circles = mutableSetOf<Position>()
         val ch2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
@@ -50,19 +50,20 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
                 val o = get(r, c)
                 val ch = game[r, c]
                 val dirs = (0 until 4).filter { o[it] }
+                // 2. The number on the circle tells you how many turns the connection
+                //    does between circles.
                 when (dirs.size) {
                     1 -> {
-                        // 2. You should draw as many lines into the grid as number sets:
-                        //    a line starts with the number 1, goes through the numbers in
-                        //    order up to the highest, where it ends.
-                        if (!(ch == TurnMeUpGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
-                        if (ch == TurnMeUpGame.PUZ_ONE) chOneList.add(p)
+                        if (ch == ' ') { isSolved = false; return }
+                        circles.add(p)
                         ch2dirs[p] = dirs
                     }
-                    2 -> ch2dirs[p] = dirs
+                    2 -> {
+                        if (ch != ' ') { isSolved = false; return }
+                        ch2dirs[p] = dirs
+                    }
                     else -> {
-                        // 3. In doing this, you have to pass through all tiles on the board.
-                        //    Lines cannot cross.
+                        // 4. All tiles on the board must be used
                         isSolved = false; return
                     }
                 }
@@ -70,24 +71,32 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
         // 2. You should draw as many lines into the grid as number sets:
         //    a line starts with the number 1, goes through the numbers in
         //    order up to the highest, where it ends.
-        for (p in chOneList) {
-            var chars = TurnMeUpGame.PUZ_ONE.toString()
+        while (circles.isNotEmpty()) {
+            val p = circles.first()
+            val ch1 = game[p]
             var i = ch2dirs[p]!![0]
             var os = TurnMeUpGame.offset[i]
             var p2 = p + os
+            var nTurn = 0
             while (true) {
-                val ch = game[p2]
-                if (ch != ' ') chars += ch
                 val j = (i + 2) % 4
                 var dirs = ch2dirs[p2]!!
-                if (!dirs.contains(j)) { isSolved = false; return }
                 dirs = dirs.filter { it != j }
                 if (dirs.isEmpty()) break
-                i = dirs[0]
+                val k = dirs[0]
+                if (k != i) {
+                    nTurn++
+                    i = k
+                }
                 os = TurnMeUpGame.offset[i]
                 p2 += os
             }
-            if (chars != game.expectedChars) { isSolved = false; return }
+            val ch2 = game[p2]
+            if (ch1 == TurnMeUpGame.PUZ_QM || ch2 == TurnMeUpGame.PUZ_QM || ch1 == ch2 && ch1 - '0' == nTurn) {
+              circles.remove(p); circles.remove(p2)
+            } else {
+                isSolved = false; return
+            }
         }
     }
 }

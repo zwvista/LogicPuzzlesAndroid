@@ -7,13 +7,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TurnMeUpGame(layout: List<String>, gi: GameInterface<TurnMeUpGame, TurnMeUpGameMove, TurnMeUpGameState>, gdi: GameDocumentInterface) : CellsGame<TurnMeUpGame, TurnMeUpGameMove, TurnMeUpGameState>(gi, gdi) {
     companion object {
-        const val PUZ_ONE = '1'
+        const val PUZ_QM = '?'
         val offset = Position.Directions4
     }
 
     var objArray: CharArray
-    var chMax = PUZ_ONE
-    var expectedChars = PUZ_ONE.toString()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -28,12 +26,8 @@ class TurnMeUpGame(layout: List<String>, gi: GameInterface<TurnMeUpGame, TurnMeU
             for (c in 0 until cols) {
                 val ch = str[c]
                 this[r, c] = ch
-                if (chMax < ch) chMax = ch
             }
         }
-        var ch = PUZ_ONE
-        while (ch != chMax)
-            expectedChars += ++ch
         val state = TurnMeUpGameState(this)
         levelInitialized(state)
     }
