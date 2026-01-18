@@ -1585,6 +1585,18 @@
         <activity android:name=".puzzles.underground.UndergroundOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.unseen.UnseenMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.unseen.UnseenGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.unseen.UnseenHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.unseen.UnseenOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.wallhints.WallHintsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
