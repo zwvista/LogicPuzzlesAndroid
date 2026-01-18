@@ -493,6 +493,18 @@
         <activity android:name=".puzzles.freeplanks.FreePlanksOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.funnynumbers.FunnyNumbersMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.funnynumbers.FunnyNumbersGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.funnynumbers.FunnyNumbersHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.funnynumbers.FunnyNumbersOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.futoshiki.FutoshikiMainActivity"
                   android:screenOrientation="portrait">
         </activity>
