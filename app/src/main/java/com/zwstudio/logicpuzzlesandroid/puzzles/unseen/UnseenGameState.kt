@@ -84,20 +84,25 @@ class UnseenGameState(game: UnseenGame) : CellsGameState<UnseenGame, UnseenGameM
             for (p in area)
                 pos2node.remove(p)
             val rng = area.filter { game.pos2hint.containsKey(it) }
-            // 1. Divide the board in rectangular areas, each with a number in it.
+            // 1. Divide the board to include one 'eye' (a number) in each region.
             if (rng.size != 1) {
                 for (p in rng)
                     pos2state[p] = HintState.Normal
                 isSolved = false
                 continue
             }
+            // 2. The eye can see in all four directions up to region borders.
+            // 3. The number tells you how many tiles the eye does NOT see in the region.
             val p = rng[0]
             val n2 = game.pos2hint[p]
-            var n1 = 0
-            for (i in 0 until 4)
-                if (this[p + UnseenGame.offset2[i]][UnseenGame.dirs[i]] == GridLineObject.Line) n1++
-            // 1. Just like Box It Up, you have to divide the Board in Boxes (Rectangles).
-            // 2. The number represents the area of that Box.
+            var n1 = area.size - 1
+            for (os in UnseenGame.offset) {
+                var p2 = p + os
+                while (area.contains(p2)) {
+                    n1--
+                    p2 += os
+                }
+            }
             val s = if (n1 == n2) HintState.Complete else HintState.Error
             pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
