@@ -673,6 +673,18 @@
         <activity android:name=".puzzles.islandconnections.IslandConnectionsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.joinme.JoinMeMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.joinme.JoinMeGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.joinme.JoinMeHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.joinme.JoinMeOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.kakurasu.KakurasuMainActivity"
                   android:screenOrientation="portrait">
         </activity>
