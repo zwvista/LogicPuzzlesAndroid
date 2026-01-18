@@ -361,6 +361,18 @@
         <activity android:name=".puzzles.digitalpath.DigitalPathOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.directionalplanks.DirectionalPlanksMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.directionalplanks.DirectionalPlanksGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.directionalplanks.DirectionalPlanksHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.directionalplanks.DirectionalPlanksOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.disconnectfour.DisconnectFourMainActivity"
                   android:screenOrientation="portrait">
         </activity>
