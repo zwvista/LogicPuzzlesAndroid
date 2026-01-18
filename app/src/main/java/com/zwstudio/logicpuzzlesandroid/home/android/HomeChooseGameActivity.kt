@@ -77,6 +77,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "Square100" to "Square 100",
             "TapAlike" to "Tap-Alike",
             "TapARow" to "Tap-A-Row",
+            "TurnMeUp" to "Turn me up",
         )
         private val UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
 

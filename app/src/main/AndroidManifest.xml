@@ -1561,6 +1561,18 @@
         <activity android:name=".puzzles.trebuchet.TrebuchetOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.turnmeup.TurnMeUpMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.turnmeup.TurnMeUpGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.turnmeup.TurnMeUpHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.turnmeup.TurnMeUpOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.turntwice.TurnTwiceMainActivity"
                   android:screenOrientation="portrait">
         </activity>
