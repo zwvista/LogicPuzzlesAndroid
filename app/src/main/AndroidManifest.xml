@@ -373,6 +373,18 @@
         <activity android:name=".puzzles.digitalpath.DigitalPathOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.digitworms.DigitWormsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitworms.DigitWormsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitworms.DigitWormsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.digitworms.DigitWormsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.directionalplanks.DirectionalPlanksMainActivity"
                   android:screenOrientation="portrait">
         </activity>
