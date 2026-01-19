@@ -78,7 +78,6 @@ class FreePlanksGameState(game: FreePlanksGame) : CellsGameState<FreePlanksGame,
             }
         woods.clear()
         val planks = mutableListOf<MutableList<Position>>()
-        val pos2plank = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
@@ -87,24 +86,24 @@ class FreePlanksGameState(game: FreePlanksGame) : CellsGameState<FreePlanksGame,
                 pos2node.remove(p)
             val rng = area.filter { game.nails.contains(it) }
             if (rng.isEmpty()) continue
-            // 2. Planks are areas of exactly three cells and can be straight or angled.
-            if (area.size != 3) { isSolved = false; continue }
             // 1. Locate some pieces of wood (Planks).
+            // 2. Planks are areas of exactly three cells and can be straight or angled.
             // 3. Each Plank contains one nail.
-            if (rng.size != 1) { isSolved = false; continue }
-            val n = planks.size
+            if (area.size != 3 || rng.size != 1) { isSolved = false; continue }
             planks.add(area)
             for (p in area) {
-                pos2plank[p] = n
                 woods.add(p)
             }
         }
+        if (!isSolved) return
+        fun isValidWood(p: Position): Boolean =
+            p.row in 0 until rows - 1 && p.col in 0 until cols - 1
         // 4. After finding all the Planks, it must be possible to move each piece
         //    by one cell in at least one direction.
         for (plank in planks)
             if (!FreePlanksGame.offset.any { os ->
                 val area = plank.map { it + os }
-                area.all { plank.contains(it) || !woods.contains(it) }
+                area.all { plank.contains(it) || isValidWood(it) && !woods.contains(it) }
             }) isSolved = false
     }
 }

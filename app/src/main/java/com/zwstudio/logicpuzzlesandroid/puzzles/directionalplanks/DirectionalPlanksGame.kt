@@ -19,7 +19,7 @@ class DirectionalPlanksGame(layout: List<String>, gi: GameInterface<DirectionalP
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    var nails = mutableSetOf<Position>()
+    var pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -33,7 +33,7 @@ class DirectionalPlanksGame(layout: List<String>, gi: GameInterface<DirectionalP
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                nails.add(p)
+                pos2hint[p] = ch - '0'
             }
         }
         for (r in 0 until rows - 1) {
@@ -55,4 +55,5 @@ class DirectionalPlanksGame(layout: List<String>, gi: GameInterface<DirectionalP
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun woods() = currentState.woods
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }

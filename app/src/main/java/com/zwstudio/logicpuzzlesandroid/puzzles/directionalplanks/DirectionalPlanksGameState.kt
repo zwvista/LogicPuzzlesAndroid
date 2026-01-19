@@ -5,6 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -12,6 +13,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class DirectionalPlanksGameState(game: DirectionalPlanksGame) : CellsGameState<DirectionalPlanksGame, DirectionalPlanksGameMove, DirectionalPlanksGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
     var woods = mutableSetOf<Position>()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -66,6 +68,8 @@ class DirectionalPlanksGameState(game: DirectionalPlanksGame) : CellsGameState<D
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
+                if (game.pos2hint.contains(p))
+                    pos2state[p] = HintState.Normal
             }
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
@@ -76,33 +80,35 @@ class DirectionalPlanksGameState(game: DirectionalPlanksGame) : CellsGameState<D
             }
         woods.clear()
         val planks = mutableListOf<MutableList<Position>>()
-        val pos2plank = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }.toMutableList()
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.nails.contains(it) }
+            val rng = area.filter { game.pos2hint.contains(it) }
             if (rng.isEmpty()) continue
-            // 2. Planks are areas of exactly three cells and can be straight or angled.
-            if (area.size != 3) { isSolved = false; continue }
-            // 1. Locate some pieces of wood (Planks).
-            // 3. Each Plank contains one nail.
-            if (rng.size != 1) { isSolved = false; continue }
-            val n = planks.size
+            // 1. Divide the board in areas of three tiles (planks_offset).
+            if (area.size != 3 || rng.size != 1) { isSolved = false; continue }
             planks.add(area)
             for (p in area) {
-                pos2plank[p] = n
                 woods.add(p)
             }
         }
-        // 4. After finding all the Planks, it must be possible to move each piece
-        //    by one cell in at least one direction.
-        for (plank in planks)
-            if (!DirectionalPlanksGame.offset.any { os ->
+        fun isValidWood(p: Position): Boolean =
+            p.row in 0 until rows - 1 && p.col in 0 until cols - 1
+        // 2. Each plank contains one number and the number tells you how many
+        //    directions the Plank can move, when the board is completed.
+        for (plank in planks) {
+            val pHint = plank.first { game.pos2hint.keys.contains(it) }
+            val n2 = game.pos2hint[pHint]!!
+            val n1 = DirectionalPlanksGame.offset.count { os ->
                 val area = plank.map { it + os }
-                area.all { plank.contains(it) || !woods.contains(it) }
-            }) isSolved = false
+                area.all { plank.contains(it) || isValidWood(it) && !woods.contains(it) }
+            }
+            val s = if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
+        }
     }
 }

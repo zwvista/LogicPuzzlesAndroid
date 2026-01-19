@@ -5,9 +5,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
+import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -23,7 +25,7 @@ class DirectionalPlanksGameView(context: Context, val soundManager: SoundManager
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val markerPaint = Paint()
-    private val dNail: Drawable
+    private val textPaint = TextPaint()
     private val dWood: Drawable
 
     init {
@@ -38,7 +40,7 @@ class DirectionalPlanksGameView(context: Context, val soundManager: SoundManager
         markerPaint.color = Color.YELLOW
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
-        dNail = fromImageToDrawable("images/nail_head.png")
+        textPaint.isAntiAlias = true
         dWood = fromImageToDrawable("images/wood horizontal.png")
     }
 
@@ -53,10 +55,11 @@ class DirectionalPlanksGameView(context: Context, val soundManager: SoundManager
                     dWood.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dWood.draw(canvas)
                 }
-                if (game.nails.contains(p)) {
-                    dNail.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dNail.draw(canvas)
-                }
+                val n = game.pos2hint[p] ?: continue
+                val s = game.pos2State(p)
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
         val markerOffset = 20
