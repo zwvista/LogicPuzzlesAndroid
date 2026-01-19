@@ -313,6 +313,18 @@
         <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.crossroadsx.CrossroadsXMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crossroadsx.CrossroadsXGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crossroadsx.CrossroadsXHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crossroadsx.CrossroadsXOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.culturedbranches.CulturedBranchesMainActivity"
                   android:screenOrientation="portrait">
         </activity>
