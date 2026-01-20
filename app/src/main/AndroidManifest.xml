@@ -1201,6 +1201,18 @@
         <activity android:name=".puzzles.plugitin.PlugItInOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pondcamping.PondCampingMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pondcamping.PondCampingGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pondcamping.PondCampingHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pondcamping.PondCampingOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pouringwater.PouringWaterMainActivity"
                   android:screenOrientation="portrait">
         </activity>
