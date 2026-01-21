@@ -21,7 +21,8 @@ class CrossroadsXGameState(game: CrossroadsXGame) : CellsGameState<CrossroadsXGa
     override fun setObject(move: CrossroadsXGameMove): GameOperationType {
         val p = move.p
         if (!isValid(p) || game[p] != CrossroadsXGame.PUZ_EMPTY || this[p] == move.obj) return GameOperationType.Invalid
-        this[p] = move.obj
+        for (p2 in game.areas[game.pos2area[p]!!])
+            this[p2] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
@@ -30,7 +31,7 @@ class CrossroadsXGameState(game: CrossroadsXGame) : CellsGameState<CrossroadsXGa
         val p = move.p
         if (!isValid(p) || game[p] != CrossroadsXGame.PUZ_EMPTY) return GameOperationType.Invalid
         val o = this[p]
-        move.obj = if (o == game.areas[game.pos2area[p]!!].size) CrossroadsXGame.PUZ_EMPTY else o + 1
+        move.obj = if (o == 9) CrossroadsXGame.PUZ_EMPTY else o + 1
         return setObject(move)
     }
 

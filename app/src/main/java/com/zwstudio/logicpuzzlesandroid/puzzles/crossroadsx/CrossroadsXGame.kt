@@ -81,7 +81,11 @@ class CrossroadsXGame(layout: List<String>, gi: GameInterface<CrossroadsXGame, C
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size
-            for (p in area) pos2area[p] = n
+            val p2 = area.firstOrNull { this[it] != PUZ_EMPTY }
+            for (p in area) {
+                pos2area[p] = n
+                if (p2 != null) this[p] = this[p2]
+            }
             areas.add(area)
             rng.removeAll(area)
         }
