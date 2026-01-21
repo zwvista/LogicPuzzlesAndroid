@@ -1189,6 +1189,18 @@
         <activity android:name=".puzzles.planks.PlanksOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pleasecomeback.PleaseComeBackMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pleasecomeback.PleaseComeBackGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pleasecomeback.PleaseComeBackHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pleasecomeback.PleaseComeBackOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.plugitin.PlugItInMainActivity"
                   android:screenOrientation="portrait">
         </activity>
