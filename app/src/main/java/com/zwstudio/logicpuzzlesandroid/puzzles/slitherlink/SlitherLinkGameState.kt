@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.runinaloop.RunInALoopGame
 
 class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGame, SlitherLinkGameMove, SlitherLinkGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
@@ -100,7 +99,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             if (dirs == null) { isSolved = false; return }
             pos2Dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
-            p2 += RunInALoopGame.offset[n]
+            p2 += SlitherLinkGame.offset[n]
             if (p2 == p) return
         }
     }

@@ -10,11 +10,10 @@ class SlitherCornerGame(layout: List<String>, gi: GameInterface<SlitherCornerGam
         val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
+            Position(0, 1),
             Position(1, 1),
-            Position(1, 1),
-            Position(0, 0)
+            Position(1, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
     }
 
     val pos2hint = mutableMapOf<Position, Int>()

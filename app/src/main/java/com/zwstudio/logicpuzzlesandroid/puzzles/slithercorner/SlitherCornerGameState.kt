@@ -2,11 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slithercorner
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SlitherCornerGameState(game: SlitherCornerGame) : CellsGameState<SlitherCornerGame, SlitherCornerGameMove, SlitherCornerGameState>(game) {
@@ -64,47 +62,47 @@ class SlitherCornerGameState(game: SlitherCornerGame) : CellsGameState<SlitherCo
     */
     private fun updateIsSolved() {
         isSolved = true
-        // 2. Each number in a tile tells you on how many of its four sides are touched
-        // by the path.
+        // 1. Draw a single looping path with the aid of the numbered hints.
+        // 2. The number in a cell tells you how many tiles the path turn by 90
+        //    degrees around it.
         for ((p, n2) in game.pos2hint) {
-            var n1 = 0
-            for (i in 0 until 4)
-                if (this[p + SlitherCornerGame.offset2[i]][SlitherCornerGame.dirs[i]] == GridLineObject.Line) n1++
-            pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2) isSolved = false
+            val pDots = SlitherCornerGame.offset2.map { p + it }
+            val counts = pDots.map { p2 -> (0 until 4).count { this[p2][it] == GridLineObject.Line } }
+            if (counts.all { it == 0 } || !counts.all { it == 2 || it == 0 })
+                pos2state[p] = HintState.Normal
+            else {
+                val dirs2D = pDots.map { p2 -> (0 until 4).filter { this[p2][it] == GridLineObject.Line } }.filter { it.size == 2 }
+                val n1 = dirs2D.count { it[1] - it[0] != 2 }
+                pos2state[p] = if (n1 == n2) HintState.Complete else HintState.Error
+            }
+            if (pos2state[p] != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
+        val pos2Dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val n = this[p].filter { it == GridLineObject.Line }.size
-                when (n) {
-                    0 -> {}
-                    2 -> {
-                        val node = Node(p.toString())
-                        g.addNode(node)
-                        pos2node[p] = node
-                    }
-                    else -> {
-                        // 1. The path cannot have branches or cross itself.
-                        isSolved = false
-                        return
-                    }
+                val dirs = (0 until 4).filter { this[p][it] == GridLineObject.Line }
+                if (dirs.size == 2)
+                // 1. Draw a single looping path
+                    pos2Dirs[p] = dirs
+                else if (dirs.isNotEmpty()) {
+                    // 1. The path cannot have branches or cross itself.
+                    isSolved = false; return
                 }
             }
-        for (p in pos2node.keys) {
-            val dotObj = this[p]
-            for (i in 0 until 4) {
-                if (dotObj[i] != GridLineObject.Line) continue
-                val p2 = p + SlitherCornerGame.offset[i]
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
-            }
+        // Check the loop
+        val p = pos2Dirs.keys.firstOrNull()
+        if (p == null) { isSolved = false; return }
+        var p2 = p
+        var n = -1
+        while (true) {
+            val dirs = pos2Dirs[p2]
+            if (dirs == null) { isSolved = false; return }
+            pos2Dirs.remove(p2)
+            n = dirs.first { (it + 2) % 4 != n }
+            p2 += SlitherCornerGame.offset[n]
+            if (p2 == p) return
         }
-        // 1. Draw a single looping path with the aid of the numbered hints.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
     }
 }
