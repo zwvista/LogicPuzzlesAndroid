@@ -68,12 +68,12 @@ class SlitherCornerGameState(game: SlitherCornerGame) : CellsGameState<SlitherCo
         for ((p, n2) in game.pos2hint) {
             val pDots = SlitherCornerGame.offset2.map { p + it }
             val counts = pDots.map { p2 -> (0 until 4).count { this[p2][it] == GridLineObject.Line } }
-            if (counts.all { it == 0 } || !counts.all { it == 2 || it == 0 })
+            if (!counts.all { it == 2 || it == 0 })
                 pos2state[p] = HintState.Normal
             else {
                 val dirs2D = pDots.map { p2 -> (0 until 4).filter { this[p2][it] == GridLineObject.Line } }.filter { it.size == 2 }
                 val n1 = dirs2D.count { it[1] - it[0] != 2 }
-                pos2state[p] = if (n1 == n2) HintState.Complete else HintState.Error
+                pos2state[p] = if (n1 == n2) HintState.Complete else if (counts.all { it == 0 }) HintState.Normal else HintState.Error
             }
             if (pos2state[p] != HintState.Complete) isSolved = false
         }
