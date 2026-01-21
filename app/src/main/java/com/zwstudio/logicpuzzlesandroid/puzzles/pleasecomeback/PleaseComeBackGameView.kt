@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import kotlin.math.abs
@@ -21,6 +22,7 @@ class PleaseComeBackGameView(context: Context, val soundManager: SoundManager) :
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val line2Paint = Paint()
     private val blockPaint = Paint()
     private val textPaint = TextPaint()
     private var pLastDown: Position? = null
@@ -29,9 +31,12 @@ class PleaseComeBackGameView(context: Context, val soundManager: SoundManager) :
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        linePaint.color = Color.GREEN
+        linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        line2Paint.color = Color.GREEN
+        line2Paint.style = Paint.Style.STROKE
+        line2Paint.strokeWidth = 20f
         blockPaint.color = Color.LTGRAY
         blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.color = Color.WHITE
@@ -48,6 +53,13 @@ class PleaseComeBackGameView(context: Context, val soundManager: SoundManager) :
                 if (ch != ' ')
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
             }
+        for (r in 0 until rows + 1)
+            for (c in 0 until cols + 1) {
+                if (game.dots[r, c, 1] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
+                if (game.dots[r, c, 2] == GridLineObject.Line)
+                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+            }
         if (isInEditMode) return
         for (r in 0 until rows)
             for (c in 0 until cols) {
@@ -56,9 +68,9 @@ class PleaseComeBackGameView(context: Context, val soundManager: SoundManager) :
                     val b = game.getObject(r, c)[dir]
                     if (!b) continue
                     if (dir == 1)
-                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
+                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), line2Paint)
                     else
-                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
+                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), line2Paint)
                 }
             }
     }
