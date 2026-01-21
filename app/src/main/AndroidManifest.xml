@@ -1381,6 +1381,18 @@
         <activity android:name=".puzzles.skyscrapers.SkyscrapersOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.slithercorner.SlitherCornerMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slithercorner.SlitherCornerGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slithercorner.SlitherCornerHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slithercorner.SlitherCornerOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.slitherlink.SlitherLinkMainActivity"
                   android:screenOrientation="portrait">
         </activity>
