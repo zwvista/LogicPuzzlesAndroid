@@ -1,13 +1,13 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.digitworms
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class DigitWormsGameState(game: DigitWormsGame) : CellsGameState<DigitWormsGame, DigitWormsGameMove, DigitWormsGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -50,45 +50,34 @@ class DigitWormsGameState(game: DigitWormsGame) : CellsGameState<DigitWormsGame,
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                pos2state[Position(r, c)] = AllowedObjectState.Normal
-        // 2. Two orthogonally adjacent numbers must be different.
+                pos2state[Position(r, c)] = HintState.Normal
+        // 2. No number must be orthogonally or diagonally touching the same number
+        //    from another area.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                for (i in listOf(1, 2)) {
-                    val p2 = p + DigitWormsGame.offset[i]
-                    if (!(isValid(p2) && this[p] == this[p2])) continue
-                    isSolved = false
-                    pos2state[p] = AllowedObjectState.Error
-                    pos2state[p2] = AllowedObjectState.Error
-                }
+                val n = this[p]
+                if (n == DigitWormsGame.PUZ_EMPTY) { isSolved = false; continue }
+                val rng = DigitWormsGame.offset.map { p + it }.filter { isValid(it) && this[it] == n }
+                if (rng.isEmpty()) continue
+                isSolved = false
+                for (p2 in listOf(p) + rng) { pos2state[p2] = HintState.Error }
             }
-        for (area in game.areas) {
+        next@ for (area in game.areas) {
             val num2rng = mutableMapOf<Int, MutableList<Position>>()
             for (p in area) {
                 val n = this[p]
-                if (n == DigitWormsGame.PUZ_EMPTY)
-                    isSolved = false
-                else
-                    num2rng.getOrPut(n) { mutableListOf() }.add(p)
+                if (n == DigitWormsGame.PUZ_EMPTY) continue@next
+                num2rng.getOrPut(n) { mutableListOf<Position>() }.add(p)
             }
-            // 1. Fill each area with every number ranging from 1 to the size of the area.
+            val s = if (num2rng.size == area.size && (1 until area.size).all { i ->
+                DigitWormsGame.offset.contains((num2rng[i + 1]!![0] - num2rng[i]!![0]))
+            }) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
             for ((_, rng) in num2rng)
-                if (rng.size > 1) {
-                    isSolved = false
-                    for (p in rng)
-                        pos2state[p] = AllowedObjectState.Error
-                }
-            // 3. In one area, if a number is right above another, the upper one must be
-            //    higher than the lower one. This only applies to numbers on top of each
-            //    other in the same area.
-            for (p1 in area)
-                for (p2 in area)
-                    if (p1 - p2 == DigitWormsGame.offset[0] && this[p1] <= this[p2]) {
-                        isSolved = false
-                        pos2state[p1] = AllowedObjectState.Error
-                        pos2state[p2] = AllowedObjectState.Error
-                    }
+                for (p in rng)
+                    if (pos2state[p] != HintState.Error)
+                        pos2state[p] = s
         }
     }
 }

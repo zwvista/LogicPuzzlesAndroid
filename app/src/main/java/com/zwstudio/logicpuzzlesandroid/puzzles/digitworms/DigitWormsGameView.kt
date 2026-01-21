@@ -7,8 +7,8 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -43,7 +43,7 @@ class DigitWormsGameView(context: Context, val soundManager: SoundManager) : Cel
                 val n = game.getObject(p)
                 if (n == DigitWormsGame.PUZ_EMPTY) continue
                 val s = game.pos2State(p)
-                textPaint.color = if (game[p] != DigitWormsGame.PUZ_EMPTY) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
+                textPaint.color = if (game[p] != DigitWormsGame.PUZ_EMPTY) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
