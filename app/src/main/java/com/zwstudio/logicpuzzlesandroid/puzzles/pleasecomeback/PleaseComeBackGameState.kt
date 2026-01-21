@@ -46,24 +46,39 @@ class PleaseComeBackGameState(game: PleaseComeBackGame) : CellsGameState<PleaseC
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
                 if (dirs.size == 2)
-                    // 1. Draw a loop that runs through all tiles.
+                    // 1. Draw a single path
                     pos2Dirs[p] = dirs
-                else if (!(dirs.isEmpty() && game[p] == PleaseComeBackGame.PUZ_BLOCK)) {
-                    // 2. The loop cannot cross itself.
+                else if (dirs.isNotEmpty()) {
+                    // The loop cannot cross itself.
                     isSolved = false; return
                 }
             }
         // Check the loop
-        val p = pos2Dirs.keys.first()
+        val p = pos2Dirs.keys.firstOrNull()
+        if (p == null) { isSolved = false; return }
         var p2 = p
         var n = -1
+        var lastArea = -1
+        val area2count = mutableMapOf<Int, Int>()
         while (true) {
             val dirs = pos2Dirs[p2]
             if (dirs == null) { isSolved = false; return }
+            val area = game.pos2area[p2]!!
+            if (area != lastArea) {
+                area2count[area] = (area2count[area] ?: 0) + 1
+                lastArea = area
+            }
             pos2Dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
             p2 += PleaseComeBackGame.offset[n]
-            if (p2 == p) return
+            if (p2 == p) {
+                area2count[area] = area2count[area]!! - 1
+                break
+            }
         }
+        // 1. Draw a single path which passes in each area exactly twice.
+        // 2. Every square in the board must be passed through, except for brown
+        //    areas, which are to be avoided entirely.
+        if (!(area2count.size == game.areas.size && area2count.all { it.value == 2 })) isSolved = false
     }
 }

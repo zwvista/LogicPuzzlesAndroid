@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.rippleeffect.RippleEffectGame
 
 class PleaseComeBackGame(layout: List<String>, gi: GameInterface<PleaseComeBackGame, PleaseComeBackGameMove, PleaseComeBackGameState>, gdi: GameDocumentInterface) : CellsGame<PleaseComeBackGame, PleaseComeBackGameMove, PleaseComeBackGameState>(gi, gdi) {
     companion object {
@@ -65,6 +64,7 @@ class PleaseComeBackGame(layout: List<String>, gi: GameInterface<PleaseComeBackG
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
+                if (get(p) != ' ') continue
                 rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)
@@ -74,8 +74,8 @@ class PleaseComeBackGame(layout: List<String>, gi: GameInterface<PleaseComeBackG
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (dots[p + RippleEffectGame.Companion.offset2[i], RippleEffectGame.Companion.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p + RippleEffectGame.Companion.offset[i]]!!)
+                    if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!
