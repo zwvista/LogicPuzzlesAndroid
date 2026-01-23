@@ -1081,6 +1081,18 @@
         <activity android:name=".puzzles.nurikabe.NurikabeOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.onlybends.OnlyBendsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.onlybends.OnlyBendsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.onlybends.OnlyBendsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.onlybends.OnlyBendsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.orchards.OrchardsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
