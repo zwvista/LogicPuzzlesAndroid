@@ -9,7 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIslandGame, HolidayIslandGameMove, HolidayIslandGameState>(game) {
-    var objArray = Array<HolidayIslandObject>(rows * cols) { HolidayIslandEmptyObject }
+    var objArray = Array(rows * cols) { HolidayIslandObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,7 +19,8 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
 
     init {
         for ((p, n) in game.pos2hint)
-            this[p] = HolidayIslandHintObject(tiles = n)
+            this[p] = HolidayIslandObject.Hint
+        updateIsSolved()
     }
 
     override fun setObject(move: HolidayIslandGameMove): GameOperationType {
@@ -33,9 +35,9 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is HolidayIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandMarkerObject else HolidayIslandWaterObject()
-            is HolidayIslandWaterObject -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandMarkerObject else HolidayIslandEmptyObject
-            is HolidayIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandWaterObject() else HolidayIslandEmptyObject
+            HolidayIslandObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandObject.Marker else HolidayIslandObject.Water
+            HolidayIslandObject.Water -> if (markerOption == MarkerOptions.MarkerLast) HolidayIslandObject.Marker else HolidayIslandObject.Empty
+            HolidayIslandObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) HolidayIslandObject.Water else HolidayIslandObject.Empty
             else -> o
         }
         return setObject(move)
@@ -61,20 +63,15 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val rngHints = mutableListOf<Position>()
         var g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is HolidayIslandForbiddenObject)
-                    this[p] = HolidayIslandEmptyObject
-                else if (o is HolidayIslandHintObject) {
-                    o.state = HintState.Normal
-                    rngHints.add(p)
-                }
-                if (o !is HolidayIslandWaterObject) {
+                if (o ==  HolidayIslandObject.Forbidden)
+                    this[p] = HolidayIslandObject.Empty
+                if (o != HolidayIslandObject.Water) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -87,7 +84,6 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             }
         }
         run {
-
             // 4. There is only one, continuous island.
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
@@ -99,7 +95,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = get(p)
-                if (!(o is HolidayIslandWaterObject || o is HolidayIslandHintObject)) {
+                if (!(o == HolidayIslandObject.Water || o == HolidayIslandObject.Hint)) {
                     // 5. A camper can't cross water or other Tents.
                     val node = Node(p.toString())
                     g.addNode(node)
@@ -127,8 +123,7 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             }
             areas.add(area)
         }
-        for (p in rngHints) {
-            val n2 = game.pos2hint[p]!!
+        for ((p, n2) in game.pos2hint) {
             val rng = mutableSetOf<Position>()
             for (os in HolidayIslandGame.offset) {
                 val p2 = p + os
@@ -139,12 +134,12 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
             // 5. The numbers tell you how many tiles that camper can walk from his Tent,
             // by moving horizontally or vertically.
             val s = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            (this[p] as HolidayIslandHintObject).state = s
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
             if (allowedObjectsOnly && n1 <= n2)
                 for (p2 in rng)
                     if (p2 != p)
-                        this[p2] = HolidayIslandForbiddenObject
+                        this[p2] = HolidayIslandObject.Forbidden
         }
     }
 }

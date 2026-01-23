@@ -73,6 +73,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "MiniLits" to "Mini-Lits",
             "NoughtsAndCrosses" to "Noughts & Crosses",
             "PlugItIn" to "Plug it in",
+            "PondCamping" to "Pond camping",
             "RunInALoop" to "Run in a Loop",
             "Square100" to "Square 100",
             "TapAlike" to "Tap-Alike",

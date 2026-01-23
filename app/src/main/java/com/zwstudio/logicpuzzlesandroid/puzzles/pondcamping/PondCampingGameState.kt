@@ -9,7 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGame, PondCampingGameMove, PondCampingGameState>(game) {
-    var objArray = Array<PondCampingObject>(rows * cols) { PondCampingEmptyObject }
+    var objArray = Array(rows * cols) { PondCampingObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,7 +19,7 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
 
     init {
         for ((p, n) in game.pos2hint)
-            this[p] = PondCampingHintObject(tiles = n)
+            this[p] = PondCampingObject.Hint
     }
 
     override fun setObject(move: PondCampingGameMove): GameOperationType {
@@ -33,9 +34,9 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
         if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is PondCampingEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PondCampingMarkerObject else PondCampingWaterObject()
-            is PondCampingWaterObject -> if (markerOption == MarkerOptions.MarkerLast) PondCampingMarkerObject else PondCampingEmptyObject
-            is PondCampingMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PondCampingWaterObject() else PondCampingEmptyObject
+            PondCampingObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) PondCampingObject.Marker else PondCampingObject.Forest
+            PondCampingObject.Forest -> if (markerOption == MarkerOptions.MarkerLast) PondCampingObject.Marker else PondCampingObject.Empty
+            PondCampingObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) PondCampingObject.Forest else PondCampingObject.Empty
             else -> o
         }
         return setObject(move)
@@ -54,46 +55,14 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val rngHints = mutableListOf<Position>()
-        var g = Graph()
+        val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o is PondCampingForbiddenObject)
-                    this[p] = PondCampingEmptyObject
-                else if (o is PondCampingHintObject) {
-                    o.state = HintState.Normal
-                    rngHints.add(p)
-                }
-                if (o !is PondCampingWaterObject) {
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
-                }
-            }
-        for ((p, node) in pos2node) {
-            for (os in PondCampingGame.offset) {
-                val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
-            }
-        }
-        run {
-
-            // 4. There is only one, continuous island.
-            g.rootNode = pos2node.values.first()
-            val nodeList = g.bfs()
-            if (nodeList.size != pos2node.size) isSolved = false
-        }
-        g = Graph()
-        pos2node.clear()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
                 val o = get(p)
-                if (!(o is PondCampingWaterObject || o is PondCampingHintObject)) {
-                    // 5. A camper can't cross water or other Tents.
+                if (!(o == PondCampingObject.Forest || o == PondCampingObject.Hint)) {
+                    // 5. A camper can't cross forest or other Ponds.
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -120,8 +89,7 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
             }
             areas.add(area)
         }
-        for (p in rngHints) {
-            val n2 = game.pos2hint[p]!!
+        for ((p, n2) in game.pos2hint) {
             val rng = mutableSetOf<Position>()
             for (os in PondCampingGame.offset) {
                 val p2 = p + os
@@ -129,15 +97,15 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
                 rng.addAll(areas[i])
             }
             val n1 = rng.size
-            // 5. The numbers tell you how many tiles that camper can walk from his Tent,
-            // by moving horizontally or vertically.
+            // 1. The numbers are Ponds. From each Pond you can have a hike of that many
+            //    tiles as the number marked on it.
             val s = if (n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            (this[p] as PondCampingHintObject).state = s
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
             if (allowedObjectsOnly && n1 <= n2)
                 for (p2 in rng)
                     if (p2 != p)
-                        this[p2] = PondCampingForbiddenObject
+                        this[p2] = PondCampingObject.Forbidden
         }
     }
 }
