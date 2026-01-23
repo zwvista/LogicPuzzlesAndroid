@@ -1093,6 +1093,18 @@
         <activity android:name=".puzzles.onlybends.OnlyBendsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.onlystraights.OnlyStraightsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.onlystraights.OnlyStraightsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.onlystraights.OnlyStraightsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.onlystraights.OnlyStraightsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.orchards.OrchardsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
