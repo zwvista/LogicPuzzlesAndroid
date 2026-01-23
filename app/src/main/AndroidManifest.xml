@@ -565,6 +565,18 @@
         <activity android:name=".puzzles.gardener.GardenerOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.gardentunnels.GardenTunnelsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gardentunnels.GardenTunnelsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gardentunnels.GardenTunnelsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.gardentunnels.GardenTunnelsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.gems.GemsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
