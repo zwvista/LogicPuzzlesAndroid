@@ -8,9 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tracenumbers.TraceNumbersGame.Co
 
 class PlugItInGame(layout: List<String>, gi: GameInterface<PlugItInGame, PlugItInGameMove, PlugItInGameState>, gdi: GameDocumentInterface) : CellsGame<PlugItInGame, PlugItInGameMove, PlugItInGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BEAN = 'B'
-        const val PUZ_CUP = 'C'
-        const val PUZ_MILK = 'M'
+        const val PUZ_LIGHTBULB = 'L'
+        const val PUZ_BATTERY = 'B'
         val offset = Position.Directions4
     }
 

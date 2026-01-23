@@ -23,9 +23,8 @@ class PlugItInGameView(context: Context, val soundManager: SoundManager) : Cells
     private val linePaint = Paint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
-    private val dBean: Drawable
-    private val dCup: Drawable
-    private val dMilk: Drawable
+    private val dLightBulb: Drawable
+    private val dBattery: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -33,9 +32,8 @@ class PlugItInGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        dBean = fromImageToDrawable("images/coffeebean.png")
-        dCup = fromImageToDrawable("images/cup.png")
-        dMilk = fromImageToDrawable("images/cow_face.png")
+        dLightBulb = fromImageToDrawable("images/lightbulb2.png")
+        dBattery = fromImageToDrawable("images/battery.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -46,7 +44,7 @@ class PlugItInGameView(context: Context, val soundManager: SoundManager) : Cells
                 if (isInEditMode) continue
                 val ch = game[r, c]
                 if (ch == ' ') continue
-                val d = if (ch == PlugItInGame.PUZ_BEAN) dBean else if (ch == PlugItInGame.PUZ_CUP) dCup else dMilk
+                val d = if (ch == PlugItInGame.PUZ_LIGHTBULB) dLightBulb else dBattery
                 d.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 d.draw(canvas)
             }

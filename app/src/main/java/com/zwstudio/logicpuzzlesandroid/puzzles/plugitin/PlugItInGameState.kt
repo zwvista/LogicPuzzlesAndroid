@@ -47,25 +47,21 @@ class PlugItInGameState(game: PlugItInGame) : CellsGameState<PlugItInGame, PlugI
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
-                val ch = game[p]
-                val dirs = (0 until 4).filter { o[it] }
+                val dirs = (0 until 4).filter { this[p][it] }
                 ch2dirs[p] = dirs
                 val cnt = dirs.size
-                if (ch == ' ') {
-                    // 2. Links must be straight lines, not crossing each other.
+                if (game[p] == ' ') {
+                    // 2. Cables are not allowed to cross other cables.
                     if (!(cnt == 0 || cnt == 2 && (dirs[0] + 2) % 4 == dirs[1])) {
                         isSolved = false; return
                     }
                     if (cnt == 2) rng.add(p)
                 } else {
-                    if (cnt == 0) { isSolved = false; return }
+                    if (cnt != 1) { isSolved = false; return }
                     rng.add(p)
                 }
             }
-        // 1. Make Cappuccino by linking each cup to one or more coffee beans and cows.
-        // 4. When linking multiple beans and cows, you can also link cows to cows and
-        //    beans to beans, other than linking them to the cup.
+        // 1. Connect each battery with a lightbulb by a horizontal or vertical cable.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (p in rng) {
@@ -85,12 +81,9 @@ class PlugItInGameState(game: PlugItInGame) : CellsGameState<PlugItInGame, PlugI
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }
             rng.removeAll(area)
-            val nBean = area.count { game[it] == PlugItInGame.PUZ_BEAN }
-            val nCup = area.count { game[it] == PlugItInGame.PUZ_CUP }
-            val nMilk = area.count { game[it] == PlugItInGame.PUZ_MILK }
-            // 3. To each cup there must be linked an equal number of beans and cows. At
-            //    least one of each.
-            if (!(nCup == 1 && nBean > 0 && nBean == nMilk)) {
+            val nLightBulb = area.count { game[it] == PlugItInGame.PUZ_LIGHTBULB }
+            val nBattery = area.count { game[it] == PlugItInGame.PUZ_BATTERY }
+            if (!(nLightBulb == 1 && nBattery == 1)) {
                 isSolved = false; return
             }
         }
