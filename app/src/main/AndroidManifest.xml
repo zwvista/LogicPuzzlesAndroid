@@ -1153,6 +1153,18 @@
         <activity android:name=".puzzles.pata.PataOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pathonthehills.PathOnTheHillsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pathonthehills.PathOnTheHillsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pathonthehills.PathOnTheHillsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pathonthehills.PathOnTheHillsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pathonthemountains.PathOnTheMountainsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
