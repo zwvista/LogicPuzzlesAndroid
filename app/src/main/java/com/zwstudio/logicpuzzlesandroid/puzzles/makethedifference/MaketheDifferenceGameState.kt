@@ -11,7 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import kotlin.math.abs
 
-class MaketheDifferenceGameState(game: MaketheDifferenceGame) : CellsGameState<MaketheDifferenceGame, MaketheDifferenceGameMove, MaketheDifferenceGameState>(game) {
+class MakeTheDifferenceGameState(game: MakeTheDifferenceGame) : CellsGameState<MakeTheDifferenceGame, MakeTheDifferenceGameMove, MakeTheDifferenceGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
     var pos2state = mutableMapOf<Position, HintState>()
 
@@ -22,11 +22,11 @@ class MaketheDifferenceGameState(game: MaketheDifferenceGame) : CellsGameState<M
         updateIsSolved()
     }
 
-    override fun setObject(move: MaketheDifferenceGameMove): GameOperationType {
+    override fun setObject(move: MakeTheDifferenceGameMove): GameOperationType {
         val dir = move.dir
         val dir2 = (dir + 2) % 4
         val p1 = move.p
-        val p2 = p1 + MaketheDifferenceGame.offset[dir]
+        val p2 = p1 + MakeTheDifferenceGame.offset[dir]
         if (game[p1][dir] != GridLineObject.Empty || !isValid(p2)) return GameOperationType.Invalid
         val o = this[p1][dir]
         if (o == move.obj) return GameOperationType.Invalid
@@ -36,7 +36,7 @@ class MaketheDifferenceGameState(game: MaketheDifferenceGame) : CellsGameState<M
         return GameOperationType.MoveComplete
     }
 
-    override fun switchObject(move: MaketheDifferenceGameMove): GameOperationType {
+    override fun switchObject(move: MakeTheDifferenceGameMove): GameOperationType {
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[move.p][move.dir]) {
             GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
@@ -73,8 +73,8 @@ class MaketheDifferenceGameState(game: MaketheDifferenceGame) : CellsGameState<M
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (this[p + MaketheDifferenceGame.offset2[i]][MaketheDifferenceGame.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p + MaketheDifferenceGame.offset[i]]!!)
+                    if (this[p + MakeTheDifferenceGame.offset2[i]][MakeTheDifferenceGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + MakeTheDifferenceGame.offset[i]]!!)
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

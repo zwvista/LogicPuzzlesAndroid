@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.data.MoveProgress
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class MaketheDifferenceDocument(context: Context) : GameDocument<MaketheDifferenceGameMove>(context) {
-    override fun saveMove(move: MaketheDifferenceGameMove, rec: MoveProgress) {
+class MakeTheDifferenceDocument(context: Context) : GameDocument<MakeTheDifferenceGameMove>(context) {
+    override fun saveMove(move: MakeTheDifferenceGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
         rec.intValue1 = move.dir
@@ -15,7 +15,7 @@ class MaketheDifferenceDocument(context: Context) : GameDocument<MaketheDifferen
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MaketheDifferenceGameMove(
+        MakeTheDifferenceGameMove(
             Position(rec.row, rec.col),
             rec.intValue1,
             GridLineObject.entries[rec.intValue2]

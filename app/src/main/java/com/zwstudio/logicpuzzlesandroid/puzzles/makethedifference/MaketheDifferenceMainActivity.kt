@@ -13,25 +13,25 @@ import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
 import com.zwstudio.logicpuzzlesandroid.home.android.realm
 import org.koin.android.ext.android.inject
 
-class MaketheDifferenceMainActivity : GameMainActivity<MaketheDifferenceGame, MaketheDifferenceDocument, MaketheDifferenceGameMove, MaketheDifferenceGameState>() {
-    private val document: MaketheDifferenceDocument by inject()
+class MakeTheDifferenceMainActivity : GameMainActivity<MakeTheDifferenceGame, MakeTheDifferenceDocument, MakeTheDifferenceGameMove, MakeTheDifferenceGameState>() {
+    private val document: MakeTheDifferenceDocument by inject()
     override val doc get() = document
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.btnOptions.setOnClickListener {
-            startActivity(Intent(this, MaketheDifferenceOptionsActivity::class.java))
+            startActivity(Intent(this, MakeTheDifferenceOptionsActivity::class.java))
         }
     }
 
     override fun resumeGame() {
         doc.resumeGame()
-        startActivity(Intent(this, MaketheDifferenceGameActivity::class.java))
+        startActivity(Intent(this, MakeTheDifferenceGameActivity::class.java))
     }
 }
 
-class MaketheDifferenceOptionsActivity : GameOptionsActivity<MaketheDifferenceGame, MaketheDifferenceDocument, MaketheDifferenceGameMove, MaketheDifferenceGameState>() {
-    private val document: MaketheDifferenceDocument by inject()
+class MakeTheDifferenceOptionsActivity : GameOptionsActivity<MakeTheDifferenceGame, MakeTheDifferenceDocument, MakeTheDifferenceGameMove, MakeTheDifferenceGameState>() {
+    private val document: MakeTheDifferenceDocument by inject()
     override val doc get() = document
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +77,7 @@ class MaketheDifferenceOptionsActivity : GameOptionsActivity<MaketheDifferenceGa
     }
 }
 
-class MaketheDifferenceHelpActivity : GameHelpActivity<MaketheDifferenceGame, MaketheDifferenceDocument, MaketheDifferenceGameMove, MaketheDifferenceGameState>() {
-    private val document: MaketheDifferenceDocument by inject()
+class MakeTheDifferenceHelpActivity : GameHelpActivity<MakeTheDifferenceGame, MakeTheDifferenceDocument, MakeTheDifferenceGameMove, MakeTheDifferenceGameState>() {
+    private val document: MakeTheDifferenceDocument by inject()
     override val doc get() = document
 }

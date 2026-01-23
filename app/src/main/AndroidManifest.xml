@@ -865,16 +865,16 @@
         <activity android:name=".puzzles.loopy.LoopyOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.makethedifference.MaketheDifferenceMainActivity"
+        <activity android:name=".puzzles.makethedifference.MakeTheDifferenceMainActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.makethedifference.MaketheDifferenceGameActivity"
+        <activity android:name=".puzzles.makethedifference.MakeTheDifferenceGameActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.makethedifference.MaketheDifferenceHelpActivity"
+        <activity android:name=".puzzles.makethedifference.MakeTheDifferenceHelpActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.makethedifference.MaketheDifferenceOptionsActivity"
+        <activity android:name=".puzzles.makethedifference.MakeTheDifferenceOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.masyu.MasyuMainActivity"

@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class MaketheDifferenceGame(layout: List<String>, gi: GameInterface<MaketheDifferenceGame, MaketheDifferenceGameMove, MaketheDifferenceGameState>, gdi: GameDocumentInterface) : CellsGame<MaketheDifferenceGame, MaketheDifferenceGameMove, MaketheDifferenceGameState>(gi, gdi) {
+class MakeTheDifferenceGame(layout: List<String>, gi: GameInterface<MakeTheDifferenceGame, MakeTheDifferenceGameMove, MakeTheDifferenceGameState>, gdi: GameDocumentInterface) : CellsGame<MakeTheDifferenceGame, MakeTheDifferenceGameMove, MakeTheDifferenceGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
         val offset2 = arrayOf(
@@ -49,7 +49,7 @@ class MaketheDifferenceGame(layout: List<String>, gi: GameInterface<MaketheDiffe
             this[rows - 1, c][1] = GridLineObject.Line
             this[rows - 1, c + 1][3] = GridLineObject.Line
         }
-        val state = MaketheDifferenceGameState(this)
+        val state = MakeTheDifferenceGameState(this)
         levelInitialized(state)
     }
 

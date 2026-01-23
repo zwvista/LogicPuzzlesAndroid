@@ -12,8 +12,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
-class MaketheDifferenceGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
-    private val activity get() = context as MaketheDifferenceGameActivity
+class MakeTheDifferenceGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
+    private val activity get() = context as MakeTheDifferenceGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows - 1
     private val cols get() = if (isInEditMode) 5 else game.cols - 1
@@ -90,7 +90,7 @@ class MaketheDifferenceGameView(context: Context, val soundManager: SoundManager
             val xOffset = event.x.toInt() - col * cellWidth - 1
             val yOffset = event.y.toInt() - row * cellHeight - 1
             if (!(xOffset >= -offset && xOffset <= offset || yOffset >= -offset && yOffset <= offset)) return true
-            val move = MaketheDifferenceGameMove(
+            val move = MakeTheDifferenceGameMove(
                 Position(row, col),
                 if (yOffset >= -offset && yOffset <= offset) 1 else 2
             )
