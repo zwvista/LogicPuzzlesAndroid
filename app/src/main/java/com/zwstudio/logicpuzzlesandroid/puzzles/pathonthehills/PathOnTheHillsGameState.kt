@@ -57,6 +57,7 @@ class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnT
                 pos2dirs[p] = dirs
                 if (!(dirs.size == 2 || dirs.isEmpty())) isSolved = false
             }
+        // 3. the number on a Field tells you how many tiles you should go through it.
         for ((p, n2) in game.pos2hint) {
             val area = game.areas[game.pos2area[p]!!]
             val n1 = area.fold(0) { acc, p -> acc + (if (pos2dirs[p]!!.isEmpty()) 0 else 1) }
@@ -70,13 +71,41 @@ class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnT
         if (p == null) { isSolved = false; return }
         var p2 = p
         var n = -1
+        var lastArea = -1
+        val area2count = mutableMapOf<Int, Int>()
         while (true) {
             val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
+            val area = game.pos2area[p2]!!
+            if (area != lastArea) {
+                area2count[area] = (area2count[area] ?: 0) + 1
+                lastArea = area
+            }
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
             p2 += PathOnTheHillsGame.offset[n]
-            if (p2 == p) break
+            if (p2 == p) {
+                area2count[area] = area2count[area]!! - 1
+                break
+            }
         }
+        // 1. The board represents a map of the Countryside, divided in Fields.
+        // 2. The object is to have a walk around the Countryside, passing through
+        //    each Field just once.
+        // 4. A Field with no number can be passed through in any number of tiles,
+        //    at least one.
+        if (!(area2count.size == game.areas.size && area2count.all { it.value == 1 })) { isSolved = false; return }
+        // 5. If you avoid two adjacent tiles in your path, they should be in the
+        //    same Fields.
+        // 6. Or in other words, two adjacent empty tiles cannot be in two different
+        //    Fields.
+        val rng = pos2dirs.filter { (p, dirs) -> dirs.isEmpty() }.keys
+        if (rng.any { p ->
+            val area = game.pos2area[p]!!
+            PathOnTheHillsGame.offset.any {
+                val p2 = p + it
+                rng.contains(p2) && area != game.pos2area[p2]!!
+            }
+        }) isSolved = false
     }
 }
