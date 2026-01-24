@@ -1765,6 +1765,18 @@
         <activity android:name=".puzzles.unseen.UnseenOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.venice.VeniceMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.venice.VeniceGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.venice.VeniceHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.venice.VeniceOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.wallhints.WallHintsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
