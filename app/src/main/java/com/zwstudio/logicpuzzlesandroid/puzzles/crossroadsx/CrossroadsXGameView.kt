@@ -22,6 +22,8 @@ class CrossroadsXGameView(context: Context, val soundManager: SoundManager) : Ce
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val correctPaint = Paint()
+    private val incorrectPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
@@ -30,6 +32,12 @@ class CrossroadsXGameView(context: Context, val soundManager: SoundManager) : Ce
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        correctPaint.color = Color.GREEN
+        correctPaint.style = Paint.Style.FILL_AND_STROKE
+        correctPaint.strokeWidth = 5f
+        incorrectPaint.color = Color.RED
+        incorrectPaint.style = Paint.Style.FILL_AND_STROKE
+        incorrectPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
 
@@ -54,6 +62,9 @@ class CrossroadsXGameView(context: Context, val soundManager: SoundManager) : Ce
                 if (game.dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
+        for ((r, c) in game.crossroads)
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true,
+                if (game.invalidCrossroads().contains(Position(r, c))) incorrectPaint else correctPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

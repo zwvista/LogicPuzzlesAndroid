@@ -20,6 +20,8 @@ class CrossroadsXGameActivity : GameGameActivity<CrossroadsXGame, CrossroadsXDoc
         }
     }
 
-    override fun newGame(level: GameLevel) =
-        CrossroadsXGame(level.layout, this, doc)
+    override fun newGame(level: GameLevel): CrossroadsXGame {
+        val sum = (level.settings["sum"] ?: "10").toInt()
+        return CrossroadsXGame(level.layout, sum, this, doc)
+    }
 }

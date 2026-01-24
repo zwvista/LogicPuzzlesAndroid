@@ -8,8 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.thecityrises.TheCityRisesGame
 
-class CrossroadsXGame(layout: List<String>, gi: GameInterface<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>, gdi: GameDocumentInterface) : CellsGame<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>(gi, gdi) {
+class CrossroadsXGame(layout: List<String>, val sum: Int, gi: GameInterface<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>, gdi: GameDocumentInterface) : CellsGame<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
         val offset2 = arrayOf(
@@ -19,13 +20,21 @@ class CrossroadsXGame(layout: List<String>, gi: GameInterface<CrossroadsXGame, C
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        val PUZ_EMPTY = 0
+        val offset3 = arrayOf(
+            Position(-1, -1),
+            Position(-1, 0),
+            Position(0, -1),
+            Position(0, 0),
+        )
+        val PUZ_EMPTY = -1
     }
 
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
+    val area2areas: Array<IntArray>
     var objArray: IntArray
+    var crossroads = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -89,6 +98,23 @@ class CrossroadsXGame(layout: List<String>, gi: GameInterface<CrossroadsXGame, C
             areas.add(area)
             rng.removeAll(area)
         }
+
+        for (r in 1 until rows)
+            for (c in 1 until cols) {
+                val p = Position(r, c)
+                if (dots[p].all { it == GridLineObject.Line })
+                    crossroads.add(p)
+            }
+
+        area2areas = Array<IntArray>(areas.size) { IntArray(0) }
+        for ((i, area) in areas.withIndex())
+            area2areas[i] = area
+                .flatMap { p -> TheCityRisesGame.Companion.offset.map { p + it } }
+                .filter { isValid(it) }
+                .map { pos2area[it]!! }
+                .filter { it != i }
+                .toSortedSet().toIntArray()
+
         val state = CrossroadsXGameState(this)
         levelInitialized(state)
     }
@@ -96,4 +122,5 @@ class CrossroadsXGame(layout: List<String>, gi: GameInterface<CrossroadsXGame, C
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]
+    fun invalidCrossroads() = currentState.invalidCrossroads
 }

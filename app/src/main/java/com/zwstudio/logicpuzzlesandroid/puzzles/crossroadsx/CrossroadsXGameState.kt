@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class CrossroadsXGameState(game: CrossroadsXGame) : CellsGameState<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>(game) {
     var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    var invalidCrossroads = listOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -49,47 +50,27 @@ class CrossroadsXGameState(game: CrossroadsXGame) : CellsGameState<CrossroadsXGa
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
-                pos2state[Position(r, c)] = AllowedObjectState.Normal
-        // 2. Two orthogonally adjacent numbers must be different.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                for (i in listOf(1, 2)) {
-                    val p2 = p + CrossroadsXGame.offset[i]
-                    if (!(isValid(p2) && this[p] == this[p2])) continue
-                    isSolved = false
-                    pos2state[p] = AllowedObjectState.Error
-                    pos2state[p2] = AllowedObjectState.Error
-                }
+        // 2. When four regions borders intersect (a spot where four lines meet),
+        //    the sum of those 4 regions must be 10.
+        invalidCrossroads = game.crossroads.filter { p ->
+            val rng = CrossroadsXGame.offset3.map { p + it }
+            !(rng.all { this[it] != CrossroadsXGame.PUZ_EMPTY } &&
+                    rng.fold(0) { acc, p2 -> acc + this[p2] } == game.sum)
+        }
+        if (invalidCrossroads.isNotEmpty()) isSolved = false
+        // 3. No two orthogonally adjacent regions can have the same number.
+        for ((i, area) in game.areas.withIndex()) {
+            val n = this[area[0]]
+            val areas = game.area2areas[i]
+                .map { this.game.areas[it] }
+                .filter { this[it[0]] == n }
+            if (areas.isEmpty()) {
+                for (p in area) pos2state[p] = AllowedObjectState.Normal
+            } else {
+                isSolved = false
+                for (area2 in listOf(area) + areas)
+                    for (p in area2) pos2state[p] = AllowedObjectState.Error
             }
-        for (area in game.areas) {
-            val num2rng = mutableMapOf<Int, MutableList<Position>>()
-            for (p in area) {
-                val n = this[p]
-                if (n == CrossroadsXGame.PUZ_EMPTY)
-                    isSolved = false
-                else
-                    num2rng.getOrPut(n) { mutableListOf() }.add(p)
-            }
-            // 1. Fill each area with every number ranging from 1 to the size of the area.
-            for ((_, rng) in num2rng)
-                if (rng.size > 1) {
-                    isSolved = false
-                    for (p in rng)
-                        pos2state[p] = AllowedObjectState.Error
-                }
-            // 3. In one area, if a number is right above another, the upper one must be
-            //    higher than the lower one. This only applies to numbers on top of each
-            //    other in the same area.
-            for (p1 in area)
-                for (p2 in area)
-                    if (p1 - p2 == CrossroadsXGame.offset[0] && this[p1] <= this[p2]) {
-                        isSolved = false
-                        pos2state[p1] = AllowedObjectState.Error
-                        pos2state[p2] = AllowedObjectState.Error
-                    }
         }
     }
 }
