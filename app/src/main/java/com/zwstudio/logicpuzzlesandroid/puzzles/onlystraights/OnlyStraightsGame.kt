@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class OnlyStraightsGame(layout: List<String>, gi: GameInterface<OnlyStraightsGame, OnlyStraightsGameMove, OnlyStraightsGameState>, gdi: GameDocumentInterface) : CellsGame<OnlyStraightsGame, OnlyStraightsGameMove, OnlyStraightsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val PUZ_TOWN = 'O'
     }
 
     var objArray: CharArray
@@ -18,12 +19,18 @@ class OnlyStraightsGame(layout: List<String>, gi: GameInterface<OnlyStraightsGam
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
-        size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows * cols)
-        for (r in 0 until rows) {
-            val str = layout[r]
-            for (c in 0 until cols)
-                this[r, c] = str[c]
+        size = Position(layout.size * 2 - 1, layout[0].length * 2 - 1)
+        objArray = CharArray(rows * cols) { ' ' }
+        for (r in 0 until rows step 2) {
+            val str = layout[r / 2]
+            for (c in 0 until cols step 2) {
+                val ch = str[c / 2]
+                if (!ch.isDigit()) continue
+                val n = ch - '0'
+                if (n and 1 != 0) this[r, c] = PUZ_TOWN
+                if (n and 2 != 0) this[r, c + 1] = PUZ_TOWN
+                if (n and 4 != 0) this[r + 1, c] = PUZ_TOWN
+            }
         }
         val state = OnlyStraightsGameState(this)
         levelInitialized(state)

@@ -62,7 +62,7 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
             p2 += RunInALoopGame.offset[n]
-            if (p2 == p) return
+            if (p2 == p) break
         }
     }
 }

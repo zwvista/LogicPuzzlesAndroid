@@ -100,7 +100,7 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
             p2 += SlitherLinkGame.offset[n]
-            if (p2 == p) return
+            if (p2 == p) break
         }
     }
 }

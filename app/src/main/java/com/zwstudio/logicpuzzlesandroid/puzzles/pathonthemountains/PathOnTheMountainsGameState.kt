@@ -78,7 +78,7 @@ class PathOnTheMountainsGameState(game: PathOnTheMountainsGame) : CellsGameState
                 if (turns != 1) { isSolved = false; return }
                 ns.clear()
             }
-            if (p2 == p) return
+            if (p2 == p) break
         }
     }
 }

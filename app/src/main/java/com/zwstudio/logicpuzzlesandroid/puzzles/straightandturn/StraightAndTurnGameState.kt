@@ -91,7 +91,7 @@ class StraightAndTurnGameState(game: StraightAndTurnGame) : CellsGameState<Strai
                 ch = ch2
                 ns.clear()
             }
-            if (p2 == p) return
+            if (p2 == p) break
         }
     }
 }

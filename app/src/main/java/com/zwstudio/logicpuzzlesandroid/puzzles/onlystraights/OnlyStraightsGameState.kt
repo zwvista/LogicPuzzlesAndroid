@@ -48,36 +48,41 @@ class OnlyStraightsGameState(game: OnlyStraightsGame) : CellsGameState<OnlyStrai
                 if (dirs.size == 2) {
                     pos2dirs[p] = dirs
                     if (game[p] != ' ')
-                        // 2. The path should make 90 degrees turns on the spots.
-                        if (dirs[1] - dirs[0] == 2) {
+                        // 2. This time, you must go straight while passing a town.
+                        if (dirs[1] - dirs[0] != 2) {
                             isSolved = false; return
                         }
-                } else {
-                    // 1. Fill the board with a loop that passes through all tiles.
+                } else if (dirs.isNotEmpty()) {
                     // The loop cannot cross itself.
                     isSolved = false; return
                 }
             }
         // Check the loop
-        val p = pos2dirs.keys.firstOrNull { game[it] != ' ' }
+        val p = pos2dirs.keys.firstOrNull()
         if (p == null) { isSolved = false; return }
         var p2 = p
         var n = -1
-        val ns = mutableListOf<Int>()
         while (true) {
             val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
-            ns.add(n)
             p2 += OnlyStraightsGame.offset[n]
-            if (game[p2] != ' ') {
-                // 3. Between spots, the path makes one more 90 degrees turn.
-                val turns = (0 until ns.size - 1).count { ns[it] != ns[it + 1] }
-                if (turns != 1) { isSolved = false; return }
-                ns.clear()
-            }
-            if (p2 == p) return
+            if (p2 == p) break
         }
+        // 3. Branches of a road coming off a town must be of equal length.
+        if (!pos2dirs.all { (p, dirs) ->
+            fun f(d: Int): Int {
+                val os = OnlyStraightsGame.offset[d]
+                var p2 = p + os
+                var n = 0
+                while (pos2dirs[p2]!!.contains(d)) {
+                    n++
+                    p2 += os
+                }
+                return n
+            }
+            game[p] == ' ' || f(dirs[0]) == f(dirs[1])
+        }) isSolved = false
     }
 }

@@ -81,7 +81,7 @@ class GardenTunnelsGameState(game: GardenTunnelsGame) : CellsGameState<GardenTun
                 if (turns != 1) { isSolved = false; return }
                 ns.clear()
             }
-            if (p2 == p) return
+            if (p2 == p) break
         }
     }
 }
