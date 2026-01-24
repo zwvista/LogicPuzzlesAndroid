@@ -2,10 +2,12 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.pathonthehills
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnTheHillsGame, PathOnTheHillsGameMove, PathOnTheHillsGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -52,39 +54,29 @@ class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnT
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
-                if (dirs.size == 2) {
-                    pos2dirs[p] = dirs
-                    if (game[p] != ' ')
-                        // 2. The path should make 90 degrees turns on the spots.
-                        if (dirs[1] - dirs[0] == 2) {
-                            isSolved = false; return
-                        }
-                } else {
-                    // 1. Fill the board with a loop that passes through all tiles.
-                    // The loop cannot cross itself.
-                    isSolved = false; return
-                }
+                pos2dirs[p] = dirs
+                if (!(dirs.size == 2 || dirs.isEmpty())) isSolved = false
             }
+        for ((p, n2) in game.pos2hint) {
+            val area = game.areas[game.pos2area[p]!!]
+            val n1 = area.fold(0) { acc, p -> acc + (if (pos2dirs[p]!!.isEmpty()) 0 else 1) }
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            pos2state[p] = s
+        }
+        if (!isSolved) return
         // Check the loop
-        val p = pos2dirs.keys.firstOrNull { game[it] != ' ' }
+        val p = pos2dirs.keys.firstOrNull()
         if (p == null) { isSolved = false; return }
         var p2 = p
         var n = -1
-        val ns = mutableListOf<Int>()
         while (true) {
             val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
-            ns.add(n)
             p2 += PathOnTheHillsGame.offset[n]
-            if (game[p2] != ' ') {
-                // 3. Between spots, the path makes one more 90 degrees turn.
-                val turns = (0 until ns.size - 1).count { ns[it] != ns[it + 1] }
-                if (turns != 1) { isSolved = false; return }
-                ns.clear()
-            }
-            if (p2 == p) return
+            if (p2 == p) break
         }
     }
 }
