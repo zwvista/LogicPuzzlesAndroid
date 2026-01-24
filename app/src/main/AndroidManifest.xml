@@ -1525,6 +1525,18 @@
         <activity android:name=".puzzles.steps.StepsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.straightandbendlands.StraightAndBendLandsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.straightandbendlands.StraightAndBendLandsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.straightandbendlands.StraightAndBendLandsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.straightandbendlands.StraightAndBendLandsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.straightandturn.StraightAndTurnMainActivity"
                   android:screenOrientation="portrait">
         </activity>
