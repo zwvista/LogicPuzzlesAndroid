@@ -39,27 +39,27 @@ class RunInALoopGameState(game: RunInALoopGame) : CellsGameState<RunInALoopGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        val pos2Dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
                 if (dirs.size == 2)
                     // 1. Draw a loop that runs through all tiles.
-                    pos2Dirs[p] = dirs
+                    pos2dirs[p] = dirs
                 else if (!(dirs.isEmpty() && game[p] == RunInALoopGame.PUZ_BLOCK)) {
                     // 2. The loop cannot cross itself.
                     isSolved = false; return
                 }
             }
         // Check the loop
-        val p = pos2Dirs.keys.first()
+        val p = pos2dirs.keys.first()
         var p2 = p
         var n = -1
         while (true) {
-            val dirs = pos2Dirs[p2]
+            val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
-            pos2Dirs.remove(p2)
+            pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
             p2 += RunInALoopGame.offset[n]
             if (p2 == p) return

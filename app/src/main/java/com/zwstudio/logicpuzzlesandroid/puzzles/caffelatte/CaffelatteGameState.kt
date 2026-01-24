@@ -47,14 +47,14 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
     private fun updateIsSolved() {
         isSolved = true
         val rng = mutableListOf<Position>()
-        val ch2dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 val ch = game[p]
                 val dirs = (0 until 4).filter { o[it] }
-                ch2dirs[p] = dirs
+                pos2dirs[p] = dirs
                 val cnt = dirs.size
                 if (ch == ' ') {
                     // 2. Links must be straight lines, not crossing each other.

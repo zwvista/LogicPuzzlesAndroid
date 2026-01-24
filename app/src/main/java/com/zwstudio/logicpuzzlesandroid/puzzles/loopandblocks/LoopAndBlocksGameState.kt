@@ -46,7 +46,7 @@ class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBl
     private fun updateIsSolved() {
         isSolved = true
         val chOneList = mutableListOf<Position>()
-        val ch2dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -60,9 +60,9 @@ class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBl
                         //    order up to the highest, where it ends.
                         if (!(ch == LoopAndBlocksGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
                         if (ch == LoopAndBlocksGame.PUZ_ONE) chOneList.add(p)
-                        ch2dirs[p] = dirs
+                        pos2dirs[p] = dirs
                     }
-                    2 -> ch2dirs[p] = dirs
+                    2 -> pos2dirs[p] = dirs
                     else -> {
                         // 3. In doing this, you have to pass through all tiles on the board.
                         //    Lines cannot cross.
@@ -75,14 +75,14 @@ class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBl
         //    order up to the highest, where it ends.
         for (p in chOneList) {
             var chars = LoopAndBlocksGame.PUZ_ONE.toString()
-            var i = ch2dirs[p]!![0]
+            var i = pos2dirs[p]!![0]
             var os = LoopAndBlocksGame.offset[i]
             var p2 = p + os
             while (true) {
                 val ch = game[p2]
                 if (ch != ' ') chars += ch
                 val j = (i + 2) % 4
-                var dirs = ch2dirs[p2]!!
+                var dirs = pos2dirs[p2]!!
                 if (!dirs.contains(j)) { isSolved = false; return }
                 dirs = dirs.filter { it != j }
                 if (dirs.isEmpty()) break

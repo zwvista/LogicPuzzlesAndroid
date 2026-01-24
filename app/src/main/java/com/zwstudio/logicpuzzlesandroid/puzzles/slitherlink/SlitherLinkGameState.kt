@@ -76,28 +76,28 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
             if (n1 != n2) isSolved = false
         }
         if (!isSolved) return
-        val pos2Dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] == GridLineObject.Line }
                 if (dirs.size == 2)
                     // 1. Draw a single looping path
-                    pos2Dirs[p] = dirs
+                    pos2dirs[p] = dirs
                 else if (dirs.isNotEmpty()) {
                     // 1. The path cannot have branches or cross itself.
                     isSolved = false; return
                 }
             }
         // Check the loop
-        val p = pos2Dirs.keys.firstOrNull()
+        val p = pos2dirs.keys.firstOrNull()
         if (p == null) { isSolved = false; return }
         var p2 = p
         var n = -1
         while (true) {
-            val dirs = pos2Dirs[p2]
+            val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
-            pos2Dirs.remove(p2)
+            pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
             p2 += SlitherLinkGame.offset[n]
             if (p2 == p) return

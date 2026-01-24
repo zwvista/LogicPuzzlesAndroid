@@ -49,7 +49,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        val pos2Dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -59,7 +59,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
-                    pos2Dirs[p] = dirs
+                    pos2dirs[p] = dirs
                     when (ch) {
                         'B' ->                         // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
                             if (dirs[1] - dirs[0] == 2) {
@@ -81,7 +81,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
                 }
             }
         for ((p, _) in pos2node) {
-            val dirs = pos2Dirs[p]!!
+            val dirs = pos2dirs[p]!!
             val ch = game[p]
             var bW = ch != 'W'
             for (i in dirs) {
@@ -91,7 +91,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
                     isSolved = false
                     return
                 }
-                val dirs2 = pos2Dirs[p2]!!
+                val dirs2 = pos2dirs[p2]!!
                 when (ch) {
                     'B' ->                         // 4. Lines passing through Black Pearls must go straight
                         // in the next tile in both directions.

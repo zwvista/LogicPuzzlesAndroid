@@ -43,7 +43,7 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
     private fun updateIsSolved() {
         isSolved = true
         val circles = mutableSetOf<Position>()
-        val ch2dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -56,11 +56,11 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
                     1 -> {
                         if (ch == ' ') { isSolved = false; return }
                         circles.add(p)
-                        ch2dirs[p] = dirs
+                        pos2dirs[p] = dirs
                     }
                     2 -> {
                         if (ch != ' ') { isSolved = false; return }
-                        ch2dirs[p] = dirs
+                        pos2dirs[p] = dirs
                     }
                     else -> {
                         // 4. All tiles on the board must be used
@@ -74,13 +74,13 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
         while (circles.isNotEmpty()) {
             val p = circles.first()
             val ch1 = game[p]
-            var i = ch2dirs[p]!![0]
+            var i = pos2dirs[p]!![0]
             var os = TurnMeUpGame.offset[i]
             var p2 = p + os
             var turns = 0
             while (true) {
                 val j = (i + 2) % 4
-                var dirs = ch2dirs[p2]!!
+                var dirs = pos2dirs[p2]!!
                 dirs = dirs.filter { it != j }
                 if (dirs.isEmpty()) break
                 val k = dirs[0]

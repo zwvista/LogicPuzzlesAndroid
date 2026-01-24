@@ -2,7 +2,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.onlybends
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.pouringwater.PouringWaterGame.Companion.offset
 
 class OnlyBendsGameState(game: OnlyBendsGame) : CellsGameState<OnlyBendsGame, OnlyBendsGameMove, OnlyBendsGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -42,44 +45,51 @@ class OnlyBendsGameState(game: OnlyBendsGame) : CellsGameState<OnlyBendsGame, On
     */
     private fun updateIsSolved() {
         isSolved = true
-        val pos2Dirs = mutableMapOf<Position, List<Int>>()
+        val rng = mutableListOf<Position>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
+                rng.add(p)
                 val dirs = (0 until 4).filter { this[p][it] }
-                if (dirs.size == 2) {
-                    pos2Dirs[p] = dirs
-                    if (game[p] != ' ')
-                        // 2. The path should make 90 degrees turns on the spots.
-                        if (dirs[1] - dirs[0] == 2) {
-                            isSolved = false; return
-                        }
+                pos2dirs[p] = dirs
+                val cnt = dirs.size
+                if (game[p] == ' ') {
+                    // 2. The road connecting
+                    //    them can't have straights, but has to turn on every tile it passes through.
+                    // 4. The entire board must be filled with roads! (asphalt lobby rule)
+                    if (!(cnt == 2 && (dirs[0] + 2) % 4 != dirs[1])){
+                        isSolved = false; return
+                    }
                 } else {
-                    // 1. Fill the board with a loop that passes through all tiles.
-                    // The loop cannot cross itself.
-                    isSolved = false; return
+                    // 3. Roads cannot cross and cannot go over other houses.
+                    if (cnt != 1) { isSolved = false; return }
                 }
             }
-        // Check the loop
-        val p = pos2Dirs.keys.firstOrNull { game[it] != ' ' }
-        if (p == null) { isSolved = false; return }
-        var p2 = p
-        var n = -1
-        val ns = mutableListOf<Int>()
-        while (true) {
-            val dirs = pos2Dirs[p2]
-            if (dirs == null) { isSolved = false; return }
-            pos2Dirs.remove(p2)
-            n = dirs.first { (it + 2) % 4 != n }
-            ns.add(n)
-            p2 += OnlyBendsGame.offset[n]
-            if (game[p2] != ' ') {
-                // 3. Between spots, the path makes one more 90 degrees turn.
-                val turns = (0 until ns.size - 1).count { ns[it] != ns[it + 1] }
-                if (turns != 1) { isSolved = false; return }
-                ns.clear()
+        // 2. Each house must be connected with another house.
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (p in rng) {
+            val node = Node(p.toString())
+            g.addNode(node)
+            pos2node[p] = node
+        }
+        for (p in rng)
+            for (i in 0 until 4)
+                if (this[p][i]) {
+                    val node2 = pos2node[p + offset[i]]
+                    if (node2 == null) { isSolved = false; return }
+                    g.connectNode(pos2node[p]!!, node2)
+                }
+        while (rng.isNotEmpty()) {
+            g.rootNode = pos2node[rng.first()]!!
+            val nodeList = g.bfs()
+            val area = rng.filter { nodeList.contains(pos2node[it]) }
+            rng.removeAll(area)
+            val nHouse = area.count { game[it] != ' ' }
+            if (nHouse != 2) {
+                isSolved = false; return
             }
-            if (p2 == p) return
         }
     }
 }

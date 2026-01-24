@@ -47,7 +47,7 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
     private fun updateIsSolved() {
         isSolved = true
         val chOneList = mutableListOf<Position>()
-        val ch2dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -61,9 +61,9 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
                         //    order up to the highest, where it ends.
                         if (!(ch == TraceNumbersGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
                         if (ch == TraceNumbersGame.PUZ_ONE) chOneList.add(p)
-                        ch2dirs[p] = dirs
+                        pos2dirs[p] = dirs
                     }
-                    2 -> ch2dirs[p] = dirs
+                    2 -> pos2dirs[p] = dirs
                     else -> {
                         // 3. In doing this, you have to pass through all tiles on the board.
                         //    Lines cannot cross.
@@ -76,14 +76,14 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
         //    order up to the highest, where it ends.
         for (p in chOneList) {
             var chars = TraceNumbersGame.PUZ_ONE.toString()
-            var i = ch2dirs[p]!![0]
+            var i = pos2dirs[p]!![0]
             var os = TraceNumbersGame.offset[i]
             var p2 = p + os
             while (true) {
                 val ch = game[p2]
                 if (ch != ' ') chars += ch
                 val j = (i + 2) % 4
-                var dirs = ch2dirs[p2]!!
+                var dirs = pos2dirs[p2]!!
                 dirs = dirs.filter { it != j }
                 if (dirs.isEmpty()) break
                 i = dirs[0]

@@ -49,14 +49,14 @@ class CoffeeAndSugarGameState(game: CoffeeAndSugarGame) : CellsGameState<CoffeeA
         val coffeeList = mutableListOf<Position>()
         val sugarList = mutableListOf<Position>()
         val emptyList = mutableListOf<Position>()
-        val ch2dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 val ch = game[p]
                 val dirs = (0 until 4).filter { o[it] }
-                ch2dirs[p] = dirs
+                pos2dirs[p] = dirs
                 val cnt = dirs.size
                 when (ch) {
                     CoffeeAndSugarGame.PUZ_COFFEE -> {
@@ -76,7 +76,7 @@ class CoffeeAndSugarGameState(game: CoffeeAndSugarGame) : CellsGameState<CoffeeA
         val sugarList2 = mutableListOf<Position>()
         val emptyList2 = mutableListOf<Position>()
         for (p in coffeeList) {
-            val i = ch2dirs[p]!![0]
+            val i = pos2dirs[p]!![0]
             var os = CoffeeAndSugarGame.offset[i]
             var p2 = p + os
             var dirs: List<Int>
@@ -85,7 +85,7 @@ class CoffeeAndSugarGameState(game: CoffeeAndSugarGame) : CellsGameState<CoffeeA
                 if (ch != ' ') { isSolved = false; return }
                 emptyList2.add(p2)
                 val j = (i + 2) % 4
-                dirs = ch2dirs[p2]!!
+                dirs = pos2dirs[p2]!!
                 if (!dirs.contains(j)) { isSolved = false; return }
                 dirs = dirs.filter { it != j }
                 if (dirs.size == 2) {
@@ -102,7 +102,7 @@ class CoffeeAndSugarGameState(game: CoffeeAndSugarGame) : CellsGameState<CoffeeA
                 while (true) {
                     val ch = game[p3]
                     if (!(ch == ' ' || ch == CoffeeAndSugarGame.PUZ_SUGAR)) { isSolved = false; return }
-                    var dirs2 = ch2dirs[p3]!!
+                    var dirs2 = pos2dirs[p3]!!
                     val j = (i + 2) % 4
                     if (!dirs2.contains(j)) { isSolved = false; return }
                     if (ch == CoffeeAndSugarGame.PUZ_SUGAR) {

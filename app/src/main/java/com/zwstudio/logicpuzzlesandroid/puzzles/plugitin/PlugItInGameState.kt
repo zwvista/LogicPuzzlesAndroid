@@ -43,12 +43,12 @@ class PlugItInGameState(game: PlugItInGame) : CellsGameState<PlugItInGame, PlugI
     private fun updateIsSolved() {
         isSolved = true
         val rng = mutableListOf<Position>()
-        val ch2dirs = mutableMapOf<Position, List<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
-                ch2dirs[p] = dirs
+                pos2dirs[p] = dirs
                 val cnt = dirs.size
                 if (game[p] == ' ') {
                     // 2. Cables are not allowed to cross other cables.
