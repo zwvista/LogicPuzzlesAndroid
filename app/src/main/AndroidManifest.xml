@@ -289,6 +289,18 @@
         <activity android:name=".puzzles.chocolate.ChocolateOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.cleaningpath.CleaningPathMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.cleaningpath.CleaningPathGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.cleaningpath.CleaningPathHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.cleaningpath.CleaningPathOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.clouds.CloudsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
