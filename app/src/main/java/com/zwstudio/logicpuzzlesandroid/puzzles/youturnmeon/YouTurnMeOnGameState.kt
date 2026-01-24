@@ -1,0 +1,84 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.youturnmeon
+
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+
+class YouTurnMeOnGameState(game: YouTurnMeOnGame) : CellsGameState<YouTurnMeOnGame, YouTurnMeOnGameMove, YouTurnMeOnGameState>(game) {
+    var objArray = Array(rows * cols) { Array(4) { false } }
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, dotObj: Array<Boolean>) {objArray[row * cols + col] = dotObj}
+    operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
+
+    init {
+        updateIsSolved()
+    }
+
+    override fun setObject(move: YouTurnMeOnGameMove): GameOperationType {
+        val (p, dir) = move.p to move.dir
+        val (p2, dir2) = p + YouTurnMeOnGame.offset[dir] to (dir + 2) % 4
+        if (!isValid(p2) || game[p] == YouTurnMeOnGame.PUZ_BLOCK || game[p2] == YouTurnMeOnGame.PUZ_BLOCK)
+            return GameOperationType.Invalid
+        this[p][dir] = !this[p][dir]
+        this[p2][dir2] = !this[p2][dir2]
+        updateIsSolved()
+        return GameOperationType.MoveComplete
+    }
+
+    /*
+        iOS Game: 100 Logic Games 4/Puzzle Set 3/You Turn me on
+
+        Summary
+        Sometimes you do, sometimes you don't
+
+        Description
+        1. Draw a single, no intersecting loop.
+        2. The number on each region tells you how many turns the path does
+           in that region.
+    */
+    private fun updateIsSolved() {
+        isSolved = true
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val dirs = (0 until 4).filter { this[p][it] }
+                if (dirs.size == 2)
+                    // 1. Draw a single path
+                    pos2dirs[p] = dirs
+                else if (dirs.isNotEmpty()) {
+                    // The loop cannot cross itself.
+                    isSolved = false; return
+                }
+            }
+        // Check the loop
+        val p = pos2dirs.keys.firstOrNull()
+        if (p == null) { isSolved = false; return }
+        var p2 = p
+        var n = -1
+        var lastArea = -1
+        val area2count = mutableMapOf<Int, Int>()
+        while (true) {
+            val dirs = pos2dirs[p2]
+            if (dirs == null) { isSolved = false; return }
+            val area = game.pos2area[p2]!!
+            if (area != lastArea) {
+                area2count[area] = (area2count[area] ?: 0) + 1
+                lastArea = area
+            }
+            pos2dirs.remove(p2)
+            n = dirs.first { (it + 2) % 4 != n }
+            p2 += YouTurnMeOnGame.offset[n]
+            if (p2 == p) {
+                area2count[area] = area2count[area]!! - 1
+                break
+            }
+        }
+        // 1. Draw a single path which passes in each area exactly twice.
+        // 2. Every square in the board must be passed through, except for brown
+        //    areas, which are to be avoided entirely.
+        if (!(area2count.size == game.areas.size && area2count.all { it.value == 2 })) isSolved = false
+    }
+}

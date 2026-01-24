@@ -1861,6 +1861,18 @@
         <activity android:name=".puzzles.wishsandwich.WishSandwichOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.youturnmeon.YouTurnMeOnMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.youturnmeon.YouTurnMeOnGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.youturnmeon.YouTurnMeOnHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.youturnmeon.YouTurnMeOnOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.zenlandscaper.ZenLandscaperMainActivity"
                   android:screenOrientation="portrait">
         </activity>
