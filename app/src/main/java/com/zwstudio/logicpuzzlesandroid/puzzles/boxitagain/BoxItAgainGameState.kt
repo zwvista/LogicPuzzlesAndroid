@@ -18,8 +18,6 @@ class BoxItAgainGameState(game: BoxItAgainGame) : CellsGameState<BoxItAgainGame,
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
-        for (p in game.pos2hint.keys)
-            pos2state[p] = HintState.Normal
         updateIsSolved()
     }
 

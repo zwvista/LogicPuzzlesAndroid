@@ -19,8 +19,6 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
     operator fun set(p: Position, obj: PaintTheNurikabeObject) {this[p.row, p.col] = obj}
 
     init {
-        for (p in game.pos2hint.keys)
-            pos2state[p] = HintState.Normal
         updateIsSolved()
     }
 

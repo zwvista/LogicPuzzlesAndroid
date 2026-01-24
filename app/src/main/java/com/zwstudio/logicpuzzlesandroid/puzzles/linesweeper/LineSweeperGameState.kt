@@ -12,8 +12,7 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
     var pos2state = mutableMapOf<Position, HintState>()
 
     init {
-        for ((p, n) in game.pos2hint)
-            pos2state[p] = if (n == 0) HintState.Complete else HintState.Normal
+        updateIsSolved()
     }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

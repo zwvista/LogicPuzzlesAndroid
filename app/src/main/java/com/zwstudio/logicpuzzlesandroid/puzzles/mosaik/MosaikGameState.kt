@@ -16,8 +16,6 @@ class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameM
     operator fun set(p: Position, obj: MosaikObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, n) in game.pos2hint)
-            pos2state[p] = if (n == 0) HintState.Complete else HintState.Normal
         updateIsSolved()
     }
 

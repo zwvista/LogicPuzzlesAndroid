@@ -20,8 +20,6 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, Galax
     operator fun set(p: Position, obj: Array<GridLineObject>) {this[p.row, p.col] = obj}
 
     init {
-        for (p in game.galaxies)
-            pos2state[p] = HintState.Normal
         updateIsSolved()
     }
 
