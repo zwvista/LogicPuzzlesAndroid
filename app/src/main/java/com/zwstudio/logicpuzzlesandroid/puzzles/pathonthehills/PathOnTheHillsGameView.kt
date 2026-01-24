@@ -24,7 +24,6 @@ class PathOnTheHillsGameView(context: Context, val soundManager: SoundManager) :
     private val gridPaint = Paint()
     private val line1Paint = Paint()
     private val line2Paint = Paint()
-    private val blockPaint = Paint()
     private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
@@ -38,8 +37,6 @@ class PathOnTheHillsGameView(context: Context, val soundManager: SoundManager) :
         line2Paint.color = Color.YELLOW
         line2Paint.style = Paint.Style.STROKE
         line2Paint.strokeWidth = 20f
-        blockPaint.color = Color.LTGRAY
-        blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }

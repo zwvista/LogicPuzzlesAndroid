@@ -68,8 +68,8 @@ class PathOnTheHillsGame(layout: List<String>, gi: GameInterface<PathOnTheHillsG
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 for (i in 0 until 4)
-                    if (dots[p + LiarLiarGame.Companion.offset2[i], LiarLiarGame.Companion.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p + LiarLiarGame.Companion.offset[i]]!!)
+                    if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!

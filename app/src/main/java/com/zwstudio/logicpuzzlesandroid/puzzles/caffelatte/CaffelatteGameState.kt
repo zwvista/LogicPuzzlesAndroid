@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
-import com.zwstudio.logicpuzzlesandroid.puzzles.pouringwater.PouringWaterGame.Companion.offset
 
 class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame, CaffelatteGameMove, CaffelatteGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -80,7 +79,7 @@ class CaffelatteGameState(game: CaffelatteGame) : CellsGameState<CaffelatteGame,
         for (p in rng)
             for (i in 0 until 4)
                 if (this[p][i]) {
-                    val node2 = pos2node[p + offset[i]]
+                    val node2 = pos2node[p + CaffelatteGame.offset[i]]
                     if (node2 == null) { isSolved = false; return }
                     g.connectNode(pos2node[p]!!, node2)
                 }
