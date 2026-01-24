@@ -57,6 +57,7 @@ class OnlyStraightsGameState(game: OnlyStraightsGame) : CellsGameState<OnlyStrai
                     isSolved = false; return
                 }
             }
+        val pos2dirs2 = pos2dirs.toMap()
         // Check the loop
         val p = pos2dirs.keys.firstOrNull()
         if (p == null) { isSolved = false; return }
@@ -71,12 +72,12 @@ class OnlyStraightsGameState(game: OnlyStraightsGame) : CellsGameState<OnlyStrai
             if (p2 == p) break
         }
         // 3. Branches of a road coming off a town must be of equal length.
-        if (!pos2dirs.all { (p, dirs) ->
+        if (!pos2dirs2.all { (p, dirs) ->
             fun f(d: Int): Int {
                 val os = OnlyStraightsGame.offset[d]
                 var p2 = p + os
                 var n = 0
-                while (pos2dirs[p2]!!.contains(d)) {
+                while (pos2dirs2[p2]!!.contains(d)) {
                     n++
                     p2 += os
                 }

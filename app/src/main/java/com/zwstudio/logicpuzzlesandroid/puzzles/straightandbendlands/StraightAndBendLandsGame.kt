@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.liarliar.LiarLiarGame
 
 class StraightAndBendLandsGame(layout: List<String>, gi: GameInterface<StraightAndBendLandsGame, StraightAndBendLandsGameMove, StraightAndBendLandsGameState>, gdi: GameDocumentInterface) : CellsGame<StraightAndBendLandsGame, StraightAndBendLandsGameMove, StraightAndBendLandsGameState>(gi, gdi) {
     companion object {
@@ -20,16 +19,24 @@ class StraightAndBendLandsGame(layout: List<String>, gi: GameInterface<StraightA
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        val PUZ_HOUSE = 'O'
+        val PUZ_TREE = 'T'
     }
 
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    val pos2hint = mutableMapOf<Position, Int>()
+    var objArray: CharArray
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
         dots = GridDots(rows + 1, cols + 1)
+        objArray = CharArray(rows * cols)
         for (r in 0 until rows + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols) {
@@ -48,9 +55,7 @@ class StraightAndBendLandsGame(layout: List<String>, gi: GameInterface<StraightA
                     dots[r + 1, c, 0] = GridLineObject.Line
                 }
                 if (c == cols) break
-                val ch2 = str[c * 2 + 1]
-                if (ch2 != ' ')
-                    pos2hint[Position(r, c)] = ch2 - '0'
+                this[r, c] = str[c * 2 + 1]
             }
         }
         val rng = mutableSetOf<Position>()
@@ -86,5 +91,4 @@ class StraightAndBendLandsGame(layout: List<String>, gi: GameInterface<StraightA
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
 }

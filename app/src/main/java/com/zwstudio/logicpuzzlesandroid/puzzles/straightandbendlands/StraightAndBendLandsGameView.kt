@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import kotlin.math.abs
@@ -25,6 +25,8 @@ class StraightAndBendLandsGameView(context: Context, val soundManager: SoundMana
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val textPaint = TextPaint()
+    private val dTree: Drawable
+    private val dHouse: Drawable
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -39,6 +41,8 @@ class StraightAndBendLandsGameView(context: Context, val soundManager: SoundMana
         line2Paint.strokeWidth = 20f
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
+        dTree = fromImageToDrawable("images/tree.png")
+        dHouse = fromImageToDrawable("images/lodge.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,11 +52,11 @@ class StraightAndBendLandsGameView(context: Context, val soundManager: SoundMana
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.pos2hint[p] ?: continue
-                val s = game.pos2State(p)
-                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                val ch = game[r, c]
+                if (ch == ' ') continue
+                val dImage = if (ch == StraightAndBendLandsGame.PUZ_TREE) dTree else dHouse
+                dImage.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dImage.draw(canvas)
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {

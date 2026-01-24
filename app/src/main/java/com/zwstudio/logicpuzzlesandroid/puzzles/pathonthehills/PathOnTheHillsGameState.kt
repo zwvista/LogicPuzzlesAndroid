@@ -66,6 +66,7 @@ class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnT
             pos2state[p] = s
         }
         if (!isSolved) return
+        val pos2dirs2 = pos2dirs.toMap()
         // Check the loop
         val p = pos2dirs.keys.firstOrNull()
         if (p == null) { isSolved = false; return }
@@ -99,7 +100,7 @@ class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnT
         //    same Fields.
         // 6. Or in other words, two adjacent empty tiles cannot be in two different
         //    Fields.
-        val rng = pos2dirs.filter { (p, dirs) -> dirs.isEmpty() }.keys
+        val rng = pos2dirs2.filter { (p, dirs) -> dirs.isEmpty() }.keys
         if (rng.any { p ->
             val area = game.pos2area[p]!!
             PathOnTheHillsGame.offset.any {

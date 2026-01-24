@@ -67,6 +67,8 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
                     isSolved = false; return
                 }
             }
+        val pos2dirs2 = pos2dirs.toMap()
+        // Check the loop
         val p = pos2dirs.keys.firstOrNull()
         if (p == null) { isSolved = false; return }
         var p2 = p
@@ -82,7 +84,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
         // 3. At least at one side of the White Pearl(or both), they must do a 90 degree turn.
         // 4. Lines passing through Black Pearls must go straight in the next tile in both directions.
         // 5. Lines passing where there are no Pearls can do what they want.
-        if (!pos2dirs.all { (p, dirs) ->
+        if (!pos2dirs2.all { (p, dirs) ->
             when (val ch = game[p]) {
                 ' ' -> true
                 else -> {
