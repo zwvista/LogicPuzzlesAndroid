@@ -8,6 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove, MasyuGameState>, gdi: GameDocumentInterface) : CellsGame<MasyuGame, MasyuGameMove, MasyuGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val PUZ_BLACK_PEARL = 'B'
+        val PUZ_WHITE_PEARL = 'W'
     }
 
     var objArray: CharArray

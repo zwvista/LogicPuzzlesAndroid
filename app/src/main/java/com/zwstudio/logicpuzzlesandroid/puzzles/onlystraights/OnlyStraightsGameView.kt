@@ -24,7 +24,7 @@ class OnlyStraightsGameView(context: Context, val soundManager: SoundManager) : 
     private val linePaint = Paint()
     private val blockPaint = Paint()
     private val textPaint = TextPaint()
-    private val dMountains: Drawable
+    private val dHouse: Drawable
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -38,7 +38,7 @@ class OnlyStraightsGameView(context: Context, val soundManager: SoundManager) : 
         blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
-        dMountains = fromImageToDrawable("images/mountains.png")
+        dHouse = fromImageToDrawable("images/lodge.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -49,8 +49,8 @@ class OnlyStraightsGameView(context: Context, val soundManager: SoundManager) : 
                 if (isInEditMode) continue
                 val ch = game[r, c]
                 if (ch == ' ') continue
-                dMountains.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                dMountains.draw(canvas)
+                dHouse.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dHouse.draw(canvas)
             }
         if (isInEditMode) return
         for (r in 0 until rows)
