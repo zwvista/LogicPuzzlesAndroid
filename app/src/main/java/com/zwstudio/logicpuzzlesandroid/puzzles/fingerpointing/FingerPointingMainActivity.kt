@@ -1,0 +1,35 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.fingerpointing
+
+import android.content.Intent
+import android.os.Bundle
+import com.zwstudio.logicpuzzlesandroid.common.android.GameHelpActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameMainActivity
+import com.zwstudio.logicpuzzlesandroid.common.android.GameOptionsActivity
+import org.koin.android.ext.android.inject
+
+class FingerPointingMainActivity : GameMainActivity<FingerPointingGame, FingerPointingDocument, FingerPointingGameMove, FingerPointingGameState>() {
+    private val document: FingerPointingDocument by inject()
+    override val doc get() = document
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.btnOptions.setOnClickListener {
+            startActivity(Intent(this, FingerPointingOptionsActivity::class.java))
+        }
+    }
+
+    override fun resumeGame() {
+        doc.resumeGame()
+        startActivity(Intent(this, FingerPointingGameActivity::class.java))
+    }
+}
+
+class FingerPointingOptionsActivity : GameOptionsActivity<FingerPointingGame, FingerPointingDocument, FingerPointingGameMove, FingerPointingGameState>() {
+    private val document: FingerPointingDocument by inject()
+    override val doc get() = document
+}
+
+class FingerPointingHelpActivity : GameHelpActivity<FingerPointingGame, FingerPointingDocument, FingerPointingGameMove, FingerPointingGameState>() {
+    private val document: FingerPointingDocument by inject()
+    override val doc get() = document
+}
