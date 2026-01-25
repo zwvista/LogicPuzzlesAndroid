@@ -1573,6 +1573,18 @@
         <activity android:name=".puzzles.sumscrapers.SumscrapersOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.suspendedgravity.SuspendedGravityMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.suspendedgravity.SuspendedGravityGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.suspendedgravity.SuspendedGravityHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.suspendedgravity.SuspendedGravityOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.tapa.TapaMainActivity"
                   android:screenOrientation="portrait">
         </activity>
