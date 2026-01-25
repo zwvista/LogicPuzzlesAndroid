@@ -71,10 +71,8 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                val rng = NurikabeGame.offset2.map { p + it }.filter { this[it] == NurikabeObject.Wall }
-                if (rng.size == 4) {
-                    isSolved = false
-                    invalid2x2Squares.add(p + Position.SouthEast)
+                if (NurikabeGame.offset2.map { p + it }.all { this[it] == NurikabeObject.Wall }) {
+                    invalid2x2Squares.add(p + Position.SouthEast); isSolved = false
                 }
             }
         val g = Graph()

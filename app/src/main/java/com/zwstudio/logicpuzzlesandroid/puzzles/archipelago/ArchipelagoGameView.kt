@@ -7,10 +7,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -52,18 +49,17 @@ class ArchipelagoGameView(context: Context, val soundManager: SoundManager) : Ce
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is ArchipelagoWaterObject -> {
+                    ArchipelagoObject.Water -> {
                         dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dWater.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dWater.draw(canvas)
                     }
-                    is ArchipelagoHintObject -> {
-                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    ArchipelagoObject.Hint -> {
+                        val s = game.pos2State(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         val text = game.pos2hint[p]!!.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is ArchipelagoMarkerObject ->
+                    ArchipelagoObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }

@@ -10,7 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGame, ArchipelagoGameMove, ArchipelagoGameState>(game) {
-    var objArray = Array<ArchipelagoObject>(rows * cols) { ArchipelagoEmptyObject }
+    var objArray = Array<ArchipelagoObject>(rows * cols) { ArchipelagoObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
     val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -19,8 +20,8 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
     operator fun set(p: Position, obj: ArchipelagoObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, n) in game.pos2hint)
-            this[p] = ArchipelagoHintObject()
+        for (p in game.pos2hint.keys)
+            this[p] = ArchipelagoObject.Hint
         updateIsSolved()
     }
 
@@ -36,9 +37,9 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
         if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is ArchipelagoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoMarkerObject else ArchipelagoWaterObject()
-            is ArchipelagoWaterObject -> if (markerOption == MarkerOptions.MarkerLast) ArchipelagoMarkerObject else ArchipelagoEmptyObject
-            is ArchipelagoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoWaterObject() else ArchipelagoEmptyObject
+            ArchipelagoObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoObject.Marker else ArchipelagoObject.Water
+            ArchipelagoObject.Water -> if (markerOption == MarkerOptions.MarkerLast) ArchipelagoObject.Marker else ArchipelagoObject.Empty
+            ArchipelagoObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ArchipelagoObject.Water else ArchipelagoObject.Empty
             else -> o
         }
         return setObject(move)
@@ -67,8 +68,9 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                val isFullOfWater = ArchipelagoGame.offset2.map { p + it }.all { this[it] is ArchipelagoWaterObject }
-                if (isFullOfWater) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
+                if (ArchipelagoGame.offset2.map { p + it }.all { this[it] == ArchipelagoObject.Water }) {
+                    invalid2x2Squares.add(p + Position.SouthEast); isSolved = false
+                }
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
@@ -76,7 +78,7 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is ArchipelagoWaterObject) continue
+                if (o == ArchipelagoObject.Water) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -113,16 +115,16 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
             val cs = c2 - c1 + 1
             // 1. Each number represents a rectangular island in the Archipelago.
             val isRect = rs * cs == n1
-            val hints = area.filter { this[it] is ArchipelagoHintObject }
+            val hints = area.filter { this[it] == ArchipelagoObject.Hint }
             if (hints.size > 1) {
                 isSolved = false
-                for (p in hints) { this[p] = ArchipelagoHintObject() }
+                for (p in hints) { this[p] = ArchipelagoObject.Hint }
             } else if (hints.size == 1) {
                 val p = hints[0]
                 val n2 = game.pos2hint[p]!!
                 // 2. The number in itself identifies how many squares the island occupies.
                 val s = if (!isRect || n1 > n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-                this[p] = ArchipelagoHintObject(state = s)
+                pos2state[p] = s
                 if (s != HintState.Complete) isSolved = false
             }
         }

@@ -44,10 +44,9 @@ class NurikabeGameView(context: Context, val soundManager: SoundManager) : Cells
                 val p = Position(r, c)
                 when (game.getObject(p)) {
                     NurikabeObject.Hint -> {
-                        val n = game.pos2hint[p]!!
                         val s = game.pos2State(p)
                         textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                        val text = n.toString()
+                        val text = game.pos2hint[p]!!.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
                     NurikabeObject.Wall ->
