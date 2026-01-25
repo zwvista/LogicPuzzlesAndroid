@@ -2,10 +2,12 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.youturnmeon
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class YouTurnMeOnGameState(game: YouTurnMeOnGame) : CellsGameState<YouTurnMeOnGame, YouTurnMeOnGameMove, YouTurnMeOnGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,7 +21,7 @@ class YouTurnMeOnGameState(game: YouTurnMeOnGame) : CellsGameState<YouTurnMeOnGa
     override fun setObject(move: YouTurnMeOnGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
         val (p2, dir2) = p + YouTurnMeOnGame.offset[dir] to (dir + 2) % 4
-        if (!isValid(p2) || game[p] == YouTurnMeOnGame.PUZ_BLOCK || game[p2] == YouTurnMeOnGame.PUZ_BLOCK)
+        if (!isValid(p2))
             return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
@@ -45,40 +47,36 @@ class YouTurnMeOnGameState(game: YouTurnMeOnGame) : CellsGameState<YouTurnMeOnGa
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
-                if (dirs.size == 2)
-                    // 1. Draw a single path
-                    pos2dirs[p] = dirs
-                else if (dirs.isNotEmpty()) {
-                    // The loop cannot cross itself.
-                    isSolved = false; return
-                }
+                pos2dirs[p] = dirs
+                if (dirs.size != 2)
+                    // 1. Draw a single, no intersecting loop.
+                    isSolved = false
             }
+        // 2. The number on each region tells you how many turns the path does
+        //    in that region.
+        for ((p, n2) in game.pos2hint) {
+            val area = game.areas[game.pos2area[p]!!]
+            val n1 = area.fold(0) { acc, p ->
+                val dirs = pos2dirs[p]!!
+                acc + (if (dirs.size == 2 && dirs[1] - dirs[0] != 2) 1 else 0)
+            }
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            pos2state[p] = s
+        }
+        if (!isSolved) return
         // Check the loop
         val p = pos2dirs.keys.firstOrNull()
         if (p == null) { isSolved = false; return }
         var p2 = p
         var n = -1
-        var lastArea = -1
-        val area2count = mutableMapOf<Int, Int>()
         while (true) {
             val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
-            val area = game.pos2area[p2]!!
-            if (area != lastArea) {
-                area2count[area] = (area2count[area] ?: 0) + 1
-                lastArea = area
-            }
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
             p2 += YouTurnMeOnGame.offset[n]
-            if (p2 == p) {
-                area2count[area] = area2count[area]!! - 1
-                break
-            }
+            if (p2 == p) break
         }
-        // 1. Draw a single path which passes in each area exactly twice.
-        // 2. Every square in the board must be passed through, except for brown
-        //    areas, which are to be avoided entirely.
-        if (!(area2count.size == game.areas.size && area2count.all { it.value == 2 })) isSolved = false
     }
 }

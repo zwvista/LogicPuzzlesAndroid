@@ -19,7 +19,7 @@ class StraightAndBendLandsGameState(game: StraightAndBendLandsGame) : CellsGameS
     override fun setObject(move: StraightAndBendLandsGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
         val (p2, dir2) = p + StraightAndBendLandsGame.offset[dir] to (dir + 2) % 4
-        if (!isValid(p2))
+        if (!isValid(p2) || game[p] == StraightAndBendLandsGame.PUZ_TREE || game[p2] == StraightAndBendLandsGame.PUZ_TREE)
             return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
