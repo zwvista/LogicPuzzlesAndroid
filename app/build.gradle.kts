@@ -1,5 +1,3 @@
-import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -19,7 +17,7 @@ android {
     buildTypes {
         named("release") {
             isMinifyEnabled = false
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
     }
     compileOptions {
@@ -28,6 +26,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        buildConfig = true
     }
     namespace = "com.zwstudio.logicpuzzlesandroid"
 }
