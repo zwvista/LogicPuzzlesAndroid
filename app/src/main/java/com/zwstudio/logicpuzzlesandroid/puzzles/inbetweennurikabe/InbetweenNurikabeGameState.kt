@@ -116,25 +116,17 @@ class InbetweenNurikabeGameState(game: InbetweenNurikabeGame) : CellsGameState<I
             for (p in game.pos2hint.keys)
                 if (nodeList.contains(pos2node[p]))
                     rng.add(+p)
-            when (rng.size) {
-                0 ->
-                    // 5. All the gardens in the puzzle are numbered at the start, there are no
-                    //    hidden gardens.
-                    isSolved = false
-                1 -> {
-                    // 1. Each number on the grid indicates a garden, occupying as many tiles
-                    //    as the number itself.
-                    val p = rng[0]
-                    val n1 = game.pos2hint[p]!!
-                    val s = if (n1 == n2) HintState.Complete else HintState.Error
-                    pos2state[p] = s
-                    if (s != HintState.Complete) isSolved = false
-                }
-                else -> {
-                    for (p in rng)
-                        pos2state[p] = HintState.Normal
-                    isSolved = false
-                }
+            if (rng.size == 2) {
+                // 2. The area of the garden must be between the two numbers.
+                val nums = rng.map { game.pos2hint[it]!! }.sorted()
+                val s = if (nums[0] < n2 && n2 < nums[1]) HintState.Complete else HintState.Error
+                for (p in rng) pos2state[p] = s
+                if (s != HintState.Complete) isSolved = false
+            } else {
+                // 5. All the gardens in the puzzle are numbered at the start, there are no
+                //    hidden gardens.
+                isSolved = false
+                for (p in rng) pos2state[p] = HintState.Normal
             }
         }
     }

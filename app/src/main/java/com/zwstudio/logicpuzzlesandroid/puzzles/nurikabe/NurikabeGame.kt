@@ -8,12 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class NurikabeGame(layout: List<String>, gi: GameInterface<NurikabeGame, NurikabeGameMove, NurikabeGameState>, gdi: GameDocumentInterface) : CellsGame<NurikabeGame, NurikabeGameMove, NurikabeGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = arrayOf(
-            Position(0, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(1, 1)
-        )
+        val offset2 = Position.Square2x2Offset
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
