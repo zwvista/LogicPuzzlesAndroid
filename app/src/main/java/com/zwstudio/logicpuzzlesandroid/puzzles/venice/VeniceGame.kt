@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class VeniceGame(layout: List<String>, gi: GameInterface<VeniceGame, VeniceGameMove, VeniceGameState>, gdi: GameDocumentInterface) : CellsGame<VeniceGame, VeniceGameMove, VeniceGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val offset2 = Position.Square2x2Offset
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
@@ -32,4 +33,5 @@ class VeniceGame(layout: List<String>, gi: GameInterface<VeniceGame, VeniceGameM
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2State(p: Position) = currentState.pos2state[p]
+    fun invalid2x2Squares() = currentState.invalid2x2Squares
 }

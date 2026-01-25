@@ -7,10 +7,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -27,7 +24,7 @@ class VeniceGameView(context: Context, val soundManager: SoundManager) : CellsGa
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private val dTower: Drawable
+    private val dWater: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,7 +36,7 @@ class VeniceGameView(context: Context, val soundManager: SoundManager) : CellsGa
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTower = fromImageToDrawable("images/tower.png")
+        dWater = fromImageToDrawable("images/sea.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -50,26 +47,23 @@ class VeniceGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is VeniceTowerObject -> {
-                        dTower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dTower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTower.draw(canvas)
+                    VeniceObject.Hint -> {
+                        val s = game.pos2State(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                        val text = game.pos2hint[p]!!.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is VeniceMarkerObject ->
+                    VeniceObject.Water -> {
+                        dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dWater.draw(canvas)
+                    }
+                    VeniceObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is VeniceForbiddenObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.pos2State(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                }
             }
+        for ((r, c) in game.invalid2x2Squares())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
