@@ -9,7 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
-    var objArray = Array<NurikabeObject>(rows * cols) { NurikabeEmptyObject }
+    var objArray = Array(rows * cols) { NurikabeObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,26 +19,26 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = NurikabeHintObject()
+            this[p] = NurikabeObject.Hint
+        updateIsSolved()
     }
 
     override fun setObject(move: NurikabeGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is NurikabeHintObject || objOld.toString() == objNew.toString()) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == NurikabeObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: NurikabeGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == NurikabeObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is NurikabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeMarkerObject else NurikabeWallObject
-            is NurikabeWallObject -> if (markerOption == MarkerOptions.MarkerLast) NurikabeMarkerObject else NurikabeEmptyObject
-            is NurikabeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeWallObject else NurikabeEmptyObject
+            NurikabeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeObject.Marker else NurikabeObject.Wall
+            NurikabeObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) NurikabeObject.Marker else NurikabeObject.Empty
+            NurikabeObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) NurikabeObject.Wall else NurikabeObject.Empty
             else -> o
         }
         return setObject(move)
@@ -70,21 +71,21 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (os in NurikabeGame.offset2)
-                    if (this[p + os] !is NurikabeWallObject)
+                    if (this[p + os] != NurikabeObject.Wall)
                         continue@rule2x2
                 isSolved = false
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
-        var rngEmpty = mutableListOf<Position>()
+        val rngEmpty = mutableListOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                if (this[p] is NurikabeWallObject)
+                if (this[p] == NurikabeObject.Wall)
                     rngWalls.add(p)
                 else
                     rngEmpty.add(p)
@@ -122,22 +123,22 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
                 if (nodeList.contains(pos2node[p]))
                     rng.add(+p)
             when (rng.size) {
-                0 ->                 // 5. All the gardens in the puzzle are numbered at the start, there are no
+                0 ->
+                    // 5. All the gardens in the puzzle are numbered at the start, there are no
                     // hidden gardens.
                     isSolved = false
                 1 -> {
-
                     // 1. Each number on the grid indicates a garden, occupying as many tiles
                     // as the number itself.
                     val p = rng[0]
                     val n1 = game.pos2hint[p]!!
                     val s = if (n1 == n2) HintState.Complete else HintState.Error
-                    (this[p] as NurikabeHintObject).state = s
+                    pos2state[p] = s
                     if (s != HintState.Complete) isSolved = false
                 }
                 else -> {
                     for (p in rng)
-                        (this[p] as NurikabeHintObject).state = HintState.Normal
+                        pos2state[p] = HintState.Normal
                     isSolved = false
                 }
             }

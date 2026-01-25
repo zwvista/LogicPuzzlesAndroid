@@ -9,9 +9,9 @@ class NurikabeDocument(context: Context) : GameDocument<NurikabeGameMove>(contex
     override fun saveMove(move: NurikabeGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        NurikabeGameMove(Position(rec.row, rec.col), NurikabeObject.objTypeFromString(rec.strValue1!!))
+        NurikabeGameMove(Position(rec.row, rec.col), NurikabeObject.entries[rec.intValue1])
 }
