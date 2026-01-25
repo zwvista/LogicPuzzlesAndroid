@@ -11,7 +11,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class YouTurnMeOnGame(layout: List<String>, gi: GameInterface<YouTurnMeOnGame, YouTurnMeOnGameMove, YouTurnMeOnGameState>, gdi: GameDocumentInterface) : CellsGame<YouTurnMeOnGame, YouTurnMeOnGameMove, YouTurnMeOnGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),

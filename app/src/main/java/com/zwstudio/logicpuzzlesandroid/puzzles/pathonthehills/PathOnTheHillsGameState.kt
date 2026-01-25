@@ -86,7 +86,8 @@ class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnT
             n = dirs.first { (it + 2) % 4 != n }
             p2 += PathOnTheHillsGame.offset[n]
             if (p2 == p) {
-                area2count[area] = area2count[area]!! - 1
+                if (area == game.pos2area[p]!!)
+                    area2count[area] = area2count[area]!! - 1
                 break
             }
         }

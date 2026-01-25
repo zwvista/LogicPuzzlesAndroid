@@ -11,7 +11,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CleaningPathGame(layout: List<String>, gi: GameInterface<CleaningPathGame, CleaningPathGameMove, CleaningPathGameState>, gdi: GameDocumentInterface) : CellsGame<CleaningPathGame, CleaningPathGameMove, CleaningPathGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
@@ -25,17 +24,10 @@ class CleaningPathGame(layout: List<String>, gi: GameInterface<CleaningPathGame,
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
-    var objArray: CharArray
-
-    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
-    operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
         dots = GridDots(rows + 1, cols + 1)
-        objArray = CharArray(rows * cols)
         for (r in 0 until rows + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols) {
@@ -53,9 +45,6 @@ class CleaningPathGame(layout: List<String>, gi: GameInterface<CleaningPathGame,
                     dots[r, c, 2] = GridLineObject.Line
                     dots[r + 1, c, 0] = GridLineObject.Line
                 }
-                if (c == cols) break
-                val ch2 = str[c * 2 + 1]
-                set(Position(r, c), ch2)
             }
         }
         val rng = mutableSetOf<Position>()
@@ -64,7 +53,6 @@ class CleaningPathGame(layout: List<String>, gi: GameInterface<CleaningPathGame,
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (get(p) != ' ') continue
                 rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)

@@ -49,9 +49,6 @@ class CleaningPathGameView(context: Context, val soundManager: SoundManager) : C
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
-                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
