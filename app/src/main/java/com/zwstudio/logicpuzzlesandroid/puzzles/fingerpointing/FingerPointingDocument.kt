@@ -9,9 +9,9 @@ class FingerPointingDocument(context: Context) : GameDocument<FingerPointingGame
     override fun saveMove(move: FingerPointingGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        FingerPointingGameMove(Position(rec.row, rec.col), FingerPointingObject.objFromString(rec.strValue1!!))
+        FingerPointingGameMove(Position(rec.row, rec.col), FingerPointingObject.entries[rec.intValue1])
 }

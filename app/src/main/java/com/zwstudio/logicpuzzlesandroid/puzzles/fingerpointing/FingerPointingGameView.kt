@@ -23,22 +23,23 @@ class FingerPointingGameView(context: Context, val soundManager: SoundManager) :
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val markerPaint = Paint()
+    private val blockPaint = Paint()
     private val textPaint = TextPaint()
-    private val forbiddenPaint = Paint()
-    private val dTree: Drawable
+    private val dUp: Drawable
+    private val dRight: Drawable
+    private val dDown: Drawable
+    private val dLeft: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.strokeWidth = 5f
+        blockPaint.color = Color.WHITE
+        blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
-        dTree = fromImageToDrawable("images/tree.png")
+        dUp = fromImageToDrawable("images/finger_up.png")
+        dRight = fromImageToDrawable("images/finger_right.png")
+        dDown = fromImageToDrawable("images/finger_down.png")
+        dLeft = fromImageToDrawable("images/finger_left.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,19 +49,28 @@ class FingerPointingGameView(context: Context, val soundManager: SoundManager) :
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o is FingerPointingMineObject) {
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                    dTree.draw(canvas)
-                } else if (o is FingerPointingMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is FingerPointingForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.pos2State(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                when (val o = game.getObject(p)) {
+                    FingerPointingObject.Hint -> {
+                        val s = game.pos2State(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                        val text = game.pos2hint[p]!!.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                    FingerPointingObject.Block ->
+                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), blockPaint)
+                    else -> {
+                        val d = when (o) {
+                            FingerPointingObject.Up -> dUp
+                            FingerPointingObject.Right -> dRight
+                            FingerPointingObject.Down -> dDown
+                            FingerPointingObject.Left -> dLeft
+                            else -> continue
+                        }
+                        d.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (game.pos2State(p) == HintState.Error) 50 else 0
+                        d.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        d.draw(canvas)
+                    }
                 }
             }
     }

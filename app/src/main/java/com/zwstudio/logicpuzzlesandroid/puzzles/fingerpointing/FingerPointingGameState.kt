@@ -3,11 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fingerpointing
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FingerPointingGameState(game: FingerPointingGame) : CellsGameState<FingerPointingGame, FingerPointingGameMove, FingerPointingGameState>(game) {
-    var objArray = Array<FingerPointingObject>(rows * cols) { FingerPointingEmptyObject }
+    var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -16,13 +15,12 @@ class FingerPointingGameState(game: FingerPointingGame) : CellsGameState<FingerP
     operator fun set(p: Position, obj: FingerPointingObject) {this[p.row, p.col] = obj}
 
     init {
-        for (p in game.pos2hint.keys)
-            this[p] = FingerPointingHintObject()
         updateIsSolved()
     }
 
     override fun setObject(move: FingerPointingGameMove): GameOperationType {
-        if (this[move.p] == move.obj) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || game[p] == FingerPointingObject.Block || game[p] == FingerPointingObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -30,11 +28,13 @@ class FingerPointingGameState(game: FingerPointingGame) : CellsGameState<FingerP
 
     override fun switchObject(move: FingerPointingGameMove): GameOperationType {
         val p = move.p
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
+        if (!isValid(p) || game[p] == FingerPointingObject.Block || game[p] == FingerPointingObject.Hint) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
-            is FingerPointingEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FingerPointingMarkerObject else FingerPointingMineObject
-            is FingerPointingMineObject -> if (markerOption == MarkerOptions.MarkerLast) FingerPointingMarkerObject else FingerPointingEmptyObject
-            is FingerPointingMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FingerPointingMineObject else FingerPointingEmptyObject
+            FingerPointingObject.Empty -> FingerPointingObject.Up
+            FingerPointingObject.Up -> FingerPointingObject.Right
+            FingerPointingObject.Right -> FingerPointingObject.Down
+            FingerPointingObject.Down -> FingerPointingObject.Left
+            FingerPointingObject.Left -> FingerPointingObject.Empty
             else -> o
         }
         return setObject(move)
@@ -52,32 +52,44 @@ class FingerPointingGameState(game: FingerPointingGame) : CellsGameState<FingerP
         2. the number tells you how many fingers and finger 'trails' point to that tile.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        val pos2rng = mutableMapOf<Position, MutableSet<Position>>()
+        pos2state.clear()
         for (r in 0 until rows)
-            for (c in 0 until cols)
-                if (this[r, c] is FingerPointingForbiddenObject)
-                    this[r, c] = FingerPointingEmptyObject
-        for ((p, n2) in game.pos2hint) {
-            var n1 = 0
-            val rng = mutableListOf<Position>()
-            for (os in FingerPointingGame.offset) {
-                val p2 = p + os
-                if (!isValid(p2)) continue
-                val o = this[p2]
-                if (o is FingerPointingMineObject)
-                    n1++
-                else if (o is FingerPointingEmptyObject)
-                    rng.add(+p2)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                var o = this[p]
+                if (o == FingerPointingObject.Empty) { isSolved = false; continue }
+                if (o == FingerPointingObject.Block || o == FingerPointingObject.Hint) continue
+                pos2state[p] = pos2state[p] ?: HintState.Normal
+                // 1. Fill the board with fingers. Two fingers pointing in the same direction
+                //    can't be orthogonally adjacent.
+                val rng = FingerPointingGame.offset.map { p + it }.filter { isValid(it) && this[it] == o }
+                if (rng.isNotEmpty()) {
+                    isSolved = false
+                    for (p2 in rng) pos2state[p2] = HintState.Error
+                }
+                var p2 = p
+                val rng2 = mutableListOf<Position>()
+                while (true) {
+                    rng2.add(p2)
+                    p2 += FingerPointingGame.offset[o.ordinal - FingerPointingObject.Up.ordinal]
+                    if (!isValid(p2)) break
+                    o = this[p2]
+                    if (o == FingerPointingObject.Empty) { isSolved = false; break }
+                    if (o == FingerPointingObject.Block) break
+                    if (o == FingerPointingObject.Hint) {
+                        pos2rng.getOrPut(p2) { mutableSetOf() }.addAll(rng2)
+                        break
+                    }
+                }
             }
-            // 2. Numbers tell you how many mines there are close by, touching that
-            // number horizontally, vertically or diagonally.
-            pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2)
-                isSolved = false
-            else if (allowedObjectsOnly)
-                for (p2 in rng)
-                    this[p2] = FingerPointingForbiddenObject
+        // 2. the number tells you how many fingers and finger 'trails' point to that tile.
+        for ((p, n2) in game.pos2hint) {
+            val n1 = pos2rng[p]?.size ?: 0
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            pos2state[p] = s
         }
     }
 }

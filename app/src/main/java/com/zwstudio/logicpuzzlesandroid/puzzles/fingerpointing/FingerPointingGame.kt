@@ -7,22 +7,31 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FingerPointingGame(layout: List<String>, gi: GameInterface<FingerPointingGame, FingerPointingGameMove, FingerPointingGameState>, gdi: GameDocumentInterface) : CellsGame<FingerPointingGame, FingerPointingGameMove, FingerPointingGameState>(gi, gdi) {
     companion object {
-        val offset = Position.Directions8
+        val offset = Position.Directions4
+        val PUZ_BLOCK = 'O'
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
+    var objArray: Array<FingerPointingObject>
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: FingerPointingObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: FingerPointingObject) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
+        objArray = Array(rows * cols) { FingerPointingObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch in '0'..'9') {
-                    val n = ch - '0'
-                    pos2hint[p] = n
-                }
+                if (ch.isDigit()) {
+                    pos2hint[p] = ch - '0'
+                    this[p] = FingerPointingObject.Hint
+                } else if (ch == PUZ_BLOCK)
+                    this[p] = FingerPointingObject.Block
             }
         }
         val state = FingerPointingGameState(this)
