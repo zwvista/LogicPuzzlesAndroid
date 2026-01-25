@@ -685,6 +685,18 @@
         <activity android:name=".puzzles.holidayisland.HolidayIslandOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.inbetweennurikabe.InbetweenNurikabeMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.inbetweennurikabe.InbetweenNurikabeGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.inbetweennurikabe.InbetweenNurikabeHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.inbetweennurikabe.InbetweenNurikabeOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.inbetweensumscrapers.InbetweenSumscrapersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
