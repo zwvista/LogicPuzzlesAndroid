@@ -21,6 +21,7 @@ class NurikabeGameView(context: Context, val soundManager: SoundManager) : Cells
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
@@ -28,6 +29,9 @@ class NurikabeGameView(context: Context, val soundManager: SoundManager) : Cells
         gridPaint.style = Paint.Style.STROKE
         wallPaint.color = Color.WHITE
         wallPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
 
@@ -53,6 +57,8 @@ class NurikabeGameView(context: Context, val soundManager: SoundManager) : Cells
                     else -> {}
                 }
             }
+        for ((r, c) in game.invalid2x2Squares())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

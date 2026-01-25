@@ -11,6 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, NurikabeGameMove, NurikabeGameState>(game) {
     var objArray = Array(rows * cols) { NurikabeObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
+    val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -68,12 +69,13 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
         isSolved = true
         // 7. The wall can't form 2*2 squares.
         for (r in 0 until rows - 1)
-            rule2x2@ for (c in 0 until cols - 1) {
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                for (os in NurikabeGame.offset2)
-                    if (this[p + os] != NurikabeObject.Wall)
-                        continue@rule2x2
-                isSolved = false
+                val rng = NurikabeGame.offset2.map { p + it }.filter { this[it] == NurikabeObject.Wall }
+                if (rng.size == 4) {
+                    isSolved = false
+                    invalid2x2Squares.add(p + Position.SouthEast)
+                }
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
@@ -106,8 +108,8 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             isSolved = false
         else {
             // 3. The garden is separated by a single continuous wall. This means all
-            // wall tiles on the board must be connected horizontally or vertically.
-            // There can't be isolated walls.
+            //    wall tiles on the board must be connected horizontally or vertically.
+            //    There can't be isolated walls.
             g.rootNode = pos2node[rngWalls[0]]!!
             val nodeList = g.bfs()
             if (rngWalls.size != nodeList.size) isSolved = false
@@ -125,11 +127,11 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
             when (rng.size) {
                 0 ->
                     // 5. All the gardens in the puzzle are numbered at the start, there are no
-                    // hidden gardens.
+                    //    hidden gardens.
                     isSolved = false
                 1 -> {
                     // 1. Each number on the grid indicates a garden, occupying as many tiles
-                    // as the number itself.
+                    //    as the number itself.
                     val p = rng[0]
                     val n1 = game.pos2hint[p]!!
                     val s = if (n1 == n2) HintState.Complete else HintState.Error
