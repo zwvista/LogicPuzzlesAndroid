@@ -973,6 +973,18 @@
         <activity android:name=".puzzles.mineships.MineShipsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.mineslither.MineSlitherMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mineslither.MineSlitherGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mineslither.MineSlitherHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mineslither.MineSlitherOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.minesweeper.MinesweeperMainActivity"
                   android:screenOrientation="portrait">
         </activity>
