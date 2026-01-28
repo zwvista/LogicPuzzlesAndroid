@@ -1777,6 +1777,18 @@
         <activity android:name=".puzzles.tracenumbers.TraceNumbersOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.trafficwarden.TrafficWardenMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trafficwarden.TrafficWardenGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trafficwarden.TrafficWardenHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trafficwarden.TrafficWardenOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.trebuchet.TrebuchetMainActivity"
                   android:screenOrientation="portrait">
         </activity>
