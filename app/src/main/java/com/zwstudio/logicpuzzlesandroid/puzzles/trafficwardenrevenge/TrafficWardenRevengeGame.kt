@@ -24,7 +24,7 @@ class TrafficWardenRevengeGame(layout: List<String>, gi: GameInterface<TrafficWa
             for (c in 0 until cols) {
                 val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
                 if (ch1 == ' ') continue
-                val n = if (ch2.isDigit()) ch2 - '0' else ch2 - 'A' + 10
+                val n = if (ch2 == '1') PUZ_UNKNOWN_10 else if (ch2.isDigit()) ch2 - '0' else PUZ_UNKNOWN
                 pos2hint[Position(r, c)] = TrafficWardenRevengeHint(ch1, n)
             }
         }

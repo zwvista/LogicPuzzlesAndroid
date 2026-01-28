@@ -77,10 +77,12 @@ class TrafficWardenRevengeGameState(game: TrafficWardenRevengeGame) : CellsGameS
                 // 2. Green light means the road that extends from there is of equal length
                 //    in both directions.
                 // 3. Red light means they are not.
-                val s = if ((ns[0] == ns[1]) != (ch == TrafficWardenRevengeGame.PUZ_GREEN)) HintState.Normal
-                else if (n2 == TrafficWardenRevengeGame.PUZ_UNKNOWN ||
-                    n2 == TrafficWardenRevengeGame.PUZ_UNKNOWN_10 && ns[0] + ns[1] >= 10 ||
-                    ns[0] + ns[1] == n2) HintState.Complete else HintState.Error
+                val s =
+                    if ((ns[0] == ns[1]) != (ch == TrafficWardenRevengeGame.PUZ_GREEN)) HintState.Normal
+                    else if (n2 == TrafficWardenRevengeGame.PUZ_UNKNOWN ||
+                        n2 == TrafficWardenRevengeGame.PUZ_UNKNOWN_10 && ns[0] + ns[1] >= 10 ||
+                        ns[0] + ns[1] == n2) HintState.Complete
+                    else HintState.Error
                 if (s != HintState.Complete) isSolved = false
                 pos2state[p] = s
             }
