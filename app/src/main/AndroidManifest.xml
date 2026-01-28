@@ -1789,6 +1789,18 @@
         <activity android:name=".puzzles.trafficwarden.TrafficWardenOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.trafficwardenrevenge.TrafficWardenRevengeMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trafficwardenrevenge.TrafficWardenRevengeGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trafficwardenrevenge.TrafficWardenRevengeHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.trafficwardenrevenge.TrafficWardenRevengeOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.trebuchet.TrebuchetMainActivity"
                   android:screenOrientation="portrait">
         </activity>
