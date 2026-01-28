@@ -10,7 +10,8 @@ class TrafficWardenRevengeGame(layout: List<String>, gi: GameInterface<TrafficWa
         val offset = Position.Directions4
         const val PUZ_GREEN = 'G'
         const val PUZ_RED = 'R'
-        const val PUZ_YELLOW = 'Y'
+        const val PUZ_UNKNOWN = -1
+        const val PUZ_UNKNOWN_10 = -2
     }
 
     val pos2hint = mutableMapOf<Position, TrafficWardenRevengeHint>()

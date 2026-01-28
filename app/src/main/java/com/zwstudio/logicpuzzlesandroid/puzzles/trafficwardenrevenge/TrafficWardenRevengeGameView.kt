@@ -26,7 +26,6 @@ class TrafficWardenRevengeGameView(context: Context, val soundManager: SoundMana
     private val textPaint = TextPaint()
     private val dGreen: Drawable
     private val dRed: Drawable
-    private val dYellow: Drawable
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -39,7 +38,6 @@ class TrafficWardenRevengeGameView(context: Context, val soundManager: SoundMana
         textPaint.isAntiAlias = true
         dGreen = fromImageToDrawable("images/nav_plain_green.png")
         dRed = fromImageToDrawable("images/nav_plain_red.png")
-        dYellow = fromImageToDrawable("images/nav_plain_yellow.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -53,14 +51,17 @@ class TrafficWardenRevengeGameView(context: Context, val soundManager: SoundMana
                 val dObject = when (hint.light) {
                     TrafficWardenRevengeGame.PUZ_GREEN -> dGreen
                     TrafficWardenRevengeGame.PUZ_RED -> dRed
-                    TrafficWardenRevengeGame.PUZ_YELLOW -> dYellow
                     else -> dGreen
                 }
                 dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 dObject.draw(canvas)
                 val s = game.pos2State(p)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.BLACK
-                val text = hint.len.toString()
+                val text = when (val n = hint.len) {
+                    TrafficWardenRevengeGame.PUZ_UNKNOWN -> "?"
+                    TrafficWardenRevengeGame.PUZ_UNKNOWN_10 -> "1?"
+                    else -> n.toString()
+                }
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return

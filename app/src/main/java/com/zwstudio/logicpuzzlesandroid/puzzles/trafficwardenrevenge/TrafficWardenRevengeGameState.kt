@@ -56,32 +56,31 @@ class TrafficWardenRevengeGameState(game: TrafficWardenRevengeGame) : CellsGameS
         for ((p, hint) in game.pos2hint) {
             val ch = hint.light
             val dirs = pos2dirs[p]!!
-            // 2. While passing on green lights, the road must go straight, it can't turn.
-            // 3. While passing on red lights, the road must turn 90 degrees.
-            // 4. While passing on yellow lights, the road might turn 90 degrees or
-            //    go straight.
-            if (!(dirs.size == 2 && (
-                (ch == TrafficWardenRevengeGame.PUZ_GREEN || ch == TrafficWardenRevengeGame.PUZ_YELLOW) && dirs[1] - dirs[0] == 2 ||
-                (ch == TrafficWardenRevengeGame.PUZ_RED || ch == TrafficWardenRevengeGame.PUZ_YELLOW) && dirs[1] - dirs[0] != 2))
-            ) {
+            if (dirs.size != 2) {
                 isSolved = false; pos2state[p] = HintState.Normal
             } else {
-                // 5. A number on the light tells you the length of the straights coming
-                //    out of that tile.
+                // 4. A number tells you the sum of the length or road extending from that
+                //    traffic light, be it green or red.
                 val n2 = hint.len
-                var n1 = 0
-                for (d in dirs) {
+                val ns = IntArray(2) { 1 }
+                for (i in 0 until 2) {
+                    val d = dirs[i]
                     val os = TrafficWardenRevengeGame.offset[d]
                     var p2 = p + os
-                    n1++
                     while (true) {
                         val dirs2 = pos2dirs[p2]!!
                         if (!dirs2.contains(d)) break
                         p2 += os
-                        n1++
+                        ns[i]++
                     }
                 }
-                val s = if (n1 == n2) HintState.Complete else HintState.Error
+                // 2. Green light means the road that extends from there is of equal length
+                //    in both directions.
+                // 3. Red light means they are not.
+                val s = if ((ns[0] == ns[1]) != (ch == TrafficWardenRevengeGame.PUZ_GREEN)) HintState.Normal
+                else if (n2 == TrafficWardenRevengeGame.PUZ_UNKNOWN ||
+                    n2 == TrafficWardenRevengeGame.PUZ_UNKNOWN_10 && ns[0] + ns[1] >= 10 ||
+                    ns[0] + ns[1] == n2) HintState.Complete else HintState.Error
                 if (s != HintState.Complete) isSolved = false
                 pos2state[p] = s
             }
