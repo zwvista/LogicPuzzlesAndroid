@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import kotlin.math.abs
@@ -21,8 +23,10 @@ class TrafficWardenGameView(context: Context, val soundManager: SoundManager) : 
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
-    private val blockPaint = Paint()
     private val textPaint = TextPaint()
+    private val dGreen: Drawable
+    private val dRed: Drawable
+    private val dYellow: Drawable
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -32,10 +36,10 @@ class TrafficWardenGameView(context: Context, val soundManager: SoundManager) : 
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        blockPaint.color = Color.LTGRAY
-        blockPaint.style = Paint.Style.FILL_AND_STROKE
-        textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
+        dGreen = fromImageToDrawable("images/nav_plain_green.png")
+        dRed = fromImageToDrawable("images/nav_plain_red.png")
+        dYellow = fromImageToDrawable("images/nav_plain_yellow.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -44,9 +48,20 @@ class TrafficWardenGameView(context: Context, val soundManager: SoundManager) : 
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
-                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                val p = Position(r, c)
+                val hint = game.pos2hint[p] ?: continue
+                val dObject = when (hint.light) {
+                    TrafficWardenGame.PUZ_GREEN -> dGreen
+                    TrafficWardenGame.PUZ_RED -> dRed
+                    TrafficWardenGame.PUZ_YELLOW -> dYellow
+                    else -> dGreen
+                }
+                dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dObject.draw(canvas)
+                val s = game.pos2State(p)
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.BLACK
+                val text = hint.len.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
         for (r in 0 until rows)

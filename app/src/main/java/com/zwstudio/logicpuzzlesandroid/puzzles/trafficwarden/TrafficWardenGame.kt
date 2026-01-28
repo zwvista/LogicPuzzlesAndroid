@@ -7,24 +7,25 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TrafficWardenGame(layout: List<String>, gi: GameInterface<TrafficWardenGame, TrafficWardenGameMove, TrafficWardenGameState>, gdi: GameDocumentInterface) : CellsGame<TrafficWardenGame, TrafficWardenGameMove, TrafficWardenGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
+        const val PUZ_GREEN = 'G'
+        const val PUZ_RED = 'R'
+        const val PUZ_YELLOW = 'Y'
     }
 
-    var objArray: CharArray
-
-    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
-    operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    val pos2hint = mutableMapOf<Position, TrafficWardenHint>()
 
     init {
-        size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows * cols)
+        size = Position(layout.size, layout[0].length / 2)
         for (r in 0 until rows) {
+
             val str = layout[r]
-            for (c in 0 until cols)
-                this[r, c] = str[c]
+            for (c in 0 until cols) {
+                val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
+                if (ch1 == ' ') continue
+                val n = if (ch2.isDigit()) ch2 - '0' else ch2 - 'A' + 10
+                pos2hint[Position(r, c)] = TrafficWardenHint(ch1, n)
+            }
         }
         val state = TrafficWardenGameState(this)
         levelInitialized(state)
@@ -32,4 +33,5 @@ class TrafficWardenGame(layout: List<String>, gi: GameInterface<TrafficWardenGam
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }
