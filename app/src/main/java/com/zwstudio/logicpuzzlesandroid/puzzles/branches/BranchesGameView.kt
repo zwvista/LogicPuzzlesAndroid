@@ -62,15 +62,15 @@ class BranchesGameView(context: Context, val soundManager: SoundManager) : Cells
                     dWall.draw(canvas)
                 }
                 when (val o = game.getObject(p)) {
-                    is BranchesUpObject -> f(dBranchUp)
-                    is BranchesRightObject -> f(dBranchRight)
-                    is BranchesDownObject -> f(dBranchDown)
-                    is BranchesLeftObject -> f(dBranchLeft)
-                    is BranchesHorizontalObject -> f(dBranchHorizontal)
-                    is BranchesVerticalObject -> f(dBranchVertical)
-                    is BranchesHintObject -> {
+                    BranchesObject.Up -> f(dBranchUp)
+                    BranchesObject.Right -> f(dBranchRight)
+                    BranchesObject.Down -> f(dBranchDown)
+                    BranchesObject.Left -> f(dBranchLeft)
+                    BranchesObject.Horizontal -> f(dBranchHorizontal)
+                    BranchesObject.Vertical -> f(dBranchVertical)
+                    BranchesObject.Hint -> {
                         val text = game.pos2hint[p].toString()
-                        val s = o.state
+                        val s = game.pos2State(p)
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }

@@ -62,15 +62,15 @@ class CulturedBranchesGameView(context: Context, val soundManager: SoundManager)
                     dWall.draw(canvas)
                 }
                 when (val o = game.getObject(p)) {
-                    is CulturedBranchesUpObject -> f(dBranchUp)
-                    is CulturedBranchesRightObject -> f(dBranchRight)
-                    is CulturedBranchesDownObject -> f(dBranchDown)
-                    is CulturedBranchesLeftObject -> f(dBranchLeft)
-                    is CulturedBranchesHorizontalObject -> f(dBranchHorizontal)
-                    is CulturedBranchesVerticalObject -> f(dBranchVertical)
-                    is CulturedBranchesHintObject -> {
+                    CulturedBranchesObject.Up -> f(dBranchUp)
+                    CulturedBranchesObject.Right -> f(dBranchRight)
+                    CulturedBranchesObject.Down -> f(dBranchDown)
+                    CulturedBranchesObject.Left -> f(dBranchLeft)
+                    CulturedBranchesObject.Horizontal -> f(dBranchHorizontal)
+                    CulturedBranchesObject.Vertical -> f(dBranchVertical)
+                    CulturedBranchesObject.Hint -> {
                         val text = game.pos2hint[p].toString()
-                        val s = o.state
+                        val s = game.pos2State(p)
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }

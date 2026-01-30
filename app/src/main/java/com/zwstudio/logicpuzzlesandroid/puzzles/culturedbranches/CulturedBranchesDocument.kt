@@ -9,9 +9,9 @@ class CulturedBranchesDocument(context: Context) : GameDocument<CulturedBranches
     override fun saveMove(move: CulturedBranchesGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CulturedBranchesGameMove(Position(rec.row, rec.col), CulturedBranchesObject.objFromString(rec.strValue1!!))
+        CulturedBranchesGameMove(Position(rec.row, rec.col), CulturedBranchesObject.entries[rec.intValue1])
 }

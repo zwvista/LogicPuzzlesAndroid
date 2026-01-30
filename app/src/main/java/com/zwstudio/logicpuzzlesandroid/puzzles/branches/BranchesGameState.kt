@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, BranchesGameMove, BranchesGameState>(game) {
-    var objArray = Array<BranchesObject>(rows * cols) { BranchesEmptyObject }
+    var objArray = Array<BranchesObject>(rows * cols) { BranchesObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -16,27 +16,31 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
 
     init {
         for ((p, n) in game.pos2hint)
-            this[p] = BranchesHintObject()
+            this[p] = BranchesObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: BranchesGameMove): GameOperationType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == BranchesObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: BranchesGameMove): GameOperationType {
-        val o = this[move.p]
-        move.obj = if (o is BranchesEmptyObject) BranchesUpObject
-            else if (o is BranchesUpObject) BranchesRightObject
-            else if (o is BranchesRightObject) BranchesDownObject
-            else if (o is BranchesDownObject) BranchesLeftObject
-            else if (o is BranchesLeftObject) BranchesHorizontalObject
-            else if (o is BranchesHorizontalObject) BranchesVerticalObject
-            else if (o is BranchesVerticalObject) BranchesEmptyObject
-            else o
+        val p = move.p
+        if (!isValid(p) || this[p] == BranchesObject.Hint) return GameOperationType.Invalid
+        move.obj = when (val o = this[p]) {
+            BranchesObject.Empty -> BranchesObject.Up
+            BranchesObject.Up -> BranchesObject.Right
+            BranchesObject.Right -> BranchesObject.Down
+            BranchesObject.Down -> BranchesObject.Left
+            BranchesObject.Left -> BranchesObject.Horizontal
+            BranchesObject.Horizontal -> BranchesObject.Vertical
+            BranchesObject.Vertical -> BranchesObject.Empty
+            else -> o
+        }
         return setObject(move)
     }
 
@@ -56,15 +60,15 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
            and can't make corners.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        pos2state.clear()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is BranchesEmptyObject) // 3. There can't be blank tiles.
+                if (o == BranchesObject.Empty) // 3. There can't be blank tiles.
                     isSolved = false
-                else if (o is BranchesHintObject) {
+                else if (o == BranchesObject.Hint) {
                     // 1. In Branches you must fill the board with straight horizontal and
                     // vertical lines(Branches) that stem from each number.
                     // The tile with the number doesn't count.
@@ -77,12 +81,12 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
                         // Branches must be in a single straight line and can't make corners.
                         while (isValid(p2)) {
                             when (this[p2]) {
-                                is BranchesUpObject -> { if (i == 0) n1++; break }
-                                is BranchesRightObject -> { if (i == 1) n1++; break }
-                                is BranchesDownObject -> { if (i == 2) n1++; break }
-                                is BranchesLeftObject -> { if (i == 3) n1++; break }
-                                is BranchesHorizontalObject -> if (i % 2 == 1) n1++ else break
-                                is BranchesVerticalObject -> if (i % 2 == 0) n1++ else break
+                                BranchesObject.Up -> { if (i == 0) n1++; break }
+                                BranchesObject.Right -> { if (i == 1) n1++; break }
+                                BranchesObject.Down -> { if (i == 2) n1++; break }
+                                BranchesObject.Left -> { if (i == 3) n1++; break }
+                                BranchesObject.Horizontal -> if (i % 2 == 1) n1++ else break
+                                BranchesObject.Vertical -> if (i % 2 == 0) n1++ else break
                                 else -> break
                             }
                             p2 += os
@@ -91,7 +95,7 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
                     // 2. The number itself tells you how many tiles its Branches fill up.
                     val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
                     if (s != HintState.Complete) isSolved = false
-                    o.state = s
+                    pos2state[p] = s
                 }
             }
     }

@@ -9,9 +9,9 @@ class BranchesDocument(context: Context) : GameDocument<BranchesGameMove>(contex
     override fun saveMove(move: BranchesGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BranchesGameMove(Position(rec.row, rec.col), BranchesObject.objFromString(rec.strValue1!!))
+        BranchesGameMove(Position(rec.row, rec.col), BranchesObject.entries[rec.intValue1])
 }

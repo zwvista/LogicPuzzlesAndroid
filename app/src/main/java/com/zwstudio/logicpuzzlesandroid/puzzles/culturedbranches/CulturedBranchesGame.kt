@@ -10,7 +10,7 @@ class CulturedBranchesGame(layout: List<String>, gi: GameInterface<CulturedBranc
         val offset = Position.Directions4
     }
 
-    val pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Char>()
 
     init {
         size = Position(layout.size, layout[0].length)
@@ -20,7 +20,7 @@ class CulturedBranchesGame(layout: List<String>, gi: GameInterface<CulturedBranc
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch != ' ')
-                    pos2hint[p] = if (Character.isDigit(ch)) ch - '0' else ch - 'A' + 10
+                    pos2hint[p] = ch
             }
         }
         val state = CulturedBranchesGameState(this)
