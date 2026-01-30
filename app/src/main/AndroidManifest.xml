@@ -1045,6 +1045,18 @@
         <activity android:name=".puzzles.neighbours.NeighboursOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.newcarpentersquare.NewCarpenterSquareMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.newcarpentersquare.NewCarpenterSquareGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.newcarpentersquare.NewCarpenterSquareHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.newcarpentersquare.NewCarpenterSquareOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.northpolefishing.NorthPoleFishingMainActivity"
                   android:screenOrientation="portrait">
         </activity>
