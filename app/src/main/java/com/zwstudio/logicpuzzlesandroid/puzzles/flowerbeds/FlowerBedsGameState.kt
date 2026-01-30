@@ -1,0 +1,108 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.flowerbeds
+
+import com.rits.cloning.Cloner
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+
+class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame, FlowerBedsGameMove, FlowerBedsGameState>(game) {
+    var objArray = Cloner().deepClone(game.dots.objArray)
+    var pos2state = mutableMapOf<Position, HintState>()
+
+    init {
+        updateIsSolved()
+    }
+
+    operator fun get(row: Int, col: Int, dir: Int) = objArray[row * cols + col][dir]
+    operator fun get(p: Position, dir: Int) = this[p.row, p.col, dir]
+    operator fun set(row: Int, col: Int, dir: Int, obj: GridLineObject) {objArray[row * cols + col][dir] = obj}
+    operator fun set(p: Position, dir: Int, obj: GridLineObject) {this[p.row, p.col, dir] = obj}
+
+    override fun setObject(move: FlowerBedsGameMove): GameOperationType {
+        val p1 = move.p
+        val dir = move.dir
+        val dir2 = (dir + 2) % 4
+        if (game.dots[p1, dir] != GridLineObject.Empty) return GameOperationType.Invalid
+        val o = this[p1, dir]
+        if (o == move.obj) return GameOperationType.Invalid
+        val p2 = p1 + FlowerBedsGame.offset[dir]
+        this[p1, dir] = move.obj
+        this[p2, dir2] = this[p1, dir]
+        updateIsSolved()
+        return GameOperationType.MoveComplete
+    }
+
+    override fun switchObject(move: FlowerBedsGameMove): GameOperationType {
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
+        move.obj = when (val o = this[move.p, move.dir]) {
+            GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
+            GridLineObject.Line -> if (markerOption == MarkerOptions.MarkerLast) GridLineObject.Marker else GridLineObject.Empty
+            GridLineObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Line else GridLineObject.Empty
+            else -> o
+        }
+        return setObject(move)
+    }
+
+    /*
+        iOS Game: 100 Logic Games 2/Puzzle Set 2/Flower Beds
+
+        Summary
+        Reverse Gardener
+
+        Description
+        1. The board represents a garden where flowers are scattered around.
+        2. Your task as a gardener is to divide the garden in rectangular (or square)
+           flower beds.
+        3. Each flower bed should contain exactly one flower.
+        4. Contiguous flower beds can't have the same area extension.
+        5. Green squares are hedges that can't be included in flower beds.
+    */
+    private fun updateIsSolved() {
+        isSolved = true
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                if (game[p] != FlowerBedsObject.Block) {
+                    val node = Node(p.toString())
+                    g.addNode(node)
+                    pos2node[p] = node
+                }
+            }
+        for ((p, node) in pos2node)
+            for (i in 0 until 4) {
+                if (this[p + FlowerBedsGame.offset2[i], FlowerBedsGame.dirs[i]] == GridLineObject.Line) continue
+                val node2 = pos2node[p + FlowerBedsGame.offset[i]]
+                if (node2 != null)
+                    g.connectNode(node, node2)
+            }
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
+            for (p in area)
+                pos2node.remove(p)
+            val rng = area.filter { game.holes.contains(it) }
+            // 2. They decide each one should have a piece of land of exactly 4 squares,
+            // including one fishing hole.
+            if (rng.size != 1) {
+                for (p in rng)
+                    pos2state[p] = HintState.Normal
+                isSolved = false
+                continue
+            }
+            val p2 = rng[0]
+            val n1 = area.size
+            val n2 = 4
+            val s = if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[p2] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+    }
+}

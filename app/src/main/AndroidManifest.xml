@@ -517,6 +517,18 @@
         <activity android:name=".puzzles.floorplan.FloorPlanOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.flowerbeds.FlowerBedsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.flowerbeds.FlowerBedsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.flowerbeds.FlowerBedsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.flowerbeds.FlowerBedsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fourmenot.FourMeNotMainActivity"
                   android:screenOrientation="portrait">
         </activity>
