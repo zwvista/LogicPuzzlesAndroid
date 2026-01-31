@@ -1345,6 +1345,18 @@
         <activity android:name=".puzzles.plugitin.PlugItInOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pointing.PointingMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pointing.PointingGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pointing.PointingHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pointing.PointingOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pondcamping.PondCampingMainActivity"
                   android:screenOrientation="portrait">
         </activity>
