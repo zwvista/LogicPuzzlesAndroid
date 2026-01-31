@@ -7,21 +7,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PointingGame(layout: List<String>, gi: GameInterface<PointingGame, PointingGameMove, PointingGameState>, gdi: GameDocumentInterface) : CellsGame<PointingGame, PointingGameMove, PointingGameState>(gi, gdi) {
     companion object {
-        val PUZ_UNKNOWN = 8
         val offset = Position.Directions8
     }
 
-    fun isCorner(p: Position): Boolean {
-        val (row, col) = p
-        return (row == 0 || row == size.row - 1) && (col == 0 || col == size.col - 1)
-    }
-    fun isBorder(p: Position): Boolean {
-        val (row, col) = p
-        return row in 1 until size.row - 1 && (col == 0 || col == size.col - 1) ||
-                col in 1 until size.col - 1 && (row == 0 || row == size.row - 1)
-    }
-
     var objArray: IntArray
+    var arrow2rng = mutableMapOf<Position, List<Position>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -29,14 +19,23 @@ class PointingGame(layout: List<String>, gi: GameInterface<PointingGame, Pointin
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
-        size = Position(layout.size + 2, layout[0].length + 2)
-        objArray = IntArray(rows * cols) { PUZ_UNKNOWN }
+        size = Position(layout.size, layout[0].length)
+        objArray = IntArray(rows * cols)
 
-        for (r in 1 until rows - 1) {
-            val str = layout[r - 1]
-            for (c in 1 until cols - 1) {
-                val ch = str[c - 1]
-                this[r, c] = ch - '0'
+        for (r in 0 until rows) {
+            val str = layout[r]
+            for (c in 0 until cols) {
+                val n = str[c] - '0'
+                val p = Position(r, c)
+                this[p] = n
+                val os = offset[n]
+                var p2 = p + os
+                val rng = mutableListOf<Position>()
+                while (isValid(p2)) {
+                    rng.add(p2)
+                    p2 += os
+                }
+                arrow2rng[p] = rng
             }
         }
 
@@ -44,8 +43,6 @@ class PointingGame(layout: List<String>, gi: GameInterface<PointingGame, Pointin
         levelInitialized(state)
     }
 
-    fun getObject(p: Position) = currentState[p]
-    fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getHintState(p: Position) = currentState.hint2state[p]
-    fun getArrowState(p: Position) = currentState.arrow2state[p]
+    fun isMarkedArrows(p: Position) = currentState.markedArrows.contains(p)
+    fun isNonPointingArrows(p: Position) = currentState.nonPointingArrows.contains(p)
 }

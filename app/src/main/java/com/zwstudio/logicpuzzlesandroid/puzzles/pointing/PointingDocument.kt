@@ -9,9 +9,8 @@ class PointingDocument(context: Context) : GameDocument<PointingGameMove>(contex
     override fun saveMove(move: PointingGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.intValue1 = move.obj
     }
 
     override fun loadMove(rec: MoveProgress) =
-        PointingGameMove(Position(rec.row, rec.col), rec.intValue1)
+        PointingGameMove(Position(rec.row, rec.col))
 }
