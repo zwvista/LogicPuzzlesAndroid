@@ -64,12 +64,15 @@ class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame,
     */
     private fun updateIsSolved() {
         isSolved = true
+        val rects = mutableListOf<FlowerBedsRect>()
+        val pos2rect = mutableMapOf<Position, Int>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (game[p] != FlowerBedsObject.Block) {
+                // 5. Green squares are blocks that can't be included in flower beds.
+                if (game[p] != FlowerBedsObject.Hedge) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -88,9 +91,10 @@ class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame,
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.holes.contains(it) }
-            // 2. They decide each one should have a piece of land of exactly 4 squares,
-            // including one fishing hole.
+            val rng = area.filter { game.flowers.contains(it) }
+            // 2. Your task as a gardener is to divide the garden in rectangular (or square)
+            //    flower beds.
+            // 3. Each flower bed should contain exactly one flower.
             if (rng.size != 1) {
                 for (p in rng)
                     pos2state[p] = HintState.Normal
@@ -99,10 +103,41 @@ class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame,
             }
             val p2 = rng[0]
             val n1 = area.size
-            val n2 = 4
-            val s = if (n1 == n2) HintState.Complete else HintState.Error
+            var r2 = 0
+            var r1 = rows
+            var c2 = 0
+            var c1 = cols
+            for (p in area) {
+                if (r2 < p.row) r2 = p.row
+                if (r1 > p.row) r1 = p.row
+                if (c2 < p.col) c2 = p.col
+                if (c1 > p.col) c1 = p.col
+            }
+            val rs = r2 - r1 + 1
+            val cs = c2 - c1 + 1
+            val s = if (rs * cs == n1) HintState.Complete else HintState.Error
             pos2state[p2] = s
-            if (s != HintState.Complete) isSolved = false
+            if (s == HintState.Complete) {
+                val n = rects.size
+                rects.add(FlowerBedsRect(area, rs, cs))
+                for (p in area) { pos2rect[p] = n }
+            } else
+                isSolved = false
         }
+        if (!isSolved) return
+        if (!((0 until rects.size).all { n ->
+            val rect = rects[n]
+            rect.area.all { p ->
+                FlowerBedsGame.offset.all {
+                    val n2 = pos2rect[p + it]
+                    if (n2 == null || n2 == n)
+                        true
+                    else {
+                        val rect2 = rects[n2]
+                        !(rect.rows == rect2.rows && rect.cols == rect2.cols)
+                    }
+                }
+            }
+        })) isSolved = false
     }
 }

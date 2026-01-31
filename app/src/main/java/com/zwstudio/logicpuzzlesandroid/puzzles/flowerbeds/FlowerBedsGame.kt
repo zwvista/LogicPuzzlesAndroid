@@ -20,8 +20,8 @@ class FlowerBedsGame(layout: List<String>, gi: GameInterface<FlowerBedsGame, Flo
     }
 
     var objArray: MutableList<FlowerBedsObject>
-    var blocks = mutableListOf<Position>()
-    var holes = mutableListOf<Position>()
+    var hedges = mutableListOf<Position>()
+    var flowers = mutableListOf<Position>()
     var dots: GridDots
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -38,9 +38,9 @@ class FlowerBedsGame(layout: List<String>, gi: GameInterface<FlowerBedsGame, Flo
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 when (str[c]) {
-                    'B' ->  {
-                        this[p] = FlowerBedsObject.Block
-                        blocks.add(p)
+                    'H' ->  {
+                        this[p] = FlowerBedsObject.Hedge
+                        hedges.add(p)
                         dots[r, c, 2] = GridLineObject.Line
                         dots[r + 1, c, 0] = GridLineObject.Line
                         dots[r, c + 1, 2] = GridLineObject.Line
@@ -50,9 +50,9 @@ class FlowerBedsGame(layout: List<String>, gi: GameInterface<FlowerBedsGame, Flo
                         dots[r + 1, c, 1] = GridLineObject.Line
                         dots[r + 1, c + 1, 3] = GridLineObject.Line
                     }
-                    'H' -> {
-                        this[p] = FlowerBedsObject.Hole
-                        holes.add(p)
+                    'F' -> {
+                        this[p] = FlowerBedsObject.Flower
+                        flowers.add(p)
                     }
                 }
             }

@@ -24,8 +24,8 @@ class FlowerBedsGameView(context: Context, val soundManager: SoundManager) : Cel
     private val line2Paint = Paint()
     private val markerPaint = Paint()
     private val wallPaint = Paint()
-    private val holePaint1 = Paint()
-    private val holePaint2 = Paint()
+    private val flowerPaint1 = Paint()
+    private val flowerPaint2 = Paint()
 
     init {
         gridPaint.color = Color.GRAY
@@ -41,10 +41,10 @@ class FlowerBedsGameView(context: Context, val soundManager: SoundManager) : Cel
         markerPaint.strokeWidth = 5f
         wallPaint.color = Color.LTGRAY
         wallPaint.style = Paint.Style.FILL_AND_STROKE
-        holePaint1.style = Paint.Style.STROKE
-        holePaint1.strokeWidth = 5f
-        holePaint2.style = Paint.Style.FILL
-        holePaint2.color = Color.GRAY
+        flowerPaint1.style = Paint.Style.STROKE
+        flowerPaint1.strokeWidth = 5f
+        flowerPaint2.style = Paint.Style.FILL
+        flowerPaint2.color = Color.GRAY
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -56,17 +56,17 @@ class FlowerBedsGameView(context: Context, val soundManager: SoundManager) : Cel
                 val p = Position(r, c)
                 val o = game[p]
                 when (o) {
-                    FlowerBedsObject.Hole -> {
+                    FlowerBedsObject.Flower -> {
                         val s = game.getPosState(p)
-                        holePaint1.color = when (s) {
+                        flowerPaint1.color = when (s) {
                             HintState.Complete -> Color.GREEN
                             HintState.Error -> Color.RED
                             else -> Color.WHITE
                         }
-                        canvas.drawArc((cwc2(c) - cellWidth / 3).toFloat(), (chr2(r) - cellHeight / 3).toFloat(), (cwc2(c) + cellWidth / 3).toFloat(), (chr2(r) + cellHeight / 3).toFloat(), 0f, 360f, true, holePaint1)
-                        canvas.drawArc((cwc2(c) - cellWidth / 3).toFloat(), (chr2(r) - cellHeight / 3).toFloat(), (cwc2(c) + cellWidth / 3).toFloat(), (chr2(r) + cellHeight / 3).toFloat(), 0f, 360f, true, holePaint2)
+                        canvas.drawArc((cwc2(c) - cellWidth / 3).toFloat(), (chr2(r) - cellHeight / 3).toFloat(), (cwc2(c) + cellWidth / 3).toFloat(), (chr2(r) + cellHeight / 3).toFloat(), 0f, 360f, true, flowerPaint1)
+                        canvas.drawArc((cwc2(c) - cellWidth / 3).toFloat(), (chr2(r) - cellHeight / 3).toFloat(), (cwc2(c) + cellWidth / 3).toFloat(), (chr2(r) + cellHeight / 3).toFloat(), 0f, 360f, true, flowerPaint2)
                     }
-                    FlowerBedsObject.Block ->
+                    FlowerBedsObject.Hedge ->
                         canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
                     else -> {}
                 }
