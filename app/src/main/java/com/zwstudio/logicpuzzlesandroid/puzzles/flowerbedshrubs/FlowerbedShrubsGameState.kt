@@ -1,0 +1,129 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.flowerbedshrubs
+
+import com.rits.cloning.Cloner
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+
+class FlowerbedShrubsGameState(game: FlowerbedShrubsGame) : CellsGameState<FlowerbedShrubsGame, FlowerbedShrubsGameMove, FlowerbedShrubsGameState>(game) {
+    var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    var pos2state = mutableMapOf<Position, HintState>()
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+
+    init {
+        updateIsSolved()
+    }
+
+    override fun setObject(move: FlowerbedShrubsGameMove): GameOperationType {
+        val dir = move.dir
+        val dir2 = (dir + 2) % 4
+        val p1 = move.p
+        val p2 = p1 + FlowerbedShrubsGame.offset[dir]
+        if (game[p1][dir] != GridLineObject.Empty || !isValid(p2)) return GameOperationType.Invalid
+        val o = this[p1][dir]
+        if (o == move.obj) return GameOperationType.Invalid
+        this[p1][dir] = move.obj
+        this[p2][dir2] = this[p1][dir]
+        updateIsSolved()
+        return GameOperationType.MoveComplete
+    }
+
+    override fun switchObject(move: FlowerbedShrubsGameMove): GameOperationType {
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
+        move.obj = when (val o = this[move.p][move.dir]) {
+            GridLineObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Marker else GridLineObject.Line
+            GridLineObject.Line -> if (markerOption == MarkerOptions.MarkerLast) GridLineObject.Marker else GridLineObject.Empty
+            GridLineObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) GridLineObject.Line else GridLineObject.Empty
+            else -> o
+        }
+        return setObject(move)
+    }
+
+    /*
+        iOS Game: 100 Logic Games 3/Puzzle Set 2/Flowerbed Shrubs
+
+        Summary
+        A lively garden
+
+        Description
+        1. Divide the board in Flowerbeds of exactly three tiles. Each Flowerbed
+           contains a number.
+        2. Single tiles left outside Flowerbeds are Shrubs. Shrubs cannot touch
+           each other orthogonally.
+        3. The number on each Flowerbed tells you how many Shrubs are adjacent to it.
+    */
+    private fun updateIsSolved() {
+        isSolved = true
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                for (i in 0 until 4)
+                    if (this[p + FlowerbedShrubsGame.offset2[i]][FlowerbedShrubsGame.dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + FlowerbedShrubsGame.offset[i]]!!)
+            }
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
+            for (p in area)
+                pos2node.remove(p)
+            val rng = area.filter { game.pos2hint.containsKey(it) }
+            // 2. Each Box must contain one number.
+            if (rng.size > 1) {
+                for (p in rng)
+                    pos2state[p] = HintState.Normal
+                isSolved = false
+                continue
+            }
+            val n1 = area.size
+            var r2 = 0
+            var r1 = rows
+            var c2 = 0
+            var c1 = cols
+            for (p in area) {
+                if (r2 < p.row) r2 = p.row
+                if (r1 > p.row) r1 = p.row
+                if (c2 < p.col) c2 = p.col
+                if (c1 > p.col) c1 = p.col
+            }
+            val rs = r2 - r1 + 1
+            val cs = c2 - c1 + 1
+            var s = if (rs * cs == n1) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            // 3. Some tiles can be left unboxed, the board isn't entirely covered by boxes.
+            if (rng.isEmpty()) continue
+            fun hasLine(): Boolean {
+                for (r in r1..r2)
+                    for (c in c1..c2) {
+                        val dotObj = this[r + 1, c + 1]
+                        if (r < r2 && dotObj[3] == GridLineObject.Line || c < c2 && dotObj[0] == GridLineObject.Line)
+                            return true
+                    }
+                return false
+            }
+            val p2 = rng[0]
+            val n2 = game.pos2hint[p2]
+            // 1. Just like Box It Up, you have to divide the Board in Boxes (Rectangles).
+            // 2. The number represents the area of that Box.
+            s = if (s == HintState.Complete && n1 == n2 && !hasLine()) HintState.Complete else HintState.Error
+            pos2state[p2] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+    }
+}

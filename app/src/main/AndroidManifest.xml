@@ -529,6 +529,18 @@
         <activity android:name=".puzzles.flowerbeds.FlowerBedsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.flowerbedshrubs.FlowerbedShrubsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.flowerbedshrubs.FlowerbedShrubsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.flowerbedshrubs.FlowerbedShrubsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.flowerbedshrubs.FlowerbedShrubsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fourmenot.FourMeNotMainActivity"
                   android:screenOrientation="portrait">
         </activity>
