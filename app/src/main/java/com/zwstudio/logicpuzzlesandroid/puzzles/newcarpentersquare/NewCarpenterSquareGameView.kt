@@ -52,35 +52,22 @@ class NewCarpenterSquareGameView(context: Context, val soundManager: SoundManage
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.pos2hint[p]) {
-                    null -> {}
-                    is NewCarpenterSquareCornerHint -> {
-                        val n = o.tiles
+                    NewCarpenterSquareHint.Equal -> {
                         val state = game.pos2State(p)
                         textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                        val text = if (n == 0) "?" else n.toString()
-                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                        canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+                        drawTextCentered("=", cwc(c), chr(r), canvas, textPaint)
                     }
-                    is NewCarpenterSquareLeftHint -> {
+                    NewCarpenterSquareHint.NotEqual -> {
                         val state = game.pos2State(p)
                         textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                        drawTextCentered("<", cwc(c), chr(r), canvas, textPaint)
+                        drawTextCentered("/", cwc(c), chr(r), canvas, textPaint)
                     }
-                    is NewCarpenterSquareRightHint -> {
+                    NewCarpenterSquareHint.Unknown -> {
                         val state = game.pos2State(p)
                         textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                        drawTextCentered(">", cwc(c), chr(r), canvas, textPaint)
+                        drawTextCentered("?", cwc(c), chr(r), canvas, textPaint)
                     }
-                    is NewCarpenterSquareUpHint -> {
-                        val state = game.pos2State(p)
-                        textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                        drawTextCentered("^", cwc(c), chr(r), canvas, textPaint)
-                    }
-                    is NewCarpenterSquareDownHint -> {
-                        val state = game.pos2State(p)
-                        textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                        drawTextCentered("v", cwc(c), chr(r), canvas, textPaint)
-                    }
+                    else -> {}
                 }
             }
         if (isInEditMode) return

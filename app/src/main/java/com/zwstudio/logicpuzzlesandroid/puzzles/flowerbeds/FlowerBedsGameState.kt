@@ -125,6 +125,7 @@ class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame,
                 isSolved = false
         }
         if (!isSolved) return
+        // 4. Contiguous flower beds can't have the same area extension.
         if (!((0 until rects.size).all { n ->
             val rect = rects[n]
             rect.area.all { p ->

@@ -19,7 +19,7 @@ class NewCarpenterSquareGame(layout: List<String>, gi: GameInterface<NewCarpente
     }
 
     var objArray: Array<Array<GridLineObject>>
-    val pos2hint = mutableMapOf<Position, CarpenterSquareHint>()
+    val pos2hint = mutableMapOf<Position, NewCarpenterSquareHint>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -31,13 +31,11 @@ class NewCarpenterSquareGame(layout: List<String>, gi: GameInterface<NewCarpente
             val str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                when (val ch = str[c]) {
-                    in '0'..'9' -> pos2hint[p] = NewCarpenterSquareCornerHint(ch - '0')
-                    'O' -> pos2hint[p] = NewCarpenterSquareCornerHint()
-                    '^' -> pos2hint[p] = NewCarpenterSquareUpHint
-                    'v' -> pos2hint[p] = NewCarpenterSquareDownHint
-                    '<' -> pos2hint[p] = NewCarpenterSquareLeftHint
-                    '>' -> pos2hint[p] = NewCarpenterSquareRightHint
+                when (str[c]) {
+                    '=' -> pos2hint[p] = NewCarpenterSquareHint.Equal
+                    '/' -> pos2hint[p] = NewCarpenterSquareHint.NotEqual
+                    '?' -> pos2hint[p] = NewCarpenterSquareHint.Unknown
+                    else -> {}
                 }
             }
         }

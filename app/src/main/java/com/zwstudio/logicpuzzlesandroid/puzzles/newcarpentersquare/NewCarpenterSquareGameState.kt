@@ -86,6 +86,13 @@ class NewCarpenterSquareGameState(game: NewCarpenterSquareGame) : CellsGameState
             for (p in area)
                 pos2node.remove(p)
             val rngHint = area.filter { game.pos2hint.containsKey(it) }
+            if (rngHint.size != 1) {
+                for (p in rngHint)
+                    pos2state[p] = HintState.Normal
+                isSolved = false
+                continue
+            }
+            val pHint = rngHint.first()
             val n1 = nodeList.size
             var r2 = 0
             var r1 = rows
@@ -106,7 +113,7 @@ class NewCarpenterSquareGameState(game: NewCarpenterSquareGame) : CellsGameState
             val cntC1 = area.filter { p: Position -> p.col == c1 }.size
             val cntC2 = area.filter { p: Position -> p.col == c2 }.size
             fun f(a: Int, b: Int) = a > 1 && b > 1 && a + b - 1 == n1
-            // 1. You just have to divide the board into many.Capenter's Squares (L shaped tools) of different size.
+            // 1. Divide the board in 'L'-shaped figures, with one cell wide 'legs'.
             val squareType = when {
                 f(cntR1, cntC1) -> 0  // ┌
                 f(cntR1, cntC2) -> 1  // ┐
@@ -114,54 +121,24 @@ class NewCarpenterSquareGameState(game: NewCarpenterSquareGame) : CellsGameState
                 f(cntR2, cntC2) -> 3  // ┘
                 else -> -1
             }
-            // 5. All the tiles in the board have to be part of a Carpenter's Square.
+            val equalArms =
+                squareType == 0 && cntR1 == cntC1 ||
+                squareType == 1 && cntR1 == cntC2 ||
+                squareType == 2 && cntR2 == cntC1 ||
+                squareType == 3 && cntR2 == cntC2
             if (squareType == -1) isSolved = false
-            for (p in rngHint)
-                when (val o = game.pos2hint[p]) {
-                    is NewCarpenterSquareCornerHint -> {
-                        // 2. The circled numbers on the board indicate the corner of the L.
-                        // 3. When a number is inside the circle, that indicates the total number of
-                        // squares occupied by the L.
-                        val n2 = o.tiles
-                        val s = if (squareType == -1) HintState.Normal else if (!(n1 == n2 || n2 == 0)) HintState.Error else if (squareType == 0 && p == Position(r1, c1) ||
-                                squareType == 1 && p == Position(r1, c2) || squareType == 2 && p == Position(r2, c1) || squareType == 3 && p == Position(r2, c2)) HintState.Complete else HintState.Error
-                        pos2state[p] = s
-                        if (s != HintState.Complete) isSolved = false
-                    }
-                    is NewCarpenterSquareLeftHint -> {
-                        // 4. The arrow always sits at the end of an arm and points to the corner of
-                        // an L.
-                        val s = if (squareType == -1) HintState.Normal else if (squareType == 0 && p == Position(r1, c2) ||
-                                squareType == 2 && p == Position(r2, c2)) HintState.Complete else HintState.Error
-                        pos2state[p] = s
-                        if (s != HintState.Complete) isSolved = false
-                    }
-                    is NewCarpenterSquareUpHint -> {
-                        // 4. The arrow always sits at the end of an arm and points to the corner of
-                        // an L.
-                        val s = if (squareType == -1) HintState.Normal else if (squareType == 0 && p == Position(r2, c1) ||
-                                squareType == 1 && p == Position(r2, c2)) HintState.Complete else HintState.Error
-                        pos2state[p] = s
-                        if (s != HintState.Complete) isSolved = false
-                    }
-                    is NewCarpenterSquareRightHint -> {
-                        // 4. The arrow always sits at the end of an arm and points to the corner of
-                        // an L.
-                        val s = if (squareType == -1) HintState.Normal else if (squareType == 1 && p == Position(r1, c1) ||
-                                squareType == 3 && p == Position(r2, c1)) HintState.Complete else HintState.Error
-                        pos2state[p] = s
-                        if (s != HintState.Complete) isSolved = false
-                    }
-                    is NewCarpenterSquareDownHint -> {
-                        // 4. The arrow always sits at the end of an arm and points to the corner of
-                        // an L.
-                        val s = if (squareType == -1) HintState.Normal else if (squareType == 2 && p == Position(r1, c1) ||
-                                squareType == 3 && p == Position(r1, c2)) HintState.Complete else HintState.Error
-                        pos2state[p] = s
-                        if (s != HintState.Complete) isSolved = false
-                    }
-                    else -> {}
-                }
+            val h = game.pos2hint[pHint]
+            val s = when {
+                squareType == -1 -> HintState.Normal
+                !(h == NewCarpenterSquareHint.Unknown || (h == NewCarpenterSquareHint.Equal) == equalArms) -> HintState.Error
+                squareType == 0 && pHint == Position(r1, c1) ||
+                    squareType == 1 && pHint == Position(r1, c2) ||
+                    squareType == 2 && pHint == Position(r2, c1) ||
+                    squareType == 3 && pHint == Position(r2, c2) -> HintState.Complete
+                else -> HintState.Error
+            }
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
         }
     }
 }
