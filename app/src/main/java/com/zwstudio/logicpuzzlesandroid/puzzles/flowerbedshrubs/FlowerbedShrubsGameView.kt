@@ -7,7 +7,10 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
@@ -53,13 +56,16 @@ class FlowerbedShrubsGameView(context: Context, val soundManager: SoundManager) 
                 val p = Position(r, c)
                 val n = game.pos2hint[p]
                 if (n != null) {
-                    val state = game.getState(p)
+                    val state = game.getStateHint(p)
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
                 if (game.shrubs().contains(p)) {
                     dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val s = game.getStateAllowed(p)!!
+                    val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                    dHedge.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                     dHedge.draw(canvas)
                 }
             }

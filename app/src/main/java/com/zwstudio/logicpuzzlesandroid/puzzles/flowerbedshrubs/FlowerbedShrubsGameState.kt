@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.flowerbedshrubs
 
 import com.rits.cloning.Cloner
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -12,8 +13,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FlowerbedShrubsGameState(game: FlowerbedShrubsGame) : CellsGameState<FlowerbedShrubsGame, FlowerbedShrubsGameMove, FlowerbedShrubsGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2stateHint = mutableMapOf<Position, HintState>()
     var shrubs = mutableSetOf<Position>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -62,6 +64,8 @@ class FlowerbedShrubsGameState(game: FlowerbedShrubsGame) : CellsGameState<Flowe
     */
     private fun updateIsSolved() {
         isSolved = true
+        pos2stateHint.clear()
+        pos2stateAllowed.clear()
         val flowerbeds = mutableListOf<List<Position>>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
@@ -97,10 +101,16 @@ class FlowerbedShrubsGameState(game: FlowerbedShrubsGame) : CellsGameState<Flowe
                     isSolved = false
             } else if (rng.size > 1 || cnt != 3) {
                 for (p in rng)
-                    pos2state[p] = HintState.Normal
+                    pos2stateHint[p] = HintState.Normal
                 isSolved = false
             } else
                 flowerbeds.add(area)
+        }
+        // 2. Single tiles left outside Flowerbeds are Shrubs. Shrubs cannot touch
+        //    each other orthogonally.
+        for (p in shrubs) {
+            val rng = FlowerbedShrubsGame.offset.map { p + it }.filter { shrubs.contains(it) }
+            pos2stateAllowed[p] = if (rng.isEmpty()) AllowedObjectState.Normal else AllowedObjectState.Error
         }
         // 3. The number on each Flowerbed tells you how many Shrubs are adjacent to it.
         for (area in flowerbeds) {
@@ -112,7 +122,7 @@ class FlowerbedShrubsGameState(game: FlowerbedShrubsGame) : CellsGameState<Flowe
                 .toSet()
             val n2 = shrubs2.size
             val s = if (n1 == n2) HintState.Complete else HintState.Error
-            pos2state[pHint] = s
+            pos2stateHint[pHint] = s
             if (s != HintState.Complete) isSolved = false
         }
     }
