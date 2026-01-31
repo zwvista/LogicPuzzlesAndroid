@@ -85,6 +85,18 @@
         <activity android:name=".puzzles.arrows.ArrowsOptionsActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.assemblyinstructions.AssemblyInstructionsMainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.assemblyinstructions.AssemblyInstructionsGameActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.assemblyinstructions.AssemblyInstructionsHelpActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.assemblyinstructions.AssemblyInstructionsOptionsActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.balancedtapas.BalancedTapasMainActivity"
                   android:screenOrientation="portrait">
         </activity>
