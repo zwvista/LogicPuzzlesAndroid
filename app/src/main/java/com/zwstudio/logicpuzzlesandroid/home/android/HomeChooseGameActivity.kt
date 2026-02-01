@@ -81,6 +81,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "PathOnTheMountains" to "Path on the Mountains",
             "PleaseComeBack" to "Please come back",
             "PlugItIn" to "Plug it in",
+            "PondsAndFlowerbeds" to "Ponds and Flowerbeds",
             "PondCamping" to "Pond camping",
             "RunInALoop" to "Run in a Loop",
             "SheepAndWolves" to "Sheep & Wolves",
