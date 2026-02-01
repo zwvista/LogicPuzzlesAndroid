@@ -63,6 +63,7 @@ class AssemblyInstructionsGameState(game: AssemblyInstructionsGame) : CellsGameS
     */
     private fun updateIsSolved() {
         isSolved = true
+        val ch2areas = mutableMapOf<Char, MutableList<List<Position>>>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
@@ -86,46 +87,44 @@ class AssemblyInstructionsGameState(game: AssemblyInstructionsGame) : CellsGameS
             for (p in area)
                 pos2node.remove(p)
             val rng = area.filter { game.pos2hint.containsKey(it) }
-            // 2. Each Box must contain one number.
-            if (rng.size > 1) {
+            // 1. Divide the board so that every letter corresponds to a 'part'
+            if (rng.size != 1) {
                 for (p in rng)
                     pos2state[p] = HintState.Normal
                 isSolved = false
                 continue
             }
-            val n1 = area.size
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
-            for (p in area) {
-                if (r2 < p.row) r2 = p.row
-                if (r1 > p.row) r1 = p.row
-                if (c2 < p.col) c2 = p.col
-                if (c1 > p.col) c1 = p.col
+            val ch = game.pos2hint[rng[0]]!!
+            ch2areas.getOrPut(ch) { mutableListOf() }.add(area)
+        }
+        for ((ch, areas) in ch2areas) {
+            if (areas.size != game.ch2rng[ch]!!.size) {
+                isSolved = false
+                for (area in areas) {
+                    val pHint = area.first { game.pos2hint[it] != null }
+                    pos2state[pHint] = HintState.Normal
+                }
+                continue
             }
-            val rs = r2 - r1 + 1
-            val cs = c2 - c1 + 1
-            var s = if (rs * cs == n1) HintState.Complete else HintState.Error
+            // 1. every letter corresponds to a 'part' which
+            // has the same shape and orientation everywhere it is found.
+            val cnt = (areas.map { area ->
+                var r1 = rows
+                var c1 = cols
+                for (p in area) {
+                    if (r1 > p.row) r1 = p.row
+                    if (c1 > p.col) c1 = p.col
+                }
+                val p1 = Position(r1, c1)
+                val pHint = area.first { game.pos2hint[it] != null }
+                AssemblyInstructionsPart(area.map { it - p1 }.sorted(), pHint - p1)
+            }).toSet().size
+            val s = if (cnt == 1) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
-            // 3. Some tiles can be left unboxed, the board isn't entirely covered by boxes.
-            if (rng.isEmpty()) continue
-            fun hasLine(): Boolean {
-                for (r in r1..r2)
-                    for (c in c1..c2) {
-                        val dotObj = this[r + 1, c + 1]
-                        if (r < r2 && dotObj[3] == GridLineObject.Line || c < c2 && dotObj[0] == GridLineObject.Line)
-                            return true
-                    }
-                return false
+            for (area in areas) {
+                val pHint = area.first { game.pos2hint[it] != null }
+                pos2state[pHint] = s
             }
-            val p2 = rng[0]
-            val n2 = game.pos2hint[p2]
-            // 1. Just like Box It Up, you have to divide the Board in Boxes (Rectangles).
-            // 2. The number represents the area of that Box.
-            s = if (s == HintState.Complete && n1 == n2 && !hasLine()) HintState.Complete else HintState.Error
-            pos2state[p2] = s
-            if (s != HintState.Complete) isSolved = false
         }
     }
 }

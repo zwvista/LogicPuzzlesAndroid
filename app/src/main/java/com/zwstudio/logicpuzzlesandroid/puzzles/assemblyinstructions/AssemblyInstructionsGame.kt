@@ -19,7 +19,8 @@ class AssemblyInstructionsGame(layout: List<String>, gi: GameInterface<AssemblyI
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    val pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Char>()
+    val ch2rng = mutableMapOf<Char, MutableList<Position>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -33,7 +34,8 @@ class AssemblyInstructionsGame(layout: List<String>, gi: GameInterface<AssemblyI
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                pos2hint[p] = ch - '0'
+                pos2hint[p] = ch
+                ch2rng.getOrPut(ch) { mutableListOf() }.add(p)
             }
         }
         for (r in 0 until rows - 1) {
