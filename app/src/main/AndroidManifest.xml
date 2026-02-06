@@ -349,6 +349,18 @@
         <activity android:name=".puzzles.crossroadsx.CrossroadsXOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.crosstowntraffic.CrosstownTrafficMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crosstowntraffic.CrosstownTrafficGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crosstowntraffic.CrosstownTrafficHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crosstowntraffic.CrosstownTrafficOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.culturedbranches.CulturedBranchesMainActivity"
                   android:screenOrientation="portrait">
         </activity>
