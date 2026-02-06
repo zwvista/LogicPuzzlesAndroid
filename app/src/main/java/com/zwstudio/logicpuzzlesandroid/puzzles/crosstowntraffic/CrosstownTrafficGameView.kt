@@ -7,10 +7,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -26,17 +23,26 @@ class CrosstownTrafficGameView(context: Context, val soundManager: SoundManager)
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
-    private val dGem: Drawable
-    private val dPebble: Drawable
-
+    private val dUpRight: Drawable
+    private val dDownRight: Drawable
+    private val dLeftDown: Drawable
+    private val dLeftUp: Drawable
+    private val dHorizontal: Drawable
+    private val dVertical: Drawable
+    private val dCross: Drawable
     init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
-        dGem = fromImageToDrawable("images/bullet_ball_glass_blue.png")
-        dPebble = fromImageToDrawable("images/bullet_ball_glass_grey.png")
+        dUpRight = fromImageToDrawable("images/road_upright.png")
+        dLeftDown = fromImageToDrawable("images/road_leftdown.png")
+        dLeftUp = fromImageToDrawable("images/road_leftup.png")
+        dDownRight = fromImageToDrawable("images/road_downright.png")
+        dHorizontal = fromImageToDrawable("images/road_horizontal.png")
+        dVertical = fromImageToDrawable("images/road_vertical.png")
+        dCross = fromImageToDrawable("images/road_cross.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -49,25 +55,28 @@ class CrosstownTrafficGameView(context: Context, val soundManager: SoundManager)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is CrosstownTrafficMarkerObject ->
+                    CrosstownTrafficObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is CrosstownTrafficGemObject -> {
-                        dGem.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dGem.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dGem.draw(canvas)
-                    }
-                    is CrosstownTrafficPebbleObject -> {
-                        dPebble.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        dPebble.draw(canvas)
-                    }
-                    is CrosstownTrafficHintObject -> {
-                        val (n, s) = game.pos2hint[p]!! to o.state
+                    CrosstownTrafficObject.Hint -> {
+                        val (n, s) = game.pos2hint[p]!! to game.pos2State(p)!!
                         textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                         val text = n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    else -> {}
+                    else -> {
+                        val dObject = when (game.getObject(p)) {
+                            CrosstownTrafficObject.UpRight -> dUpRight
+                            CrosstownTrafficObject.DownRight -> dDownRight
+                            CrosstownTrafficObject.LeftDown -> dLeftDown
+                            CrosstownTrafficObject.LeftUp -> dLeftUp
+                            CrosstownTrafficObject.Horizontal -> dHorizontal
+                            CrosstownTrafficObject.Vertical -> dVertical
+                            CrosstownTrafficObject.Cross -> dCross
+                            else -> continue
+                        }
+                        dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dObject.draw(canvas)
+                    }
                 }
             }
     }

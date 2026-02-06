@@ -9,9 +9,9 @@ class CrosstownTrafficDocument(context: Context) : GameDocument<CrosstownTraffic
     override fun saveMove(move: CrosstownTrafficGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CrosstownTrafficGameMove(Position(rec.row, rec.col), CrosstownTrafficObject.objFromString(rec.strValue1!!))
+        CrosstownTrafficGameMove(Position(rec.row, rec.col), CrosstownTrafficObject.entries[rec.intValue1])
 }

@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.crosstowntraffic
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -8,7 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<CrosstownTrafficGame, CrosstownTrafficGameMove, CrosstownTrafficGameState>(game) {
-    val objArray: Array<CrosstownTrafficObject>
+    val objArray = Array(rows * cols) { CrosstownTrafficObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -16,8 +16,8 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
     operator fun set(p: Position, obj: CrosstownTrafficObject) {this[p.row, p.col] = obj}
 
     init {
-        objArray = Array<CrosstownTrafficObject>(rows * cols) { CrosstownTrafficEmptyObject }
-        for ((p, n) in game.pos2hint) this[p] = CrosstownTrafficHintObject()
+        for ((p, n) in game.pos2hint)
+            this[p] = CrosstownTrafficObject.Hint
         updateIsSolved()
     }
 
@@ -34,10 +34,15 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
-            is CrosstownTrafficEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) CrosstownTrafficMarkerObject else CrosstownTrafficPebbleObject
-            is CrosstownTrafficPebbleObject -> CrosstownTrafficGemObject()
-            is CrosstownTrafficGemObject -> if (markerOption == MarkerOptions.MarkerLast) CrosstownTrafficMarkerObject else CrosstownTrafficEmptyObject
-            is CrosstownTrafficMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) CrosstownTrafficPebbleObject else CrosstownTrafficEmptyObject
+            CrosstownTrafficObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CrosstownTrafficObject.Marker else CrosstownTrafficObject.UpRight
+            CrosstownTrafficObject.UpRight -> CrosstownTrafficObject.DownRight
+            CrosstownTrafficObject.DownRight -> CrosstownTrafficObject.LeftDown
+            CrosstownTrafficObject.LeftDown -> CrosstownTrafficObject.LeftUp
+            CrosstownTrafficObject.LeftUp -> CrosstownTrafficObject.Horizontal
+            CrosstownTrafficObject.Horizontal -> CrosstownTrafficObject.Vertical
+            CrosstownTrafficObject.Vertical -> CrosstownTrafficObject.Cross
+            CrosstownTrafficObject.Cross -> if (markerOption == MarkerOptions.MarkerLast) CrosstownTrafficObject.Marker else CrosstownTrafficObject.Empty
+            CrosstownTrafficObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CrosstownTrafficObject.UpRight else CrosstownTrafficObject.Empty
             else -> o
         }
         return setObject(move)
@@ -63,55 +68,112 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
     */
     private fun updateIsSolved() {
         isSolved = true
-        fun f(r: Int, c: Int): Boolean {
-            val o = this[r, c]
-            return o is CrosstownTrafficGemObject || o is CrosstownTrafficPebbleObject
-        }
-        for (r in 1 until rows - 1) {
-            val (p1, p2) = Position(r, 0) to Position(r, cols - 1)
-            val (h1, h2) = game.pos2hint[p1]!! to game.pos2hint[p2]!!
-            val gems = (1 until cols - 1).map { Position(r, it) }.filter { this[it] is CrosstownTrafficGemObject }
-            if (gems.size == 1) {
-                // 1. The board contains one Sapphire (Blue Gem) on each row and column.
-                val p = gems.first()
-                val c = p.col
-                (this[p] as CrosstownTrafficGemObject).state = AllowedObjectState.Normal
-                // 2. There are also a random amount of Pebbles (in White) on the board.
-                // 3. A number on the border tells you how many stones you can see from
-                //    there, up to and including the Sapphire.
-                // 4. The Sapphire (blue) hide the Pebbles (white) behind them.
-                val (n1, n2) = (1..c).count { f(r, it) } to (c until cols - 1).count { f(r, it) }
-                val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-                val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-                (this[p1] as CrosstownTrafficHintObject).state = s1; (this[p2] as CrosstownTrafficHintObject).state = s2
-                if (s1 != HintState.Complete || s2 != HintState.Complete) { isSolved = false }
-            } else {
-                isSolved = false
-                gems.forEach { (this[it] as CrosstownTrafficGemObject).state = AllowedObjectState.Normal }
+        val pos2dirs = mutableMapOf<Position, MutableList<Int>?>()
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
+                val p = Position(r, c)
+                pos2dirs[p] = when(this[p]) {
+                    CrosstownTrafficObject.UpRight -> mutableListOf(0, 1)
+                    CrosstownTrafficObject.DownRight -> mutableListOf(1, 2)
+                    CrosstownTrafficObject.LeftDown -> mutableListOf(2, 3)
+                    CrosstownTrafficObject.LeftUp -> mutableListOf(0, 3)
+                    CrosstownTrafficObject.Horizontal -> mutableListOf(1, 3)
+                    CrosstownTrafficObject.Vertical -> mutableListOf(0, 2)
+                    CrosstownTrafficObject.Cross -> mutableListOf(0, 1, 2, 3)
+                    else -> null
+                }
             }
+        // 3. The numbers along the edge indicate the stretch of the nearest section
+        //    of road from that point, in corresponding row or column.
+        for (r in 1 until rows - 1) {
+            var n1 = 0
+            var pHint = Position(r, 0)
+            var n2 = game.pos2hint[pHint]!!
+            for (c in 1 until cols - 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(1) to dirs.contains(3)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
+            }
+            var s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
+            n1 = 0
+            pHint = Position(r, cols - 1)
+            n2 = game.pos2hint[pHint]!!
+            for (c in cols - 2 downTo 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(3) to dirs.contains(1)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
+            }
+            s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
         }
         for (c in 1 until cols - 1) {
-            val (p1, p2) = Position(0, c) to Position(rows - 1, c)
-            val (h1, h2) = game.pos2hint[p1]!! to game.pos2hint[p2]!!
-            val gems = (1 until rows - 1).map { Position(it, c) }.filter { this[it] is CrosstownTrafficGemObject }
-            if (gems.size == 1) {
-                // 1. The board contains one Sapphire (Blue Gem) on each row and column.
-                val p = gems.first()
-                val r = p.row
-                (this[p] as CrosstownTrafficGemObject).state = AllowedObjectState.Normal
-                // 2. There are also a random amount of Pebbles (in White) on the board.
-                // 3. A number on the border tells you how many stones you can see from
-                //    there, up to and including the Sapphire.
-                // 4. The Sapphire (blue) hide the Pebbles (white) behind them.
-                val (n1, n2) = (1..r).count { f(it, c) } to (r until rows - 1).count { f(it, c) }
-                val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-                val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-                (this[p1] as CrosstownTrafficHintObject).state = s1; (this[p2] as CrosstownTrafficHintObject).state = s2
-                if (s1 != HintState.Complete || s2 != HintState.Complete) { isSolved = false }
-            } else {
-                isSolved = false
-                gems.forEach { (this[it] as CrosstownTrafficGemObject).state = AllowedObjectState.Normal }
+            var n1 = 0
+            var pHint = Position(0, c)
+            var n2 = game.pos2hint[pHint]!!
+            for (r in 1 until rows - 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(2) to dirs.contains(0)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
             }
+            var s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
+            n1 = 0
+            pHint = Position(rows - 1, c)
+            n2 = game.pos2hint[pHint]!!
+            for (r in rows - 2 downTo 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(0) to dirs.contains(2)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
+            }
+            s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+        if (!isSolved) return
+        // Check the loop
+        val p = pos2dirs.keys.first()
+        var p2 = p
+        var n = -1
+        while (true) {
+            val dirs = pos2dirs[p2]
+            if (dirs == null) { isSolved = false; return }
+            if (dirs.size == 2) {
+                pos2dirs.remove(p2)
+                n = dirs.first { (it + 2) % 4 != n }
+            } else {
+                dirs.remove(n)
+                dirs.remove((n + 2) % 4)
+            }
+            p2 += CrosstownTrafficGame.offset[n]
+            if (p2 == p) break
         }
     }
 }
