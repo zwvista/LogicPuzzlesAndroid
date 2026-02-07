@@ -289,6 +289,18 @@
         <activity android:name=".puzzles.castlebailey.CastleBaileyOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.castlepatrol.CastlePatrolMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.castlepatrol.CastlePatrolGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.castlepatrol.CastlePatrolHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.castlepatrol.CastlePatrolOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.chocolate.ChocolateMainActivity"
                   android:screenOrientation="portrait">
         </activity>
