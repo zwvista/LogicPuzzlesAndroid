@@ -673,6 +673,18 @@
         <activity android:name=".puzzles.gems.GemsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.guesstris.GuesstrisMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.guesstris.GuesstrisGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.guesstris.GuesstrisHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.guesstris.GuesstrisOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.heliumandiron.HeliumAndIronMainActivity"
                   android:screenOrientation="portrait">
         </activity>
