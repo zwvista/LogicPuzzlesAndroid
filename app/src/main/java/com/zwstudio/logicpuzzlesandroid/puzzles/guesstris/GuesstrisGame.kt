@@ -17,13 +17,42 @@ class GuesstrisGame(layout: List<String>, gi: GameInterface<GuesstrisGame, Guess
         )
         var dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
-        val PUZ_FLOWER = '*'
-        val PUZ_HEDGE = '.'
+        val PUZ_SQUARE = 'S'
+        val PUZ_TRIANGLE = 'T'
+        val PUZ_CIRCLE = 'C'
+        val PUZ_DIAMOND = 'D'
+        var tetrominoes = arrayOf(
+            arrayOf(
+                arrayOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),
+                arrayOf(Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)),
+                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 0)),
+                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 2)),
+                arrayOf(Position(0, 0), Position(0, 1), Position(1, 0), Position(2, 0)),
+                arrayOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1)),
+                arrayOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(1, 2)),
+                arrayOf(Position(0, 2), Position(1, 0), Position(1, 1), Position(1, 2))
+            ),
+            arrayOf(
+                arrayOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(3, 0)),
+                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(0, 3))
+            ),
+            arrayOf(
+                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 1)),
+                arrayOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)),
+                arrayOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(1, 2)),
+                arrayOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 0))
+            ),
+            arrayOf(
+                arrayOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(1, 2)),
+                arrayOf(Position(0, 1), Position(0, 2), Position(1, 0), Position(1, 1)),
+                arrayOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 1)),
+                arrayOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0))
+            )
+        )
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    val flowers = mutableListOf<Position>()
-    val hedges = mutableSetOf<Position>()
+    val pos2char = mutableMapOf<Position, Char>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -36,10 +65,7 @@ class GuesstrisGame(layout: List<String>, gi: GameInterface<GuesstrisGame, Guess
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch == PUZ_FLOWER)
-                    flowers.add(p)
-                else if (ch == PUZ_HEDGE)
-                    hedges.add(p)
+                pos2char[p] = ch
             }
         }
         for (r in 0 until rows - 1) {
@@ -60,6 +86,4 @@ class GuesstrisGame(layout: List<String>, gi: GameInterface<GuesstrisGame, Guess
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun ponds() = currentState.ponds
-    fun invalid2x2Squares() = currentState.invalid2x2Squares
 }

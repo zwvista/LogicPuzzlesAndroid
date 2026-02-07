@@ -11,8 +11,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class GuesstrisGameState(game: GuesstrisGame) : CellsGameState<GuesstrisGame, GuesstrisGameMove, GuesstrisGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var ponds = mutableSetOf<List<Position>>()
-    val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -61,19 +59,7 @@ class GuesstrisGameState(game: GuesstrisGame) : CellsGameState<GuesstrisGame, Gu
     */
     private fun updateIsSolved() {
         isSolved = true
-        ponds.clear()
-        // 4. Each 2x2 area must contain at least a Hedge or a Pond.
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
-                val p = Position(r, c)
-                if (GuesstrisGame.offset3.map { p + it }.all { p2 ->
-                    game.hedges.contains(p2) ||ponds.any { it.contains(p2) }
-                }) {
-                    invalid2x2Squares.add(p + Position.SouthEast); isSolved = false
-                }
-            }
-        val flowerbeds = mutableListOf<List<Position>>()
-        val pos2pond = mutableMapOf<Position, Int>()
+        val areas = mutableListOf<List<Position>>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
@@ -96,30 +82,34 @@ class GuesstrisGameState(game: GuesstrisGame) : CellsGameState<GuesstrisGame, Gu
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.flowers.contains(it) }
-            // 2. A Flowerbed is an area of 3 cells, containing one flower.
-            // 3. A Pond is an area of any size without flower.
-            val cnt = area.size
-            if (rng.isEmpty()) {
-                val n = ponds.size
-                ponds.add(area)
-                for (p in area)
-                    pos2pond[p] = n
-            } else if (rng.size > 1 || cnt != 3) {
-                isSolved = false
-            } else
-                flowerbeds.add(area)
-        }
-        if (!isSolved) return
-        // Ponds cannot touch each other orthogonally.
-        if (!ponds.all { pond ->
-            val n = pos2pond[pond[0]]!!
-            pond.all { p ->
-                GuesstrisGame.offset.all {
-                    val n2 = pos2pond[p + it]
-                    n2 == null || n == n2
-                }
+            val rng = area.filter { game.pos2char[it] != ' ' }
+            // 1. Divide the board in Tetrominoes (Tetris-like shapes of four cells).
+            // 2. Each Tetromino contains two different symbols.
+            if (rng.size == 2 && area.size == 4)
+                areas.add(area)
+            else {
+                isSolved = false; return
             }
-        }) { isSolved = false }
+        }
+        // 3. Tetrominoes of the same shape have the same couple of symbols inside
+        //    them, although not necessarily in the same positions.
+        // 4. Tetrominoes with the same symbols can be rotated or mirrored.
+        val area2D = areas.groupBy { area ->
+            var r1 = rows
+            var c1 = cols
+            for (p in area) {
+                if (r1 > p.row) r1 = p.row
+                if (c1 > p.col) c1 = p.col
+            }
+            val p1 = Position (r1, c1)
+            val area2 = area.map { it - p1 }.sorted().toTypedArray()
+            GuesstrisGame.tetrominoes.indices.first {
+                GuesstrisGame.tetrominoes[it].any { it.contentEquals(area2) }
+            }
+        }.values
+        if (!area2D.all {
+            val lst = it.map { String(it.map { game.pos2char[it]!! }.filter { it != ' ' }.toSortedSet().toCharArray()) }
+            lst.toSet().size == 1
+        }) isSolved = false
     }
 }

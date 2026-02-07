@@ -24,9 +24,10 @@ class GuesstrisGameView(context: Context, val soundManager: SoundManager) : Cell
     private val line2Paint = Paint()
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val dFlower: Drawable
-    private val dPond: Drawable
-    private val dHedge: Drawable
+    private val dSquare: Drawable
+    private val dTriangle: Drawable
+    private val dCircle: Drawable
+    private val dDiamond: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -42,9 +43,10 @@ class GuesstrisGameView(context: Context, val soundManager: SoundManager) : Cell
         markerPaint.strokeWidth = 5f
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        dFlower = fromImageToDrawable("images/flower_pink.png")
-        dPond = fromImageToDrawable("images/sea.png")
-        dHedge = fromImageToDrawable("images/forest.png")
+        dSquare = fromImageToDrawable("images/bullet_square_green.png")
+        dTriangle = fromImageToDrawable("images/bullet_triangle_yellow_flat.png")
+        dDiamond = fromImageToDrawable("images/bullet_ball_red.png")
+        dCircle = fromImageToDrawable("images/bullet_rhombus_blue.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -54,10 +56,12 @@ class GuesstrisGameView(context: Context, val soundManager: SoundManager) : Cell
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val dObj = when {
-                    game.flowers.contains(p) -> dFlower
-                    game.hedges.contains(p) -> dHedge
-                    game.ponds().any { it.contains(p) } -> dPond
+                val ch = game.pos2char[p]!!
+                val dObj = when (ch) {
+                    GuesstrisGame.PUZ_SQUARE -> dSquare
+                    GuesstrisGame.PUZ_TRIANGLE -> dTriangle
+                    GuesstrisGame.PUZ_CIRCLE -> dCircle
+                    GuesstrisGame.PUZ_DIAMOND -> dDiamond
                     else -> continue
                 }
                 dObj.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
@@ -87,8 +91,6 @@ class GuesstrisGameView(context: Context, val soundManager: SoundManager) : Cell
                     else -> {}
                 }
             }
-        for ((r, c) in game.invalid2x2Squares())
-            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
