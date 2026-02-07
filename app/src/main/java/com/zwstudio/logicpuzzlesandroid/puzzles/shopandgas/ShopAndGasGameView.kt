@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -24,6 +25,9 @@ class ShopAndGasGameView(context: Context, val soundManager: SoundManager) : Cel
     private val pearlBlackPaint = Paint()
     private val pearlWhitePaint = Paint()
     private val textPaint = TextPaint()
+    private val dHome: Drawable
+    private val dShop: Drawable
+    private val dGas: Drawable
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
 
@@ -39,6 +43,9 @@ class ShopAndGasGameView(context: Context, val soundManager: SoundManager) : Cel
         pearlWhitePaint.color = Color.WHITE
         pearlWhitePaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
+        dHome = fromImageToDrawable("images/home.png")
+        dShop = fromImageToDrawable("images/shoppingcart.png")
+        dGas = fromImageToDrawable("images/gauge.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -47,10 +54,14 @@ class ShopAndGasGameView(context: Context, val soundManager: SoundManager) : Cel
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
-                    canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true,
-                    if (ch == 'B') pearlBlackPaint else pearlWhitePaint)
+                val dObj = when (val ch = game[r, c]) {
+                    ShopAndGasGame.PUZ_HOME -> dHome
+                    ShopAndGasGame.PUZ_SHOP -> dShop
+                    ShopAndGasGame.PUZ_GAS -> dGas
+                    else -> continue
+                }
+                dObj.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dObj.draw(canvas)
             }
         if (isInEditMode) return
         for (r in 0 until rows)

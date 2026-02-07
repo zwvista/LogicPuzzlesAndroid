@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.masyu
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.runinaloop.RunInALoopGame
 
 class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove, MasyuGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -78,7 +77,7 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
             if (dirs == null) { isSolved = false; return }
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
-            p2 += RunInALoopGame.offset[n]
+            p2 += MasyuGame.offset[n]
             if (p2 == p) break
         }
         // 3. At least at one side of the White Pearl(or both), they must do a 90 degree turn.

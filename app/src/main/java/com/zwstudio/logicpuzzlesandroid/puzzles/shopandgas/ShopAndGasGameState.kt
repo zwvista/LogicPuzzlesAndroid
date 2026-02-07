@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.shopandgas
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.runinaloop.RunInALoopGame
 
 class ShopAndGasGameState(game: ShopAndGasGame) : CellsGameState<ShopAndGasGame, ShopAndGasGameMove, ShopAndGasGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -67,47 +66,52 @@ class ShopAndGasGameState(game: ShopAndGasGame) : CellsGameState<ShopAndGasGame,
                 val dirs = (0 until 4).filter { this[p][it] }
                 if (dirs.size == 2) {
                     pos2dirs[p] = dirs
-                    if (ch == ShopAndGasGame.PUZ_BLACK_PEARL) {
-                        // 4. Lines passing through Black Pearls must do a 90 degree turn in them.
+                    if (ch == ShopAndGasGame.PUZ_GAS) {
+                        // 6. All these prototype fuel stations are shaped like corners. Don't
+                        //    ask why. You just have to turn on those tiles.
                         if (dirs[1] - dirs[0] == 2) { isSolved = false; return }
-                    } else if (ch == ShopAndGasGame.PUZ_WHITE_PEARL) {
-                        // 3. Lines passing through White Pearls must go straight through them.
+                    } else if (ch == ShopAndGasGame.PUZ_SHOP) {
+                        // 8. Shopping malls are a lot more consumer friendly and have straight
+                        //    roads. So you have to go straight on those tiles.
                         if (dirs[1] - dirs[0] != 2) { isSolved = false; return }
                     }
                 } else if (!(dirs.isEmpty() && ch == ' ')) {
-                    // 1. The goal is to draw a single Loop(Necklace) through every circle(Pearl)
-                    //    that never branches-off or crosses itself.
+                    // 5. You start from your house.
+                    // 11.The last thing is going back home.
+                    // 10.After you passed all the shopping malls and gas station, you have
+                    //    to go back to your house, forming a closed path.
                     isSolved = false; return
                 }
             }
-        val pos2dirs2 = pos2dirs.toMap()
         // Check the loop
-        val p = pos2dirs.keys.firstOrNull()
-        if (p == null) { isSolved = false; return }
+        val p = game.home
+        if (!pos2dirs.contains(p)) { isSolved = false; return }
         var p2 = p
         var n = -1
+        var ch = game[p]
         while (true) {
             val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
-            p2 += RunInALoopGame.offset[n]
-            if (p2 == p) break
-        }
-        // 3. At least at one side of the White Pearl(or both), they must do a 90 degree turn.
-        // 4. Lines passing through Black Pearls must go straight in the next tile in both directions.
-        // 5. Lines passing where there are no Pearls can do what they want.
-        if (!pos2dirs2.all { (p, dirs) ->
-            when (val ch = game[p]) {
-                ' ' -> true
-                else -> {
-                    val turns = dirs.reduce { acc, d ->
-                        val dirs2 = pos2dirs[p + ShopAndGasGame.offset[d]]!!
-                        acc + (if (dirs2[1] - dirs2[0] != 2) 1 else 0)
-                    }
-                    ch == ShopAndGasGame.PUZ_BLACK_PEARL && turns == 0 || ch == ShopAndGasGame.PUZ_WHITE_PEARL && turns > 0
+            p2 += ShopAndGasGame.offset[n]
+            val ch2 = game[p2]
+            if (ch2 != ' ') {
+                // 5. You start from your house. Right away, you're low on fuel so you
+                //    must pass a fuel station.
+                // 7. Each time you pass a gas station, you then have to go shopping.
+                // 9. After a shopping mall you are almost empty again. The next thing
+                //    you must pass is a gas station. Then shopping, gas, etc.
+                // 11.The last thing you have to pass before going back home, is a gas
+                //    station.
+                if ((ch == ShopAndGasGame.PUZ_HOME || ch == ShopAndGasGame.PUZ_SHOP) && ch2 == ShopAndGasGame.PUZ_GAS ||
+                    ch == ShopAndGasGame.PUZ_GAS && (ch2 == ShopAndGasGame.PUZ_SHOP || ch2 == ShopAndGasGame.PUZ_HOME) )
+                    ch = ch2
+                else {
+                    isSolved = false; return
                 }
             }
-        }) isSolved = false
+            if (p2 == p) break
+        }
     }
 }
