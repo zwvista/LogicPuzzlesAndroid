@@ -11,25 +11,26 @@ class ZenGardensGameState(game: ZenGardensGame) : CellsGameState<ZenGardensGame,
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: ZenGardensObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: ZenGardensObject) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
     }
 
     override fun setObject(move: ZenGardensGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] != ' ' || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || game[p] != ZenGardensObject.Stone || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: ZenGardensGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[move.p] != ' ') return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != ZenGardensObject.Stone) return GameOperationType.Invalid
         val o = this[p]
-        move.obj = if (o == ' ') '1' else if (o == '3') ' ' else (o.code + 1).toChar()
+        move.obj = if (o == ZenGardensObject.Stone) ZenGardensObject.Leaf else ZenGardensObject.Stone
         return setObject(move)
     }
 
@@ -50,15 +51,22 @@ class ZenGardensGameState(game: ZenGardensGame) : CellsGameState<ZenGardensGame,
         for (r in 0 until rows)
             for (c in 0 until cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
-        // 4. The teaching says that any three contiguous tiles vertically,
-        //    horizontally or diagonally must NOT be:
-        //    -> all different
-        //    -> all equal
+        // 1. Put a leaf on every Zen Garden (area).
+        for (area in game.areas) {
+            val rng = area.filter { this[it] == ZenGardensObject.Leaf }
+        if (rng.size != 1) {
+                isSolved = false
+                for (p in rng)
+                    pos2state[p] = AllowedObjectState.Error
+            }
+        }
+        // 3. Three Rocks in a row (horizontally, vertically or diagonally) can't
+        //    have all the leaves or no leaves.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 for (i in 2 .. 4) {
-                    val os = ZenGardensGame.offset[i]
+                    val os = ZenGardensGame.offset3[i]
                     val tiles = mutableListOf(p)
                     var p2 = p + os
                     for (j in 1 until 3) {
@@ -67,12 +75,9 @@ class ZenGardensGameState(game: ZenGardensGame) : CellsGameState<ZenGardensGame,
                         p2 += os
                     }
                     if (tiles.size < 3) continue
-                    val chSet = tiles.map { this[it] }.toSet()
-                    if (chSet.contains(' ')) {
-                        isSolved = false
-                        continue
-                    }
-                    if (chSet.size != 2) {
+                    val objSet = tiles.map { this[it] }.toSet()
+                    if (objSet.contains(ZenGardensObject.Empty)) continue
+                    if (objSet.size != 2) {
                         isSolved = false
                         for (p2 in tiles)
                             pos2state[p2] = AllowedObjectState.Error

@@ -9,9 +9,9 @@ class ZenGardensDocument(context: Context) : GameDocument<ZenGardensGameMove>(co
     override fun saveMove(move: ZenGardensGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.toString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        ZenGardensGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
+        ZenGardensGameMove(Position(rec.row, rec.col), ZenGardensObject.entries[rec.intValue1])
 }
