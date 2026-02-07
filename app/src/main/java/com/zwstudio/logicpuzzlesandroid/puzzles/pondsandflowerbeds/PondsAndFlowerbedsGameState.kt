@@ -1,21 +1,18 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.pondsandflowerbeds
 
 import com.rits.cloning.Cloner
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PondsAndFlowerbedsGameState(game: PondsAndFlowerbedsGame) : CellsGameState<PondsAndFlowerbedsGame, PondsAndFlowerbedsGameMove, PondsAndFlowerbedsGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var shrubs = mutableSetOf<Position>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    var ponds = mutableSetOf<List<Position>>()
+    val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -64,9 +61,19 @@ class PondsAndFlowerbedsGameState(game: PondsAndFlowerbedsGame) : CellsGameState
     */
     private fun updateIsSolved() {
         isSolved = true
-        pos2stateHint.clear()
-        pos2stateAllowed.clear()
+        ponds.clear()
+        // 4. Each 2x2 area must contain at least a Hedge or a Pond.
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
+                val p = Position(r, c)
+                if (PondsAndFlowerbedsGame.offset3.map { p + it }.all { p2 ->
+                    game.hedges.contains(p2) ||ponds.any { it.contains(p2) }
+                }) {
+                    invalid2x2Squares.add(p + Position.SouthEast); isSolved = false
+                }
+            }
         val flowerbeds = mutableListOf<List<Position>>()
+        val pos2pond = mutableMapOf<Position, Int>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
@@ -89,41 +96,30 @@ class PondsAndFlowerbedsGameState(game: PondsAndFlowerbedsGame) : CellsGameState
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.pos2hint.containsKey(it) }
-            // 2. Each Box must contain one number.
-            // 1. Divide the board in Flowerbeds of exactly three tiles. Each Flowerbed
-            //    contains a number.
+            val rng = area.filter { game.flowers.contains(it) }
+            // 2. A Flowerbed is an area of 3 cells, containing one flower.
+            // 3. A Pond is an area of any size without flower.
             val cnt = area.size
             if (rng.isEmpty()) {
-                if (cnt == 1)
-                    shrubs.add(area[0])
-                else
-                    isSolved = false
+                val n = ponds.size
+                ponds.add(area)
+                for (p in area)
+                    pos2pond[p] = n
             } else if (rng.size > 1 || cnt != 3) {
-                for (p in rng)
-                    pos2stateHint[p] = HintState.Normal
                 isSolved = false
             } else
                 flowerbeds.add(area)
         }
-        // 2. Single tiles left outside Flowerbeds are Shrubs. Shrubs cannot touch
-        //    each other orthogonally.
-        for (p in shrubs) {
-            val rng = PondsAndFlowerbedsGame.offset.map { p + it }.filter { shrubs.contains(it) }
-            pos2stateAllowed[p] = if (rng.isEmpty()) AllowedObjectState.Normal else AllowedObjectState.Error
-        }
-        // 3. The number on each Flowerbed tells you how many Shrubs are adjacent to it.
-        for (area in flowerbeds) {
-            val pHint = area.first { game.pos2hint[it] != null }
-            val n1 = game.pos2hint[pHint]!!
-            val shrubs2 = area
-                .flatMap { p -> PondsAndFlowerbedsGame.offset.map { p + it } }
-                .filter { shrubs.contains(it) }
-                .toSet()
-            val n2 = shrubs2.size
-            val s = if (n1 == n2) HintState.Complete else HintState.Error
-            pos2stateHint[pHint] = s
-            if (s != HintState.Complete) isSolved = false
-        }
+        if (!isSolved) return
+        // Ponds cannot touch each other orthogonally.
+        if (!ponds.all { pond ->
+            val n = pos2pond[pond[0]]!!
+            pond.all { p ->
+                PondsAndFlowerbedsGame.offset.all {
+                    val n2 = pos2pond[p + it]
+                    n2 == null || n == n2
+                }
+            }
+        }) { isSolved = false }
     }
 }

@@ -5,14 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
-import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -28,7 +23,9 @@ class PondsAndFlowerbedsGameView(context: Context, val soundManager: SoundManage
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val markerPaint = Paint()
-    private val textPaint = TextPaint()
+    private val forbiddenPaint = Paint()
+    private val dFlower: Drawable
+    private val dPond: Drawable
     private val dHedge: Drawable
 
     init {
@@ -43,8 +40,11 @@ class PondsAndFlowerbedsGameView(context: Context, val soundManager: SoundManage
         markerPaint.color = Color.YELLOW
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
-        textPaint.isAntiAlias = true
-        dHedge = fromImageToDrawable("images/lawn_background.png")
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        dFlower = fromImageToDrawable("images/flower_pink.png")
+        dPond = fromImageToDrawable("images/sea.png")
+        dHedge = fromImageToDrawable("images/forest.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -54,20 +54,14 @@ class PondsAndFlowerbedsGameView(context: Context, val soundManager: SoundManage
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.getStateHint(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                val dObj = when {
+                    game.flowers.contains(p) -> dFlower
+                    game.hedges.contains(p) -> dHedge
+                    game.ponds().any { it.contains(p) } -> dPond
+                    else -> continue
                 }
-                if (game.shrubs().contains(p)) {
-                    dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val s = game.getStateAllowed(p)!!
-                    val alpha = if (s == AllowedObjectState.Error) 50 else 0
-                    dHedge.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                    dHedge.draw(canvas)
-                }
+                dObj.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dObj.draw(canvas)
             }
         if (isInEditMode) return
         val markerOffset = 20
@@ -93,6 +87,8 @@ class PondsAndFlowerbedsGameView(context: Context, val soundManager: SoundManage
                     else -> {}
                 }
             }
+        for ((r, c) in game.invalid2x2Squares())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

@@ -16,10 +16,14 @@ class PondsAndFlowerbedsGame(layout: List<String>, gi: GameInterface<PondsAndFlo
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        val offset3 = Position.Square2x2Offset
+        val PUZ_FLOWER = '*'
+        val PUZ_HEDGE = '.'
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    val pos2hint = mutableMapOf<Position, Int>()
+    val flowers = mutableListOf<Position>()
+    val hedges = mutableSetOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -32,8 +36,10 @@ class PondsAndFlowerbedsGame(layout: List<String>, gi: GameInterface<PondsAndFlo
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch == ' ') continue
-                pos2hint[p] = ch - '0'
+                if (ch == PUZ_FLOWER)
+                    flowers.add(p)
+                else if (ch == PUZ_HEDGE)
+                    hedges.add(p)
             }
         }
         for (r in 0 until rows - 1) {
@@ -54,7 +60,6 @@ class PondsAndFlowerbedsGame(layout: List<String>, gi: GameInterface<PondsAndFlo
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getStateHint(p: Position) = currentState.pos2stateHint[p]
-    fun shrubs() = currentState.shrubs
-    fun getStateAllowed(p: Position) = currentState.pos2stateAllowed[p]
+    fun ponds() = currentState.ponds
+    fun invalid2x2Squares() = currentState.invalid2x2Squares
 }
