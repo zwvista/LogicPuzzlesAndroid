@@ -77,7 +77,6 @@ class ShopAndGasGameState(game: ShopAndGasGame) : CellsGameState<ShopAndGasGame,
                     }
                 } else if (!(dirs.isEmpty() && ch == ' ')) {
                     // 5. You start from your house.
-                    // 11.The last thing is going back home.
                     // 10.After you passed all the shopping malls and gas station, you have
                     //    to go back to your house, forming a closed path.
                     isSolved = false; return

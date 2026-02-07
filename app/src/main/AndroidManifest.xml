@@ -1405,6 +1405,18 @@
         <activity android:name=".puzzles.pondcamping.PondCampingOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.pondsandflowerbeds.PondsAndFlowerbedsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pondsandflowerbeds.PondsAndFlowerbedsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pondsandflowerbeds.PondsAndFlowerbedsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.pondsandflowerbeds.PondsAndFlowerbedsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pouringwater.PouringWaterMainActivity"
                   android:screenOrientation="portrait">
         </activity>
