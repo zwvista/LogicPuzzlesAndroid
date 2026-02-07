@@ -1549,6 +1549,18 @@
         <activity android:name=".puzzles.sheepandwolves.SheepAndWolvesOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.shopandgas.ShopAndGasMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.shopandgas.ShopAndGasGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.shopandgas.ShopAndGasHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.shopandgas.ShopAndGasOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.skyscrapers.SkyscrapersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
