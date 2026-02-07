@@ -7,10 +7,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -27,7 +24,7 @@ class CastlePatrolGameView(context: Context, val soundManager: SoundManager) : C
     private val wallPaint = Paint()
     private val lightPaint = Paint()
     private val textPaint = TextPaint()
-    private val dLightbulb: Drawable
+    private val dWall: Drawable
 
     init {
         gridPaint.color = Color.WHITE
@@ -37,7 +34,7 @@ class CastlePatrolGameView(context: Context, val soundManager: SoundManager) : C
         lightPaint.color = Color.YELLOW
         lightPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
-        dLightbulb = fromImageToDrawable("images/lightbulb_on.png")
+        dWall = fromImageToDrawable("images/tower_wall2.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -46,26 +43,28 @@ class CastlePatrolGameView(context: Context, val soundManager: SoundManager) : C
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val o = game.getObject(r, c)
-                if (o.lightness > 0)
-                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), lightPaint)
-                when (o) {
-                    is CastlePatrolWallObject -> {
-                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                        val n = game.pos2hint[Position(r, c)]!!
-                        if (n >= 0) {
-                            textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.BLACK
-                            val text = n.toString()
-                            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                        }
+                val p = Position(r, c)
+                fun drawWall() {
+                    dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dWall.draw(canvas)
+                }
+                fun drawHint() {
+                    val n = game.pos2hint[p]!!
+                    val s = game.pos2State(p)
+                    textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                    val text = n.toString()
+                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                }
+                when (game.getObject(p)) {
+                    CastlePatrolObject.Wall ->
+                        drawWall()
+                    CastlePatrolObject.WallHint -> {
+                        drawWall()
+                        drawHint()
                     }
-                    is CastlePatrolLightbulbObject -> {
-                        dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dLightbulb.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dLightbulb.draw(canvas)
-                    }
-                    is CastlePatrolMarkerObject ->
+                    CastlePatrolObject.EmptyHint ->
+                        drawHint()
+                    CastlePatrolObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
                     else -> {}
                 }

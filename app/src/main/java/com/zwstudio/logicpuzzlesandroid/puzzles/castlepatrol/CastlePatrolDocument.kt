@@ -9,9 +9,9 @@ class CastlePatrolDocument(context: Context) : GameDocument<CastlePatrolGameMove
     override fun saveMove(move: CastlePatrolGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objTypeAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CastlePatrolGameMove(Position(rec.row, rec.col), CastlePatrolObject.objTypeFromString(rec.strValue1!!))
+        CastlePatrolGameMove(Position(rec.row, rec.col), CastlePatrolObject.entries[rec.intValue1])
 }

@@ -10,18 +10,23 @@ class CastlePatrolGame(layout: List<String>, gi: GameInterface<CastlePatrolGame,
         val offset = Position.Directions4
     }
 
+    val pos2obj = mutableMapOf<Position, CastlePatrolObject>()
     val pos2hint = mutableMapOf<Position, Int>()
 
     init {
-        size = Position(layout.size, layout[0].length)
+        size = Position(layout.size, layout[0].length / 2)
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val ch = str[c]
-                if (ch == 'W' || ch in '0'..'9') {
-                    val n = if (ch == 'W') -1 else ch - '0'
-                    pos2hint[p] = n
+                val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
+                fun f(obj: CastlePatrolObject) {
+                    pos2obj[p] = obj
+                    pos2hint[p] = if (ch1.isDigit()) ch1 - '0' else ch1 - 'A' + 10
+                }
+                when (ch2) {
+                    '.' -> f(CastlePatrolObject.EmptyHint)
+                    'W' -> f(CastlePatrolObject.WallHint)
                 }
             }
         }
@@ -31,4 +36,5 @@ class CastlePatrolGame(layout: List<String>, gi: GameInterface<CastlePatrolGame,
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }
