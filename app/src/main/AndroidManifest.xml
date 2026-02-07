@@ -2065,6 +2065,18 @@
         <activity android:name=".puzzles.youturnmeon.YouTurnMeOnOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.zengardens.ZenGardensMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zengardens.ZenGardensGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zengardens.ZenGardensHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zengardens.ZenGardensOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.zenlandscaper.ZenLandscaperMainActivity"
                   android:screenOrientation="portrait">
         </activity>
