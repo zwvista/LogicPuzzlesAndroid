@@ -2089,6 +2089,18 @@
         <activity android:name=".puzzles.zenlandscaper.ZenLandscaperOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.zensolitaire.ZenSolitaireMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zensolitaire.ZenSolitaireGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zensolitaire.ZenSolitaireHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.zensolitaire.ZenSolitaireOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
