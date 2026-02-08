@@ -7,23 +7,20 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ZenSolitaireGame(layout: List<String>, gi: GameInterface<ZenSolitaireGame, ZenSolitaireGameMove, ZenSolitaireGameState>, gdi: GameDocumentInterface) : CellsGame<ZenSolitaireGame, ZenSolitaireGameMove, ZenSolitaireGameState>(gi, gdi) {
     companion object {
-        val offset = Position.Directions8
+        val offset = Position.Directions4
+        val PUZ_STONE = -1
+        val PUZ_EMPTY = 0
     }
 
-    var objArray: CharArray
-
-    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
-    operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    var stones = mutableListOf<Position>()
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows * cols)
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols)
-                this[r, c] = str[c]
+                if (str[c] != ' ')
+                    stones.add(Position(r, c))
         }
         val state = ZenSolitaireGameState(this)
         levelInitialized(state)
@@ -31,5 +28,4 @@ class ZenSolitaireGame(layout: List<String>, gi: GameInterface<ZenSolitaireGame,
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getPosState(p: Position) = currentState.pos2state[p]
 }

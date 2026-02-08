@@ -9,9 +9,10 @@ class ZenSolitaireDocument(context: Context) : GameDocument<ZenSolitaireGameMove
     override fun saveMove(move: ZenSolitaireGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.toString()
+        rec.intValue1 = move.obj
+        rec.intValue2 = move.dir
     }
 
     override fun loadMove(rec: MoveProgress) =
-        ZenSolitaireGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
+        ZenSolitaireGameMove(Position(rec.row, rec.col), rec.intValue1, rec.intValue2)
 }
