@@ -385,6 +385,18 @@
         <activity android:name=".puzzles.culturedbranches.CulturedBranchesOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.culturetrip.CultureTripMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.culturetrip.CultureTripGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.culturetrip.CultureTripHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.culturetrip.CultureTripOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.desertdunes.DesertDunesMainActivity"
                   android:screenOrientation="portrait">
         </activity>
