@@ -11,7 +11,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PleaseComeBackGame(layout: List<String>, gi: GameInterface<PleaseComeBackGame, PleaseComeBackGameMove, PleaseComeBackGameState>, gdi: GameDocumentInterface) : CellsGame<PleaseComeBackGame, PleaseComeBackGameMove, PleaseComeBackGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
@@ -20,6 +19,7 @@ class PleaseComeBackGame(layout: List<String>, gi: GameInterface<PleaseComeBackG
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        const val PUZ_BLOCK = 'B'
     }
 
     var areas = mutableListOf<List<Position>>()

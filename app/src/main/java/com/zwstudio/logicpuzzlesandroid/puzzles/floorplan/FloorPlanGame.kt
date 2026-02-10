@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class FloorPlanGame(layout: List<String>, gi: GameInterface<FloorPlanGame, FloorPlanGameMove, FloorPlanGameState>, gdi: GameDocumentInterface) : CellsGame<FloorPlanGame, FloorPlanGameMove, FloorPlanGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val PUZ_EMPTY = 0
-        val PUZ_MARKER = -1
-        val PUZ_FORBIDDEN = -2
+        const val PUZ_EMPTY = 0
+        const val PUZ_MARKER = -1
+        const val PUZ_FORBIDDEN = -2
     }
 
     var objArray: IntArray

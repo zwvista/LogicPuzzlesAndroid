@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.tracenumbers.TraceNumbersGame.Co
 
 class CoffeeAndSugarGame(layout: List<String>, gi: GameInterface<CoffeeAndSugarGame, CoffeeAndSugarGameMove, CoffeeAndSugarGameState>, gdi: GameDocumentInterface) : CellsGame<CoffeeAndSugarGame, CoffeeAndSugarGameMove, CoffeeAndSugarGameState>(gi, gdi) {
     companion object {
+        val offset = Position.Directions4
         const val PUZ_COFFEE = 'C'
         const val PUZ_SUGAR = 'S'
-        val offset = Position.Directions4
     }
 
     var objArray: CharArray

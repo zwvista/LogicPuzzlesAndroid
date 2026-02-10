@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class InbetweenSumscrapersGame(layout: List<String>, gi: GameInterface<InbetweenSumscrapersGame, InbetweenSumscrapersGameMove, InbetweenSumscrapersGameState>, gdi: GameDocumentInterface) : CellsGame<InbetweenSumscrapersGame, InbetweenSumscrapersGameMove, InbetweenSumscrapersGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val PUZ_EMPTY = 0
-        val PUZ_SKYSCRAPER = -1
-        val PUZ_UNKNOWN = -1
+        const val PUZ_EMPTY = 0
+        const val PUZ_SKYSCRAPER = -1
+        const val PUZ_UNKNOWN = -1
     }
 
     var row2hint: IntArray

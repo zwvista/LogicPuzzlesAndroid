@@ -17,8 +17,8 @@ class PondsAndFlowerbedsGame(layout: List<String>, gi: GameInterface<PondsAndFlo
         )
         var dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
-        val PUZ_FLOWER = '*'
-        val PUZ_HEDGE = '.'
+        const val PUZ_FLOWER = '*'
+        const val PUZ_HEDGE = '.'
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>

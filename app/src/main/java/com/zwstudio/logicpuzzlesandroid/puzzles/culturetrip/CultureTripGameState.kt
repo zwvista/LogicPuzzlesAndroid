@@ -19,7 +19,7 @@ class CultureTripGameState(game: CultureTripGame) : CellsGameState<CultureTripGa
     override fun setObject(move: CultureTripGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
         val (p2, dir2) = p + CultureTripGame.offset[dir] to (dir + 2) % 4
-        if (!isValid(p2) || game[p] == CultureTripGame.PUZ_BLOCK || game[p2] == CultureTripGame.PUZ_BLOCK)
+        if (!isValid(p2))
             return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
@@ -56,7 +56,8 @@ class CultureTripGameState(game: CultureTripGame) : CellsGameState<CultureTripGa
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
                 if (dirs.size == 2)
-                    // 1. Draw a single path
+                    // 9. The Trip must form a closed loop, in the end returning to the starting
+                    //    neighborhood.
                     pos2dirs[p] = dirs
                 else if (dirs.isNotEmpty()) {
                     // The loop cannot cross itself.
@@ -64,16 +65,29 @@ class CultureTripGameState(game: CultureTripGame) : CellsGameState<CultureTripGa
                 }
             }
         // Check the loop
-        val p = pos2dirs.keys.firstOrNull()
+        val p = pos2dirs.keys.firstOrNull { game[it] != ' ' }
         if (p == null) { isSolved = false; return }
         var p2 = p
         var n = -1
         var lastArea = -1
         val area2count = mutableMapOf<Int, Int>()
+        val area2chars = mutableMapOf<Int, MutableList<Char>>()
+        var ch = ' '
         while (true) {
             val dirs = pos2dirs[p2]
             if (dirs == null) { isSolved = false; return }
             val area = game.pos2area[p2]!!
+            val ch2 = game[p2]
+            if (ch2 != ' ') {
+                area2chars.getOrPut(area) { mutableListOf() }.add(ch2)
+                // 7. You have to alternate between neighborhoods where you visit Museums and
+                //    those where you visit Monuments.
+                // 8. After visiting Museums, you should visit Monuments, then Museums again, etc.
+                if (area != lastArea && ch2 == ch) {
+                    isSolved = false; return
+                }
+                ch = ch2
+            }
             if (area != lastArea) {
                 area2count[area] = (area2count[area] ?: 0) + 1
                 lastArea = area
@@ -87,9 +101,20 @@ class CultureTripGameState(game: CultureTripGame) : CellsGameState<CultureTripGa
                 break
             }
         }
-        // 1. Draw a single path which passes in each area exactly twice.
-        // 2. Every square in the board must be passed through, except for brown
-        //    areas, which are to be avoided entirely.
-        if (!(area2count.size == game.areas.size && area2count.all { it.value == 2 })) isSolved = false
+        // 3. All neighborhoods must be visited exactly and only once.
+        // 4. You have to set foot in a neighborhood only once and can't come back after
+        //    you leave it.
+        // 5. In a neighborhood, you either visit All Museums or All Monuments.
+        // 6. If you visit Monuments, you can't pass over Museums and vice-versa.
+        if (!(area2count.size == game.areas.size && area2count.all { it.value == 1 } &&
+            area2chars.size == game.areas.size && area2chars.all { (area, chars) ->
+            val s = chars.toSet()
+            if (s.size != 1)
+                false
+            else {
+                val ch = s.first()
+                chars.size == game.areas[area].count { game[it] == ch }
+            }
+        })) isSolved = false
     }
 }

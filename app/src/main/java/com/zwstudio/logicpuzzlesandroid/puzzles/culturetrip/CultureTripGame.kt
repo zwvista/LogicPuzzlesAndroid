@@ -11,7 +11,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CultureTripGame(layout: List<String>, gi: GameInterface<CultureTripGame, CultureTripGameMove, CultureTripGameState>, gdi: GameDocumentInterface) : CellsGame<CultureTripGame, CultureTripGameMove, CultureTripGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
@@ -20,6 +19,8 @@ class CultureTripGame(layout: List<String>, gi: GameInterface<CultureTripGame, C
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        const val PUZ_MUSEUM = 'M'
+        const val PUZ_MONUMENT = 'T'
     }
 
     var areas = mutableListOf<List<Position>>()
@@ -64,7 +65,6 @@ class CultureTripGame(layout: List<String>, gi: GameInterface<CultureTripGame, C
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (get(p) != ' ') continue
                 rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)

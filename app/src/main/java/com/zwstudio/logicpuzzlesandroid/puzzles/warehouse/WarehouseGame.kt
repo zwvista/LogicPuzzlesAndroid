@@ -8,9 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WarehouseGame(layout: List<String>, gi: GameInterface<WarehouseGame, WarehouseGameMove, WarehouseGameState>, gdi: GameDocumentInterface) : CellsGame<WarehouseGame, WarehouseGameMove, WarehouseGameState>(gi, gdi) {
     companion object {
-        const val PUZ_HORZ = 'H'
-        const val PUZ_VERT = 'V'
-        const val PUZ_CROSS = '+'
         val offset = Position.Directions4
         val offset2 = arrayOf(
             Position(0, 0),
@@ -19,6 +16,9 @@ class WarehouseGame(layout: List<String>, gi: GameInterface<WarehouseGame, Wareh
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        const val PUZ_HORZ = 'H'
+        const val PUZ_VERT = 'V'
+        const val PUZ_CROSS = '+'
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>

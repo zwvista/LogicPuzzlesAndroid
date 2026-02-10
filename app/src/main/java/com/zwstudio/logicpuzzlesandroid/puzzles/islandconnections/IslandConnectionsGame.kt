@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class IslandConnectionsGame(layout: List<String>, gi: GameInterface<IslandConnectionsGame, IslandConnectionsGameMove, IslandConnectionsGameState>, gdi: GameDocumentInterface) : CellsGame<IslandConnectionsGame, IslandConnectionsGameMove, IslandConnectionsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val PUZ_UNKNOWN = -1
+        const val PUZ_UNKNOWN = -1
     }
 
     var islandsInfo = mutableMapOf<Position, IslandConnectionsIslandInfo>()

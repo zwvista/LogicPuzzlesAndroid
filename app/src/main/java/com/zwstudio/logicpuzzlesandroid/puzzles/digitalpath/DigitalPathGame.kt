@@ -20,9 +20,9 @@ class DigitalPathGame(layout: List<String>, gi: GameInterface<DigitalPathGame, D
         )
         var dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
-        val PUZ_EMPTY = 0
-        val PUZ_MARKER = -1
-        val PUZ_FORBIDDEN = -2
+        const val PUZ_EMPTY = 0
+        const val PUZ_MARKER = -1
+        const val PUZ_FORBIDDEN = -2
     }
 
     var areas = mutableListOf<List<Position>>()

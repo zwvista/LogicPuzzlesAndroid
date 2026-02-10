@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class ZenSolitaireGame(layout: List<String>, gi: GameInterface<ZenSolitaireGame, ZenSolitaireGameMove, ZenSolitaireGameState>, gdi: GameDocumentInterface) : CellsGame<ZenSolitaireGame, ZenSolitaireGameMove, ZenSolitaireGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val PUZ_STONE = -1
-        val PUZ_EMPTY = 0
+        const val PUZ_STONE = -1
+        const val PUZ_EMPTY = 0
     }
 
     var stones = mutableListOf<Position>()

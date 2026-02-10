@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RunInALoopGame(layout: List<String>, gi: GameInterface<RunInALoopGame, RunInALoopGameMove, RunInALoopGameState>, gdi: GameDocumentInterface) : CellsGame<RunInALoopGame, RunInALoopGameMove, RunInALoopGameState>(gi, gdi) {
     companion object {
-        const val PUZ_BLOCK = 'B'
         val offset = Position.Directions4
+        const val PUZ_BLOCK = 'B'
     }
 
     var objArray: CharArray

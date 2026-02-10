@@ -19,8 +19,8 @@ class StraightAndBendLandsGame(layout: List<String>, gi: GameInterface<StraightA
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        val PUZ_HOUSE = 'O'
-        val PUZ_TREE = 'T'
+        const val PUZ_HOUSE = 'O'
+        const val PUZ_TREE = 'T'
     }
 
     var areas = mutableListOf<List<Position>>()

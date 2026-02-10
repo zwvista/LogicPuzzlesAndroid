@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class ShopAndGasGame(layout: List<String>, gi: GameInterface<ShopAndGasGame, ShopAndGasGameMove, ShopAndGasGameState>, gdi: GameDocumentInterface) : CellsGame<ShopAndGasGame, ShopAndGasGameMove, ShopAndGasGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val PUZ_HOME = 'H'
-        val PUZ_SHOP = 'S'
-        val PUZ_GAS = 'G'
+        const val PUZ_HOME = 'H'
+        const val PUZ_SHOP = 'S'
+        const val PUZ_GAS = 'G'
     }
 
     var objArray: CharArray

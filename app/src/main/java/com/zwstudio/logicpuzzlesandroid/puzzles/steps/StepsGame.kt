@@ -19,9 +19,9 @@ class StepsGame(layout: List<String>, gi: GameInterface<StepsGame, StepsGameMove
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        val PUZ_EMPTY = 0
-        val PUZ_MARKER = -1
-        val PUZ_FORBIDDEN = -2
+        const val PUZ_EMPTY = 0
+        const val PUZ_MARKER = -1
+        const val PUZ_FORBIDDEN = -2
     }
 
     var areas = mutableListOf<List<Position>>()

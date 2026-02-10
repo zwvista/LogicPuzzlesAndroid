@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TurnMeUpGame(layout: List<String>, gi: GameInterface<TurnMeUpGame, TurnMeUpGameMove, TurnMeUpGameState>, gdi: GameDocumentInterface) : CellsGame<TurnMeUpGame, TurnMeUpGameMove, TurnMeUpGameState>(gi, gdi) {
     companion object {
-        const val PUZ_QM = '?'
         val offset = Position.Directions4
+        const val PUZ_QM = '?'
     }
 
     var objArray: CharArray

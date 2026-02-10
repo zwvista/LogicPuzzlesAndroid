@@ -19,7 +19,7 @@ class DigitWormsGame(layout: List<String>, gi: GameInterface<DigitWormsGame, Dig
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        val PUZ_EMPTY = 0
+        const val PUZ_EMPTY = 0
     }
 
     var areas = mutableListOf<List<Position>>()

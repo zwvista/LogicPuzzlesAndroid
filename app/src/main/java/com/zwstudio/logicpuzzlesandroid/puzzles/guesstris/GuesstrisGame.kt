@@ -17,10 +17,10 @@ class GuesstrisGame(layout: List<String>, gi: GameInterface<GuesstrisGame, Guess
         )
         var dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
-        val PUZ_SQUARE = 'S'
-        val PUZ_TRIANGLE = 'T'
-        val PUZ_CIRCLE = 'C'
-        val PUZ_DIAMOND = 'D'
+        const val PUZ_SQUARE = 'S'
+        const val PUZ_TRIANGLE = 'T'
+        const val PUZ_CIRCLE = 'C'
+        const val PUZ_DIAMOND = 'D'
         var tetrominoes = arrayOf(
             arrayOf(
                 arrayOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),

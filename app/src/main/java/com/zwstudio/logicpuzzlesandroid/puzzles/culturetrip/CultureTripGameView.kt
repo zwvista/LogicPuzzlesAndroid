@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.TextPaint
+import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -23,10 +23,10 @@ class CultureTripGameView(context: Context, val soundManager: SoundManager) : Ce
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val line2Paint = Paint()
-    private val blockPaint = Paint()
-    private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
+    private val dMuseum: Drawable
+    private val dMonument: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -37,10 +37,8 @@ class CultureTripGameView(context: Context, val soundManager: SoundManager) : Ce
         line2Paint.color = Color.GREEN
         line2Paint.style = Paint.Style.STROKE
         line2Paint.strokeWidth = 20f
-        blockPaint.color = Color.LTGRAY
-        blockPaint.style = Paint.Style.FILL_AND_STROKE
-        textPaint.color = Color.WHITE
-        textPaint.isAntiAlias = true
+        dMuseum = fromImageToDrawable("images/museum2.png")
+        dMonument = fromImageToDrawable("images/exhibition.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -49,9 +47,13 @@ class CultureTripGameView(context: Context, val soundManager: SoundManager) : Ce
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
-                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                val dObj = when (game[r, c]) {
+                    CultureTripGame.PUZ_MONUMENT -> dMonument
+                    CultureTripGame.PUZ_MUSEUM -> dMuseum
+                    else -> continue
+                }
+                dObj.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dObj.draw(canvas)
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {

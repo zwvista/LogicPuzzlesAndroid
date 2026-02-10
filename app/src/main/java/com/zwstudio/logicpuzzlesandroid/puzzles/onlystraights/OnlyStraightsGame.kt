@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class OnlyStraightsGame(layout: List<String>, gi: GameInterface<OnlyStraightsGame, OnlyStraightsGameMove, OnlyStraightsGameState>, gdi: GameDocumentInterface) : CellsGame<OnlyStraightsGame, OnlyStraightsGameMove, OnlyStraightsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val PUZ_TOWN = 'O'
+        const val PUZ_TOWN = 'O'
     }
 
     var objArray: CharArray

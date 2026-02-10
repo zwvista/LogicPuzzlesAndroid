@@ -26,7 +26,7 @@ class CrossroadsXGame(layout: List<String>, val sum: Int, gi: GameInterface<Cros
             Position(0, -1),
             Position(0, 0),
         )
-        val PUZ_EMPTY = -1
+        const val PUZ_EMPTY = -1
     }
 
     var areas = mutableListOf<List<Position>>()

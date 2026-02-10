@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TraceNumbersGame(layout: List<String>, gi: GameInterface<TraceNumbersGame, TraceNumbersGameMove, TraceNumbersGameState>, gdi: GameDocumentInterface) : CellsGame<TraceNumbersGame, TraceNumbersGameMove, TraceNumbersGameState>(gi, gdi) {
     companion object {
-        const val PUZ_ONE = '1'
         val offset = Position.Directions4
+        const val PUZ_ONE = '1'
     }
 
     var objArray: CharArray

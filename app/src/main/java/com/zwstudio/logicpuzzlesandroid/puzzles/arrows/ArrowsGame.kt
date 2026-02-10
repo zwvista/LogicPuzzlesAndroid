@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ArrowsGame(layout: List<String>, gi: GameInterface<ArrowsGame, ArrowsGameMove, ArrowsGameState>, gdi: GameDocumentInterface) : CellsGame<ArrowsGame, ArrowsGameMove, ArrowsGameState>(gi, gdi) {
     companion object {
-        val PUZ_UNKNOWN = 8
         val offset = Position.Directions8
+        const val PUZ_UNKNOWN = 8
     }
 
     fun isCorner(p: Position): Boolean {

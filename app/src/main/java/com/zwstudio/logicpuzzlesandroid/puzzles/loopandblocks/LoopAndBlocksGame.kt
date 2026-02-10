@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LoopAndBlocksGame(layout: List<String>, gi: GameInterface<LoopAndBlocksGame, LoopAndBlocksGameMove, LoopAndBlocksGameState>, gdi: GameDocumentInterface) : CellsGame<LoopAndBlocksGame, LoopAndBlocksGameMove, LoopAndBlocksGameState>(gi, gdi) {
     companion object {
-        const val PUZ_ONE = '1'
         val offset = Position.Directions4
+        const val PUZ_ONE = '1'
     }
 
     var objArray: CharArray

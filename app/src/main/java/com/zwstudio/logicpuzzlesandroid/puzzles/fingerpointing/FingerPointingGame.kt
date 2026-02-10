@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class FingerPointingGame(layout: List<String>, gi: GameInterface<FingerPointingGame, FingerPointingGameMove, FingerPointingGameState>, gdi: GameDocumentInterface) : CellsGame<FingerPointingGame, FingerPointingGameMove, FingerPointingGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val PUZ_BLOCK = 'O'
+        const val PUZ_BLOCK = 'O'
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
