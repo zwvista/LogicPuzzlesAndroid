@@ -1885,6 +1885,18 @@
         <activity android:name=".puzzles.tents.TentsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.tetrominopegs.TetrominoPegsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tetrominopegs.TetrominoPegsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tetrominopegs.TetrominoPegsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.tetrominopegs.TetrominoPegsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.thecityrises.TheCityRisesMainActivity"
                   android:screenOrientation="portrait">
         </activity>
