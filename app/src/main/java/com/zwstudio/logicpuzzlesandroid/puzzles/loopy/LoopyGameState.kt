@@ -3,10 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.loopy
 import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove, LoopyGameState>(game) {
@@ -57,37 +55,31 @@ class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove,
     */
     private fun updateIsSolved() {
         isSolved = true
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val n = this[p].filter { it == GridLineObject.Line }.size
-                when (n) {
-                    2 -> {
-                        val node = Node(p.toString())
-                        g.addNode(node)
-                        pos2node[p] = node
-                    }
-                    else -> {
-                        // 1. The path cannot have branches or cross itself.
-                        // 1. You have to touch all the dots.
-                        isSolved = false
-                        return
-                    }
+                val dirs = (0 until 4).filter { this[p][it] == GridLineObject.Line }
+                if (dirs.size == 2)
+                    // 1. Draw a single looping path.
+                    pos2dirs[p] = dirs
+                else {
+                    // 1. You have to touch all the dots. As usual,
+                    //    the path cannot have branches or cross itself.
+                    isSolved = false; return
                 }
             }
-        for (p in pos2node.keys) {
-            val dotObj = get(p)
-            for (i in 0 until 4) {
-                if (dotObj[i] != GridLineObject.Line) continue
-                val p2 = p + LoopyGame.offset[i]
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
-            }
+        // Check the loop
+        val p = pos2dirs.keys.first()
+        var p2 = p
+        var n = -1
+        while (true) {
+            val dirs = pos2dirs[p2]
+            if (dirs == null) { isSolved = false; return }
+            pos2dirs.remove(p2)
+            n = dirs.first { (it + 2) % 4 != n }
+            p2 += LoopyGame.offset[n]
+            if (p2 == p) break
         }
-        // 1. Draw a single looping path.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
     }
 }
