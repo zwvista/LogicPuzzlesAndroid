@@ -16,37 +16,49 @@ class FencingSheepGame(layout: List<String>, gi: GameInterface<FencingSheepGame,
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        const val PUZ_POST = 'O'
+        const val PUZ_SHEEP = 'S'
+        const val PUZ_WOLF = 'W'
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    val pos2hint = mutableMapOf<Position, Int>()
+    val wolves = mutableListOf<Position>()
+    val sheep = mutableListOf<Position>()
+    val posts = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
 
     init {
-        size = Position(layout.size + 1, layout[0].length + 1)
+        size = Position(layout.size / 2 + 1, layout[0].length / 2 + 1)
         objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
-        for (r in 0 until rows - 1) {
-            val str = layout[r]
+        for (r in 0 until rows) {
+            var str = layout[r * 2]
             for (c in 0 until cols - 1) {
-                val p = Position(r, c)
-                val ch = str[c]
-                if (ch == ' ') continue
-                pos2hint[p] = ch - '0'
+                val ch = str[c * 2 + 1]
+                if (ch == '-') {
+                    this[r, c][1] = GridLineObject.Line
+                    this[r, c + 1][3] = GridLineObject.Line
+                }
+                val ch2 = str[c * 2]
+                if (ch2 == PUZ_POST)
+                    posts.add(Position(r, c))
             }
-        }
-        for (r in 0 until rows - 1) {
-            this[r, 0][2] = GridLineObject.Line
-            this[r + 1, 0][0] = GridLineObject.Line
-            this[r, cols - 1][2] = GridLineObject.Line
-            this[r + 1, cols - 1][0] = GridLineObject.Line
-        }
-        for (c in 0 until cols - 1) {
-            this[0, c][1] = GridLineObject.Line
-            this[0, c + 1][3] = GridLineObject.Line
-            this[rows - 1, c][1] = GridLineObject.Line
-            this[rows - 1, c + 1][3] = GridLineObject.Line
+            if (r == rows - 1) break
+            str = layout[r * 2 + 1]
+            for (c in 0 until cols) {
+                val ch = str[c * 2]
+                if (ch == '|') {
+                    this[r, c][2] = GridLineObject.Line
+                    this[r + 1, c][0] = GridLineObject.Line
+                }
+                if (c == cols - 1) break
+                val p = Position(r, c)
+                when(str[c * 2 + 1]) {
+                    PUZ_SHEEP -> sheep.add(p)
+                    PUZ_WOLF -> wolves.add(p)
+                }
+            }
         }
         val state = FencingSheepGameState(this)
         levelInitialized(state)
@@ -54,7 +66,4 @@ class FencingSheepGame(layout: List<String>, gi: GameInterface<FencingSheepGame,
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getStateHint(p: Position) = currentState.pos2stateHint[p]
-    fun shrubs() = currentState.shrubs
-    fun getStateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }

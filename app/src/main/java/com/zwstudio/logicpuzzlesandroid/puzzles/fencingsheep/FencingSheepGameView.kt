@@ -5,14 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
-import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -28,8 +23,9 @@ class FencingSheepGameView(context: Context, val soundManager: SoundManager) : C
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val markerPaint = Paint()
-    private val textPaint = TextPaint()
-    private val dHedge: Drawable
+    private val postPaint = Paint()
+    private val dWolf: Drawable
+    private val dSheep: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -43,8 +39,11 @@ class FencingSheepGameView(context: Context, val soundManager: SoundManager) : C
         markerPaint.color = Color.YELLOW
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
-        textPaint.isAntiAlias = true
-        dHedge = fromImageToDrawable("images/lawn_background.png")
+        postPaint.color = Color.WHITE
+        postPaint.style = Paint.Style.STROKE
+        postPaint.strokeWidth = 5f
+        dWolf = fromImageToDrawable("images/wolf2.png")
+        dSheep = fromImageToDrawable("images/sheep2.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -54,20 +53,13 @@ class FencingSheepGameView(context: Context, val soundManager: SoundManager) : C
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.getStateHint(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                val dObj = when {
+                    game.sheep.contains(p) -> dSheep
+                    game.wolves.contains(p) -> dWolf
+                    else -> continue
                 }
-                if (game.shrubs().contains(p)) {
-                    dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val s = game.getStateAllowed(p)!!
-                    val alpha = if (s == AllowedObjectState.Error) 50 else 0
-                    dHedge.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                    dHedge.draw(canvas)
-                }
+                dObj.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dObj.draw(canvas)
             }
         if (isInEditMode) return
         val markerOffset = 20
@@ -93,6 +85,8 @@ class FencingSheepGameView(context: Context, val soundManager: SoundManager) : C
                     else -> {}
                 }
             }
+        for ((r, c) in game.posts)
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, postPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
