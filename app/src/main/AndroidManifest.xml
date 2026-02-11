@@ -2065,6 +2065,18 @@
         <activity android:name=".puzzles.warehouse.WarehouseOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.wildlifepark.WildlifeParkMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wildlifepark.WildlifeParkGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wildlifepark.WildlifeParkHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.wildlifepark.WildlifeParkOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.wishsandwich.WishSandwichMainActivity"
                   android:screenOrientation="portrait">
         </activity>
