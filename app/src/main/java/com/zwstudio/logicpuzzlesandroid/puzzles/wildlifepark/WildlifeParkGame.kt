@@ -16,14 +16,11 @@ class WildlifeParkGame(layout: List<String>, gi: GameInterface<WildlifeParkGame,
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        const val PUZ_POST = 'O'
-        const val PUZ_SHEEP = 'S'
-        const val PUZ_WOLF = 'W'
+        const val PUZ_POST = 'x'
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    val wolves = mutableListOf<Position>()
-    val sheep = mutableListOf<Position>()
+    val animals = mutableListOf<MutableList<Position>>()
     val posts = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -34,15 +31,16 @@ class WildlifeParkGame(layout: List<String>, gi: GameInterface<WildlifeParkGame,
         objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
         for (r in 0 until rows) {
             var str = layout[r * 2]
-            for (c in 0 until cols - 1) {
-                val ch = str[c * 2 + 1]
-                if (ch == '-') {
+            for (c in 0 until cols) {
+                val ch = str[c * 2]
+                if (ch == PUZ_POST)
+                    posts.add(Position(r, c))
+                if (c == cols - 1) break
+                val ch2 = str[c * 2 + 1]
+                if (ch2 == '-') {
                     this[r, c][1] = GridLineObject.Line
                     this[r, c + 1][3] = GridLineObject.Line
                 }
-                val ch2 = str[c * 2]
-                if (ch2 == PUZ_POST)
-                    posts.add(Position(r, c))
             }
             if (r == rows - 1) break
             str = layout[r * 2 + 1]
@@ -53,11 +51,12 @@ class WildlifeParkGame(layout: List<String>, gi: GameInterface<WildlifeParkGame,
                     this[r + 1, c][0] = GridLineObject.Line
                 }
                 if (c == cols - 1) break
-                val p = Position(r, c)
-                when(str[c * 2 + 1]) {
-                    PUZ_SHEEP -> sheep.add(p)
-                    PUZ_WOLF -> wolves.add(p)
-                }
+                val ch2 = str[c * 2 + 1]
+                if (ch2 == ' ') continue
+                val n = ch2 - 'A'
+                while (animals.size <= n)
+                    animals.add(mutableListOf())
+                animals[n].add(Position(r, c))
             }
         }
         val state = WildlifeParkGameState(this)

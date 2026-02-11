@@ -24,8 +24,7 @@ class WildlifeParkGameView(context: Context, val soundManager: SoundManager) : C
     private val line2Paint = Paint()
     private val markerPaint = Paint()
     private val postPaint = Paint()
-    private val dWolf: Drawable
-    private val dSheep: Drawable
+    private val dAnimals: Array<Drawable>
 
     init {
         gridPaint.color = Color.GRAY
@@ -42,8 +41,29 @@ class WildlifeParkGameView(context: Context, val soundManager: SoundManager) : C
         postPaint.color = Color.WHITE
         postPaint.style = Paint.Style.STROKE
         postPaint.strokeWidth = 5f
-        dWolf = fromImageToDrawable("images/wolf2.png")
-        dSheep = fromImageToDrawable("images/sheep2.png")
+        dAnimals = listOf(
+            "bull",
+            "camel",
+            "chick",
+            "crab",
+            "elephant",
+            "fox",
+            "giraffe",
+            "hedgehog",
+            "hippopotamus",
+            "kangaroo",
+            "koala",
+            "lemur",
+            "lion",
+            "monkey",
+            "squirrel",
+            "swan",
+            "toucan",
+            "turtle",
+            "tiger",
+            "whale",
+            "zebra",
+        ).map { fromImageToDrawable("images/${it}.png") }.toTypedArray()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -53,11 +73,8 @@ class WildlifeParkGameView(context: Context, val soundManager: SoundManager) : C
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val dObj = when {
-                    game.sheep.contains(p) -> dSheep
-                    game.wolves.contains(p) -> dWolf
-                    else -> continue
-                }
+                val n = game.animals.indices.firstOrNull { game.animals[it].contains(p) } ?: continue
+                val dObj = dAnimals[n]
                 dObj.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 dObj.draw(canvas)
             }

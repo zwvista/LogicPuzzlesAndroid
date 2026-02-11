@@ -75,44 +75,15 @@ class WildlifeParkGameState(game: WildlifeParkGame) : CellsGameState<WildlifePar
                     0 ->
                         true
                     2 ->
-                        // 4. Lines only turn at posts (dots).
-                        // 6. Not all posts must be used.
-                        isB || dirs[1] - dirs[0] == 2 || game.posts.contains(p)
-                    3 ->
-                        // 3. The lines (fencing) of the enclosures start and end on the edges of the
-                        //    grid.
-                        isB
-                    4 ->
-                        // 5. Lines can cross each other except posts (dots).
-                        !game.posts.contains(p)
+                        // 5. On the Park all posts are already marked with a dot.
+                        isB || !game.posts.contains(p)
+                    3, 4 ->
+                        // 5. Where three or four fences meet, a fence post is put in place.
+                        game.posts.contains(p)
                     else ->
                         false
                 }) { isSolved = false; return }
-                if (isB)
-                    dirs.removeAll { isBorder(p + WildlifeParkGame.offset[it]) }
-                if (dirs.isNotEmpty())
-                    pos2dirs[p] = dirs
             }
-        // Check the lines
-        while (pos2dirs.isNotEmpty()) {
-            val p = pos2dirs.firstNotNullOfOrNull { if (it.value.size == 1) it.key else null }
-            if (p == null) { isSolved = false; return }
-            var p2 = p
-            var n = -1
-            while (true) {
-                val dirs = pos2dirs[p2]
-                if (dirs == null) { isSolved = false; return }
-                if (dirs.size == 4) {
-                    dirs.remove(n)
-                    dirs.remove((n + 2) % 4)
-                } else {
-                    pos2dirs.remove(p2)
-                    if (p2 != p && dirs.size == 1) break
-                    n = dirs.first { (it + 2) % 4 != n }
-                }
-                p2 += WildlifeParkGame.offset[n]
-            }
-        }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
@@ -135,11 +106,12 @@ class WildlifeParkGameState(game: WildlifeParkGame) : CellsGameState<WildlifePar
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rngWolves = area.filter { game.wolves.contains(it) }
-            val rngSheep = area.filter { game.sheep.contains(it) }
-            // 2. Each enclosure must contain either sheep or wolves (but not both) and
-            //    must not be empty.
-            if (rngSheep.isEmpty() == rngWolves.isEmpty()) { isSolved = false; return }
+            // 3. Fences should encompass at least one animal of a certain species, and all
+            //    animals of a certain species must be in the same enclosure.
+            // 4. There can't be empty enclosures.
+            if (game.animals.count {
+                it.any { area.contains(it) }
+            } != 1) { isSolved = false; return }
         }
     }
 }
