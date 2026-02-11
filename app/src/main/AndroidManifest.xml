@@ -1117,6 +1117,18 @@
         <activity android:name=".puzzles.mixedtatamis.MixedTatamisOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.mondrianloop.MondrianLoopMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mondrianloop.MondrianLoopGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mondrianloop.MondrianLoopHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mondrianloop.MondrianLoopOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.mosaik.MosaikMainActivity"
                   android:screenOrientation="portrait">
         </activity>
