@@ -2113,6 +2113,18 @@
         <activity android:name=".puzzles.wishsandwich.WishSandwichOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.yalooniq.YalooniqMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.yalooniq.YalooniqGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.yalooniq.YalooniqHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.yalooniq.YalooniqOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.youturnmeon.YouTurnMeOnMainActivity"
                   android:screenOrientation="portrait">
         </activity>
