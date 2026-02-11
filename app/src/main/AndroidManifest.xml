@@ -517,6 +517,18 @@
         <activity android:name=".puzzles.fencesentinels.FenceSentinelsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.fencingsheep.FencingSheepMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fencingsheep.FencingSheepGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fencingsheep.FencingSheepHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fencingsheep.FencingSheepOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fields.FieldsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
