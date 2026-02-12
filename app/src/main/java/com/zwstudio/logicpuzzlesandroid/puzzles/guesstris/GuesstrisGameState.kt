@@ -102,9 +102,9 @@ class GuesstrisGameState(game: GuesstrisGame) : CellsGameState<GuesstrisGame, Gu
                 if (c1 > p.col) c1 = p.col
             }
             val p1 = Position (r1, c1)
-            val area2 = area.map { it - p1 }.sorted().toTypedArray()
+            val area2 = area.map { it - p1 }.sorted()
             GuesstrisGame.tetrominoes.indices.first {
-                GuesstrisGame.tetrominoes[it].any { it.contentEquals(area2) }
+                GuesstrisGame.tetrominoes[it].any { it == area2 }
             }
         }.values
         if (!area2D.all {

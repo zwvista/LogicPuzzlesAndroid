@@ -1,21 +1,17 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tetrominopegs
 
 import com.rits.cloning.Cloner
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TetrominoPegsGameState(game: TetrominoPegsGame) : CellsGameState<TetrominoPegsGame, TetrominoPegsGameMove, TetrominoPegsGameState>(game) {
     var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var shrubs = mutableSetOf<Position>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    var tetros = mutableListOf<TetrominoPegsObject>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -64,9 +60,7 @@ class TetrominoPegsGameState(game: TetrominoPegsGame) : CellsGameState<Tetromino
     */
     private fun updateIsSolved() {
         isSolved = true
-        pos2stateHint.clear()
-        pos2stateAllowed.clear()
-        val flowerbeds = mutableListOf<List<Position>>()
+        tetros.clear()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
@@ -89,41 +83,36 @@ class TetrominoPegsGameState(game: TetrominoPegsGame) : CellsGameState<Tetromino
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.pos2hint.containsKey(it) }
-            // 2. Each Box must contain one number.
-            // 1. Divide the board in Flowerbeds of exactly three tiles. Each Flowerbed
-            //    contains a number.
-            val cnt = area.size
-            if (rng.isEmpty()) {
-                if (cnt == 1)
-                    shrubs.add(area[0])
-                else
-                    isSolved = false
-            } else if (rng.size > 1 || cnt != 3) {
-                for (p in rng)
-                    pos2stateHint[p] = HintState.Normal
-                isSolved = false
-            } else
-                flowerbeds.add(area)
+            // 2. Wood cells are fixed pegs and aren't part of Tetrominoes.
+            if (area.size == 1 && game.pegs.contains(area[0])) continue
+            if (area.size != 4) { isSolved = false; continue }
+            // 1. Divide the board into Tetrominoes, area of exactly four tiles, of a shape
+            //    like the pieces of Tetris, that is: L, I, T, S or O.
+            // 3. Tetrominoes may be rotated or mirrored.
+            var (r1, c1) = rows to cols
+            for (p in area) {
+                if (r1 > p.row) r1 = p.row
+                if (c1 > p.col) c1 = p.col
+            }
+            val p1 = Position(r1, c1)
+            val area2 = area.map { it - p1 }.sorted()
+            val n = TetrominoPegsGame.tetrominoes.indices.first {
+                TetrominoPegsGame.tetrominoes[it].contains(area2)
+            }
+            tetros.add(TetrominoPegsObject(area, n))
         }
-        // 2. Single tiles left outside Flowerbeds are Shrubs. Shrubs cannot touch
-        //    each other orthogonally.
-        for (p in shrubs) {
-            val rng = TetrominoPegsGame.offset.map { p + it }.filter { shrubs.contains(it) }
-            pos2stateAllowed[p] = if (rng.isEmpty()) AllowedObjectState.Normal else AllowedObjectState.Error
-        }
-        // 3. The number on each Flowerbed tells you how many Shrubs are adjacent to it.
-        for (area in flowerbeds) {
-            val pHint = area.first { game.pos2hint[it] != null }
-            val n1 = game.pos2hint[pHint]!!
-            val shrubs2 = area
-                .flatMap { p -> TetrominoPegsGame.offset.map { p + it } }
-                .filter { shrubs.contains(it) }
-                .toSet()
-            val n2 = shrubs2.size
-            val s = if (n1 == n2) HintState.Complete else HintState.Error
-            pos2stateHint[pHint] = s
-            if (s != HintState.Complete) isSolved = false
-        }
+        // 4. Two Tetrominoes sharing an edge must be different.
+        if (tetros.indices.any { index ->
+            val t = tetros[index]
+            t.rng.any { p ->
+                TetrominoPegsGame.offset.any {
+                    val p2 = p + it
+                    val index2 = tetros.indices.firstOrNull {
+                        tetros[it].rng.contains(p2)
+                    }
+                    index2 != null && index2 != index && tetros[index2].kind == t.kind
+                }
+            }
+        }) isSolved = false
     }
 }

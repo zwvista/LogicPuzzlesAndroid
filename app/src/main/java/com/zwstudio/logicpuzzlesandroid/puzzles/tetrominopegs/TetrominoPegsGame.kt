@@ -16,10 +16,41 @@ class TetrominoPegsGame(layout: List<String>, gi: GameInterface<TetrominoPegsGam
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        var tetrominoes = listOf(
+            listOf(
+                listOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),
+                listOf(Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)),
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 0)),
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 2)),
+                listOf(Position(0, 0), Position(0, 1), Position(1, 0), Position(2, 0)),
+                listOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1)),
+                listOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(1, 2)),
+                listOf(Position(0, 2), Position(1, 0), Position(1, 1), Position(1, 2))
+            ),
+            listOf(
+                listOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(3, 0)),
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(0, 3))
+            ),
+            listOf(
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 1)),
+                listOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)),
+                listOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(1, 2)),
+                listOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 0))
+            ),
+            listOf(
+                listOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(1, 2)),
+                listOf(Position(0, 1), Position(0, 2), Position(1, 0), Position(1, 1)),
+                listOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 1)),
+                listOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0))
+            ),
+            listOf(
+                listOf(Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1))
+            ),
+        )
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
-    val pos2hint = mutableMapOf<Position, Int>()
+    val pegs = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -33,7 +64,15 @@ class TetrominoPegsGame(layout: List<String>, gi: GameInterface<TetrominoPegsGam
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                pos2hint[p] = ch - '0'
+                pegs.add(p)
+                this[r, c][1] = GridLineObject.Line
+                this[r, c][2] = GridLineObject.Line
+                this[r, c + 1][3] = GridLineObject.Line
+                this[r, c + 1][2] = GridLineObject.Line
+                this[r + 1, c][0] = GridLineObject.Line
+                this[r + 1, c][1] = GridLineObject.Line
+                this[r + 1, c + 1][0] = GridLineObject.Line
+                this[r + 1, c + 1][3] = GridLineObject.Line
             }
         }
         for (r in 0 until rows - 1) {
@@ -54,7 +93,5 @@ class TetrominoPegsGame(layout: List<String>, gi: GameInterface<TetrominoPegsGam
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getStateHint(p: Position) = currentState.pos2stateHint[p]
-    fun shrubs() = currentState.shrubs
-    fun getStateAllowed(p: Position) = currentState.pos2stateAllowed[p]
+    fun tetros() = currentState.tetros
 }

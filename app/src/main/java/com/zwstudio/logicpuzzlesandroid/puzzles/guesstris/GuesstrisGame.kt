@@ -21,33 +21,36 @@ class GuesstrisGame(layout: List<String>, gi: GameInterface<GuesstrisGame, Guess
         const val PUZ_TRIANGLE = 'T'
         const val PUZ_CIRCLE = 'C'
         const val PUZ_DIAMOND = 'D'
-        var tetrominoes = arrayOf(
-            arrayOf(
-                arrayOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),
-                arrayOf(Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)),
-                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 0)),
-                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 2)),
-                arrayOf(Position(0, 0), Position(0, 1), Position(1, 0), Position(2, 0)),
-                arrayOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1)),
-                arrayOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(1, 2)),
-                arrayOf(Position(0, 2), Position(1, 0), Position(1, 1), Position(1, 2))
+        var tetrominoes = listOf(
+            listOf(
+                listOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),
+                listOf(Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)),
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 0)),
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 2)),
+                listOf(Position(0, 0), Position(0, 1), Position(1, 0), Position(2, 0)),
+                listOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1)),
+                listOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(1, 2)),
+                listOf(Position(0, 2), Position(1, 0), Position(1, 1), Position(1, 2))
             ),
-            arrayOf(
-                arrayOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(3, 0)),
-                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(0, 3))
+            listOf(
+                listOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(3, 0)),
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(0, 3))
             ),
-            arrayOf(
-                arrayOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 1)),
-                arrayOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)),
-                arrayOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(1, 2)),
-                arrayOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 0))
+            listOf(
+                listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 1)),
+                listOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)),
+                listOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(1, 2)),
+                listOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 0))
             ),
-            arrayOf(
-                arrayOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(1, 2)),
-                arrayOf(Position(0, 1), Position(0, 2), Position(1, 0), Position(1, 1)),
-                arrayOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 1)),
-                arrayOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0))
-            )
+            listOf(
+                listOf(Position(0, 0), Position(0, 1), Position(1, 1), Position(1, 2)),
+                listOf(Position(0, 1), Position(0, 2), Position(1, 0), Position(1, 1)),
+                listOf(Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 1)),
+                listOf(Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0))
+            ),
+            listOf(
+                listOf(Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1))
+            ),
         )
     }
 
