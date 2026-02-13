@@ -6,10 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -25,8 +22,13 @@ class PipemaniaGameView(context: Context, val soundManager: SoundManager) : Cell
     private val wallPaint = Paint()
     private val markerPaint = Paint()
     private val fixedPaint = Paint()
-    private val forbiddenPaint = Paint()
-    private val dFlower: Drawable
+    private val dUpRight: Drawable
+    private val dDownRight: Drawable
+    private val dLeftDown: Drawable
+    private val dLeftUp: Drawable
+    private val dHorizontal: Drawable
+    private val dVertical: Drawable
+    private val dCross: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -38,10 +40,13 @@ class PipemaniaGameView(context: Context, val soundManager: SoundManager) : Cell
         markerPaint.strokeWidth = 5f
         fixedPaint.color = Color.WHITE
         fixedPaint.style = Paint.Style.STROKE
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
-        dFlower = fromImageToDrawable("images/flower_blue.png")
+        dUpRight = fromImageToDrawable("images/pipe1.png")
+        dDownRight = fromImageToDrawable("images/pipe2.png")
+        dLeftDown = fromImageToDrawable("images/pipe3.png")
+        dLeftUp = fromImageToDrawable("images/pipe4.png")
+        dHorizontal = fromImageToDrawable("images/pipe_horizontal.png")
+        dVertical = fromImageToDrawable("images/pipe_vertical.png")
+        dCross = fromImageToDrawable("images/pipe_cross.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -53,23 +58,18 @@ class PipemaniaGameView(context: Context, val soundManager: SoundManager) : Cell
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is PipemaniaFlowerObject -> {
-                        dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dFlower.draw(canvas)
-                        if (game[p] is PipemaniaFlowerObject)
-                            canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
-                    }
-                    is PipemaniaMarkerObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is PipemaniaForbiddenObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is PipemaniaBlockObject ->
-                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                    else -> {}
+                val dObject = when (game.getObject(p)) {
+                    PipemaniaObject.UpRight -> dUpRight
+                    PipemaniaObject.DownRight -> dDownRight
+                    PipemaniaObject.LeftDown -> dLeftDown
+                    PipemaniaObject.LeftUp -> dLeftUp
+                    PipemaniaObject.Horizontal -> dHorizontal
+                    PipemaniaObject.Vertical -> dVertical
+                    PipemaniaObject.Cross -> dCross
+                    else -> continue
                 }
+                dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dObject.draw(canvas)
             }
     }
 

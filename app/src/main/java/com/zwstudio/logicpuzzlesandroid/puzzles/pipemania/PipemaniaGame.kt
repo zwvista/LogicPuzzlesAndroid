@@ -19,13 +19,19 @@ class PipemaniaGame(layout: List<String>, gi: GameInterface<PipemaniaGame, Pipem
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = Array(rows * cols) { PipemaniaEmptyObject }
+        objArray = Array(rows * cols) { PipemaniaObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols)
-                when (str[c]) {
-                    'F' -> this[r, c] = PipemaniaFlowerObject()
-                    'B' -> this[r, c] = PipemaniaBlockObject
+                this[r, c] = when (str[c]) {
+                    '3' -> PipemaniaObject.UpRight
+                    '6' -> PipemaniaObject.DownRight
+                    'C' -> PipemaniaObject.LeftDown
+                    '9' -> PipemaniaObject.LeftUp
+                    'A' -> PipemaniaObject.Horizontal
+                    '5' -> PipemaniaObject.Vertical
+                    'F' -> PipemaniaObject.Cross
+                    else -> PipemaniaObject.Empty
                 }
         }
         val state = PipemaniaGameState(this)
@@ -34,5 +40,4 @@ class PipemaniaGame(layout: List<String>, gi: GameInterface<PipemaniaGame, Pipem
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
 }

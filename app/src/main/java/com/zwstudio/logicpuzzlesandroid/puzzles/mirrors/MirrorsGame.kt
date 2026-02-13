@@ -27,8 +27,8 @@ class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGa
                     'O' -> MirrorsObject.Block
                     '3' -> MirrorsObject.UpRight
                     '6' -> MirrorsObject.DownRight
-                    'C' -> MirrorsObject.DownLeft
-                    '9' -> MirrorsObject.UpLeft
+                    'C' -> MirrorsObject.LeftDown
+                    '9' -> MirrorsObject.LeftUp
                     'A' -> MirrorsObject.Horizontal
                     '5' -> MirrorsObject.Vertical
                     else -> MirrorsObject.Empty

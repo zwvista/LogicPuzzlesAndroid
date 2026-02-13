@@ -8,10 +8,12 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.crosstowntraffic.CrosstownTrafficGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.crosstowntraffic.CrosstownTrafficObject
+import com.zwstudio.logicpuzzlesandroid.puzzles.crosstowntraffic.PipemaniaObject
 
 class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, PipemaniaGameMove, PipemaniaGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -23,21 +25,25 @@ class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, Pi
     }
 
     override fun setObject(move: PipemaniaGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] !is PipemaniaEmptyObject || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || game[p] != PipemaniaObject.Empty || this[move.p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: PipemaniaGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] !is PipemaniaEmptyObject) return GameOperationType.Invalid
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[p]) {
-            is PipemaniaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PipemaniaMarkerObject else PipemaniaFlowerObject()
-            is PipemaniaFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) PipemaniaMarkerObject else PipemaniaEmptyObject
-            is PipemaniaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PipemaniaFlowerObject() else PipemaniaEmptyObject
-            else -> o
+        if (!isValid(p) || game[p] != PipemaniaObject.Empty) return GameOperationType.Invalid
+        move.obj = when (this[p]) {
+            PipemaniaObject.Empty -> PipemaniaObject.UpRight
+            PipemaniaObject.UpRight -> PipemaniaObject.DownRight
+            PipemaniaObject.DownRight -> PipemaniaObject.LeftDown
+            PipemaniaObject.LeftDown -> PipemaniaObject.LeftUp
+            PipemaniaObject.LeftUp -> PipemaniaObject.Horizontal
+            PipemaniaObject.Horizontal -> PipemaniaObject.Vertical
+            PipemaniaObject.Vertical -> PipemaniaObject.Cross
+            PipemaniaObject.Cross -> PipemaniaObject.Empty
         }
         return setObject(move)
     }
@@ -59,87 +65,123 @@ class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, Pi
            (not turning at crossings).
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
-        isSolved = true
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
+        val pos2dirs = mutableMapOf<Position, MutableList<Int>?>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o is PipemaniaForbiddenObject)
-                    this[p] = PipemaniaEmptyObject
-                else if (o is PipemaniaFlowerObject) {
-                    o.state = AllowedObjectState.Normal
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
+                pos2dirs[p] = when (this[p]) {
+                    PipemaniaObject.UpRight -> mutableListOf(0, 1)
+                    PipemaniaObject.DownRight -> mutableListOf(1, 2)
+                    PipemaniaObject.LeftDown -> mutableListOf(2, 3)
+                    PipemaniaObject.LeftUp -> mutableListOf(0, 3)
+                    PipemaniaObject.Horizontal -> mutableListOf(1, 3)
+                    PipemaniaObject.Vertical -> mutableListOf(0, 2)
+                    PipemaniaObject.Cross -> mutableListOf(0, 1, 2, 3)
+                    else -> null
                 }
             }
-        for ((p, node) in pos2node) {
-            for (os in PipemaniaGame.offset) {
-                val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
-            }
-        }
-        // 2. More exactly, you have to join the existing flowers by adding more of
-        // them, creating a single path of flowers touching horizontally or
-        // vertically.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
-        val flowers = mutableListOf<Position>()
-        // 3. At the same time, you can't line up horizontally or vertically more
-        // than 3 flowers (thus Forbidden Four).
-        fun areFlowersInvalid() = flowers.size > 3
-        fun checkFlowers() {
-            if (areFlowersInvalid()) {
-                isSolved = false
-                for (p in flowers)
-                    (this[p] as PipemaniaFlowerObject).state = AllowedObjectState.Error
-            }
-            flowers.clear()
-        }
-        fun checkForbidden(p: Position, indexes: List<Int>) {
-            if (!allowedObjectsOnly) return
-            for (i in indexes) {
-                val os = PipemaniaGame.offset[i]
-                var p2 = p + os
-                while (isValid(p2) && this[p2] is PipemaniaFlowerObject) {
-                    flowers.add(p2)
-                    p2 += os
-                }
-            }
-            if (areFlowersInvalid()) this[p] = PipemaniaForbiddenObject
-            flowers.clear()
-        }
-        for (r in 0 until rows) {
+        // 1. Draw a circuit (looping road)
+        for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o is PipemaniaFlowerObject)
-                    flowers.add(p)
-                else {
-                    checkFlowers()
-                    if (o is PipemaniaEmptyObject || o is PipemaniaMarkerObject)
-                        checkForbidden(p, listOf(1, 3))
-                }
+                val dirs = pos2dirs[p]!!
+                if (!dirs.all {
+                        val p2 = p + CrosstownTrafficGame.offset[it]
+                        val dirs2 = pos2dirs[p2]
+                        dirs2 != null && dirs2.contains((it + 2) % 4)
+                    }) { isSolved = false; return }
             }
-            checkFlowers()
+        // 3. The numbers along the edge indicate the stretch of the nearest section
+        //    of road from that point, in corresponding row or column.
+        for (r in 1 until rows - 1) {
+            var n1 = 0
+            var pHint = Position(r, 0)
+            var n2 = game.pos2hint[pHint]!!
+            for (c in 1 until cols - 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(1) to dirs.contains(3)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
+            }
+            var s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
+            n1 = 0
+            pHint = Position(r, cols - 1)
+            n2 = game.pos2hint[pHint]!!
+            for (c in cols - 2 downTo 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(3) to dirs.contains(1)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
+            }
+            s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
         }
-        for (c in 0 until cols) {
-            for (r in 0 until rows) {
-                val p = Position(r, c)
-                val o = get(p)
-                if (o is PipemaniaFlowerObject)
-                    flowers.add(p)
-                else {
-                    checkFlowers()
-                    if (o is PipemaniaEmptyObject || o is PipemaniaMarkerObject)
-                        checkForbidden(p, listOf(0, 2))
-                }
+        for (c in 1 until cols - 1) {
+            var n1 = 0
+            var pHint = Position(0, c)
+            var n2 = game.pos2hint[pHint]!!
+            for (r in 1 until rows - 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(2) to dirs.contains(0)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
             }
-            checkFlowers()
+            var s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
+            n1 = 0
+            pHint = Position(rows - 1, c)
+            n2 = game.pos2hint[pHint]!!
+            for (r in rows - 2 downTo 1) {
+                val dirs = pos2dirs[Position(r, c)] ?: listOf()
+                val (b1, b2) = dirs.contains(0) to dirs.contains(2)
+                if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
+                    n1 += 1
+                else if (!b1 && b2 && n1 > 0) {
+                    n1 += 1
+                    break
+                } else if (n1 > 0)
+                    break
+            }
+            s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[pHint] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+        if (!isSolved) return
+        // Check the loop
+        val p = pos2dirs.keys.first()
+        var p2 = p
+        var n = -1
+        while (true) {
+            val dirs = pos2dirs[p2]
+            if (dirs == null) { isSolved = false; return }
+            if (dirs.size == 2) {
+                pos2dirs.remove(p2)
+                n = dirs.first { (it + 2) % 4 != n }
+            } else {
+                dirs.remove(n)
+                dirs.remove((n + 2) % 4)
+            }
+            p2 += CrosstownTrafficGame.offset[n]
+            if (p2 == p) break
         }
     }
 }

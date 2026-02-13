@@ -9,9 +9,9 @@ class PipemaniaDocument(context: Context) : GameDocument<PipemaniaGameMove>(cont
     override fun saveMove(move: PipemaniaGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        PipemaniaGameMove(Position(rec.row, rec.col), PipemaniaObject.objFromString(rec.strValue1!!))
+        PipemaniaGameMove(Position(rec.row, rec.col), PipemaniaObject.entries[rec.intValue1])
 }

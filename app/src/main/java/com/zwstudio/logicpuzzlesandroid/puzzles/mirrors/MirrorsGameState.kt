@@ -33,9 +33,9 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
         move.obj = when (val o = this[p]) {
             MirrorsObject.Empty -> MirrorsObject.UpRight
             MirrorsObject.UpRight -> MirrorsObject.DownRight
-            MirrorsObject.DownRight -> MirrorsObject.DownLeft
-            MirrorsObject.DownLeft -> MirrorsObject.UpLeft
-            MirrorsObject.UpLeft -> MirrorsObject.Horizontal
+            MirrorsObject.DownRight -> MirrorsObject.LeftDown
+            MirrorsObject.LeftDown -> MirrorsObject.LeftUp
+            MirrorsObject.LeftUp -> MirrorsObject.Horizontal
             MirrorsObject.Horizontal -> MirrorsObject.Vertical
             MirrorsObject.Vertical -> MirrorsObject.Empty
             else -> o
@@ -74,8 +74,8 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
                 pos2dirs[p] = when (this[p]) {
                     MirrorsObject.UpRight -> listOf(0, 1)
                     MirrorsObject.DownRight -> listOf(1, 2)
-                    MirrorsObject.DownLeft -> listOf(2, 3)
-                    MirrorsObject.UpLeft -> listOf(0, 3)
+                    MirrorsObject.LeftDown -> listOf(2, 3)
+                    MirrorsObject.LeftUp -> listOf(0, 3)
                     MirrorsObject.Horizontal -> listOf(1, 3)
                     MirrorsObject.Vertical -> listOf(0, 2)
                     else -> listOf()
