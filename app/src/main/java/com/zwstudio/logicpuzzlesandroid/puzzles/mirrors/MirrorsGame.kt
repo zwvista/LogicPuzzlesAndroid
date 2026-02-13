@@ -8,23 +8,31 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGameMove, MirrorsGameState>, gdi: GameDocumentInterface) : CellsGame<MirrorsGame, MirrorsGameMove, MirrorsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        const val PUZ_BLOCK = 'B'
     }
 
-    var objArray: CharArray
+    var objArray: Array<MirrorsObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: MirrorsObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: MirrorsObject) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows * cols)
+        objArray = Array(rows * cols) { MirrorsObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols)
-                this[r, c] = str[c]
+                this[r, c] = when (str[c]) {
+                    'O' -> MirrorsObject.Block
+                    '3' -> MirrorsObject.UpRight
+                    '6' -> MirrorsObject.DownRight
+                    'C' -> MirrorsObject.DownLeft
+                    '9' -> MirrorsObject.UpLeft
+                    'A' -> MirrorsObject.Horizontal
+                    '5' -> MirrorsObject.Vertical
+                    else -> MirrorsObject.Empty
+                }
         }
         val state = MirrorsGameState(this)
         levelInitialized(state)
@@ -32,4 +40,5 @@ class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGa
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2dirsAll() = currentState.pos2dirsAll
 }

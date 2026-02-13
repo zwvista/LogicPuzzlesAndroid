@@ -1,30 +1,46 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mirrors
 
+import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsGameMove, MirrorsGameState>(game) {
-    var objArray = Array(rows * cols) { Array(4) { false } }
+    var cloner = Cloner()
+    var objArray = game.objArray.copyOf()
+    val pos2dirsAll = mutableMapOf<Position, List<Int>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, dotObj: Array<Boolean>) {objArray[row * cols + col] = dotObj}
-    operator fun set(p: Position, obj: Array<Boolean>) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, dotObj: MirrorsObject) {objArray[row * cols + col] = dotObj}
+    operator fun set(p: Position, obj: MirrorsObject) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
     }
 
     override fun setObject(move: MirrorsGameMove): GameOperationType {
-        val (p, dir) = move.p to move.dir
-        val (p2, dir2) = p + MirrorsGame.offset[dir] to (dir + 2) % 4
-        if (!isValid(p2) || game[p] == MirrorsGame.PUZ_BLOCK || game[p2] == MirrorsGame.PUZ_BLOCK)
-            return GameOperationType.Invalid
-        this[p][dir] = !this[p][dir]
-        this[p2][dir2] = !this[p2][dir2]
+        val p = move.p
+        if (!isValid(p) || game[p] != MirrorsObject.Empty || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
+    }
+
+    override fun switchObject(move: MirrorsGameMove): GameOperationType {
+        val p = move.p
+        if (!isValid(p) || game[p] != MirrorsObject.Empty) return GameOperationType.Invalid
+        move.obj = when (val o = this[p]) {
+            MirrorsObject.Empty -> MirrorsObject.UpRight
+            MirrorsObject.UpRight -> MirrorsObject.DownRight
+            MirrorsObject.DownRight -> MirrorsObject.DownLeft
+            MirrorsObject.DownLeft -> MirrorsObject.UpLeft
+            MirrorsObject.UpLeft -> MirrorsObject.Horizontal
+            MirrorsObject.Horizontal -> MirrorsObject.Vertical
+            MirrorsObject.Vertical -> MirrorsObject.Empty
+            else -> o
+        }
+        return setObject(move)
     }
 
     /*
@@ -49,18 +65,35 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
     */
     private fun updateIsSolved() {
         isSolved = true
-        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] }
-                if (dirs.size == 2)
-                    // 1. Draw a loop that runs through all tiles.
-                    pos2dirs[p] = dirs
-                else if (!(dirs.isEmpty() && game[p] == MirrorsGame.PUZ_BLOCK)) {
-                    // 2. The loop cannot cross itself.
-                    isSolved = false; return
+                val o = this[p]
+                if (o == MirrorsObject.Empty)
+                    isSolved = false
+                pos2dirsAll[p] = when (this[p]) {
+                    MirrorsObject.UpRight -> listOf(0, 1)
+                    MirrorsObject.DownRight -> listOf(1, 2)
+                    MirrorsObject.DownLeft -> listOf(2, 3)
+                    MirrorsObject.UpLeft -> listOf(0, 3)
+                    MirrorsObject.Horizontal -> listOf(1, 3)
+                    MirrorsObject.Vertical -> listOf(0, 2)
+                    else -> listOf()
                 }
+            }
+        if (!isSolved) return
+        val pos2dirs = cloner.deepClone(pos2dirsAll)
+        // 1. The goal is to draw a single, continuous, non-crossing path that fills
+        //    the entire board.
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val dirs = pos2dirs[p]!!
+                if (!dirs.all {
+                    val p2 = p + MirrorsGame.offset[it]
+                    val dirs2 = pos2dirs[p2]
+                    dirs2 != null && dirs2.contains((it + 2) % 4)
+                }) { isSolved = false; return }
             }
         // Check the loop
         val p = pos2dirs.keys.first()

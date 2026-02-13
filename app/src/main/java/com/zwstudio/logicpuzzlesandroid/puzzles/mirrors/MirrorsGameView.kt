@@ -4,12 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
-import kotlin.math.abs
 
 class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as MirrorsGameActivity
@@ -22,9 +20,6 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val blockPaint = Paint()
-    private val textPaint = TextPaint()
-    private var pLastDown: Position? = null
-    private var pLastMove: Position? = null
 
     init {
         gridPaint.color = Color.GRAY
@@ -34,8 +29,6 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
         linePaint.strokeWidth = 20f
         blockPaint.color = Color.LTGRAY
         blockPaint.style = Paint.Style.FILL_AND_STROKE
-        textPaint.color = Color.WHITE
-        textPaint.isAntiAlias = true
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -44,62 +37,39 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
+                if (game[r, c] == MirrorsObject.Block)
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
             }
         if (isInEditMode) return
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                val dirs = intArrayOf(1, 2)
-                for (dir in dirs) {
-                    val b = game.getObject(r, c)[dir]
+                val p = Position(r, c)
+                for (dir in 0 until 4) {
+                    val b = game.pos2dirsAll()[p]!!.contains(dir)
                     if (!b) continue
-                    if (dir == 1)
-                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
-                    else
-                        canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr2(r + 1).toFloat(), linePaint)
+                    linePaint.color = if (game[p] == MirrorsObject.Empty) Color.GREEN else Color.WHITE
+                    when (dir) {
+                        0 ->
+                            canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr(r).toFloat(), linePaint)
+                        1 ->
+                            canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc(c + 1).toFloat(), chr2(r).toFloat(), linePaint)
+                        2 ->
+                            canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+                        3 ->
+                            canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc(c).toFloat(), chr2(r).toFloat(), linePaint)
+                    }
                 }
             }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (game.isSolved) return true
-        val col = (event.x / cellWidth).toInt()
-        val row = (event.y / cellHeight).toInt()
-        if (col >= cols || row >= rows) return true
-        val p = Position(row, col)
-        fun f() = soundManager.playSoundTap()
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                run {
-                    pLastMove = p
-                    pLastDown = pLastMove
-                }
-                f()
-            }
-            MotionEvent.ACTION_MOVE -> if (p != pLastMove) {
-                val n = MirrorsGame.offset.indexOfFirst { it == p - pLastMove!! }
-                if (n != -1) {
-                    val move = MirrorsGameMove(pLastMove!!, n)
-                    if (game.setObject(move)) f()
-                }
-                pLastMove = p
-            }
-            MotionEvent.ACTION_UP -> {
-                if (p == pLastDown) {
-                    val dx = event.x - (col + 0.5) * cellWidth
-                    val dy = event.y - (row + 0.5) * cellHeight
-                    val dx2 = abs(dx)
-                    val dy2 = abs(dy)
-                    val move = MirrorsGameMove(Position(row, col), if (dx2 <= dy2) if (dy > 0) 2 else 0 else if (dy2 <= dx2) if (dx > 0) 1 else 3 else 0)
-                    game.setObject(move)
-                }
-                run {
-                    pLastMove = null
-                    pLastDown = pLastMove
-                }
-            }
+        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
+            val col = (event.x / cellWidth).toInt()
+            val row = (event.y / cellHeight).toInt()
+            if (col >= cols || row >= rows) return true
+            val move = MirrorsGameMove(Position(row, col))
+            if (game.switchObject(move))
+                soundManager.playSoundTap()
         }
         return true
     }

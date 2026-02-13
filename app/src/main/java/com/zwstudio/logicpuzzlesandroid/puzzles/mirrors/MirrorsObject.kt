@@ -2,4 +2,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mirrors
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class MirrorsGameMove(val p: Position, var dir: Int = 0)
+enum class MirrorsObject {
+    Empty, Block,
+    UpRight, DownRight, DownLeft, UpLeft, Horizontal, Vertical
+}
+
+class MirrorsGameMove(val p: Position, var obj: MirrorsObject = MirrorsObject.Empty)

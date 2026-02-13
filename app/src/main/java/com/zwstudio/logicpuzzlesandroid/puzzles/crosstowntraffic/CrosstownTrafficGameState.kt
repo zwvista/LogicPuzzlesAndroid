@@ -72,7 +72,7 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
         for (r in 1 until rows - 1)
             for (c in 1 until cols - 1) {
                 val p = Position(r, c)
-                pos2dirs[p] = when(this[p]) {
+                pos2dirs[p] = when (this[p]) {
                     CrosstownTrafficObject.UpRight -> mutableListOf(0, 1)
                     CrosstownTrafficObject.DownRight -> mutableListOf(1, 2)
                     CrosstownTrafficObject.LeftDown -> mutableListOf(2, 3)
@@ -82,6 +82,17 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                     CrosstownTrafficObject.Cross -> mutableListOf(0, 1, 2, 3)
                     else -> null
                 }
+            }
+        // 1. Draw a circuit (looping road)
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val dirs = pos2dirs[p]!!
+                if (!dirs.all {
+                    val p2 = p + CrosstownTrafficGame.offset[it]
+                    val dirs2 = pos2dirs[p2]
+                    dirs2 != null && dirs2.contains((it + 2) % 4)
+                }) { isSolved = false; return }
             }
         // 3. The numbers along the edge indicate the stretch of the nearest section
         //    of road from that point, in corresponding row or column.
