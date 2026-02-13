@@ -45,7 +45,7 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 for (dir in 0 until 4) {
-                    val b = game.pos2dirsAll()[p]!!.contains(dir)
+                    val b = game.pos2dirs()[p]!!.contains(dir)
                     if (!b) continue
                     linePaint.color = if (game[p] == MirrorsObject.Empty) Color.GREEN else Color.WHITE
                     when (dir) {

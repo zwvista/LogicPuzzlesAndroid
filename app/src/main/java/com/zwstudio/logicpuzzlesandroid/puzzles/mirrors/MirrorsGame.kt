@@ -40,5 +40,5 @@ class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGa
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2dirsAll() = currentState.pos2dirsAll
+    fun pos2dirs() = currentState.pos2dirs
 }

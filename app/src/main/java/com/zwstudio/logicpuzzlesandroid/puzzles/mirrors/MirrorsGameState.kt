@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsGameMove, MirrorsGameState>(game) {
     var cloner = Cloner()
     var objArray = game.objArray.copyOf()
-    val pos2dirsAll = mutableMapOf<Position, List<Int>>()
+    val pos2dirs = mutableMapOf<Position, List<Int>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -71,7 +71,7 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
                 val o = this[p]
                 if (o == MirrorsObject.Empty)
                     isSolved = false
-                pos2dirsAll[p] = when (this[p]) {
+                pos2dirs[p] = when (this[p]) {
                     MirrorsObject.UpRight -> listOf(0, 1)
                     MirrorsObject.DownRight -> listOf(1, 2)
                     MirrorsObject.DownLeft -> listOf(2, 3)
@@ -82,7 +82,7 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
                 }
             }
         if (!isSolved) return
-        val pos2dirs = cloner.deepClone(pos2dirsAll)
+        val pos2dirs = cloner.deepClone(pos2dirs)
         // 1. The goal is to draw a single, continuous, non-crossing path that fills
         //    the entire board.
         for (r in 0 until rows)
