@@ -40,10 +40,10 @@ class PipemaniaGameView(context: Context, val soundManager: SoundManager) : Cell
         markerPaint.strokeWidth = 5f
         fixedPaint.color = Color.WHITE
         fixedPaint.style = Paint.Style.STROKE
-        dUpRight = fromImageToDrawable("images/pipe1.png")
-        dDownRight = fromImageToDrawable("images/pipe2.png")
-        dLeftDown = fromImageToDrawable("images/pipe3.png")
-        dLeftUp = fromImageToDrawable("images/pipe4.png")
+        dUpRight = fromImageToDrawable("images/pipe_1.png")
+        dDownRight = fromImageToDrawable("images/pipe_2.png")
+        dLeftDown = fromImageToDrawable("images/pipe_3.png")
+        dLeftUp = fromImageToDrawable("images/pipe_4.png")
         dHorizontal = fromImageToDrawable("images/pipe_horizontal.png")
         dVertical = fromImageToDrawable("images/pipe_vertical.png")
         dCross = fromImageToDrawable("images/pipe_cross.png")
