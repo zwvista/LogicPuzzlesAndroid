@@ -7,10 +7,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -26,12 +23,7 @@ class CloudsAndClearsGameView(context: Context, val soundManager: SoundManager) 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
-    private val dLeft: Drawable
-    private val dRight: Drawable
-    private val dHorizontal: Drawable
-    private val dTop: Drawable
-    private val dBottom: Drawable
-    private val dVertical: Drawable
+    private val dCloud: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -40,12 +32,7 @@ class CloudsAndClearsGameView(context: Context, val soundManager: SoundManager) 
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dLeft = fromImageToDrawable("images/car_left.png")
-        dRight = fromImageToDrawable("images/car_right.png")
-        dHorizontal = fromImageToDrawable("images/car_horizontal.png")
-        dTop = fromImageToDrawable("images/car_top.png")
-        dBottom = fromImageToDrawable("images/car_bottom.png")
-        dVertical = fromImageToDrawable("images/car_vertical.png")
+        dCloud = fromImageToDrawable("images/cloud.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -58,25 +45,14 @@ class CloudsAndClearsGameView(context: Context, val soundManager: SoundManager) 
                 when (val o = game.getObject(p)) {
                     CloudsAndClearsObject.Marker ->
                         canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
-                    CloudsAndClearsObject.Empty -> {}
-                    else -> {
-                        val dObject = when (o) {
-                            CloudsAndClearsObject.Left -> dLeft
-                            CloudsAndClearsObject.Right -> dRight
-                            CloudsAndClearsObject.Horizontal -> dHorizontal
-                            CloudsAndClearsObject.Top -> dTop
-                            CloudsAndClearsObject.Bottom -> dBottom
-                            CloudsAndClearsObject.Vertical -> dVertical
-                            else -> continue
-                        }
-                        dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (game.getStateAllowed(p) == AllowedObjectState.Error) 50 else 0
-                        dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 0, 255, 0), BlendModeCompat.SRC_ATOP)
-                        dObject.draw(canvas)
+                    CloudsAndClearsObject.Cloud -> {
+                        dCloud.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dCloud.draw(canvas)
                     }
+                    else -> {}
                 }
                 val n = game.pos2hint[p] ?: continue
-                val s = game.getStateHint(p)
+                val s = game.pos2State(p)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

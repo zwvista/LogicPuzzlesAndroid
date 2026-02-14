@@ -4,27 +4,29 @@ import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.East
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.North
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.NorthEast
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.NorthWest
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.South
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.SouthEast
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.SouthWest
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.West
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position.Companion.Zero
 
 class CloudsAndClearsGame(layout: List<String>, gi: GameInterface<CloudsAndClearsGame, CloudsAndClearsGameMove, CloudsAndClearsGameState>, gdi: GameDocumentInterface) : CellsGame<CloudsAndClearsGame, CloudsAndClearsGameMove, CloudsAndClearsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
         val offset2 = arrayOf(
-            Position(-1, -1),
-            Position(-1, 0),
-            Position(0, 0),
-            Position(0, -1)
-        )
-        val car_offset = listOf(
-            listOf(Position(0, 0), Position(0, 1)),
-            listOf(Position(0, 0), Position(0, 1), Position(0, 2)),
-            listOf(Position(0, 0), Position(1, 0)),
-            listOf(Position(0, 0), Position(1, 0), Position(2, 0)),
-        )
-        val car_objects = listOf(
-            listOf(CloudsAndClearsObject.Left, CloudsAndClearsObject.Right),
-            listOf(CloudsAndClearsObject.Left, CloudsAndClearsObject.Horizontal, CloudsAndClearsObject.Right),
-            listOf(CloudsAndClearsObject.Top, CloudsAndClearsObject.Bottom),
-            listOf(CloudsAndClearsObject.Top, CloudsAndClearsObject.Vertical, CloudsAndClearsObject.Bottom),
+            North,
+            NorthEast,
+            East,
+            SouthEast,
+            South,
+            SouthWest,
+            West,
+            NorthWest,
+            Zero,
         )
     }
 
@@ -47,6 +49,5 @@ class CloudsAndClearsGame(layout: List<String>, gi: GameInterface<CloudsAndClear
 
     fun getObject(p: Position): CloudsAndClearsObject = currentState[p]
     fun getObject(row: Int, col: Int): CloudsAndClearsObject = currentState[row, col]
-    fun getStateHint(p: Position) = currentState.pos2stateHint[p]
-    fun getStateAllowed(p: Position) = currentState.pos2stateAllowed[p]
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }

@@ -1,17 +1,18 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.cloudsandclears
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class CloudsAndClearsGameState(game: CloudsAndClearsGame) : CellsGameState<CloudsAndClearsGame, CloudsAndClearsGameMove, CloudsAndClearsGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
     var objArray = Array(rows * cols) { CloudsAndClearsObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()
@@ -34,14 +35,9 @@ class CloudsAndClearsGameState(game: CloudsAndClearsGame) : CellsGameState<Cloud
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (this[p]) {
-            CloudsAndClearsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CloudsAndClearsObject.Marker else CloudsAndClearsObject.Left
-            CloudsAndClearsObject.Left -> CloudsAndClearsObject.Right
-            CloudsAndClearsObject.Right -> CloudsAndClearsObject.Horizontal
-            CloudsAndClearsObject.Horizontal -> CloudsAndClearsObject.Top
-            CloudsAndClearsObject.Top -> CloudsAndClearsObject.Bottom
-            CloudsAndClearsObject.Bottom -> CloudsAndClearsObject.Vertical
-            CloudsAndClearsObject.Vertical -> if (markerOption == MarkerOptions.MarkerLast) CloudsAndClearsObject.Marker else CloudsAndClearsObject.Empty
-            CloudsAndClearsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CloudsAndClearsObject.Left else CloudsAndClearsObject.Empty
+            CloudsAndClearsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CloudsAndClearsObject.Marker else CloudsAndClearsObject.Cloud
+            CloudsAndClearsObject.Cloud -> if (markerOption == MarkerOptions.MarkerLast) CloudsAndClearsObject.Marker else CloudsAndClearsObject.Empty
+            CloudsAndClearsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CloudsAndClearsObject.Cloud else CloudsAndClearsObject.Empty
         }
         return setObject(move)
     }
@@ -61,58 +57,49 @@ class CloudsAndClearsGameState(game: CloudsAndClearsGame) : CellsGameState<Cloud
     */
     private fun updateIsSolved() {
         isSolved = true
-        val cars = mutableListOf<List<Position>>()
+        val clouds = mutableListOf<List<Position>>()
+        val empties = mutableListOf<List<Position>>()
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val n = CloudsAndClearsGame.car_offset.indices.firstOrNull { i ->
-                    val offset = CloudsAndClearsGame.car_offset[i]
-                    val obj = CloudsAndClearsGame.car_objects[i]
-                    offset.indices.all {
-                        val p2 = p + offset[it]
-                        isValid(p2) && this[p2] == obj[it]
-                    }
-                } ?: continue
-                val car = CloudsAndClearsGame.car_offset[n].map { p + it }
-                cars.add(car)
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
             }
-        for (car in cars) {
-            val rng = car.filter { game.pos2hint[it] != null }
-            if (rng.size != 1) {
-                isSolved = false
-                for (p in rng) pos2stateHint[p] = HintState.Error
-                continue
+        for (p in pos2node.keys)
+            for (os in CloudsGame.offset) {
+                val p2 = p + os
+                if (pos2node.containsKey(p2) &&
+                    (this[p2] == CloudsAndClearsObject.Cloud) == (this[p] == CloudsAndClearsObject.Cloud))
+                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-            val pHint = rng[0]
-            val n2 = game.pos2hint[pHint]!!
-            val isHorz = car[1] - car[0] == Position.East
-            val deltaMin = if (isHorz) -car[0].col else -car[0].row
-            val deltaMax = if (isHorz) cols - 1 - car.last().col else rows - 1 - car.last().row
-            val deltas = (deltaMin..deltaMax).filter { d ->
-                car.all {
-                    val p2 = it + (if (isHorz) Position(0, d) else Position(d, 0))
-                    car.contains(p2) || !this[p2].isCar()
-                }
-            }
-            val n1 = deltas.last() - deltas[0]
-            val s = if (n1 == n2) HintState.Complete else HintState.Error
-            pos2stateHint[pHint] = s
-            if (s == HintState.Error) isSolved = false
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            val area = pos2node.filter { nodeList.contains(it.value) }.keys.toList()
+            if (this[area[0]] == CloudsAndClearsObject.Cloud)
+                clouds.add(area)
+            else
+                empties.add(area)
+            for (p in area)
+                pos2node.remove(p)
         }
-        for (r in 0..<rows)
-            for (c in 0..<cols) {
-                val p = Position(r, c)
-                if (this[p].isCar()) {
-                    val s = if (cars.any {
-                        it.contains(p)
-                    }) AllowedObjectState.Normal else AllowedObjectState.Error
-                    pos2stateAllowed[p] = s
-                    if (s == AllowedObjectState.Error) { isSolved = false }
-                }
-                if (game.pos2hint[p] != null && pos2stateHint[p] == null) {
-                    isSolved = false
-                    pos2stateHint[p] = HintState.Normal
-                }
+        // 2. Each cloud or empty Sky move contains a single number that is the extension of the region
+        //    itself.
+        // 3. On a region there can be other numbers. These will indicate how many empty (non-cloud) tiles
+        //    around it (diagonal too) including itself.
+        for ((p, n2) in game.pos2hint) {
+            val area = clouds.firstOrNull { it.contains(p) } ?: empties.first { it.contains(p) }
+            val n3 = area.size
+            val n1 = CloudsAndClearsGame.offset2.count {
+                val p2 = p + it
+                isValid(p2) && this[p2] != CloudsAndClearsObject.Cloud
             }
+            val s = if (n1 == n2 || n3 == n2) HintState.Complete else if (n1 > n2) HintState.Normal else HintState.Error
+            pos2state[p] = s
+            if (s != HintState.Complete) isSolved = false
+        }
     }
 }

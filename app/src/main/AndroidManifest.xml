@@ -337,6 +337,18 @@
         <activity android:name=".puzzles.clouds.CloudsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.cloudsandclears.CloudsAndClearsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.cloudsandclears.CloudsAndClearsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.cloudsandclears.CloudsAndClearsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.cloudsandclears.CloudsAndClearsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarMainActivity"
                   android:screenOrientation="portrait">
         </activity>
