@@ -1,17 +1,17 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.parkinglot
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ParkingLotGameState(game: ParkingLotGame) : CellsGameState<ParkingLotGame, ParkingLotGameMove, ParkingLotGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
     var objArray = Array(rows * cols) { ParkingLotObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         updateIsSolved()
@@ -33,11 +33,15 @@ class ParkingLotGameState(game: ParkingLotGame) : CellsGameState<ParkingLotGame,
     override fun switchObject(move: ParkingLotGameMove): GameOperationType {
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[p]) {
-            ParkingLotObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ParkingLotObject.Marker else ParkingLotObject.Wall
-            ParkingLotObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) ParkingLotObject.Marker else ParkingLotObject.Empty
-            ParkingLotObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ParkingLotObject.Wall else ParkingLotObject.Empty
-            else -> o
+        move.obj = when (this[p]) {
+            ParkingLotObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ParkingLotObject.Marker else ParkingLotObject.Left
+            ParkingLotObject.Left -> ParkingLotObject.Right
+            ParkingLotObject.Right -> ParkingLotObject.Horizontal
+            ParkingLotObject.Horizontal -> ParkingLotObject.Top
+            ParkingLotObject.Top -> ParkingLotObject.Bottom
+            ParkingLotObject.Bottom -> ParkingLotObject.Vertical
+            ParkingLotObject.Vertical -> if (markerOption == MarkerOptions.MarkerLast) ParkingLotObject.Marker else ParkingLotObject.Empty
+            ParkingLotObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ParkingLotObject.Left else ParkingLotObject.Empty
         }
         return setObject(move)
     }
@@ -61,59 +65,59 @@ class ParkingLotGameState(game: ParkingLotGame) : CellsGameState<ParkingLotGame,
         6. Find all the cars !!
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        val cars = mutableListOf<List<Position>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] == ParkingLotObject.Forbidden)
-                    this[p] = ParkingLotObject.Empty
+                val n = ParkingLotGame.car_offset.indices.firstOrNull { i ->
+                    val offset = ParkingLotGame.car_offset[i]
+                    val obj = ParkingLotGame.car_objects[i]
+                    offset.indices.all {
+                        val p2 = p + offset[it]
+                        isValid(p2) && this[p2] == obj[it]
+                    }
+                } ?: continue
+                val car = ParkingLotGame.car_offset[n].map { p + it }
+                cars.add(car)
             }
-        for ((p, n2) in game.pos2hint) {
-            var n1 = 0
-            val rng = mutableListOf<Position>()
-            for (os in ParkingLotGame.offset2) {
-                val p2 = p + os
-                if (!isValid(p2)) continue
-                when (this[p2]) {
-                    ParkingLotObject.Empty, ParkingLotObject.Marker -> rng.add(p2)
-                    ParkingLotObject.Wall -> n1++
-                    else -> {}
+        for (car in cars) {
+            val rng = car.filter { game.pos2hint[it] != null }
+            if (rng.size != 1) {
+                isSolved = false
+                for (p in rng) pos2stateHint[p] = HintState.Error
+                continue
+            }
+            val pHint = rng[0]
+            val n2 = game.pos2hint[pHint]!!
+            val isHorz = car[1] - car[0] == Position.East
+            val deltaMin = if (isHorz) -car[0].col else -car[0].row
+            val deltaMax = if (isHorz) cols - 1 - car.last().col else rows - 1 - car.last().row
+            val deltas = (deltaMin..deltaMax).filter { d ->
+                car.all {
+                    val p2 = it + (if (isHorz) Position(0, d) else Position(d, 0))
+                    car.contains(p2) || !this[p2].isCar()
                 }
             }
-            // 3. The number tells you how many pieces (squares) of wall it touches.
-            // 4. So the number can go from 0 (no walls around the tower) to 4 (tower
-            // entirely surrounded by walls).
-            // 5. Board borders don't count as walls, so there you'll have two walls
-            // at most (or one in corners).
-            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            pos2state[p] = s
-            if (s != HintState.Complete) isSolved = false
-            if (s != HintState.Normal && allowedObjectsOnly)
-                for (p2 in rng)
-                    this[p2] = ParkingLotObject.Forbidden
+            val n1 = deltas.last() - deltas[0]
+            val s = if (n1 == n2) HintState.Complete else HintState.Error
+            pos2stateHint[pHint] = s
+            if (s == HintState.Error) isSolved = false
         }
-        if (!isSolved) return
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                if (this[p] != ParkingLotObject.Wall) {
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
+                if (this[p].isCar()) {
+                    val s = if (cars.any {
+                        it.contains(p)
+                    }) AllowedObjectState.Normal else AllowedObjectState.Error
+                    pos2stateAllowed[p] = s
+                    if (s == AllowedObjectState.Error) { isSolved = false }
+                }
+                if (game.pos2hint[p] != null && pos2stateHint[p] == null) {
+                    isSolved = false
+                    pos2stateHint[p] = HintState.Normal
                 }
             }
-        for ((p, node) in pos2node)
-            for (os in ParkingLotGame.offset) {
-                val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
-            }
-        // 6. To facilitate movement in the castle, the Bailey must have a single
-        // continuous area (Garden).
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
     }
 }

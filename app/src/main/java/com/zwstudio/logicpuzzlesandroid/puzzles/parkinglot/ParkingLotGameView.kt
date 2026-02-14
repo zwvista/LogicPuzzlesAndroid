@@ -4,9 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -21,11 +25,13 @@ class ParkingLotGameView(context: Context, val soundManager: SoundManager) : Cel
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
-    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val wallPaint = Paint()
-    private val mathPaint1 = Paint()
-    private val mathPaint2 = Paint()
+    private val dLeft: Drawable
+    private val dRight: Drawable
+    private val dHorizontal: Drawable
+    private val dTop: Drawable
+    private val dBottom: Drawable
+    private val dVertical: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -33,16 +39,13 @@ class ParkingLotGameView(context: Context, val soundManager: SoundManager) : Cel
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        wallPaint.color = Color.LTGRAY
-        wallPaint.style = Paint.Style.FILL_AND_STROKE
-        mathPaint1.style = Paint.Style.STROKE
-        mathPaint1.color = Color.WHITE
-        mathPaint2.style = Paint.Style.FILL
-        mathPaint2.color = Color.BLACK
+        dLeft = fromImageToDrawable("images/car_left.png")
+        dRight = fromImageToDrawable("images/car_right.png")
+        dHorizontal = fromImageToDrawable("images/car_horizontal.png")
+        dTop = fromImageToDrawable("images/car_top.png")
+        dBottom = fromImageToDrawable("images/car_bottom.png")
+        dVertical = fromImageToDrawable("images/car_vertical.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -52,28 +55,32 @@ class ParkingLotGameView(context: Context, val soundManager: SoundManager) : Cel
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                when (o) {
+                when (val o = game.getObject(p)) {
                     ParkingLotObject.Marker ->
                         canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
-                    ParkingLotObject.Wall ->
-                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
-                    ParkingLotObject.Forbidden ->
-                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, forbiddenPaint)
-                    else -> {}
+                    ParkingLotObject.Empty -> {}
+                    else -> {
+                        val dObject = when (o) {
+                            ParkingLotObject.Left -> dLeft
+                            ParkingLotObject.Right -> dRight
+                            ParkingLotObject.Horizontal -> dHorizontal
+                            ParkingLotObject.Top -> dTop
+                            ParkingLotObject.Bottom -> dBottom
+                            ParkingLotObject.Vertical -> dVertical
+                            else -> continue
+                        }
+                        dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val alpha = if (game.getStateAllowed(p) == AllowedObjectState.Error) 50 else 0
+                        dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 0, 255, 0), BlendModeCompat.SRC_ATOP)
+                        dObject.draw(canvas)
+                    }
                 }
+                val n = game.pos2hint[p] ?: continue
+                val s = game.getStateHint(p)
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
-        if (isInEditMode) return
-        for ((p, value) in game.pos2hint) {
-            val r = p.row
-            val c = p.col
-            canvas.drawArc((cwc(c) - cellWidth / 4).toFloat(), (chr(r) - cellHeight / 4).toFloat(), (cwc(c) + cellWidth / 4).toFloat(), (chr(r) + cellHeight / 4).toFloat(), 0f, 360f, true, mathPaint1)
-            canvas.drawArc((cwc(c) - cellWidth / 4).toFloat(), (chr(r) - cellHeight / 4).toFloat(), (cwc(c) + cellWidth / 4).toFloat(), (chr(r) + cellHeight / 4).toFloat(), 0f, 360f, true, mathPaint2)
-            val text = value.toString()
-            val s = game.getPosState(p)
-            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            drawTextCentered(text, cwc(c) - cellWidth / 4, chr(r) - cellHeight / 4, cellWidth / 2, cellHeight / 2, canvas, textPaint)
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
