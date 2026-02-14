@@ -71,15 +71,14 @@ class CloudsAndClearsGameState(game: CloudsAndClearsGame) : CellsGameState<Cloud
         for (p in pos2node.keys)
             for (os in CloudsGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2) &&
-                    (this[p2] == CloudsAndClearsObject.Cloud) == (this[p] == CloudsAndClearsObject.Cloud))
+                if (pos2node.containsKey(p2) && this[p2].isCloud == this[p].isCloud)
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.keys.toList()
-            if (this[area[0]] == CloudsAndClearsObject.Cloud)
+            if (this[area[0]].isCloud)
                 clouds.add(area)
             else
                 empties.add(area)
@@ -95,7 +94,7 @@ class CloudsAndClearsGameState(game: CloudsAndClearsGame) : CellsGameState<Cloud
             val n3 = area.size
             val n1 = CloudsAndClearsGame.offset2.count {
                 val p2 = p + it
-                isValid(p2) && this[p2] != CloudsAndClearsObject.Cloud
+                isValid(p2) && !this[p2].isCloud
             }
             val s = if (n1 == n2 || n3 == n2) HintState.Complete else if (n1 > n2) HintState.Normal else HintState.Error
             pos2state[p] = s
