@@ -1321,6 +1321,18 @@
         <activity android:name=".puzzles.pairakabe.PairakabeOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.parkinglot.ParkingLotMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parkinglot.ParkingLotGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parkinglot.ParkingLotHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.parkinglot.ParkingLotOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.paintthenurikabe.PaintTheNurikabeMainActivity"
                   android:screenOrientation="portrait">
         </activity>
