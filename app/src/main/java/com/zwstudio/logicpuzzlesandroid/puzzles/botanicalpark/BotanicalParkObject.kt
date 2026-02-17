@@ -1,36 +1,10 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.botanicalpark
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-sealed class BotanicalParkObject {
-    open fun objAsString() = "empty"
-
-    companion object {
-        fun objFromString(str: String) = when (str) {
-            "marker" -> BotanicalParkMarkerObject
-            "plant" -> BotanicalParkPlantObject()
-            else -> BotanicalParkEmptyObject
-        }
-    }
+enum class BotanicalParkObject {
+    Empty, Forbidden, Marker,
+    Plant, Arrow
 }
 
-object BotanicalParkEmptyObject : BotanicalParkObject()
-
-object BotanicalParkForbiddenObject : BotanicalParkObject() {
-    override fun objAsString() = "forbidden"
-}
-
-object BotanicalParkMarkerObject : BotanicalParkObject() {
-    override fun objAsString() = "marker"
-}
-
-class BotanicalParkPlantObject(var state: AllowedObjectState = AllowedObjectState.Normal) : BotanicalParkObject() {
-    override fun objAsString() = "plant"
-}
-
-class BotanicalParkArrowObject(var state: AllowedObjectState = AllowedObjectState.Normal) : BotanicalParkObject() {
-    override fun objAsString() = "arrow"
-}
-
-class BotanicalParkGameMove(val p: Position, var obj: BotanicalParkObject = BotanicalParkEmptyObject)
+class BotanicalParkGameMove(val p: Position, var obj: BotanicalParkObject = BotanicalParkObject.Empty)

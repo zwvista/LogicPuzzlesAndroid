@@ -23,22 +23,24 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
             val str = layout[r]
             for (c in 0 until cols + 1) {
                 val p = Position(r, c)
-                when (val ch = str[c]) {
-                    '^' -> pos2obj[p] = BattleShipsObject.BattleShipTop
-                    'v' -> pos2obj[p] = BattleShipsObject.BattleShipBottom
-                    '<' -> pos2obj[p] = BattleShipsObject.BattleShipLeft
-                    '>' -> pos2obj[p] = BattleShipsObject.BattleShipRight
-                    '+' -> pos2obj[p] = BattleShipsObject.BattleShipMiddle
-                    'o' -> pos2obj[p] = BattleShipsObject.BattleShipUnit
-                    '.' -> pos2obj[p] = BattleShipsObject.Marker
-                    else -> if (ch in '0'..'9') {
-                        val n = ch - '0'
-                        if (r == rows)
-                            col2hint[c] = n
-                        else if (c == cols)
-                            row2hint[r] = n
+                val ch = str[c]
+                if (ch.isDigit()) {
+                    val n = ch - '0'
+                    if (r == rows)
+                        col2hint[c] = n
+                    else if (c == cols)
+                        row2hint[r] = n
+                } else
+                    pos2obj[p] = when (ch) {
+                        '^' -> BattleShipsObject.BattleShipTop
+                        'v' -> BattleShipsObject.BattleShipBottom
+                        '<' -> BattleShipsObject.BattleShipLeft
+                        '>' -> BattleShipsObject.BattleShipRight
+                        '+' -> BattleShipsObject.BattleShipMiddle
+                        'o' -> BattleShipsObject.BattleShipUnit
+                        '.' -> BattleShipsObject.Marker
+                        else -> BattleShipsObject.Empty
                     }
-                }
             }
         }
 

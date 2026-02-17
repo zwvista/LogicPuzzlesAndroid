@@ -31,4 +31,5 @@ class BotanicalParkGame(layout: List<String>, val plantsInEachArea: Int, gi: Gam
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2State(p: Position) = currentState.pos2state[p]
 }

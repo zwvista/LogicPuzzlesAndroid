@@ -47,23 +47,24 @@ class BotanicalParkGameView(context: Context, val soundManager: SoundManager) : 
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is BotanicalParkArrowObject -> {
+                val s = game.pos2State(p)
+                when (game.getObject(p)) {
+                    BotanicalParkObject.Arrow -> {
                         val dArrow = dArrowArray[game.pos2arrow[p]!!]
                         dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dArrow.draw(canvas)
                     }
-                    is BotanicalParkPlantObject -> {
+                    BotanicalParkObject.Plant -> {
                         dPlant.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dPlant.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dPlant.draw(canvas)
                     }
-                    is BotanicalParkMarkerObject ->
+                    BotanicalParkObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is BotanicalParkForbiddenObject ->
+                    BotanicalParkObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }

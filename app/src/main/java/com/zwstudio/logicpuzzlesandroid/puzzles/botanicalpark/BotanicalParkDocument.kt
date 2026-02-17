@@ -9,9 +9,9 @@ class BotanicalParkDocument(context: Context) : GameDocument<BotanicalParkGameMo
     override fun saveMove(move: BotanicalParkGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BotanicalParkGameMove(Position(rec.row, rec.col), BotanicalParkObject.objFromString(rec.strValue1!!))
+        BotanicalParkGameMove(Position(rec.row, rec.col), BotanicalParkObject.entries[rec.intValue1])
 }
