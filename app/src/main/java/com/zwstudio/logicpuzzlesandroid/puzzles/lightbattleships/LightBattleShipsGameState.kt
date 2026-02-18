@@ -1,9 +1,10 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.BattleShipsGame
 
 class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>(game) {
-    var objArray = Array<LightBattleShipsObject>(rows * cols) { LightBattleShipsEmptyObject() }
+    var objArray = Array(rows * cols) { LightBattleShipsObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -12,8 +13,6 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
     operator fun set(p: Position, obj: LightBattleShipsObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, _) in game.pos2hint)
-            this[p] = LightBattleShipsHintObject()
         for ((p, o) in game.pos2obj)
             this[p] = o
         updateIsSolved()
@@ -28,17 +27,18 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
     }
 
     override fun switchObject(move: LightBattleShipsGameMove): GameOperationType {
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
+        if (!isValid(p) || game.pos2obj.containsKey(p)) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is LightBattleShipsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsMarkerObject else LightBattleShipsBattleShipUnitObject
-            is LightBattleShipsBattleShipUnitObject -> LightBattleShipsBattleShipMiddleObject
-            is LightBattleShipsBattleShipMiddleObject -> LightBattleShipsBattleShipLeftObject
-            is LightBattleShipsBattleShipLeftObject -> LightBattleShipsBattleShipTopObject
-            is LightBattleShipsBattleShipTopObject -> LightBattleShipsBattleShipRightObject
-            is LightBattleShipsBattleShipRightObject -> LightBattleShipsBattleShipBottomObject
-            is LightBattleShipsBattleShipBottomObject -> if (markerOption == MarkerOptions.MarkerLast) LightBattleShipsMarkerObject else LightBattleShipsEmptyObject()
-            is LightBattleShipsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsBattleShipUnitObject else LightBattleShipsEmptyObject()
+            LightBattleShipsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsObject.Marker else LightBattleShipsObject.BattleShipUnit
+            LightBattleShipsObject.BattleShipUnit -> LightBattleShipsObject.BattleShipMiddle
+            LightBattleShipsObject.BattleShipMiddle -> LightBattleShipsObject.BattleShipLeft
+            LightBattleShipsObject.BattleShipLeft -> LightBattleShipsObject.BattleShipTop
+            LightBattleShipsObject.BattleShipTop -> LightBattleShipsObject.BattleShipRight
+            LightBattleShipsObject.BattleShipRight -> LightBattleShipsObject.BattleShipBottom
+            LightBattleShipsObject.BattleShipBottom -> if (markerOption == MarkerOptions.MarkerLast) LightBattleShipsObject.Marker else LightBattleShipsObject.Empty
+            LightBattleShipsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) LightBattleShipsObject.BattleShipUnit else LightBattleShipsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -71,101 +71,98 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is LightBattleShipsForbiddenObject)
-                    this[r, c] = LightBattleShipsEmptyObject()
+                if (this[r, c] == LightBattleShipsObject.Forbidden)
+                    this[r, c] = LightBattleShipsObject.Empty
         // 3. Ships cannot touch Lighthouses. Not even diagonally.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                fun hasNeighbor(isHint: Boolean): Boolean {
-                    for (os in LightBattleShipsGame.offset) {
-                        val p2 = p + os
-                        if (!isValid(p2)) continue
-                        val o = this[p2]
-                        if (o is LightBattleShipsHintObject) {
-                            if (!isHint) return true
-                        } else if (o.isShipPiece()) {
-                            if (isHint) return true
+                fun touchHint(isHint: Boolean) =
+                    LightBattleShipsGame.offset2.any {
+                        val p2 = p + it
+                        if (!isValid(p2))
+                            false
+                        else {
+                            val o = this[p2]
+                            !isHint && o == LightBattleShipsObject.Hint || isHint && o.isShipPiece
                         }
                     }
-                    return false
-                }
-                val o = get(r, c)
-                if (o is LightBattleShipsHintObject) {
-                    val s = if (!hasNeighbor(true)) HintState.Normal else HintState.Error
-                    o.state = s
+                val o = this[p]
+                if (o == LightBattleShipsObject.Hint) {
+                    val s = if (!touchHint(true)) HintState.Normal else HintState.Error
+                    pos2state[p] = s
                     if (s == HintState.Error) isSolved = false
-                } else if ((o is LightBattleShipsEmptyObject || o is LightBattleShipsMarkerObject) && allowedObjectsOnly && hasNeighbor(false))
-                    this[r, c] = LightBattleShipsForbiddenObject
+                } else if ((o == LightBattleShipsObject.Empty || o == LightBattleShipsObject.Marker) &&
+                    allowedObjectsOnly && touchHint(false))
+                    this[p] = LightBattleShipsObject.Forbidden
             }
         // 2. Each number is a Lighthouse, telling you how many pieces of ship
         // there are in that row and column, summed together.
         for ((p, n2) in game.pos2hint) {
-            val nums = arrayOf(0, 0, 0, 0)
+            var n1 = 0
             val rng = mutableListOf<Position>()
-            for (i in 0 until 4) {
-                val os = LightBattleShipsGame.offset[i * 2]
+            for (os in BattleShipsGame.offset) {
                 var p2 = p + os
-                while (game.isValid(p2)) {
-                    val o = get(p2)
-                    if (o is LightBattleShipsEmptyObject)
+                while (isValid(p2)) {
+                    val o = this[p2]
+                    if (o == LightBattleShipsObject.Empty)
                         rng.add(+p2)
-                    else if (o.isShipPiece())
-                        nums[i]++
+                    else if (o.isShipPiece)
+                        n1++
                     p2 += os
                 }
             }
-            val n1 = nums.sum()
-            pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2)
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (pos2state[p] != HintState.Error)
+                pos2state[p] = s
+            if (s != HintState.Complete)
                 isSolved = false
             else if (allowedObjectsOnly)
                 for (p2 in rng)
-                    this[p2] = LightBattleShipsForbiddenObject
+                    this[p2] = LightBattleShipsObject.Forbidden
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = get(p)
-                if (o.isShipPiece()) {
+                val o = this[p]
+                if (o.isShipPiece) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in LightBattleShipsGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
-        val shipNumbers = arrayOf(0, 0, 0, 0, 0)
+        val shipNumbers = mutableListOf(0, 0, 0, 0, 0)
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { (_, node) -> nodeList.contains(node) }.keys.toList().sorted()
             for (p in area)
                 pos2node.remove(p)
-            if (!(area.size == 1 && this[area[0]] is LightBattleShipsBattleShipUnitObject || area.size in 2..4 && (
+            if (!(area.size == 1 && this[area[0]] == LightBattleShipsObject.BattleShipUnit || area.size in 2..4 && (
                     area.all { it.row == area[0].row } &&
-                        this[area[0]] is LightBattleShipsBattleShipLeftObject && this[area[area.size - 1]] is LightBattleShipsBattleShipRightObject ||
+                        this[area[0]] == LightBattleShipsObject.BattleShipLeft && this[area[area.size - 1]] == LightBattleShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
-                        this[area[0]] is LightBattleShipsBattleShipTopObject && this[area[area.size - 1]] is LightBattleShipsBattleShipBottomObject) &&
-                    (1 until area.size - 1).all { this[area[it]] is LightBattleShipsBattleShipMiddleObject })) {
+                        this[area[0]] == LightBattleShipsObject.BattleShipTop && this[area[area.size - 1]] == LightBattleShipsObject.BattleShipBottom) &&
+                    (1 until area.size - 1).all { this[area[it]] == LightBattleShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue
             }
             for (p in area)
-                for (os in LightBattleShipsGame.offset) {
+                for (os in LightBattleShipsGame.offset2) {
                     // 3. Ships cannot touch each other. Not even diagonally.
                     val p2 = p + os
                     if (!isValid(p2) || area.contains(p2)) continue
-                    if (this[p2].isShipPiece())
+                    if (this[p2].isShipPiece)
                         isSolved = false
                     else if (allowedObjectsOnly)
-                        this[p2] = LightBattleShipsForbiddenObject
+                        this[p2] = LightBattleShipsObject.Forbidden
                 }
             shipNumbers[area.size]++
         }

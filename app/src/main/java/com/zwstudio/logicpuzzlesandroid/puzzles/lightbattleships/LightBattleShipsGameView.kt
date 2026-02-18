@@ -49,33 +49,33 @@ class LightBattleShipsGameView(context: Context, val soundManager: SoundManager)
                 val path = Path()
                 val paint = if (game.pos2obj.containsKey(p)) grayPaint else whitePaint
                 when (game.getObject(p)) {
-                    is LightBattleShipsBattleShipUnitObject ->
+                    LightBattleShipsObject.BattleShipUnit ->
                         canvas.drawArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 0f, 360f, true, paint)
-                    is LightBattleShipsBattleShipMiddleObject ->
+                    LightBattleShipsObject.BattleShipMiddle ->
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), paint)
-                    is LightBattleShipsBattleShipLeftObject -> {
+                    LightBattleShipsObject.BattleShipLeft -> {
                         path.addRect(cwc2(c).toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), Path.Direction.CW)
                         path.addArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 90f, 180f)
                         canvas.drawPath(path, paint)
                     }
-                    is LightBattleShipsBattleShipTopObject -> {
+                    LightBattleShipsObject.BattleShipTop -> {
                         path.addRect(cwc(c) + 4.toFloat(), chr2(r).toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), Path.Direction.CW)
                         path.addArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 180f, 180f)
                         canvas.drawPath(path, paint)
                     }
-                    is LightBattleShipsBattleShipRightObject -> {
+                    LightBattleShipsObject.BattleShipRight -> {
                         path.addRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc2(c).toFloat(), chr(r + 1) - 4.toFloat(), Path.Direction.CW)
                         path.addArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 270f, 180f)
                         canvas.drawPath(path, paint)
                     }
-                    is LightBattleShipsBattleShipBottomObject -> {
+                    LightBattleShipsObject.BattleShipBottom -> {
                         path.addRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr2(r).toFloat(), Path.Direction.CW)
                         path.addArc(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), 0f, 180f)
                         canvas.drawPath(path, paint)
                     }
-                    is LightBattleShipsMarkerObject ->
+                    LightBattleShipsObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, paint)
-                    is LightBattleShipsForbiddenObject ->
+                    LightBattleShipsObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }

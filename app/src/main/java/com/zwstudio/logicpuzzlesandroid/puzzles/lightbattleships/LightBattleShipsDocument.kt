@@ -9,9 +9,9 @@ class LightBattleShipsDocument(context: Context) : GameDocument<LightBattleShips
     override fun saveMove(move: LightBattleShipsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LightBattleShipsGameMove(Position(rec.row, rec.col), LightBattleShipsObject.objFromString(rec.strValue1!!))
+        LightBattleShipsGameMove(Position(rec.row, rec.col), LightBattleShipsObject.entries[rec.intValue1])
 }

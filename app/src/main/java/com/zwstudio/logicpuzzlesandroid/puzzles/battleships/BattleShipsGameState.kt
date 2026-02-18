@@ -1,6 +1,7 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.battleships
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
+import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.LightBattleShipsGame
 
 class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>(game) {
     var objArray = Array(rows * cols) { BattleShipsObject.Empty }
@@ -27,9 +28,9 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
     }
 
     override fun switchObject(move: BattleShipsGameMove): GameOperationType {
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
-        if (!isValid(p)) return GameOperationType.Invalid
+        if (!isValid(p) || game.pos2obj.containsKey(p)) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
             BattleShipsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BattleShipsObject.Marker else BattleShipsObject.BattleShipUnit
             BattleShipsObject.BattleShipUnit -> BattleShipsObject.BattleShipMiddle
@@ -79,7 +80,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
             var n1 = 0
             val n2 = game.row2hint[r]
             for (c in 0 until cols)
-                if (this[r, c].isShipPiece())
+                if (this[r, c].isShipPiece)
                     n1++
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
@@ -89,7 +90,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
             var n1 = 0
             val n2 = game.col2hint[c]
             for (r in 0 until rows)
-                if (this[r, c].isShipPiece())
+                if (this[r, c].isShipPiece)
                     n1++
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
@@ -106,15 +107,15 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p].isShipPiece()) {
+                if (this[p].isShipPiece) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
                 }
             }
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
-                val p2 = p + BattleShipsGame.offset[i * 2]
+            for (os in LightBattleShipsGame.offset) {
+                val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
         val shipNumbers = mutableListOf(0, 0, 0, 0, 0)
@@ -134,11 +135,11 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                 continue
             }
             for (p in area)
-                for (os in BattleShipsGame.offset) {
+                for (os in BattleShipsGame.offset2) {
                     // 3. A ship or piece of ship can't touch another, not even diagonally.
                     val p2 = p + os
                     if (!isValid(p2) || area.contains(p2)) continue
-                    if (this[p2].isShipPiece())
+                    if (this[p2].isShipPiece)
                         isSolved = false
                     else if (allowedObjectsOnly)
                         this[p2] = BattleShipsObject.Forbidden

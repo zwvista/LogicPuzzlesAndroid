@@ -7,7 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>, gdi: GameDocumentInterface) : CellsGame<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>(gi, gdi) {
     companion object {
-        val offset = Position.Directions8
+        val offset = Position.Directions4
+        val offset2 = Position.Directions8
     }
 
     var row2hint: IntArray
@@ -39,7 +40,7 @@ class BattleShipsGame(layout: List<String>, gi: GameInterface<BattleShipsGame, B
                         '+' -> BattleShipsObject.BattleShipMiddle
                         'o' -> BattleShipsObject.BattleShipUnit
                         '.' -> BattleShipsObject.Marker
-                        else -> BattleShipsObject.Empty
+                        else -> continue
                     }
             }
         }
