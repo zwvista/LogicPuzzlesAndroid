@@ -8,9 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwichGame, WishSandwichGameMove, WishSandwichGameState>(game) {
-    var objArray = Array<WishSandwichObject>(rows * cols) { WishSandwichEmptyObject }
+    var objArray = Array(rows * cols) { WishSandwichObject.Empty }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -22,20 +23,22 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
     }
 
     override fun setObject(move: WishSandwichGameMove): GameOperationType {
-        if (this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: WishSandwichGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is WishSandwichEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichMarkerObject else WishSandwichBreadObject()
-            is WishSandwichBreadObject -> WishSandwichHamObject()
-            is WishSandwichHamObject -> if (markerOption == MarkerOptions.MarkerLast) WishSandwichMarkerObject else WishSandwichEmptyObject
-            is WishSandwichMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichBreadObject() else WishSandwichEmptyObject
+            WishSandwichObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichObject.Marker else WishSandwichObject.Bread
+            WishSandwichObject.Bread -> WishSandwichObject.Ham
+            WishSandwichObject.Ham -> if (markerOption == MarkerOptions.MarkerLast) WishSandwichObject.Marker else WishSandwichObject.Empty
+            WishSandwichObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) WishSandwichObject.Bread else WishSandwichObject.Empty
             else -> o
         }
         return setObject(move)
@@ -57,30 +60,33 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols)
-                this[r, c] = when (val o = this[r, c]) {
-                    is WishSandwichForbiddenObject -> WishSandwichEmptyObject
-                    is WishSandwichBreadObject -> WishSandwichBreadObject()
-                    is WishSandwichHamObject -> WishSandwichHamObject()
-                    else -> o
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                when (this[p]) {
+                    WishSandwichObject.Forbidden ->
+                        this[p] = WishSandwichObject.Empty
+                    WishSandwichObject.Bread, WishSandwichObject.Ham ->
+                        pos2state[p] = AllowedObjectState.Normal
+                    else -> {}
                 }
+            }
         for (r in 0 until rows) {
             val breads = mutableListOf<Position>()
             val hams = mutableListOf<Position>()
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (this[p]) {
-                    is WishSandwichBreadObject -> breads.add(p)
-                    is WishSandwichHamObject -> hams.add(p)
+                    WishSandwichObject.Bread -> breads.add(p)
+                    WishSandwichObject.Ham -> hams.add(p)
                     else -> {}
                 }
             }
             if (breads.size > 2)
                 for (p in breads)
-                    this[p] = WishSandwichBreadObject(state = AllowedObjectState.Error)
+                    pos2state[p] = AllowedObjectState.Error
             if (hams.size > rows - 3)
                 for (p in hams)
-                    this[p] = WishSandwichHamObject(state = AllowedObjectState.Error)
+                    pos2state[p] = AllowedObjectState.Error
             if (breads.size != 2) {
                 isSolved = false
                 row2state[r] = HintState.Normal
@@ -94,8 +100,8 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
                 row2state[r] = s
                 if (s != HintState.Complete) isSolved = false
                 if (allowedObjectsOnly && hams.size == rows - 3)
-                    (0 until cols).filter { this[r, it] is WishSandwichEmptyObject }.forEach {
-                        this[r, it] = WishSandwichForbiddenObject
+                    (0 until cols).filter { this[r, it] == WishSandwichObject.Empty }.forEach {
+                        this[r, it] = WishSandwichObject.Forbidden
                     }
             }
         }
@@ -105,17 +111,17 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
             for (r in 0 until rows) {
                 val p = Position(r, c)
                 when (this[p]) {
-                    is WishSandwichBreadObject -> breads.add(p)
-                    is WishSandwichHamObject -> hams.add(p)
+                    WishSandwichObject.Bread -> breads.add(p)
+                    WishSandwichObject.Ham -> hams.add(p)
                     else -> {}
                 }
             }
             if (breads.size > 2)
                 for (p in breads)
-                    this[p] = WishSandwichBreadObject(state = AllowedObjectState.Error)
+                    pos2state[p] = AllowedObjectState.Error
             if (hams.size > rows - 3)
                 for (p in hams)
-                    this[p] = WishSandwichHamObject(state = AllowedObjectState.Error)
+                    pos2state[p] = AllowedObjectState.Error
             if (breads.size != 2) {
                 isSolved = false
                 col2state[c] = HintState.Normal
@@ -129,8 +135,8 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
                 col2state[c] = s
                 if (s != HintState.Complete) isSolved = false
                 if (allowedObjectsOnly && hams.size == rows - 3)
-                    (0 until rows).filter { this[it, c] is WishSandwichEmptyObject }.forEach {
-                        this[it, c] = WishSandwichForbiddenObject
+                    (0 until rows).filter { this[it, c] == WishSandwichObject.Empty }.forEach {
+                        this[it, c] = WishSandwichObject.Forbidden
                     }
             }
         }

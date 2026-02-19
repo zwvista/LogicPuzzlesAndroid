@@ -9,9 +9,9 @@ class WishSandwichDocument(context: Context) : GameDocument<WishSandwichGameMove
     override fun saveMove(move: WishSandwichGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        WishSandwichGameMove(Position(rec.row, rec.col), WishSandwichObject.objFromString(rec.strValue1!!))
+        WishSandwichGameMove(Position(rec.row, rec.col), WishSandwichObject.entries[rec.intValue1])
 }
