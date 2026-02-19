@@ -135,6 +135,11 @@ class SuspendedGravityGameState(game: SuspendedGravityGame) : CellsGameState<Sus
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
             pos2stateHint[pHint] = s
+            if (s != HintState.Normal && allowedObjectsOnly) {
+                val rng = game.areas[nArea].filter { this[it] == SuspendedGravityObject.Empty }
+                for (p in rng)
+                    this[p] = SuspendedGravityObject.Forbidden
+            }
         }
         if (!isSolved) return
         // 5. Lastly, if we apply gravity to the puzzle and the stones fall down to
@@ -187,15 +192,15 @@ class SuspendedGravityGameState(game: SuspendedGravityGame) : CellsGameState<Sus
                         this[p + Position(j, 0)] = SuspendedGravityObject.Stone
                 }
 
-                for ((area, areas) in area2areas) {
-                    val areas = areas.filter { it != i }.toMutableList()
-                    if (areas.isEmpty())
-                        area2stones.remove(area)
-                    else
-                        area2areas[area] = areas
+                val it2 = area2areas.iterator()
+                while (it2.hasNext()) {
+                    val entry = it2.next()
+                    val areas = entry.value
+                    areas.removeAll { it == i }
+                    if (areas.isEmpty()) it2.remove()
                 }
                 area2stones.remove(i)
-                break;
+                break
             }
 
         if (!run {
