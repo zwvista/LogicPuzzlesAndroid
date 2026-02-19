@@ -142,5 +142,81 @@ class SuspendedGravityGameState(game: SuspendedGravityGame) : CellsGameState<Sus
         //    half of the board.
         // 6. Think "Tetris": all the blocks will fall as they are
         //    (they won't break into single stones)
+        val objArrayTemp = objArray.copyOf()
+
+        // key: index of the area
+        // value.elem: position of the stone
+        val area2stones = mutableMapOf<Int, MutableList<Position>>()
+        // key: index of the area where stones should fall later
+        // value.elem: index of the area where stones should fall sooner
+        val area2areas = mutableMapOf<Int, MutableList<Int>>()
+        for (c in 0..<cols) {
+            var n1 = -1
+            for (r in 0..<rows) {
+                val p = Position(r, c)
+                if (this[p] != SuspendedGravityObject.Stone) continue
+                val n2 = game.pos2area[p]!!
+                area2stones.getOrPut(n2) { mutableListOf() }.add(p)
+                if (n1 == -1)
+                    n1 = n2
+                else if (n1 != n2) {
+                    area2areas.getOrPut(n1) { mutableListOf() }.add(n2)
+                    n1 = n2
+                }
+            }
+        }
+
+        // make the stones fall down
+        while (area2stones.isNotEmpty())
+            for ((i, stones) in area2stones) {
+                if (area2areas.contains(i)) continue
+
+                var j = 0
+                while (true) {
+                    if (!stones.all {
+                        val p2 = it + Position(j + 1, 0)
+                        stones.contains(p2) || isValid(p2) && this[p2] != SuspendedGravityObject.Stone
+                    }) break
+                    j++
+                }
+
+                if (j > 0) {
+                    for (p in stones)
+                        this[p] = SuspendedGravityObject.Empty
+                    for (p in stones)
+                        this[p + Position(j, 0)] = SuspendedGravityObject.Stone
+                }
+
+                for ((area, areas) in area2areas) {
+                    val areas = areas.filter { it != i }.toMutableList()
+                    if (areas.isEmpty())
+                        area2stones.remove(area)
+                    else
+                        area2areas[area] = areas
+                }
+                area2stones.remove(i)
+                break;
+            }
+
+        if (!run {
+            // After falling down, they fit together exactly and
+            // cover the bottom half of the board.
+            for (c in 0..<cols) {
+                var r = 0
+                while (r < rows / 2) {
+                    if (this[r, c] == SuspendedGravityObject.Stone)
+                        return@run false
+                    r++
+                }
+                while (r < rows) {
+                    if (this[r, c] != SuspendedGravityObject.Stone)
+                        return@run false
+                    r++
+                }
+            }
+            return@run true
+        }) isSolved = false
+
+        objArray = objArrayTemp.copyOf()
     }
 }
