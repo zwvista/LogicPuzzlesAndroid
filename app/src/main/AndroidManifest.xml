@@ -1189,6 +1189,18 @@
         <activity android:name=".puzzles.newcarpentersquare.NewCarpenterSquareOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.nooks.NooksMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.nooks.NooksGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.nooks.NooksHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.nooks.NooksOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.northpolefishing.NorthPoleFishingMainActivity"
                   android:screenOrientation="portrait">
         </activity>
