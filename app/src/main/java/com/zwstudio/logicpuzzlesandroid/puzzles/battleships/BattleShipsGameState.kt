@@ -127,9 +127,9 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                 pos2node.remove(p)
             if (!(area.size == 1 && this[area[0]] == BattleShipsObject.BattleShipUnit || area.size in 2..4 && (
                     area.all { it.row == area[0].row } &&
-                        this[area[0]] == BattleShipsObject.BattleShipLeft && this[area[area.size - 1]] == BattleShipsObject.BattleShipRight ||
+                        this[area[0]] == BattleShipsObject.BattleShipLeft && this[area.last()] == BattleShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
-                        this[area[0]] == BattleShipsObject.BattleShipTop && this[area[area.size - 1]] == BattleShipsObject.BattleShipBottom) &&
+                        this[area[0]] == BattleShipsObject.BattleShipTop && this[area.last()] == BattleShipsObject.BattleShipBottom) &&
                     (1 until area.size - 1).all { this[area[it]] == BattleShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue

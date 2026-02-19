@@ -7,10 +7,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -20,15 +17,15 @@ class NooksGameView(context: Context, val soundManager: SoundManager) : CellsGam
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
     private val cols get() = if (isInEditMode) 5 else game.cols
-    override val rowsInView get() = rows + 1
-    override val colsInView get() = cols + 1
+    override val rowsInView get() = rows
+    override val colsInView get() = cols
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private val dBread: Drawable
-    private val dHam: Drawable
+    private val dHedge: Drawable
+    private val dHide: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -40,8 +37,8 @@ class NooksGameView(context: Context, val soundManager: SoundManager) : CellsGam
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dBread = fromImageToDrawable("images/bread_slice.png")
-        dHam = fromImageToDrawable("images/ham_slice.png")
+        dHedge = fromImageToDrawable("images/forest_lighter.png")
+        dHide = fromImageToDrawable("images/hide.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -52,42 +49,26 @@ class NooksGameView(context: Context, val soundManager: SoundManager) : CellsGam
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is NooksBreadObject -> {
-                        dBread.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dBread.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dBread.draw(canvas)
+                    NooksObject.Hedge -> {
+                        dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dHedge.draw(canvas)
                     }
-                    is NooksHamObject -> {
-                        dHam.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dHam.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dHam.draw(canvas)
+                    NooksObject.Hint -> {
+                        dHide.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dHide.draw(canvas)
+                        val text = game.pos2hint[p].toString()
+                        val s = game.pos2State(p)
+                        textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is NooksMarkerObject ->
+                    NooksObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is NooksForbiddenObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
             }
         if (isInEditMode) return
-        for (r in 0 until rows) {
-            val s = game.getRowState(r)
-            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            val n = game.row2hint[r]
-            if (n < 0) continue
-            val text = n.toString()
-            drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
-        }
-        for (c in 0 until cols) {
-            val s = game.getColState(c)
-            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            val n = game.col2hint[c]
-            if (n < 0) continue
-            val text = n.toString()
-            drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)
-        }
+        for ((r, c) in game.invalid2x2Squares())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

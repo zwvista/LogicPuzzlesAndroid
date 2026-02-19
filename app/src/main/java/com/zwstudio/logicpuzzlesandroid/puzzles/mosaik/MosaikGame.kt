@@ -29,10 +29,8 @@ class MosaikGame(layout: List<String>, gi: GameInterface<MosaikGame, MosaikGameM
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch in '0'..'9') {
-                    val n = ch - '0'
-                    pos2hint[p] = n
-                }
+                if (ch.isDigit())
+                    pos2hint[p] = ch - '0'
             }
         }
         val state = MosaikGameState(this)

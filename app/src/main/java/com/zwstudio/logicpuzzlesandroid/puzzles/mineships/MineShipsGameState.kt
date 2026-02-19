@@ -111,9 +111,9 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
                 pos2node.remove(p)
             if (!(area.size == 1 && this[area[0]] == MineShipsObject.BattleShipUnit || area.size in 2..4 && (
                     area.all { it.row == area[0].row } &&
-                        this[area[0]] == MineShipsObject.BattleShipLeft && this[area[area.size - 1]] == MineShipsObject.BattleShipRight ||
+                        this[area[0]] == MineShipsObject.BattleShipLeft && this[area.last()] == MineShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
-                        this[area[0]] == MineShipsObject.BattleShipTop && this[area[area.size - 1]] == MineShipsObject.BattleShipBottom) &&
+                        this[area[0]] == MineShipsObject.BattleShipTop && this[area.last()] == MineShipsObject.BattleShipBottom) &&
                     (1 until area.size - 1).all { this[area[it]] == MineShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue

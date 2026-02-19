@@ -132,9 +132,9 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
                 pos2node.remove(p)
             if (!(area.size == 1 && get(area[0]) == DigitalBattleShipsObject.BattleShipUnit || area.size in 2..4 && (
                     area.all { it.row == area[0].row } &&
-                        this[area[0]] == DigitalBattleShipsObject.BattleShipLeft && this[area[area.size - 1]] == DigitalBattleShipsObject.BattleShipRight ||
+                        this[area[0]] == DigitalBattleShipsObject.BattleShipLeft && this[area.last()] == DigitalBattleShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
-                        this[area[0]] == DigitalBattleShipsObject.BattleShipTop && this[area[area.size - 1]] == DigitalBattleShipsObject.BattleShipBottom) &&
+                        this[area[0]] == DigitalBattleShipsObject.BattleShipTop && this[area.last()] == DigitalBattleShipsObject.BattleShipBottom) &&
                     (1 until area.size - 1).all { this[area[it]] == DigitalBattleShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue

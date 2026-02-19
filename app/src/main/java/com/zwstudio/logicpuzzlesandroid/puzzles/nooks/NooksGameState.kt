@@ -1,16 +1,18 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.nooks
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerGame
 
 class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove, NooksGameState>(game) {
-    var objArray = Array<NooksObject>(rows * cols) { NooksEmptyObject }
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
+    var objArray = Array<NooksObject>(rows * cols) { NooksObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
+    val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,11 +20,14 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
     operator fun set(p: Position, obj: NooksObject) {this[p.row, p.col] = obj}
 
     init {
+        for (p in game.pos2hint.keys)
+            this[p] = NooksObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: NooksGameMove): GameOperationType {
-        if (this[move.p] == move.obj) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || game.pos2hint.contains(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -30,12 +35,12 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
 
     override fun switchObject(move: NooksGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || game.pos2hint.contains(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is NooksEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) NooksMarkerObject else NooksBreadObject()
-            is NooksBreadObject -> NooksHamObject()
-            is NooksHamObject -> if (markerOption == MarkerOptions.MarkerLast) NooksMarkerObject else NooksEmptyObject
-            is NooksMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) NooksBreadObject() else NooksEmptyObject
+            NooksObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) NooksObject.Marker else NooksObject.Hedge
+            NooksObject.Hedge -> if (markerOption == MarkerOptions.MarkerLast) NooksObject.Marker else NooksObject.Empty
+            NooksObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) NooksObject.Hedge else NooksObject.Empty
             else -> o
         }
         return setObject(move)
@@ -58,85 +63,63 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
         5. No area in the maze can have the characteristics of a Nook without a number in it.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        for (p in game.pos2hint.keys)
+            pos2state[p] = HintState.Normal
+        // 1. Fill some tiles with hedges, so that each number (where someone is playing hide and seek)
+        //    finds itself in the nook.
+        // 2. a Nook is a dead end, one tile wide, with a number in it.
+        // 5. No area in the maze can have the characteristics of a Nook without a number in it.
         for (r in 0 until rows)
-            for (c in 0 until cols)
-                this[r, c] = when (val o = this[r, c]) {
-                    is NooksForbiddenObject -> NooksEmptyObject
-                    is NooksBreadObject -> NooksBreadObject()
-                    is NooksHamObject -> NooksHamObject()
-                    else -> o
-                }
-        for (r in 0 until rows) {
-            val breads = mutableListOf<Position>()
-            val hams = mutableListOf<Position>()
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (this[p]) {
-                    is NooksBreadObject -> breads.add(p)
-                    is NooksHamObject -> hams.add(p)
-                    else -> {}
+                if (this[p].isHedge) continue
+                val rng = NooksGame.offset.map { p + it }.filter { isValid(it) && this[it].isEmpty }
+                if (rng.size != 1) continue
+                val n2 = game.pos2hint[p]
+                if (n2 == null) { isSolved = false; continue }
+                // 3. a Nook contains a number that shows you how many tiles can be seen in a straight line from
+                //    there, including the tile itself.
+                val os = rng[0] - p
+                var n1 = 1
+                var p2 = p + os
+                while (isValid(p2) && this[p2].isEmpty) {
+                    n1 += 1
+                    p2 += os
                 }
-            }
-            if (breads.size > 2)
-                for (p in breads)
-                    this[p] = NooksBreadObject(state = AllowedObjectState.Error)
-            if (hams.size > rows - 3)
-                for (p in hams)
-                    this[p] = NooksHamObject(state = AllowedObjectState.Error)
-            if (breads.size != 2) {
-                isSolved = false
-                row2state[r] = HintState.Normal
-            } else {
-                val n2 = game.row2hint[r]
-                if (n2 < 0) continue
-                // 1. Each row and column contains two Slices of Bread and N-3 Pieces of Pieces of Ham
-                //    (N being the board size). i.e. a board side 6, will have 3 Pieces of Ham.
-                val n1 = hams.count { it.col > breads[0].col && it.col < breads[1].col }
-                val s = if (n1 == n2) HintState.Complete else HintState.Error
-                row2state[r] = s
+                val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+                pos2state[p] = s
                 if (s != HintState.Complete) isSolved = false
-                if (allowedObjectsOnly && hams.size == rows - 3)
-                    (0 until cols).filter { this[r, it] is NooksEmptyObject }.forEach {
-                        this[r, it] = NooksForbiddenObject
-                    }
             }
-        }
-        for (c in 0 until cols) {
-            val breads = mutableListOf<Position>()
-            val hams = mutableListOf<Position>()
-            for (r in 0 until rows) {
+        // 4. there are no 2x2 areas of the same type (hedge or path).
+        invalid2x2Squares.clear()
+        for (r in 0 until rows - 1)
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                when (this[p]) {
-                    is NooksBreadObject -> breads.add(p)
-                    is NooksHamObject -> hams.add(p)
-                    else -> {}
-                }
+                val rng = NooksGame.offset2.map { p + it }
+                val isOfSameType = rng.all { this[it].isHedge } || rng.all { this[it].isEmpty }
+                if (isOfSameType) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
             }
-            if (breads.size > 2)
-                for (p in breads)
-                    this[p] = NooksBreadObject(state = AllowedObjectState.Error)
-            if (hams.size > rows - 3)
-                for (p in hams)
-                    this[p] = NooksHamObject(state = AllowedObjectState.Error)
-            if (breads.size != 2) {
-                isSolved = false
-                col2state[c] = HintState.Normal
-            } else {
-                val n2 = game.col2hint[c]
-                if (n2 < 0) continue
-                // 1. Each row and column contains two Slices of Bread and N-3 Pieces of Pieces of Ham
-                //    (N being the board size). i.e. a board side 6, will have 3 Pieces of Ham.
-                val n1 = hams.count { it.row > breads[0].row && it.row < breads[1].row }
-                val s = if (n1 == n2) HintState.Complete else HintState.Error
-                col2state[c] = s
-                if (s != HintState.Complete) isSolved = false
-                if (allowedObjectsOnly && hams.size == rows - 3)
-                    (0 until rows).filter { this[it, c] is NooksEmptyObject }.forEach {
-                        this[it, c] = NooksForbiddenObject
-                    }
+        // 4. The resulting maze should be a single one-tile path connected horizontally or vertically
+        if (!isSolved) return
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                if (this[p].isHedge) continue
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for ((p, node) in pos2node) {
+            for (os in GardenerGame.offset) {
+                val p2 = p + os
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
+        g.rootNode = pos2node.values.first()
+        val nodeList = g.bfs()
+        if (nodeList.size != pos2node.size) isSolved = false
     }
 }
