@@ -9,9 +9,9 @@ class MineShipsDocument(context: Context) : GameDocument<MineShipsGameMove>(cont
     override fun saveMove(move: MineShipsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MineShipsGameMove(Position(rec.row, rec.col), MineShipsObject.objFromString(rec.strValue1!!))
+        MineShipsGameMove(Position(rec.row, rec.col), MineShipsObject.entries[rec.intValue1])
 }

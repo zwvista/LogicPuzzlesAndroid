@@ -7,7 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MineShipsGame(layout: List<String>, gi: GameInterface<MineShipsGame, MineShipsGameMove, MineShipsGameState>, gdi: GameDocumentInterface) : CellsGame<MineShipsGame, MineShipsGameMove, MineShipsGameState>(gi, gdi) {
     companion object {
-        val offset = Position.Directions8
+        val offset = Position.Directions4
+        val offset2 = Position.Directions8
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
