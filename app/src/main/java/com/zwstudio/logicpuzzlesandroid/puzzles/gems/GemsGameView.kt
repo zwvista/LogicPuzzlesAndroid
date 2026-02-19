@@ -49,20 +49,21 @@ class GemsGameView(context: Context, val soundManager: SoundManager) : CellsGame
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is GemsMarkerObject ->
+                    GemsObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is GemsGemObject -> {
+                    GemsObject.Gem -> {
                         dGem.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2StateAllowed(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dGem.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dGem.draw(canvas)
                     }
-                    is GemsPebbleObject -> {
+                    GemsObject.Pebble -> {
                         dPebble.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dPebble.draw(canvas)
                     }
-                    is GemsHintObject -> {
-                        val (n, s) = game.pos2hint[p]!! to o.state
+                    GemsObject.Hint -> {
+                        val (n, s) = game.pos2hint[p]!! to game.pos2StateHint(p)
                         textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                         val text = n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

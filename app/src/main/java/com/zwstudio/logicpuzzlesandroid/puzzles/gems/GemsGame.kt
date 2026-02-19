@@ -28,4 +28,6 @@ class GemsGame(layout: List<String>, gi: GameInterface<GemsGame, GemsGameMove, G
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2StateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2StateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }

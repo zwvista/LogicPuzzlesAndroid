@@ -8,7 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, GemsGameState>(game) {
-    val objArray: Array<GemsObject>
+    val objArray = Array(rows * cols) { GemsObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -16,8 +18,8 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
     operator fun set(p: Position, obj: GemsObject) {this[p.row, p.col] = obj}
 
     init {
-        objArray = Array<GemsObject>(rows * cols) { GemsEmptyObject }
-        for ((p, n) in game.pos2hint) this[p] = GemsHintObject()
+        for (p in game.pos2hint.keys)
+            this[p] = GemsObject.Hint
         updateIsSolved()
     }
 
@@ -34,10 +36,10 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
-            is GemsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GemsMarkerObject else GemsPebbleObject
-            is GemsPebbleObject -> GemsGemObject()
-            is GemsGemObject -> if (markerOption == MarkerOptions.MarkerLast) GemsMarkerObject else GemsEmptyObject
-            is GemsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GemsPebbleObject else GemsEmptyObject
+            GemsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GemsObject.Marker else GemsObject.Pebble
+            GemsObject.Pebble -> GemsObject.Gem
+            GemsObject.Gem -> if (markerOption == MarkerOptions.MarkerLast) GemsObject.Marker else GemsObject.Empty
+            GemsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) GemsObject.Pebble else GemsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -60,17 +62,17 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
         isSolved = true
         fun f(r: Int, c: Int): Boolean {
             val o = this[r, c]
-            return o is GemsGemObject || o is GemsPebbleObject
+            return o == GemsObject.Gem || o == GemsObject.Pebble
         }
         for (r in 1 until rows - 1) {
             val (p1, p2) = Position(r, 0) to Position(r, cols - 1)
             val (h1, h2) = game.pos2hint[p1]!! to game.pos2hint[p2]!!
-            val gems = (1 until cols - 1).map { Position(r, it) }.filter { this[it] is GemsGemObject }
+            val gems = (1 until cols - 1).map { Position(r, it) }.filter { this[it] == GemsObject.Gem }
             if (gems.size == 1) {
                 // 1. The board contains one Sapphire (Blue Gem) on each row and column.
                 val p = gems.first()
                 val c = p.col
-                (this[p] as GemsGemObject).state = AllowedObjectState.Normal
+                pos2stateAllowed[p] = AllowedObjectState.Normal
                 // 2. There are also a random amount of Pebbles (in White) on the board.
                 // 3. A number on the border tells you how many stones you can see from
                 //    there, up to and including the Sapphire.
@@ -78,22 +80,22 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
                 val (n1, n2) = (1..c).count { f(r, it) } to (c until cols - 1).count { f(r, it) }
                 val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
                 val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-                (this[p1] as GemsHintObject).state = s1; (this[p2] as GemsHintObject).state = s2
+                pos2stateHint[p1] = s1; pos2stateHint[p2] = s2
                 if (s1 != HintState.Complete || s2 != HintState.Complete) { isSolved = false }
             } else {
                 isSolved = false
-                gems.forEach { (this[it] as GemsGemObject).state = AllowedObjectState.Normal }
+                gems.forEach { pos2stateAllowed[it] = AllowedObjectState.Normal }
             }
         }
         for (c in 1 until cols - 1) {
             val (p1, p2) = Position(0, c) to Position(rows - 1, c)
             val (h1, h2) = game.pos2hint[p1]!! to game.pos2hint[p2]!!
-            val gems = (1 until rows - 1).map { Position(it, c) }.filter { this[it] is GemsGemObject }
+            val gems = (1 until rows - 1).map { Position(it, c) }.filter { this[it] == GemsObject.Gem }
             if (gems.size == 1) {
                 // 1. The board contains one Sapphire (Blue Gem) on each row and column.
                 val p = gems.first()
                 val r = p.row
-                (this[p] as GemsGemObject).state = AllowedObjectState.Normal
+                pos2stateAllowed[p] = AllowedObjectState.Normal
                 // 2. There are also a random amount of Pebbles (in White) on the board.
                 // 3. A number on the border tells you how many stones you can see from
                 //    there, up to and including the Sapphire.
@@ -101,11 +103,11 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
                 val (n1, n2) = (1..r).count { f(it, c) } to (r until rows - 1).count { f(it, c) }
                 val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
                 val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-                (this[p1] as GemsHintObject).state = s1; (this[p2] as GemsHintObject).state = s2
+                pos2stateHint[p1] = s1; pos2stateHint[p2] = s2
                 if (s1 != HintState.Complete || s2 != HintState.Complete) { isSolved = false }
             } else {
                 isSolved = false
-                gems.forEach { (this[it] as GemsGemObject).state = AllowedObjectState.Normal }
+                gems.forEach { pos2stateAllowed[it] = AllowedObjectState.Normal }
             }
         }
     }
