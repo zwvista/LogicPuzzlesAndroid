@@ -100,5 +100,6 @@ class SuspendedGravityGame(layout: List<String>, gi: GameInterface<SuspendedGrav
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
+    fun pos2StateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2StateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }

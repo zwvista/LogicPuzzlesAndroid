@@ -9,9 +9,9 @@ class SuspendedGravityDocument(context: Context) : GameDocument<SuspendedGravity
     override fun saveMove(move: SuspendedGravityGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        SuspendedGravityGameMove(Position(rec.row, rec.col), SuspendedGravityObject.objFromString(rec.strValue1!!))
+        SuspendedGravityGameMove(Position(rec.row, rec.col), SuspendedGravityObject.entries[rec.intValue1])
 }

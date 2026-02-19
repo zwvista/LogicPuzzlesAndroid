@@ -10,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerGame
 
 class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove, NooksGameState>(game) {
-    var objArray = Array<NooksObject>(rows * cols) { NooksObject.Empty }
+    var objArray = Array(rows * cols) { NooksObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
     val invalid2x2Squares = mutableListOf<Position>()
 
@@ -112,12 +112,11 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in GardenerGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false
