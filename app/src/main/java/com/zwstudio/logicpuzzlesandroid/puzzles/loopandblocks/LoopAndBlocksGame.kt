@@ -8,36 +8,28 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class LoopAndBlocksGame(layout: List<String>, gi: GameInterface<LoopAndBlocksGame, LoopAndBlocksGameMove, LoopAndBlocksGameState>, gdi: GameDocumentInterface) : CellsGame<LoopAndBlocksGame, LoopAndBlocksGameMove, LoopAndBlocksGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        const val PUZ_ONE = '1'
+        const val PUZ_DIR_SQUARE = -1
     }
 
-    var objArray: CharArray
-    var chMax = PUZ_ONE
-    var expectedChars = PUZ_ONE.toString()
-
-    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
-    operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    var pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows * cols)
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
                 val ch = str[c]
-                this[r, c] = ch
-                if (chMax < ch) chMax = ch
+                if (ch != ' ')
+                    pos2hint[Position(r, c)] = ch - '0'
             }
         }
-        var ch = PUZ_ONE
-        while (ch != chMax)
-            expectedChars += ++ch
         val state = LoopAndBlocksGameState(this)
         levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2StateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2StateAllowed(p: Position) = currentState.pos2stateAllowed[p]
+    fun squares() = currentState.squares
 }

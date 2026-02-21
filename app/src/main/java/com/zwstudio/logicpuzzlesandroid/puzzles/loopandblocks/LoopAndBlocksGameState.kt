@@ -1,12 +1,17 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.loopandblocks
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
+import com.zwstudio.logicpuzzlesandroid.puzzles.yalooniq.YalooniqGame
 
 class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBlocksGame, LoopAndBlocksGameMove, LoopAndBlocksGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
+    var squares = mutableSetOf<Position>()
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,10 +24,19 @@ class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBl
 
     override fun setObject(move: LoopAndBlocksGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
-        val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
-        if (!isValid(p2)) return GameOperationType.Invalid
-        this[p][dir] = !this[p][dir]
-        this[p2][dir2] = !this[p2][dir2]
+        if (!isValid(p)) return GameOperationType.Invalid
+        if (dir == LoopAndBlocksGame.PUZ_DIR_SQUARE) {
+            if (!this[p].all { !it })
+                return GameOperationType.Invalid
+            if (!squares.remove(p))
+                squares.add(p)
+        } else {
+            val (p2, dir2) = p + LoopAndBlocksGame.offset[dir] to (dir + 2) % 4
+            if (!isValid(p2) || game.pos2hint.containsKey(p2) || game.pos2hint.containsKey(p) || game.pos2hint.containsKey(p2))
+                return GameOperationType.Invalid
+            this[p][dir] = !this[p][dir]
+            this[p2][dir2] = !this[p2][dir2]
+        }
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
@@ -45,52 +59,48 @@ class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBl
     */
     private fun updateIsSolved() {
         isSolved = true
-        val chOneList = mutableListOf<Position>()
+        // 3. A number in a cell shows how many cell must be shaded around its
+        //    four sides.
+        // 4. Not all cells that must be shaded are given with a hint.
+        for ((p, n2) in game.pos2hint) {
+            val n1 = LoopAndBlocksGame.offset.count { squares.contains(p + it) }
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2stateHint[p] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+        // 4. Two shaded cells can't touch orthogonally.
+        for (p in squares) {
+            val s = if (!YalooniqGame.offset.any {
+                squares.contains(p + it)
+            }) AllowedObjectState.Normal else AllowedObjectState.Error
+            pos2stateAllowed[p] = s
+            if (s == AllowedObjectState.Error) isSolved = false
+        }
+        if (!isSolved) return
         val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = get(r, c)
-                val ch = game[r, c]
-                val dirs = (0 until 4).filter { o[it] }
-                when (dirs.size) {
-                    1 -> {
-                        // 2. You should draw as many lines into the grid as number sets:
-                        //    a line starts with the number 1, goes through the numbers in
-                        //    order up to the highest, where it ends.
-                        if (!(ch == LoopAndBlocksGame.PUZ_ONE || ch == game.chMax)) { isSolved = false; return }
-                        if (ch == LoopAndBlocksGame.PUZ_ONE) chOneList.add(p)
-                        pos2dirs[p] = dirs
-                    }
-                    2 -> pos2dirs[p] = dirs
-                    else -> {
-                        // 3. In doing this, you have to pass through all tiles on the board.
-                        //    Lines cannot cross.
-                        isSolved = false; return
-                    }
+                val dirs = (0 until 4).filter { this[p][it] }
+                if (dirs.size == 2)
+                    // 1. Draw a loop that passes through each clear tile.
+                    pos2dirs[p] = dirs
+                else if (!(dirs.isEmpty() && (game.pos2hint.containsKey(p) || squares.contains(p)))) {
+                    // 2. The loop must be a single one and can't intersect itself.
+                    isSolved = false; return
                 }
             }
-        // 2. You should draw as many lines into the grid as number sets:
-        //    a line starts with the number 1, goes through the numbers in
-        //    order up to the highest, where it ends.
-        for (p in chOneList) {
-            var chars = LoopAndBlocksGame.PUZ_ONE.toString()
-            var i = pos2dirs[p]!![0]
-            var os = LoopAndBlocksGame.offset[i]
-            var p2 = p + os
-            while (true) {
-                val ch = game[p2]
-                if (ch != ' ') chars += ch
-                val j = (i + 2) % 4
-                var dirs = pos2dirs[p2]!!
-                if (!dirs.contains(j)) { isSolved = false; return }
-                dirs = dirs.filter { it != j }
-                if (dirs.isEmpty()) break
-                i = dirs[0]
-                os = LoopAndBlocksGame.offset[i]
-                p2 += os
-            }
-            if (chars != game.expectedChars) { isSolved = false; return }
+        // Check the loop
+        val p = pos2dirs.keys.first()
+        var p2 = p
+        var n = -1
+        while (true) {
+            val dirs = pos2dirs[p2]
+            if (dirs == null) { isSolved = false; return }
+            pos2dirs.remove(p2)
+            n = dirs.first { (it + 2) % 4 != n }
+            p2 += YalooniqGame.offset[n]
+            if (p2 == p) break
         }
     }
 }

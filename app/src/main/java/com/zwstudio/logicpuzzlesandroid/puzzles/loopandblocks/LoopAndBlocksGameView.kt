@@ -5,8 +5,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.text.TextPaint
+import android.view.GestureDetector
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import kotlin.math.abs
@@ -21,9 +24,27 @@ class LoopAndBlocksGameView(context: Context, val soundManager: SoundManager) : 
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val blockPaint = Paint()
     private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
+    private var isLongPress = false
+
+    private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+        override fun onLongPress(e: MotionEvent) {
+            isLongPress = true
+            val col = (e.x / cellWidth).toInt()
+            val row = (e.y / cellHeight).toInt()
+            if (col >= cols || row >= rows) return
+            val p = Position(row, col)
+            if (game.setObject(LoopAndBlocksGameMove(p, LoopAndBlocksGame.PUZ_DIR_SQUARE)))
+                soundManager.playSoundTap()
+        }
+        override fun onDown(e: MotionEvent): Boolean {
+            isLongPress = false
+            return true
+        }
+    })
 
     init {
         gridPaint.color = Color.GRAY
@@ -31,6 +52,7 @@ class LoopAndBlocksGameView(context: Context, val soundManager: SoundManager) : 
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
@@ -41,9 +63,16 @@ class LoopAndBlocksGameView(context: Context, val soundManager: SoundManager) : 
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
-                    drawTextCentered(ch.toString(), cwc(c), chr(r), canvas, textPaint)
+                val p = Position(r, c)
+                val s1 = game.pos2StateAllowed(p)
+                blockPaint.color = if (s1 == AllowedObjectState.Error) Color.RED else Color.WHITE
+                if (game.squares().contains(p))
+                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                val n = game.pos2hint[p] ?: continue
+                val s = game.pos2StateHint(p)
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
         for (r in 0 until rows)
@@ -61,6 +90,11 @@ class LoopAndBlocksGameView(context: Context, val soundManager: SoundManager) : 
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(event)
+        if (isLongPress) {
+            if (event.action == MotionEvent.ACTION_UP) isLongPress = false
+            return true
+        }
         if (game.isSolved) return true
         val col = (event.x / cellWidth).toInt()
         val row = (event.y / cellHeight).toInt()
@@ -75,7 +109,7 @@ class LoopAndBlocksGameView(context: Context, val soundManager: SoundManager) : 
                 }
                 f()
             }
-            MotionEvent.ACTION_MOVE -> if (p != pLastMove) {
+            MotionEvent.ACTION_MOVE -> if (pLastMove != null && p != pLastMove) {
                 val n = LoopAndBlocksGame.offset.indexOfFirst { it == p - pLastMove!! }
                 if (n != -1) {
                     val move = LoopAndBlocksGameMove(pLastMove!!, n)
