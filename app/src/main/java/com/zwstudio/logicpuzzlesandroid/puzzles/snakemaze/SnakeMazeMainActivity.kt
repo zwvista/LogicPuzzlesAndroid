@@ -27,8 +27,6 @@ class SnakeMazeMainActivity : GameMainActivity<SnakeMazeGame, SnakeMazeDocument,
 class SnakeMazeOptionsActivity : GameOptionsActivity<SnakeMazeGame, SnakeMazeDocument, SnakeMazeGameMove, SnakeMazeGameState>() {
     private val document: SnakeMazeDocument by inject()
     override val doc get() = document
-
-    protected fun onDefault() {}
 }
 
 class SnakeMazeHelpActivity : GameHelpActivity<SnakeMazeGame, SnakeMazeDocument, SnakeMazeGameMove, SnakeMazeGameState>() {

@@ -9,9 +9,9 @@ class SnakeMazeDocument(context: Context) : GameDocument<SnakeMazeGameMove>(cont
     override fun saveMove(move: SnakeMazeGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.intValue1 = move.dir
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        SnakeMazeGameMove(Position(rec.row, rec.col), rec.intValue1)
+        SnakeMazeGameMove(Position(rec.row, rec.col), SnakeMazeObject.entries[rec.intValue1])
 }

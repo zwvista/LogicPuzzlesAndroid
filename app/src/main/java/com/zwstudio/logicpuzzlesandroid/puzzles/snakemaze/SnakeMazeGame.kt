@@ -9,7 +9,6 @@ class SnakeMazeGame(layout: List<String>, gi: GameInterface<SnakeMazeGame, Snake
     companion object {
         val offset = Position.Directions4
         const val chars = "^>v<"
-        const val PUZ_DIR_SQUARE = -1
     }
 
     var pos2hint = mutableMapOf<Position, SnakeMazeHint>()
@@ -34,5 +33,4 @@ class SnakeMazeGame(layout: List<String>, gi: GameInterface<SnakeMazeGame, Snake
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2StateHint(p: Position) = currentState.pos2stateHint[p]
     fun pos2StateAllowed(p: Position) = currentState.pos2stateAllowed[p]
-    fun squares() = currentState.squares
 }
