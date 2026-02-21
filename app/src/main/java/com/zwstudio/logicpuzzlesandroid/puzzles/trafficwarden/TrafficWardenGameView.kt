@@ -107,7 +107,7 @@ class TrafficWardenGameView(context: Context, val soundManager: SoundManager) : 
                     val dy = event.y - (row + 0.5) * cellHeight
                     val dx2 = abs(dx)
                     val dy2 = abs(dy)
-                    val move = TrafficWardenGameMove(Position(row, col), if (dx2 <= dy2) if (dy > 0) 2 else 0 else if (dy2 <= dx2) if (dx > 0) 1 else 3 else 0)
+                    val move = TrafficWardenGameMove(Position(row, col), if (dx2 <= dy2) if (dy > 0) 2 else 0 else if (dx > 0) 1 else 3)
                     game.setObject(move)
                 }
                 run {

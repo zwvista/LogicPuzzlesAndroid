@@ -125,7 +125,7 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
             if (breads.size != 2 || hams.size != rows - 3) {
                 isSolved = false
                 col2state[c] = HintState.Normal
-            } else {    
+            } else {
                 val n2 = game.col2hint[c]
                 if (n2 < 0) continue
                 // 1. Each row and column contains two Slices of Bread and N-3 Pieces of Pieces of Ham
