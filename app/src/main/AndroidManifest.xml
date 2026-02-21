@@ -1753,6 +1753,18 @@
         <activity android:name=".puzzles.snake.SnakeOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.snakemaze.SnakeMazeMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakemaze.SnakeMazeGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakemaze.SnakeMazeHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakemaze.SnakeMazeOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.square100.Square100MainActivity"
                   android:screenOrientation="portrait">
         </activity>
