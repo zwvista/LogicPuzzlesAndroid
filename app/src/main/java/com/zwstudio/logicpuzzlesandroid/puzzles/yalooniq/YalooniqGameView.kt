@@ -111,7 +111,7 @@ class YalooniqGameView(context: Context, val soundManager: SoundManager) : Cells
                 val s = game.pos2StateHint(p)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                 val text = hint.num.toString()
-                drawTextCentered(text, cwc(c), chr(r), cellWidth / 2, cellHeight, canvas, textPaint)
+                drawTextCentered(text, cwc(c), chr(r) + cellHeight / 4, cellWidth / 2, cellHeight / 2, canvas, textPaint)
                 drawTriangle(canvas, cwc2(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), hint.dir, trianglePaint)
             }
         if (isInEditMode) return

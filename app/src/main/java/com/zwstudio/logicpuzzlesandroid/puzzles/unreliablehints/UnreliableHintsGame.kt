@@ -8,24 +8,21 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class UnreliableHintsGame(layout: List<String>, gi: GameInterface<UnreliableHintsGame, UnreliableHintsGameMove, UnreliableHintsGameState>, gdi: GameDocumentInterface) : CellsGame<UnreliableHintsGame, UnreliableHintsGameMove, UnreliableHintsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        const val chars = "^>v<"
     }
 
-    var objArray: CharArray
-
-    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
-    operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    var pos2hint = mutableMapOf<Position, UnreliableHintsHint>()
 
     init {
-        size = Position(layout.size, layout[0].length)
-        objArray = CharArray(rows * cols)
+        size = Position(layout.size, layout[0].length / 2)
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
-                val ch = str[c]
-                if (ch in '0'..'9')
-                    this[r, c] = ch
+                val s = str.substring(c * 2, c * 2 + 2).trim()
+                if (s.isEmpty()) continue
+                val num = s[0] - '0'
+                val dir = chars.indexOf(s[1])
+                pos2hint[Position(r, c)] = UnreliableHintsHint(num, dir)
             }
         }
         val state = UnreliableHintsGameState(this)
@@ -34,7 +31,6 @@ class UnreliableHintsGame(layout: List<String>, gi: GameInterface<UnreliableHint
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-
-    fun getRowHint(row: Int) = currentState.row2hint[row]
-    fun getColHint(col: Int) = currentState.col2hint[col]
+    fun pos2StateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2StateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }
