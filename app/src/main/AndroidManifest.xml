@@ -121,6 +121,18 @@
         <activity android:name=".puzzles.battleships.BattleShipsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.bentbridges.BentBridgesMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bentbridges.BentBridgesGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bentbridges.BentBridgesHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.bentbridges.BentBridgesOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.bootyisland.BootyIslandMainActivity"
                   android:screenOrientation="portrait">
         </activity>
@@ -359,6 +371,18 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.coffeeandsugar.CoffeeAndSugarOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crossroadblocks.CrossroadBlocksMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crossroadblocks.CrossroadBlocksGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crossroadblocks.CrossroadBlocksHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.crossroadblocks.CrossroadBlocksOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.crossroadsx.CrossroadsXMainActivity"
