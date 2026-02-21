@@ -10,6 +10,7 @@ class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGa
         val offset = Position.Directions4
     }
 
+    var spots = mutableListOf<Position>()
     var objArray: Array<MirrorsObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -22,8 +23,9 @@ class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGa
         objArray = Array(rows * cols) { MirrorsObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols)
-                this[r, c] = when (str[c]) {
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                this[p] = when (str[c]) {
                     'O' -> MirrorsObject.Block
                     '3' -> MirrorsObject.UpRight
                     '6' -> MirrorsObject.DownRight
@@ -31,8 +33,12 @@ class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGa
                     '9' -> MirrorsObject.LeftUp
                     'A' -> MirrorsObject.Horizontal
                     '5' -> MirrorsObject.Vertical
+                    'S' -> MirrorsObject.Spot
                     else -> MirrorsObject.Empty
                 }
+                if (this[p] == MirrorsObject.Spot)
+                    spots.add(p)
+            }
         }
         val state = MirrorsGameState(this)
         levelInitialized(state)

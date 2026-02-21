@@ -20,6 +20,8 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val blockPaint = Paint()
+    private val spotPaint1 = Paint()
+    private val spotPaint2 = Paint()
 
     init {
         gridPaint.color = Color.GRAY
@@ -29,6 +31,10 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
         linePaint.strokeWidth = 20f
         blockPaint.color = Color.LTGRAY
         blockPaint.style = Paint.Style.FILL_AND_STROKE
+        spotPaint1.style = Paint.Style.STROKE
+        spotPaint1.strokeWidth = 5f
+        spotPaint2.style = Paint.Style.FILL
+        spotPaint2.color = Color.GREEN
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -37,8 +43,15 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                if (game[r, c] == MirrorsObject.Block)
-                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                when (game[r, c]) {
+                    MirrorsObject.Block ->
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                    MirrorsObject.Spot -> {
+                        canvas.drawArc((cwc2(c) - cellWidth / 2).toFloat(), (chr2(r) - cellHeight / 2).toFloat(), (cwc2(c) + cellWidth / 2).toFloat(), (chr2(r) + cellHeight / 2).toFloat(), 0f, 360f, true, spotPaint1)
+                        canvas.drawArc((cwc2(c) - cellWidth / 2).toFloat(), (chr2(r) - cellHeight / 2).toFloat(), (cwc2(c) + cellWidth / 2).toFloat(), (chr2(r) + cellHeight / 2).toFloat(), 0f, 360f, true, spotPaint2)
+                    }
+                    else -> {}
+                }
             }
         if (isInEditMode) return
         for (r in 0 until rows)

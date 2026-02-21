@@ -92,20 +92,38 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
                 if (!dirs.all {
                     val p2 = p + MirrorsGame.offset[it]
                     val dirs2 = pos2dirs[p2]
-                    dirs2 != null && dirs2.contains((it + 2) % 4)
+                    this[p2] == MirrorsObject.Spot || dirs2 != null && dirs2.contains((it + 2) % 4)
                 }) { isSolved = false; return }
             }
-        // Check the loop
-        val p = pos2dirs.keys.first()
-        var p2 = p
-        var n = -1
-        while (true) {
-            val dirs = pos2dirs[p2]
-            if (dirs == null) { isSolved = false; return }
-            pos2dirs.remove(p2)
-            n = dirs.first { (it + 2) % 4 != n }
-            p2 += MirrorsGame.offset[n]
-            if (p2 == p) break
+        if (game.spots.isEmpty()) {
+            // Check the loop
+            val p = pos2dirs.keys.first()
+            var p2 = p
+            var n = -1
+            while (true) {
+                val dirs = pos2dirs[p2]
+                if (dirs == null) { isSolved = false; return }
+                pos2dirs.remove(p2)
+                n = dirs.first { (it + 2) % 4 != n }
+                p2 += MirrorsGame.offset[n]
+                if (p2 == p) break
+            }
+        } else {
+            val (ps0, ps1) = game.spots[0] to game.spots[1]
+            val rng = pos2dirs.filter { (p, dirs) ->
+                dirs.any { p + MirrorsGame.offset[it] == ps0 }
+            }
+            if (rng.size != 1) { isSolved = false; return }
+            var p2 = rng.firstNotNullOf { (p, _) -> p }
+            var n = rng.firstNotNullOf { (_, dirs) -> dirs.first { p2 + MirrorsGame.offset[it] == ps0 } }
+            while (true) {
+                val dirs = pos2dirs[p2]
+                if (dirs == null) { isSolved = false; return }
+                pos2dirs.remove(p2)
+                n = dirs.first { (it + 2) % 4 != n }
+                p2 += MirrorsGame.offset[n]
+                if (p2 == ps1) break
+            }
         }
     }
 }
