@@ -8,14 +8,16 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.yalooniq.YalooniqGame
 
 class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, SnakeMazeGameMove, SnakeMazeGameState>(game) {
-    private var objArray = Array(rows * cols) { SnakeMazeObject.Normal }
+    private var objArray = Array(rows * cols) { SnakeMazeObject.Empty }
     var pos2stateHint = mutableMapOf<Position, HintState>()
     var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    var snakes = mutableListOf<List<Position>>()
 
     init {
+        for (p in game.pos2hint.keys)
+            this[p] = SnakeMazeObject.Hint
         updateIsSolved()
     }
 
@@ -26,7 +28,7 @@ class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, Sn
 
     override fun setObject(move: SnakeMazeGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game.pos2hint.containsKey(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -34,12 +36,16 @@ class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, Sn
 
     override fun switchObject(move: SnakeMazeGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameOperationType.Invalid
+        if (!isValid(p) || game.pos2hint.containsKey(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            SnakeMazeObject.Normal -> if (markerOption == MarkerOptions.MarkerFirst) SnakeMazeObject.Marker else SnakeMazeObject.Shaded
-            SnakeMazeObject.Shaded -> if (markerOption == MarkerOptions.MarkerLast) SnakeMazeObject.Marker else SnakeMazeObject.Normal
-            SnakeMazeObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) SnakeMazeObject.Shaded else SnakeMazeObject.Normal
+            SnakeMazeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) SnakeMazeObject.Marker else SnakeMazeObject.Snake1
+            SnakeMazeObject.Snake1 -> SnakeMazeObject.Snake2
+            SnakeMazeObject.Snake2 -> SnakeMazeObject.Snake3
+            SnakeMazeObject.Snake3 -> SnakeMazeObject.Snake4
+            SnakeMazeObject.Snake4 -> SnakeMazeObject.Snake5
+            SnakeMazeObject.Snake5 -> if (markerOption == MarkerOptions.MarkerLast) SnakeMazeObject.Marker else SnakeMazeObject.Empty
+            SnakeMazeObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) SnakeMazeObject.Snake1 else SnakeMazeObject.Empty
             else -> o
         }
         return setObject(move)
@@ -62,49 +68,18 @@ class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, Sn
         6. Arrows block snake sight and also block other arrows hints.
     */
     private fun updateIsSolved() {
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        // 3. You can shade tiles with arrows and numbers.
-        // 5. A cell containing a number and an arrow tells you how many tiles are shaded
-        //    in that direction.
-        // 6. However not all tiles that are shaded tell you lies.
-        for ((p, hint) in game.pos2hint) {
-            if (this[p].isShaded) {
-                pos2stateHint[p] = HintState.Complete
-                continue
-            }
-            val n2 = hint.num
-            val os = SnakeMazeGame.offset[hint.dir]
-            var n1 = 0
-            var p2 = p + os
-            while (isValid(p2)) {
-                if (this[p2].isShaded) n1++
-                p2 += os
-            }
-            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            pos2stateHint[p] = s
-            if (s != HintState.Complete) isSolved = false
-        }
-        // 2. Shaded tiles must not be orthogonally connected.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                if (!this[p].isShaded) continue
-                val s = if (!YalooniqGame.offset.any {
-                    val p2 = p + it
-                    isValid(p2) && this[p2].isShaded
-                }) AllowedObjectState.Normal else AllowedObjectState.Error
-                pos2stateAllowed[p] = s
-                if (s == AllowedObjectState.Error) isSolved = false
-            }
-        if (!isSolved) return
-        // 4. All tiles which are not shaded must form an orthogonally continuous area.
+        snakes.clear()
+        val pos2snake = mutableMapOf<Position, Int>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        val rngDarken = mutableListOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (!this[p].isShaded) {
+                if (this[p] == SnakeMazeObject.Forbidden)
+                    this[p] = SnakeMazeObject.Empty
+                else if (this[p].isSnake) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -116,8 +91,81 @@ class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, Sn
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            val area = pos2node.filter { nodeList.contains(it.value) }.keys.toList()
+            for (p in area)
+                pos2node.remove(p)
+            // 1. A Snake is a path of five tiles, numbered 1-2-3-4-5, where 1 is the head and 5 the tail.
+            //    The snake's body segments are connected horizontally or vertically.
+            // 3. A snake cannot touch another snake horizontally or vertically.
+            if (!(area.size == 5 && (1..5).all { n ->
+                area.any { this[it].value == n }
+            })) {
+                for (p in area)
+                    pos2stateAllowed[p] = AllowedObjectState.Error
+                isSolved = false; continue
+            }
+            val snake = (1..5).map { n ->
+                area.first { this[it].value == n }
+            }
+            if (!(0 until 4).all { i ->
+                val os = snake[i] - snake[i + 1]
+                SnakeMazeGame.offset.contains(os)
+            }) {
+                for (p in area)
+                    pos2stateAllowed[p] = AllowedObjectState.Error
+                isSolved = false; continue
+            }
+            for (p in area)
+                pos2stateAllowed[p] = AllowedObjectState.Normal
+            val n = snakes.size
+            snakes.add(snake)
+            for (p in snake)
+                pos2snake[p] = n
+        }
+        // 2. A snake cannot see another snake or it would attack it. A snake sees straight in the
+        //    direction 2-1, that is to say it sees in front of the number 1.
+        for (snake in snakes) {
+            val os = snake[0] - snake[1]
+            var p2 = snake[0] + os
+            while (isValid(p2)) {
+                if (this[p2] == SnakeMazeObject.Empty && allowedObjectsOnly)
+                    this[p2] = SnakeMazeObject.Forbidden
+                else if (this[p2] == SnakeMazeObject.Hint)
+                    break
+                else if (this[p2].isSnake) {
+                    val n = pos2snake[p2] ?: break
+                    for (p in snakes[n])
+                        pos2stateAllowed[p] = AllowedObjectState.Error
+                    break
+                }
+                p2 += os
+            }
+        }
+        // 4. Arrows show you the closest piece of Snake in that direction (before another arrow or the edge).
+        // 5. Arrows with zero mean that there is no Snake in that direction.
+        // 6. Arrows block snake sight and also block other arrows hints.
+        for ((p, hint) in game.pos2hint) {
+            val n2 = hint.num
+            val os = SnakeMazeGame.offset[hint.dir]
+            var n1 = 0
+            var p2 = p + os
+            while (isValid(p2)) {
+                if (this[p2] == SnakeMazeObject.Empty && n2 == 0 && allowedObjectsOnly)
+                    this[p2] = SnakeMazeObject.Forbidden
+                else if (this[p2] == SnakeMazeObject.Hint)
+                    break
+                else if (this[p2].isSnake) {
+                    n1 = this[p2].value
+                    break
+                }
+                p2 += os
+            }
+            val s = if (n1 == n2) HintState.Complete else if (n1 == 0) HintState.Normal else HintState.Error
+            pos2stateHint[p] = s
+            if (s != HintState.Complete) isSolved = false
+        }
     }
 }
