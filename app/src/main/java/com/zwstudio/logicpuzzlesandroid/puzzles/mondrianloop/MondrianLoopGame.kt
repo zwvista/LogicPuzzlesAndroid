@@ -16,6 +16,13 @@ class MondrianLoopGame(layout: List<String>, gi: GameInterface<MondrianLoopGame,
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        val offset3 = arrayOf(
+            Position(-1, -1),
+            Position(-1, 1),
+            Position(1, -1),
+            Position(1, 1)
+        )
+        const val PUZ_UNKNOWN = -1
     }
 
     var objArray: MutableList<MutableList<GridLineObject>>
@@ -33,7 +40,7 @@ class MondrianLoopGame(layout: List<String>, gi: GameInterface<MondrianLoopGame,
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                pos2hint[p] = ch - '0'
+                pos2hint[p] = if (ch == 'O') PUZ_UNKNOWN else ch - '0'
             }
         }
         for (r in 0 until rows - 1) {
@@ -55,6 +62,6 @@ class MondrianLoopGame(layout: List<String>, gi: GameInterface<MondrianLoopGame,
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getStateHint(p: Position) = currentState.pos2stateHint[p]
-    fun shrubs() = currentState.shrubs
+    fun rectangles() = currentState.rectangles
     fun getStateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }
