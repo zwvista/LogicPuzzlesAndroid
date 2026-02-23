@@ -9,6 +9,7 @@ class NooksGame(layout: List<String>, gi: GameInterface<NooksGame, NooksGameMove
     companion object {
         val offset = Position.Directions4
         val offset2 = Position.Square2x2Offset
+        const val PUZ_UNKWOWN = -1
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
@@ -20,8 +21,9 @@ class NooksGame(layout: List<String>, gi: GameInterface<NooksGame, NooksGameMove
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch.isDigit())
-                    pos2hint[p] = ch - '0'
+                if (ch != ' ') {
+                    pos2hint[p] = if (ch == '?') PUZ_UNKWOWN else ch - '0'
+                }
             }
         }
         val state = NooksGameState(this)

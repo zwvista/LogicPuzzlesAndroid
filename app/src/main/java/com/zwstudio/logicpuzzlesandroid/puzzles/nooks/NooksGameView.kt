@@ -56,7 +56,8 @@ class NooksGameView(context: Context, val soundManager: SoundManager) : CellsGam
                     NooksObject.Hint -> {
                         dHide.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dHide.draw(canvas)
-                        val text = game.pos2hint[p].toString()
+                        val n = game.pos2hint[p]
+                        val text = if (n == NooksGame.PUZ_UNKWOWN) "?" else n.toString()
                         val s = game.pos2State(p)
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

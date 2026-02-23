@@ -87,7 +87,7 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
                     n1 += 1
                     p2 += os
                 }
-                val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+                val s = if (n2 == NooksGame.PUZ_UNKWOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
                 pos2state[p] = s
                 if (s != HintState.Complete) isSolved = false
             }
