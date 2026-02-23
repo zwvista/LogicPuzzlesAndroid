@@ -637,6 +637,18 @@
         <activity android:name=".puzzles.flowerbedshrubs.FlowerbedShrubsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.floweromino.FlowerOMinoMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.floweromino.FlowerOMinoGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.floweromino.FlowerOMinoHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.floweromino.FlowerOMinoOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fourmenot.FourMeNotMainActivity"
                   android:screenOrientation="portrait">
         </activity>
