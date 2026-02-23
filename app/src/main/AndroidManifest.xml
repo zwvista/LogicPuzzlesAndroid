@@ -1765,6 +1765,18 @@
         <activity android:name=".puzzles.snakemaze.SnakeMazeOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.snakeomino.SnakeominoMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakeomino.SnakeominoGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakeomino.SnakeominoHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakeomino.SnakeominoOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.square100.Square100MainActivity"
                   android:screenOrientation="portrait">
         </activity>
