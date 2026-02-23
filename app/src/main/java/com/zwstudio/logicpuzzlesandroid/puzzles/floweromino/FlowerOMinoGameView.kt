@@ -4,10 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -23,9 +26,12 @@ class FlowerOMinoGameView(context: Context, val soundManager: SoundManager) : Ce
     private val line1Paint = Paint()
     private val line2Paint = Paint()
     private val markerPaint = Paint()
-    private val wallPaint = Paint()
-    private val flowerPaint1 = Paint()
-    private val flowerPaint2 = Paint()
+    private val dHedge: Drawable
+    private val dFlower1: Drawable
+    private val dFlower2: Drawable
+    private val dFlower4: Drawable
+    private val dBackground: Drawable
+    private val flowerHalfSize = 50
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,12 +45,11 @@ class FlowerOMinoGameView(context: Context, val soundManager: SoundManager) : Ce
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
-        wallPaint.color = Color.LTGRAY
-        wallPaint.style = Paint.Style.FILL_AND_STROKE
-        flowerPaint1.style = Paint.Style.STROKE
-        flowerPaint1.strokeWidth = 5f
-        flowerPaint2.style = Paint.Style.FILL
-        flowerPaint2.color = Color.GRAY
+        dHedge = fromImageToDrawable("images/forest_lighter.png")
+        dFlower1 = fromImageToDrawable("images/flower_orange.png")
+        dFlower2 = fromImageToDrawable("images/flower_pink.png")
+        dFlower4 = fromImageToDrawable("images/flower_purple.png")
+        dBackground = fromImageToDrawable("images/meadow_background.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -55,20 +60,28 @@ class FlowerOMinoGameView(context: Context, val soundManager: SoundManager) : Ce
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 val o = game[p]
-                when (o) {
-                    FlowerOMinoObject.Flower -> {
-                        val s = game.getPosState(p)
-                        flowerPaint1.color = when (s) {
-                            HintState.Complete -> Color.GREEN
-                            HintState.Error -> Color.RED
-                            else -> Color.WHITE
-                        }
-                        canvas.drawArc((cwc2(c) - cellWidth / 3).toFloat(), (chr2(r) - cellHeight / 3).toFloat(), (cwc2(c) + cellWidth / 3).toFloat(), (chr2(r) + cellHeight / 3).toFloat(), 0f, 360f, true, flowerPaint1)
-                        canvas.drawArc((cwc2(c) - cellWidth / 3).toFloat(), (chr2(r) - cellHeight / 3).toFloat(), (cwc2(c) + cellWidth / 3).toFloat(), (chr2(r) + cellHeight / 3).toFloat(), 0f, 360f, true, flowerPaint2)
-                    }
-                    FlowerOMinoObject.Hedge ->
-                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
-                    else -> {}
+                if (game.gardens().any { it.contains(p) }) {
+                    dBackground.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val s = game.getPosState(p)
+                    val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                    dBackground.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    dBackground.draw(canvas)
+                }
+                if (o == FlowerOMinoObject.Hedge) {
+                    dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    dHedge.draw(canvas)
+                }
+                if (o.hasCenter) {
+                    dFlower1.setBounds(cwc2(c) - flowerHalfSize, chr2(r) - flowerHalfSize, cwc2(c) + flowerHalfSize, chr2(r) + flowerHalfSize)
+                    dFlower1.draw(canvas)
+                }
+                if (o.hasRight) {
+                    dFlower2.setBounds(cwc(c + 1) - flowerHalfSize, chr2(r) - flowerHalfSize, cwc(c + 1) + flowerHalfSize, chr2(r) + flowerHalfSize)
+                    dFlower2.draw(canvas)
+                }
+                if (o.hasBottom) {
+                    dFlower4.setBounds(cwc2(c) - flowerHalfSize, chr(r + 1) - flowerHalfSize, cwc2(c) + flowerHalfSize, chr(r + 1) + flowerHalfSize)
+                    dFlower4.draw(canvas)
                 }
             }
         if (isInEditMode) return

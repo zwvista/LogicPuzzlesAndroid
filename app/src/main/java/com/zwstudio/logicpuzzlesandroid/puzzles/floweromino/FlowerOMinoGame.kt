@@ -21,7 +21,6 @@ class FlowerOMinoGame(layout: List<String>, gi: GameInterface<FlowerOMinoGame, F
 
     var objArray: MutableList<FlowerOMinoObject>
     var hedges = mutableListOf<Position>()
-    var flowers = mutableListOf<Position>()
     var dots: GridDots
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -37,23 +36,27 @@ class FlowerOMinoGame(layout: List<String>, gi: GameInterface<FlowerOMinoGame, F
             val str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                when (str[c]) {
-                    'H' ->  {
-                        this[p] = FlowerOMinoObject.Hedge
-                        hedges.add(p)
-                        dots[r, c, 2] = GridLineObject.Line
-                        dots[r + 1, c, 0] = GridLineObject.Line
-                        dots[r, c + 1, 2] = GridLineObject.Line
-                        dots[r + 1, c + 1, 0] = GridLineObject.Line
-                        dots[r, c, 1] = GridLineObject.Line
-                        dots[r, c + 1, 3] = GridLineObject.Line
-                        dots[r + 1, c, 1] = GridLineObject.Line
-                        dots[r + 1, c + 1, 3] = GridLineObject.Line
-                    }
-                    'F' -> {
-                        this[p] = FlowerOMinoObject.Flower
-                        flowers.add(p)
-                    }
+                this[p] = when (str[c]) {
+                    '=' ->  FlowerOMinoObject.Hedge
+                    '1' ->  FlowerOMinoObject.Center
+                    '2' ->  FlowerOMinoObject.Right
+                    '4' ->  FlowerOMinoObject.Bottom
+                    '3' ->  FlowerOMinoObject.CenterRight
+                    '5' ->  FlowerOMinoObject.CenterBottom
+                    '6' ->  FlowerOMinoObject.RightBottom
+                    '7' ->  FlowerOMinoObject.CenterRightBottom
+                    else ->  FlowerOMinoObject.Empty
+                }
+                if (this[p] == FlowerOMinoObject.Hedge) {
+                    hedges.add(p)
+                    dots[r, c, 2] = GridLineObject.Line
+                    dots[r + 1, c, 0] = GridLineObject.Line
+                    dots[r, c + 1, 2] = GridLineObject.Line
+                    dots[r + 1, c + 1, 0] = GridLineObject.Line
+                    dots[r, c, 1] = GridLineObject.Line
+                    dots[r, c + 1, 3] = GridLineObject.Line
+                    dots[r + 1, c, 1] = GridLineObject.Line
+                    dots[r + 1, c + 1, 3] = GridLineObject.Line
                 }
             }
         }
@@ -76,4 +79,5 @@ class FlowerOMinoGame(layout: List<String>, gi: GameInterface<FlowerOMinoGame, F
     fun getObject(p: Position, dir: Int): GridLineObject = currentState[p, dir]
     fun getObject(row: Int, col: Int, dir: Int): GridLineObject = currentState[row, col, dir]
     fun getPosState(p: Position) = currentState.pos2state[p]
+    fun gardens() = currentState.gardens
 }

@@ -1,18 +1,19 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.floweromino
 
 import com.rits.cloning.Cloner
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FlowerOMinoGameState(game: FlowerOMinoGame) : CellsGameState<FlowerOMinoGame, FlowerOMinoGameMove, FlowerOMinoGameState>(game) {
     var objArray = Cloner().deepClone(game.dots.objArray)
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    var gardens = mutableListOf<List<Position>>()
 
     init {
         updateIsSolved()
@@ -69,8 +70,6 @@ class FlowerOMinoGameState(game: FlowerOMinoGame) : CellsGameState<FlowerOMinoGa
     */
     private fun updateIsSolved() {
         isSolved = true
-        val rects = mutableListOf<FlowerOMinoRect>()
-        val pos2rect = mutableMapOf<Position, Int>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows - 1)
@@ -96,54 +95,20 @@ class FlowerOMinoGameState(game: FlowerOMinoGame) : CellsGameState<FlowerOMinoGa
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            val rng = area.filter { game.flowers.contains(it) }
-            // 2. Your task as a gardener is to divide the garden in rectangular (or square)
-            //    flower beds.
-            // 3. Each flower bed should contain exactly one flower.
-            if (rng.size != 1) {
-                for (p in rng)
-                    pos2state[p] = HintState.Normal
-                isSolved = false
-                continue
+            if (area.size != 4) { isSolved = false; continue }
+            gardens.add(area)
+            val n2 = 1
+            val n1 = area.fold(0) { acc, p ->
+                var m = 0
+                val o = game[p]
+                if (o.hasCenter) m++
+                if (o.hasRight && area.contains(p + FlowerOMinoGame.offset[1])) m++
+                if (o.hasBottom && area.contains(p + FlowerOMinoGame.offset[2])) m++
+                acc + m
             }
-            val p2 = rng[0]
-            val n1 = area.size
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
-            for (p in area) {
-                if (r2 < p.row) r2 = p.row
-                if (r1 > p.row) r1 = p.row
-                if (c2 < p.col) c2 = p.col
-                if (c1 > p.col) c1 = p.col
-            }
-            val rs = r2 - r1 + 1
-            val cs = c2 - c1 + 1
-            val s = if (rs * cs == n1) HintState.Complete else HintState.Error
-            pos2state[p2] = s
-            if (s == HintState.Complete) {
-                val n = rects.size
-                rects.add(FlowerOMinoRect(area, rs, cs))
-                for (p in area) { pos2rect[p] = n }
-            } else
-                isSolved = false
+            val s = if (n1 == n2) AllowedObjectState.Normal else AllowedObjectState.Error
+            for (p in area) pos2state[p] = s
+            if (s == AllowedObjectState.Error) isSolved = false
         }
-        if (!isSolved) return
-        // 4. Contiguous flower beds can't have the same area extension.
-        if (!((0 until rects.size).all { n ->
-            val rect = rects[n]
-            rect.area.all { p ->
-                FlowerOMinoGame.offset.all {
-                    val n2 = pos2rect[p + it]
-                    if (n2 == null || n2 == n)
-                        true
-                    else {
-                        val rect2 = rects[n2]
-                        !(rect.rows == rect2.rows && rect.cols == rect2.cols)
-                    }
-                }
-            }
-        })) isSolved = false
     }
 }
