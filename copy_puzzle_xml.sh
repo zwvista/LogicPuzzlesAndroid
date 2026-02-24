@@ -1,6 +1,6 @@
 #!/bin/bash
 # 自动生成的Android拷贝XML脚本
-# 生成时间: 2026-02-23 23:19:24
+# 生成时间: 2026-02-25 01:20:00
 
 echo "开始拷贝XML文件到Android项目..."
 
@@ -904,6 +904,15 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesF/Puzzles/FingerPointing.xml"
 fi
 
+# 拷贝 FlowerOMino (来自: PuzzlesF/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesF/Puzzles/FlowerOMino.xml" ]; then
+    cp "../PSL/PuzzlesF/Puzzles/FlowerOMino.xml" "app/src/main/assets/xml/FlowerOMino.xml"
+    echo "✓ 已拷贝到Android: FlowerOMino"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesF/Puzzles/FlowerOMino.xml"
+fi
+
 # 拷贝 FunnyNumbers (来自: PuzzlesF/Puzzles)
 mkdir -p app/src/main/assets/xml
 if [ -f "../PSL/PuzzlesF/Puzzles/FunnyNumbers.xml" ]; then
@@ -1300,6 +1309,15 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesS/Puzzles/SlitherCorner.xml"
 fi
 
+# 拷贝 Snakeomino (来自: PuzzlesS/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesS/Puzzles/Snakeomino.xml" ]; then
+    cp "../PSL/PuzzlesS/Puzzles/Snakeomino.xml" "app/src/main/assets/xml/Snakeomino.xml"
+    echo "✓ 已拷贝到Android: Snakeomino"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesS/Puzzles/Snakeomino.xml"
+fi
+
 # 拷贝 Sentinels (来自: PuzzlesS/Puzzles)
 mkdir -p app/src/main/assets/xml
 if [ -f "../PSL/PuzzlesS/Puzzles/Sentinels.xml" ]; then
@@ -1678,4 +1696,4 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesU/Puzzles/Underground.xml"
 fi
 
-echo "\nAndroid拷贝完成，共处理 186 个游戏"
+echo "\nAndroid拷贝完成，共处理 188 个游戏"

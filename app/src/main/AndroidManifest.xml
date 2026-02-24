@@ -2041,6 +2041,18 @@
         <activity android:name=".puzzles.tierradelfuego.TierraDelFuegoOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.toparrow.TopArrowMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.toparrow.TopArrowGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.toparrow.TopArrowHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.toparrow.TopArrowOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.tracenumbers.TraceNumbersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
