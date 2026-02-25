@@ -27,6 +27,7 @@ class OnlyStraightsGameView(context: Context, val soundManager: SoundManager) : 
     private val dTown: Drawable
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
+    private val townHalfSize = 50
 
     init {
         gridPaint.color = Color.GRAY
@@ -47,10 +48,19 @@ class OnlyStraightsGameView(context: Context, val soundManager: SoundManager) : 
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch == ' ') continue
-                dTown.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                dTown.draw(canvas)
+                val o = game[r, c]
+                if (o.hasCenter) {
+                    dTown.setBounds(cwc2(c) - townHalfSize, chr2(r) - townHalfSize, cwc2(c) + townHalfSize, chr2(r) + townHalfSize)
+                    dTown.draw(canvas)
+                }
+                if (o.hasRight) {
+                    dTown.setBounds(cwc(c + 1) - townHalfSize, chr2(r) - townHalfSize, cwc(c + 1) + townHalfSize, chr2(r) + townHalfSize)
+                    dTown.draw(canvas)
+                }
+                if (o.hasBottom) {
+                    dTown.setBounds(cwc2(c) - townHalfSize, chr(r + 1) - townHalfSize, cwc2(c) + townHalfSize, chr(r + 1) + townHalfSize)
+                    dTown.draw(canvas)
+                }
             }
         if (isInEditMode) return
         for (r in 0 until rows)

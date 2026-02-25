@@ -4,7 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 enum class FlowerOMinoObject {
-    Empty, Flower, Hedge, Center, Right, Bottom,
+    Empty, Hedge, Center, Right, Bottom,
     CenterRight, CenterBottom, RightBottom, CenterRightBottom;
     val hasCenter get() = this == Center || this == CenterRight || this == CenterBottom || this == CenterRightBottom
     val hasRight get() = this == Right || this == CenterRight || this == RightBottom || this == CenterRightBottom

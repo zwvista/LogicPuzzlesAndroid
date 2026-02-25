@@ -11,25 +11,30 @@ class OnlyStraightsGame(layout: List<String>, gi: GameInterface<OnlyStraightsGam
         const val PUZ_TOWN = 'O'
     }
 
-    var objArray: CharArray
+    var objArray: MutableList<OnlyStraightsTown>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: OnlyStraightsTown) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: OnlyStraightsTown) {this[p.row, p.col] = obj}
 
     init {
-        size = Position(layout.size * 2 - 1, layout[0].length * 2 - 1)
-        objArray = CharArray(rows * cols) { ' ' }
-        for (r in 0 until rows step 2) {
-            val str = layout[r / 2]
-            for (c in 0 until cols step 2) {
-                val ch = str[c / 2]
-                if (!ch.isDigit()) continue
-                val n = ch - '0'
-                if (n and 1 != 0) this[r, c] = PUZ_TOWN
-                if (n and 2 != 0) this[r, c + 1] = PUZ_TOWN
-                if (n and 4 != 0) this[r + 1, c] = PUZ_TOWN
+        size = Position(layout.size, layout[0].length)
+        objArray = MutableList(rows * cols) { OnlyStraightsTown.Empty }
+        for (r in 0 until rows) {
+            val str = layout[r]
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                this[p] = when (str[c]) {
+                    '1' ->  OnlyStraightsTown.Center
+                    '2' ->  OnlyStraightsTown.Right
+                    '4' ->  OnlyStraightsTown.Bottom
+                    '3' ->  OnlyStraightsTown.CenterRight
+                    '5' ->  OnlyStraightsTown.CenterBottom
+                    '6' ->  OnlyStraightsTown.RightBottom
+                    '7' ->  OnlyStraightsTown.CenterRightBottom
+                    else ->  OnlyStraightsTown.Empty
+                }
             }
         }
         val state = OnlyStraightsGameState(this)

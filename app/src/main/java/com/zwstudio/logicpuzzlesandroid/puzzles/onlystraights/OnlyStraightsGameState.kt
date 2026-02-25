@@ -41,15 +41,25 @@ class OnlyStraightsGameState(game: OnlyStraightsGame) : CellsGameState<OnlyStrai
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, List<Int>>()
+        val towns = mutableSetOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val dirs = (0 until 4).filter { this[p][it] }
                 if (dirs.size == 2) {
                     pos2dirs[p] = dirs
-                    if (game[p] != ' ')
-                        // 2. This time, you must go straight while passing a town.
+                    val o = game[p]
+                    // 2. This time, you must go straight while passing a town.
+                    if (o.hasCenter)
                         if (dirs[1] - dirs[0] != 2) {
+                            isSolved = false; return
+                        }
+                    if (o.hasRight)
+                        if (!dirs.contains(1)) {
+                            isSolved = false; return
+                        }
+                    if (o.hasBottom)
+                        if (!dirs.contains(2)) {
                             isSolved = false; return
                         }
                 } else if (dirs.isNotEmpty()) {
@@ -72,18 +82,22 @@ class OnlyStraightsGameState(game: OnlyStraightsGame) : CellsGameState<OnlyStrai
             if (p2 == p) break
         }
         // 3. Branches of a road coming off a town must be of equal length.
-        if (!pos2dirs2.all { (p, dirs) ->
-            fun f(d: Int): Int {
+        if (!towns.all { p ->
+            val dirs = pos2dirs2[p]!!
+            fun f(p2: Position, d: Int): Int {
                 val os = OnlyStraightsGame.offset[d]
-                var p2 = p + os
+                var p3 = p2
                 var n = 0
-                while (pos2dirs2[p2]!!.contains(d)) {
+                while (pos2dirs2[p3]?.contains(d) ?: false) {
                     n++
-                    p2 += os
+                    p3 += os
                 }
                 return n
             }
-            game[p] == ' ' || f(dirs[0]) == f(dirs[1])
+            val o = game[p]
+            o.hasCenter && (dirs.contains(1) && f(p, 1) == f(p, 3) || dirs.contains(2) && f(p, 2) == f(p, 0)) ||
+                o.hasRight && f(p, 3) == f(p + OnlyStraightsGame.offset[1], 1) ||
+                o.hasBottom && f(p, 0) == f(p + OnlyStraightsGame.offset[2], 2)
         }) isSolved = false
     }
 }
