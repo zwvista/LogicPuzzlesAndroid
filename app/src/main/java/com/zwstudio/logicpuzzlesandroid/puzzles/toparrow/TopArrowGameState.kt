@@ -54,7 +54,8 @@ class TopArrowGameState(game: TopArrowGame) : CellsGameState<TopArrowGame, TopAr
         for (r in 0 until rows)
             for (c in 0 until cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
-        // 2. Two orthogonally adjacent numbers must be different.
+        // 3. When two numbers are orthogonally adjacent across areas, the numbers
+        //    must be different.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -75,23 +76,32 @@ class TopArrowGameState(game: TopArrowGame) : CellsGameState<TopArrowGame, TopAr
                 else
                     num2rng.getOrPut(n) { mutableListOf() }.add(p)
             }
-            // 1. Fill each area with every number ranging from 1 to the size of the area.
+            // 1. Fill each area with each of the digits from 1 to the size of the
+            //    area itself.
             for ((_, rng) in num2rng)
                 if (rng.size > 1) {
                     isSolved = false
                     for (p in rng)
                         pos2state[p] = AllowedObjectState.Error
                 }
-            // 3. In one area, if a number is right above another, the upper one must be
-            //    higher than the lower one. This only applies to numbers on top of each
-            //    other in the same area.
-            for (p1 in area)
-                for (p2 in area)
-                    if (p1 - p2 == TopArrowGame.offset[0] && this[p1] <= this[p2]) {
-                        isSolved = false
-                        pos2state[p1] = AllowedObjectState.Error
-                        pos2state[p2] = AllowedObjectState.Error
-                    }
+        }
+        // 2. Arrows point to the biggest number around it in the four directions
+        //    (up, left, down, right).
+        // 4. There can't be ties for the biggest number in the four directions.
+        hint@ for ((p, d) in game.pos2hint) {
+            val dir2num = mutableMapOf<Int, Int>()
+            for ((d2, os) in TopArrowGame.offset.withIndex()) {
+                val p2 = p + os
+                if (!isValid(p2)) continue
+                val o = this[p2]
+                if (o == TopArrowGame.PUZ_EMPTY) continue@hint
+                if (o == TopArrowGame.PUZ_HINT || o == TopArrowGame.PUZ_BLOCK) continue
+                dir2num[d2] = o
+            }
+            val (d3, n) = dir2num.maxBy { it.value }
+            val s = if (d3 == d && (dir2num.count { it.value == n }) == 1) AllowedObjectState.Normal else AllowedObjectState.Error
+            pos2state[p] = s
+            if (s == AllowedObjectState.Error) isSolved = false
         }
     }
 }

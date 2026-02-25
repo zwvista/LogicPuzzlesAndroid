@@ -4,8 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -22,7 +25,12 @@ class TopArrowGameView(context: Context, val soundManager: SoundManager) : Cells
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val blockPaint = Paint()
     private val textPaint = TextPaint()
+    private val dUp: Drawable
+    private val dRight: Drawable
+    private val dDown: Drawable
+    private val dLeft: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -30,7 +38,13 @@ class TopArrowGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        blockPaint.color = Color.DKGRAY
+        blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
+        dUp = fromImageToDrawable("images/arrow_green_up.png")
+        dRight = fromImageToDrawable("images/arrow_green_right.png")
+        dDown = fromImageToDrawable("images/arrow_green_down.png")
+        dLeft = fromImageToDrawable("images/arrow_green_left.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -40,12 +54,32 @@ class TopArrowGameView(context: Context, val soundManager: SoundManager) : Cells
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.getObject(p)
-                if (n == TopArrowGame.PUZ_EMPTY) continue
-                val s = game.pos2State(p)
-                textPaint.color = if (game[p] != TopArrowGame.PUZ_EMPTY) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                when (val n = game.getObject(p)) {
+                    TopArrowGame.PUZ_EMPTY -> {}
+                    TopArrowGame.PUZ_BLOCK ->
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                    TopArrowGame.PUZ_HINT -> {
+                        val dir = game.pos2hint[p]!!
+                        val dObject = when (dir) {
+                            0 -> dUp
+                            1 -> dRight
+                            2 -> dDown
+                            3 -> dLeft
+                            else -> continue
+                        }
+                        dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        val s2 = game.pos2State(p)
+                        val alpha = if (s2 == AllowedObjectState.Error) 50 else 0
+                        dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dObject.draw(canvas)
+                    }
+                    else -> {
+                        val s = game.pos2State(p)
+                        textPaint.color = if (game[p] != TopArrowGame.PUZ_EMPTY) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
+                        val text = n.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                }
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {

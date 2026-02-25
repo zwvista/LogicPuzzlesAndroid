@@ -19,13 +19,17 @@ class TopArrowGame(layout: List<String>, gi: GameInterface<TopArrowGame, TopArro
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        const val chars = "^>v<"
         const val PUZ_EMPTY = 0
+        const val PUZ_BLOCK = -1
+        const val PUZ_HINT = -2
     }
 
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     var objArray: IntArray
+    var pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -55,7 +59,17 @@ class TopArrowGame(layout: List<String>, gi: GameInterface<TopArrowGame, TopArro
                 }
                 if (c == cols) break
                 val ch2 = str[c * 2 + 1]
-                this[Position(r, c)] = if (ch2 == ' ') PUZ_EMPTY else ch2 - '0'
+                if (ch2 == ' ') continue
+                val p = Position(r, c)
+                if (ch2 == 'B')
+                    this[p] = PUZ_BLOCK
+                else if (ch2.isDigit())
+                    this[p] = ch2 - '0'
+                else {
+                    this[p] = PUZ_HINT
+                    val n = chars.indexOf(ch2)
+                    pos2hint[p] = n
+                }
             }
         }
         val rng = mutableSetOf<Position>()
