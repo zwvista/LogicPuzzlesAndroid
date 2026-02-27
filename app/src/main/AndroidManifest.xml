@@ -685,6 +685,18 @@
         <activity android:name=".puzzles.funnynumbers.FunnyNumbersOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.fussywaiter.FussyWaiterMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fussywaiter.FussyWaiterGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fussywaiter.FussyWaiterHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.fussywaiter.FussyWaiterOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.futoshiki.FutoshikiMainActivity"
                   android:screenOrientation="portrait">
         </activity>
