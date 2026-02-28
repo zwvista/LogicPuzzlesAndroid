@@ -75,6 +75,7 @@ class TentsGameView(context: Context, val soundManager: SoundManager) : CellsGam
             val s = game.getRowState(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.row2hint[r]
+            if (n == TentsGame.PUZ_UNKNOWN) continue
             val text = n.toString()
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
@@ -82,6 +83,7 @@ class TentsGameView(context: Context, val soundManager: SoundManager) : CellsGam
             val s = game.getColState(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.col2hint[c]
+            if (n == TentsGame.PUZ_UNKNOWN) continue
             val text = n.toString()
             drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)
         }

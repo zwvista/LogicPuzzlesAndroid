@@ -9,6 +9,7 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
     companion object {
         val offset = Position.Directions4
         val offset2 = Position.Directions8
+        const val PUZ_UNKNOWN = -1
     }
 
     var row2hint: IntArray
@@ -26,8 +27,8 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
                 val ch = str[c]
                 if (ch == 'T')
                     pos2tree.add(p)
-                else if (ch in '0'..'9') {
-                    val n = ch - '0'
+                else if ((r == rows) != (c == cols)) {
+                    val n = if (ch == ' ') PUZ_UNKNOWN else ch - '0'
                     if (r == rows)
                         col2hint[c] = n
                     else if (c == cols)

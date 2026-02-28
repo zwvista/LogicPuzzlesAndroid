@@ -71,8 +71,9 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
                 if (this[r, c] is TentsTentObject)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that row.
-            row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2) isSolved = false
+            val s = if (n2 == TentsGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
+            row2state[r] = s
+            if (s != HintState.Complete) isSolved = false
         }
         for (c in 0 until cols) {
             var n1 = 0
@@ -81,8 +82,9 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
                 if (this[r, c] is TentsTentObject)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that column.
-            col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2) isSolved = false
+            val s = if (n2 == TentsGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
+            col2state[c] = s
+            if (s != HintState.Complete) isSolved = false
         }
         for (r in 0 until rows)
             for (c in 0 until cols)
@@ -124,7 +126,9 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
                     o.state = s
                     if (s == AllowedObjectState.Error) isSolved = false
                 } else if ((o is TentsEmptyObject || o is TentsMarkerObject) && allowedObjectsOnly &&
-                    (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasTree() || hasTent(false)))
+                        (col2state[c] != HintState.Normal && game.col2hint[c] != TentsGame.PUZ_UNKNOWN ||
+                        row2state[r] != HintState.Normal && game.row2hint[r] != TentsGame.PUZ_UNKNOWN ||
+                        !hasTree() || hasTent(false)))
                     this[r, c] = TentsForbiddenObject
             }
     }
