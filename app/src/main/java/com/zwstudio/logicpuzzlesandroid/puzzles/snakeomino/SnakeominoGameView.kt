@@ -64,10 +64,30 @@ class SnakeominoGameView(context: Context, val soundManager: SoundManager) : Cel
         val markerOffset = 20
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
-//                canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
-//                        if (game.dots[r, c, 1] == GridLineObject.Line) line1Paint else line2Paint)
-//                canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
-//                        if (game.dots[r, c, 2] == GridLineObject.Line) line1Paint else line2Paint)
+                val p = Position(r, c)
+                fun f(p2: Position) = if (!game.isValid(p2)) -1 else game[p2]
+                fun g(p2: Position): Boolean {
+                    val (o, o2) = f(p) to f(p2)
+                    return o != o2 && (o == -1 || o2 == -1 || o != 0 && o2 != 0)
+                }
+                fun h(p2: Position): Boolean {
+                    val (o, o2) = game.getObject(p) to game.getObject(p2)
+                    return o != o2 && o != 0 && o2 != 0
+                }
+                run {
+                    val p2 = Position(r - 1, c)
+                    val (b1, b2) = g(p2) to (r in 1..<rows && c < cols && h(p2))
+                    if (b1 || b2)
+                        canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
+                            if (b1) line1Paint else line2Paint)
+                }
+                run {
+                    val p2 = Position(r, c - 1)
+                    val (b1, b2) = g(p2) to (c in 1..<cols && r < rows && h(p2))
+                    if (b1 || b2)
+                        canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
+                            if (b1) line1Paint else line2Paint)
+                }
             }
     }
 
