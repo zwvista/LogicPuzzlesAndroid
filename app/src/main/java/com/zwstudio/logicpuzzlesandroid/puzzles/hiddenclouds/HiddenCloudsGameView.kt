@@ -69,7 +69,7 @@ class HiddenCloudsGameView(context: Context, val soundManager: SoundManager) : C
                     else -> {}
                 }
                 val n = game.pos2hint[p] ?: continue
-                val s = game.pos2State(p)!!
+                val s = game.pos2state(p)!!
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

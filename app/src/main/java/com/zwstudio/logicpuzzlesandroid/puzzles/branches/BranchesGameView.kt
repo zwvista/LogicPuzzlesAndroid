@@ -70,7 +70,7 @@ class BranchesGameView(context: Context, val soundManager: SoundManager) : Cells
                     BranchesObject.Vertical -> f(dBranchVertical)
                     BranchesObject.Hint -> {
                         val text = game.pos2hint[p].toString()
-                        val s = game.pos2State(p)
+                        val s = game.pos2state(p)
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }

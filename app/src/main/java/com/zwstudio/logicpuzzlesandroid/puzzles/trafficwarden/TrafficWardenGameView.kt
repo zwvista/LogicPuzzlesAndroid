@@ -58,7 +58,7 @@ class TrafficWardenGameView(context: Context, val soundManager: SoundManager) : 
                 }
                 dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 dObject.draw(canvas)
-                val s = game.pos2State(p)
+                val s = game.pos2state(p)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.BLACK
                 val text = hint.len.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

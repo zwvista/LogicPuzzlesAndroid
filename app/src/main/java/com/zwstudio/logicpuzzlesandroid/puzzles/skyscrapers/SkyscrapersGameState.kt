@@ -14,7 +14,7 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
-    fun getState(row: Int, col: Int) = when {
+    fun pos2state(row: Int, col: Int) = when {
         row == 0 && col >= 1 && col < cols - 1 -> col2state[col * 2]
         row == rows - 1 && col >= 1 && col < cols - 1 -> col2state[col * 2 + 1]
         col == 0 && row >= 1 && row < rows - 1 -> row2state[row * 2]

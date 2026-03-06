@@ -47,7 +47,7 @@ class BotanicalParkGameView(context: Context, val soundManager: SoundManager) : 
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val s = game.pos2State(p)
+                val s = game.pos2state(p)
                 when (game.getObject(p)) {
                     BotanicalParkObject.Arrow -> {
                         val dArrow = dArrowArray[game.pos2arrow[p]!!]

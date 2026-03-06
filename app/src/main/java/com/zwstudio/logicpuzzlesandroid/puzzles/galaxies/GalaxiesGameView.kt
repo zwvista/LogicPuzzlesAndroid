@@ -71,7 +71,7 @@ class GalaxiesGameView(context: Context, val soundManager: SoundManager) : Cells
                 }
             }
         for (p in game.galaxies) {
-            val state = game.pos2State(p)
+            val state = game.pos2state(p)
             galaxyPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
             val r = p.row
             val c = p.col

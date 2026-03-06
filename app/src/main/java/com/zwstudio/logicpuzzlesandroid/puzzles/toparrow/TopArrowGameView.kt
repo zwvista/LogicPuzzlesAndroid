@@ -68,13 +68,13 @@ class TopArrowGameView(context: Context, val soundManager: SoundManager) : Cells
                             else -> continue
                         }
                         dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val s2 = game.pos2State(p)
+                        val s2 = game.pos2state(p)
                         val alpha = if (s2 == AllowedObjectState.Error) 50 else 0
                         dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dObject.draw(canvas)
                     }
                     else -> {
-                        val s = game.pos2State(p)
+                        val s = game.pos2state(p)
                         textPaint.color = if (game[p] != TopArrowGame.PUZ_EMPTY) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
                         val text = n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

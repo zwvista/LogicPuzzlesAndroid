@@ -20,7 +20,7 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
     operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
 
-    fun getState(row: Int, col: Int) = when {
+    fun pos2state(row: Int, col: Int) = when {
         row == 0 && col in 1 until cols - 1 -> col2state[col * 2]
         row == rows - 1 && col in 1 until cols - 1 -> col2state[col * 2 + 1]
         col == 0 && row in 1 until rows - 1 -> row2state[row * 2]

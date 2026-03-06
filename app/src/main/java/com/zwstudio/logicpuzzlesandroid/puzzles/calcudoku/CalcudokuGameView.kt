@@ -74,7 +74,7 @@ class CalcudokuGameView(context: Context, val soundManager: SoundManager) : Cell
             val r = p.row
             val c = p.col
             val text = value.toString()
-            val s = game.getPosState(p)
+            val s = game.pos2state(p)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             drawTextCentered(text, cwc(c), chr(r), cellWidth / 2, cellHeight / 2, canvas, textPaint)
         }

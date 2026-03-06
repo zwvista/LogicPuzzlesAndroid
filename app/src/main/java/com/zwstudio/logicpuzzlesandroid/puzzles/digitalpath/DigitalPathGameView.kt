@@ -42,7 +42,7 @@ class DigitalPathGameView(context: Context, val soundManager: SoundManager) : Ce
                 val p = Position(r, c)
                 val n = game.getObject(p)
                 if (n == 0) continue
-                val s = game.pos2State(p)
+                val s = game.pos2state(p)
                 textPaint.color = if (game[p] == n) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

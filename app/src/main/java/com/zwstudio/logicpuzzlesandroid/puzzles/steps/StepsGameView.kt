@@ -55,7 +55,7 @@ class StepsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                     StepsGame.PUZ_FORBIDDEN ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {
-                        val s = game.pos2State(p)!!
+                        val s = game.pos2state(p)!!
                         textPaint.color =
                             if (game[p] != StepsGame.PUZ_EMPTY) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         val text = n.toString()

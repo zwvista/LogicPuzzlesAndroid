@@ -36,5 +36,5 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getState(row: Int, col: Int) = currentState.getState(row, col)
+    fun pos2state(row: Int, col: Int) = currentState.pos2state(row, col)
 }

@@ -55,5 +55,5 @@ class DirectionalPlanksGame(layout: List<String>, gi: GameInterface<DirectionalP
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun woods() = currentState.woods
-    fun pos2State(p: Position) = currentState.pos2state[p]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

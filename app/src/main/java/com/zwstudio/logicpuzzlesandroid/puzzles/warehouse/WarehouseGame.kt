@@ -57,6 +57,6 @@ class WarehouseGame(layout: List<String>, gi: GameInterface<WarehouseGame, Wareh
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getPosState(p: Position) = currentState.pos2state[p]
+    fun pos2state(p: Position) = currentState.pos2state[p]
     fun getDotState(p: Position) = currentState.dot2state[p]
 }

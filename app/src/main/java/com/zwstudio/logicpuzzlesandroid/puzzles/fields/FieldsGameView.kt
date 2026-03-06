@@ -60,7 +60,7 @@ class FieldsGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 if (o == FieldsObject.Empty) continue
                 val dField = if (o == FieldsObject.Meadow) dMeadow else dSoil
                 dField.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
+                val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0
                 dField.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                 dField.draw(canvas)
                 if (game[p] != FieldsObject.Empty)

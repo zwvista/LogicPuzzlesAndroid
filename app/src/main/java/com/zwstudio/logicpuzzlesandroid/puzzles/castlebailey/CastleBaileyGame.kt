@@ -35,5 +35,5 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
 
     fun getObject(p: Position): CastleBaileyObject = currentState[p]
     fun getObject(row: Int, col: Int): CastleBaileyObject = currentState[row, col]
-    fun getPosState(p: Position) = currentState.pos2state[p]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

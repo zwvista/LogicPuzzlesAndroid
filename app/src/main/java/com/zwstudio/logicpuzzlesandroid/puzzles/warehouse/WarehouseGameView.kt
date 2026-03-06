@@ -61,7 +61,7 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
                 val ch = game.pos2symbol[p]
                 if (ch != null) {
                     val dSymbol = if (ch == WarehouseGame.PUZ_HORZ) dHorz else if (ch == WarehouseGame.PUZ_VERT) dVert else dCross
-                    val alpha = if (game.getPosState(p) == AllowedObjectState.Error) 50 else 0
+                    val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0
                     dSymbol.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dSymbol.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                     dSymbol.draw(canvas)

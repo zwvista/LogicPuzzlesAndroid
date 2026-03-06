@@ -39,7 +39,7 @@ class ABCPathGameView(context: Context, val soundManager: SoundManager) : CellsG
             for (c in 0 until cols) {
                 val ch = game.getObject(r, c)
                 if (ch == ' ') continue
-                val s = game.getState(r, c)
+                val s = game.pos2state(r, c)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (game[r, c] == ' ') Color.GRAY else Color.WHITE
                 val text = ch.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

@@ -55,5 +55,5 @@ class FenceItUpGame(layout: List<String>, gi: GameInterface<FenceItUpGame, Fence
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

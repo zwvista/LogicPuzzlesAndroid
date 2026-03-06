@@ -37,7 +37,7 @@ class TennerGridGameView(context: Context, val soundManager: SoundManager) : Cel
                 val p = Position(r, c)
                 val n = game.getObject(p)
                 if (n == -1) continue
-                val s = game.getPosState(p)
+                val s = game.pos2state(p)
                 val b = game[p] == n
                 textPaint.color = if (b && r < rows - 1) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (b) Color.GRAY else Color.WHITE
                 val text = n.toString()

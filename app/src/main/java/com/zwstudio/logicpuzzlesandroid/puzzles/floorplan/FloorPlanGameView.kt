@@ -54,7 +54,7 @@ class FloorPlanGameView(context: Context, val soundManager: SoundManager) : Cell
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     FloorPlanGame.PUZ_EMPTY -> {}
                     else -> {
-                        val s = game.pos2State(p)!!
+                        val s = game.pos2state(p)!!
                         textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         val text = n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

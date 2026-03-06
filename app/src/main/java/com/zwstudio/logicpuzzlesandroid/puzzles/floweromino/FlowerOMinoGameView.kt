@@ -62,7 +62,7 @@ class FlowerOMinoGameView(context: Context, val soundManager: SoundManager) : Ce
                 val o = game[p]
                 if (game.gardens().any { it.contains(p) }) {
                     dBackground.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    val s = game.getPosState(p)
+                    val s = game.pos2state(p)
                     val alpha = if (s == AllowedObjectState.Error) 50 else 0
                     dBackground.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                     dBackground.draw(canvas)

@@ -57,7 +57,7 @@ class NorthPoleFishingGameView(context: Context, val soundManager: SoundManager)
                 val o = game[p]
                 when (o) {
                     NorthPoleFishingObject.Hole -> {
-                        val s = game.getPosState(p)
+                        val s = game.pos2state(p)
                         holePaint1.color = when (s) {
                             HintState.Complete -> Color.GREEN
                             HintState.Error -> Color.RED

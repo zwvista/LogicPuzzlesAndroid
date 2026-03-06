@@ -75,5 +75,5 @@ class NorthPoleFishingGame(layout: List<String>, gi: GameInterface<NorthPoleFish
 
     fun getObject(p: Position, dir: Int): GridLineObject = currentState[p, dir]
     fun getObject(row: Int, col: Int, dir: Int): GridLineObject = currentState[row, col, dir]
-    fun getPosState(p: Position) = currentState.pos2state[p]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

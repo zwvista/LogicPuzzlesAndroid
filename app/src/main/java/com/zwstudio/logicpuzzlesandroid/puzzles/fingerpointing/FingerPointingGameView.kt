@@ -51,7 +51,7 @@ class FingerPointingGameView(context: Context, val soundManager: SoundManager) :
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
                     FingerPointingObject.Hint -> {
-                        val s = game.pos2State(p)
+                        val s = game.pos2state(p)
                         textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         val text = game.pos2hint[p]!!.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
@@ -67,7 +67,7 @@ class FingerPointingGameView(context: Context, val soundManager: SoundManager) :
                             else -> continue
                         }
                         d.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (game.pos2State(p) == HintState.Error) 50 else 0
+                        val alpha = if (game.pos2state(p) == HintState.Error) 50 else 0
                         d.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         d.draw(canvas)
                     }

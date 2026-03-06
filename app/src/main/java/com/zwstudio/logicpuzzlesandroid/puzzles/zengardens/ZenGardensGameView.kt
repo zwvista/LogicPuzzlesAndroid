@@ -46,7 +46,7 @@ class ZenGardensGameView(context: Context, val soundManager: SoundManager) : Cel
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val s = game.getPosState(p)
+                val s = game.pos2state(p)
                 val dTile = when (game.getObject(p)) {
                     ZenGardensObject.Empty -> dEmpty
                     ZenGardensObject.Stone -> dStone

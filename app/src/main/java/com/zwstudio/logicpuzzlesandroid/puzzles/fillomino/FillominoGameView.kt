@@ -42,7 +42,7 @@ class FillominoGameView(context: Context, val soundManager: SoundManager) : Cell
                 val p = Position(r, c)
                 val ch = game.getObject(p)
                 if (ch == ' ') continue
-                val s = game.getPosState(p)
+                val s = game.pos2state(p)
                 textPaint.color = if (game[p] == ch) Color.GRAY else if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val text = ch.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

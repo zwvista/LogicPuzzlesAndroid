@@ -50,7 +50,7 @@ class CrossroadsXGameView(context: Context, val soundManager: SoundManager) : Ce
                 val p = Position(r, c)
                 val n = game.getObject(p)
                 if (n == CrossroadsXGame.PUZ_EMPTY) continue
-                val s = game.pos2State(p)
+                val s = game.pos2state(p)
                 textPaint.color = if (game[p] != CrossroadsXGame.PUZ_EMPTY) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

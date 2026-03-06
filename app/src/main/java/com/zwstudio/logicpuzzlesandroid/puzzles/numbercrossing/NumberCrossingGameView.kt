@@ -50,7 +50,7 @@ class NumberCrossingGameView(context: Context, val soundManager: SoundManager) :
                 else if (n == NumberCrossingGame.PUZ_FORBIDDEN)
                     canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                 else if (n != NumberCrossingGame.PUZ_UNKNOWN) {
-                    val s = game.getPosState(p)
+                    val s = game.pos2state(p)
                     textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

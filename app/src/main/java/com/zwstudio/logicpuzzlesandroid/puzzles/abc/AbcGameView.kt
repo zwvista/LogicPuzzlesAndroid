@@ -44,7 +44,7 @@ class AbcGameView(context: Context, val soundManager: SoundManager) : CellsGameV
                 if (ch == '.')
                     canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
                 else {
-                    val s = game.getState(r, c)
+                    val s = game.pos2state(r, c)
                     textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                     val text = ch.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

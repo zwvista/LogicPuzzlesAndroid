@@ -93,5 +93,5 @@ class TheOddBrickGame(layout: List<String>, gi: GameInterface<TheOddBrickGame, T
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun getRowState(row: Int) = currentState.row2state[row]
     fun getColState(col: Int) = currentState.col2state[col]
-    fun getPosState(p: Position) = currentState.area2state[pos2area[p]!!]
+    fun pos2state(p: Position) = currentState.area2state[pos2area[p]!!]
 }

@@ -50,7 +50,7 @@ class BoxItAroundGameView(context: Context, val soundManager: SoundManager) : Ce
                 val p = Position(r, c)
                 val n = game.pos2hint[p]
                 if (n != null) {
-                    val state = game.getState(p)
+                    val state = game.pos2state(p)
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

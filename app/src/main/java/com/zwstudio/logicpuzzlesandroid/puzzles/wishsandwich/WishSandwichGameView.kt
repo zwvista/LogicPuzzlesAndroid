@@ -54,14 +54,14 @@ class WishSandwichGameView(context: Context, val soundManager: SoundManager) : C
                 when (game.getObject(p)) {
                     WishSandwichObject.Bread -> {
                         dBread.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val s = game.pos2State(p)
+                        val s = game.pos2state(p)
                         val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dBread.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dBread.draw(canvas)
                     }
                     WishSandwichObject.Ham -> {
                         dHam.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val s = game.pos2State(p)
+                        val s = game.pos2state(p)
                         val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dHam.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dHam.draw(canvas)

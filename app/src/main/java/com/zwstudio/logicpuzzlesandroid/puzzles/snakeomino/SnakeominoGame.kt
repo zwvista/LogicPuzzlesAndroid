@@ -3,77 +3,45 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.snakeomino
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SnakeominoGame(layout: List<String>, gi: GameInterface<SnakeominoGame, SnakeominoGameMove, SnakeominoGameState>, gdi: GameDocumentInterface) : CellsGame<SnakeominoGame, SnakeominoGameMove, SnakeominoGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = arrayOf(
-            Position(0, 0),
-            Position(1, 1),
-            Position(1, 1),
-            Position(0, 0)
-        )
-        var dirs = arrayOf(1, 0, 3, 2)
+        const val PUZ_EMPTY = 0
+        const val PUZ_END = 'O'
+        const val PUZ_NOT_END = 'X'
     }
 
-    var objArray: MutableList<SnakeominoObject>
-    var hedges = mutableListOf<Position>()
-    var flowers = mutableListOf<Position>()
-    var dots: GridDots
+    var objArray: IntArray
+    var pos2hint = mutableMapOf<Position, Char>()
+    var nMax = 2
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: SnakeominoObject) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: SnakeominoObject) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
-        size = Position(layout.size + 1, layout[0].length + 1)
-        objArray = MutableList(rows * cols) { SnakeominoObject.Empty }
-        dots = GridDots(rows, cols)
-        for (r in 0 until rows - 1) {
+        size = Position(layout.size, layout[0].length / 2)
+        objArray = IntArray(rows * cols)
+        for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols - 1) {
+            for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (str[c]) {
-                    'H' ->  {
-                        this[p] = SnakeominoObject.Hedge
-                        hedges.add(p)
-                        dots[r, c, 2] = GridLineObject.Line
-                        dots[r + 1, c, 0] = GridLineObject.Line
-                        dots[r, c + 1, 2] = GridLineObject.Line
-                        dots[r + 1, c + 1, 0] = GridLineObject.Line
-                        dots[r, c, 1] = GridLineObject.Line
-                        dots[r, c + 1, 3] = GridLineObject.Line
-                        dots[r + 1, c, 1] = GridLineObject.Line
-                        dots[r + 1, c + 1, 3] = GridLineObject.Line
-                    }
-                    'F' -> {
-                        this[p] = SnakeominoObject.Flower
-                        flowers.add(p)
-                    }
-                }
+                val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
+                val n = if (ch1 == ' ') PUZ_EMPTY else ch1 - '0'
+                this[p] = n
+                if (nMax < n) nMax = n
+                if (ch2 != ' ')
+                    pos2hint[p] = ch2
             }
-        }
-        for (r in 0 until rows - 1) {
-            dots[r, 0, 2] = GridLineObject.Line
-            dots[r + 1, 0, 0] = GridLineObject.Line
-            dots[r, cols - 1, 2] = GridLineObject.Line
-            dots[r + 1, cols - 1, 0] = GridLineObject.Line
-        }
-        for (c in 0 until cols - 1) {
-            dots[0, c, 1] = GridLineObject.Line
-            dots[0, c + 1, 3] = GridLineObject.Line
-            dots[rows - 1, c, 1] = GridLineObject.Line
-            dots[rows - 1, c + 1, 3] = GridLineObject.Line
         }
         val state = SnakeominoGameState(this)
         levelInitialized(state)
     }
 
-    fun getObject(p: Position, dir: Int): GridLineObject = currentState[p, dir]
-    fun getObject(row: Int, col: Int, dir: Int): GridLineObject = currentState[row, col, dir]
-    fun getPosState(p: Position) = currentState.pos2state[p]
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

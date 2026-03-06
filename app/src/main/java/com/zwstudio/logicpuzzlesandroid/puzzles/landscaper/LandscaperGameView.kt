@@ -60,7 +60,7 @@ class LandscaperGameView(context: Context, val soundManager: SoundManager) : Cel
                 if (o == LandscaperObject.Empty) continue
                 val dToken = if (o == LandscaperObject.Flower) dFlower else dTree
                 dToken.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpha = if (game.pos2State(p) == AllowedObjectState.Error) 50 else 0
+                val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0
                 dToken.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                 dToken.draw(canvas)
                 if (game[p] != LandscaperObject.Empty)

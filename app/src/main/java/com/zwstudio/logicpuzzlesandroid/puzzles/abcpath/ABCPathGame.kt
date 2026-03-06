@@ -41,5 +41,5 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getState(row: Int, col: Int) = currentState.pos2state[Position(row, col)]
+    fun pos2state(row: Int, col: Int) = currentState.pos2state[Position(row, col)]
 }

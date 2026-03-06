@@ -53,17 +53,17 @@ class NewCarpenterSquareGameView(context: Context, val soundManager: SoundManage
                 val p = Position(r, c)
                 when (val o = game.pos2hint[p]) {
                     NewCarpenterSquareHint.Equal -> {
-                        val state = game.pos2State(p)
+                        val state = game.pos2state(p)
                         textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                         drawTextCentered("=", cwc(c), chr(r), canvas, textPaint)
                     }
                     NewCarpenterSquareHint.NotEqual -> {
-                        val state = game.pos2State(p)
+                        val state = game.pos2state(p)
                         textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                         drawTextCentered("/", cwc(c), chr(r), canvas, textPaint)
                     }
                     NewCarpenterSquareHint.Unknown -> {
-                        val state = game.pos2State(p)
+                        val state = game.pos2state(p)
                         textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                         drawTextCentered("?", cwc(c), chr(r), canvas, textPaint)
                     }

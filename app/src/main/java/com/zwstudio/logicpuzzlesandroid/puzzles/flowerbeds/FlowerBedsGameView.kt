@@ -57,7 +57,7 @@ class FlowerBedsGameView(context: Context, val soundManager: SoundManager) : Cel
                 val o = game[p]
                 when (o) {
                     FlowerBedsObject.Flower -> {
-                        val s = game.getPosState(p)
+                        val s = game.pos2state(p)
                         flowerPaint1.color = when (s) {
                             HintState.Complete -> Color.GREEN
                             HintState.Error -> Color.RED

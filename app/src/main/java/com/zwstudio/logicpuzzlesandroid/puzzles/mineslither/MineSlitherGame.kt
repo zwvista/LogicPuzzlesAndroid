@@ -35,5 +35,5 @@ class MineSlitherGame(layout: List<String>, gi: GameInterface<MineSlitherGame, M
 
     fun getObject(p: Position): MineSlitherObject = currentState[p]
     fun getObject(row: Int, col: Int): MineSlitherObject = currentState[row, col]
-    fun getPosState(p: Position) = currentState.pos2state[p]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

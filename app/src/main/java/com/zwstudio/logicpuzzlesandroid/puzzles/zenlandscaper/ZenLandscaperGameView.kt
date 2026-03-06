@@ -45,7 +45,7 @@ class ZenLandscaperGameView(context: Context, val soundManager: SoundManager) : 
                 val p = Position(r, c)
                 val o = game.getObject(p)
                 val fixed = game[p] != ' '
-                val s = game.getPosState(p)
+                val s = game.pos2state(p)
                 val n = if (o == ' ') 6 else (o - '1') * 2 + (if (fixed) 1 else 0)
                 val dTile = dTileArray[n]
                 dTile.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))

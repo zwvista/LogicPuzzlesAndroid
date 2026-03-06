@@ -32,6 +32,6 @@ class NurikabeGame(layout: List<String>, gi: GameInterface<NurikabeGame, Nurikab
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2State(p: Position) = currentState.pos2state[p]
+    fun pos2state(p: Position) = currentState.pos2state[p]
     fun invalid2x2Squares() = currentState.invalid2x2Squares
 }

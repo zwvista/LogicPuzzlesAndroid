@@ -55,7 +55,7 @@ class UnseenGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 if (n != null) {
                     dEye.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dEye.draw(canvas)
-                    val state = game.getState(p)
+                    val state = game.pos2state(p)
                     textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)

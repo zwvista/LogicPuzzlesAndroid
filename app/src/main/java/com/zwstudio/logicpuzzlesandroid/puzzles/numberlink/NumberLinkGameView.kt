@@ -54,7 +54,7 @@ class NumberLinkGameView(context: Context, val soundManager: SoundManager) : Cel
                 }
             }
         for ((p, n) in game.pos2hint) {
-            val state = game.pos2State(p)
+            val state = game.pos2state(p)
             textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
             val text = n.toString()
             val r = p.row

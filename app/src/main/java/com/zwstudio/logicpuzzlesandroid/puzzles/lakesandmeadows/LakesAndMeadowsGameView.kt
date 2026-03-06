@@ -56,7 +56,7 @@ class LakesAndMeadowsGameView(context: Context, val soundManager: SoundManager) 
                 val p = Position(r, c)
                 val o = game[p]
                 if (o != LakesAndMeadowsObject.Lake) continue
-                val s = game.getPosState(p)
+                val s = game.pos2state(p)
                 lakePaint1.color = when (s) {
                     HintState.Complete -> Color.GREEN
                     HintState.Error -> Color.RED
