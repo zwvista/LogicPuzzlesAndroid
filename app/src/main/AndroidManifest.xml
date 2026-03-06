@@ -973,6 +973,18 @@
         <activity android:name=".puzzles.landscaper.LandscaperOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.landscapes.LandscapesMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.landscapes.LandscapesGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.landscapes.LandscapesHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>∑
+        <activity android:name=".puzzles.landscapes.LandscapesOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.liarliar.LiarLiarMainActivity"
                   android:screenOrientation="portrait">
         </activity>
