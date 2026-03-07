@@ -20,31 +20,24 @@ class LandscapesGame(layout: List<String>, val sum: Int, gi: GameInterface<Lands
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        val offset3 = arrayOf(
-            Position(-1, -1),
-            Position(-1, 0),
-            Position(0, -1),
-            Position(0, 0),
-        )
-        const val PUZ_EMPTY = -1
+        val offset3 = Position.Directions8
     }
 
     var areas = mutableListOf<List<Position>>()
     var pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots
     val area2areas: Array<IntArray>
-    var objArray: IntArray
-    var crossroads = mutableListOf<Position>()
+    var objArray: Array<LandscapesObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: LandscapesObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: LandscapesObject) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
         dots = GridDots(rows + 1, cols + 1)
-        objArray = IntArray(rows * cols)
+        objArray = Array(rows * cols) { LandscapesObject.Empty }
         for (r in 0 until rows + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols) {
@@ -63,8 +56,13 @@ class LandscapesGame(layout: List<String>, val sum: Int, gi: GameInterface<Lands
                     dots[r + 1, c, 0] = GridLineObject.Line
                 }
                 if (c == cols) break
-                val ch2 = str[c * 2 + 1]
-                this[Position(r, c)] = if (ch2 == ' ') PUZ_EMPTY else ch2 - '0'
+                this[r, c] = when (val ch2 = str[c * 2 + 1]) {
+                    'T' -> LandscapesObject.Tree
+                    'S' -> LandscapesObject.Sand
+                    'W' -> LandscapesObject.Water
+                    'R' -> LandscapesObject.Rock
+                    else -> LandscapesObject.Empty
+                }
             }
         }
         val rng = mutableSetOf<Position>()
@@ -90,21 +88,11 @@ class LandscapesGame(layout: List<String>, val sum: Int, gi: GameInterface<Lands
             val nodeList = g.bfs()
             val area = rng.filter { nodeList.contains(pos2node[it]) }
             val n = areas.size
-            val p2 = area.firstOrNull { this[it] != PUZ_EMPTY }
-            for (p in area) {
+            for (p in area)
                 pos2area[p] = n
-                if (p2 != null) this[p] = this[p2]
-            }
             areas.add(area)
             rng.removeAll(area)
         }
-
-        for (r in 1 until rows)
-            for (c in 1 until cols) {
-                val p = Position(r, c)
-                if (dots[p].all { it == GridLineObject.Line })
-                    crossroads.add(p)
-            }
 
         area2areas = Array<IntArray>(areas.size) { IntArray(0) }
         for ((i, area) in areas.withIndex())
@@ -122,5 +110,4 @@ class LandscapesGame(layout: List<String>, val sum: Int, gi: GameInterface<Lands
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2state(p: Position) = currentState.pos2state[p]
-    fun invalidCrossroads() = currentState.invalidCrossroads
 }

@@ -8,12 +8,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class LandscapesGameState(game: LandscapesGame) : CellsGameState<LandscapesGame, LandscapesGameMove, LandscapesGameState>(game) {
     var objArray = game.objArray.copyOf()
     var pos2state = mutableMapOf<Position, AllowedObjectState>()
-    var invalidCrossroads = listOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: LandscapesObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: LandscapesObject) {this[p.row, p.col] = obj}
 
     init {
         updateIsSolved()
@@ -21,7 +20,7 @@ class LandscapesGameState(game: LandscapesGame) : CellsGameState<LandscapesGame,
 
     override fun setObject(move: LandscapesGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != LandscapesGame.PUZ_EMPTY || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != LandscapesObject.Empty || this[p] == move.obj) return GameOperationType.Invalid
         for (p2 in game.areas[game.pos2area[p]!!])
             this[p2] = move.obj
         updateIsSolved()
@@ -30,47 +29,44 @@ class LandscapesGameState(game: LandscapesGame) : CellsGameState<LandscapesGame,
 
     override fun switchObject(move: LandscapesGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != LandscapesGame.PUZ_EMPTY) return GameOperationType.Invalid
-        val o = this[p]
-        move.obj = if (o == 9) LandscapesGame.PUZ_EMPTY else o + 1
+        if (!isValid(p) || game[p] != LandscapesObject.Empty) return GameOperationType.Invalid
+        move.obj = when (val o = this[p]) {
+            LandscapesObject.Empty -> LandscapesObject.Tree
+            LandscapesObject.Tree -> LandscapesObject.Sand
+            LandscapesObject.Sand -> LandscapesObject.Rock
+            LandscapesObject.Rock -> LandscapesObject.Water
+            LandscapesObject.Water -> LandscapesObject.Empty
+        }
         return setObject(move)
     }
 
     /*
-        iOS Game: 100 Logic Games 3/Puzzle Set 5/Crossroads X
+        iOS Game: 100 Logic Games/Puzzle Set 16/Landscapes
 
         Summary
-        Cross at Ten
+        Forests, Deserts, Oceans, Mountains
 
         Description
-        1. Place a number in each region from 0 to 9.
-        2. When four regions borders intersect (a spot where four lines meet),
-           the sum of those 4 regions must be 10.
-        3. No two orthogonally adjacent regions can have the same number.
+        1. Identify the landscape in every region, choosing between trees, sand,
+           water and rocks.
+        2. Two regions can't have the same landscape if they touch, not even
+           diagonally.
     */
     private fun updateIsSolved() {
         isSolved = true
-        // 2. When four regions borders intersect (a spot where four lines meet),
-        //    the sum of those 4 regions must be 10.
-        invalidCrossroads = game.crossroads.filter { p ->
-            val rng = LandscapesGame.offset3.map { p + it }
-            !(rng.all { this[it] != LandscapesGame.PUZ_EMPTY } &&
-                    rng.fold(0) { acc, p2 -> acc + this[p2] } == game.sum)
-        }
-        if (invalidCrossroads.isNotEmpty()) isSolved = false
-        // 3. No two orthogonally adjacent regions can have the same number.
-        for ((i, area) in game.areas.withIndex()) {
-            val n = this[area[0]]
-            val areas = game.area2areas[i]
-                .map { this.game.areas[it] }
-                .filter { this[it[0]] == n }
-            if (areas.isEmpty()) {
-                for (p in area) pos2state[p] = AllowedObjectState.Normal
-            } else {
-                isSolved = false
-                for (area2 in listOf(area) + areas)
-                    for (p in area2) pos2state[p] = AllowedObjectState.Error
-            }
+        // 2. Two regions can't have the same landscape if they touch, not even
+        //    diagonally.
+        for ((i, indexes) in game.area2areas.withIndex()) {
+            val area = game.areas[i]
+            val o = this[area[0]]
+            if (o == LandscapesObject.Empty) { isSolved = false; continue }
+            val s = if (indexes.any {
+                o == this[game.areas[it][0]]
+            }) AllowedObjectState.Error else AllowedObjectState.Normal
+            pos2state[area[0]] = s
+            for (p in area)
+                pos2state[p] = s
+            if (s == AllowedObjectState.Error) isSolved = false
         }
     }
 }

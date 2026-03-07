@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.TextPaint
+import android.graphics.drawable.Drawable
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -22,9 +24,10 @@ class LandscapesGameView(context: Context, val soundManager: SoundManager) : Cel
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
-    private val correctPaint = Paint()
-    private val incorrectPaint = Paint()
-    private val textPaint = TextPaint()
+    private val dTree: Drawable
+    private val dSand: Drawable
+    private val dRock: Drawable
+    private val dWater: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -32,13 +35,10 @@ class LandscapesGameView(context: Context, val soundManager: SoundManager) : Cel
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        correctPaint.color = Color.GREEN
-        correctPaint.style = Paint.Style.FILL_AND_STROKE
-        correctPaint.strokeWidth = 5f
-        incorrectPaint.color = Color.RED
-        incorrectPaint.style = Paint.Style.FILL_AND_STROKE
-        incorrectPaint.strokeWidth = 5f
-        textPaint.isAntiAlias = true
+        dTree = fromImageToDrawable("images/forest.png")
+        dSand = fromImageToDrawable("images/sand3.png")
+        dRock = fromImageToDrawable("images/pebbles.png")
+        dWater = fromImageToDrawable("images/sea.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,12 +48,18 @@ class LandscapesGameView(context: Context, val soundManager: SoundManager) : Cel
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.getObject(p)
-                if (n == LandscapesGame.PUZ_EMPTY) continue
+                val dObject = when (game.getObject(p)) {
+                    LandscapesObject.Tree -> dTree
+                    LandscapesObject.Sand -> dSand
+                    LandscapesObject.Rock -> dRock
+                    LandscapesObject.Water -> dWater
+                    else -> continue
+                }
+                dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val s = game.pos2state(p)
-                textPaint.color = if (game[p] != LandscapesGame.PUZ_EMPTY) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
-                val text = n.toString()
-                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                dObject.draw(canvas)
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
@@ -62,9 +68,6 @@ class LandscapesGameView(context: Context, val soundManager: SoundManager) : Cel
                 if (game.dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
-        for ((r, c) in game.crossroads)
-            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true,
-                if (game.invalidCrossroads().contains(Position(r, c))) incorrectPaint else correctPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

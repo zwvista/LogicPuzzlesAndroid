@@ -2,4 +2,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.landscapes
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class LandscapesGameMove(val p: Position, var obj: Int = 0)
+enum class LandscapesObject {
+    Empty, Tree, Sand, Water, Rock
+}
+
+class LandscapesGameMove(val p: Position, var obj: LandscapesObject = LandscapesObject.Empty)
