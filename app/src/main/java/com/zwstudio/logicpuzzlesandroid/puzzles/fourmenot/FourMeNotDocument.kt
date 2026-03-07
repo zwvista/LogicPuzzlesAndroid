@@ -9,9 +9,9 @@ class FourMeNotDocument(context: Context) : GameDocument<FourMeNotGameMove>(cont
     override fun saveMove(move: FourMeNotGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        FourMeNotGameMove(Position(rec.row, rec.col), FourMeNotObject.objFromString(rec.strValue1!!))
+        FourMeNotGameMove(Position(rec.row, rec.col), FourMeNotObject.entries[rec.intValue1])
 }

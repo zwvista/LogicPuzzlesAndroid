@@ -54,19 +54,20 @@ class FourMeNotGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is FourMeNotFlowerObject -> {
+                    FourMeNotObject.Flower -> {
                         dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dFlower.draw(canvas)
-                        if (game[p] is FourMeNotFlowerObject)
+                        if (game[p] == FourMeNotObject.Flower)
                             canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
                     }
-                    is FourMeNotMarkerObject ->
+                    FourMeNotObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is FourMeNotForbiddenObject ->
+                    FourMeNotObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is FourMeNotBlockObject ->
+                    FourMeNotObject.Block ->
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                     else -> {}
                 }
