@@ -9,9 +9,9 @@ class BalancedTapasDocument(context: Context) : GameDocument<BalancedTapasGameMo
     override fun saveMove(move: BalancedTapasGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objTypeAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BalancedTapasGameMove(Position(rec.row, rec.col), BalancedTapasObject.objTypeFromString(rec.strValue1!!))
+        BalancedTapasGameMove(Position(rec.row, rec.col), BalancedTapasObject.entries[rec.intValue1])
 }

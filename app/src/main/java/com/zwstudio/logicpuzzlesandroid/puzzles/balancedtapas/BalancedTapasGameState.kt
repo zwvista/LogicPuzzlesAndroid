@@ -3,7 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(game) {
-    var objArray = Array<BalancedTapasObject>(rows * cols) { BalancedTapasEmptyObject }
+    var objArray = Array(rows * cols) { BalancedTapasObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -12,17 +13,14 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = BalancedTapasHintObject()
+            this[p] = BalancedTapasObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: BalancedTapasGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is BalancedTapasHintObject || objOld == objNew)
-            return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == BalancedTapasObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
@@ -31,9 +29,9 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is BalancedTapasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasMarkerObject else BalancedTapasWallObject()
-            is BalancedTapasWallObject -> if (markerOption == MarkerOptions.MarkerLast) BalancedTapasMarkerObject else BalancedTapasEmptyObject
-            is BalancedTapasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasWallObject() else BalancedTapasEmptyObject
+            BalancedTapasObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasObject.Marker else BalancedTapasObject.Wall
+            BalancedTapasObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) BalancedTapasObject.Marker else BalancedTapasObject.Empty
+            BalancedTapasObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) BalancedTapasObject.Wall else BalancedTapasObject.Empty
             else -> o
         }
         return setObject(move)
@@ -78,18 +76,18 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
                 val p2 = p + BalancedTapasGame.offset[it]
-                isValid(p2) && this[p2] is BalancedTapasWallObject
+                isValid(p2) && this[p2] == BalancedTapasObject.Wall
             }
             val arr = computeHint(filled)
             val s = if (arr == listOf(0)) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = BalancedTapasHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (BalancedTapasGame.offset2.all { this[p + it] is BalancedTapasWallObject }) {
+                if (BalancedTapasGame.offset2.all { this[p + it] == BalancedTapasObject.Wall }) {
                     isSolved = false
                     return
                 }
@@ -103,7 +101,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                if (get(p) is BalancedTapasWallObject)
+                if (get(p) == BalancedTapasObject.Wall)
                     rngWalls.add(p)
             }
         for (p in rngWalls)
@@ -122,7 +120,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
             var n = 0
             for (c in 0 until cols)
                 for (r in 0 until rows)
-                    if (this[r, c] is BalancedTapasWallObject)
+                    if (this[r, c] == BalancedTapasObject.Wall)
                         n++
             return n
         }

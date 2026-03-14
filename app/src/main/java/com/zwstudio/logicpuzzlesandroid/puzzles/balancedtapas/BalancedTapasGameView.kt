@@ -41,12 +41,14 @@ class BalancedTapasGameView(context: Context, val soundManager: SoundManager) : 
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                when (val o = game.getObject(r, c)) {
-                    is BalancedTapasWallObject ->
+                val p = Position(r, c)
+                when (val o = game.getObject(p)) {
+                    BalancedTapasObject.Wall ->
                         canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
-                    is BalancedTapasHintObject -> {
-                        val hint = game.pos2hint[Position(r, c)]!!
-                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    BalancedTapasObject.Hint -> {
+                        val hint = game.pos2hint[p]!!
+                        val s = game.pos2state(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         fun hint2Str(i: Int): String {
                             val n = hint[i]
                             return if (n == -1) "?" else n.toString()
@@ -70,7 +72,7 @@ class BalancedTapasGameView(context: Context, val soundManager: SoundManager) : 
                             }
                         }
                     }
-                    is BalancedTapasMarkerObject ->
+                    BalancedTapasObject.Marker ->
                         canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, wallPaint)
                     else -> {}
                 }
