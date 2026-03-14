@@ -9,9 +9,9 @@ class BWTapaDocument(context: Context) : GameDocument<BWTapaGameMove>(context) {
     override fun saveMove(move: BWTapaGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objTypeAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BWTapaGameMove(Position(rec.row, rec.col), BWTapaObject.objTypeFromString(rec.strValue1!!))
+        BWTapaGameMove(Position(rec.row, rec.col), BWTapaObject.entries[rec.intValue1])
 }

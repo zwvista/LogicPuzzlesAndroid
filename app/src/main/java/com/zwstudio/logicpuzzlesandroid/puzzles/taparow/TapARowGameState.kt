@@ -10,7 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 
 class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowGameMove, TapARowGameState>(game) {
-    var objArray = Array<TapARowObject>(rows * cols) { TapARowEmptyObject }
+    var objArray = Array(rows * cols) { TapARowObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,27 +20,26 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = TapARowHintObject()
+            this[p] = TapARowObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: TapARowGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is TapARowHintObject || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == TapARowObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: TapARowGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == TapARowObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TapARowEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowMarkerObject else TapARowWallObject()
-            is TapARowWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapARowMarkerObject else TapARowEmptyObject
-            is TapARowMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapARowWallObject() else TapARowEmptyObject
+            TapARowObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TapARowObject.Marker else TapARowObject.Wall
+            TapARowObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) TapARowObject.Marker else TapARowObject.Empty
+            TapARowObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TapARowObject.Wall else TapARowObject.Empty
             else -> o
         }
         return setObject(move)
@@ -90,11 +90,11 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
                 val p2 = p + TapARowGame.offset[it]
-                isValid(p2) && this[p2] is TapARowWallObject
+                isValid(p2) && this[p2] == TapARowObject.Wall
             }
             val arr = computeHint(filled)
             val s = if (arr.size == 1 && arr[0] == 0) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = TapARowHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
@@ -105,7 +105,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
                 val p = Position(r, c)
                 if (TapARowGame.offset2.all {
                     val o = this[p + it]
-                    o is TapARowWallObject
+                    o == TapARowObject.Wall
                 }) {
                     isSolved = false
                     return
@@ -116,7 +116,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is TapARowWallObject) {
+                if (this[p] == TapARowObject.Wall) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -127,7 +127,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        // The goal is to fill some tiles forming a single orthogonally continuous
+        // The goal == to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
@@ -141,9 +141,9 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is TapARowWallObject)
+                if (o == TapARowObject.Wall)
                     n1++
-                else if (o is TapARowHintObject) {
+                else if (o == TapARowObject.Hint) {
                     val arr = game.pos2hint[p]!!
                     n2 += arr.sum()
                 }

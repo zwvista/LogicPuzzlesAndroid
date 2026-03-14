@@ -9,9 +9,9 @@ class TapDifferentlyDocument(context: Context) : GameDocument<TapDifferentlyGame
     override fun saveMove(move: TapDifferentlyGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objTypeAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TapDifferentlyGameMove(Position(rec.row, rec.col), TapDifferentlyObject.objTypeFromString(rec.strValue1!!))
+        TapDifferentlyGameMove(Position(rec.row, rec.col), TapDifferentlyObject.entries[rec.intValue1])
 }

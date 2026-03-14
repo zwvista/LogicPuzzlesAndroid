@@ -10,7 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 
 class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAlikeGameMove, TapAlikeGameState>(game) {
-    var objArray = Array<TapAlikeObject>(rows * cols) { TapAlikeEmptyObject }
+    var objArray = Array(rows * cols) { TapAlikeObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,27 +20,26 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = TapAlikeHintObject()
+            this[p] = TapAlikeObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: TapAlikeGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is TapAlikeHintObject || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == TapAlikeObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: TapAlikeGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == TapAlikeObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TapAlikeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeMarkerObject else TapAlikeWallObject()
-            is TapAlikeWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapAlikeMarkerObject else TapAlikeEmptyObject
-            is TapAlikeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeWallObject() else TapAlikeEmptyObject
+            TapAlikeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeObject.Marker else TapAlikeObject.Wall
+            TapAlikeObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) TapAlikeObject.Marker else TapAlikeObject.Empty
+            TapAlikeObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TapAlikeObject.Wall else TapAlikeObject.Empty
             else -> o
         }
         return setObject(move)
@@ -92,11 +92,11 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
                 val p2 = p + TapAlikeGame.offset[it]
-                isValid(p2) && this[p2] is TapAlikeWallObject
+                isValid(p2) && this[p2] == TapAlikeObject.Wall
             }
             val arr = computeHint(filled)
             val s = if (arr.size == 1 && arr[0] == 0) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = TapAlikeHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
@@ -107,7 +107,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
                 val p = Position(r, c)
                 if (TapAlikeGame.offset2.all {
                     val o = this[p + it]
-                    o is TapAlikeWallObject
+                    o == TapAlikeObject.Wall
                 }) {
                     isSolved = false
                     return
@@ -118,7 +118,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is TapAlikeWallObject) {
+                if (this[p] == TapAlikeObject.Wall) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -130,7 +130,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
         }
-        // The goal is to fill some tiles forming a single orthogonally continuous
+        // The goal == to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
@@ -143,7 +143,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
             for (c in 0 until cols) {
                 val o1 = this[r, c]
                 val o2 = this[rows - 1 - r, cols - 1 - c]
-                if (o1 is TapAlikeWallObject == o2 is TapAlikeWallObject) {
+                if ((o1 == TapAlikeObject.Wall) == (o2 == TapAlikeObject.Wall)) {
                     isSolved = false
                     return
                 }

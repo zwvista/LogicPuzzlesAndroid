@@ -9,9 +9,9 @@ class TapaDocument(context: Context) : GameDocument<TapaGameMove>(context) {
     override fun saveMove(move: TapaGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objTypeAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TapaGameMove(Position(rec.row, rec.col), TapaObject.objTypeFromString(rec.strValue1!!))
+        TapaGameMove(Position(rec.row, rec.col), TapaObject.entries[rec.intValue1])
 }

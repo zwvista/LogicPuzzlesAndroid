@@ -42,4 +42,5 @@ class TapaGame(layout: List<String>, gi: GameInterface<TapaGame, TapaGameMove, T
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

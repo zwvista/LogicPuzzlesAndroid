@@ -10,7 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 
 class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDifferentlyGame, TapDifferentlyGameMove, TapDifferentlyGameState>(game) {
-    var objArray = Array<TapDifferentlyObject>(rows * cols) { TapDifferentlyEmptyObject }
+    var objArray = Array(rows * cols) { TapDifferentlyObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,27 +20,26 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = TapDifferentlyHintObject()
+            this[p] = TapDifferentlyObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: TapDifferentlyGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is TapDifferentlyHintObject || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == TapDifferentlyObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: TapDifferentlyGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == TapDifferentlyObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TapDifferentlyEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyMarkerObject else TapDifferentlyWallObject()
-            is TapDifferentlyWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapDifferentlyMarkerObject else TapDifferentlyEmptyObject
-            is TapDifferentlyMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyWallObject() else TapDifferentlyEmptyObject
+            TapDifferentlyObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyObject.Marker else TapDifferentlyObject.Wall
+            TapDifferentlyObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) TapDifferentlyObject.Marker else TapDifferentlyObject.Empty
+            TapDifferentlyObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TapDifferentlyObject.Wall else TapDifferentlyObject.Empty
             else -> o
         }
         return setObject(move)
@@ -90,11 +90,11 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
                 val p2 = p + TapDifferentlyGame.offset[it]
-                isValid(p2) && this[p2] is TapDifferentlyWallObject
+                isValid(p2) && this[p2] == TapDifferentlyObject.Wall
             }
             val arr = computeHint(filled)
             val s = if (arr.size == 1 && arr[0] == 0) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = TapDifferentlyHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
@@ -105,7 +105,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
                 val p = Position(r, c)
                 if (TapDifferentlyGame.offset2.all {
                     val o = this[p + it]
-                    o is TapDifferentlyWallObject
+                    o == TapDifferentlyObject.Wall
                 }) {
                     isSolved = false
                     return
@@ -116,7 +116,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is TapDifferentlyWallObject) {
+                if (this[p] == TapDifferentlyObject.Wall) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -127,7 +127,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        // The goal is to fill some tiles forming a single orthogonally continuous
+        // The goal == to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
@@ -137,7 +137,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         for (r in 0 until rows) {
             var n = 0
             for (c in 0 until cols)
-                if (this[r, c] is TapDifferentlyWallObject)
+                if (this[r, c] == TapDifferentlyObject.Wall)
                     n++
             nums.add(n)
         }
@@ -150,7 +150,7 @@ class TapDifferentlyGameState(game: TapDifferentlyGame) : CellsGameState<TapDiff
         for (c in 0 until cols) {
             var n = 0
             for (r in 0 until rows)
-                if (this[r, c] is TapDifferentlyWallObject)
+                if (this[r, c] == TapDifferentlyObject.Wall)
                     n++
             nums.add(n)
         }

@@ -3,7 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameMove, BWTapaGameState>(game) {
-    var objArray = Array<BWTapaObject>(rows * cols) { BWTapaEmptyObject }
+    var objArray = Array(rows * cols) { BWTapaObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -12,27 +13,26 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = BWTapaHintObject()
+            this[p] = BWTapaObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: BWTapaGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is BWTapaHintObject || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == BWTapaObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: BWTapaGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == BWTapaObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is BWTapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaMarkerObject else BWTapaWallObject()
-            is BWTapaWallObject -> if (markerOption == MarkerOptions.MarkerLast) BWTapaMarkerObject else BWTapaEmptyObject
-            is BWTapaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaWallObject() else BWTapaEmptyObject
+            BWTapaObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaObject.Marker else BWTapaObject.Wall
+            BWTapaObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) BWTapaObject.Marker else BWTapaObject.Empty
+            BWTapaObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) BWTapaObject.Wall else BWTapaObject.Empty
             else -> o
         }
         return setObject(move)
@@ -80,11 +80,11 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
                 val p2 = p + BWTapaGame.offset[it]
-                isValid(p2) && this[p2] is BWTapaWallObject
+                isValid(p2) && this[p2] == BWTapaObject.Wall
             }
             val arr = computeHint(filled)
             val s = if (arr == listOf(0)) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = BWTapaHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
@@ -92,9 +92,9 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (BWTapaGame.offset2.all { this[p + it] is BWTapaWallObject } || BWTapaGame.offset2.all {
+                if (BWTapaGame.offset2.all { this[p + it] == BWTapaObject.Wall } || BWTapaGame.offset2.all {
                     val o = this[p + it]
-                    o is BWTapaEmptyObject || o is BWTapaHintObject
+                    o == BWTapaObject.Empty || o == BWTapaObject.Hint
                 }) {
                     isSolved = false
                     return
@@ -110,7 +110,7 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                if (this[p] is BWTapaWallObject)
+                if (this[p] == BWTapaObject.Wall)
                     rngWalls.add(p)
                 else
                     rngEmpty.add(p)

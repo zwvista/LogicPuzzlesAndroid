@@ -9,9 +9,9 @@ class TapAlikeDocument(context: Context) : GameDocument<TapAlikeGameMove>(contex
     override fun saveMove(move: TapAlikeGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objTypeAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TapAlikeGameMove(Position(rec.row, rec.col), TapAlikeObject.objTypeFromString(rec.strValue1!!))
+        TapAlikeGameMove(Position(rec.row, rec.col), TapAlikeObject.entries[rec.intValue1])
 }

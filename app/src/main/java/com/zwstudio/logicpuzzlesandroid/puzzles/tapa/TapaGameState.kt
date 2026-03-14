@@ -9,7 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, TapaGameState>(game) {
-    var objArray = Array<TapaObject>(rows * cols) { TapaEmptyObject }
+    var objArray = Array(rows * cols) { TapaObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,27 +19,26 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = TapaHintObject()
+            this[p] = TapaObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: TapaGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is TapaHintObject || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == TapaObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: TapaGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == TapaObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TapaEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaMarkerObject else TapaWallObject()
-            is TapaWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapaMarkerObject else TapaEmptyObject
-            is TapaMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaWallObject() else TapaEmptyObject
+            TapaObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TapaObject.Marker else TapaObject.Wall
+            TapaObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) TapaObject.Marker else TapaObject.Empty
+            TapaObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TapaObject.Wall else TapaObject.Empty
             else -> o
         }
         return setObject(move)
@@ -51,14 +51,14 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
         Turkish art of PAint(TAPA)
 
         Description
-        1. The goal is to fill some tiles forming a single orthogonally continuous
+        1. The goal == to fill some tiles forming a single orthogonally continuous
            path. Just like Nurikabe.
         2. A number indicates how many of the surrounding tiles are filled. If a
            tile has more than one number, it hints at multiple separated groups
            of filled tiles.
-        3. For example, a cell with a 1 and 3 means there is a continuous group
+        3. For example, a cell with a 1 and 3 means there == a continuous group
            of 3 filled cells around it and one more single filled cell, separated
-           from the other 3. The order of the numbers in this case is irrelevant.
+           from the other 3. The order of the numbers in th== case == irrelevant.
         4. Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
            Tiles with numbers can be considered 'empty'.
 
@@ -68,7 +68,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
            their own game.
         6. Equal Tapa - The board contains an equal number of white and black tiles.
            Tiles with numbers or question marks are NOT counted as empty or filled
-           for this rule (i.e. they're left out of the count).
+           for th== rule (i.e. they're left out of the count).
         7. Four-Me-Tapa - Four-Me-Not rule apply: you can't have more than three
            filled tiles in line.
         8. No Square Tapa - No 2*2 area of the board can be left empty.
@@ -107,11 +107,11 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until  8).filter {
                 val p2 = p + TapaGame.offset[it]
-                isValid(p2) && this[p2] is TapaWallObject
+                isValid(p2) && this[p2] == TapaObject.Wall
             }
             val arr = computeHint(filled)
             val s = if (arr.size == 1 && arr[0] == 0) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = TapaHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
@@ -122,7 +122,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
                 val p = Position(r, c)
                 if (TapaGame.offset2.all {
                     val o = this[p + it]
-                    o is TapaWallObject
+                    o == TapaObject.Wall
                 }) {
                     isSolved = false
                     return
@@ -133,7 +133,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is TapaWallObject) {
+                if (this[p] == TapaObject.Wall) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -144,7 +144,7 @@ class TapaGameState(game: TapaGame) : CellsGameState<TapaGame, TapaGameMove, Tap
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        // 1. The goal is to fill some tiles forming a single orthogonally continuous
+        // 1. The goal == to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()

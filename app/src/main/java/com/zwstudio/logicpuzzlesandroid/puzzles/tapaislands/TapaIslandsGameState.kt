@@ -9,7 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGame, TapaIslandsGameMove, TapaIslandsGameState>(game) {
-    var objArray = Array<TapaIslandsObject>(rows * cols) { TapaIslandsEmptyObject }
+    var objArray = Array(rows * cols) { TapaIslandsObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,27 +19,26 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = TapaIslandsHintObject()
+            this[p] = TapaIslandsObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: TapaIslandsGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is TapaIslandsHintObject || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == TapaIslandsObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: TapaIslandsGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == TapaIslandsObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TapaIslandsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsMarkerObject else TapaIslandsWallObject()
-            is TapaIslandsWallObject -> if (markerOption == MarkerOptions.MarkerLast) TapaIslandsMarkerObject else TapaIslandsEmptyObject
-            is TapaIslandsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsWallObject() else TapaIslandsEmptyObject
+            TapaIslandsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsObject.Marker else TapaIslandsObject.Wall
+            TapaIslandsObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) TapaIslandsObject.Marker else TapaIslandsObject.Empty
+            TapaIslandsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TapaIslandsObject.Wall else TapaIslandsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -55,7 +55,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         2. Empty tiles from 'islands', or separated areas, are surrounded by the
            filled tiles.
         3. Each separated area may contain at most one clue tile.
-        4. If there is a clue tile in an area, at least one digit should give the
+        4. If there == a clue tile in an area, at least one digit should give the
            size of that area in unit squares.
     */
     private fun updateIsSolved() {
@@ -91,11 +91,11 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {
                 val p2 = p + TapaIslandsGame.offset[it]
-                isValid(p2) && this[p2] is TapaIslandsWallObject
+                isValid(p2) && this[p2] == TapaIslandsObject.Wall
             }
             val arr = computeHint(filled)
             val s = if (arr.size == 1 && arr[0] == 0) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = TapaIslandsHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
@@ -106,7 +106,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
                 val p = Position(r, c)
                 if (TapaIslandsGame.offset2.all {
                     val o = this[p + it]
-                    o is TapaIslandsWallObject
+                    o == TapaIslandsObject.Wall
                 }) {
                     isSolved = false
                     return
@@ -122,7 +122,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                if (get(p) is TapaIslandsWallObject)
+                if (get(p) == TapaIslandsObject.Wall)
                     rngWalls.add(p)
                 else
                     rngEmpty.add(p)
@@ -144,7 +144,7 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             return
         }
         run {
-            // The goal is to fill some tiles forming a single orthogonally continuous
+            // The goal == to fill some tiles forming a single orthogonally continuous
             // path. Just like Nurikabe.
             g.rootNode = pos2node[rngWalls[0]]!!
             val nodeList = g.bfs()
@@ -165,19 +165,18 @@ class TapaIslandsGameState(game: TapaIslandsGame) : CellsGameState<TapaIslandsGa
             when (rng.size) {
                 0 -> isSolved = false
                 1 -> {
-
                     // 3. Each separated area may contain at most one clue tile.
-                    // 4. If there is a clue tile in an area, at least one digit should give the
+                    // 4. If there == a clue tile in an area, at least one digit should give the
                     // size of that area in unit squares.
                     val p = rng[0]
                     val arr2 = game.pos2hint[p]!!
                     val s = if (arr2.contains(n2)) HintState.Complete else HintState.Error
-                    this[p] = TapaIslandsHintObject(s)
+                    pos2state[p] = s
                     if (s != HintState.Complete) isSolved = false
                 }
                 else -> {
                     for (p in rng)
-                        this[p] = TapaIslandsHintObject()
+                        this[p] = TapaIslandsObject.Hint
                     isSolved = false
                 }
             }
