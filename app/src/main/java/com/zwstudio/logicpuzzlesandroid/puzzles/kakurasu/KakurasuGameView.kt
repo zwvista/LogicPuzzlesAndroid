@@ -59,7 +59,7 @@ class KakurasuGameView(context: Context, val soundManager: SoundManager) : Cells
         for (r in 1 until rows - 1)
             for (i in 0..1) {
                 val c = if (i == 0) 0 else cols - 1
-                val s = game.getRowState(r * 2 + i)
+                val s = game.row2state(r * 2 + i)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val n = game.row2hint[r * 2 + i]
                 val text = n.toString()
@@ -70,7 +70,7 @@ class KakurasuGameView(context: Context, val soundManager: SoundManager) : Cells
         for (c in 1 until cols - 1)
             for (i in 0..1) {
                 val r = if (i == 0) 0 else rows - 1
-                val s = game.getColState(c * 2 + i)
+                val s = game.col2state(c * 2 + i)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val n = game.col2hint[c * 2 + i]
                 val text = n.toString()

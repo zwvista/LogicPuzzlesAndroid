@@ -59,14 +59,14 @@ class TheOddBrickGameView(context: Context, val soundManager: SoundManager) : Ce
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
         for (r in 0 until rows) {
-            val s = game.getRowState(r)
+            val s = game.row2state(r)
             if (s == HintState.Normal) continue
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
             val c = cols - 1
             canvas.drawArc(cwc(c + 1) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc(c + 1) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, hintPaint)
         }
         for (c in 0 until cols) {
-            val s = game.getColState(c)
+            val s = game.col2state(c)
             if (s == HintState.Normal) continue
             hintPaint.color = if (s == HintState.Complete) Color.GREEN else Color.RED
             val r = rows - 1

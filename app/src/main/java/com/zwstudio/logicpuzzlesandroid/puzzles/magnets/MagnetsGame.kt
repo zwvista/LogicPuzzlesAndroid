@@ -46,6 +46,6 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getRowState(id: Int) = currentState.row2state[id]
-    fun getColState(id: Int) = currentState.col2state[id]
+    fun row2state(id: Int) = currentState.row2state[id]
+    fun col2state(id: Int) = currentState.col2state[id]
 }

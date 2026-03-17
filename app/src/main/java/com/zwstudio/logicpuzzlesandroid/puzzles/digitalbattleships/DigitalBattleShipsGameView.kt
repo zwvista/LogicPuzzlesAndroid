@@ -87,14 +87,14 @@ class DigitalBattleShipsGameView(context: Context, val soundManager: SoundManage
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         for (r in 0 until rows) {
-            val s = game.getRowState(r)
+            val s = game.row2state(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.row2hint[r]
             val text = n.toString()
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols) {
-            val s = game.getColState(c)
+            val s = game.col2state(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.col2hint[c]
             val text = n.toString()

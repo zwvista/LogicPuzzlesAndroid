@@ -58,9 +58,9 @@ class SnailGameView(context: Context, val soundManager: SoundManager) : CellsGam
             }
         textPaint.color = Color.RED
         for (r in 0 until rows)
-            if (game.getRowState(r) == HintState.Error) drawTextCentered("123", cwc(cols), chr(r), canvas, textPaint)
+            if (game.row2state(r) == HintState.Error) drawTextCentered("123", cwc(cols), chr(r), canvas, textPaint)
         for (c in 0 until cols)
-            if (game.getColState(c) == HintState.Error) drawTextCentered("123", cwc(c), chr(rows), canvas, textPaint)
+            if (game.col2state(c) == HintState.Error) drawTextCentered("123", cwc(c), chr(rows), canvas, textPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

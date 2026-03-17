@@ -56,14 +56,14 @@ class NumberCrosswordsGameView(context: Context, val soundManager: SoundManager)
             }
         if (isInEditMode) return
         for (r in 0 until rows - 1) {
-            val s = game.getRowState(r)
+            val s = game.row2state(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game[r, cols - 1]
             val text = n.toString()
             drawTextCentered(text, cwc(cols - 1), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols - 1) {
-            val s = game.getColState(c)
+            val s = game.col2state(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game[rows - 1, c]
             val text = n.toString()

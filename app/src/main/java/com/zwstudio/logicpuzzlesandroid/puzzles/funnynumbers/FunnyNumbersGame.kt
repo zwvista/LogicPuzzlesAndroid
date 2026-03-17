@@ -19,7 +19,6 @@ class FunnyNumbersGame(layout: List<String>, gi: GameInterface<FunnyNumbersGame,
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        const val PUZ_UNKNOWN = -1
     }
 
     var areas = mutableListOf<List<Position>>()
@@ -27,12 +26,19 @@ class FunnyNumbersGame(layout: List<String>, gi: GameInterface<FunnyNumbersGame,
     var dots: GridDots
     var row2hint: IntArray
     var col2hint: IntArray
+    var objArray: IntArray
+
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
     init {
         size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)
         dots = GridDots(rows + 1, cols + 1)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
+        objArray = IntArray(rows * cols)
         for (r in 0 until rows + 1) {
             var str = layout[r * 2]
             for (c in 0 until cols) {
@@ -50,13 +56,17 @@ class FunnyNumbersGame(layout: List<String>, gi: GameInterface<FunnyNumbersGame,
                         dots[r, c, 2] = GridLineObject.Line
                         dots[r + 1, c, 0] = GridLineObject.Line
                     }
+                    if (c == cols) continue
+                    val ch2 = str[c * 2 + 1]
+                    if (ch2.isDigit())
+                        this[r, c] = ch2 - '0'
                 }
-                val ch2 = str[cols * 2 + 1]
-                row2hint[r] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
+                val s = str.substring(cols * 2 + 1, cols * 2 + 3).trim()
+                row2hint[r] = if (s.isEmpty()) 0 else s.toInt()
             } else {
                 for (c in 0 until cols) {
-                    val ch2 = str[c * 2 + 1]
-                    col2hint[c] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
+                    val s = str.substring(c * 2, c * 2 + 2).trim()
+                    col2hint[c] = if (s.isEmpty()) 0 else s.toInt()
                 }
             }
         }
@@ -93,6 +103,7 @@ class FunnyNumbersGame(layout: List<String>, gi: GameInterface<FunnyNumbersGame,
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getRowState(row: Int) = currentState.row2state[row]
-    fun getColState(col: Int) = currentState.col2state[col]
+    fun row2state(row: Int) = currentState.row2state[row]
+    fun col2state(col: Int) = currentState.col2state[col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

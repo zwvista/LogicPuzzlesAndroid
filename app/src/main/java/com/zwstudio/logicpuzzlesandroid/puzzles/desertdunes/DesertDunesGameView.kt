@@ -61,22 +61,23 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
                 val p = Position(r, c)
                 dSand.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 dSand.draw(canvas)
-                when (val o = game.getObject(p)) {
-                    is DesertDunesObject.Marker ->
+                when (game.getObject(p)) {
+                    DesertDunesObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is DesertDunesObject.Forbidden ->
+                    DesertDunesObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is DesertDunesObject.Hint -> {
+                    DesertDunesObject.Hint -> {
                         dPalmTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dPalmTree.draw(canvas)
                         val text = game.pos2hint[p].toString()
-                        val s = o.state
+                        val s = game.pos2stateHint(p)
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is DesertDunesObject.Dune -> {
+                    DesertDunesObject.Dune -> {
                         dDune.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2stateAllowed(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dDune.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dDune.draw(canvas)
                     }

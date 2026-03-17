@@ -63,7 +63,7 @@ class FutoshikiGameView(context: Context, val soundManager: SoundManager) : Cell
         if (isInEditMode) return
         var r = 0
         while (r < rows) {
-            val s = game.getRowState(r)
+            val s = game.row2state(r)
             if (s == HintState.Normal) {
                 r += 2
                 continue
@@ -75,7 +75,7 @@ class FutoshikiGameView(context: Context, val soundManager: SoundManager) : Cell
         }
         var c = 0
         while (c < cols) {
-            val s = game.getColState(c)
+            val s = game.col2state(c)
             if (s == HintState.Normal) {
                 c += 2
                 continue

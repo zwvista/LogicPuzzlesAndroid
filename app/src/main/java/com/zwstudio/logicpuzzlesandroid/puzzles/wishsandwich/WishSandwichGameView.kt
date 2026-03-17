@@ -75,7 +75,7 @@ class WishSandwichGameView(context: Context, val soundManager: SoundManager) : C
             }
         if (isInEditMode) return
         for (r in 0 until rows) {
-            val s = game.getRowState(r)
+            val s = game.row2state(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.row2hint[r]
             if (n < 0) continue
@@ -83,7 +83,7 @@ class WishSandwichGameView(context: Context, val soundManager: SoundManager) : C
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols) {
-            val s = game.getColState(c)
+            val s = game.col2state(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.col2hint[c]
             if (n < 0) continue

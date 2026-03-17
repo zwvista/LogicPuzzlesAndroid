@@ -7,8 +7,6 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -52,20 +50,12 @@ class FunnyNumbersGameView(context: Context, val soundManager: SoundManager) : C
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val ch = game.getObject(p)
-                when (val o = game.getObject(p)) {
-                    is FunnyNumbersObject.Forbidden ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is FunnyNumbersObject.Marker ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is FunnyNumbersObject.Water -> {
-                        dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dWater.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dWater.draw(canvas)
-                    }
-                    else -> {}
-                }
+                val n = game.getObject(p)
+                if (n == 0) continue
+                val s = game.pos2state(p)
+                textPaint.color = if (game[p] == n) Color.GRAY else if (s == AllowedObjectState.Error) Color.RED else Color.WHITE
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
@@ -76,14 +66,14 @@ class FunnyNumbersGameView(context: Context, val soundManager: SoundManager) : C
             }
         if (isInEditMode) return
         for (r in 0 until rows) {
-            val s = game.getRowState(r)
+            val s = game.row2state(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.row2hint[r]
             val text = n.toString()
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
         for (c in 0 until cols) {
-            val s = game.getColState(c)
+            val s = game.col2state(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.col2hint[c]
             val text = n.toString()

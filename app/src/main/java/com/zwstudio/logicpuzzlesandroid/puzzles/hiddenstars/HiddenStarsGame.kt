@@ -41,6 +41,6 @@ class HiddenStarsGame(layout: List<String>, val onlyOneArrow: Boolean, gi: GameI
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun getRowState(row: Int) = currentState.row2state[row]
-    fun getColState(col: Int) = currentState.col2state[col]
+    fun row2state(row: Int) = currentState.row2state[row]
+    fun col2state(col: Int) = currentState.col2state[col]
 }
