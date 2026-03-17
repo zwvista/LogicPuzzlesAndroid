@@ -23,19 +23,17 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
 
     override fun setObject(move: CarpentersWallGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld.isHint || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p].isHint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: CarpentersWallGameMove): GameOperationType {
+        val p = move.p
+        if (!isValid(p) || this[p].isHint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        val o = this[move.p]
-        if (o.isHint) return GameOperationType.Invalid
-        move.obj = when (o) {
+        move.obj = when (val o = this[move.p]) {
             CarpentersWallObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallObject.Marker else CarpentersWallObject.Wall
             CarpentersWallObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) CarpentersWallObject.Marker else CarpentersWallObject.Empty
             CarpentersWallObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallObject.Wall else CarpentersWallObject.Empty
@@ -69,9 +67,9 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         for (r in 0 until rows - 1)
             rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                for (os in CarpentersWallGame.offset2)
-                    if (this[p + os] != CarpentersWallObject.Wall) continue@rule2x2
-                isSolved = false
+                if (CarpentersWallGame.offset2.all {
+                    this[p + it] == CarpentersWallObject.Wall
+                }) isSolved = false
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
@@ -150,7 +148,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
                 else -> -1
             }
             for (p in rngHint)
-                when (val o = this[p]) {
+                when (this[p]) {
                     CarpentersWallObject.Corner -> {
                         // 3. The circled numbers on the board indicate the corner of the L.
                         // 4. When a number is inside the circle, that indicates the total number of
