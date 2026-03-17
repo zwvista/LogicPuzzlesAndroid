@@ -20,6 +20,8 @@ class BootyIslandGameActivity : GameGameActivity<BootyIslandGame, BootyIslandDoc
         }
     }
 
-    override fun newGame(level: GameLevel) =
-        BootyIslandGame(level.layout, this, doc)
+    override fun newGame(level: GameLevel): BootyIslandGame {
+        val treasuresInEachArea = (level.settings["TreasuresInEachArea"] ?: "1").toInt()
+        return BootyIslandGame(level.layout, treasuresInEachArea, this, doc)
+    }
 }

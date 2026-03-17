@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>, gdi: GameDocumentInterface) : CellsGame<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(gi, gdi) {
+class BootyIslandGame(layout: List<String>, val treasuresInEachArea: Int, gi: GameInterface<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>, gdi: GameDocumentInterface) : CellsGame<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions8
     }
@@ -29,5 +29,6 @@ class BootyIslandGame(layout: List<String>, gi: GameInterface<BootyIslandGame, B
 
     fun getObject(p: Position): BootyIslandObject = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2state(p: Position) = currentState.pos2state[p]
+    fun pos2stateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2stateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }

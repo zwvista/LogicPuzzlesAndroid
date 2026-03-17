@@ -10,6 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<CarpentersWallGame, CarpentersWallGameMove, CarpentersWallGameState>(game) {
     var objArray = game.objArray.copyOf()
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -35,9 +36,9 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         val o = this[move.p]
         if (o.isHint) return GameOperationType.Invalid
         move.obj = when (o) {
-            is CarpentersWallEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallMarkerObject() else CarpentersWallWallObject()
-            is CarpentersWallWallObject -> if (markerOption == MarkerOptions.MarkerLast) CarpentersWallMarkerObject() else CarpentersWallEmptyObject()
-            is CarpentersWallMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallWallObject() else CarpentersWallEmptyObject()
+            CarpentersWallObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallObject.Marker else CarpentersWallObject.Wall
+            CarpentersWallObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) CarpentersWallObject.Marker else CarpentersWallObject.Empty
+            CarpentersWallObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) CarpentersWallObject.Wall else CarpentersWallObject.Empty
             else -> o
         }
         return setObject(move)
@@ -69,7 +70,7 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
             rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (os in CarpentersWallGame.offset2)
-                    if (this[p + os] !is CarpentersWallWallObject) continue@rule2x2
+                    if (this[p + os] != CarpentersWallObject.Wall) continue@rule2x2
                 isSolved = false
             }
         val g = Graph()
@@ -83,20 +84,12 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
                 g.addNode(node)
                 pos2node[p] = node
                 val o = this[p]
-                if (o is CarpentersWallWallObject)
+                if (o == CarpentersWallObject.Wall)
                     rngWalls.add(p)
                 else
                     rngEmpty.add(p)
-                if (o is CarpentersWallCornerObject)
-                    o.state = HintState.Normal
-                else if (o is CarpentersWallLeftObject)
-                    o.state = HintState.Normal
-                else if (o is CarpentersWallRightObject)
-                    o.state = HintState.Normal
-                else if (o is CarpentersWallUpObject)
-                    o.state = HintState.Normal
-                else if (o is CarpentersWallDownObject)
-                    o.state = HintState.Normal
+                if (o.isHint)
+                    pos2state[p] = HintState.Normal
             }
         for (p in rngWalls)
             for (os in CarpentersWallGame.offset) {
@@ -158,46 +151,46 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
             }
             for (p in rngHint)
                 when (val o = this[p]) {
-                    is CarpentersWallCornerObject -> {
+                    CarpentersWallObject.Corner -> {
                         // 3. The circled numbers on the board indicate the corner of the L.
                         // 4. When a number is inside the circle, that indicates the total number of
                         // squares occupied by the L.
-                        val n2 = o.tiles
+                        val n2 = game.pos2hint[p]!!
                         val s = if (squareType == -1) HintState.Normal else if (!(n1 == n2 || n2 == 0)) HintState.Error else if (squareType == 0 && p == Position(r1, c1) ||
                                 squareType == 1 && p == Position(r1, c2) || squareType == 2 && p == Position(r2, c1) || squareType == 3 && p == Position(r2, c2)) HintState.Complete else HintState.Error
-                        o.state = s
+                        pos2state[p] = s
                         if (s != HintState.Complete) isSolved = false
                     }
-                    is CarpentersWallLeftObject -> {
+                    CarpentersWallObject.Left -> {
                         // 5. The arrow always sits at the end of an arm and points to the corner of
                         // an L.
                         val s = if (squareType == -1) HintState.Normal else if (squareType == 0 && p == Position(r1, c2) ||
                                 squareType == 2 && p == Position(r2, c2)) HintState.Complete else HintState.Error
-                        o.state = s
+                        pos2state[p] = s
                         if (s != HintState.Complete) isSolved = false
                     }
-                    is CarpentersWallUpObject -> {
+                    CarpentersWallObject.Up -> {
                         // 5. The arrow always sits at the end of an arm and points to the corner of
                         // an L.
                         val s = if (squareType == -1) HintState.Normal else if (squareType == 0 && p == Position(r2, c1) ||
                                 squareType == 1 && p == Position(r2, c2)) HintState.Complete else HintState.Error
-                        o.state = s
+                        pos2state[p] = s
                         if (s != HintState.Complete) isSolved = false
                     }
-                    is CarpentersWallRightObject -> {
+                    CarpentersWallObject.Right -> {
                         // 5. The arrow always sits at the end of an arm and points to the corner of
                         // an L.
                         val s = if (squareType == -1) HintState.Normal else if (squareType == 1 && p == Position(r1, c1) ||
                                 squareType == 3 && p == Position(r2, c1)) HintState.Complete else HintState.Error
-                        o.state = s
+                        pos2state[p] = s
                         if (s != HintState.Complete) isSolved = false
                     }
-                    is CarpentersWallDownObject -> {
+                    CarpentersWallObject.Down -> {
                         // 5. The arrow always sits at the end of an arm and points to the corner of
                         // an L.
                         val s = if (squareType == -1) HintState.Normal else if (squareType == 2 && p == Position(r1, c1) ||
                                 squareType == 3 && p == Position(r1, c2)) HintState.Complete else HintState.Error
-                        o.state = s
+                        pos2state[p] = s
                         if (s != HintState.Complete) isSolved = false
                     }
                     else -> {}

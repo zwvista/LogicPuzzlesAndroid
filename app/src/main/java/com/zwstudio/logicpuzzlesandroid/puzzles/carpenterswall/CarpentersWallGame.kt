@@ -17,6 +17,7 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
     }
 
     var objArray: Array<CarpentersWallObject>
+    var pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -25,19 +26,23 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = Array(rows * cols) { CarpentersWallEmptyObject() }
+        objArray = Array(rows * cols) { CarpentersWallObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (val ch = str[c]) {
-                    in '0'..'9' -> this[p] = CarpentersWallCornerObject(ch - '0')
-                    'O' -> this[p] = CarpentersWallCornerObject()
-                    '^' -> this[p] = CarpentersWallUpObject()
-                    'v' -> this[p] = CarpentersWallDownObject()
-                    '<' -> this[p] = CarpentersWallLeftObject()
-                    '>' -> this[p] = CarpentersWallRightObject()
-                }
+                val ch = str[c]
+                if (ch == 'O' || ch.isDigit()) {
+                    pos2hint[p] = if (ch == 'O') 0 else ch - '0'
+                    this[p] = CarpentersWallObject.Corner
+                } else
+                    this[p] = when (ch) {
+                        '^' -> CarpentersWallObject.Up
+                        'v' -> CarpentersWallObject.Down
+                        '<' -> CarpentersWallObject.Left
+                        '>' -> CarpentersWallObject.Right
+                        else ->CarpentersWallObject.Empty
+                    }
             }
         }
         val state = CarpentersWallGameState(this)
@@ -46,4 +51,5 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

@@ -3,8 +3,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.busyseas
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusySeasGameMove, BusySeasGameState>(game) {
-    var objArray = Array<BusySeasObject>(rows * cols) { BusySeasEmptyObject }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { BusySeasObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -13,24 +14,26 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = BusySeasHintObject()
+            this[p] = BusySeasObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: BusySeasGameMove): GameOperationType {
-        if (this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: BusySeasGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is BusySeasEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasMarkerObject() else BusySeasLighthouseObject()
-            is BusySeasLighthouseObject -> if (markerOption == MarkerOptions.MarkerLast) BusySeasMarkerObject() else BusySeasEmptyObject
-            is BusySeasMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasLighthouseObject() else BusySeasEmptyObject
+            BusySeasObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasObject.Marker else BusySeasObject.Lighthouse
+            BusySeasObject.Lighthouse -> if (markerOption == MarkerOptions.MarkerLast) BusySeasObject.Marker else BusySeasObject.Empty
+            BusySeasObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasObject.Lighthouse else BusySeasObject.Empty
             else -> o
         }
         return setObject(move)
@@ -40,11 +43,12 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                val o = this[r, c]
-                if (o is BusySeasLighthouseObject)
-                    o.state = AllowedObjectState.Normal
-                else if (o is BusySeasForbiddenObject)
-                    this[r, c] = BusySeasEmptyObject
+                val p = Position(r, c)
+                val o = this[p]
+                if (o == BusySeasObject.Lighthouse)
+                    pos2stateAllowed[p] = AllowedObjectState.Normal
+                else if (o == BusySeasObject.Forbidden)
+                    this[p] = BusySeasObject.Empty
             }
         for (r in 0 until rows)
             for (c in 0 until cols) {
@@ -53,16 +57,16 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
                 for (os in BusySeasGame.offset) {
                     var p2 = p + os
                     while (isValid(p2)) {
-                        if (this[p2] is BusySeasHintObject) return true
+                        if (this[p2] == BusySeasObject.Hint) return true
                         p2 += os
                     }
                 }
                 return false
             }
-            val o = this[r, c]
-            if (o is BusySeasLighthouseObject) {
-                val s = if (o.state == AllowedObjectState.Normal && hasLightedBoat()) AllowedObjectState.Normal else AllowedObjectState.Error
-                o.state = s
+            val o = this[p]
+            if (o == BusySeasObject.Lighthouse) {
+                val s = if (pos2stateAllowed[p] == AllowedObjectState.Normal && hasLightedBoat()) AllowedObjectState.Normal else AllowedObjectState.Error
+                pos2stateAllowed[p] = s
                 if (s == AllowedObjectState.Error) isSolved = false
             }
         }
@@ -76,10 +80,10 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
                 while (isValid(p2)) {
                     val o2 = this[p2]
                     // 3. A lighthouse's light is stopped by the first boat it meets.
-                    if (o2 is BusySeasHintObject) continue@next
-                    if (o2 is BusySeasEmptyObject)
+                    if (o2 == BusySeasObject.Hint) continue@next
+                    if (o2 == BusySeasObject.Empty)
                         rng.add(+p2)
-                    else if (o2 is BusySeasLighthouseObject)
+                    else if (o2 == BusySeasObject.Lighthouse)
                         nums[i]++
                     p2 += os
                 }
@@ -87,12 +91,12 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
             val n1 = nums.sum()
             // 2. Each boat has a number on it that tells you how many lighthouses are lighting it.
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            pos2state[p] = s
+            pos2stateHint[p] = s
             if (s != HintState.Complete)
                 isSolved = false
             else
                 for (p2 in rng)
-                    this[p2] = BusySeasForbiddenObject
+                    this[p2] = BusySeasObject.Forbidden
         }
     }
 }

@@ -9,9 +9,9 @@ class CarpentersWallDocument(context: Context) : GameDocument<CarpentersWallGame
     override fun saveMove(move: CarpentersWallGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        CarpentersWallGameMove(Position(rec.row, rec.col), CarpentersWallObject.objTypeFromString(rec.strValue1!!))
+        CarpentersWallGameMove(Position(rec.row, rec.col), CarpentersWallObject.entries[rec.intValue1])
 }

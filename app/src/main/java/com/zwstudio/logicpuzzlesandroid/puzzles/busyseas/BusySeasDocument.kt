@@ -9,9 +9,9 @@ class BusySeasDocument(context: Context) : GameDocument<BusySeasGameMove>(contex
     override fun saveMove(move: BusySeasGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BusySeasGameMove(Position(rec.row, rec.col), BusySeasObject.objFromString(rec.strValue1!!))
+        BusySeasGameMove(Position(rec.row, rec.col), BusySeasObject.entries[rec.intValue1])
 }

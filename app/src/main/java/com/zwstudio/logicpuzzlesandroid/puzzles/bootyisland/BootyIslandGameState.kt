@@ -8,12 +8,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(game) {
-    var objArray = Array<BootyIslandObject>(rows * 2) { BootyIslandEmptyObject }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { BootyIslandObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = BootyIslandHintObject()
+            this[p] = BootyIslandObject.Hint
         updateIsSolved()
     }
 
@@ -24,22 +25,20 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
 
     override fun setObject(move: BootyIslandGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is BootyIslandHintObject || objOld == objNew)
-            return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == BootyIslandObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: BootyIslandGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == BootyIslandObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is BootyIslandEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandMarkerObject else BootyIslandTreasureObject()
-            is BootyIslandTreasureObject -> if (markerOption == MarkerOptions.MarkerLast) BootyIslandMarkerObject else BootyIslandEmptyObject
-            is BootyIslandMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandTreasureObject() else BootyIslandEmptyObject
+            BootyIslandObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandObject.Marker else BootyIslandObject.Treasure
+            BootyIslandObject.Treasure -> if (markerOption == MarkerOptions.MarkerLast) BootyIslandObject.Marker else BootyIslandObject.Empty
+            BootyIslandObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) BootyIslandObject.Treasure else BootyIslandObject.Empty
             else -> o
         }
         return setObject(move)
@@ -72,62 +71,61 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                val o = this[r, c]
-                if (o is BootyIslandForbiddenObject)
-                    this[r, c] = BootyIslandEmptyObject
-                else if (o is BootyIslandTreasureObject)
-                    o.state = AllowedObjectState.Normal
+                val p = Position(r, c)
+                val o = this[p]
+                if (o == BootyIslandObject.Forbidden)
+                    this[p] = BootyIslandObject.Empty
+                else if (o == BootyIslandObject.Treasure)
+                    pos2stateAllowed[p] = AllowedObjectState.Normal
             }
         // 4. Pirates don't bury their Treasures touching each other, even diagonally.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                fun hasNeighbor(): Boolean {
-                    for (os in BootyIslandGame.offset) {
-                        val p2 = p + os
-                        if (isValid(p2) && this[p2] is BootyIslandTreasureObject)
-                            return true
+                fun hasNeighbor(): Boolean =
+                    BootyIslandGame.offset.any {
+                        val p2 = p + it
+                        isValid(p2) && this[p2] == BootyIslandObject.Treasure
                     }
-                    return false
-                }
-                val o = this[r, c]
-                if (o is BootyIslandTreasureObject) {
-                    val s = if (o.state == AllowedObjectState.Normal && !hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
-                    o.state = s
+                val o = this[p]
+                if (o == BootyIslandObject.Treasure) {
+                    val s = if (pos2stateAllowed[p] == AllowedObjectState.Normal && !hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
+                    pos2stateAllowed[p] = s
                     if (s == AllowedObjectState.Error) isSolved = false
-                } else if ((o is BootyIslandEmptyObject || o is BootyIslandMarkerObject) && allowedObjectsOnly && hasNeighbor())
-                    this[r, c] = BootyIslandForbiddenObject
+                } else if ((o == BootyIslandObject.Empty || o == BootyIslandObject.Marker) && allowedObjectsOnly && hasNeighbor())
+                    this[p] = BootyIslandObject.Forbidden
             }
+        val n2 = game.treasuresInEachArea
         // 2. In fact there's only one Treasure for each row.
         for (r in 0 until rows) {
             var n1 = 0
-            val n2 = 1
             for (c in 0 until cols)
-                if (this[r, c] is BootyIslandTreasureObject)
+                if (this[r, c] == BootyIslandObject.Treasure)
                     n1++
             if (n1 != n2) isSolved = false
             for (c in 0 until cols) {
-                val o = this[r, c]
-                if (o is BootyIslandTreasureObject)
-                    o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
-                else if ((o is BootyIslandEmptyObject || o is BootyIslandMarkerObject) && n1 == n2 && allowedObjectsOnly)
-                    this[r, c] = BootyIslandForbiddenObject
+                val p = Position(r, c)
+                val o = this[p]
+                if (o == BootyIslandObject.Treasure)
+                    pos2stateAllowed[p] = if (pos2stateAllowed[p] == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
+                else if ((o == BootyIslandObject.Empty || o == BootyIslandObject.Marker) && n1 == n2 && allowedObjectsOnly)
+                    this[p] = BootyIslandObject.Forbidden
             }
         }
         // 2. In fact there's only one Treasure for each column.
         for (c in 0 until cols) {
             var n1 = 0
-            val n2 = 1
             for (r in 0 until rows)
-                if (this[r, c] is BootyIslandTreasureObject)
+                if (this[r, c] == BootyIslandObject.Treasure)
                     n1++
             if (n1 != n2) isSolved = false
             for (r in 0 until rows) {
-                val o = this[r, c]
-                if (o is BootyIslandTreasureObject)
-                    o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
-                else if ((o is BootyIslandEmptyObject || o is BootyIslandMarkerObject) && n1 == n2 && allowedObjectsOnly)
-                    this[r, c] = BootyIslandForbiddenObject
+                val p = Position(r, c)
+                val o = this[p]
+                if (o == BootyIslandObject.Treasure)
+                    pos2stateAllowed[p] = if (pos2stateAllowed[p] == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
+                else if ((o == BootyIslandObject.Empty || o == BootyIslandObject.Marker) && n1 == n2 && allowedObjectsOnly)
+                    this[p] = BootyIslandObject.Forbidden
             }
         }
         // 3. On the island you can see maps with a number: these tell you how
@@ -143,10 +141,10 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                     var p2 = p + os
                     while (isValid(p2)) {
                         val o2 = this[p2]
-                        if (o2 is BootyIslandTreasureObject) {
+                        if (o2 == BootyIslandObject.Treasure) {
                             if (n1 == n2) return HintState.Complete
                             continue@next
-                        } else if (o2 is BootyIslandEmptyObject) {
+                        } else if (o2 == BootyIslandObject.Empty) {
                             if (n1 == n2) possible2 = true
                         } else if (n1 == n2)
                             continue@next
@@ -158,7 +156,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                 return if (possible) HintState.Normal else HintState.Error
             }
             val s = f()
-            pos2state[p] = s
+            pos2stateHint[p] = s
             if (s != HintState.Complete) isSolved = false
         }
     }
