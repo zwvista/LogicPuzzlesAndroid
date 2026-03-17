@@ -11,8 +11,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, ChocolateGameMove, ChocolateGameState>(game) {
-    var objArray = Array<ChocolateObject>(rows * cols) { ChocolateEmptyObject }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { ChocolateObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -36,9 +37,9 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
         if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is ChocolateEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ChocolateMarkerObject else ChocolateChocolateObject()
-            is ChocolateChocolateObject -> if (markerOption == MarkerOptions.MarkerLast) ChocolateMarkerObject else ChocolateEmptyObject
-            is ChocolateMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ChocolateChocolateObject() else ChocolateEmptyObject
+            ChocolateObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ChocolateObject.Marker else ChocolateObject.Chocolate
+            ChocolateObject.Chocolate -> if (markerOption == MarkerOptions.MarkerLast) ChocolateObject.Marker else ChocolateObject.Empty
+            ChocolateObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ChocolateObject.Chocolate else ChocolateObject.Empty
             else -> o
         }
         return setObject(move)
@@ -64,8 +65,8 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is ChocolateForbiddenObject)
-                    this[r, c] = ChocolateEmptyObject
+                if (this[r, c] == ChocolateObject.Forbidden)
+                    this[r, c] = ChocolateObject.Empty
         // 2. A Chocolate bar is a rectangular or a square.
         // 3. Chocolate tiles form bars independently of the area borders.
         // 4. Chocolate bars must not be orthogonally adjacent.
@@ -74,7 +75,7 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is ChocolateChocolateObject) continue
+                if (this[p] != ChocolateObject.Chocolate) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -107,7 +108,7 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
             val s = if (rs * cs == nodeList.size) AllowedObjectState.Normal else AllowedObjectState.Error
             if (s != AllowedObjectState.Normal) isSolved = false
             for (p in bar)
-                this[p] = ChocolateChocolateObject(s)
+                pos2stateAllowed[p] = s
         }
         // 5. A tile with a number indicates how many tiles in the area must
         //    be chocolate.
@@ -115,14 +116,14 @@ class ChocolateGameState(game: ChocolateGame) : CellsGameState<ChocolateGame, Ch
         for (area in game.areas) {
             val pHint = area.firstOrNull { game.pos2hint.contains(it) } ?: continue
             val n2 = game.pos2hint[pHint]!!
-            val n1 = area.filter { this[it] is ChocolateChocolateObject }.size
+            val n1 = area.filter { this[it] == ChocolateObject.Chocolate }.size
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
-            pos2state[pHint] = s
+            pos2stateHint[pHint] = s
             if (!(allowedObjectsOnly && s != HintState.Normal)) continue
-            val empties = area.filter { this[it] is ChocolateEmptyObject }
+            val empties = area.filter { this[it] == ChocolateObject.Empty }
             for (p in empties)
-                this[p] = ChocolateForbiddenObject
+                this[p] = ChocolateObject.Forbidden
         }
     }
 }

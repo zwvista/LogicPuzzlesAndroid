@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.TreeMap
 
 class FunnyNumbersGameState(game: FunnyNumbersGame) : CellsGameState<FunnyNumbersGame, FunnyNumbersGameMove, FunnyNumbersGameState>(game) {
-    var objArray = Array<FunnyNumbersObject>(rows * cols) { FunnyNumbersEmptyObject }
+    var objArray = Array<FunnyNumbersObject>(rows * cols) { FunnyNumbersObject.Empty }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
 
@@ -35,9 +35,9 @@ class FunnyNumbersGameState(game: FunnyNumbersGame) : CellsGameState<FunnyNumber
         if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is FunnyNumbersEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FunnyNumbersMarkerObject else FunnyNumbersWaterObject()
-            is FunnyNumbersWaterObject -> if (markerOption == MarkerOptions.MarkerLast) FunnyNumbersMarkerObject else FunnyNumbersEmptyObject
-            is FunnyNumbersMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FunnyNumbersWaterObject() else FunnyNumbersEmptyObject
+            is FunnyNumbersObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) FunnyNumbersObject.Marker else FunnyNumbersObject.Water()
+            is FunnyNumbersObject.Water -> if (markerOption == MarkerOptions.MarkerLast) FunnyNumbersObject.Marker else FunnyNumbersObject.Empty
+            is FunnyNumbersObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) FunnyNumbersObject.Water() else FunnyNumbersObject.Empty
             else -> o
         }
         return setObject(move)
@@ -59,8 +59,8 @@ class FunnyNumbersGameState(game: FunnyNumbersGame) : CellsGameState<FunnyNumber
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is FunnyNumbersForbiddenObject)
-                    this[r, c] = FunnyNumbersEmptyObject
+                if (this[r, c] is FunnyNumbersObject.Forbidden)
+                    this[r, c] = FunnyNumbersObject.Empty
         // 2. You have to fill some water in it, considering that water pours down
         //    and levels itself like in reality.
         // 3. Areas of the same level which are horizontally connected will have
@@ -68,39 +68,39 @@ class FunnyNumbersGameState(game: FunnyNumbersGame) : CellsGameState<FunnyNumber
         for (area in game.areas) {
             val row2rng = TreeMap(area.groupBy { it.row })
             val rowNotFilled = row2rng.keys.reversed().firstOrNull {
-                row2rng[it]!!.any { this[it] !is FunnyNumbersWaterObject }
+                row2rng[it]!!.any { this[it] !is FunnyNumbersObject.Water }
             } ?: continue
-            val rng = area.filter { this[it] is FunnyNumbersWaterObject }
+            val rng = area.filter { this[it] is FunnyNumbersObject.Water }
             val rngError = rng.filter { it.row < rowNotFilled }
-            rng.forEach { this[it] = FunnyNumbersWaterObject() }
+            rng.forEach { this[it] = FunnyNumbersObject.Water() }
             if (rngError.isEmpty()) continue
             isSolved = false
-            rngError.forEach { this[it] = FunnyNumbersWaterObject(state = AllowedObjectState.Error) }
+            rngError.forEach { this[it] = FunnyNumbersObject.Water(state = AllowedObjectState.Error) }
         }
         // 4. The numbers on the border show you how many tiles of each row and
         //    column are filled.
         for (r in 0 until rows) {
             val n2 = game.row2hint[r]
             if (n2 == FunnyNumbersGame.PUZ_UNKNOWN) continue
-            val n1 = (0 until cols).count { this[r, it] is FunnyNumbersWaterObject }
+            val n1 = (0 until cols).count { this[r, it] is FunnyNumbersObject.Water }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
             if (s != HintState.Normal && allowedObjectsOnly)
-                (0 until cols).filter { this[r, it] is FunnyNumbersEmptyObject }.forEach {
-                    this[r, it] = FunnyNumbersForbiddenObject
+                (0 until cols).filter { this[r, it] is FunnyNumbersObject.Empty }.forEach {
+                    this[r, it] = FunnyNumbersObject.Forbidden
                 }
         }
         for (c in 0 until cols) {
             val n2 = game.col2hint[c]
             if (n2 == FunnyNumbersGame.PUZ_UNKNOWN) continue
-            val n1 = (0 until rows).count { this[it, c] is FunnyNumbersWaterObject }
+            val n1 = (0 until rows).count { this[it, c] is FunnyNumbersObject.Water }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false
             if (s != HintState.Normal && allowedObjectsOnly)
-                (0 until rows).filter { this[it, c] is FunnyNumbersEmptyObject }.forEach {
-                    this[it, c] = FunnyNumbersForbiddenObject
+                (0 until rows).filter { this[it, c] is FunnyNumbersObject.Empty }.forEach {
+                    this[it, c] = FunnyNumbersObject.Forbidden
                 }
         }
     }

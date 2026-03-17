@@ -9,9 +9,9 @@ class DesertDunesDocument(context: Context) : GameDocument<DesertDunesGameMove>(
     override fun saveMove(move: DesertDunesGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        DesertDunesGameMove(Position(rec.row, rec.col), DesertDunesObject.objFromString(rec.strValue1!!))
+        DesertDunesGameMove(Position(rec.row, rec.col), DesertDunesObject.entries[rec.intValue1])
 }

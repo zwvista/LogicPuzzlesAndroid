@@ -62,11 +62,11 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
                 dSand.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 dSand.draw(canvas)
                 when (val o = game.getObject(p)) {
-                    is DesertDunesMarkerObject ->
+                    is DesertDunesObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is DesertDunesForbiddenObject ->
+                    is DesertDunesObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is DesertDunesHintObject -> {
+                    is DesertDunesObject.Hint -> {
                         dPalmTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dPalmTree.draw(canvas)
                         val text = game.pos2hint[p].toString()
@@ -74,7 +74,7 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is DesertDunesDuneObject -> {
+                    is DesertDunesObject.Dune -> {
                         dDune.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dDune.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)

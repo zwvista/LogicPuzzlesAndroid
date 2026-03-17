@@ -30,5 +30,7 @@ class DesertDunesGame(layout: List<String>, gi: GameInterface<DesertDunesGame, D
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2stateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2stateAllowed(p: Position) = currentState.pos2stateAllowed[p]
     fun invalid2x2Squares() = currentState.invalid2x2Squares
 }

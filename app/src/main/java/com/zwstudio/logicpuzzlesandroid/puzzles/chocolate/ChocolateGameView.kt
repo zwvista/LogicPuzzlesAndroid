@@ -54,21 +54,22 @@ class ChocolateGameView(context: Context, val soundManager: SoundManager) : Cell
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is ChocolateChocolateObject -> {
+                when (game.getObject(p)) {
+                    ChocolateObject.Chocolate -> {
                         dChocolate.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2stateAllowed(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dChocolate.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dChocolate.draw(canvas)
                     }
-                    is ChocolateMarkerObject ->
+                    ChocolateObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is ChocolateForbiddenObject ->
+                    ChocolateObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
                 val n = game.pos2hint[p] ?: continue
-                val s = game.pos2state(p)!!
+                val s = game.pos2stateHint(p)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
