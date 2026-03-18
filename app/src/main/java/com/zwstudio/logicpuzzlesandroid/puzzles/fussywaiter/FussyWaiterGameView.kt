@@ -82,7 +82,9 @@ class FussyWaiterGameView(context: Context, val soundManager: SoundManager) : Ce
             val col = (event.x / cellWidth).toInt()
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
-            val move = FussyWaiterGameMove(Position(row, col))
+            val x = event.x - col * cellWidth
+            val y = event.y - row * cellHeight
+            val move = FussyWaiterGameMove(Position(row, col), if (x + y < cellWidth) 'a' else 'A')
             if (game.switchObject(move))
                 soundManager.playSoundTap()
         }
