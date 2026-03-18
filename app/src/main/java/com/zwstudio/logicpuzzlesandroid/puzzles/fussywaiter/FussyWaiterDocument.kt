@@ -9,9 +9,9 @@ class FussyWaiterDocument(context: Context) : GameDocument<FussyWaiterGameMove>(
     override fun saveMove(move: FussyWaiterGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.strValue1 = move.obj.toString()
     }
 
     override fun loadMove(rec: MoveProgress) =
-        FussyWaiterGameMove(Position(rec.row, rec.col), FussyWaiterObject.objFromString(rec.strValue1!!))
+        FussyWaiterGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }

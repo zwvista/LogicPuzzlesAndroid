@@ -18,15 +18,14 @@ class FussyWaiterGame(layout: List<String>, gi: GameInterface<FussyWaiterGame, F
     operator fun set(p: Position, obj: FussyWaiterObject) {this[p.row, p.col] = obj}
 
     init {
-        size = Position(layout.size, layout[0].length)
-        objArray = Array(rows * cols) { FussyWaiterEmptyObject }
+        size = Position(layout.size, layout[0].length / 2)
+        objArray = Array(rows * cols) { FussyWaiterObject() }
         for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols)
-                when (str[c]) {
-                    'F' -> this[r, c] = FussyWaiterFlowerObject()
-                    'B' -> this[r, c] = FussyWaiterBlockObject
-                }
+            for (c in 0 until cols) {
+                val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
+                this[r, c] = FussyWaiterObject(ch1, ch2)
+            }
         }
         val state = FussyWaiterGameState(this)
         levelInitialized(state)
@@ -34,5 +33,6 @@ class FussyWaiterGame(layout: List<String>, gi: GameInterface<FussyWaiterGame, F
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2state(p: Position) = currentState.pos2state[p]
+    fun pos2stateFood(p: Position) = currentState.pos2stateFood[p]
+    fun pos2stateDrink(p: Position) = currentState.pos2stateDrink[p]
 }

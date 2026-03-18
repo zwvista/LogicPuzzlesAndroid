@@ -3,15 +3,12 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fussywaiter
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGame, FussyWaiterGameMove, FussyWaiterGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2stateFood = mutableMapOf<Position, AllowedObjectState>()
+    var pos2stateDrink = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -23,22 +20,20 @@ class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGa
     }
 
     override fun setObject(move: FussyWaiterGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] !is FussyWaiterEmptyObject || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || (if (move.isDrink) this[p].drink else this[p].food) == move.obj) return GameOperationType.Invalid
+        if (move.isDrink) this[p].drink = move.obj else this[p].food = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: FussyWaiterGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] !is FussyWaiterEmptyObject) return GameOperationType.Invalid
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[p]) {
-            is FussyWaiterEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) FussyWaiterMarkerObject else FussyWaiterFlowerObject()
-            is FussyWaiterFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) FussyWaiterMarkerObject else FussyWaiterEmptyObject
-            is FussyWaiterMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) FussyWaiterFlowerObject() else FussyWaiterEmptyObject
-            else -> o
-        }
+        if (!isValid(p) || (if (move.isDrink) game[p].drink else game[p].food) != ' ') return GameOperationType.Invalid
+        val chMin = if (move.isDrink) 'A' else 'a'
+        val chMax = chMin + game.rows
+        val o = if (move.isDrink) this[p].drink else this[p].food
+        move.obj = if (o == ' ') chMin else if (o == chMax) ' ' else o + 1
         return setObject(move)
     }
 
@@ -61,87 +56,45 @@ class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGa
         5. He is indeed, very fussy.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o is FussyWaiterForbiddenObject)
-                    this[p] = FussyWaiterEmptyObject
-                else if (o is FussyWaiterFlowerObject) {
-                    o.state = AllowedObjectState.Normal
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
-                }
+                pos2stateFood[p] = AllowedObjectState.Normal
+                pos2stateDrink[p] = AllowedObjectState.Normal
             }
-        for ((p, node) in pos2node) {
-            for (os in FussyWaiterGame.offset) {
-                val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
-            }
-        }
-        // 2. More exactly, you have to join the existing flowers by adding more of
-        // them, creating a single path of flowers touching horizontally or
-        // vertically.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
-        val flowers = mutableListOf<Position>()
-        // 3. At the same time, you can't line up horizontally or vertically more
-        // than 3 flowers (thus Forbidden Four).
-        fun areFlowersInvalid() = flowers.size > 3
-        fun checkFlowers() {
-            if (areFlowersInvalid()) {
+        fun f(arr: List<Pair<Position, Char>>, pos2state: MutableMap<Position, AllowedObjectState>) {
+            var m = arr.groupBy { it.second }
+            if (m.contains(' ')) isSolved = false
+            m = m.filter { (ch, arr2) -> ch != ' ' && arr2.size > 1 }
+            if (m.isNotEmpty()) {
                 isSolved = false
-                for (p in flowers)
-                    (this[p] as FussyWaiterFlowerObject).state = AllowedObjectState.Error
+                for (arr2 in m.values)
+                    for ((p, _) in arr2)
+                        pos2state[p] = AllowedObjectState.Error
             }
-            flowers.clear()
-        }
-        fun checkForbidden(p: Position, indexes: List<Int>) {
-            if (!allowedObjectsOnly) return
-            for (i in indexes) {
-                val os = FussyWaiterGame.offset[i]
-                var p2 = p + os
-                while (isValid(p2) && this[p2] is FussyWaiterFlowerObject) {
-                    flowers.add(p2)
-                    p2 += os
-                }
-            }
-            if (areFlowersInvalid()) this[p] = FussyWaiterForbiddenObject
-            flowers.clear()
         }
         for (r in 0 until rows) {
+            val foods = mutableListOf<Pair<Position, Char>>()
+            val drinks = mutableListOf<Pair<Position, Char>>()
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
-                if (o is FussyWaiterFlowerObject)
-                    flowers.add(p)
-                else {
-                    checkFlowers()
-                    if (o is FussyWaiterEmptyObject || o is FussyWaiterMarkerObject)
-                        checkForbidden(p, listOf(1, 3))
-                }
+                foods.add(p to this[p].food)
+                drinks.add(p to this[p].drink)
             }
-            checkFlowers()
+            f(foods, pos2stateFood)
+            f(drinks, pos2stateDrink)
         }
         for (c in 0 until cols) {
+            val foods = mutableListOf<Pair<Position, Char>>()
+            val drinks = mutableListOf<Pair<Position, Char>>()
             for (r in 0 until rows) {
                 val p = Position(r, c)
-                val o = get(p)
-                if (o is FussyWaiterFlowerObject)
-                    flowers.add(p)
-                else {
-                    checkFlowers()
-                    if (o is FussyWaiterEmptyObject || o is FussyWaiterMarkerObject)
-                        checkForbidden(p, listOf(0, 2))
-                }
+                foods.add(p to this[p].food)
+                drinks.add(p to this[p].drink)
             }
-            checkFlowers()
+            f(foods, pos2stateFood)
+            f(drinks, pos2stateDrink)
         }
     }
 }

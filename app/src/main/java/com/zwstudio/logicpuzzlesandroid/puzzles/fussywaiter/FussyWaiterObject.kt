@@ -1,37 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.fussywaiter
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-sealed class FussyWaiterObject {
-    open fun objAsString() = "empty"
+data class FussyWaiterObject(var food: Char = ' ', var drink: Char = ' ')
 
-    companion object {
-        fun objFromString(str: String) = when (str) {
-            "marker" -> FussyWaiterMarkerObject
-            "flower" -> FussyWaiterFlowerObject()
-            else -> FussyWaiterEmptyObject
-        }
-    }
+class FussyWaiterGameMove(val p: Position, var obj: Char = ' ') {
+    val isDrink get() = obj.isUpperCase()
 }
-
-object FussyWaiterBlockObject : FussyWaiterObject() {
-    override fun objAsString() = "block"
-}
-
-object FussyWaiterEmptyObject : FussyWaiterObject()
-
-
-object FussyWaiterForbiddenObject : FussyWaiterObject() {
-    override fun objAsString() = "forbidden"
-}
-
-object FussyWaiterMarkerObject : FussyWaiterObject() {
-    override fun objAsString() = "marker"
-}
-
-class FussyWaiterFlowerObject(var state: AllowedObjectState = AllowedObjectState.Normal) : FussyWaiterObject() {
-    override fun objAsString() = "flower"
-}
-
-class FussyWaiterGameMove(val p: Position, var obj: FussyWaiterObject = FussyWaiterEmptyObject)

@@ -22,26 +22,30 @@ class FussyWaiterGameView(context: Context, val soundManager: SoundManager) : Ce
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val wallPaint = Paint()
-    private val markerPaint = Paint()
-    private val fixedPaint = Paint()
-    private val forbiddenPaint = Paint()
-    private val dFlower: Drawable
+    private val dFoods: Array<Drawable>
+    private val dDrinks: Array<Drawable>
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        wallPaint.color = Color.WHITE
-        wallPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.strokeWidth = 5f
-        fixedPaint.color = Color.WHITE
-        fixedPaint.style = Paint.Style.STROKE
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
-        dFlower = fromImageToDrawable("images/flower_blue.png")
+        dFoods = arrayOf(
+            "images/hamburger.png",
+            "images/pizza.png",
+            "images/fries.png",
+            "images/donut.png",
+            "images/fish.png",
+            "images/icecream.png",
+            "images/pig.png",
+        ).map { fromImageToDrawable(it) }.toTypedArray()
+        dDrinks = arrayOf(
+            "images/drink_blue.png",
+            "images/cup.png",
+            "images/wine_red_glass.png",
+            "images/beer_glass.png",
+            "images/cocktail.png",
+            "images/wine_white_glass.png",
+            "images/lemonade_bottle.png",
+        ).map { fromImageToDrawable(it) }.toTypedArray()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -53,22 +57,22 @@ class FussyWaiterGameView(context: Context, val soundManager: SoundManager) : Ce
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is FussyWaiterFlowerObject -> {
-                        dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dFlower.draw(canvas)
-                        if (game[p] is FussyWaiterFlowerObject)
-                            canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
-                    }
-                    is FussyWaiterMarkerObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is FussyWaiterForbiddenObject ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is FussyWaiterBlockObject ->
-                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                    else -> {}
+                val o = game.getObject(p)
+                if (o.food != ' ') {
+                    val dFood = dFoods[o.food - 'a']
+                    dFood.setBounds(cwc(c), chr(r), cwc2(c), chr2(r))
+                    val s = game.pos2stateFood(p)
+                    val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                    dFood.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    dFood.draw(canvas)
+                }
+                if (o.drink != ' ') {
+                    val dDrink = dDrinks[o.drink - 'A']
+                    dDrink.setBounds(cwc2(c), chr2(r), cwc(c + 1), chr(r + 1))
+                    val s = game.pos2stateDrink(p)
+                    val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                    dDrink.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    dDrink.draw(canvas)
                 }
             }
     }
