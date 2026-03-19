@@ -11,8 +11,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloudsGame, HiddenCloudsGameMove, HiddenCloudsGameState>(game) {
-    var objArray = Array<HiddenCloudsObject>(rows * cols) { HiddenCloudsObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { HiddenCloudsObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -24,19 +25,21 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
     }
 
     override fun setObject(move: HiddenCloudsGameMove): GameOperationType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: HiddenCloudsGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is HiddenCloudsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsObject.Marker else HiddenCloudsObject.Cloud()
-            is HiddenCloudsObject.Cloud -> if (markerOption == MarkerOptions.MarkerLast) HiddenCloudsObject.Marker else HiddenCloudsObject.Empty
-            is HiddenCloudsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsObject.Cloud() else HiddenCloudsObject.Empty
+            HiddenCloudsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsObject.Marker else HiddenCloudsObject.Cloud
+            HiddenCloudsObject.Cloud -> if (markerOption == MarkerOptions.MarkerLast) HiddenCloudsObject.Marker else HiddenCloudsObject.Empty
+            HiddenCloudsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsObject.Cloud else HiddenCloudsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -63,7 +66,7 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is HiddenCloudsObject.Forbidden)
+                if (this[r, c] == HiddenCloudsObject.Forbidden)
                     this[r, c] = HiddenCloudsObject.Empty
         // 2. Clouds have a square form (even of one single tile) and can't touch
         //    each other horizontally or vertically.
@@ -72,7 +75,7 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is HiddenCloudsObject.Cloud) continue
+                if (this[p] != HiddenCloudsObject.Cloud) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -105,18 +108,18 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
             val s = if (rs * cs == nodeList.size) AllowedObjectState.Normal else AllowedObjectState.Error
             if (s != AllowedObjectState.Normal) isSolved = false
             for (p in cloud)
-                this[p] = HiddenCloudsObject.Cloud(s)
+                pos2stateAllowed[p] = s
         }
         // 4. Numbers indicate the total number of clouds tiles in the tile itself
         //    and in the four tiles around it (up down left right)
         for ((p, n2) in game.pos2hint) {
             val rng = HiddenCloudsGame.offset2.map { p + it }.filter { isValid(it) }
-            val n1 = rng.filter { this[it] is HiddenCloudsObject.Cloud }.size
+            val n1 = rng.filter { this[it] == HiddenCloudsObject.Cloud }.size
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
-            pos2state[p] = s
+            pos2stateHint[p] = s
             if (!(allowedObjectsOnly && s != HintState.Normal)) continue
-            val empties = rng.filter { this[it] is HiddenCloudsObject.Empty }
+            val empties = rng.filter { this[it] == HiddenCloudsObject.Empty }
             for (p in empties)
                 this[p] = HiddenCloudsObject.Forbidden
         }
