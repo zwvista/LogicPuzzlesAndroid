@@ -52,22 +52,24 @@ class HiddenStarsGameView(context: Context, val soundManager: SoundManager) : Ce
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is HiddenStarsArrowObject -> {
+                    HiddenStarsObject.Arrow -> {
                         val dArrow = dArrowArray[game.pos2arrow[p]!!]
                         dArrow.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dArrow.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dArrow.draw(canvas)
                     }
-                    is HiddenStarsStarObject -> {
+                    HiddenStarsObject.Star -> {
                         dStar.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dStar.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dStar.draw(canvas)
                     }
-                    is HiddenStarsMarkerObject ->
+                    HiddenStarsObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is HiddenStarsForbiddenObject ->
+                    HiddenStarsObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }

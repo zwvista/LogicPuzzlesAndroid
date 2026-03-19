@@ -9,9 +9,9 @@ class GardenerDocument(context: Context) : GameDocument<GardenerGameMove>(contex
     override fun saveMove(move: GardenerGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        GardenerGameMove(Position(rec.row, rec.col), GardenerObject.objFromString(rec.strValue1!!))
+        GardenerGameMove(Position(rec.row, rec.col), GardenerObject.entries[rec.intValue1])
 }

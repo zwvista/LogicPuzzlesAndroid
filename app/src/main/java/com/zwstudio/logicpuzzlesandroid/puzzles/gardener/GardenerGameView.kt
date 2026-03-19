@@ -68,15 +68,16 @@ class GardenerGameView(context: Context, val soundManager: SoundManager) : Cells
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is GardenerFlowerObject -> {
+                    GardenerObject.Flower -> {
                         dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2stateAllowed(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dFlower.draw(canvas)
                     }
-                    is GardenerMarkerObject ->
+                    GardenerObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is GardenerForbiddenObject ->
+                    GardenerObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
@@ -87,7 +88,7 @@ class GardenerGameView(context: Context, val soundManager: SoundManager) : Cells
             }
         for ((p, value) in game.pos2hint) {
             val n = value.first
-            val state = game.pos2state(p)
+            val state = game.pos2stateHint(p)
             textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
             val text = n.toString()
             val r = p.row

@@ -11,7 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloudsGame, HiddenCloudsGameMove, HiddenCloudsGameState>(game) {
-    var objArray = Array<HiddenCloudsObject>(rows * cols) { HiddenCloudsEmptyObject }
+    var objArray = Array<HiddenCloudsObject>(rows * cols) { HiddenCloudsObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -34,9 +34,9 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is HiddenCloudsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsMarkerObject else HiddenCloudsCloudObject()
-            is HiddenCloudsCloudObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenCloudsMarkerObject else HiddenCloudsEmptyObject
-            is HiddenCloudsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsCloudObject() else HiddenCloudsEmptyObject
+            is HiddenCloudsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsObject.Marker else HiddenCloudsObject.Cloud()
+            is HiddenCloudsObject.Cloud -> if (markerOption == MarkerOptions.MarkerLast) HiddenCloudsObject.Marker else HiddenCloudsObject.Empty
+            is HiddenCloudsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) HiddenCloudsObject.Cloud() else HiddenCloudsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -63,8 +63,8 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is HiddenCloudsForbiddenObject)
-                    this[r, c] = HiddenCloudsEmptyObject
+                if (this[r, c] is HiddenCloudsObject.Forbidden)
+                    this[r, c] = HiddenCloudsObject.Empty
         // 2. Clouds have a square form (even of one single tile) and can't touch
         //    each other horizontally or vertically.
         val g = Graph()
@@ -72,7 +72,7 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is HiddenCloudsCloudObject) continue
+                if (this[p] !is HiddenCloudsObject.Cloud) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -105,20 +105,20 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
             val s = if (rs * cs == nodeList.size) AllowedObjectState.Normal else AllowedObjectState.Error
             if (s != AllowedObjectState.Normal) isSolved = false
             for (p in cloud)
-                this[p] = HiddenCloudsCloudObject(s)
+                this[p] = HiddenCloudsObject.Cloud(s)
         }
         // 4. Numbers indicate the total number of clouds tiles in the tile itself
         //    and in the four tiles around it (up down left right)
         for ((p, n2) in game.pos2hint) {
             val rng = HiddenCloudsGame.offset2.map { p + it }.filter { isValid(it) }
-            val n1 = rng.filter { this[it] is HiddenCloudsCloudObject }.size
+            val n1 = rng.filter { this[it] is HiddenCloudsObject.Cloud }.size
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
             pos2state[p] = s
             if (!(allowedObjectsOnly && s != HintState.Normal)) continue
-            val empties = rng.filter { this[it] is HiddenCloudsEmptyObject }
+            val empties = rng.filter { this[it] is HiddenCloudsObject.Empty }
             for (p in empties)
-                this[p] = HiddenCloudsForbiddenObject
+                this[p] = HiddenCloudsObject.Forbidden
         }
     }
 }

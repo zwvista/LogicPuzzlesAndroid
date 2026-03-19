@@ -9,9 +9,9 @@ class HiddenCloudsDocument(context: Context) : GameDocument<HiddenCloudsGameMove
     override fun saveMove(move: HiddenCloudsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        HiddenCloudsGameMove(Position(rec.row, rec.col), HiddenCloudsObject.objFromString(rec.strValue1!!))
+        HiddenCloudsGameMove(Position(rec.row, rec.col), HiddenCloudsObject.entries[rec.intValue1])
 }

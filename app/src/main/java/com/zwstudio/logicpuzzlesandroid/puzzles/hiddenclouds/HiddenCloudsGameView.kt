@@ -56,11 +56,11 @@ class HiddenCloudsGameView(context: Context, val soundManager: SoundManager) : C
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is HiddenCloudsMarkerObject ->
+                    is HiddenCloudsObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is HiddenCloudsForbiddenObject ->
+                    is HiddenCloudsObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is HiddenCloudsCloudObject -> {
+                    is HiddenCloudsObject.Cloud -> {
                         dCloud.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dCloud.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)

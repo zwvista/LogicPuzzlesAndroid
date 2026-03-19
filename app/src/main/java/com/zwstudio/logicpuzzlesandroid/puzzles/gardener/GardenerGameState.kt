@@ -10,8 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, GardenerGameMove, GardenerGameState>(game) {
-    var objArray = Array<GardenerObject>(rows * cols) { GardenerEmptyObject }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { GardenerObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
     var invalidSpacesHorz = mutableSetOf<Position>()
     var invalidSpacesVert = mutableSetOf<Position>()
 
@@ -25,19 +26,21 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
     }
 
     override fun setObject(move: GardenerGameMove): GameOperationType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: GardenerGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is GardenerEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerMarkerObject else GardenerFlowerObject()
-            is GardenerFlowerObject -> if (markerOption == MarkerOptions.MarkerLast) GardenerMarkerObject else GardenerEmptyObject
-            is GardenerMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) GardenerFlowerObject() else GardenerEmptyObject
+            GardenerObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) GardenerObject.Marker else GardenerObject.Flower
+            GardenerObject.Flower -> if (markerOption == MarkerOptions.MarkerLast) GardenerObject.Marker else GardenerObject.Empty
+            GardenerObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) GardenerObject.Flower else GardenerObject.Empty
             else -> o
         }
         return setObject(move)
@@ -70,8 +73,8 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is GardenerForbiddenObject)
-                    this[r, c] = GardenerEmptyObject
+                if (this[r, c] == GardenerObject.Forbidden)
+                    this[r, c] = GardenerObject.Empty
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
@@ -81,18 +84,18 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
                 fun hasNeighbor(): Boolean {
                     return GardenerGame.offset.any {
                         val p2 = p + it
-                        isValid(p2) && this[p2] is GardenerFlowerObject
+                        isValid(p2) && this[p2] == GardenerObject.Flower
                     }
                 }
-                if (o is GardenerFlowerObject) {
+                if (o == GardenerObject.Flower) {
                     // 4. Flowers can't be horizontally or vertically touching.
                     val s = if (!hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
-                    o.state = s
+                    pos2stateAllowed[p] = s
                     if (s == AllowedObjectState.Error) isSolved = false
                 } else {
                     // 4. Flowers can't be horizontally or vertically touching.
-                    if (o !is GardenerForbiddenObject && allowedObjectsOnly && hasNeighbor())
-                        this[p] = GardenerForbiddenObject
+                    if (o != GardenerObject.Forbidden && allowedObjectsOnly && hasNeighbor())
+                        this[p] = GardenerObject.Forbidden
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -119,15 +122,15 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             val area = game.areas[i]
             var n1 = 0
             for (p2 in area)
-                if (this[p2] is GardenerFlowerObject) n1++
+                if (this[p2] == GardenerObject.Flower) n1++
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            pos2state[p] = s
+            pos2stateHint[p] = s
             if (s != HintState.Complete) isSolved = false
             if (s != HintState.Normal && allowedObjectsOnly)
                 for (p2 in area) {
                     val o = this[p2]
-                    if (o is GardenerEmptyObject || o is GardenerMarkerObject)
-                        this[p2] = GardenerForbiddenObject
+                    if (o == GardenerObject.Empty || o == GardenerObject.Marker)
+                        this[p2] = GardenerObject.Forbidden
                 }
         }
         val spaces = mutableListOf<Position>()
@@ -149,7 +152,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is GardenerFlowerObject)
+                if (o == GardenerObject.Flower)
                     checkSpaces(true)
                 else
                     spaces.add(p)
@@ -160,7 +163,7 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is GardenerFlowerObject)
+                if (o == GardenerObject.Flower)
                     checkSpaces(false)
                 else
                     spaces.add(p)

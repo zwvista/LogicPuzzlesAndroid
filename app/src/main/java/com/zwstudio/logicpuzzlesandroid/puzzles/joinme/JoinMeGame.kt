@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-class JoinMeGame(layout: List<String>, gi: GameInterface<JoinMeGame, JoinMeGameMove, JoinMeGameState>, gdi: GameDocumentInterface) : CellsGame<JoinMeGame, JoinMeGameMove, JoinMeGameState>(gi, gdi) {
+class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<JoinMeGame, JoinMeGameMove, JoinMeGameState>, gdi: GameDocumentInterface) : CellsGame<JoinMeGame, JoinMeGameMove, JoinMeGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
         val offset2 = arrayOf(

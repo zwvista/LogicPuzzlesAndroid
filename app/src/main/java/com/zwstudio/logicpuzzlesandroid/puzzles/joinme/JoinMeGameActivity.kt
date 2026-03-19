@@ -20,6 +20,8 @@ class JoinMeGameActivity : GameGameActivity<JoinMeGame, JoinMeDocument, JoinMeGa
         }
     }
 
-    override fun newGame(level: GameLevel) =
-        JoinMeGame(level.layout, this, doc)
+    override fun newGame(level: GameLevel): JoinMeGame {
+        val stitches = (level.settings["Stitches"] ?: "1").toInt()
+        return JoinMeGame(level.layout, stitches, this, doc)
+    }
 }

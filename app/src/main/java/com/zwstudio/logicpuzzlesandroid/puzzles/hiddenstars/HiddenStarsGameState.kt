@@ -8,9 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGame, HiddenStarsGameMove, HiddenStarsGameState>(game) {
-    var objArray = Array<HiddenStarsObject>(rows * cols) { HiddenStarsEmptyObject }
+    var objArray = Array<HiddenStarsObject>(rows * cols) { HiddenStarsObject.Empty }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,26 +19,27 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
     operator fun set(p: Position, obj: HiddenStarsObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, _) in game.pos2arrow)
-            this[p] = HiddenStarsArrowObject()
+        for (p in game.pos2arrow.keys)
+            this[p] = HiddenStarsObject.Arrow
         updateIsSolved()
     }
 
     override fun setObject(move: HiddenStarsGameMove): GameOperationType {
-        if (!isValid(move.p) || this[move.p] === move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] === move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: HiddenStarsGameMove): GameOperationType {
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is HiddenStarsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsMarkerObject else HiddenStarsStarObject()
-            is HiddenStarsStarObject -> if (markerOption == MarkerOptions.MarkerLast) HiddenStarsMarkerObject else HiddenStarsEmptyObject
-            is HiddenStarsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsStarObject() else HiddenStarsEmptyObject
+            HiddenStarsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsObject.Marker else HiddenStarsObject.Star
+            HiddenStarsObject.Star -> if (markerOption == MarkerOptions.MarkerLast) HiddenStarsObject.Marker else HiddenStarsObject.Empty
+            HiddenStarsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) HiddenStarsObject.Star else HiddenStarsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -67,7 +69,7 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
             var n1 = 0
             val n2 = game.row2hint[r]
             for (c in 0 until cols)
-                if (this[r, c] is HiddenStarsStarObject)
+                if (this[r, c] == HiddenStarsObject.Star)
                     n1++
             // 3. The numbers on the borders tell you how many Stars there are on that row.
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -77,7 +79,7 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
             var n1 = 0
             val n2 = game.col2hint[c]
             for (r in 0 until rows)
-                if (this[r, c] is HiddenStarsStarObject)
+                if (this[r, c] == HiddenStarsObject.Star)
                     n1++
             // 3. The numbers on the borders tell you how many Stars there are on that column.
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -85,8 +87,8 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
         }
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is HiddenStarsForbiddenObject)
-                    this[r, c] = HiddenStarsEmptyObject
+                if (this[r, c] == HiddenStarsObject.Forbidden)
+                    this[r, c] = HiddenStarsObject.Empty
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -97,7 +99,7 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
                         val os = HiddenStarsGame.offset2[i]
                         var p2 = p + os
                         while (isValid(p2)) {
-                            if (this[p2] is HiddenStarsArrowObject && (game.pos2arrow[p2]!! + 4) % 8 == i)
+                            if (this[p2] == HiddenStarsObject.Arrow && (game.pos2arrow[p2]!! + 4) % 8 == i)
                                 n++
                             p2 += os
                         }
@@ -111,7 +113,7 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
                     val os = HiddenStarsGame.offset2[game.pos2arrow[p]!!]
                     var p2 = p + os
                     while (isValid(p2)) {
-                        if (this[p2] is HiddenStarsStarObject)
+                        if (this[p2] == HiddenStarsObject.Star)
                             n++
                         p2 += os
                     }
@@ -119,19 +121,19 @@ class HiddenStarsGameState(game: HiddenStarsGame) : CellsGameState<HiddenStarsGa
                     // by one and only one Arrow.
                     return game.onlyOneArrow && n == 1 || n >= 1
                 }
-                if (o is HiddenStarsStarObject) {
+                if (o == HiddenStarsObject.Star) {
                     // 2. Each star is pointed at by at least one Arrow.
                     val s = if (hasArrow()) AllowedObjectState.Normal else AllowedObjectState.Error
-                    o.state = s
+                    pos2state[p] = s
                     if (s == AllowedObjectState.Error) isSolved = false
-                } else if (o is HiddenStarsArrowObject) {
+                } else if (o == HiddenStarsObject.Arrow) {
                     // 2. Each Arrow points to at least one star.
                     val s = if (hasStar()) AllowedObjectState.Normal else AllowedObjectState.Error
-                    o.state = s
+                    pos2state[p] = s
                     if (s == AllowedObjectState.Error) isSolved = false
-                } else if ((o is HiddenStarsEmptyObject || o is HiddenStarsMarkerObject) && allowedObjectsOnly &&
+                } else if ((o == HiddenStarsObject.Empty || o == HiddenStarsObject.Marker) && allowedObjectsOnly &&
                     (col2state[c] != HintState.Normal || row2state[r] != HintState.Normal || !hasArrow()))
-                    this[r, c] = HiddenStarsForbiddenObject
+                    this[r, c] = HiddenStarsObject.Forbidden
             }
     }
 }
