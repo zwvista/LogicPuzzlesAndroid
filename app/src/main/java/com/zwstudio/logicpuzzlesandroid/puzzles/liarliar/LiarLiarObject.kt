@@ -1,37 +1,9 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.liarliar
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-sealed class LiarLiarObject {
-    open fun objAsString() = "empty"
-
-    companion object {
-        fun objFromString(str: String) = when (str) {
-            "marker" -> LiarLiarMarkerObject
-            "marked" -> LiarLiarMarkedObject()
-            else -> LiarLiarEmptyObject
-        }
-    }
+enum class LiarLiarObject {
+    Empty, Forbidden, Hint, Marker, Marked
 }
 
-object LiarLiarEmptyObject : LiarLiarObject()
-
-object LiarLiarForbiddenObject : LiarLiarObject() {
-    override fun objAsString() = "forbidden"
-}
-
-class LiarLiarHintObject(var state: HintState = HintState.Normal) : LiarLiarObject() {
-    override fun objAsString() = "hint"
-}
-
-object LiarLiarMarkerObject : LiarLiarObject() {
-    override fun objAsString() = "marker"
-}
-
-class LiarLiarMarkedObject(var state: AllowedObjectState = AllowedObjectState.Normal) : LiarLiarObject() {
-    override fun objAsString() = "marked"
-}
-
-class LiarLiarGameMove(val p: Position, var obj: LiarLiarObject = LiarLiarEmptyObject)
+class LiarLiarGameMove(val p: Position, var obj: LiarLiarObject = LiarLiarObject.Empty)

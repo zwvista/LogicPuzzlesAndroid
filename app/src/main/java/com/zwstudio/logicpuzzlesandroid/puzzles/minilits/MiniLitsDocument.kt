@@ -9,9 +9,9 @@ class MiniLitsDocument(context: Context) : GameDocument<MiniLitsGameMove>(contex
     override fun saveMove(move: MiniLitsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        MiniLitsGameMove(Position(rec.row, rec.col), MiniLitsObject.objFromString(rec.strValue1!!))
+        MiniLitsGameMove(Position(rec.row, rec.col), MiniLitsObject.entries[rec.intValue1])
 }

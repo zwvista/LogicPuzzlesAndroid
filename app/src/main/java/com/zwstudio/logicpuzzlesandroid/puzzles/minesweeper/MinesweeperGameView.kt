@@ -49,12 +49,12 @@ class MinesweeperGameView(context: Context, val soundManager: SoundManager) : Ce
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 val o = game.getObject(p)
-                if (o is MinesweeperMineObject) {
+                if (o is MinesweeperObject.Mine) {
                     dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                     dTree.draw(canvas)
-                } else if (o is MinesweeperMarkerObject)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is MinesweeperForbiddenObject) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                } else if (o is MinesweeperObject.Marker)
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is MinesweeperObject.Forbidden) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                 val n = game.pos2hint[p]
                 if (n != null) {
                     val state = game.pos2state(p)

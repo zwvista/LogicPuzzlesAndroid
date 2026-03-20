@@ -10,8 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarLiarGameMove, LiarLiarGameState>(game) {
-    var objArray = Array<LiarLiarObject>(rows * cols) { LiarLiarEmptyObject }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { LiarLiarObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,8 +20,8 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
     operator fun set(p: Position, obj: LiarLiarObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, _) in game.pos2hint)
-            this[p] = LiarLiarHintObject()
+        for (p in game.pos2hint.keys)
+            this[p] = LiarLiarObject.Hint
         updateIsSolved()
     }
 
@@ -37,9 +38,9 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
         if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is LiarLiarEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LiarLiarMarkerObject else LiarLiarMarkedObject()
-            is LiarLiarMarkedObject -> if (markerOption == MarkerOptions.MarkerLast) LiarLiarMarkerObject else LiarLiarEmptyObject
-            is LiarLiarMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LiarLiarMarkedObject() else LiarLiarEmptyObject
+            LiarLiarObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) LiarLiarObject.Marker else LiarLiarObject.Marked
+            LiarLiarObject.Marked -> if (markerOption == MarkerOptions.MarkerLast) LiarLiarObject.Marker else LiarLiarObject.Empty
+            LiarLiarObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) LiarLiarObject.Marked else LiarLiarObject.Empty
             else -> o
         }
         return setObject(move)
@@ -66,49 +67,47 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is LiarLiarForbiddenObject)
-                    this[r, c] = LiarLiarEmptyObject
+                if (this[r, c] == LiarLiarObject.Forbidden)
+                    this[r, c] = LiarLiarObject.Empty
         // 3. A number in a cell indicates how many marked cells must be placed.
         //    adjacent to its four sides.
         for ((p, n1) in game.pos2hint) {
             val n2 = LiarLiarGame.offset.count {
                 val p2 = p + it
-                isValid(p2) && this[p2] is LiarLiarMarkedObject
+                isValid(p2) && this[p2] == LiarLiarObject.Marked
             }
             val s = if (n1 == n2) HintState.Complete else HintState.Error
-            this[p] = LiarLiarHintObject(state = s)
+            pos2stateHint[p] = s
         }
         for (area in game.areas) {
             var nComplete = 0
             var nError = 0
-            for (p in area) {
-                val o = this[p]
-                if (o is LiarLiarHintObject)
-                    if (o.state == HintState.Complete) nComplete++ else nError++
-            }
+            for (p in area)
+                if (this[p] == LiarLiarObject.Hint)
+                    if (pos2stateHint[p] == HintState.Complete) nComplete++ else nError++
             if (nError != 1) isSolved = false
         }
         // 5. Two marked cells must not be orthogonally adjacent.
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is LiarLiarMarkedObject) continue
+                if (this[p] != LiarLiarObject.Marked) continue
                 val rng = LiarLiarGame.offset.map { p + it }.filter { p ->
-                    isValid(p) && this[p] is LiarLiarMarkedObject
+                    isValid(p) && this[p] == LiarLiarObject.Marked
                 }
                 if (rng.isEmpty())
-                    this[p] = LiarLiarMarkedObject()
+                    pos2stateAllowed[p] = AllowedObjectState.Normal
                 else {
                     isSolved = false
-                    this[p] = LiarLiarMarkedObject(state = AllowedObjectState.Error)
+                    pos2stateAllowed[p] = AllowedObjectState.Error
                     for (p in rng)
-                        this[p] = LiarLiarMarkedObject(state = AllowedObjectState.Error)
+                        pos2stateAllowed[p] = AllowedObjectState.Error
                 }
                 if (!allowedObjectsOnly) continue
                 for (os in LiarLiarGame.offset) {
                     val p2 = p + os
-                    if (isValid(p2) && this[p2] is LiarLiarEmptyObject)
-                        this[p2] = LiarLiarForbiddenObject
+                    if (isValid(p2) && this[p2] == LiarLiarObject.Empty)
+                        this[p2] = LiarLiarObject.Forbidden
                 }
             }
         if (!isSolved) return
@@ -118,7 +117,7 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is LiarLiarMarkedObject) continue
+                if (this[p] == LiarLiarObject.Marked) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node

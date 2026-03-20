@@ -9,9 +9,9 @@ class LitsDocument(context: Context) : GameDocument<LitsGameMove>(context) {
     override fun saveMove(move: LitsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LitsGameMove(Position(rec.row, rec.col), LitsObject.objFromString(rec.strValue1!!))
+        LitsGameMove(Position(rec.row, rec.col), LitsObject.entries[rec.intValue1])
 }

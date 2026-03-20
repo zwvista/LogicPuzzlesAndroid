@@ -4,14 +4,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, LitsGameState>(game) {
-    var objArray = Array<LitsObject>(rows * cols) { LitsEmptyObject }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { LitsObject.Empty }
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -22,7 +21,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         updateIsSolved()
     }
 
-    private inner class LitsAreaInfo {
+    private class LitsAreaInfo {
         var trees = mutableListOf<Position>()
         var blockIndexes = mutableSetOf<Int>()
         var neighborIndexes = mutableSetOf<Int>()
@@ -40,9 +39,9 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is LitsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsMarkerObject else LitsTreeObject()
-            is LitsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) LitsMarkerObject else LitsEmptyObject
-            is LitsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LitsTreeObject() else LitsEmptyObject
+            LitsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) LitsObject.Marker else LitsObject.Tree
+            LitsObject.Tree -> if (markerOption == MarkerOptions.MarkerLast) LitsObject.Marker else LitsObject.Empty
+            LitsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) LitsObject.Tree else LitsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -73,10 +72,10 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is LitsForbiddenObject)
-                    this[r, c] = LitsEmptyObject
-                else if (o is LitsTreeObject) {
-                    o.state = AllowedObjectState.Normal
+                if (o == LitsObject.Forbidden)
+                    this[r, c] = LitsObject.Empty
+                else if (o == LitsObject.Tree) {
+                    pos2state[p] = AllowedObjectState.Normal
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -120,10 +119,8 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         }
         fun notSolved(info: LitsAreaInfo) {
             isSolved = false
-            for (p in info.trees) {
-                val o = this[p] as LitsTreeObject
-                o.state = AllowedObjectState.Error
-            }
+            for (p in info.trees)
+                pos2state[p] = AllowedObjectState.Error
         }
         for (i in infos.indices) {
             val info = infos[i]
@@ -131,8 +128,8 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
             if (treeCount >= 4 && allowedObjectsOnly)
                 for (p in game.areas[i]) {
                     val o = this[p]
-                    if (o is LitsEmptyObject || o is LitsMarkerObject)
-                        this[p] = LitsForbiddenObject
+                    if (o == LitsObject.Empty || o == LitsObject.Marker)
+                        this[p] = LitsObject.Forbidden
                 }
             if (treeCount > 4 || treeCount == 4 && info.blockIndexes.size > 1)
                 notSolved(info)
@@ -141,7 +138,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
             if (treeCount == 4 && info.blockIndexes.size == 1) {
                 info.trees.sort()
                 val treeOffsets = mutableListOf<Position>()
-                val p2 = Position(info.trees.map { it.row }.minOrNull()!!, info.trees.map { it.col }.minOrNull()!!)
+                val p2 = Position(info.trees.minOf { it.row }, info.trees.minOf { it.col })
                 for (p in info.trees)
                     treeOffsets.add(p - p2)
                 info.tetrominoIndex = LitsGame.tetrominoes.indexOfFirst { it.any { it == treeOffsets } }
@@ -168,7 +165,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
                     continue@rule2x2
             isSolved = false
             for (os in LitsGame.offset3)
-                this[p + os] = LitsTreeObject(AllowedObjectState.Error)
+                pos2state[p + os] = AllowedObjectState.Error
         }
     }
 }

@@ -85,5 +85,6 @@ class LiarLiarGame(layout: List<String>, gi: GameInterface<LiarLiarGame, LiarLia
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2state(p: Position) = currentState.pos2state[p]
+    fun pos2stateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2stateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }

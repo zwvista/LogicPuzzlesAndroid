@@ -59,16 +59,20 @@ class MiniLitsGameView(context: Context, val soundManager: SoundManager) : Cells
         for (r in 0 until rows)
             for (c in 0 until cols) {
             val p = Position(r, c)
-            val o = game.getObject(p)
-            if (o is MiniLitsTreeObject) {
-                dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
-                dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                dTree.draw(canvas)
-            } else if (o is MiniLitsMarkerObject)
-                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-            else if (o is MiniLitsForbiddenObject)
-                canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+            when (game.getObject(p)) {
+                MiniLitsObject.Tree -> {
+                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                    val s = game.pos2state(p)
+                    val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                    dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                    dTree.draw(canvas)
+                }
+                MiniLitsObject.Marker ->
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                MiniLitsObject.Forbidden ->
+                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                else -> {}
+            }
         }
     }
 

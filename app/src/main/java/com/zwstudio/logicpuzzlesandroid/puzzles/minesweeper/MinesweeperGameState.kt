@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGame, MinesweeperGameMove, MinesweeperGameState>(game) {
-    var objArray = Array<MinesweeperObject>(rows * cols) { MinesweeperEmptyObject }
+    var objArray = Array(rows * cols) { MinesweeperObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -17,24 +17,26 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = MinesweeperHintObject()
+            this[p] = MinesweeperObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: MinesweeperGameMove): GameOperationType {
-        if (this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == MinesweeperObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: MinesweeperGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == MinesweeperObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is MinesweeperEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMarkerObject else MinesweeperMineObject
-            is MinesweeperMineObject -> if (markerOption == MarkerOptions.MarkerLast) MinesweeperMarkerObject else MinesweeperEmptyObject
-            is MinesweeperMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperMineObject else MinesweeperEmptyObject
+            MinesweeperObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperObject.Marker else MinesweeperObject.Mine
+            MinesweeperObject.Mine -> if (markerOption == MarkerOptions.MarkerLast) MinesweeperObject.Marker else MinesweeperObject.Empty
+            MinesweeperObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) MinesweeperObject.Mine else MinesweeperObject.Empty
             else -> o
         }
         return setObject(move)
@@ -56,8 +58,8 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is MinesweeperForbiddenObject)
-                    this[r, c] = MinesweeperEmptyObject
+                if (this[r, c] == MinesweeperObject.Forbidden)
+                    this[r, c] = MinesweeperObject.Empty
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             val rng = mutableListOf<Position>()
@@ -65,19 +67,20 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
                 val p2 = p + os
                 if (!isValid(p2)) continue
                 val o = this[p2]
-                if (o is MinesweeperMineObject)
+                if (o == MinesweeperObject.Mine)
                     n1++
-                else if (o is MinesweeperEmptyObject)
+                else if (o == MinesweeperObject.Empty)
                     rng.add(+p2)
             }
             // 2. Numbers tell you how many mines there are close by, touching that
             // number horizontally, vertically or diagonally.
-            pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            if (n1 != n2)
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            pos2state[p] = s
+            if (s != HintState.Complete)
                 isSolved = false
             else if (allowedObjectsOnly)
                 for (p2 in rng)
-                    this[p2] = MinesweeperForbiddenObject
+                    this[p2] = MinesweeperObject.Forbidden
         }
     }
 }

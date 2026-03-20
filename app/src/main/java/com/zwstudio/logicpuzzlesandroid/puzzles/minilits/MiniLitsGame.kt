@@ -27,13 +27,13 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
             Position(0, 1),
             Position(1, 0),
             Position(1, 1))
-        var triominos = arrayOf(
-            arrayOf(Position(0, 0), Position(0, 1), Position(1, 0)),
-            arrayOf(Position(0, 0), Position(0, 1), Position(1, 1)),
-            arrayOf(Position(0, 0), Position(1, 0), Position(1, 1)),
-            arrayOf(Position(0, 1), Position(1, 0), Position(1, 1)),
-            arrayOf(Position(0, 0), Position(0, 1), Position(0, 2)),
-            arrayOf(Position(0, 0), Position(1, 0), Position(2, 0))
+        var triominos = listOf(
+            listOf(Position(0, 0), Position(0, 1), Position(1, 0)),
+            listOf(Position(0, 0), Position(0, 1), Position(1, 1)),
+            listOf(Position(0, 0), Position(1, 0), Position(1, 1)),
+            listOf(Position(0, 1), Position(1, 0), Position(1, 1)),
+            listOf(Position(0, 0), Position(0, 1), Position(0, 2)),
+            listOf(Position(0, 0), Position(1, 0), Position(2, 0))
         )
     }
 

@@ -54,16 +54,19 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is LiarLiarForbiddenObject ->
+                    LiarLiarObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is LiarLiarMarkedObject ->
-                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), if (o.state == AllowedObjectState.Error) markedErrorPaint else markedNormalPaint)
-                    is LiarLiarHintObject -> {
-                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
+                    LiarLiarObject.Marked -> {
+                        val s = game.pos2stateAllowed(p)
+                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), if (s == AllowedObjectState.Error) markedErrorPaint else markedNormalPaint)
+                    }
+                    LiarLiarObject.Hint -> {
+                        val s = game.pos2stateHint(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         val text = game.pos2hint[p]!!.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is LiarLiarMarkerObject ->
+                    LiarLiarObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }

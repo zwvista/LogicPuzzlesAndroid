@@ -3,8 +3,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.lighthouses
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGame, LighthousesGameMove, LighthousesGameState>(game) {
-    var objArray = Array<LighthousesObject>(rows * cols) { LighthousesEmptyObject() }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { LighthousesObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -13,23 +14,26 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = LighthousesHintObject()
+            this[p] = LighthousesObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: LighthousesGameMove): GameOperationType {
-        if (this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[move.p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: LighthousesGameMove): GameOperationType {
+        val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = get(move.p)) {
-            is LighthousesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) LighthousesMarkerObject() else LighthousesLighthouseObject()
-            is LighthousesLighthouseObject -> if (markerOption == MarkerOptions.MarkerLast) LighthousesMarkerObject() else LighthousesEmptyObject()
-            is LighthousesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) LighthousesLighthouseObject() else LighthousesEmptyObject()
+            LighthousesObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) LighthousesObject.Marker else LighthousesObject.Lighthouse
+            LighthousesObject.Lighthouse -> if (markerOption == MarkerOptions.MarkerLast) LighthousesObject.Marker else LighthousesObject.Empty
+            LighthousesObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) LighthousesObject.Lighthouse else LighthousesObject.Empty
             else -> o
         }
         return setObject(move)
@@ -54,11 +58,12 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                val o = this[r, c]
-                if (o is LighthousesLighthouseObject)
-                    o.state = AllowedObjectState.Normal
-                else if (o is LighthousesForbiddenObject)
-                    this[r, c] = LighthousesEmptyObject()
+                val p = Position(r, c)
+                val o = this[p]
+                if (o == LighthousesObject.Lighthouse)
+                    pos2stateAllowed[p] = AllowedObjectState.Normal
+                else if (o == LighthousesObject.Forbidden)
+                    this[p] = LighthousesObject.Empty
             }
         for (r in 0 until rows)
             for (c in 0 until cols) {
@@ -67,20 +72,20 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
                     for (os in LighthousesGame.offset) {
                         val p2 = p + os
                         if (!isValid(p2)) continue
-                        val o2 = get(p2)
-                        if (o2 is LighthousesHintObject || o2 is LighthousesLighthouseObject) return true
+                        val o2 = this[p2]
+                        if (o2 == LighthousesObject.Hint || o2 == LighthousesObject.Lighthouse) return true
                     }
                     return false
                 }
-                val o = this[r, c]
-                if (o is LighthousesLighthouseObject)
+                val o = this[p]
+                if (o == LighthousesObject.Lighthouse)
                     // 4. Finally, no boat touches another boat or lighthouse, not even diagonally.
                     // No lighthouse touches another lighthouse as well.
-                    o.state = if (o.state == AllowedObjectState.Normal && !hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
-                else if ((o is LighthousesEmptyObject || o is LighthousesMarkerObject) && allowedObjectsOnly && hasNeighbor())
+                    pos2stateAllowed[p] = if (pos2stateAllowed[p] == AllowedObjectState.Normal && !hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
+                else if ((o == LighthousesObject.Empty || o == LighthousesObject.Marker) && allowedObjectsOnly && hasNeighbor())
                     // 4. Finally, no boat touches another boat or lighthouse, not even diagonally.
                     // No lighthouse touches another lighthouse as well.
-                    this[r, c] = LighthousesForbiddenObject()
+                    this[p] = LighthousesObject.Forbidden
             }
         for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
@@ -90,20 +95,20 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
                 var p2 = p + os
                 while (isValid(p2)) {
                     val o2 = this[p2]
-                    if (o2 is LighthousesEmptyObject || o2 is LighthousesMarkerObject)
+                    if (o2 == LighthousesObject.Empty || o2 == LighthousesObject.Marker)
                         rng.add(+p2)
-                    else if (o2 is LighthousesLighthouseObject)
+                    else if (o2 == LighthousesObject.Lighthouse)
                         nums[i]++
                     p2 += os
                 }
             }
             val n1 = nums[0] + nums[1] + nums[2] + nums[3]
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            pos2state[p] = s
+            pos2stateHint[p] = s
             if (s != HintState.Complete) isSolved = false
             if (allowedObjectsOnly && s != HintState.Normal)
                 for (p2 in rng)
-                    this[p2] = LighthousesForbiddenObject()
+                    this[p2] = LighthousesObject.Forbidden
         }
     }
 }
