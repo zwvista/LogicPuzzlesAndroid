@@ -40,7 +40,7 @@ class OrchardsGameView(context: Context, val soundManager: SoundManager) : Cells
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTree = fromImageToDrawable("images/tree.png")
+        dTree = fromImageToDrawable("images/tree_apple.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
