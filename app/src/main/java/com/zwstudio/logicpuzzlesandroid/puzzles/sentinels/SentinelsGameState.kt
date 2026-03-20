@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.sentinels
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, SentinelsGameMove, SentinelsGameState>(game) {
-    var objArray = Array<SentinelsObject>(rows * cols) { SentinelsEmptyObject }
+    var objArray = Array<SentinelsObject>(rows * cols) { SentinelsObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -13,7 +13,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = SentinelsHintObject()
+            this[p] = SentinelsObject.Hint()
         updateIsSolved()
     }
 
@@ -28,9 +28,9 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is SentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsMarkerObject else SentinelsTowerObject()
-            is SentinelsTowerObject -> if (markerOption == MarkerOptions.MarkerLast) SentinelsMarkerObject else SentinelsEmptyObject
-            is SentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsTowerObject() else SentinelsEmptyObject
+            is SentinelsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsObject.Marker else SentinelsObject.Tower()
+            is SentinelsObject.Tower -> if (markerOption == MarkerOptions.MarkerLast) SentinelsObject.Marker else SentinelsObject.Empty
+            is SentinelsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) SentinelsObject.Tower() else SentinelsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -63,11 +63,11 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val o = this[r, c]
-                if (o is SentinelsTowerObject)
+                if (o is SentinelsObject.Tower)
                     o.state = AllowedObjectState.Normal
                 else {
-                    if (o is SentinelsForbiddenObject)
-                        this[r, c] = SentinelsEmptyObject
+                    if (o is SentinelsObject.Forbidden)
+                        this[r, c] = SentinelsObject.Empty
                     val p = Position(r, c)
                     val node = Node(p.toString())
                     g.addNode(node)
@@ -81,16 +81,16 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
                 fun hasNeighbor(): Boolean {
                     for (os in SentinelsGame.offset) {
                         val p2 = p + os
-                        if (isValid(p2) && this[p2] is SentinelsTowerObject)
+                        if (isValid(p2) && this[p2] is SentinelsObject.Tower)
                             return true
                     }
                     return false
                 }
                 val o = this[r, c]
-                if (o is SentinelsTowerObject)
+                if (o is SentinelsObject.Tower)
                     o.state = if (o.state == AllowedObjectState.Normal && !hasNeighbor()) AllowedObjectState.Normal else AllowedObjectState.Error
-                else if ((o is SentinelsEmptyObject || o is SentinelsMarkerObject) && allowedObjectsOnly && hasNeighbor())
-                    this[r, c] = SentinelsForbiddenObject
+                else if ((o is SentinelsObject.Empty || o is SentinelsObject.Marker) && allowedObjectsOnly && hasNeighbor())
+                    this[r, c] = SentinelsObject.Forbidden
             }
         // 2. The number tells you how many tiles that Sentinel can control (see) from
         // there vertically and horizontally. This includes the tile where he is
@@ -103,8 +103,8 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
                 var p2 = p + os
                 while (isValid(p2)) {
                     val o2 = this[p2]
-                    if (o2 is SentinelsTowerObject) continue@next
-                    if (o2 is SentinelsEmptyObject)
+                    if (o2 is SentinelsObject.Tower) continue@next
+                    if (o2 is SentinelsObject.Empty)
                         rng.add(+p2)
                     nums[i]++
                     p2 += os
@@ -116,7 +116,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
                 isSolved = false
             else
                 for (p2 in rng)
-                    this[p2] = SentinelsForbiddenObject
+                    this[p2] = SentinelsObject.Forbidden
         }
         if (!isSolved) return
         for ((p, node) in pos2node) {

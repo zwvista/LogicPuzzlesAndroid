@@ -9,9 +9,9 @@ class ProductSentinelsDocument(context: Context) : GameDocument<ProductSentinels
     override fun saveMove(move: ProductSentinelsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        ProductSentinelsGameMove(Position(rec.row, rec.col), ProductSentinelsObject.objFromString(rec.strValue1!!))
+        ProductSentinelsGameMove(Position(rec.row, rec.col), ProductSentinelsObject.entries[rec.intValue1])
 }

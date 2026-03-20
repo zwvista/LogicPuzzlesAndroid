@@ -50,15 +50,16 @@ class PowerGridGameView(context: Context, val soundManager: SoundManager) : Cell
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is PowerGridPostObject -> {
+                    PowerGridObject.Post -> {
                         dPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dPost.draw(canvas)
                     }
-                    is PowerGridMarkerObject ->
+                    PowerGridObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is PowerGridForbiddenObject ->
+                    PowerGridObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }

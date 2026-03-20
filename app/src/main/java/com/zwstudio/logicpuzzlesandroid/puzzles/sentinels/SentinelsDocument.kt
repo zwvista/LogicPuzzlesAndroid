@@ -9,9 +9,9 @@ class SentinelsDocument(context: Context) : GameDocument<SentinelsGameMove>(cont
     override fun saveMove(move: SentinelsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        SentinelsGameMove(Position(rec.row, rec.col), SentinelsObject.objFromString(rec.strValue1!!))
+        SentinelsGameMove(Position(rec.row, rec.col), SentinelsObject.entries[rec.intValue1])
 }

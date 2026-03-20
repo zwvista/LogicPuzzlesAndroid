@@ -52,21 +52,21 @@ class RabbitsGameView(context: Context, val soundManager: SoundManager) : CellsG
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is RabbitsRabbitObject -> {
+                    is RabbitsObject.Rabbit -> {
                         dRabbit.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dRabbit.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dRabbit.draw(canvas)
                     }
-                    is RabbitsTreeObject -> {
+                    is RabbitsObject.Tree -> {
                         dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
                         dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTree.draw(canvas)
                     }
-                    is RabbitsMarkerObject ->
+                    is RabbitsObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is RabbitsForbiddenObject ->
+                    is RabbitsObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }
