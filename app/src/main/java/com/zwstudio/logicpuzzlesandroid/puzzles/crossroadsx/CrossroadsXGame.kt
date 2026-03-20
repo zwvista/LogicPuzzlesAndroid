@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.thecityrises.TheCityRisesGame
 
 class CrossroadsXGame(layout: List<String>, val sum: Int, gi: GameInterface<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>, gdi: GameDocumentInterface) : CellsGame<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>(gi, gdi) {
     companion object {
@@ -106,10 +105,11 @@ class CrossroadsXGame(layout: List<String>, val sum: Int, gi: GameInterface<Cros
                     crossroads.add(p)
             }
 
-        area2areas = Array<IntArray>(areas.size) { IntArray(0) }
+        area2areas = Array(areas.size) { IntArray(0) }
         for ((i, area) in areas.withIndex())
             area2areas[i] = area
-                .flatMap { p -> TheCityRisesGame.Companion.offset.map { p + it } }
+                .asSequence()
+                .flatMap { p -> offset.map { p + it } }
                 .filter { isValid(it) }
                 .map { pos2area[it]!! }
                 .filter { it != i }

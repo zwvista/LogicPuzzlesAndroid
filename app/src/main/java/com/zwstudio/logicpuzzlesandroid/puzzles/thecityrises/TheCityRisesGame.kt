@@ -82,10 +82,11 @@ class TheCityRisesGame(layout: List<String>, gi: GameInterface<TheCityRisesGame,
             rng.removeAll(area)
         }
 
-        area2areas = Array<IntArray>(areas.size) { IntArray(0) }
-        area2hint = Array<Position?>(areas.size) { null }
+        area2areas = Array(areas.size) { IntArray(0) }
+        area2hint = Array(areas.size) { null }
         for ((i, area) in areas.withIndex()) {
             area2areas[i] = area
+                .asSequence()
                 .flatMap { p -> offset.map { p + it } }
                 .filter { isValid(it) }
                 .map { pos2area[it]!! }

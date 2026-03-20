@@ -27,6 +27,7 @@ class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<Join
     var dots: GridDots
     var row2hint: IntArray
     var col2hint: IntArray
+    val area2areas: Array<IntArray>
 
     init {
         size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)
@@ -51,12 +52,12 @@ class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<Join
                         dots[r + 1, c, 0] = GridLineObject.Line
                     }
                 }
-                val ch2 = str[cols * 2 + 1]
-                row2hint[r] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
+                val s = str.substring(cols * 2 + 1, cols * 2 + 3).trim()
+                row2hint[r] = if (s.isEmpty()) PUZ_UNKNOWN else s.toInt()
             } else {
                 for (c in 0 until cols) {
-                    val ch2 = str[c * 2 + 1]
-                    col2hint[c] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
+                    val s = str.substring(c * 2, c * 2 + 2).trim()
+                    col2hint[c] = if (s.isEmpty()) PUZ_UNKNOWN else s.toInt()
                 }
             }
         }
@@ -87,6 +88,15 @@ class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<Join
             areas.add(area)
             rng.removeAll(area)
         }
+        area2areas = Array(areas.size) { IntArray(0) }
+        for ((i, area) in areas.withIndex())
+            area2areas[i] = area
+                .asSequence()
+                .flatMap { p -> offset.map { p + it } }
+                .filter { isValid(it) }
+                .map { pos2area[it]!! }
+                .filter { it != i }
+                .toSortedSet().toIntArray()
         val state = JoinMeGameState(this)
         levelInitialized(state)
     }

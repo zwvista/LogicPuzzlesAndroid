@@ -31,7 +31,7 @@ class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGa
         val p = move.p
         if (!isValid(p) || (if (move.isDrink) game[p].drink else game[p].food) != ' ') return GameOperationType.Invalid
         val chMin = if (move.isDrink) 'A' else 'a'
-        val chMax = chMin + game.rows
+        val chMax = chMin + rows
         val o = if (move.isDrink) this[p].drink else this[p].food
         move.obj = if (o == ' ') chMin else if (o == chMax) ' ' else o + 1
         return setObject(move)

@@ -46,5 +46,48 @@ class JoinMeGameState(game: JoinMeGame) : CellsGameState<JoinMeGame, JoinMeGameM
     */
     private fun updateIsSolved() {
         isSolved = true
+        val area2patchArray = game.area2areas.map { areas ->
+            val area2patch = mutableMapOf<Int, Int>()
+            for (a in areas)
+                area2patch[a] = 0
+            area2patch
+        }
+        val row2patch = IntArray(rows)
+        val col2patch = IntArray(cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
+                val p1 = Position(r, c)
+                val a1 = game.pos2area[p1]!!
+                for (i in 0 until 4) {
+                    if (!this[p1][i]) continue
+                    val p2 = p1 + JoinMeGame.offset[i]
+                    val a2 = game.pos2area[p2]!!
+                    if (a1 == a2)
+                        isSolved = false
+                    else
+                        area2patchArray[a1][a2] = area2patchArray[a1][a2]!! + 1
+                    if (i == 1 || i == 2) {
+                        row2patch[p1.row]++
+                        col2patch[p1.col]++
+                        row2patch[p2.row]++
+                        col2patch[p2.col]++
+                    }
+                }
+            }
+        if (!area2patchArray.all {
+            it.all { (_, stitch) -> stitch == game.stitches }
+        }) isSolved = false
+        for (r in 0 until rows) {
+            val (n1, n2) = row2patch[r] to game.row2hint[r]
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2 || n2 == JoinMeGame.PUZ_UNKNOWN) HintState.Complete else HintState.Error
+            row2state[r] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+        for (c in 0 until cols) {
+            val (n1, n2) = col2patch[c] to game.col2hint[c]
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2 || n2 == JoinMeGame.PUZ_UNKNOWN) HintState.Complete else HintState.Error
+            col2state[c] = s
+            if (s != HintState.Complete) isSolved = false
+        }
     }
 }

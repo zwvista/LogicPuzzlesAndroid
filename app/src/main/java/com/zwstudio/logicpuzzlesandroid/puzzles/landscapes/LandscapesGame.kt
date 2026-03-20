@@ -94,9 +94,10 @@ class LandscapesGame(layout: List<String>, val sum: Int, gi: GameInterface<Lands
             rng.removeAll(area)
         }
 
-        area2areas = Array<IntArray>(areas.size) { IntArray(0) }
+        area2areas = Array(areas.size) { IntArray(0) }
         for ((i, area) in areas.withIndex())
             area2areas[i] = area
+                .asSequence()
                 .flatMap { p -> TheCityRisesGame.Companion.offset.map { p + it } }
                 .filter { isValid(it) }
                 .map { pos2area[it]!! }
