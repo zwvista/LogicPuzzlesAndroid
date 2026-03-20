@@ -11,7 +11,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState>(game) {
-    var objArray = Array<ParkLakesObject>(rows * cols) { ParkLakesEmptyObject }
+    var objArray = Array(rows * cols) { ParkLakesObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,13 +21,14 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
     operator fun set(p: Position, obj: ParkLakesObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, n) in game.pos2hint)
-            this[p] = ParkLakesHintObject(tiles = n)
+        for (p in game.pos2hint.keys)
+            this[p] = ParkLakesObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: ParkLakesGameMove): GameOperationType {
-        if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return GameOperationType.Invalid
+        val p = move.p
+        if (!isValid(p) || this[p] == ParkLakesObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -33,12 +36,12 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
 
     override fun switchObject(move: ParkLakesGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == ParkLakesObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is ParkLakesEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesMarkerObject else ParkLakesLakeObject()
-            is ParkLakesLakeObject -> if (markerOption == MarkerOptions.MarkerLast) ParkLakesMarkerObject else ParkLakesEmptyObject
-            is ParkLakesMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesLakeObject() else ParkLakesEmptyObject
+            ParkLakesObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesObject.Marker else ParkLakesObject.Lake
+            ParkLakesObject.Lake -> if (markerOption == MarkerOptions.MarkerLast) ParkLakesObject.Marker else ParkLakesObject.Empty
+            ParkLakesObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ParkLakesObject.Lake else ParkLakesObject.Empty
             else -> o
         }
         return setObject(move)
@@ -68,13 +71,13 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is ParkLakesLakeObject) {
-                    o.state = AllowedObjectState.Normal
+                if (o == ParkLakesObject.Lake) {
+                    pos2stateAllowed[p] = AllowedObjectState.Normal
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
-                } else if (o is ParkLakesHintObject)
-                    o.state = HintState.Normal
+                } else if (o == ParkLakesObject.Hint)
+                    pos2stateHint[p] = HintState.Normal
             }
         for ((p, node) in pos2node) {
             for (os in TierraDelFuegoGame.offset) {
@@ -108,7 +111,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             if (!(rs == cs && rs * cs == nodeList.size)) {
                 isSolved = false
                 for (p in area)
-                    (this[p] as ParkLakesLakeObject).state = AllowedObjectState.Error
+                    pos2stateAllowed[p] = AllowedObjectState.Error
             }
         }
         for ((p, n2) in game.pos2hint.entries) {
@@ -121,14 +124,14 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             // while a question mark tells you that there is at least one lake orthogonally
             // touching it.
             val s = if (n1 == 0) HintState.Normal else if (n1 == n2 || n2 == -1) HintState.Complete else HintState.Error
-            (this[p] as ParkLakesHintObject).state = s
+            pos2stateHint[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         g = Graph()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is ParkLakesLakeObject) {
+                if (this[p] != ParkLakesObject.Lake) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node

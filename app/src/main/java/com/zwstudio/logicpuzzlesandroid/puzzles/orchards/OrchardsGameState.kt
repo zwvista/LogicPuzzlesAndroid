@@ -4,14 +4,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, OrchardsGameMove, OrchardsGameState>(game) {
-    var objArray = Array<OrchardsObject>(rows * cols) { OrchardsEmptyObject }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var objArray = Array(rows * cols) { OrchardsObject.Empty }
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -33,9 +32,9 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is OrchardsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsMarkerObject else OrchardsTreeObject()
-            is OrchardsTreeObject -> if (markerOption == MarkerOptions.MarkerLast) OrchardsMarkerObject else OrchardsEmptyObject
-            is OrchardsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsTreeObject() else OrchardsEmptyObject
+            OrchardsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsObject.Marker else OrchardsObject.Tree
+            OrchardsObject.Tree -> if (markerOption == MarkerOptions.MarkerLast) OrchardsObject.Marker else OrchardsObject.Empty
+            OrchardsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsObject.Tree else OrchardsObject.Empty
             else -> o
 
         }
@@ -67,10 +66,10 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o: OrchardsObject? = get(p)
-                if (o is OrchardsForbiddenObject)
-                    this[r, c] = OrchardsEmptyObject
-                else if (o is OrchardsTreeObject) {
-                    o.state = AllowedObjectState.Normal
+                if (o == OrchardsObject.Forbidden)
+                    this[r, c] = OrchardsObject.Empty
+                else if (o == OrchardsObject.Tree) {
+                    pos2state[p] = AllowedObjectState.Normal
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -93,7 +92,7 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
             // more contiguous Trees.
             if (trees.size > 2)
                 for (p in trees)
-                    (this[p] as OrchardsTreeObject).state = AllowedObjectState.Error
+                    pos2state[p] = AllowedObjectState.Error
             for (p in trees)
                 pos2node.remove(p)
         }
@@ -101,7 +100,7 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
             val trees = mutableListOf<Position>()
             val n2 = 2
             for (p in a)
-                if (this[p] is OrchardsTreeObject)
+                if (this[p] == OrchardsObject.Tree)
                     trees.add(p)
             val n1 = trees.size
             // 4. At the same time, like in Parks, every country area must have exactly
@@ -109,11 +108,11 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
             if (n1 != n2) isSolved = false
             for (p in a) {
                 val o = this[p]
-                if (o is OrchardsTreeObject)
-                    o.state = if (o.state == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
-                else if (o is OrchardsEmptyObject || o is OrchardsMarkerObject)
+                if (o == OrchardsObject.Tree)
+                    pos2state[p] = if (pos2state[p] == AllowedObjectState.Normal && n1 <= n2) AllowedObjectState.Normal else AllowedObjectState.Error
+                else if (o == OrchardsObject.Empty || o == OrchardsObject.Marker)
                     if (n1 == n2 && allowedObjectsOnly)
-                        this[p] = OrchardsForbiddenObject
+                        this[p] = OrchardsObject.Forbidden
             }
         }
     }

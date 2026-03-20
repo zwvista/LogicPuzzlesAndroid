@@ -9,7 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, PataGameState>(game) {
-    var objArray = Array<PataObject>(rows * cols) { PataEmptyObject }
+    var objArray = Array(rows * cols) { PataObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,27 +19,26 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = PataHintObject()
+            this[p] = PataObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: PataGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is PataHintObject || objOld == objNew) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == PataObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: PataGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == PataObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is PataEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PataMarkerObject else PataWallObject()
-            is PataWallObject -> if (markerOption == MarkerOptions.MarkerLast) PataMarkerObject else PataEmptyObject
-            is PataMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PataWallObject() else PataEmptyObject
+            PataObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) PataObject.Marker else PataObject.Wall
+            PataObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) PataObject.Marker else PataObject.Empty
+            PataObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) PataObject.Wall else PataObject.Empty
             else -> o
         }
         return setObject(move)
@@ -96,17 +96,17 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
                     false
                 else {
                     val o = this[p2]
-                    o is PataEmptyObject || o is PataHintObject
+                    o == PataObject.Empty || o == PataObject.Hint
                 }
             }
             val arr: List<Int> = computeHint(emptied)
             val filled = (0 until 8).filter {
                 val p2 = p + PataGame.offset[it]
-                isValid(p2) && this[p2] is PataWallObject
+                isValid(p2) && this[p2] == PataObject.Wall
             }
             val arr3 = computeHint(filled)
             val s = if (arr3.size == 1 && arr3[0] == 0) HintState.Normal else if (isCompatible(arr, arr2)) HintState.Complete else HintState.Error
-            this[p] = PataHintObject(s)
+            pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
@@ -116,7 +116,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
                 val p = Position(r, c)
                 if (PataGame.offset2.all {
                     val o = this[p + it]
-                    o is PataWallObject
+                    o == PataObject.Wall
                 }) {
                     isSolved = false
                     return
@@ -131,7 +131,7 @@ class PataGameState(game: PataGame) : CellsGameState<PataGame, PataGameMove, Pat
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                if (this[p] is PataWallObject)
+                if (this[p] == PataObject.Wall)
                     rngWalls.add(p)
             }
         for (p in rngWalls)

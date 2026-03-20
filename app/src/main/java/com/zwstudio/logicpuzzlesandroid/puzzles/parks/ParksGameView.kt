@@ -60,15 +60,16 @@ class ParksGameView(context: Context, val soundManager: SoundManager) : CellsGam
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is ParksTreeObject -> {
+                    ParksObject.Tree -> {
                         dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTree.draw(canvas)
                     }
-                    is ParksMarkerObject ->
+                    ParksObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is ParksForbiddenObject ->
+                    ParksObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }

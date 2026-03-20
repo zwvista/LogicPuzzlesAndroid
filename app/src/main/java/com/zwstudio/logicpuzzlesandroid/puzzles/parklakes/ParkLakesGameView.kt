@@ -48,18 +48,21 @@ class ParkLakesGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
-                    is ParkLakesLakeObject -> {
+                    ParkLakesObject.Lake -> {
                         dLake.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2stateAllowed(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dLake.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dLake.draw(canvas)
                     }
-                    is ParkLakesHintObject -> {
-                        textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
-                        val text = if (o.tiles == -1) "?" else o.tiles.toString()
+                    ParkLakesObject.Hint -> {
+                        val n = game.pos2hint[p]!!
+                        val s = game.pos2stateHint(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                        val text = if (n == -1) "?" else n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is ParkLakesMarkerObject ->
+                    ParkLakesObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }

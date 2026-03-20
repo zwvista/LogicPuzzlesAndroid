@@ -37,18 +37,18 @@ class PairakabeGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                when (val o = game.getObject(r, c)) {
-                    is PairakabeHintObject -> {
-                        val n = game.pos2hint[Position(r, c)]!!
-                        if (n >= 0) {
-                            textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.WHITE
-                            val text = n.toString()
-                            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                        }
+                val p = Position(r, c)
+                when (game.getObject(p)) {
+                    PairakabeObject.Hint -> {
+                        val n = game.pos2hint[p]!!
+                        val s = game.pos2state(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                        val text = n.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is PairakabeWallObject ->
+                    PairakabeObject.Wall ->
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                    is PairakabeMarkerObject ->
+                    PairakabeObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
                     else -> {}
                 }

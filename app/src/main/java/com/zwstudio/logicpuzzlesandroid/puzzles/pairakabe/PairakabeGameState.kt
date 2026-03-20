@@ -9,7 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, PairakabeGameMove, PairakabeGameState>(game) {
-    var objArray = Array<PairakabeObject>(rows * cols) { PairakabeEmptyObject }
+    var objArray = Array(rows * cols) { PairakabeObject.Empty }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,26 +19,25 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
 
     init {
         for (p in game.pos2hint.keys)
-            this[p] = PairakabeHintObject()
+            this[p] = PairakabeObject.Hint
     }
 
     override fun setObject(move: PairakabeGameMove): GameOperationType {
         val p = move.p
-        val objOld = this[p]
-        val objNew = move.obj
-        if (objOld is PairakabeHintObject || objOld.toString() == objNew.toString()) return GameOperationType.Invalid
-        this[p] = objNew
+        if (!isValid(p) || this[p] == PairakabeObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: PairakabeGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p) || this[p] == PairakabeObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is PairakabeEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeMarkerObject else PairakabeWallObject
-            is PairakabeWallObject -> if (markerOption == MarkerOptions.MarkerLast) PairakabeMarkerObject else PairakabeEmptyObject
-            is PairakabeMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeWallObject else PairakabeEmptyObject
+            PairakabeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeObject.Marker else PairakabeObject.Wall
+            PairakabeObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) PairakabeObject.Marker else PairakabeObject.Empty
+            PairakabeObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) PairakabeObject.Wall else PairakabeObject.Empty
             else -> o
         }
         return setObject(move)
@@ -61,7 +61,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
             rule2x2@ for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 for (os in PairakabeGame.offset2)
-                    if (this[p + os] !is PairakabeWallObject)
+                    if (this[p + os] != PairakabeObject.Wall)
                         continue@rule2x2
                 isSolved = false
             }
@@ -75,7 +75,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                if (get(p) is PairakabeWallObject)
+                if (this[p] == PairakabeObject.Wall)
                     rngWalls.add(p)
                 else
                     rngEmpty.add(p)
@@ -116,7 +116,7 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
                 0 ->                 // All the gardens in the puzzle are numbered at the start, there are no
                     // hidden gardens.
                     isSolved = false
-                1 -> (this[rng[0]] as PairakabeHintObject).state = HintState.Error
+                1 -> pos2state[rng[0]] = HintState.Error
                 2 -> {
                     // 2. Instead of just one number, each 'garden' contains two numbers and
                     // the area of the garden is given by the sum of both.
@@ -124,13 +124,13 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
                     val p2 = rng[1]
                     val n1 = game.pos2hint[p1]!! + game.pos2hint[p2]!!
                     val s = if (n1 == n2) HintState.Complete else HintState.Error
-                    (this[p1] as PairakabeHintObject).state = s
-                    (this[p2] as PairakabeHintObject).state = s
+                    pos2state[p1] = s
+                    pos2state[p2] = s
                     if (s != HintState.Complete) isSolved = false
                 }
                 else -> {
                     for (p in rng)
-                        (this[p] as PairakabeHintObject).state = HintState.Normal
+                        pos2state[p] = HintState.Normal
                     isSolved = false
                 }
             }
