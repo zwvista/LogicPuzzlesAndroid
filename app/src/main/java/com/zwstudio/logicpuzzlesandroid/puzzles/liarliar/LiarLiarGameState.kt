@@ -122,12 +122,11 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (i in 0 until 4) {
                 val p2 = p + LiarLiarGame.offset[i]
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false

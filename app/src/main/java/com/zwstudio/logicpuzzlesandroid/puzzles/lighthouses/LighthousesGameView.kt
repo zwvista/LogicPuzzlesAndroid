@@ -27,7 +27,7 @@ class LighthousesGameView(context: Context, val soundManager: SoundManager) : Ce
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private val dTree: Drawable
+    private val dLighthouse: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,7 +39,7 @@ class LighthousesGameView(context: Context, val soundManager: SoundManager) : Ce
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTree = fromImageToDrawable("images/tree.png")
+        dLighthouse = fromImageToDrawable("images/lightbulb_on.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -51,11 +51,11 @@ class LighthousesGameView(context: Context, val soundManager: SoundManager) : Ce
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
                     LighthousesObject.Lighthouse -> {
-                        dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dLighthouse.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val s = game.pos2stateAllowed(p)
                         val alpha = if (s == AllowedObjectState.Error) 50 else 0
-                        dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dTree.draw(canvas)
+                        dLighthouse.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dLighthouse.draw(canvas)
                     }
                     LighthousesObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)

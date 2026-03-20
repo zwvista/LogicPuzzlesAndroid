@@ -26,7 +26,7 @@ class MinesweeperGameView(context: Context, val soundManager: SoundManager) : Ce
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
-    private val dTree: Drawable
+    private val dMine: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -38,7 +38,7 @@ class MinesweeperGameView(context: Context, val soundManager: SoundManager) : Ce
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dTree = fromImageToDrawable("images/tree.png")
+        dMine = fromImageToDrawable("images/bomb.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,19 +48,24 @@ class MinesweeperGameView(context: Context, val soundManager: SoundManager) : Ce
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o is MinesweeperObject.Mine) {
-                    dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                    dTree.draw(canvas)
-                } else if (o is MinesweeperObject.Marker)
-                    canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint) else if (o is MinesweeperObject.Forbidden) canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.pos2state(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                when (game.getObject(p)) {
+                    MinesweeperObject.Mine -> {
+                        dMine.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dMine.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dMine.draw(canvas)
+                    }
+                    MinesweeperObject.Marker ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                    MinesweeperObject.Forbidden ->
+                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                    MinesweeperObject.Hint -> {
+                        val n = game.pos2hint[p]!!
+                        val state = game.pos2state(p)
+                        textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                        val text = n.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                    else -> {}
                 }
             }
     }

@@ -957,7 +957,7 @@
         </activity>
         <activity android:name=".puzzles.lakesandmeadows.LakesAndMeadowsHelpActivity"
                   android:screenOrientation="portrait">
-        </activity>∑
+        </activity>
         <activity android:name=".puzzles.lakesandmeadows.LakesAndMeadowsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
