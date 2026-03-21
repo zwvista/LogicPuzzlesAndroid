@@ -71,13 +71,13 @@ class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWate
         // 3. Areas of the same level which are horizontally connected will have
         //    the same water level.
         for (area in game.areas) {
+            val rng = area.filter { this[it] == PouringWaterObject.Water }
+            rng.forEach { pos2state[it] = AllowedObjectState.Normal }
             val row2rng = TreeMap(area.groupBy { it.row })
             val rowNotFilled = row2rng.keys.reversed().firstOrNull {
                 row2rng[it]!!.any { this[it] != PouringWaterObject.Water }
             } ?: continue
-            val rng = area.filter { this[it] == PouringWaterObject.Water }
             val rngError = rng.filter { it.row < rowNotFilled }
-            rng.forEach { pos2state[it] = AllowedObjectState.Normal }
             if (rngError.isEmpty()) continue
             isSolved = false
             rngError.forEach { pos2state[it] = AllowedObjectState.Error }
