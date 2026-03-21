@@ -9,9 +9,9 @@ class LightenUpDocument(context: Context) : GameDocument<LightenUpGameMove>(cont
     override fun saveMove(move: LightenUpGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objTypeAsString()
+        rec.intValue1 = move.objType.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        LightenUpGameMove(Position(rec.row, rec.col), LightenUpObject.objTypeFromString(rec.strValue1!!))
+        LightenUpGameMove(Position(rec.row, rec.col), LightenUpObjectType.entries[rec.intValue1])
 }

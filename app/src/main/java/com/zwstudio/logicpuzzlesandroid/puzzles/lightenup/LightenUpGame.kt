@@ -19,10 +19,10 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch == 'W' || ch in '0'..'9') {
-                    val n = if (ch == 'W') -1 else ch - '0'
-                    pos2hint[p] = n
-                }
+                if (ch == 'W')
+                    pos2hint[p] = -1
+                else if (ch.isDigit())
+                    pos2hint[p] = ch - '0'
             }
         }
         val state = LightenUpGameState(this)
@@ -31,4 +31,6 @@ class LightenUpGame(layout: List<String>, gi: GameInterface<LightenUpGame, Light
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2StateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2StateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }

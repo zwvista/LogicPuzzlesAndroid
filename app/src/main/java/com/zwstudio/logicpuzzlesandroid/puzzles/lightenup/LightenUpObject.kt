@@ -1,33 +1,11 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightenup
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-sealed class LightenUpObject(var lightness: Int = 0) {
-    open fun objTypeAsString() = "empty"
-
-    companion object {
-        fun objTypeFromString(str: String) = when (str) {
-            "lightbulb" -> LightenUpLightbulbObject()
-            "marker" -> LightenUpMarkerObject()
-            else -> LightenUpEmptyObject()
-        }
-    }
+enum class LightenUpObjectType {
+    Empty, Marker, Lightbulb, Wall
 }
 
-class LightenUpEmptyObject : LightenUpObject()
+data class LightenUpObject(var objType: LightenUpObjectType = LightenUpObjectType.Empty, var lightness: Int = 0)
 
-class LightenUpLightbulbObject(var state: AllowedObjectState = AllowedObjectState.Normal) : LightenUpObject() {
-    override fun objTypeAsString() = "lightbulb"
-}
-
-class LightenUpMarkerObject : LightenUpObject() {
-    override fun objTypeAsString() = "marker"
-}
-
-class LightenUpWallObject(var state: HintState = HintState.Normal) : LightenUpObject() {
-    override fun objTypeAsString() = "wall"
-}
-
-class LightenUpGameMove(val p: Position, var obj: LightenUpObject = LightenUpEmptyObject())
+class LightenUpGameMove(val p: Position, var objType: LightenUpObjectType = LightenUpObjectType.Empty)

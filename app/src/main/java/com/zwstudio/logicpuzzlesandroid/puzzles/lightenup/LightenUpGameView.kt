@@ -46,26 +46,29 @@ class LightenUpGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val o = game.getObject(r, c)
+                val p = Position(r, c)
+                val o = game.getObject(p)
                 if (o.lightness > 0)
                     canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), lightPaint)
-                when (o) {
-                    is LightenUpWallObject -> {
+                when (o.objType) {
+                    LightenUpObjectType.Wall -> {
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                        val n = game.pos2hint[Position(r, c)]!!
+                        val n = game.pos2hint[p]!!
                         if (n >= 0) {
-                            textPaint.color = if (o.state == HintState.Complete) Color.GREEN else if (o.state == HintState.Error) Color.RED else Color.BLACK
+                            val s = game.pos2StateHint(p)
+                            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.BLACK
                             val text = n.toString()
                             drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                         }
                     }
-                    is LightenUpLightbulbObject -> {
+                    LightenUpObjectType.Lightbulb -> {
                         dLightbulb.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2StateAllowed(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dLightbulb.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dLightbulb.draw(canvas)
                     }
-                    is LightenUpMarkerObject ->
+                    LightenUpObjectType.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
                     else -> {}
                 }
