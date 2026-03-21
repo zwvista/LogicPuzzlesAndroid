@@ -22,14 +22,16 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
     }
 
     override fun setObject(move: OrchardsGameMove): GameOperationType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: OrchardsGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
             OrchardsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) OrchardsObject.Marker else OrchardsObject.Tree

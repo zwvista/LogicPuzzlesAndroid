@@ -20,7 +20,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
 
     override fun setObject(move: LighthousesGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[move.p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == LighthousesObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -28,7 +28,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
 
     override fun switchObject(move: LighthousesGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == LighthousesObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = get(move.p)) {
             LighthousesObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) LighthousesObject.Marker else LighthousesObject.Lighthouse

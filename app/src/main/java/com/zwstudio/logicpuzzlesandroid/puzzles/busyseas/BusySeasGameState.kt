@@ -20,7 +20,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
 
     override fun setObject(move: BusySeasGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == BusySeasObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -28,7 +28,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
 
     override fun switchObject(move: BusySeasGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == BusySeasObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
             BusySeasObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) BusySeasObject.Marker else BusySeasObject.Lighthouse

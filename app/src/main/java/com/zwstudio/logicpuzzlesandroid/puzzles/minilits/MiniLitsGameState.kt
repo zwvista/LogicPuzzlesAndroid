@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniLitsGameMove, MiniLitsGameState>(game) {
-    var objArray = Array<MiniLitsObject>(rows * cols) { MiniLitsObject.Empty }
+    var objArray = Array(rows * cols) { MiniLitsObject.Empty }
     var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -29,14 +29,16 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
     }
 
     override fun setObject(move: MiniLitsGameMove): GameOperationType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: MiniLitsGameMove): GameOperationType {
         val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
             MiniLitsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) MiniLitsObject.Marker else MiniLitsObject.Tree

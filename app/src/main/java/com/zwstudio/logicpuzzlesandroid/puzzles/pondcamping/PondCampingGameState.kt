@@ -23,15 +23,16 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
     }
 
     override fun setObject(move: PondCampingGameMove): GameOperationType {
-        if (!isValid(move.p) || game.pos2hint[move.p] != null || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == PondCampingObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: PondCampingGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == PondCampingObject.Hint) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
             PondCampingObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) PondCampingObject.Marker else PondCampingObject.Forest

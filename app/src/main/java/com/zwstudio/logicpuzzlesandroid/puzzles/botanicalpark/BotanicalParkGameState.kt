@@ -23,7 +23,7 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
 
     override fun setObject(move: BotanicalParkGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] === move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
