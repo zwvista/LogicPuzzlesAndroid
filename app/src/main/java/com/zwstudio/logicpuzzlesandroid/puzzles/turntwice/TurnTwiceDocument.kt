@@ -9,9 +9,9 @@ class TurnTwiceDocument(context: Context) : GameDocument<TurnTwiceGameMove>(cont
     override fun saveMove(move: TurnTwiceGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TurnTwiceGameMove(Position(rec.row, rec.col), TurnTwiceObject.objFromString(rec.strValue1!!))
+        TurnTwiceGameMove(Position(rec.row, rec.col), TurnTwiceObject.entries[rec.intValue1])
 }

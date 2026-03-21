@@ -18,6 +18,8 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
     }
 
     var objArray: MutableList<WallSentinelsObject>
+    var pos2hintLand = mutableMapOf<Position, Int>()
+    var pos2hintWall = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -27,7 +29,7 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
     init {
         size = Position(layout.size, layout[0].length / 2)
         // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-        objArray = MutableList(rows * cols) { WallSentinelsEmptyObject }
+        objArray = MutableList(rows * cols) { WallSentinelsObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
@@ -35,10 +37,13 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s != "  ") {
                     val n = s[1] - '0'
-                    val o =
-                        if (s[0] == '.') WallSentinelsHintLandObject(n)
-                        else WallSentinelsHintWallObject(n)
-                    this[p] = o
+                    if (s[0] == '.') {
+                        this[p] = WallSentinelsObject.HintLand
+                        pos2hintLand[p] = n
+                    } else {
+                        this[p] = WallSentinelsObject.HintWall
+                        pos2hintWall[p] = n
+                    }
                 }
             }
         }
@@ -48,4 +53,5 @@ class WallSentinelsGame(layout: List<String>, gi: GameInterface<WallSentinelsGam
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

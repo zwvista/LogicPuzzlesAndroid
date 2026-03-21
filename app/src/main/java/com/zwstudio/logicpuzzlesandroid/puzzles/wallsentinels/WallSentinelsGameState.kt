@@ -33,9 +33,9 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
         val p = move.p
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is WallSentinelsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsMarkerObject else WallSentinelsWallObject
-            is WallSentinelsWallObject -> if (markerOption == MarkerOptions.MarkerLast) WallSentinelsMarkerObject else WallSentinelsEmptyObject
-            is WallSentinelsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsWallObject else WallSentinelsEmptyObject
+            WallSentinelsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsObject.Marker else WallSentinelsObject.Wall
+            WallSentinelsObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) WallSentinelsObject.Marker else WallSentinelsObject.Empty
+            WallSentinelsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) WallSentinelsObject.Wall else WallSentinelsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -75,7 +75,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
                         var p2 = p + os
                         while (isValid(p2)) {
                             val o2 = this[p2]
-                            val isWall2 = o2 is WallSentinelsWallObject || o2 is WallSentinelsHintWallObject
+                            val isWall2 = o2 == WallSentinelsObject.Wall || o2 == WallSentinelsObject.HintWall
                             if (isWall2 != isWall) break
                             n1++
                             p2 += os
@@ -88,16 +88,13 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
                         n1 == n2 -> HintState.Complete
                         else -> HintState.Error
                     }
-                    if (isWall)
-                        (o as WallSentinelsHintWallObject).state = s
-                    else
-                        (o as WallSentinelsHintLandObject).state = s
+                    pos2state[p] = s
                     if (s != HintState.Complete) isSolved = false
                 }
-                if (o is WallSentinelsHintLandObject)
-                    f(false, o.tiles)
-                else if (o is WallSentinelsHintWallObject)
-                    f(true, o.tiles)
+                if (o == WallSentinelsObject.HintLand)
+                    f(false, game.pos2hintLand[p]!!)
+                else if (o == WallSentinelsObject.HintWall)
+                    f(true, game.pos2hintWall[p]!!)
             }
         if (!isSolved) return
         val g = Graph()
@@ -106,7 +103,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is WallSentinelsWallObject || o is WallSentinelsHintWallObject) {
+                if (o == WallSentinelsObject.Wall || o == WallSentinelsObject.HintWall) {
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
@@ -117,7 +114,7 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
                             false
                         else {
                             val o2 = this[p2]
-                            o2 is WallSentinelsWallObject || o2 is WallSentinelsHintWallObject
+                            o2 == WallSentinelsObject.Wall || o2 == WallSentinelsObject.HintWall
                         }
                     }) { isSolved = false; return }
                 }

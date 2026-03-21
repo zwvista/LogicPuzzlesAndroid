@@ -49,20 +49,22 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is TurnTwiceForbiddenObject ->
+                when (game.getObject(p)) {
+                    TurnTwiceObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is TurnTwiceMarkerObject ->
+                    TurnTwiceObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is TurnTwiceSignPostObject -> {
+                    TurnTwiceObject.SignPost -> {
                         dSignPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dSignPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dSignPost.draw(canvas)
                     }
-                    is TurnTwiceWallObject -> {
+                    TurnTwiceObject.Wall -> {
                         dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dWall.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dWall.draw(canvas)
                     }

@@ -50,22 +50,25 @@ class TentsGameView(context: Context, val soundManager: SoundManager) : CellsGam
             for (c in 0 until cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                when (val o = game.getObject(r, c)) {
-                    is TentsTreeObject -> {
+                val p = Position(r, c)
+                when (game.getObject(p)) {
+                    TentsObject.Tree -> {
                         dTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dTree.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTree.draw(canvas)
                     }
-                    is TentsTentObject -> {
+                    TentsObject.Tent -> {
                         dTent.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2state(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dTent.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTent.draw(canvas)
                     }
-                    is TentsMarkerObject ->
+                    TentsObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is TentsForbiddenObject ->
+                    TentsObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
                 }

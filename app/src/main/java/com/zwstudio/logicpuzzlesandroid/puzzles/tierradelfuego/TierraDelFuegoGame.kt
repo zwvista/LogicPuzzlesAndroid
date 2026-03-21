@@ -28,4 +28,6 @@ class TierraDelFuegoGame(layout: List<String>, gi: GameInterface<TierraDelFuegoG
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2stateHint(p: Position) = currentState.pos2stateHint[p]
+    fun pos2stateAllowed(p: Position) = currentState.pos2stateAllowed[p]
 }

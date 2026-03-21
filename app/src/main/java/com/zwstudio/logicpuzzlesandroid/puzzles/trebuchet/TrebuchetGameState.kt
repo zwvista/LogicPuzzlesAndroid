@@ -11,7 +11,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerGame
 
 class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, TrebuchetGameMove, TrebuchetGameState>(game) {
-    var objArray = Array<TrebuchetObject>(rows * cols) { TrebuchetEmptyObject }
+    var objArray = Array(rows * cols) { TrebuchetObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -20,7 +22,7 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
 
     init {
         for ((p, n) in game.pos2hint)
-            this[p] = TrebuchetHintObject()
+            this[p] = TrebuchetObject.Hint
         updateIsSolved()
     }
 
@@ -36,9 +38,9 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
         if (!isValid(p)) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TrebuchetEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetMarkerObject else TrebuchetTargetObject()
-            is TrebuchetTargetObject -> if (markerOption == MarkerOptions.MarkerLast) TrebuchetMarkerObject else TrebuchetEmptyObject
-            is TrebuchetMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetTargetObject() else TrebuchetEmptyObject
+            TrebuchetObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetObject.Marker else TrebuchetObject.Target
+            TrebuchetObject.Target -> if (markerOption == MarkerOptions.MarkerLast) TrebuchetObject.Marker else TrebuchetObject.Empty
+            TrebuchetObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TrebuchetObject.Target else TrebuchetObject.Empty
             else -> o
         }
         return setObject(move)
@@ -63,24 +65,24 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is TrebuchetForbiddenObject)
-                    this[r, c] = TrebuchetEmptyObject
+                if (this[r, c] == TrebuchetObject.Forbidden)
+                    this[r, c] = TrebuchetObject.Empty
         // 3. Two target cells must not be orthogonally adjacent.
         val targets = mutableSetOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] !is TrebuchetTargetObject) continue
-                targets.add(p)
+                if (this[p] != TrebuchetObject.Target) continue
+                pos2stateAllowed[p] = AllowedObjectState.Normal
+                targets.add(+p)
                 for (os in TrebuchetGame.offset) {
                     val p2 = p + os
                     if (!isValid(p2)) continue
-                    if (this[p2] is TrebuchetTargetObject) {
+                    if (this[p2] == TrebuchetObject.Target) {
                         isSolved = false
-                        this[p] = TrebuchetTargetObject(AllowedObjectState.Error)
-                        this[p2] = TrebuchetTargetObject(AllowedObjectState.Error)
-                    } else if (allowedObjectsOnly && this[p2] is TrebuchetEmptyObject)
-                        this[p2] = TrebuchetForbiddenObject
+                        pos2stateAllowed[p] = AllowedObjectState.Error
+                    } else if (allowedObjectsOnly && this[p2] == TrebuchetObject.Empty)
+                        this[p2] = TrebuchetObject.Forbidden
                 }
             }
         // 4. All of the non-targeted cells must be connected.
@@ -89,7 +91,7 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                if (this[p] is TrebuchetTargetObject) continue
+                if (this[p] == TrebuchetObject.Target) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
@@ -108,23 +110,23 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
         // 5. Please note you can't target other trebuchets (yes it's a pointless war maybe)
         for ((p, _) in game.pos2hint) {
             val possibleTargets = game.pos2targets[p]!!
-            val realTargets = possibleTargets.filter { this[it] is TrebuchetTargetObject }
-            val emptyTargets = possibleTargets.filter { this[it] is TrebuchetEmptyObject }
+            val realTargets = possibleTargets.filter { this[it] == TrebuchetObject.Target }
+            val emptyTargets = possibleTargets.filter { this[it] == TrebuchetObject.Empty }
             val n1 = realTargets.size
             val s: HintState = if (n1 < 1) HintState.Normal else if (n1 == 1) HintState.Complete else HintState.Error
             if (s != HintState.Complete) {
                 isSolved = false
                 for (p2 in realTargets)
-                    this[p2] = TrebuchetTargetObject(AllowedObjectState.Error)
+                    pos2stateAllowed[p2] = AllowedObjectState.Error
             }
-            this[p] = TrebuchetHintObject(state = s)
+            pos2stateHint[p] = s
             for (p2 in realTargets)
                 targets.remove(p2)
             if (allowedObjectsOnly && s != HintState.Normal)
                 for (p2 in emptyTargets)
-                    this[p2] = TrebuchetForbiddenObject
+                    this[p2] = TrebuchetObject.Forbidden
         }
         for (p in targets)
-            this[p] = TrebuchetTargetObject(AllowedObjectState.Error)
+            pos2stateAllowed[p] = AllowedObjectState.Error
     }
 }

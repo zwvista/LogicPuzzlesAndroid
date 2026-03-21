@@ -9,9 +9,9 @@ class WallSentinelsDocument(context: Context) : GameDocument<WallSentinelsGameMo
     override fun saveMove(move: WallSentinelsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        WallSentinelsGameMove(Position(rec.row, rec.col), WallSentinelsObject.objFromString(rec.strValue1!!))
+        WallSentinelsGameMove(Position(rec.row, rec.col), WallSentinelsObject.entries[rec.intValue1])
 }

@@ -10,7 +10,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraDelFuegoGame, TierraDelFuegoGameMove, TierraDelFuegoGameState>(game) {
-    var objArray = Array<TierraDelFuegoObject>(rows * cols) { TierraDelFuegoEmptyObject }
+    var objArray = Array(rows * cols) { TierraDelFuegoObject.Empty }
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,8 +20,8 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
     operator fun set(p: Position, obj: TierraDelFuegoObject) {this[p.row, p.col] = obj}
 
     init {
-        for ((p, ch) in game.pos2hint)
-            this[p] = TierraDelFuegoHintObject(id = ch)
+        for (p in game.pos2hint.keys)
+            this[p] = TierraDelFuegoObject.Hint
         updateIsSolved()
     }
 
@@ -35,9 +37,9 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         if (!isValid(p) || game.pos2hint[p] != null) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TierraDelFuegoEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoMarkerObject else TierraDelFuegoTreeObject()
-            is TierraDelFuegoTreeObject -> if (markerOption == MarkerOptions.MarkerLast) TierraDelFuegoMarkerObject else TierraDelFuegoEmptyObject
-            is TierraDelFuegoMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoTreeObject() else TierraDelFuegoEmptyObject
+            TierraDelFuegoObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoObject.Marker else TierraDelFuegoObject.Water
+            TierraDelFuegoObject.Water -> if (markerOption == MarkerOptions.MarkerLast) TierraDelFuegoObject.Marker else TierraDelFuegoObject.Empty
+            TierraDelFuegoObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TierraDelFuegoObject.Water else TierraDelFuegoObject.Empty
             else -> o
 
         }
@@ -73,19 +75,19 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                if (o is TierraDelFuegoForbiddenObject)
-                    this[p] = TierraDelFuegoEmptyObject
-                else if (o is TierraDelFuegoTreeObject)
-                    o.state = AllowedObjectState.Normal
-                else if (o is TierraDelFuegoHintObject)
-                    o.state = HintState.Normal
+                when (o) {
+                    TierraDelFuegoObject.Forbidden -> this[p] = TierraDelFuegoObject.Empty
+                    TierraDelFuegoObject.Water -> pos2stateAllowed[p] = AllowedObjectState.Normal
+                    TierraDelFuegoObject.Hint -> pos2stateHint[p] = HintState.Normal
+                    else -> {}
+                }
             }
         for ((p, node) in pos2node) {
-            val b1 = this[p] is TierraDelFuegoTreeObject
+            val b1 = this[p] == TierraDelFuegoObject.Water
             for (os in TierraDelFuegoGame.offset) {
                 val p2 = p + os
                 val node2 = pos2node[p2] ?: continue
-                val b2 = this[p2] is TierraDelFuegoTreeObject
+                val b2 = this[p2] == TierraDelFuegoObject.Water
                 if (b1 == b2)
                     g.connectNode(node, node2)
             }
@@ -94,7 +96,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
-            if (this[pos2node.keys.first()] is TierraDelFuegoTreeObject) {
+            if (this[pos2node.keys.first()] == TierraDelFuegoObject.Water) {
                 // 3. The archipelago is peculiar because all bodies of water separating the
                 // islands are identical in shape and occupied a 2*1 or 1*2 space.
                 // 4. These bodies of water can only touch diagonally.
@@ -106,26 +108,25 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
                             val p2 = p + os
                             if (!isValid(p2)) continue
                             val o = this[p2]
-                            if (o is TierraDelFuegoEmptyObject || o is TierraDelFuegoMarkerObject)
-                                this[p] = TierraDelFuegoForbiddenObject
+                            if (o == TierraDelFuegoObject.Empty || o == TierraDelFuegoObject.Marker)
+                                this[p] = TierraDelFuegoObject.Forbidden
                         }
                 if (area.size > 2)
                     for (p in area)
-                        (this[p] as TierraDelFuegoTreeObject).state = AllowedObjectState.Error
+                        pos2stateAllowed[p] = AllowedObjectState.Error
             } else {
                 // 2. Being organized in tribes, each tribe, marked with a different letter,
                 // has occupied an island in the archipelago.
                 val ids = mutableSetOf<Char>()
                 for (p in area) {
-                    val o = this[p]
-                    if (o is TierraDelFuegoHintObject)
-                        ids.add(o.id)
+                    val id = game.pos2hint[p] ?: continue
+                    ids.add(id)
                 }
                 if (ids.size == 1)
                     for (p in area) {
                         val o = this[p]
-                        if (o is TierraDelFuegoHintObject)
-                            o.state = HintState.Complete
+                        if (o == TierraDelFuegoObject.Hint)
+                            pos2stateHint[p] = HintState.Complete
                     }
                 else
                     isSolved = false

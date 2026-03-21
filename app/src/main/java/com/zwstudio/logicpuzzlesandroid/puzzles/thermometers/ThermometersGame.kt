@@ -71,4 +71,5 @@ class ThermometersGame(layout: List<String>, gi: GameInterface<ThermometersGame,
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun row2state(row: Int) = currentState.row2state[row]
     fun col2state(col: Int) = currentState.col2state[col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

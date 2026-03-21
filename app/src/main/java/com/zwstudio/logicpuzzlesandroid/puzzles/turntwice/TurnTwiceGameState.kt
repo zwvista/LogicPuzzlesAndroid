@@ -4,14 +4,13 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, TurnTwiceGameMove, TurnTwiceGameState>(game) {
     var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -23,7 +22,7 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
     }
 
     override fun setObject(move: TurnTwiceGameMove): GameOperationType {
-        if (!isValid(move.p) || game[move.p] !is TurnTwiceEmptyObject || this[move.p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(move.p) || game[move.p] != TurnTwiceObject.Empty || this[move.p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -31,12 +30,12 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
 
     override fun switchObject(move: TurnTwiceGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] !is TurnTwiceEmptyObject) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != TurnTwiceObject.Empty) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            is TurnTwiceEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceMarkerObject else TurnTwiceWallObject()
-            is TurnTwiceWallObject -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceMarkerObject else TurnTwiceEmptyObject
-            is TurnTwiceMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceSignPostObject() else TurnTwiceEmptyObject
+            TurnTwiceObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceObject.Marker else TurnTwiceObject.Wall
+            TurnTwiceObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) TurnTwiceObject.Marker else TurnTwiceObject.Empty
+            TurnTwiceObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TurnTwiceObject.SignPost else TurnTwiceObject.Empty
             else -> o
         }
         return setObject(move)
@@ -60,7 +59,7 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
            area.
     */
     private fun updateIsSolved() {
-        fun isEmpty(p: Position) = this[p] !is TurnTwiceWallObject
+        fun isEmpty(p: Position) = this[p] != TurnTwiceObject.Wall
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         val g = Graph()
@@ -69,11 +68,11 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (val o = this[p]) {
-                    is TurnTwiceForbiddenObject -> this[p] = TurnTwiceEmptyObject
-                    is TurnTwiceSignPostObject -> o.state = AllowedObjectState.Normal
-                    is TurnTwiceWallObject ->  {
-                        o.state = AllowedObjectState.Normal
+                when (this[p]) {
+                    TurnTwiceObject.Forbidden -> this[p] = TurnTwiceObject.Empty
+                    TurnTwiceObject.SignPost -> pos2state[p] = AllowedObjectState.Normal
+                    TurnTwiceObject.Wall ->  {
+                        pos2state[p] = AllowedObjectState.Normal
                         walls.add(p)
                     }
                     else -> {}
@@ -101,8 +100,8 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
         for ((p1, p2, path) in game.paths)
             if (path.all { isEmpty(it) }) {
                 isSolved = false
-                (this[p1] as TurnTwiceSignPostObject).state = AllowedObjectState.Error
-                (this[p2] as TurnTwiceSignPostObject).state = AllowedObjectState.Error
+                pos2state[p1] = AllowedObjectState.Error
+                pos2state[p2] = AllowedObjectState.Error
             }
 
         // 4. Walls can't touch horizontally or vertically.
@@ -111,14 +110,14 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
                 val p2 = p + os
                 if (!isValid(p2)) continue
                 when (this[p2]) {
-                    is TurnTwiceWallObject -> {
+                    TurnTwiceObject.Wall -> {
                         isSolved = false
-                        (this[p] as TurnTwiceWallObject).state = AllowedObjectState.Error
-                        (this[p2] as TurnTwiceWallObject).state = AllowedObjectState.Error
+                        pos2state[p] = AllowedObjectState.Error
+                        pos2state[p2] = AllowedObjectState.Error
                     }
-                    is TurnTwiceEmptyObject -> {
+                    TurnTwiceObject.Empty -> {
                         if (allowedObjectsOnly)
-                            this[p2] = TurnTwiceForbiddenObject
+                            this[p2] = TurnTwiceObject.Forbidden
                     }
                     else -> {}
                 }

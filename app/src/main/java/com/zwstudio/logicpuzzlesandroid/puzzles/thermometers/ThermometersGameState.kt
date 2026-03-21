@@ -8,9 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ThermometersGameState(game: ThermometersGame) : CellsGameState<ThermometersGame, ThermometersGameMove, ThermometersGameState>(game) {
-    var objArray = Array<ThermometersObject>(rows * cols) { ThermometersEmptyObject }
+    var objArray = Array(rows * cols) { ThermometersObject.Empty }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -33,9 +34,9 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
-            is ThermometersEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersMarkerObject else ThermometersFilledObject()
-            is ThermometersFilledObject -> if (markerOption == MarkerOptions.MarkerLast) ThermometersMarkerObject else ThermometersEmptyObject
-            is ThermometersMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersFilledObject() else ThermometersEmptyObject
+            ThermometersObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersObject.Marker else ThermometersObject.Filled
+            ThermometersObject.Filled -> if (markerOption == MarkerOptions.MarkerLast) ThermometersObject.Marker else ThermometersObject.Empty
+            ThermometersObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ThermometersObject.Filled else ThermometersObject.Empty
             else -> o
         }
         return setObject(move)
@@ -64,15 +65,15 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
         for (thermometer in game.thermometers) {
             var canbeFilled = true
             for (p in thermometer)
-                if (this[p] is ThermometersFilledObject) {
+                if (this[p] == ThermometersObject.Filled) {
                     val s = if(canbeFilled) AllowedObjectState.Normal else AllowedObjectState.Error
                     if (s == AllowedObjectState.Error) isSolved = false
-                    this[p] = ThermometersFilledObject(s)
+                    pos2state[p] = s
                 } else {
                     if (allowedObjectsOnly && !canbeFilled)
-                        this[p] = ThermometersForbiddenObject
-                    else if (this[p] is ThermometersForbiddenObject)
-                        this[p] = ThermometersEmptyObject
+                        this[p] = ThermometersObject.Forbidden
+                    else if (this[p] == ThermometersObject.Forbidden)
+                        this[p] = ThermometersObject.Empty
                     canbeFilled = false
                 }
         }
@@ -80,7 +81,7 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
             var n1 = 0
             val n2 = game.row2hint[r]
             for (c in 0 until cols)
-                if (this[r, c] is ThermometersFilledObject)
+                if (this[r, c] == ThermometersObject.Filled)
                     n1++
             // 4. The numbers on the border tell you how many filled cells are present
             // on that Row.
@@ -88,14 +89,14 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
             if (n1 != n2) isSolved = false
             if (n1 == n2 && allowedObjectsOnly)
                 for (c in 0 until cols)
-                    if (this[r, c] !is ThermometersFilledObject)
-                        this[r, c] = ThermometersForbiddenObject
+                    if (this[r, c] != ThermometersObject.Filled)
+                        this[r, c] = ThermometersObject.Forbidden
         }
         for (c in 0 until cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
             for (r in 0 until rows)
-                if (this[r, c] is ThermometersFilledObject)
+                if (this[r, c] == ThermometersObject.Filled)
                     n1++
             // 4. The numbers on the border tell you how many filled cells are present
             // on that Column.
@@ -103,8 +104,8 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
             if (n1 != n2) isSolved = false
             if (n1 == n2 && allowedObjectsOnly)
                 for (r in 0 until rows)
-                    if (this[r, c] !is ThermometersFilledObject)
-                        this[r, c] = ThermometersForbiddenObject
+                    if (this[r, c] != ThermometersObject.Filled)
+                        this[r, c] = ThermometersObject.Forbidden
         }
     }
 }

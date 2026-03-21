@@ -57,22 +57,23 @@ class TrebuchetGameView(context: Context, val soundManager: SoundManager) : Cell
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    is TrebuchetMarkerObject ->
+                when (game.getObject(p)) {
+                    TrebuchetObject.Marker ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
-                    is TrebuchetForbiddenObject ->
+                    TrebuchetObject.Forbidden ->
                         canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
-                    is TrebuchetHintObject -> {
+                    TrebuchetObject.Hint -> {
                         dTrebuchet.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dTrebuchet.draw(canvas)
                         val text = game.pos2hint[p].toString()
-                        val s = o.state
+                        val s = game.pos2stateHint(p)
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    is TrebuchetTargetObject -> {
+                    TrebuchetObject.Target -> {
                         dTarget.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val alpha = if (o.state == AllowedObjectState.Error) 50 else 0
+                        val s = game.pos2stateAllowed(p)
+                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
                         dTarget.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dTarget.draw(canvas)
                     }

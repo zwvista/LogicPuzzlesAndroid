@@ -44,18 +44,14 @@ class WallSentinelsGameView(context: Context, val soundManager: SoundManager) : 
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 val o = game.getObject(p)
-                if (o is WallSentinelsMarkerObject)
+                if (o == WallSentinelsObject.Marker)
                     canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
-                if (o is WallSentinelsWallObject || o is WallSentinelsHintWallObject)
+                if (o == WallSentinelsObject.Wall || o == WallSentinelsObject.HintWall)
                     canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
-                if (o is WallSentinelsHintLandObject || o is WallSentinelsHintWallObject) {
-                    val n = (o as? WallSentinelsHintLandObject)?.tiles ?: (o as WallSentinelsHintWallObject).tiles
-                    val s = (o as? WallSentinelsHintLandObject)?.state ?: (o as WallSentinelsHintWallObject).state
-                    textPaint.color = when (s) {
-                        HintState.Complete -> Color.GREEN
-                        HintState.Error -> Color.RED
-                        else -> Color.WHITE
-                    }
+                if (o == WallSentinelsObject.HintLand || o == WallSentinelsObject.HintWall) {
+                    val n = if (o == WallSentinelsObject.HintLand) game.pos2hintLand[p]!! else game.pos2hintWall[p]!!
+                    val s = game.pos2state(p)
+                    textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }

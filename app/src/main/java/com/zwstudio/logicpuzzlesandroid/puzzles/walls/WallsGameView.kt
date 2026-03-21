@@ -53,12 +53,12 @@ class WallsGameView(context: Context, val soundManager: SoundManager) : CellsGam
                     dWall.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                     dWall.draw(canvas)
                 }
-                when (val o = game.getObject(p)) {
-                    is WallsHorzObject -> f(dWallHorz)
-                    is WallsVertObject -> f(dWallVert)
-                    is WallsHintObject -> {
+                when (game.getObject(p)) {
+                    WallsObject.Horz -> f(dWallHorz)
+                    WallsObject.Vert -> f(dWallVert)
+                    WallsObject.Hint -> {
                         val text = game.pos2hint[p].toString()
-                        val s = o.state
+                        val s = game.pos2state(p)
                         textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }

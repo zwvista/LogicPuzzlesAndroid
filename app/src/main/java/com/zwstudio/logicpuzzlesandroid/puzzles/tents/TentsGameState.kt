@@ -8,9 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove, TentsGameState>(game) {
-    var objArray = Array<TentsObject>(rows * cols) { TentsEmptyObject }
+    var objArray = Array(rows * cols) { TentsObject.Empty }
     var row2state = Array(rows) { HintState.Normal }
     var col2state = Array(cols) { HintState.Normal }
+    var pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -18,8 +19,8 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
     operator fun set(p: Position, obj: TentsObject) {this[p.row, p.col] = obj}
 
     init {
-        for (p in game.pos2tree)
-            this[p] = TentsTreeObject()
+        for (p in game.trees)
+            this[p] = TentsObject.Tree
         updateIsSolved()
     }
 
@@ -35,9 +36,9 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
-            is TentsEmptyObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsMarkerObject else TentsTentObject()
-            is TentsTentObject -> if (markerOption == MarkerOptions.MarkerLast) TentsMarkerObject else TentsEmptyObject
-            is TentsMarkerObject -> if (markerOption == MarkerOptions.MarkerFirst) TentsTentObject() else TentsEmptyObject
+            TentsObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TentsObject.Marker else TentsObject.Tent
+            TentsObject.Tent -> if (markerOption == MarkerOptions.MarkerLast) TentsObject.Marker else TentsObject.Empty
+            TentsObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TentsObject.Tent else TentsObject.Empty
             else -> o
         }
         return setObject(move)
@@ -68,7 +69,7 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
             var n1 = 0
             val n2 = game.row2hint[r]
             for (c in 0 until cols)
-                if (this[r, c] is TentsTentObject)
+                if (this[r, c] == TentsObject.Tent)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that row.
             val s = if (n2 == TentsGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
@@ -79,7 +80,7 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
             var n1 = 0
             val n2 = game.col2hint[c]
             for (r in 0 until rows)
-                if (this[r, c] is TentsTentObject)
+                if (this[r, c] == TentsObject.Tent)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that column.
             val s = if (n2 == TentsGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
@@ -88,30 +89,24 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
         }
         for (r in 0 until rows)
             for (c in 0 until cols)
-                if (this[r, c] is TentsForbiddenObject)
-                    this[r, c] = TentsEmptyObject
+                if (this[r, c] == TentsObject.Forbidden)
+                    this[r, c] = TentsObject.Empty
         var (nTree, nTent) = 0 to 0
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                fun hasTree(): Boolean {
-                    for (os in TentsGame.offset) {
-                        val p2 = p + os
-                        if (isValid(p2) && this[p2] is TentsTreeObject)
-                            return true
+                fun hasTree(): Boolean =
+                    TentsGame.offset.any {
+                        val p2 = p + it
+                        isValid(p2) && this[p2] == TentsObject.Tree
                     }
-                    return false
-                }
-                fun hasTent(isTree: Boolean): Boolean {
-                    for (os in if (isTree) TentsGame.offset else TentsGame.offset2) {
-                        val p2 = p + os
-                        if (isValid(p2) && this[p2] is TentsTentObject)
-                            return true
+                fun hasTent(isTree: Boolean): Boolean =
+                    (if (isTree) TentsGame.offset else TentsGame.offset2).any {
+                        val p2 = p + it
+                        isValid(p2) && this[p2] == TentsObject.Tent
                     }
-                    return false
-                }
-                when (val o = this[r, c]) {
-                    is TentsTentObject -> {
+                when (this[p]) {
+                    TentsObject.Tent -> {
                         nTent++
                         // 1. The board represents a camping field with many Trees. Campers want to set
                         // their Tent in the shade, horizontally or vertically adjacent to a Tree(not
@@ -120,24 +115,24 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
                         // Tents near them, not even diagonally.
                         val s =
                             if (hasTree() && !hasTent(false)) AllowedObjectState.Normal else AllowedObjectState.Error
-                        o.state = s
+                        pos2state[p] = s
                         if (s == AllowedObjectState.Error) isSolved = false
                     }
-                    is TentsTreeObject -> {
+                    TentsObject.Tree -> {
                         nTree++
                         // 5. Each Tree has at least one Tent touching it, horizontally or vertically.
                         val s =
                             if (hasTent(true)) AllowedObjectState.Normal else AllowedObjectState.Error
-                        o.state = s
+                        pos2state[p] = s
                         if (s == AllowedObjectState.Error) isSolved = false
                     }
-                    is TentsEmptyObject, is TentsMarkerObject ->
+                    TentsObject.Empty, TentsObject.Marker ->
                         if (allowedObjectsOnly &&
                             (col2state[c] != HintState.Normal && game.col2hint[c] != TentsGame.PUZ_UNKNOWN ||
                             row2state[r] != HintState.Normal && game.row2hint[r] != TentsGame.PUZ_UNKNOWN ||
                             !hasTree() || hasTent(false))
                         )
-                            this[r, c] = TentsForbiddenObject
+                            this[r, c] = TentsObject.Forbidden
                     else -> {}
                 }
             }

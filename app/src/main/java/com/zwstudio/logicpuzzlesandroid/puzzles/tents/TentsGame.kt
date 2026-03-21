@@ -14,7 +14,7 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
 
     var row2hint: IntArray
     var col2hint: IntArray
-    var pos2tree = mutableListOf<Position>()
+    var trees = mutableListOf<Position>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)
@@ -26,7 +26,7 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == 'T')
-                    pos2tree.add(p)
+                    trees.add(p)
                 else if ((r == rows) != (c == cols)) {
                     val n = if (ch == ' ') PUZ_UNKNOWN else ch - '0'
                     if (r == rows)
@@ -44,4 +44,5 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun row2state(row: Int) = currentState.row2state[row]
     fun col2state(col: Int) = currentState.col2state[col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
 }

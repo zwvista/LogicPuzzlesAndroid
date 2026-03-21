@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove, WallsGameState>(game) {
-    var objArray = Array<WallsObject>(rows * cols) { WallsEmptyObject }
+    var objArray = Array(rows * cols) { WallsObject.Empty }
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -16,20 +16,27 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
 
     init {
         for ((p, n) in game.pos2hint)
-            this[p] = WallsHintObject()
+            this[p] = WallsObject.Hint
         updateIsSolved()
     }
 
     override fun setObject(move: WallsGameMove): GameOperationType {
-        if (!isValid(move.p) || this[move.p] == move.obj) return GameOperationType.Invalid
-        this[move.p] = move.obj
+        val p = move.p
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: WallsGameMove): GameOperationType {
-        val o = this[move.p]
-        move.obj = if (o is WallsEmptyObject) WallsHorzObject else if (o is WallsHorzObject) WallsVertObject else if (o is WallsVertObject) WallsEmptyObject else o
+        val p = move.p
+        if (!isValid(p)) return GameOperationType.Invalid
+        move.obj = when (val o = this[p]) {
+            WallsObject.Empty -> WallsObject.Horz
+            WallsObject.Horz -> WallsObject.Vert
+            WallsObject.Vert -> WallsObject.Empty
+            else -> o
+        }
         return setObject(move)
     }
 
@@ -49,18 +56,17 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
            board must be filled with wall pieces.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o is WallsEmptyObject) // 1. In Walls you must fill the board with straight horizontal and
+                if (o == WallsObject.Empty) // 1. In Walls you must fill the board with straight horizontal and
                 // vertical lines (walls) that stem from each number.
                 // 4. Not every wall piece must be connected with a number, but the
                 // board must be filled with wall pieces.
                     isSolved = false
-                else if (o is WallsHintObject) {
+                else if (o == WallsObject.Hint) {
                     val n2 = game.pos2hint[p]!!
                     var n1 = 0
                     for (i in 0 until 4) {
@@ -68,12 +74,12 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                         var p2 = p + os
                         while (isValid(p2)) {
                             if (i % 2 == 0) // 3. Wall pieces have two ways to be put, horizontally or vertically.
-                                if (this[p2] is WallsVertObject)
+                                if (this[p2] == WallsObject.Vert)
                                     n1++
                                 else
                                     break
                             else  // 3. Wall pieces have two ways to be put, horizontally or vertically.
-                                if (this[p2] is WallsHorzObject)
+                                if (this[p2] == WallsObject.Horz)
                                     n1++
                                 else
                                     break
@@ -84,7 +90,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                     // connected to it.
                     val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
                     if (s != HintState.Complete) isSolved = false
-                    o.state = s
+                    pos2state[p] = s
                 }
             }
     }

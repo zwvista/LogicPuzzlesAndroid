@@ -12,6 +12,7 @@ class TurnTwiceGame(layout: List<String>, gi: GameInterface<TurnTwiceGame, TurnT
     }
 
     var objArray: Array<TurnTwiceObject>
+    val signposts = mutableListOf<Position>()
     // two signposts and the shortest path between them
     var paths = mutableListOf<Triple<Position, Position, List<Position>>>()
 
@@ -22,14 +23,13 @@ class TurnTwiceGame(layout: List<String>, gi: GameInterface<TurnTwiceGame, TurnT
 
     init {
         size = Position(layout.size, layout[0].length)
-        objArray = Array(rows * cols) { TurnTwiceEmptyObject }
-        val signposts = mutableListOf<Position>()
+        objArray = Array(rows * cols) { TurnTwiceObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (str[c] == 'S') {
-                    this[p] = TurnTwiceSignPostObject()
+                    this[p] = TurnTwiceObject.SignPost
                     signposts.add(p)
                 }
             }
@@ -51,7 +51,7 @@ class TurnTwiceGame(layout: List<String>, gi: GameInterface<TurnTwiceGame, TurnT
                             val os = if (k == 0 && os1 != os0 || k == 1 && os2 == os0) os1 else os2
                             p += os
                             if (p == p2) break
-                            if (this[p] is TurnTwiceEmptyObject)
+                            if (this[p] == TurnTwiceObject.Empty)
                                 path.add(p)
                             else
                                 return@run false

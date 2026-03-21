@@ -9,9 +9,9 @@ class TrebuchetDocument(context: Context) : GameDocument<TrebuchetGameMove>(cont
     override fun saveMove(move: TrebuchetGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TrebuchetGameMove(Position(rec.row, rec.col), TrebuchetObject.objFromString(rec.strValue1!!))
+        TrebuchetGameMove(Position(rec.row, rec.col), TrebuchetObject.entries[rec.intValue1])
 }

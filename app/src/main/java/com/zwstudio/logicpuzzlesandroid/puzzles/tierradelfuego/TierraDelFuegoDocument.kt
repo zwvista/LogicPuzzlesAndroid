@@ -9,9 +9,9 @@ class TierraDelFuegoDocument(context: Context) : GameDocument<TierraDelFuegoGame
     override fun saveMove(move: TierraDelFuegoGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.objAsString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        TierraDelFuegoGameMove(Position(rec.row, rec.col), TierraDelFuegoObject.objFromString(rec.strValue1!!))
+        TierraDelFuegoGameMove(Position(rec.row, rec.col), TierraDelFuegoObject.entries[rec.intValue1])
 }
