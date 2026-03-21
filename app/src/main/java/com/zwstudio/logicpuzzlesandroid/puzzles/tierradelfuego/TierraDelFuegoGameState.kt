@@ -71,11 +71,10 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val o = this[p]
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
-                when (o) {
+                when (this[p]) {
                     TierraDelFuegoObject.Forbidden -> this[p] = TierraDelFuegoObject.Empty
                     TierraDelFuegoObject.Water -> pos2stateAllowed[p] = AllowedObjectState.Normal
                     TierraDelFuegoObject.Hint -> pos2stateHint[p] = HintState.Normal
@@ -109,7 +108,7 @@ class TierraDelFuegoGameState(game: TierraDelFuegoGame) : CellsGameState<TierraD
                             if (!isValid(p2)) continue
                             val o = this[p2]
                             if (o == TierraDelFuegoObject.Empty || o == TierraDelFuegoObject.Marker)
-                                this[p] = TierraDelFuegoObject.Forbidden
+                                this[p2] = TierraDelFuegoObject.Forbidden
                         }
                 if (area.size > 2)
                     for (p in area)
