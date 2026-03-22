@@ -51,9 +51,9 @@ class TurnTwiceGameView(context: Context, val soundManager: SoundManager) : Cell
                 val p = Position(r, c)
                 when (game.getObject(p)) {
                     TurnTwiceObject.Forbidden ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     TurnTwiceObject.Marker ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     TurnTwiceObject.SignPost -> {
                         dSignPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val s = game.pos2state(p)

@@ -63,9 +63,9 @@ class DesertDunesGameView(context: Context, val soundManager: SoundManager) : Ce
                 dSand.draw(canvas)
                 when (game.getObject(p)) {
                     DesertDunesObject.Marker ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     DesertDunesObject.Forbidden ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     DesertDunesObject.Hint -> {
                         dPalmTree.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dPalmTree.draw(canvas)

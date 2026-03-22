@@ -57,7 +57,7 @@ class ParkingLotGameView(context: Context, val soundManager: SoundManager) : Cel
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
                     ParkingLotObject.Marker ->
-                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     ParkingLotObject.Empty -> {}
                     else -> {
                         val dObject = when (o) {

@@ -44,7 +44,7 @@ class CloudsAndClearsGameView(context: Context, val soundManager: SoundManager) 
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
                     CloudsAndClearsObject.Marker ->
-                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     CloudsAndClearsObject.Cloud -> {
                         dCloud.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dCloud.draw(canvas)

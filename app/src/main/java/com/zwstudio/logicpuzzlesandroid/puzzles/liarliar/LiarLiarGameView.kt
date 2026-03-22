@@ -55,7 +55,7 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
                 val p = Position(r, c)
                 when (val o = game.getObject(p)) {
                     LiarLiarObject.Forbidden ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     LiarLiarObject.Marked -> {
                         val s = game.pos2stateAllowed(p)
                         canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), if (s == AllowedObjectState.Error) markedErrorPaint else markedNormalPaint)
@@ -67,7 +67,7 @@ class LiarLiarGameView(context: Context, val soundManager: SoundManager) : Cells
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
                     LiarLiarObject.Marker ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }
             }

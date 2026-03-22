@@ -65,7 +65,7 @@ class CastlePatrolGameView(context: Context, val soundManager: SoundManager) : C
                     CastlePatrolObject.EmptyHint ->
                         drawHint()
                     CastlePatrolObject.Marker ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, wallPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, wallPaint)
                     else -> {}
                 }
             }

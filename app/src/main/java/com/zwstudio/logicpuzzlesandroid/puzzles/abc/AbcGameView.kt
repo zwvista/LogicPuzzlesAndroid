@@ -42,7 +42,7 @@ class AbcGameView(context: Context, val soundManager: SoundManager) : CellsGameV
                 val ch = game.getObject(r, c)
                 if (ch == ' ') continue
                 if (ch == '.')
-                    canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
+                    canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                 else {
                     val s = game.pos2state(r, c)
                     textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE

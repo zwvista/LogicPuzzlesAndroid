@@ -65,7 +65,7 @@ class MagnetsGameView(context: Context, val soundManager: SoundManager) : CellsG
                         dNegative.draw(canvas)
                     }
                     MagnetsObject.Marker ->
-                        canvas.drawArc(cwc2(c) - 20.toFloat(), chr2(r) - 20.toFloat(), cwc2(c) + 20.toFloat(), chr2(r) + 20.toFloat(), 0f, 360f, true, markerPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     else -> {}
                 }
         dPositive.setBounds(cwc(cols), chr(rows), cwc(cols + 1), chr(rows + 1))

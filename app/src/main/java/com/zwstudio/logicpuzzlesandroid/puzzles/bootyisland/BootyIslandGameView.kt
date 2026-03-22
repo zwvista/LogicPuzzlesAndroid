@@ -27,6 +27,8 @@ class BootyIslandGameView(context: Context, val soundManager: SoundManager) : Ce
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
     private val forbiddenPaint = Paint()
+    private val dNote: Drawable
+    private val dSand: Drawable
     private val dTreasure: Drawable
 
     init {
@@ -39,6 +41,8 @@ class BootyIslandGameView(context: Context, val soundManager: SoundManager) : Ce
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
+        dNote = fromImageToDrawable("images/note_plain_sand3.png")
+        dSand = fromImageToDrawable("images/sand3.png")
         dTreasure = fromImageToDrawable("images/delete2.png")
     }
 
@@ -49,6 +53,8 @@ class BootyIslandGameView(context: Context, val soundManager: SoundManager) : Ce
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
+                dSand.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dSand.draw(canvas)
                 when (val o = game.getObject(p)) {
                     BootyIslandObject.Treasure -> {
                         dTreasure.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
@@ -58,10 +64,12 @@ class BootyIslandGameView(context: Context, val soundManager: SoundManager) : Ce
                         dTreasure.draw(canvas)
                     }
                     BootyIslandObject.Marker ->
-                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, markerPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     BootyIslandObject.Forbidden ->
-                        canvas.drawArc((cwc2(c) - 20).toFloat(), (chr2(r) - 20).toFloat(), (cwc2(c) + 20).toFloat(), (chr2(r) + 20).toFloat(), 0f, 360f, true, forbiddenPaint)
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {
+                        dNote.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dNote.draw(canvas)
                         val n = game.pos2hint[p] ?: continue
                         val state = game.pos2stateHint(p)
                         textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
