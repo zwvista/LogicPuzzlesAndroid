@@ -78,7 +78,7 @@ class HiddenPathGameView(context: Context, val soundManager: SoundManager) : Cel
             val row = (event.y / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
             val move = HiddenPathGameMove(Position(row, col))
-            if (game.setObject(move))
+            if (game.switchObject(move))
                 soundManager.playSoundTap()
         }
         return true

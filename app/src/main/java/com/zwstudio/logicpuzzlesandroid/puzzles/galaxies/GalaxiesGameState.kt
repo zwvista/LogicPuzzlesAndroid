@@ -115,6 +115,6 @@ class GalaxiesGameState(game: GalaxiesGame) : CellsGameState<GalaxiesGame, Galax
             n1 += area.size
         }
         // 3. In the end, all the space must be included in Galaxies
-        if (n1 != rows * cols) isSolved = false
+        if (n1 != (rows - 1) * (cols - 1)) isSolved = false
     }
 }

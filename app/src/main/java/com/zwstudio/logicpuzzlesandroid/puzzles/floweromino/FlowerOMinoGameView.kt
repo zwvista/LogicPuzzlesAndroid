@@ -71,18 +71,6 @@ class FlowerOMinoGameView(context: Context, val soundManager: SoundManager) : Ce
                     dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                     dHedge.draw(canvas)
                 }
-                if (o.hasCenter) {
-                    dFlower1.setBounds(cwc2(c) - flowerHalfSize, chr2(r) - flowerHalfSize, cwc2(c) + flowerHalfSize, chr2(r) + flowerHalfSize)
-                    dFlower1.draw(canvas)
-                }
-                if (o.hasRight) {
-                    dFlower2.setBounds(cwc(c + 1) - flowerHalfSize, chr2(r) - flowerHalfSize, cwc(c + 1) + flowerHalfSize, chr2(r) + flowerHalfSize)
-                    dFlower2.draw(canvas)
-                }
-                if (o.hasBottom) {
-                    dFlower4.setBounds(cwc2(c) - flowerHalfSize, chr(r + 1) - flowerHalfSize, cwc2(c) + flowerHalfSize, chr(r + 1) + flowerHalfSize)
-                    dFlower4.draw(canvas)
-                }
             }
         if (isInEditMode) return
         val markerOffset = 20
@@ -105,6 +93,23 @@ class FlowerOMinoGameView(context: Context, val soundManager: SoundManager) : Ce
                         canvas.drawLine((cwc(c) - markerOffset).toFloat(), (chr2(r) + markerOffset).toFloat(), (cwc(c) + markerOffset).toFloat(), (chr2(r) - markerOffset).toFloat(), markerPaint)
                     }
                     else -> {}
+                }
+            }
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val o = game[p]
+                if (o.hasCenter) {
+                    dFlower1.setBounds(cwc2(c) - flowerHalfSize, chr2(r) - flowerHalfSize, cwc2(c) + flowerHalfSize, chr2(r) + flowerHalfSize)
+                    dFlower1.draw(canvas)
+                }
+                if (o.hasRight) {
+                    dFlower2.setBounds(cwc(c + 1) - flowerHalfSize, chr2(r) - flowerHalfSize, cwc(c + 1) + flowerHalfSize, chr2(r) + flowerHalfSize)
+                    dFlower2.draw(canvas)
+                }
+                if (o.hasBottom) {
+                    dFlower4.setBounds(cwc2(c) - flowerHalfSize, chr(r + 1) - flowerHalfSize, cwc2(c) + flowerHalfSize, chr(r + 1) + flowerHalfSize)
+                    dFlower4.draw(canvas)
                 }
             }
     }

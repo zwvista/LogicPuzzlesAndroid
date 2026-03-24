@@ -51,13 +51,14 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
     private fun updateIsSolved() {
         isSolved = true
         for ((p, n2) in game.pos2horzHint) {
-            var n1 = 0
             val os = KakuroGame.offset[1]
-            var n: Int
-            val lastN = 0
             var p2 = p + os
-            while (pos2num[p2].also { n = it!! } != null) {
+            var n1 = 0
+            var lastN = 0
+            while (true) {
+                val n = pos2num[p2] ?: break
                 n1 += n
+                p2 += os
                 // 3. You can write numbers 1 to 9 in the tiles, however no same number should
                 // appear in a consecutive row.
                 if (n == lastN) {
@@ -65,7 +66,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
                     pos2horzHint[p2] = HintState.Error
                     pos2horzHint[p2 - os] = HintState.Error
                 }
-                p2 += os
+                lastN = n
             }
             // 2. The number on at the left of a row gives you
             // the sum of the numbers in that row.
@@ -74,13 +75,14 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
             if (s != HintState.Complete) isSolved = false
         }
         for ((p, n2) in game.pos2vertHint) {
-            var n1 = 0
             val os = KakuroGame.offset[2]
-            var n: Int
-            val lastN = 0
             var p2 = p + os
-            while (pos2num[p2].also { n = it!! } != null) {
+            var n1 = 0
+            var lastN = 0
+            while (true) {
+                val n = pos2num[p2] ?: break
                 n1 += n
+                p2 += os
                 // 3. You can write numbers 1 to 9 in the tiles, however no same number should
                 // appear in a consecutive column.
                 if (n == lastN) {
@@ -88,7 +90,7 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
                     pos2horzHint[p2] = HintState.Error
                     pos2horzHint[p2 - os] = HintState.Error
                 }
-                p2 += os
+                lastN = n
             }
             // 2. The number on the top of a column gives you
             // the sum of the numbers in that column.
