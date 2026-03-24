@@ -68,7 +68,7 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
     */
     private fun updateIsSolved() {
         isSolved = true
-        val pos2dirs = mutableMapOf<Position, MutableList<Int>?>()
+        val pos2dirs = mutableMapOf<Position, MutableList<Int>>()
         for (r in 1 until rows - 1)
             for (c in 1 until cols - 1) {
                 val p = Position(r, c)
@@ -80,12 +80,12 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                     CrosstownTrafficObject.Horizontal -> mutableListOf(1, 3)
                     CrosstownTrafficObject.Vertical -> mutableListOf(0, 2)
                     CrosstownTrafficObject.Cross -> mutableListOf(0, 1, 2, 3)
-                    else -> null
+                    else -> mutableListOf()
                 }
             }
         // 1. Draw a circuit (looping road)
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
                 val p = Position(r, c)
                 val dirs = pos2dirs[p]!!
                 if (!dirs.all {

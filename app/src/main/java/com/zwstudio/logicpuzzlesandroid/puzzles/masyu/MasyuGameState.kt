@@ -87,8 +87,8 @@ class MasyuGameState(game: MasyuGame) : CellsGameState<MasyuGame, MasyuGameMove,
             when (val ch = game[p]) {
                 ' ' -> true
                 else -> {
-                    val turns = dirs.reduce { acc, d ->
-                        val dirs2 = pos2dirs[p + MasyuGame.offset[d]]!!
+                    val turns = dirs.fold(0) { acc, d ->
+                        val dirs2 = pos2dirs2[p + MasyuGame.offset[d]]!!
                         acc + (if (dirs2[1] - dirs2[0] != 2) 1 else 0)
                     }
                     ch == MasyuGame.PUZ_BLACK_PEARL && turns == 0 || ch == MasyuGame.PUZ_WHITE_PEARL && turns > 0
