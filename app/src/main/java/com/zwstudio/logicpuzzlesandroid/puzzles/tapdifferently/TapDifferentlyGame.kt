@@ -14,6 +14,7 @@ class TapDifferentlyGame(layout: List<String>, gi: GameInterface<TapDifferentlyG
             Position(1, 0),
             Position(1, 1)
         )
+        val offset3 = Position.Directions4
     }
 
     val pos2hint = mutableMapOf<Position, List<Int>>()

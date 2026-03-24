@@ -125,7 +125,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
                 }
             }
         for ((p, node) in pos2node) {
-            for (os in TapaGame.offset) {
+            for (os in TapaGame.offset3) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

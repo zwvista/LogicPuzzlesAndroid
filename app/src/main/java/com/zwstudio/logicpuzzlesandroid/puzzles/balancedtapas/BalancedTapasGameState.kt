@@ -105,7 +105,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
                     rngWalls.add(p)
             }
         for (p in rngWalls)
-            for (os in BalancedTapasGame.offset) {
+            for (os in BalancedTapasGame.offset3) {
                 val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)

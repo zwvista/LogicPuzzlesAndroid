@@ -116,13 +116,13 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
                     rngEmpty.add(p)
             }
         for (p in rngWalls)
-            for (os in BWTapaGame.offset) {
+            for (os in BWTapaGame.offset3) {
                 val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
-            for (os in BWTapaGame.offset) {
+            for (os in BWTapaGame.offset3) {
                 val p2 = p + os
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)

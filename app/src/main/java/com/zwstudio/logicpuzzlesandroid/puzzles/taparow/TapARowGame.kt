@@ -14,6 +14,7 @@ class TapARowGame(layout: List<String>, gi: GameInterface<TapARowGame, TapARowGa
             Position(1, 0),
             Position(1, 1)
         )
+        val offset3 = Position.Directions4
     }
 
     val pos2hint = mutableMapOf<Position, List<Int>>()
