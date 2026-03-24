@@ -87,7 +87,7 @@ class ArrowsGameState(game: ArrowsGame) : CellsGameState<ArrowsGame, ArrowsGameM
                     // 3. The numbers tell you how many arrows point at them.
                     val s = if (n2 < n) HintState.Normal else if (n2 == n) HintState.Complete else HintState.Error
                     hint2state[p] = s
-                    if (s == HintState.Error) isSolved = false
+                    if (s != HintState.Complete) isSolved = false
                 }
             }
     }

@@ -13,12 +13,12 @@ class ArrowsGame(layout: List<String>, gi: GameInterface<ArrowsGame, ArrowsGameM
 
     fun isCorner(p: Position): Boolean {
         val (row, col) = p
-        return (row == 0 || row == size.row - 1) && (col == 0 || col == size.col - 1)
+        return (row == 0 || row == rows - 1) && (col == 0 || col == cols - 1)
     }
     fun isBorder(p: Position): Boolean {
         val (row, col) = p
-        return row in 1 until size.row - 1 && (col == 0 || col == size.col - 1) ||
-                col in 1 until size.col - 1 && (row == 0 || row == size.row - 1)
+        return row in 1 until rows - 1 && (col == 0 || col == cols - 1) ||
+                col in 1 until cols - 1 && (row == 0 || row == rows - 1)
     }
 
     var objArray: IntArray
