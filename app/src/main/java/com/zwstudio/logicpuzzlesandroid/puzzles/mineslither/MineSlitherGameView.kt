@@ -4,28 +4,30 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
+import kotlin.math.abs
 
 class MineSlitherGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as MineSlitherGameActivity
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
     private val cols get() = if (isInEditMode) 5 else game.cols
-    override val rowsInView get() = rows
-    override val colsInView get() = cols
+    override val rowsInView get() = rows - 1
+    override val colsInView get() = cols - 1
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val wallPaint = Paint()
-    private val mathPaint1 = Paint()
-    private val mathPaint2 = Paint()
+    private val dMine: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -37,12 +39,7 @@ class MineSlitherGameView(context: Context, val soundManager: SoundManager) : Ce
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        wallPaint.color = Color.LTGRAY
-        wallPaint.style = Paint.Style.FILL_AND_STROKE
-        mathPaint1.style = Paint.Style.STROKE
-        mathPaint1.color = Color.WHITE
-        mathPaint2.style = Paint.Style.FILL
-        mathPaint2.color = Color.BLACK
+        dMine = fromImageToDrawable("images/mine2.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -56,8 +53,11 @@ class MineSlitherGameView(context: Context, val soundManager: SoundManager) : Ce
                 when (o) {
                     MineSlitherObject.Marker ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
-                    MineSlitherObject.Wall ->
-                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
+                    MineSlitherObject.Mine -> {
+                        dMine.setBounds(cwc(c) - cellWidth / 4, chr(r) - cellHeight / 4, cwc(c) + cellWidth / 4, chr(r) + cellHeight / 4)
+                        dMine.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(0, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                        dMine.draw(canvas)
+                    }
                     MineSlitherObject.Forbidden ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}
@@ -65,22 +65,23 @@ class MineSlitherGameView(context: Context, val soundManager: SoundManager) : Ce
             }
         if (isInEditMode) return
         for ((p, value) in game.pos2hint) {
-            val r = p.row
-            val c = p.col
-            canvas.drawArc((cwc(c) - cellWidth / 4).toFloat(), (chr(r) - cellHeight / 4).toFloat(), (cwc(c) + cellWidth / 4).toFloat(), (chr(r) + cellHeight / 4).toFloat(), 0f, 360f, true, mathPaint1)
-            canvas.drawArc((cwc(c) - cellWidth / 4).toFloat(), (chr(r) - cellHeight / 4).toFloat(), (cwc(c) + cellWidth / 4).toFloat(), (chr(r) + cellHeight / 4).toFloat(), 0f, 360f, true, mathPaint2)
+            val (r, c) = p
             val text = value.toString()
             val s = game.pos2state(p)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            drawTextCentered(text, cwc(c) - cellWidth / 4, chr(r) - cellHeight / 4, cellWidth / 2, cellHeight / 2, canvas, textPaint)
+            drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
-            val col = (event.x / cellWidth).toInt()
-            val row = (event.y / cellHeight).toInt()
+            val offset = cellWidth / 4
+            val col = ((event.x + offset) / cellWidth).toInt()
+            val row = ((event.y + offset) / cellHeight).toInt()
             if (col >= cols || row >= rows) return true
+            val x = event.x - col * cellWidth
+            val y = event.y - row * cellHeight
+            if (abs(x) > offset || abs(y) > offset) return true
             val move = MineSlitherGameMove(Position(row, col))
             if (game.switchObject(move))
                 soundManager.playSoundTap()

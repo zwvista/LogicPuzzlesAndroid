@@ -8,21 +8,16 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class MineSlitherGame(layout: List<String>, gi: GameInterface<MineSlitherGame, MineSlitherGameMove, MineSlitherGameState>, gdi: GameDocumentInterface) : CellsGame<MineSlitherGame, MineSlitherGameMove, MineSlitherGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = arrayOf(
-            Position(-1, -1),
-            Position(-1, 0),
-            Position(0, 0),
-            Position(0, -1)
-        )
+        val offset2 = Position.Square2x2Offset
     }
 
     val pos2hint = mutableMapOf<Position, Int>();
 
     init {
-        size = Position(layout.size - 1, layout[0].length - 1)
-        for (r in 0 until rows + 1) {
+        size = Position(layout.size + 1, layout[0].length + 1)
+        for (r in 0 until rows - 1) {
             val str = layout[r]
-            for (c in 0 until cols + 1) {
+            for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch != ' ')
