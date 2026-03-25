@@ -87,8 +87,8 @@ class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameM
                 // appear in a consecutive column.
                 if (n == lastN) {
                     isSolved = false
-                    pos2horzHint[p2] = HintState.Error
-                    pos2horzHint[p2 - os] = HintState.Error
+                    pos2vertHint[p2] = HintState.Error
+                    pos2vertHint[p2 - os] = HintState.Error
                 }
                 lastN = n
             }

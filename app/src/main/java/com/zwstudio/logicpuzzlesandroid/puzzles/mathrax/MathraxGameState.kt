@@ -54,10 +54,9 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
     private fun updateIsSolved() {
         isSolved = true
         fun f(nums: List<Int>): HintState {
-            val size = nums.size
-            val nums2 = nums.toSet().toList()
+            val nums2 = nums.toSet().toList().sorted()
             // 1. The goal is to input numbers 1 to N, where N is the board size.
-            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == size) HintState.Complete else HintState.Error
+            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
             return s
         }
@@ -67,19 +66,21 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
         // 2. A number must appear once for every column.
         for (c in 0 until cols)
             col2state[c] = f((0 until rows).map { this[it, c] })
-        for ((p, h) in game.pos2hint.entries) {
+        for ((p, h) in game.pos2hint) {
             fun g(n1: Int, n2: Int): HintState {
                 if (n1 == 0 || n2 == 0) return HintState.Normal
                 val n = h.result
-                when (h.op) {
-                    '+' -> return if (n1 + n2 == n) HintState.Complete else HintState.Error
-                    '-' -> return if (n1 - n2 == n || n2 - n1 == n) HintState.Complete else HintState.Error
-                    '*' -> return if (n1 * n2 == n) HintState.Complete else HintState.Error
-                    '/' -> return if (n1 / n2 * n2 == n * n2 || n2 / n1 * n1 == n * n1) HintState.Complete else HintState.Error
-                    'O' -> return if (n1 % 2 == 1 && n2 % 2 == 1) HintState.Complete else HintState.Error
-                    'E' -> return if (n1 % 2 == 0 && n2 % 2 == 0) HintState.Complete else HintState.Error
+                // 3. The tiny numbers and sign in the intersections tell you the result of
+                // the operation between the two opposite diagonal tiles.
+                return when (h.op) {
+                    '+' -> if (n1 + n2 == n) HintState.Complete else HintState.Error
+                    '-' -> if (n1 - n2 == n || n2 - n1 == n) HintState.Complete else HintState.Error
+                    '*' -> if (n1 * n2 == n) HintState.Complete else HintState.Error
+                    '/' -> if (n1 / n2 * n2 == n * n2 || n2 / n1 * n1 == n * n1) HintState.Complete else HintState.Error
+                    'O' -> if (n1 % 2 == 1 && n2 % 2 == 1) HintState.Complete else HintState.Error
+                    'E' -> if (n1 % 2 == 0 && n2 % 2 == 0) HintState.Complete else HintState.Error
+                    else -> HintState.Normal
                 }
-                return HintState.Normal
             }
             val nums = MathraxGame.offset2.map { this[p + it] }
             // 3. This is valid for both pairs of numbers surrounding the hint.
