@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.NurikabeGame
 
 class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<PaintTheNurikabeGame, PaintTheNurikabeGameMove, PaintTheNurikabeGameState>(game) {
     var objArray = Array(rows * cols) { PaintTheNurikabeObject.Empty }
@@ -92,8 +91,8 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
-                if (NurikabeGame.offset2.all { this[p + it] == PaintTheNurikabeObject.Painted } ||
-                    NurikabeGame.offset2.all { this[p + it] == PaintTheNurikabeObject.Empty }) {
+                if (PaintTheNurikabeGame.offset3.all { this[p + it] == PaintTheNurikabeObject.Painted } ||
+                    PaintTheNurikabeGame.offset3.all { this[p + it] == PaintTheNurikabeObject.Empty }) {
                     isSolved = false
                     return
                 }
@@ -111,7 +110,7 @@ class PaintTheNurikabeGameState(game: PaintTheNurikabeGame) : CellsGameState<Pai
                 }
             }
         for (p in pos2node.keys)
-            for (os in NurikabeGame.offset) {
+            for (os in PaintTheNurikabeGame.offset) {
                 val p2 = p + os
                 if (pos2node.containsKey(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)

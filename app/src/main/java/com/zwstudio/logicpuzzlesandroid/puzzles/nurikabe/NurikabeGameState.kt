@@ -67,6 +67,7 @@ class NurikabeGameState(game: NurikabeGame) : CellsGameState<NurikabeGame, Nurik
     */
     private fun updateIsSolved() {
         isSolved = true
+        invalid2x2Squares.clear()
         // 7. The wall can't form 2*2 squares.
         for (r in 0 until rows - 1)
             for (c in 0 until cols - 1) {

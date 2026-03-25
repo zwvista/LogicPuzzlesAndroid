@@ -60,42 +60,42 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        val pos2indexes = mutableMapOf<Position, MutableList<Int>>()
+        val pos2dirs = mutableMapOf<Position, List<Int>>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
-                val n = this[p].filter { it }.size
+                val dirs = (0 until 4).filter { this[p][it] }
+                val n = dirs.size
                 val b = game.pos2hint[p] != null
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
                 if (b && n == 1 || !b && n == 2)
-                    pos2indexes[p] = (0 until 4).filter { this[p][it] }.toMutableList()
+                    pos2dirs[p] = dirs
                 else  // 3. Lines must originate on a number and must end in the other equal
                 // number.
                     isSolved = false
             }
         for ((p, node) in pos2node) {
             pos2state[p] = HintState.Normal
-            val indexes = pos2indexes[p] ?: continue
-            for (i in indexes) {
+            val dirs = pos2dirs[p] ?: continue
+            for (i in dirs) {
                 val p2 = p + NumberLinkGame.offset[i]
                 val node2 = pos2node[p2]!!
                 g.connectNode(node, node2)
             }
-            if (indexes.size != 2) continue
-            val i1 = indexes[0]
-            val i2 = indexes[1]
+            if (dirs.size != 2) continue
+            val i1 = dirs[0]
+            val i2 = dirs[1]
             // 4. At the end of the puzzle, no line can cover a 2*2 area (like a 180 degree turn).
             // 5. In other words you can't turn right and immediately right again. The
             // same happens on the left, obviously. Be careful not to miss this rule.
             fun f(i: Int, isRight: Boolean) {
                 val p2 = p + NumberLinkGame.offset[i]
-                val indexes2 = pos2indexes[p2]
-                if (indexes2 == null || indexes2.size != 2) return
+                val dirs2 = pos2dirs[p2] ?: return
+                if (dirs2.size != 2) return
                 val i3 = (i + 2) % 4
-                indexes2.remove(i1)
-                val i4 = indexes2[0]
+                val i4 = dirs2.first { it != i1 }
                 if (isRight && (i3 + 3) % 4 == i4 || !isRight && (i3 + 1) % 4 == i4) {
                     pos2state[p] = HintState.Error
                     isSolved = false
@@ -126,7 +126,8 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
             // 4. At the end of the puzzle, you must have covered ALL the squares with
             // lines.
             val s = if (!b1 || !b3) HintState.Error else if (b2) HintState.Complete else HintState.Normal
-            if (s != HintState.Complete) isSolved = false
+            if (s != HintState.Complete)
+                isSolved = false
             for (p in rng1)
                 pos2state[p] = s
         }

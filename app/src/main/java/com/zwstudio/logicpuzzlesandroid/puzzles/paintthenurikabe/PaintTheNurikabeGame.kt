@@ -19,6 +19,7 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        val offset3 = Position.Square2x2Offset
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
