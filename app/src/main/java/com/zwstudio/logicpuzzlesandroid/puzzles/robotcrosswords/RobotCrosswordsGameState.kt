@@ -48,13 +48,14 @@ class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<Robot
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (i in game.areas.indices) {
-            val a = game.areas[i]
+        for ((i, a) in game.areas.withIndex()) {
             val nums = a.map { this[it] }
-            val nums2 = nums.toSet().toList()
+            val nums2 = nums.toSet().toList().sorted()
             // 2. Each 'word' is formed by an uninterrupted sequence of numbers,
             // but in any order.
-            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
+            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size && (0 until nums2.size - 1).all {
+                nums2[it + 1] - nums2[it] == 1
+            }) HintState.Complete else HintState.Error
             for (p in a)
                 (if (i < game.horzAreaCount) pos2horzState else pos2vertState)[p] = s
             if (s != HintState.Complete) isSolved = false

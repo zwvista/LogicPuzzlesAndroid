@@ -70,12 +70,14 @@ class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameM
             return hint
         }
         fun isCompatible(computedHint: List<Int>, givenHint: List<Int>): Boolean {
-            if (computedHint == givenHint) return true
             if (computedHint.size != givenHint.size) return false
-            val h1 = computedHint.toHashSet()
-            val h2 = givenHint.toHashSet()
-            h2.remove(-1)
-            return h1.containsAll(h2)
+            val h1 = computedHint.sorted()
+            val h2 = givenHint.sorted().toMutableList()
+            h2.removeAll { it == -1 }
+            val (n1, n2) = h1.size to h2.size
+            return (0..(n1 - n2)).any {
+                h1.subList(it, it + n2) == h2
+            }
         }
         for ((p, arr2) in game.pos2hint) {
             val filled = (0 until 8).filter {

@@ -61,26 +61,15 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
     private fun updateIsSolved() {
         isSolved = true
         val numss = mutableListOf<List<Int>>()
-        val nums = mutableListOf<Int>()
         for (r in 1 until rows - 1) {
-            val h1 = this[r, 0]
-            val h2 = this[r, cols - 1]
-            var n1 = 0
-            var n2 = 0
-            var n11 = 0
-            var n21 = 0
-            nums.clear()
+            val (h1, h2) = this[r, 0] to this[r, cols - 1]
+            var (n1, n2) = 0 to 0
+            var (n11, n21) = 0 to 0
+            val nums = mutableListOf<Int>()
             for (c in 1 until cols - 1) {
-                val n12 = this[r, c]
-                val n22 = this[r, cols - 1 - c]
-                if (n11 < n12) {
-                    n11 = n12
-                    n1 += n12
-                }
-                if (n21 < n22) {
-                    n21 = n22
-                    n2 += n22
-                }
+                val (n12, n22) = this[r, c] to this[r, cols - 1 - c]
+                if (n11 < n12) { n11 = n12; n1 += n12 }
+                if (n21 < n22) { n21 = n22; n2 += n22 }
                 if (n12 == 0) continue
                 if (nums.contains(n12))
                     isSolved = false
@@ -92,8 +81,7 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
             // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
             val s1 = if (n1 == 0) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
             val s2 = if (n2 == 0) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-            row2state[r * 2] = s1
-            row2state[r * 2 + 1] = s2
+            row2state[r * 2] = s1; row2state[r * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
             if (nums.size != game.intMax()) isSolved = false
             // 5. Each row and column can't have similar Skyscrapers.
@@ -102,25 +90,16 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
             else
                 numss.add(nums)
         }
+        numss.clear()
         for (c in 1 until cols - 1) {
-            val h1 = this[0, c]
-            val h2 = this[rows - 1, c]
-            var n1 = 0
-            var n2 = 0
-            var n11 = 0
-            var n21 = 0
-            nums.clear()
+            val (h1, h2) = this[0, c] to this[rows - 1, c]
+            var (n1, n2) = 0 to 0
+            var (n11, n21) = 0 to 0
+            val nums = mutableListOf<Int>()
             for (r in 1 until rows - 1) {
-                val n12 = this[r, c]
-                val n22 = this[rows - 1 - r, c]
-                if (n11 < n12) {
-                    n11 = n12
-                    n1 += n12
-                }
-                if (n21 < n22) {
-                    n21 = n22
-                    n2 += n22
-                }
+                val (n12, n22) = this[r, c] to this[rows - 1 - r, c]
+                if (n11 < n12) { n11 = n12; n1 += n12 }
+                if (n21 < n22) { n21 = n22; n2 += n22 }
                 if (n12 == 0) continue
                 if (nums.contains(n12))
                     isSolved = false
@@ -132,8 +111,7 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
             // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
             val s1 = if (n1 == 0) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
             val s2 = if (n2 == 0) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
-            col2state[c * 2] = s1
-            col2state[c * 2 + 1] = s2
+            col2state[c * 2] = s1; col2state[c * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
             if (nums.size != game.intMax()) isSolved = false
             // 5. Each row and column can't have similar Skyscrapers.

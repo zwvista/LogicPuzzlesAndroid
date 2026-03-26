@@ -51,7 +51,7 @@ class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGa
     private fun updateIsSolved() {
         isSolved = true
         fun f(nums: List<Int>): HintState {
-            val nums2 = nums.toSet().toList()
+            val nums2 = nums.toSet().toList().sorted()
             // 2. Numbers can only be in range 1 to N where N is the board size.
             val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
