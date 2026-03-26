@@ -3,25 +3,13 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, TataminoGameMove, TataminoGameState>, gdi: GameDocumentInterface) : CellsGame<TataminoGame, TataminoGameMove, TataminoGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = arrayOf(
-            Position(0, 0),
-            Position(0, 1),
-            Position(1, 0),
-            Position(0, 0)
-        )
-        var dirs = intArrayOf(1, 2, 1, 2)
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
     var objArray: CharArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -31,7 +19,6 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
 
     init {
         size = Position(layout.size, layout[0].length)
-        dots = GridDots(rows + 1, cols + 1)
         objArray = CharArray(rows * cols)
         for (r in 0 until rows) {
             val str = layout[r]
@@ -40,14 +27,6 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
                 this[r, c] = ch
             }
         }
-        for (r in 0 until rows) {
-            dots[r, 0, 2] = GridLineObject.Line
-            dots[r, cols, 2] = GridLineObject.Line
-        }
-        for (c in 0 until cols) {
-            dots[0, c, 1] = GridLineObject.Line
-            dots[rows, c, 1] = GridLineObject.Line
-        }
         val state = TataminoGameState(this)
         levelInitialized(state)
     }
@@ -55,5 +34,4 @@ class TataminoGame(layout: List<String>, gi: GameInterface<TataminoGame, Tatamin
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2state(p: Position) = currentState.pos2state[p]
-    fun getStateDots() = currentState.dots
 }

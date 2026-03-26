@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -21,15 +20,19 @@ class TataminoGameView(context: Context, val soundManager: SoundManager) : Cells
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val linePaint = Paint()
+    private val line1Paint = Paint()
+    private val line2Paint = Paint()
     private val textPaint = TextPaint()
 
     init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
-        linePaint.color = Color.YELLOW
-        linePaint.style = Paint.Style.STROKE
-        linePaint.strokeWidth = 20f
+        line1Paint.color = Color.WHITE
+        line1Paint.style = Paint.Style.STROKE
+        line1Paint.strokeWidth = 20f
+        line2Paint.color = Color.YELLOW
+        line2Paint.style = Paint.Style.STROKE
+        line2Paint.strokeWidth = 20f
         textPaint.isAntiAlias = true
     }
 
@@ -50,10 +53,30 @@ class TataminoGameView(context: Context, val soundManager: SoundManager) : Cells
         if (isInEditMode) return
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
-                if (game.getStateDots()[r, c, 1] == GridLineObject.Line)
-                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
-                if (game.getStateDots()[r, c, 2] == GridLineObject.Line)
-                    canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
+                val p = Position(r, c)
+                fun f(p2: Position) = if (!game.isValid(p2)) '.' else game[p2]
+                fun g(p2: Position): Boolean {
+                    val (ch, ch2) = f(p) to f(p2)
+                    return ch != ch2 && (ch == '.' || ch2 == '.' || ch != ' ' && ch2 != ' ')
+                }
+                fun h(p2: Position): Boolean {
+                    val (ch, ch2) = game.getObject(p) to game.getObject(p2)
+                    return ch != ch2 && ch != ' ' && ch2 != ' '
+                }
+                run {
+                    val p2 = Position(r - 1, c)
+                    val (b1, b2) = g(p2) to (r in 1..<rows && c < cols && h(p2))
+                    if (b1 || b2)
+                        canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(),
+                            if (b1) line1Paint else line2Paint)
+                }
+                run {
+                    val p2 = Position(r, c - 1)
+                    val (b1, b2) = g(p2) to (c in 1..<cols && r < rows && h(p2))
+                    if (b1 || b2)
+                        canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(),
+                            if (b1) line1Paint else line2Paint)
+                }
             }
     }
 

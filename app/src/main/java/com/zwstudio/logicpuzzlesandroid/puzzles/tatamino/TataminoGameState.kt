@@ -1,19 +1,14 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.tatamino
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, TataminoGameMove, TataminoGameState>(game) {
-    var cloner = Cloner()
     var objArray = game.objArray.copyOf()
-    lateinit var dots: GridDots
     var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -27,7 +22,7 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
 
     override fun setObject(move: TataminoGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -68,18 +63,14 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
                     pos2node[p] = node
                 }
             }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                val ch = this[p]
-                if (ch == ' ') continue
-                for (os in TataminoGame.offset) {
-                    val p2 = p + os
-                    if (isValid(p2) && this[p2] == ch)
-                        g.connectNode(pos2node[p]!!, pos2node[p2]!!)
-                }
+        for ((p, node) in pos2node) {
+            val ch = this[p]
+            for (os in TataminoGame.offset) {
+                val p2 = p + os
+                if (isValid(p2) && this[p2] == ch)
+                    g.connectNode(node, pos2node[p2]!!)
             }
-        dots = cloner.deepClone(game.dots)
+        }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
@@ -90,15 +81,7 @@ class TataminoGameState(game: TataminoGame) : CellsGameState<TataminoGame, Tatam
             val n1 = area.size
             val n2 = ch - '0'
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            for (p in area) {
-                pos2state[p] = s
-                for (i in 0 until 4) {
-                    val p2 = p + TataminoGame.offset[i]
-                    val ch2 = if (!isValid(p2)) '.' else this[p2]
-                    if (ch2 != ch && (n1 <= n2 || ch2 != ' '))
-                        dots[p + TataminoGame.offset2[i], TataminoGame.dirs[i]] = GridLineObject.Line
-                }
-            }
+            for (p in area) { pos2state[p] = s }
             if (s != HintState.Complete) isSolved = false
         }
     }

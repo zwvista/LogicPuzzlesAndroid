@@ -44,7 +44,7 @@ class TheCityRisesGameView(context: Context, val soundManager: SoundManager) : C
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dBlock = fromImageToDrawable("images/rabbit_wall_noborder.png")
+        dBlock = fromImageToDrawable("images/tower_wall_noborder.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {

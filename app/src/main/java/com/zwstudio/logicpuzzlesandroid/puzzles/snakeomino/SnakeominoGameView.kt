@@ -61,7 +61,6 @@ class SnakeominoGameView(context: Context, val soundManager: SoundManager) : Cel
                 }
             }
         if (isInEditMode) return
-        val markerOffset = 20
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
                 val p = Position(r, c)

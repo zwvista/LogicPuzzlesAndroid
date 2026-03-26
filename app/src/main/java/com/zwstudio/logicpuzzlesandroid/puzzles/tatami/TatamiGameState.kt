@@ -50,7 +50,7 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
     private fun updateIsSolved() {
         isSolved = true
         val chars2 = listOf('1', '2', '3')
-        val chars3 = chars2.flatMap { Array(rows / 3) { it }.toList() }
+        val chars3 = chars2.flatMap { ch -> Array(rows / 3) { ch }.toList() }
         for (r in 0 until rows)
             for (c in 0 until cols) {
                 val p = Position(r, c)
@@ -66,8 +66,8 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
                 val ch2 = this[p2]
                 if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
                     // 4. You can't have two identical numbers touching horizontally.
+                    isSolved = false
                     lineSolved = false
-                    isSolved = lineSolved
                     pos2state[p1] = HintState.Error
                     pos2state[p2] = HintState.Error
                 }
@@ -75,8 +75,8 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
             val chars = (0 until cols).map { this[r, it] }.sorted()
             // 3. In one row, each number must appear the same number of times.
             if (chars[0] != ' ' && chars != chars3) {
+                isSolved = false
                 lineSolved = false
-                isSolved = lineSolved
                 for (c in 0 until cols)
                     pos2state[Position(r, c)] = HintState.Error
             }
@@ -93,8 +93,8 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
                 val ch2 = this[p2]
                 if (ch1 != ' ' && ch2 != ' ' && ch1 == ch2) {
                     // 4. You can't have two identical numbers touching vertically.
+                    isSolved = false
                     lineSolved = false
-                    isSolved = lineSolved
                     pos2state[p1] = HintState.Error
                     pos2state[p2] = HintState.Error
                 }
@@ -102,8 +102,8 @@ class TatamiGameState(game: TatamiGame) : CellsGameState<TatamiGame, TatamiGameM
             val chars = (0 until rows).map { this[it, c] }.sorted()
             // 3. In one column, each number must appear the same number of times.
             if (chars[0] != ' ' && chars != chars3) {
+                isSolved = false
                 lineSolved = false
-                isSolved = lineSolved
                 for (r in 0 until rows)
                     pos2state[Position(r, c)] = HintState.Error
             }
