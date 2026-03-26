@@ -74,7 +74,7 @@ class FingerPointingGameState(game: FingerPointingGame) : CellsGameState<FingerP
                 while (true) {
                     rng2.add(p2)
                     p2 += FingerPointingGame.offset[o.ordinal - FingerPointingObject.Up.ordinal]
-                    if (!isValid(p2)) break
+                    if (!isValid(p2) || rng2.contains(p2)) break
                     o = this[p2]
                     if (o == FingerPointingObject.Empty) { isSolved = false; break }
                     if (o == FingerPointingObject.Block) break
