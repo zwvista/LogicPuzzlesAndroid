@@ -3,8 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.fillomino
 import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
-import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, FillominoGameMove, FillominoGameState>, gdi: GameDocumentInterface) : CellsGame<FillominoGame, FillominoGameMove, FillominoGameState>(gi, gdi) {
@@ -19,9 +17,6 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
         var dirs = intArrayOf(1, 2, 1, 2)
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
     var chMax: Char
     var objArray: CharArray
 
@@ -32,7 +27,6 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
 
     init {
         size = Position(layout.size, layout[0].length)
-        dots = GridDots(rows + 1, cols + 1)
         objArray = CharArray(rows * cols)
         chMax = ('0'.code + rows).toChar()
         for (r in 0 until rows) {
@@ -42,14 +36,6 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
                 this[r, c] = ch
             }
         }
-        for (r in 0 until rows) {
-            dots[r, 0, 2] = GridLineObject.Line
-            dots[r, cols, 2] = GridLineObject.Line
-        }
-        for (c in 0 until cols) {
-            dots[0, c, 1] = GridLineObject.Line
-            dots[rows, c, 1] = GridLineObject.Line
-        }
         val state = FillominoGameState(this)
         levelInitialized(state)
     }
@@ -57,5 +43,4 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2state(p: Position) = currentState.pos2state[p]
-    fun getStateDots() = currentState.dots
 }
