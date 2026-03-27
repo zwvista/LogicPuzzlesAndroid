@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -23,9 +24,9 @@ class CastleBaileyGameView(context: Context, val soundManager: SoundManager) : C
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val wallPaint = Paint()
     private val mathPaint1 = Paint()
     private val mathPaint2 = Paint()
+    private val dWall: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -37,12 +38,11 @@ class CastleBaileyGameView(context: Context, val soundManager: SoundManager) : C
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        wallPaint.color = Color.LTGRAY
-        wallPaint.style = Paint.Style.FILL_AND_STROKE
         mathPaint1.style = Paint.Style.STROKE
         mathPaint1.color = Color.WHITE
         mathPaint2.style = Paint.Style.FILL
         mathPaint2.color = Color.BLACK
+        dWall = fromImageToDrawable("images/tower_wall2.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -56,8 +56,10 @@ class CastleBaileyGameView(context: Context, val soundManager: SoundManager) : C
                 when (o) {
                     CastleBaileyObject.Marker ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
-                    CastleBaileyObject.Wall ->
-                        canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
+                    CastleBaileyObject.Wall -> {
+                        dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dWall.draw(canvas)
+                    }
                     CastleBaileyObject.Forbidden ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {}

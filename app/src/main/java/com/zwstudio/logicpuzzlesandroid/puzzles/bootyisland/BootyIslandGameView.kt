@@ -68,11 +68,11 @@ class BootyIslandGameView(context: Context, val soundManager: SoundManager) : Ce
                     BootyIslandObject.Forbidden ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     else -> {
+                        val n = game.pos2hint[p] ?: continue
                         dNote.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         dNote.draw(canvas)
-                        val n = game.pos2hint[p] ?: continue
                         val state = game.pos2stateHint(p)
-                        textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                        textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.BLACK
                         val text = n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
