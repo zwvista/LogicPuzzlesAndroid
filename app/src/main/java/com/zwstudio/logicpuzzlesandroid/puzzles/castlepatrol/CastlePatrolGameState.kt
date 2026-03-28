@@ -98,13 +98,13 @@ class CastlePatrolGameState(game: CastlePatrolGame) : CellsGameState<CastlePatro
                 val nodeList = g.bfs()
                 val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
                 rngWE.removeAll { nodeList.contains(pos2node[it]) }
-                val n2 = nodeList.size
+                val n1 = nodeList.size
                 val rng = area.filter { game.pos2hint.containsKey(it) }
                 if (rng.size == 1 && this[rng[0]] == hint) {
                     // 1. Divide the grid into walls and empty areas. Every area contains one number.
                     val p = rng[0]
-                    val n1 = game.pos2hint[p]!!
-                    val s = if (n1 == n2) HintState.Complete else HintState.Error
+                    val n2 = game.pos2hint[p]!!
+                    val s = if (hint == CastlePatrolObject.WallHint && n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
                     pos2state[p] = s
                     if (s != HintState.Complete) isSolved = false
                     val n = areas.size
@@ -113,7 +113,7 @@ class CastlePatrolGameState(game: CastlePatrolGame) : CellsGameState<CastlePatro
                         pos2area[p2] = n
                 } else {
                     isSolved = false
-                    for (p in rng) pos2state[p] = HintState.Normal
+                    for (p in rng) pos2state[p] = if (hint == CastlePatrolObject.WallHint) HintState.Error else HintState.Normal
                 }
             }
         }
