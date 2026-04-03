@@ -1789,6 +1789,18 @@
         <activity android:name=".puzzles.snake.SnakeOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.snakeislands.SnakeIslandsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakeislands.SnakeIslandsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakeislands.SnakeIslandsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.snakeislands.SnakeIslandsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.snakemaze.SnakeMazeMainActivity"
                   android:screenOrientation="portrait">
         </activity>

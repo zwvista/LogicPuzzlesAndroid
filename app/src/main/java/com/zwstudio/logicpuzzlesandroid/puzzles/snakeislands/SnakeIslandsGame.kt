@@ -1,0 +1,40 @@
+package com.zwstudio.logicpuzzlesandroid.puzzles.snakeislands
+
+import com.zwstudio.logicpuzzlesandroid.common.data.GameDocumentInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGame
+import com.zwstudio.logicpuzzlesandroid.common.domain.GameInterface
+import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+
+class SnakeIslandsGame(layout: List<String>, gi: GameInterface<SnakeIslandsGame, SnakeIslandsGameMove, SnakeIslandsGameState>, gdi: GameDocumentInterface) : CellsGame<SnakeIslandsGame, SnakeIslandsGameMove, SnakeIslandsGameState>(gi, gdi) {
+    companion object {
+        val offset = Position.Directions4
+    }
+
+    val pos2obj = mutableMapOf<Position, SnakeIslandsObject>()
+    val pos2hint = mutableMapOf<Position, Int>()
+
+    init {
+        size = Position(layout.size, layout[0].length / 2)
+        for (r in 0 until rows) {
+            val str = layout[r]
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
+                fun f(obj: SnakeIslandsObject) {
+                    pos2obj[p] = obj
+                    pos2hint[p] = if (ch1.isDigit()) ch1 - '0' else ch1 - 'A' + 10
+                }
+                when (ch2) {
+                    '.' -> f(SnakeIslandsObject.EmptyHint)
+                    'W' -> f(SnakeIslandsObject.WallHint)
+                }
+            }
+        }
+        val state = SnakeIslandsGameState(this)
+        levelInitialized(state)
+    }
+
+    fun getObject(p: Position) = currentState[p]
+    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun pos2state(p: Position) = currentState.pos2state[p]
+}
