@@ -87,8 +87,8 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
                     chars.add(ch12)
             }
             // 3. The letters on the borders tell you what letter you see from there.
-            val s1 = if (ch11 == ' ') HintState.Normal else if (ch11 == h1) HintState.Complete else HintState.Error
-            val s2 = if (ch21 == ' ') HintState.Normal else if (ch21 == h2) HintState.Complete else HintState.Error
+            val s1 = if (h1 == ' ' || ch11 == h1) HintState.Complete else if (ch11 == ' ') HintState.Normal else HintState.Error
+            val s2 = if (h2 == ' ' || ch21 == h2) HintState.Complete else if (ch21 == ' ') HintState.Normal else HintState.Error
             row2state[r * 2] = s1
             row2state[r * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
@@ -114,8 +114,8 @@ class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGame
                     chars.add(ch12)
             }
             // 3. The letters on the borders tell you what letter you see from there.
-            val s1 = if (ch11 == ' ') HintState.Normal else if (ch11 == h1) HintState.Complete else HintState.Error
-            val s2 = if (ch21 == ' ') HintState.Normal else if (ch21 == h2) HintState.Complete else HintState.Error
+            val s1 = if (h1 == ' ' || ch11 == h1) HintState.Complete else if (ch11 == ' ') HintState.Normal else HintState.Error
+            val s2 = if (h2 == ' ' || ch21 == h2) HintState.Complete else if (ch21 == ' ') HintState.Normal else HintState.Error
             col2state[c * 2] = s1
             col2state[c * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
