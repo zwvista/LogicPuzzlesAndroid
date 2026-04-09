@@ -57,6 +57,12 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        for (r in 1 until rows - 1)
+            for (c in 1 until cols - 1) {
+                pos2state[Position(r, c)] = HintState.Normal
+                if (this[r, c] == NumberCrossingGame.PUZ_FORBIDDEN)
+                    this[r, c] = NumberCrossingGame.PUZ_UNKNOWN
+            }
         for (r in 1 until rows - 1) {
             val (p1, p2) = Position(r, 0) to Position(r, cols - 1)
             val (h1, h2) = this[p1] to this[p2]
@@ -66,15 +72,13 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
                 val o = this[p]
                 if (o < 0) continue
                 n1 += 1; n2 += o
-                pos2state[p] = HintState.Normal
                 // 2. Numbers cannot touch each other, not even diagonally.
                 for (os in NumberCrossingGame.offset) {
                     val p2 = p + os
                     if (!isValid(p2)) continue
                     val o2 = this[p2]
                     if (o2 > 0) {
-                        pos2state[p2] = HintState.Error
-                        pos2state[p2] = HintState.Error
+                        pos2state[p] = HintState.Error
                         isSolved = false
                     } else if (allowedObjectsOnly && o2 == NumberCrossingGame.PUZ_UNKNOWN)
                         this[p2] = NumberCrossingGame.PUZ_FORBIDDEN
@@ -84,11 +88,13 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             //    column or row.
             // 4. On the bottom and right of the grid, you're given the sum of the numbers
             //    on that column or row.
-            val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-            val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
+            val s1 = if (h1 == NumberCrossingGame.PUZ_UNKNOWN || n1 == h1) HintState.Complete else if (n1 < h1) HintState.Normal else HintState.Error
+            val s2 = if (h2 == NumberCrossingGame.PUZ_UNKNOWN || n2 == h2) HintState.Complete else if (n2 < h2) HintState.Normal else HintState.Error
             pos2state[p1] = s1; pos2state[p2] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
-            if (allowedObjectsOnly && (s1 != HintState.Normal || s2 != HintState.Normal))
+            if (allowedObjectsOnly && (
+                        h1 != NumberCrossingGame.PUZ_UNKNOWN && s1 != HintState.Normal ||
+                        h2 != NumberCrossingGame.PUZ_UNKNOWN && s2 != HintState.Normal))
                 for (c in 1 until cols - 1)
                     if (this[r, c] == NumberCrossingGame.PUZ_UNKNOWN)
                         this[r, c] = NumberCrossingGame.PUZ_FORBIDDEN
@@ -102,15 +108,13 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
                 val o = this[p]
                 if (o < 0) continue
                 n1 += 1; n2 += o
-                pos2state[p] = HintState.Normal
                 // 2. Numbers cannot touch each other, not even diagonally.
                 for (os in NumberCrossingGame.offset) {
                     val p2 = p + os
                     if (!isValid(p2)) continue
                     val o2 = this[p2]
                     if (o2 > 0) {
-                        pos2state[p2] = HintState.Error
-                        pos2state[p2] = HintState.Error
+                        pos2state[p] = HintState.Error
                         isSolved = false
                     } else if (allowedObjectsOnly && o2 == NumberCrossingGame.PUZ_UNKNOWN)
                         this[p2] = NumberCrossingGame.PUZ_FORBIDDEN
@@ -120,11 +124,13 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             //    column or row.
             // 4. On the bottom and right of the grid, you're given the sum of the numbers
             //    on that column or row.
-            val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-            val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
+            val s1 = if (h1 == NumberCrossingGame.PUZ_UNKNOWN || n1 == h1) HintState.Complete else if (n1 < h1) HintState.Normal else HintState.Error
+            val s2 = if (h2 == NumberCrossingGame.PUZ_UNKNOWN || n2 == h2) HintState.Complete else if (n2 < h2) HintState.Normal else HintState.Error
             pos2state[p1] = s1; pos2state[p2] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
-            if (allowedObjectsOnly && (s1 != HintState.Normal || s2 != HintState.Normal))
+            if (allowedObjectsOnly && (
+                        h1 != NumberCrossingGame.PUZ_UNKNOWN && s1 != HintState.Normal ||
+                        h2 != NumberCrossingGame.PUZ_UNKNOWN && s2 != HintState.Normal))
                 for (r in 1 until rows - 1)
                     if (this[r, c] == NumberCrossingGame.PUZ_UNKNOWN)
                         this[r, c] = NumberCrossingGame.PUZ_FORBIDDEN
