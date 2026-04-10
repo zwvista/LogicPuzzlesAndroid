@@ -92,7 +92,7 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                     val p2 = p + CrosstownTrafficGame.offset[it]
                     val dirs2 = pos2dirs[p2]
                     dirs2 != null && dirs2.contains((it + 2) % 4)
-                }) { isSolved = false; return }
+                }) isSolved = false
             }
         // 3. The numbers along the edge indicate the stretch of the nearest section
         //    of road from that point, in corresponding row or column.
@@ -111,7 +111,7 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                 } else if (n1 > 0)
                     break
             }
-            var s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            var s = if (n2 == CrosstownTrafficGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
             pos2state[pHint] = s
             if (s != HintState.Complete) isSolved = false
             n1 = 0
@@ -128,7 +128,7 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                 } else if (n1 > 0)
                     break
             }
-            s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            s = if (n2 == CrosstownTrafficGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
             pos2state[pHint] = s
             if (s != HintState.Complete) isSolved = false
         }
@@ -147,7 +147,7 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                 } else if (n1 > 0)
                     break
             }
-            var s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            var s = if (n2 == CrosstownTrafficGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
             pos2state[pHint] = s
             if (s != HintState.Complete) isSolved = false
             n1 = 0
@@ -164,7 +164,7 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                 } else if (n1 > 0)
                     break
             }
-            s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            s = if (n2 == CrosstownTrafficGame.PUZ_UNKNOWN || n1 == n2) HintState.Complete else if (n1 < n2) HintState.Normal else HintState.Error
             pos2state[pHint] = s
             if (s != HintState.Complete) isSolved = false
         }

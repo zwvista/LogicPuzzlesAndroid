@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class CrosstownTrafficGame(layout: List<String>, gi: GameInterface<CrosstownTrafficGame, CrosstownTrafficGameMove, CrosstownTrafficGameState>, gdi: GameDocumentInterface) : CellsGame<CrosstownTrafficGame, CrosstownTrafficGameMove, CrosstownTrafficGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        const val PUZ_UNKNOWN = -1
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
@@ -16,11 +17,11 @@ class CrosstownTrafficGame(layout: List<String>, gi: GameInterface<CrosstownTraf
         size = Position(layout.size, layout[0].length)
         for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
-                val ch = str[c]
-                if (ch == ' ') continue
-                pos2hint[Position(r, c)] = ch - '0'
-            }
+            for (c in 0 until cols)
+                if ((r == 0 || r == rows - 1) != (c == 0 || c == cols - 1)) {
+                    val ch = str[c]
+                    pos2hint[Position(r, c)] = if (ch == ' ') PUZ_UNKNOWN else ch - '0'
+                }
         }
         val state = CrosstownTrafficGameState(this)
         levelInitialized(state)

@@ -59,6 +59,7 @@ class CrosstownTrafficGameView(context: Context, val soundManager: SoundManager)
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
                     CrosstownTrafficObject.Hint -> {
                         val (n, s) = game.pos2hint[p]!! to game.pos2state(p)!!
+                        if (n < 0) continue
                         textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
                         val text = n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
