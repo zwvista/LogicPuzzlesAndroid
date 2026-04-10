@@ -86,7 +86,7 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
             // 2. There are two Posts in each Row.
             // 3. The numbers on the side tell you the length of the cables between
             // the two Posts (in that Row).
-            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && n2 == posts[1].col - posts[0].col) HintState.Complete else HintState.Error
+            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && (n2 == PowerGridGame.PUZ_UNKNOWN + 1 || n2 == posts[1].col - posts[0].col)) HintState.Complete else HintState.Error
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
             if (s == HintState.Error)
@@ -94,7 +94,7 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
                     pos2state[p] = AllowedObjectState.Error
             if (allowedObjectsOnly && n1 > 0)
                 for (c in 0 until cols)
-                    if (this[r, c] == PowerGridObject.Empty && (n1 > 1 || n2 != abs(posts[0].col - c)))
+                    if (this[r, c] == PowerGridObject.Empty && (n1 > 1 || n2 != PowerGridGame.PUZ_UNKNOWN + 1 && n2 != abs(posts[0].col - c)))
                         this[r, c] = PowerGridObject.Forbidden
         }
         for (c in 0 until cols) {
@@ -109,7 +109,7 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
             // 2. There are two Posts in each Column.
             // 3. The numbers on the side tell you the length of the cables between
             // the two Posts (in that Column).
-            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && n2 == posts[1].row - posts[0].row) HintState.Complete else HintState.Error
+            val s = if (n1 < 2) HintState.Normal else if (n1 == 2 && (n2 == PowerGridGame.PUZ_UNKNOWN + 1 || n2 == posts[1].row - posts[0].row)) HintState.Complete else HintState.Error
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false
             if (s == HintState.Error)
@@ -117,7 +117,7 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
                     pos2state[p] = AllowedObjectState.Error
             if (allowedObjectsOnly && n1 > 0)
                 for (r in 0 until rows)
-                    if (this[r, c] == PowerGridObject.Empty && (n1 > 1 || n2 != abs(posts[0].row - r)))
+                    if (this[r, c] == PowerGridObject.Empty && (n1 > 1 || n2 != PowerGridGame.PUZ_UNKNOWN + 1 && n2 != abs(posts[0].row - r)))
                         this[r, c] = PowerGridObject.Forbidden
         }
     }

@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, PowerGridGameMove, PowerGridGameState>, gdi: GameDocumentInterface) : CellsGame<PowerGridGame, PowerGridGameMove, PowerGridGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        const val PUZ_UNKNOWN = -1
     }
 
     var row2hint: IntArray
