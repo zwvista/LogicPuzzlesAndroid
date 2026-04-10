@@ -3,10 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.pouringwater
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import java.util.TreeMap
 
 class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWaterGame, PouringWaterGameMove, PouringWaterGameState>(game) {
     var objArray = Array(rows * cols) { PouringWaterObject.Empty }
@@ -63,25 +63,24 @@ class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWate
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         for (r in 0 until rows)
-            for (c in 0 until cols)
-                if (this[r, c] == PouringWaterObject.Forbidden)
-                    this[r, c] = PouringWaterObject.Empty
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                if (this[p] == PouringWaterObject.Forbidden)
+                    this[p] = PouringWaterObject.Empty
+                pos2state[p] = AllowedObjectState.Normal
+            }
         // 2. You have to fill some water in it, considering that water pours down
         //    and levels itself like in reality.
         // 3. Areas of the same level which are horizontally connected will have
         //    the same water level.
-        for (area in game.areas) {
-            val rng = area.filter { this[it] == PouringWaterObject.Water }
-            rng.forEach { pos2state[it] = AllowedObjectState.Normal }
-            val row2rng = TreeMap(area.groupBy { it.row })
-            val rowNotFilled = row2rng.keys.reversed().firstOrNull {
-                row2rng[it]!!.any { this[it] != PouringWaterObject.Water }
-            } ?: continue
-            val rngError = rng.filter { it.row < rowNotFilled }
-            if (rngError.isEmpty()) continue
-            isSolved = false
-            rngError.forEach { pos2state[it] = AllowedObjectState.Error }
-        }
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                if (this[p] == PouringWaterObject.Water && !listOf(1, 2, 3).all { i ->
+                    game.dots[p + PouringWaterGame.offset2[i], PouringWaterGame.dirs[i]] == GridLineObject.Line ||
+                            this[p + PouringWaterGame.offset[i]] == PouringWaterObject.Water
+                }) { pos2state[p] = AllowedObjectState.Error; isSolved = false }
+            }
         // 4. The numbers on the border show you how many tiles of each row and
         //    column are filled.
         for (r in 0 until rows) {
