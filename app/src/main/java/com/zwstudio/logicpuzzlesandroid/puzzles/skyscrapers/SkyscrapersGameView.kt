@@ -42,7 +42,7 @@ class SkyscrapersGameView(context: Context, val soundManager: SoundManager) : Ce
                 val n = game.getObject(r, c)
                 if (n == 0) continue
                 val s = game.pos2state(r, c)
-                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (game.isValid(r, c) && game[r, c] != 0) Color.GRAY else Color.WHITE
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }

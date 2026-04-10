@@ -28,7 +28,7 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
 
     override fun setObject(move: SkyscrapersGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != 0 || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -36,7 +36,7 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
 
     override fun switchObject(move: SkyscrapersGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p)) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != 0) return GameOperationType.Invalid
         val o = this[p]
         move.obj = (o + 1) % (game.intMax() + 1)
         return setObject(move)
@@ -80,8 +80,8 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
             // 4. The numbers on the boarders tell you how many skyscrapers you see from
             // there, keeping mind that a higher skyscraper hides a lower one.
             // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
-            val s1 = if (n1 == 0) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-            val s2 = if (n2 == 0) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
+            val s1 = if (h1 == 0 || n1 == h1) HintState.Complete else if (n1 == 0) HintState.Normal else HintState.Error
+            val s2 = if (h2 == 0 || n2 == h2) HintState.Complete else if (n2 == 0) HintState.Normal else HintState.Error
             row2state[r * 2] = s1; row2state[r * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
             if (nums.size != game.intMax()) isSolved = false
@@ -111,8 +111,8 @@ class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGa
             // 4. The numbers on the boarders tell you how many skyscrapers you see from
             // there, keeping mind that a higher skyscraper hides a lower one.
             // Skyscrapers are numbered from 1(lowest) to the grid size(highest).
-            val s1 = if (n1 == 0) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
-            val s2 = if (n2 == 0) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
+            val s1 = if (h1 == 0 || n1 == h1) HintState.Complete else if (n1 == 0) HintState.Normal else HintState.Error
+            val s2 = if (h2 == 0 || n2 == h2) HintState.Complete else if (n2 == 0) HintState.Normal else HintState.Error
             col2state[c * 2] = s1; col2state[c * 2 + 1] = s2
             if (s1 != HintState.Complete || s2 != HintState.Complete) isSolved = false
             if (nums.size != game.intMax()) isSolved = false
