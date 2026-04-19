@@ -2041,6 +2041,18 @@
         <activity android:name=".puzzles.thecityrises.TheCityRisesOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.thegreylabyrinth.TheGreyLabyrinthMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thegreylabyrinth.TheGreyLabyrinthGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thegreylabyrinth.TheGreyLabyrinthHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.thegreylabyrinth.TheGreyLabyrinthOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.thermometers.ThermometersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
