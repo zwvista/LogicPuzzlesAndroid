@@ -49,6 +49,18 @@
         <activity android:name=".puzzles.abcpath.ABCPathOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.abstractmirrorpainting.AbstractMirrorPaintingMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.abstractmirrorpainting.AbstractMirrorPaintingGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.abstractmirrorpainting.AbstractMirrorPaintingHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.abstractmirrorpainting.AbstractMirrorPaintingOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.abstractpainting.AbstractPaintingMainActivity"
                   android:screenOrientation="portrait">
         </activity>
