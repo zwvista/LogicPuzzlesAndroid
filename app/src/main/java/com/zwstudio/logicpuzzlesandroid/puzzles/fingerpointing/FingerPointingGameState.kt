@@ -20,7 +20,7 @@ class FingerPointingGameState(game: FingerPointingGame) : CellsGameState<FingerP
 
     override fun setObject(move: FingerPointingGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] == FingerPointingObject.Block || game[p] == FingerPointingObject.Hint || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != FingerPointingObject.Empty || this[p] == move.obj) return GameOperationType.Invalid
         this[move.p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -28,7 +28,7 @@ class FingerPointingGameState(game: FingerPointingGame) : CellsGameState<FingerP
 
     override fun switchObject(move: FingerPointingGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] == FingerPointingObject.Block || game[p] == FingerPointingObject.Hint) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != FingerPointingObject.Empty) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
             FingerPointingObject.Empty -> FingerPointingObject.Up
             FingerPointingObject.Up -> FingerPointingObject.Right

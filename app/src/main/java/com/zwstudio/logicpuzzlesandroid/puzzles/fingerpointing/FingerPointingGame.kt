@@ -8,7 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class FingerPointingGame(layout: List<String>, gi: GameInterface<FingerPointingGame, FingerPointingGameMove, FingerPointingGameState>, gdi: GameDocumentInterface) : CellsGame<FingerPointingGame, FingerPointingGameMove, FingerPointingGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        const val PUZ_BLOCK = 'O'
+        const val chars = "^>v<"
+        const val PUZ_BLOCK = '@'
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
@@ -30,8 +31,13 @@ class FingerPointingGame(layout: List<String>, gi: GameInterface<FingerPointingG
                 if (ch == PUZ_BLOCK)
                     this[p] = FingerPointingObject.Block
                 else if (ch != ' ') {
-                    pos2hint[p] = if (ch.isDigit()) ch - '0' else ch - 'A' + 10
-                    this[p] = FingerPointingObject.Hint
+                    val dir = chars.indexOf(ch)
+                    if (dir != -1)
+                        this[p] = FingerPointingObject.entries[dir + FingerPointingObject.Up.ordinal]
+                    else {
+                        pos2hint[p] = if (ch.isDigit()) ch - '0' else ch - 'A' + 10
+                        this[p] = FingerPointingObject.Hint
+                    }
                 }
             }
         }
