@@ -1,6 +1,6 @@
 #!/bin/bash
 # 自动生成的Android拷贝XML脚本
-# 生成时间: 2026-04-22 12:03:54
+# 生成时间: 2026-04-24 23:00:09
 
 echo "开始拷贝XML文件到Android项目..."
 
@@ -812,6 +812,15 @@ if [ -f "../PSL/PuzzlesA/Puzzles/Archipelago.xml" ]; then
     echo "✓ 已拷贝到Android: Archipelago"
 else
     echo "❌ 源文件不存在: ../PSL/PuzzlesA/Puzzles/Archipelago.xml"
+fi
+
+# 拷贝 AbstractMirrorPainting (来自: PuzzlesA/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesA/Puzzles/AbstractMirrorPainting.xml" ]; then
+    cp "../PSL/PuzzlesA/Puzzles/AbstractMirrorPainting.xml" "app/src/main/assets/xml/AbstractMirrorPainting.xml"
+    echo "✓ 已拷贝到Android: AbstractMirrorPainting"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesA/Puzzles/AbstractMirrorPainting.xml"
 fi
 
 # 拷贝 AssemblyInstructions (来自: PuzzlesA/Puzzles)
@@ -1741,4 +1750,4 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesU/Puzzles/Underground.xml"
 fi
 
-echo "\nAndroid拷贝完成，共处理 193 个游戏"
+echo "\nAndroid拷贝完成，共处理 194 个游戏"
