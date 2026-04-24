@@ -27,11 +27,12 @@ class FingerPointingGame(layout: List<String>, gi: GameInterface<FingerPointingG
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch.isDigit()) {
-                    pos2hint[p] = ch - '0'
-                    this[p] = FingerPointingObject.Hint
-                } else if (ch == PUZ_BLOCK)
+                if (ch == PUZ_BLOCK)
                     this[p] = FingerPointingObject.Block
+                else if (ch != ' ') {
+                    pos2hint[p] = if (ch.isDigit()) ch - '0' else ch - 'A' + 10
+                    this[p] = FingerPointingObject.Hint
+                }
             }
         }
         val state = FingerPointingGameState(this)

@@ -51,7 +51,7 @@ class SuspendedGravityGame(layout: List<String>, gi: GameInterface<SuspendedGrav
                 if (c == cols) break
                 val ch2 = str[c * 2 + 1]
                 if (ch2 != ' ')
-                    pos2hint[Position(r, c)] = if (Character.isDigit(ch2)) ch2 - '0' else ch2 - 'A' + 10
+                    pos2hint[Position(r, c)] = if (ch2.isDigit()) ch2 - '0' else ch2 - 'A' + 10
             }
         }
         val rng = mutableSetOf<Position>()
