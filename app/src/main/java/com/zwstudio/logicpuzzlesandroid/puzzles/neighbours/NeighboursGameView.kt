@@ -48,13 +48,11 @@ class NeighboursGameView(context: Context, val soundManager: SoundManager) : Cel
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.pos2state(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                }
+                val n = game.pos2hint[p] ?: continue
+                val state = game.pos2state(p)
+                textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                val text = if (n == NeighboursGame.PUZ_UNKNOWN) "?" else n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
         val markerOffset = 20

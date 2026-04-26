@@ -135,7 +135,7 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
             // neighbours he desires.
             // 4. Divide the land so that each one has an equal number of squares and
             // the requested number of neighbours.
-            val s = if (n1 == n2 && n3 == neighbours()) HintState.Complete else HintState.Error
+            val s = if (n1 == n2 && (n3 == NeighboursGame.PUZ_UNKNOWN || n3 == neighbours())) HintState.Complete else HintState.Error
             pos2state[p3] = s
             if (s != HintState.Complete) isSolved = false
         }

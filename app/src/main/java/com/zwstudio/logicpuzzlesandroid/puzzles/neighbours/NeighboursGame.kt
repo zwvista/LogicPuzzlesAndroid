@@ -16,6 +16,7 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
+        const val PUZ_UNKNOWN = -1
     }
 
     var objArray: Array<Array<GridLineObject>>
@@ -36,7 +37,7 @@ class NeighboursGame(layout: List<String>, gi: GameInterface<NeighboursGame, Nei
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                val n = ch - '0'
+                val n = if (ch == '?') PUZ_UNKNOWN else ch - '0'
                 pos2hint[p] = n
             }
         }
