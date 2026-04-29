@@ -77,18 +77,20 @@ class MagnetsGameView(context: Context, val soundManager: SoundManager) : CellsG
         for (r in 0 until rows)
             for (c in 0..1) {
                 val id = r * 2 + c
+                val n = game.row2hint[id]
+                if (n < 0) continue
                 val s = game.row2state(id)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val n = game.row2hint[id]
                 val text = n.toString()
                 drawTextCentered(text, cwc(cols + c), chr(r), canvas, textPaint)
             }
         for (c in 0 until cols)
             for (r in 0..1) {
                 val id = c * 2 + r
+                val n = game.col2hint[id]
+                if (n < 0) continue
                 val s = game.col2state(id)
                 textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                val n = game.col2hint[id]
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(rows + r), canvas, textPaint)
             }

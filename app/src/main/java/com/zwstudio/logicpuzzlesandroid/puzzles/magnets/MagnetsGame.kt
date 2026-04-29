@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGameMove, MagnetsGameState>, gdi: GameDocumentInterface) : CellsGame<MagnetsGame, MagnetsGameMove, MagnetsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        const val PUZ_UNKNOWN = -1
     }
 
     var row2hint: IntArray
@@ -17,8 +18,8 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
 
     init {
         size = Position(layout.size - 2, layout[0].length - 2)
-        row2hint = IntArray(rows * 2)
-        col2hint = IntArray(cols * 2)
+        row2hint = IntArray(rows * 2) { PUZ_UNKNOWN }
+        col2hint = IntArray(cols * 2) { PUZ_UNKNOWN }
         for (r in 0 until rows + 2) {
             val str = layout[r]
             for (c in 0 until cols + 2) {

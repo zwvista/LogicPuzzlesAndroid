@@ -71,8 +71,8 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
                     MagnetsObject.Negative -> nn1++
                     else -> {}
                 }
-            row2state[r * 2] = if (np1 < np2) HintState.Normal else if (np1 == np2) HintState.Complete else HintState.Error
-            row2state[r * 2 + 1] = if (nn1 < nn2) HintState.Normal else if (nn1 == nn2) HintState.Complete else HintState.Error
+            row2state[r * 2] = if (np2 == MagnetsGame.PUZ_UNKNOWN || np1 == np2) HintState.Complete else if (np1 < np2) HintState.Normal else HintState.Error
+            row2state[r * 2 + 1] = if (nn2 == MagnetsGame.PUZ_UNKNOWN || nn1 == nn2) HintState.Complete else if (nn1 < nn2) HintState.Normal else HintState.Error
             if (np1 != np2 || nn1 != nn2) isSolved = false
         }
         // 3. The number on the board tells you how many positive and negative poles
@@ -88,8 +88,8 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
                     MagnetsObject.Negative -> nn1++
                     else -> {}
                 }
-            col2state[c * 2] = if (np1 < np2) HintState.Normal else if (np1 == np2) HintState.Complete else HintState.Error
-            col2state[c * 2 + 1] = if (nn1 < nn2) HintState.Normal else if (nn1 == nn2) HintState.Complete else HintState.Error
+            col2state[c * 2] = if (np2 == MagnetsGame.PUZ_UNKNOWN || np1 == np2) HintState.Complete else if (np1 < np2) HintState.Normal else HintState.Error
+            col2state[c * 2 + 1] = if (nn2 == MagnetsGame.PUZ_UNKNOWN || nn1 == nn2) HintState.Complete else if (nn1 < nn2) HintState.Normal else HintState.Error
             if (np1 != np2 || nn1 != nn2) isSolved = false
         }
         if (!isSolved) return
