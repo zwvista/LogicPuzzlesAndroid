@@ -73,7 +73,7 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
                 }
             row2state[r * 2] = if (np2 == MagnetsGame.PUZ_UNKNOWN || np1 == np2) HintState.Complete else if (np1 < np2) HintState.Normal else HintState.Error
             row2state[r * 2 + 1] = if (nn2 == MagnetsGame.PUZ_UNKNOWN || nn1 == nn2) HintState.Complete else if (nn1 < nn2) HintState.Normal else HintState.Error
-            if (np1 != np2 || nn1 != nn2) isSolved = false
+            if (row2state[r * 2] != HintState.Complete || row2state[r * 2 + 1] != HintState.Complete) isSolved = false
         }
         // 3. The number on the board tells you how many positive and negative poles
         // you can see from there in a straight line.
@@ -90,7 +90,7 @@ class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsG
                 }
             col2state[c * 2] = if (np2 == MagnetsGame.PUZ_UNKNOWN || np1 == np2) HintState.Complete else if (np1 < np2) HintState.Normal else HintState.Error
             col2state[c * 2 + 1] = if (nn2 == MagnetsGame.PUZ_UNKNOWN || nn1 == nn2) HintState.Complete else if (nn1 < nn2) HintState.Normal else HintState.Error
-            if (np1 != np2 || nn1 != nn2) isSolved = false
+            if (col2state[c * 2] != HintState.Complete || col2state[c * 2 + 1] != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
         // 2. Every rectangle can either contain a Magnet or be empty.
