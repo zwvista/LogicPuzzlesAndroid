@@ -529,6 +529,18 @@
         <activity android:name=".puzzles.domino.DominoOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.farmer.FarmerMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.farmer.FarmerGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.farmer.FarmerHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.farmer.FarmerOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.fenceitup.FenceItUpMainActivity"
                   android:screenOrientation="portrait">
         </activity>
