@@ -1537,6 +1537,18 @@
         <activity android:name=".puzzles.pipemania.PipemaniaOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.planets.PlanetsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.planets.PlanetsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.planets.PlanetsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.planets.PlanetsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.planks.PlanksMainActivity"
                   android:screenOrientation="portrait">
         </activity>
