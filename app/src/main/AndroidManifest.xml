@@ -2089,6 +2089,18 @@
         <activity android:name=".puzzles.thegreylabyrinth.TheGreyLabyrinthOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.themagicnumber.TheMagicNumberMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.themagicnumber.TheMagicNumberGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.themagicnumber.TheMagicNumberHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.themagicnumber.TheMagicNumberOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.thermometers.ThermometersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
