@@ -73,6 +73,18 @@
         <activity android:name=".puzzles.abstractpainting.AbstractPaintingOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.adifferentfarmer.ADifferentFarmerMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.adifferentfarmer.ADifferentFarmerGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.adifferentfarmer.ADifferentFarmerHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.adifferentfarmer.ADifferentFarmerOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.archipelago.ArchipelagoMainActivity"
             android:screenOrientation="portrait">
         </activity>
