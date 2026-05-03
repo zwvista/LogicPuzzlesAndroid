@@ -1,6 +1,6 @@
 #!/bin/bash
 # 自动生成的Android拷贝XML脚本
-# 生成时间: 2026-05-03 06:59:29
+# 生成时间: 2026-05-03 08:12:34
 
 echo "开始拷贝XML文件到Android项目..."
 
@@ -110,6 +110,15 @@ if [ -f "../PSL/PuzzlesP/Puzzles/PlugItIn.xml" ]; then
     echo "✓ 已拷贝到Android: PlugItIn"
 else
     echo "❌ 源文件不存在: ../PSL/PuzzlesP/Puzzles/PlugItIn.xml"
+fi
+
+# 拷贝 Planets (来自: PuzzlesP/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesP/Puzzles/Planets.xml" ]; then
+    cp "../PSL/PuzzlesP/Puzzles/Planets.xml" "app/src/main/assets/xml/Planets.xml"
+    echo "✓ 已拷贝到Android: Planets"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesP/Puzzles/Planets.xml"
 fi
 
 # 拷贝 Pata (来自: PuzzlesP/Puzzles)
@@ -823,6 +832,15 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesA/Puzzles/AbstractMirrorPainting.xml"
 fi
 
+# 拷贝 ADifferentFarmer (来自: PuzzlesA/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesA/Puzzles/ADifferentFarmer.xml" ]; then
+    cp "../PSL/PuzzlesA/Puzzles/ADifferentFarmer.xml" "app/src/main/assets/xml/ADifferentFarmer.xml"
+    echo "✓ 已拷贝到Android: ADifferentFarmer"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesA/Puzzles/ADifferentFarmer.xml"
+fi
+
 # 拷贝 AssemblyInstructions (来自: PuzzlesA/Puzzles)
 mkdir -p app/src/main/assets/xml
 if [ -f "../PSL/PuzzlesA/Puzzles/AssemblyInstructions.xml" ]; then
@@ -866,6 +884,15 @@ if [ -f "../PSL/PuzzlesF/Puzzles/FenceSentinels.xml" ]; then
     echo "✓ 已拷贝到Android: FenceSentinels"
 else
     echo "❌ 源文件不存在: ../PSL/PuzzlesF/Puzzles/FenceSentinels.xml"
+fi
+
+# 拷贝 Farmer (来自: PuzzlesF/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesF/Puzzles/Farmer.xml" ]; then
+    cp "../PSL/PuzzlesF/Puzzles/Farmer.xml" "app/src/main/assets/xml/Farmer.xml"
+    echo "✓ 已拷贝到Android: Farmer"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesF/Puzzles/Farmer.xml"
 fi
 
 # 拷贝 FlowerBeds (来自: PuzzlesF/Puzzles)
@@ -1217,6 +1244,15 @@ if [ -f "../PSL/PuzzlesT/Puzzles/TapAlike.xml" ]; then
     echo "✓ 已拷贝到Android: TapAlike"
 else
     echo "❌ 源文件不存在: ../PSL/PuzzlesT/Puzzles/TapAlike.xml"
+fi
+
+# 拷贝 TheMagicNumber (来自: PuzzlesT/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesT/Puzzles/TheMagicNumber.xml" ]; then
+    cp "../PSL/PuzzlesT/Puzzles/TheMagicNumber.xml" "app/src/main/assets/xml/TheMagicNumber.xml"
+    echo "✓ 已拷贝到Android: TheMagicNumber"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesT/Puzzles/TheMagicNumber.xml"
 fi
 
 # 拷贝 TrafficWardenRevenge (来自: PuzzlesT/Puzzles)
@@ -1750,4 +1786,4 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesU/Puzzles/Underground.xml"
 fi
 
-echo "\nAndroid拷贝完成，共处理 194 个游戏"
+echo "\nAndroid拷贝完成，共处理 198 个游戏"

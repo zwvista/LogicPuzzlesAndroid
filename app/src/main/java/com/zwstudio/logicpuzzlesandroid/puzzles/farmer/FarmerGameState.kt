@@ -29,12 +29,10 @@ class FarmerGameState(game: FarmerGame) : CellsGameState<FarmerGame, FarmerGameM
         val p = move.p
         if (!isValid(p) || game[p] != FarmerObject.Empty) return GameOperationType.Invalid
         move.obj = when (val o = this[p]) {
-            FarmerObject.Empty -> FarmerObject.Up
-            FarmerObject.Up -> FarmerObject.Right
-            FarmerObject.Right -> FarmerObject.Down
-            FarmerObject.Down -> FarmerObject.Left
-            FarmerObject.Left -> FarmerObject.Empty
-            else -> o
+            FarmerObject.Empty -> FarmerObject.Fv1
+            FarmerObject.Fv1 -> FarmerObject.Fv2
+            FarmerObject.Fv2 -> FarmerObject.Fv3
+            FarmerObject.Fv3 -> FarmerObject.Empty
         }
         return setObject(move)
     }
@@ -56,49 +54,32 @@ class FarmerGameState(game: FarmerGame) : CellsGameState<FarmerGame, FarmerGameM
         for (r in 0 until rows)
             for (c in 0 until cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
-        // 3. Arrows in an area should all be different, i.e. there can't be two
-        //    similar arrows in an area.
         for (area in game.areas) {
-            val symbol2range = mutableMapOf<FarmerObject, MutableList<Position>>()
-            for (p in area)
-                symbol2range.getOrPut(this[p]) { mutableListOf() }.add(p)
-            for ((_, range) in symbol2range)
-                if (range.size > 1) {
-                    isSolved = false
-                    for (p in range)
-                        pos2state[p] = AllowedObjectState.Error
-                }
-            if (symbol2range.contains(FarmerObject.Empty))
+            val objSet = area.map { this[it] }.toSet()
+            if (objSet.contains(FarmerObject.Empty)) { isSolved = false; continue }
+            val cnt = objSet.size
+            // 3. Each area must contain either three identical plants or three different plants.
+            if (!(cnt == 1 || cnt == 3)) {
                 isSolved = false
+                for (p in area)
+                    pos2state[p] = AllowedObjectState.Error
+            }
         }
-        if (!isSolved) return
-        // 1. All the roads lead to Farmer.
-        // 2. Hence you should fill the remaining spaces with arrows and in the
-        //    end, starting at any tile and following the arrows, you should get
-        //    at the Farmer icon.
-        val validRange = mutableSetOf<Position>()
-        val invalidRange = mutableSetOf<Position>()
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                var p = Position(r, c)
-                val range = mutableSetOf<Position>()
-                while (true) {
-                    val o = this[p]
-                    if (o == FarmerObject.Farmer || validRange.contains(p)) {
-                        for (p2 in range) { validRange.add(p2) }
-                        break
-                    }
-                    if (!isValid(p) || invalidRange.contains(p) || range.contains(p)) {
+                val p = Position(r, c)
+                val o = this[p]
+                val area1 = game.pos2area[p]!!
+                if (o == FarmerObject.Empty) continue
+                // 4. When two plants are orthogonally adjacent across an area, they must be different.
+                for (os in FarmerGame.offset) {
+                    val p2 = p + os
+                    if (!isValid(p2)) continue
+                    if (this[p2] == o && area1 != game.pos2area[p2]!!) {
                         isSolved = false
-                        for (p2 in range) { invalidRange.add(p2) }
-                        break
+                        pos2state[p] = AllowedObjectState.Error
                     }
-                    range.add(p)
-                    val os = FarmerGame.offset[o.ordinal - 2]
-                    p += os
                 }
             }
-        for (p in invalidRange)
-            pos2state[p] = AllowedObjectState.Error
     }
 }

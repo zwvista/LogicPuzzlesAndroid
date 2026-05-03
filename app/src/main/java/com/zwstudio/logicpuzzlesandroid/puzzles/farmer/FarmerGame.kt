@@ -19,7 +19,7 @@ class FarmerGame(layout: List<String>, gi: GameInterface<FarmerGame, FarmerGameM
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        var chars = " R^>v<"
+        var chars = " ABC"
     }
 
     var areas = mutableListOf<List<Position>>()

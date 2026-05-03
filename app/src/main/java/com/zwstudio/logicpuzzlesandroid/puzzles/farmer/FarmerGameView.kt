@@ -25,11 +25,9 @@ class FarmerGameView(context: Context, val soundManager: SoundManager) : CellsGa
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val fixedPaint = Paint()
-    private val dUp: Drawable
-    private val dRight: Drawable
-    private val dDown: Drawable
-    private val dLeft: Drawable
-    private val dFarmer: Drawable
+    private val dFv1: Drawable
+    private val dFv2: Drawable
+    private val dFv3: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,11 +37,9 @@ class FarmerGameView(context: Context, val soundManager: SoundManager) : CellsGa
         linePaint.strokeWidth = 20f
         fixedPaint.color = Color.WHITE
         fixedPaint.style = Paint.Style.STROKE
-        dUp = fromImageToDrawable("images/arrow_bw_up.png")
-        dRight = fromImageToDrawable("images/arrow_bw_right.png")
-        dDown = fromImageToDrawable("images/arrow_bw_down.png")
-        dLeft = fromImageToDrawable("images/arrow_bw_left.png")
-        dFarmer = fromImageToDrawable("images/rome.png")
+        dFv1 = fromImageToDrawable("images/fv (1).png")
+        dFv2 = fromImageToDrawable("images/fv (2).png")
+        dFv3 = fromImageToDrawable("images/fv (3).png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -56,11 +52,10 @@ class FarmerGameView(context: Context, val soundManager: SoundManager) : CellsGa
                 val o = game.getObject(p)
                 if (o == FarmerObject.Empty) continue
                 val dObject = when (o) {
-                    FarmerObject.Up -> dUp
-                    FarmerObject.Right -> dRight
-                    FarmerObject.Down -> dDown
-                    FarmerObject.Left -> dLeft
-                    else -> dFarmer
+                    FarmerObject.Fv1 -> dFv1
+                    FarmerObject.Fv2 -> dFv2
+                    FarmerObject.Fv3 -> dFv3
+                    else -> dFv1
                 }
                 dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0
