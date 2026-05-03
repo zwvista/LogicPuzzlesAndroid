@@ -32,11 +32,11 @@ class TheMagicNumberGameState(game: TheMagicNumberGame) : CellsGameState<TheMagi
         val p = move.p
         if (!isValid(p) || game[p] != TheMagicNumberObject.Empty) return GameOperationType.Invalid
         val markerOption = MarkerOptions.entries[game.gdi.markerOption]
-        move.obj = when (val o = this[p]) {
-            TheMagicNumberObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) TheMagicNumberObject.Marker else TheMagicNumberObject.Flower
-            TheMagicNumberObject.Flower -> if (markerOption == MarkerOptions.MarkerLast) TheMagicNumberObject.Marker else TheMagicNumberObject.Empty
-            TheMagicNumberObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) TheMagicNumberObject.Flower else TheMagicNumberObject.Empty
-            else -> o
+        move.obj = when (this[p]) {
+            TheMagicNumberObject.Empty -> TheMagicNumberObject.Fv1
+            TheMagicNumberObject.Fv1 -> TheMagicNumberObject.Fv2
+            TheMagicNumberObject.Fv2 -> TheMagicNumberObject.Fv3
+            TheMagicNumberObject.Fv3 -> TheMagicNumberObject.Empty
         }
         return setObject(move)
     }
@@ -56,88 +56,64 @@ class TheMagicNumberGameState(game: TheMagicNumberGame) : CellsGameState<TheMagi
            be different.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0 until rows)
-            for (c in 0 until cols) {
-                val p = Position(r, c)
-                when (this[p]) {
-                    TheMagicNumberObject.Forbidden ->
-                        this[p] = TheMagicNumberObject.Empty
-                    TheMagicNumberObject.Flower -> {
-                        pos2state[p] = AllowedObjectState.Normal
-                        val node = Node(p.toString())
-                        g.addNode(node)
-                        pos2node[p] = node
-                    }
-                    else -> {}
+            for (c in 0 until cols)
+                pos2state[Position(r, c)] = AllowedObjectState.Normal
+        // 2. On side-6 boards there will be 2 of each on any row or column.
+        // 3. On side-9 boards there will be 3 of each on any row or column.
+        // 4. On side-12 boards there will be 4 of each on any row or column.
+        fun checkSymbols(symbol2range: Map<TheMagicNumberObject, List<Position>>) {
+            for ((_, range) in symbol2range) {
+                val cnt = range.size
+                if (cnt != game.symbolCountPerRowCol) {
+                    isSolved = false
+                    if (cnt > game.symbolCountPerRowCol)
+                        for (p in range)
+                            pos2state[p] = AllowedObjectState.Error
                 }
             }
-        for ((p, node) in pos2node)
-            for (os in TheMagicNumberGame.offset) {
-                val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
-            }
-        // 2. More exactly, you have to join the existing flowers by adding more of
-        // them, creating a single path of flowers touching horizontally or
-        // vertically.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
-        val flowers = mutableListOf<Position>()
-        // 3. At the same time, you can't line up horizontally or vertically more
-        // than 3 flowers (thus Forbidden Four).
-        fun checkFlowers() {
-            if (flowers.size > 3) {
-                isSolved = false
-                for (p in flowers)
-                    pos2state[p] = AllowedObjectState.Error
-            }
-            flowers.clear()
-        }
-        fun checkForbidden(p: Position, indexes: List<Int>) {
-            if (!allowedObjectsOnly) return
-            for (i in indexes) {
-                val os = TheMagicNumberGame.offset[i]
-                var p2 = p + os
-                while (isValid(p2) && this[p2] == TheMagicNumberObject.Flower) {
-                    flowers.add(p2)
-                    p2 += os
-                }
-            }
-            if (flowers.size > 2)
-                this[p] = TheMagicNumberObject.Forbidden
-            flowers.clear()
         }
         for (r in 0 until rows) {
+            val symbol2range = mutableMapOf<TheMagicNumberObject, MutableList<Position>>()
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o == TheMagicNumberObject.Flower)
-                    flowers.add(p)
-                else {
-                    checkFlowers()
-                    if (o == TheMagicNumberObject.Empty || o == TheMagicNumberObject.Marker)
-                        checkForbidden(p, listOf(1, 3))
-                }
+                if (o == TheMagicNumberObject.Empty)
+                    isSolved = false
+                else
+                    symbol2range.getOrPut(o) { mutableListOf() }.add(p)
             }
-            checkFlowers()
+            checkSymbols(symbol2range)
         }
         for (c in 0 until cols) {
+            val symbol2range = mutableMapOf<TheMagicNumberObject, MutableList<Position>>()
             for (r in 0 until rows) {
                 val p = Position(r, c)
                 val o = this[p]
-                if (o == TheMagicNumberObject.Flower)
-                    flowers.add(p)
-                else {
-                    checkFlowers()
-                    if (o == TheMagicNumberObject.Empty || o == TheMagicNumberObject.Marker)
-                        checkForbidden(p, listOf(0, 2))
+                if (o == TheMagicNumberObject.Empty)
+                    isSolved = false
+                else
+                    symbol2range.getOrPut(o) { mutableListOf() }.add(p)
+            }
+            checkSymbols(symbol2range)
+        }
+        // 5. When a tile has a shaded background, the symbols around it must
+        //    be different.
+        for (p in game.shaded) {
+            val o = this[p]
+            if (o == TheMagicNumberObject.Empty) continue
+            for (os in TheMagicNumberGame.offset) {
+                val p2 = p + os
+                if (!isValid(p2)) {continue}
+                if (this[p2] == o) {
+                    isSolved = false
+                    pos2state[p] = AllowedObjectState.Error
+                    pos2state[p2] = AllowedObjectState.Error
                 }
             }
-            checkFlowers()
         }
     }
 }

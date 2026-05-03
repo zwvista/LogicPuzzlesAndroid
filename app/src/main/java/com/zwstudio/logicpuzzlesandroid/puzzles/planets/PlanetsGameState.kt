@@ -84,10 +84,9 @@ class PlanetsGameState(game: PlanetsGame) : CellsGameState<PlanetsGame, PlanetsG
                 for (p in nebulae)
                     pos2state[p] = AllowedObjectState.Error
             }
-            if (allowedObjectsOnly && suns.isNotEmpty() && nebulae.isNotEmpty()) {
+            if (allowedObjectsOnly && suns.isNotEmpty() && nebulae.isNotEmpty())
                 for (p in empties)
                     this[p] = PlanetsObject.Forbidden
-            }
         }
         for (r in 0 until rows) {
             val suns = mutableListOf<Position>()

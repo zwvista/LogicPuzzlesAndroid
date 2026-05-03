@@ -28,7 +28,7 @@ class FarmerGameState(game: FarmerGame) : CellsGameState<FarmerGame, FarmerGameM
     override fun switchObject(move: FarmerGameMove): GameOperationType {
         val p = move.p
         if (!isValid(p) || game[p] != FarmerObject.Empty) return GameOperationType.Invalid
-        move.obj = when (val o = this[p]) {
+        move.obj = when (this[p]) {
             FarmerObject.Empty -> FarmerObject.Fv1
             FarmerObject.Fv1 -> FarmerObject.Fv2
             FarmerObject.Fv2 -> FarmerObject.Fv3

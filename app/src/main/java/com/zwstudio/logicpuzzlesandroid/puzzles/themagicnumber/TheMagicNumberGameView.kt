@@ -23,54 +23,47 @@ class TheMagicNumberGameView(context: Context, val soundManager: SoundManager) :
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()
-    private val markerPaint = Paint()
     private val fixedPaint = Paint()
-    private val forbiddenPaint = Paint()
-    private val dFlower: Drawable
+    private val dFv1: Drawable
+    private val dFv2: Drawable
+    private val dFv3: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        wallPaint.color = Color.WHITE
+        wallPaint.color = Color.GRAY
         wallPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.strokeWidth = 5f
         fixedPaint.color = Color.WHITE
         fixedPaint.style = Paint.Style.STROKE
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
-        dFlower = fromImageToDrawable("images/flower_blue.png")
+        dFv1 = fromImageToDrawable("images/fv (1).png")
+        dFv2 = fromImageToDrawable("images/fv (2).png")
+        dFv3 = fromImageToDrawable("images/fv (3).png")
     }
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0 until rows)
-            for (c in 0 until cols)
-                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-        if (isInEditMode) return
-        for (r in 0 until rows)
             for (c in 0 until cols) {
+                canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
+                if (isInEditMode) return
                 val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    TheMagicNumberObject.Flower -> {
-                        dFlower.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val s = game.pos2state(p)
-                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
-                        dFlower.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dFlower.draw(canvas)
-                        if (game[p] == TheMagicNumberObject.Flower)
-                            canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
-                    }
-                    TheMagicNumberObject.Marker ->
-                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
-                    TheMagicNumberObject.Forbidden ->
-                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
-                    TheMagicNumberObject.Block ->
-                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
-                    else -> {}
+                val o = game.getObject(p)
+                if (o == TheMagicNumberObject.Empty) continue
+                if (game.shaded.contains(p))
+                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                else if (game[p] != TheMagicNumberObject.Empty)
+                    canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+                val dObject = when (o) {
+                    TheMagicNumberObject.Fv1 -> dFv1
+                    TheMagicNumberObject.Fv2 -> dFv2
+                    TheMagicNumberObject.Fv3 -> dFv3
+                    else -> dFv1
                 }
+                dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val s = game.pos2state(p)
+                val alpha = if (s == AllowedObjectState.Error) 50 else 0
+                dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                dObject.draw(canvas)
             }
     }
 
