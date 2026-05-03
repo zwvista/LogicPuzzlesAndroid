@@ -6,7 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADifferentFarmerGame, ADifferentFarmerGameMove, ADifferentFarmerGameState>(game) {
     var objArray = game.objArray.copyOf()
@@ -105,7 +104,7 @@ class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADi
                 pos2node[p] = node
             }
         for ((p, node) in pos2node)
-            for (os in TierraDelFuegoGame.offset) {
+            for (os in ADifferentFarmerGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

@@ -8,9 +8,22 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class PlanetsGame(layout: List<String>, gi: GameInterface<PlanetsGame, PlanetsGameMove, PlanetsGameState>, gdi: GameDocumentInterface) : CellsGame<PlanetsGame, PlanetsGameMove, PlanetsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        var chars = " 01392846C"
+        val isLitMap: Map<List<Int>, PlanetsObject> = mapOf(
+            listOf<Int>() to PlanetsObject.None,
+            listOf(0) to PlanetsObject.North,
+            listOf(1) to PlanetsObject.East,
+            listOf(2) to PlanetsObject.South,
+            listOf(3) to PlanetsObject.West,
+            listOf(0, 1) to PlanetsObject.NorthEast,
+            listOf(0, 3) to PlanetsObject.NorthWest,
+            listOf(1, 2) to PlanetsObject.SouthEast,
+            listOf(2, 3) to PlanetsObject.SouthWest,
+        )
     }
 
     var objArray: Array<PlanetsObject>
+    val planets = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -22,11 +35,14 @@ class PlanetsGame(layout: List<String>, gi: GameInterface<PlanetsGame, PlanetsGa
         objArray = Array(rows * cols) { PlanetsObject.Empty }
         for (r in 0 until rows) {
             val str = layout[r]
-            for (c in 0 until cols)
-                when (str[c]) {
-                    'F' -> this[r, c] = PlanetsObject.Flower
-                    'B' -> this[r, c] = PlanetsObject.Block
-                }
+            for (c in 0 until cols) {
+                val ch = str[c]
+                val p = Position(r, c)
+                val n = chars.indexOf(ch)
+                this[p] = PlanetsObject.entries[n]
+                if (ch != ' ')
+                    planets.add(p)
+            }
         }
         val state = PlanetsGameState(this)
         levelInitialized(state)
