@@ -19,7 +19,8 @@ class ADifferentFarmerGame(layout: List<String>, gi: GameInterface<ADifferentFar
             Position(0, 0)
         )
         var dirs = intArrayOf(1, 0, 3, 2)
-        var chars = " R^>v<"
+        val offset3 = Position.Directions8
+        var chars = " ABC"
     }
 
     var areas = mutableListOf<List<Position>>()

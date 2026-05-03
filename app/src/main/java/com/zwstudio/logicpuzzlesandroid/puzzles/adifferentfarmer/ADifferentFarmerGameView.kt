@@ -25,11 +25,9 @@ class ADifferentFarmerGameView(context: Context, val soundManager: SoundManager)
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val fixedPaint = Paint()
-    private val dUp: Drawable
-    private val dRight: Drawable
-    private val dDown: Drawable
-    private val dLeft: Drawable
-    private val dADifferentFarmer: Drawable
+    private val dFv1: Drawable
+    private val dFv2: Drawable
+    private val dFv3: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,11 +37,9 @@ class ADifferentFarmerGameView(context: Context, val soundManager: SoundManager)
         linePaint.strokeWidth = 20f
         fixedPaint.color = Color.WHITE
         fixedPaint.style = Paint.Style.STROKE
-        dUp = fromImageToDrawable("images/arrow_bw_up.png")
-        dRight = fromImageToDrawable("images/arrow_bw_right.png")
-        dDown = fromImageToDrawable("images/arrow_bw_down.png")
-        dLeft = fromImageToDrawable("images/arrow_bw_left.png")
-        dADifferentFarmer = fromImageToDrawable("images/rome.png")
+        dFv1 = fromImageToDrawable("images/fv (1).png")
+        dFv2 = fromImageToDrawable("images/fv (2).png")
+        dFv3 = fromImageToDrawable("images/fv (3).png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -56,11 +52,10 @@ class ADifferentFarmerGameView(context: Context, val soundManager: SoundManager)
                 val o = game.getObject(p)
                 if (o == ADifferentFarmerObject.Empty) continue
                 val dObject = when (o) {
-                    ADifferentFarmerObject.Up -> dUp
-                    ADifferentFarmerObject.Right -> dRight
-                    ADifferentFarmerObject.Down -> dDown
-                    ADifferentFarmerObject.Left -> dLeft
-                    else -> dADifferentFarmer
+                    ADifferentFarmerObject.Fv1 -> dFv1
+                    ADifferentFarmerObject.Fv2 -> dFv2
+                    ADifferentFarmerObject.Fv3 -> dFv3
+                    else -> dFv1
                 }
                 dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0

@@ -3,7 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.adifferentfarmer
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
+import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADifferentFarmerGame, ADifferentFarmerGameMove, ADifferentFarmerGameState>(game) {
     var objArray = game.objArray.copyOf()
@@ -28,13 +31,11 @@ class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADi
     override fun switchObject(move: ADifferentFarmerGameMove): GameOperationType {
         val p = move.p
         if (!isValid(p) || game[p] != ADifferentFarmerObject.Empty) return GameOperationType.Invalid
-        move.obj = when (val o = this[p]) {
-            ADifferentFarmerObject.Empty -> ADifferentFarmerObject.Up
-            ADifferentFarmerObject.Up -> ADifferentFarmerObject.Right
-            ADifferentFarmerObject.Right -> ADifferentFarmerObject.Down
-            ADifferentFarmerObject.Down -> ADifferentFarmerObject.Left
-            ADifferentFarmerObject.Left -> ADifferentFarmerObject.Empty
-            else -> o
+        move.obj = when (this[p]) {
+            ADifferentFarmerObject.Empty -> ADifferentFarmerObject.Fv1
+            ADifferentFarmerObject.Fv1 -> ADifferentFarmerObject.Fv2
+            ADifferentFarmerObject.Fv2 -> ADifferentFarmerObject.Fv3
+            ADifferentFarmerObject.Fv3 -> ADifferentFarmerObject.Empty
         }
         return setObject(move)
     }
@@ -57,49 +58,59 @@ class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADi
         for (r in 0 until rows)
             for (c in 0 until cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
-        // 3. Arrows in an area should all be different, i.e. there can't be two
-        //    similar arrows in an area.
+        // 2. He places exactly one of each of the three fruits or vegetables in each field
+        //    (marked area).
         for (area in game.areas) {
-            val symbol2range = mutableMapOf<ADifferentFarmerObject, MutableList<Position>>()
-            for (p in area)
-                symbol2range.getOrPut(this[p]) { mutableListOf() }.add(p)
-            for ((_, range) in symbol2range)
+            val obj2range = mutableMapOf<ADifferentFarmerObject, MutableList<Position>>()
+            for (p in area) {
+                val o = this[p]
+                if (o == ADifferentFarmerObject.Empty) continue
+                obj2range.getOrPut(o) { mutableListOf() }.add(p)
+            }
+            if (obj2range.size != 3)
+                isSolved = false
+            for ((_, range) in obj2range)
                 if (range.size > 1) {
                     isSolved = false
                     for (p in range)
                         pos2state[p] = AllowedObjectState.Error
                 }
-            if (symbol2range.contains(ADifferentFarmerObject.Empty))
-                isSolved = false
         }
-        if (!isSolved) return
-        // 1. All the roads lead to ADifferentFarmer.
-        // 2. Hence you should fill the remaining spaces with arrows and in the
-        //    end, starting at any tile and following the arrows, you should get
-        //    at the ADifferentFarmer icon.
-        val validRange = mutableSetOf<Position>()
-        val invalidRange = mutableSetOf<Position>()
+        // 3. The same plant cannot be placed in adjacent tiles, not even diagonally.
         for (r in 0 until rows)
             for (c in 0 until cols) {
-                var p = Position(r, c)
-                val range = mutableSetOf<Position>()
-                while (true) {
-                    val o = this[p]
-                    if (o == ADifferentFarmerObject.ADifferentFarmer || validRange.contains(p)) {
-                        for (p2 in range) { validRange.add(p2) }
-                        break
-                    }
-                    if (!isValid(p) || invalidRange.contains(p) || range.contains(p)) {
+                val p = Position(r, c)
+                val o = this[p]
+                if (o == ADifferentFarmerObject.Empty) continue
+                for (os in ADifferentFarmerGame.offset3) {
+                    val p2 = p + os
+                    if (!isValid(p2)) continue
+                    if (this[p2] == o) {
                         isSolved = false
-                        for (p2 in range) { invalidRange.add(p2) }
-                        break
+                        pos2state[p] = AllowedObjectState.Error
                     }
-                    range.add(p)
-                    val os = ADifferentFarmerGame.offset[o.ordinal - 2]
-                    p += os
                 }
             }
-        for (p in invalidRange)
-            pos2state[p] = AllowedObjectState.Error
+        if (!isSolved) return
+        // 4. All the plants must be connected horizontally or vertically.
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (r in 0 until rows)
+            for (c in 0 until cols) {
+                val p = Position(r, c)
+                val o = this[p]
+                if (o == ADifferentFarmerObject.Empty) continue
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for ((p, node) in pos2node)
+            for (os in TierraDelFuegoGame.offset) {
+                val p2 = p + os
+                pos2node[p2]?.let { g.connectNode(node, it) }
+            }
+        g.rootNode = pos2node.values.first()
+        val nodeList = g.bfs()
+        if (nodeList.size != pos2node.size) isSolved = false
     }
 }
