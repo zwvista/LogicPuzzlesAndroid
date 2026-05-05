@@ -805,6 +805,18 @@
         <activity android:name=".puzzles.guesstris.GuesstrisOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.hedgemaze.HedgeMazeMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hedgemaze.HedgeMazeGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hedgemaze.HedgeMazeHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.hedgemaze.HedgeMazeOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.heliumandiron.HeliumAndIronMainActivity"
                   android:screenOrientation="portrait">
         </activity>
@@ -1537,7 +1549,7 @@
         <activity android:name=".puzzles.pipemania.PipemaniaOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.planets.PlanetsMainActivity"
+        <activity android:name=".puzzles.plFgueanets.PlanetsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.planets.PlanetsGameActivity"

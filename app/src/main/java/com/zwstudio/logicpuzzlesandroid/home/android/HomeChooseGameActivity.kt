@@ -89,6 +89,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "RunInALoop" to "Run in a Loop",
             "SheepAndWolves" to "Sheep & Wolves",
             "ShopAndGas" to "Shop & Gas",
+            "SlitherArrowLink" to "SlitherArrowLink",
             "SlitherCorner" to "SlitherCorner",
             "SlitherLink" to "SlitherLink",
             "Snakeomino" to "Snake-omino",
