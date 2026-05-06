@@ -50,8 +50,8 @@ class ArrowsGameState(game: ArrowsGame) : CellsGameState<ArrowsGame, ArrowsGameM
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p]
                 if (game.isCorner(p))
@@ -75,7 +75,7 @@ class ArrowsGameState(game: ArrowsGame) : CellsGameState<ArrowsGame, ArrowsGameM
                     }
                 } else {
                     var n2 = 0
-                    for (i in 0 until 8) {
+                    for (i in 0..<8) {
                         val os = ArrowsGame.offset[i]
                         var p2 = p + os
                         while (isValid(p2)) {

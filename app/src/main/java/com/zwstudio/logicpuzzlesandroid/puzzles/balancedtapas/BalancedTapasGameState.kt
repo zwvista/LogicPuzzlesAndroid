@@ -76,7 +76,7 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
             }
         }
         for ((p, arr2) in game.pos2hint) {
-            val filled = (0 until 8).filter {
+            val filled = (0..<8).filter {
                 val p2 = p + BalancedTapasGame.offset[it]
                 isValid(p2) && this[p2] == BalancedTapasObject.Wall
             }
@@ -86,8 +86,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
             if (s != HintState.Complete) isSolved = false
         }
         if (!isSolved) return
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (BalancedTapasGame.offset2.all { this[p + it] == BalancedTapasObject.Wall }) {
                     isSolved = false
@@ -97,8 +97,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
@@ -120,8 +120,8 @@ class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedT
         }
         fun computeWalls(from: Int, to: Int): Int {
             var n = 0
-            for (c in 0 until cols)
-                for (r in 0 until rows)
+            for (c in 0..<cols)
+                for (r in 0..<rows)
                     if (this[r, c] == BalancedTapasObject.Wall)
                         n++
             return n

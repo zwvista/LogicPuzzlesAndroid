@@ -64,8 +64,8 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o: OrchardsObject? = get(p)
                 if (o == OrchardsObject.Forbidden)
@@ -77,11 +77,10 @@ class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, Orcha
                     pos2node[p] = node
                 }
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in OrchardsGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

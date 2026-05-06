@@ -27,7 +27,7 @@ class ZenLandscaperGameView(context: Context, val soundManager: SoundManager) : 
     init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
-        dTileArray = (0 until 7)
+        dTileArray = (0..<7)
             .map {
                 val n = if(it == 6) 1 else it / 2 + 2
                 val ch = if (it % 2 == 0) "" else "-f"
@@ -38,8 +38,8 @@ class ZenLandscaperGameView(context: Context, val soundManager: SoundManager) : 
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)

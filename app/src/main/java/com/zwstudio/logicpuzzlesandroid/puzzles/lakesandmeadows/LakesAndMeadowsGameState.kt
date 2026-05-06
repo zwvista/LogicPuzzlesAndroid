@@ -63,19 +63,18 @@ class LakesAndMeadowsGameState(game: LakesAndMeadowsGame) : CellsGameState<Lakes
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (this[p + LakesAndMeadowsGame.offset2[i], LakesAndMeadowsGame.dirs[i]] == GridLineObject.Line) continue
-                val node2 = pos2node[p + LakesAndMeadowsGame.offset[i]]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                val p2 = p + LakesAndMeadowsGame.offset[i]
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

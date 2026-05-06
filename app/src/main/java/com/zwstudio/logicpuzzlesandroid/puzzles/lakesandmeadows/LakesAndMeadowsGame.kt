@@ -32,22 +32,22 @@ class LakesAndMeadowsGame(layout: List<String>, gi: GameInterface<LakesAndMeadow
         size = Position(layout.size + 1, layout[0].length + 1)
         objArray = MutableList(rows * cols) { LakesAndMeadowsObject.Empty }
         dots = GridDots(rows, cols)
-        for (r in 0 until rows - 1) {
+        for (r in 0..<rows - 1) {
             var str = layout[r]
-            for (c in 0 until cols - 1) {
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (str[c] != 'L') continue
                 this[p] = LakesAndMeadowsObject.Lake
                 lakes.add(p)
             }
         }
-        for (r in 0 until rows - 1) {
+        for (r in 0..<rows - 1) {
             dots[r, 0, 2] = GridLineObject.Line
             dots[r + 1, 0, 0] = GridLineObject.Line
             dots[r, cols - 1, 2] = GridLineObject.Line
             dots[r + 1, cols - 1, 0] = GridLineObject.Line
         }
-        for (c in 0 until cols - 1) {
+        for (c in 0..<cols - 1) {
             dots[0, c, 1] = GridLineObject.Line
             dots[0, c + 1, 3] = GridLineObject.Line
             dots[rows - 1, c, 1] = GridLineObject.Line

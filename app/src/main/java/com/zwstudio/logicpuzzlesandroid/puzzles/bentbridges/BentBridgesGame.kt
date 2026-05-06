@@ -15,9 +15,9 @@ class BentBridgesGame(layout: List<String>, gi: GameInterface<BentBridgesGame, B
 
     init {
         size = Position(layout.size, layout[0].length)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch.isDigit())
@@ -25,7 +25,7 @@ class BentBridgesGame(layout: List<String>, gi: GameInterface<BentBridgesGame, B
             }
         }
         for ((p, info) in islandsInfo) {
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val os = offset[i]
                 var p2 = p + os
                 while (isValid(p2)) {

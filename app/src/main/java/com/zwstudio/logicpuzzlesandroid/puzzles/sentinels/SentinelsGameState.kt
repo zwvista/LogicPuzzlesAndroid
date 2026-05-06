@@ -61,8 +61,8 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == SentinelsObject.Tower)
@@ -76,8 +76,8 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
                 }
             }
         // 4. two Towers can't touch horizontally or vertically.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean =
                     SentinelsGame.offset.any {
@@ -96,7 +96,7 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
         for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
-            next@ for (i in 0 until 4) {
+            next@ for (i in 0..<4) {
                 val os = SentinelsGame.offset[i]
                 var p2 = p + os
                 while (isValid(p2)) {
@@ -117,12 +117,11 @@ class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, Se
                     this[p2] = SentinelsObject.Forbidden
         }
         if (!isSolved) return
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in SentinelsGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         // 4. There must be a single continuous Garden
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()

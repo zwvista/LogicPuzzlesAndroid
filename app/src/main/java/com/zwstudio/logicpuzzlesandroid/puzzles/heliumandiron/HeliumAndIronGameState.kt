@@ -57,8 +57,8 @@ class HeliumAndIronGameState(game: HeliumAndIronGame) : CellsGameState<HeliumAnd
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 1. Place a Balloon and a Weight in each Area.
         for (area in game.areas) {
@@ -81,8 +81,8 @@ class HeliumAndIronGameState(game: HeliumAndIronGame) : CellsGameState<HeliumAnd
         if (!isSolved) return
         // 2. Helium Balloons ten to float to the top, while Iron Weight tend to fall
         //    to the ground.
-        for (c in 0 until cols)
-            for (r in 0 until rows) {
+        for (c in 0..<cols)
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 // 3. A Balloon can be placed on the top of the board, under another Balloon,
                 //    or under a Block.

@@ -41,8 +41,8 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
 
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == BusySeasObject.Lighthouse)
@@ -50,8 +50,8 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
                 else if (o == BusySeasObject.Forbidden)
                     this[p] = BusySeasObject.Empty
             }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
             val p = Position(r, c)
             fun hasLightedBoat(): Boolean {
                 for (os in BusySeasGame.offset) {
@@ -74,7 +74,7 @@ class BusySeasGameState(game: BusySeasGame) : CellsGameState<BusySeasGame, BusyS
         for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
-            next@ for (i in 0 until 4) {
+            next@ for (i in 0..<4) {
                 val os = BusySeasGame.offset[i]
                 var p2 = p + os
                 while (isValid(p2)) {

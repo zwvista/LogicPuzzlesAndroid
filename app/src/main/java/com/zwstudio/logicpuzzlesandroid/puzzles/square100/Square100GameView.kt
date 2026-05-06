@@ -39,8 +39,8 @@ class Square100GameView(context: Context, val soundManager: SoundManager) : Cell
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val text = game.getObject(r, c)
@@ -48,13 +48,13 @@ class Square100GameView(context: Context, val soundManager: SoundManager) : Cell
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val n = game.getRowHint(r)
             textPaint.color = if (n == 100) Color.GREEN else Color.RED
             val text = n.toString()
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val n = game.getColHint(c)
             textPaint.color = if (n == 100) Color.GREEN else Color.RED
             val text = n.toString()

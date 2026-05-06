@@ -63,8 +63,8 @@ class PlanetsGameState(game: PlanetsGame) : CellsGameState<PlanetsGame, PlanetsG
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2state[p] = AllowedObjectState.Normal
                 if (this[p] == PlanetsObject.Forbidden)
@@ -88,11 +88,11 @@ class PlanetsGameState(game: PlanetsGame) : CellsGameState<PlanetsGame, PlanetsG
                 for (p in empties)
                     this[p] = PlanetsObject.Forbidden
         }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val suns = mutableListOf<Position>()
             val nebulae = mutableListOf<Position>()
             val empties = mutableListOf<Position>()
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (val o = this[p]) {
                     PlanetsObject.Sun -> suns.add(p)
@@ -110,11 +110,11 @@ class PlanetsGameState(game: PlanetsGame) : CellsGameState<PlanetsGame, PlanetsG
         // 6. Finally, Planets block sunlight too. So if there is a Planet
         //    between a Sun and another Planet, the further Planet won't be lit
         //    by that Sun.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val suns = mutableListOf<Position>()
             val nebulae = mutableListOf<Position>()
             val empties = mutableListOf<Position>()
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 when (val o = this[p]) {
                     PlanetsObject.Sun -> suns.add(p)
@@ -128,7 +128,7 @@ class PlanetsGameState(game: PlanetsGame) : CellsGameState<PlanetsGame, PlanetsG
         for (p in game.planets) {
             val o = this[p]
             val isLit = mutableListOf<Int>()
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val os = PlanetsGame.offset[i]
                 var p2 = p + os
                 while (isValid(p2)) {

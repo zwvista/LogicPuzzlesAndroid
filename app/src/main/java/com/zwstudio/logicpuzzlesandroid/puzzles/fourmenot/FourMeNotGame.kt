@@ -20,9 +20,9 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
     init {
         size = Position(layout.size, layout[0].length)
         objArray = Array(rows * cols) { FourMeNotObject.Empty }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 when (str[c]) {
                     'F' -> this[r, c] = FourMeNotObject.Flower
                     'B' -> this[r, c] = FourMeNotObject.Block

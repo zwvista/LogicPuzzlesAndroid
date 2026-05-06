@@ -18,9 +18,9 @@ class IslandConnectionsGame(layout: List<String>, gi: GameInterface<IslandConnec
 
     init {
         size = Position(layout.size * 2 - 1, layout[0].length * 2 - 1)
-        for (r in 0 until rows step 2) {
+        for (r in 0..<rows step 2) {
             var str = layout[r / 2]
-            for (c in 0 until cols step 2) {
+            for (c in 0..<cols step 2) {
                 val p = Position(r, c)
                 when (val ch = str[c / 2]) {
                     'S' -> shaded.add(p)
@@ -31,7 +31,7 @@ class IslandConnectionsGame(layout: List<String>, gi: GameInterface<IslandConnec
             }
         }
         for ((p, info) in islandsInfo) {
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val os = offset[i]
                 var p2 = p + os
                 while (isValid(p2) && !isShaded(p2)) {

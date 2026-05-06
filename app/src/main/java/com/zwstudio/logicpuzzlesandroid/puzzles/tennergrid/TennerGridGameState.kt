@@ -49,23 +49,23 @@ class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows - 1) {
-            val cs = (0 until cols).groupBy { this[r, it] }
+        for (r in 0..<rows - 1) {
+            val cs = (0..<cols).groupBy { this[r, it] }
                 .filter { (k, v) -> k != -1 && v.size > 1 }
                 .flatMap { it.value }
             // 3. Obviously digits can't repeat on the same row.
             if (cs.isNotEmpty()) isSolved = false
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2state[p] = if (cs.contains(c)) HintState.Error else HintState.Normal
             }
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val h = this[rows - 1, c]
             var n = 0
             var isDirty = false
             var allFixed = true
-            for (r in 0 until rows - 1) {
+            for (r in 0..<rows - 1) {
                 val p = Position(r, c)
                 val o1 = game[p]
                 val o2 = this[p]

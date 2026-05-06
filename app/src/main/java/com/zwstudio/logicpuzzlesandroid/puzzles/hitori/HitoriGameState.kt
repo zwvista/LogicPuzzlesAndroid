@@ -67,10 +67,10 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         var chars: String
         // 1. The goal is to shade squares so that a number appears only once in a
         // row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             row2hint[r] = ""
             chars = row2hint[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == HitoriObject.Darken) continue
                 val ch = game[r, c]
@@ -83,10 +83,10 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         }
         // 1. The goal is to shade squares so that a number appears only once in a
         // column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             col2hint[c] = ""
             chars = col2hint[c]
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 if (this[p] == HitoriObject.Darken) continue
                 val ch = game[r, c]
@@ -101,8 +101,8 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val rngDarken = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == HitoriObject.Darken)
                     rngDarken.add(p)
@@ -122,11 +122,10 @@ class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameM
                     return
                 }
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in HitoriGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         // 3. In the end all the un-shaded squares must form a single continuous area.
         g.rootNode = pos2node.values.first()

@@ -56,8 +56,8 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == LighthousesObject.Lighthouse)
@@ -65,8 +65,8 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
                 else if (o == LighthousesObject.Forbidden)
                     this[p] = LighthousesObject.Empty
             }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean {
                     for (os in LighthousesGame.offset) {
@@ -90,7 +90,7 @@ class LighthousesGameState(game: LighthousesGame) : CellsGameState<LighthousesGa
         for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
-            next@ for (i in 0 until 4) {
+            next@ for (i in 0..<4) {
                 val os = LighthousesGame.offset[i * 2]
                 var p2 = p + os
                 while (isValid(p2)) {

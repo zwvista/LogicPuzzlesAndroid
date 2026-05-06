@@ -21,7 +21,7 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
     operator fun set(p: Position, obj: HiddenPathObject) {this[p.row, p.col] = obj}
 
     init {
-        for (i in 0 until game.maxNum)
+        for (i in 0..<game.maxNum)
             objArray[i].obj = game.objArray[i]
         updateIsSolved()
         updateState()
@@ -73,8 +73,8 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
         isSolved = true
         num2pos.clear()
         var currentPos = Position()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p].obj
                 if (n == -1) // forbidden
@@ -105,8 +105,8 @@ class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame,
             }
         }
         if (!allowedObjectsOnly) return
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p].obj != 0) continue
                 val b = game.pos2range[currentPos]!!.contains(p)

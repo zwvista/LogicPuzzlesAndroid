@@ -53,21 +53,21 @@ class ZenLandscaperGameState(game: ZenLandscaperGame) : CellsGameState<ZenLandsc
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 4. The teaching says that any three contiguous tiles vertically,
         //    horizontally or diagonally must NOT be:
         //    -> all different
         //    -> all equal
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 for (i in 2 .. 4) {
                     val os = ZenLandscaperGame.offset[i]
                     val tiles = mutableListOf(p)
                     var p2 = p + os
-                    for (j in 1 until 3) {
+                    for (j in 1..<3) {
                         if (!isValid(p2)) break
                         tiles.add(p2)
                         p2 += os

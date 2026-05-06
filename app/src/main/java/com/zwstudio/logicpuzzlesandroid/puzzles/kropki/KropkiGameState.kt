@@ -59,13 +59,13 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
     private fun updateIsSolved() {
         isSolved = true
         // 1. The Goal is to enter numbers 1 to board size once in every row.
-        for (r in 0 until rows) {
-            val nums = (0 until cols).map { this[r, it] }.toSet()
+        for (r in 0..<rows) {
+            val nums = (0..<cols).map { this[r, it] }.toSet()
             if (nums.contains(0) || nums.size != cols) isSolved = false
         }
         // 1. The Goal is to enter numbers 1 to board size once in every column.
-        for (c in 0 until cols) {
-            val nums = (0 until rows).map { this[it, c] }.toSet()
+        for (c in 0..<cols) {
+            val nums = (0..<rows).map { this[it, c] }.toSet()
             if (nums.contains(0) || nums.size != rows) isSolved = false
         }
         // 7. In later 9*9 levels you will also have bordered and coloured areas,
@@ -75,8 +75,8 @@ class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameM
                 val nums = a.map { this[it] }.toSet()
                 if (nums.contains(0) || nums.size != a.size) isSolved = false
             }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 for (i in 0..1) {
                     if (i == 0 && c == cols - 1 || i == 1 && r == rows - 1) continue

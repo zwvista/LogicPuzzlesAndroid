@@ -68,19 +68,19 @@ class FunnyNumbersGameState(game: FunnyNumbersGame) : CellsGameState<FunnyNumber
             }
         }
         // 3. The numbers outside tell you the sum of the row or column.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val n2 = game.row2hint[r]
             if (n2 == 0) continue
-            val n1 = (0 until cols).fold(0) { acc, c -> acc + this[r, c] }
+            val n1 = (0..<cols).fold(0) { acc, c -> acc + this[r, c] }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
         }
         // 3. The numbers outside tell you the sum of the row or column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val n2 = game.col2hint[c]
             if (n2 == 0) continue
-            val n1 = (0 until rows).fold(0) { acc, r -> acc + this[r, c] }
+            val n1 = (0..<rows).fold(0) { acc, r -> acc + this[r, c] }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false

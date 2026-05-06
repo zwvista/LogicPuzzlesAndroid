@@ -58,13 +58,13 @@ class RobotFencesGameState(game: RobotFencesGame) : CellsGameState<RobotFencesGa
             return s
         }
         // 3. No same number can appear in the same row.
-        for (r in 0 until rows)
-            row2state[r] = f((0 until cols).map { this[r, it] })
+        for (r in 0..<rows)
+            row2state[r] = f((0..<cols).map { this[r, it] })
         // 3. No same number can appear in the same column.
-        for (c in 0 until cols)
-            col2state[c] = f((0 until rows).map { this[it, c] })
+        for (c in 0..<cols)
+            col2state[c] = f((0..<rows).map { this[it, c] })
         // 1. You need to fill each region with a randomly ordered sequence of numbers.
-        for (i in 0 until game.areas.size)
+        for (i in 0..<game.areas.size)
             area2state[i] = f(game.areas[i].map { this[it] })
     }
 }

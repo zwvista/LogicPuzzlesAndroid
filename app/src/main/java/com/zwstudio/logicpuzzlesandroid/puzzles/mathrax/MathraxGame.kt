@@ -28,16 +28,16 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
         size = Position(layout.size / 2 + 1, layout[0].length)
         objArray = IntArray(rows * cols)
         var i = 0
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c]
                 objArray[i++] = if (ch == ' ') 0 else ch - '0'
             }
         }
-        for (r in 0 until rows - 1) {
+        for (r in 0..<rows - 1) {
             val str = layout[rows + r]
-            for (c in 0 until cols - 1) {
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val s = str.substring(c * 3, c * 3 + 2)
                 val ch = str[c * 3 + 2]

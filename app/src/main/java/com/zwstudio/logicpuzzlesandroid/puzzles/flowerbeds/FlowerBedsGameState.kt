@@ -68,8 +68,8 @@ class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame,
         val pos2rect = mutableMapOf<Position, Int>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 // 5. Green squares are blocks that can't be included in flower beds.
                 if (game[p] != FlowerBedsObject.Hedge) {
@@ -79,11 +79,10 @@ class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame,
                 }
             }
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (this[p + FlowerBedsGame.offset2[i], FlowerBedsGame.dirs[i]] == GridLineObject.Line) continue
-                val node2 = pos2node[p + FlowerBedsGame.offset[i]]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                val p2 = p + FlowerBedsGame.offset[i]
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
@@ -126,7 +125,7 @@ class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame,
         }
         if (!isSolved) return
         // 4. Contiguous flower beds can't have the same area extension.
-        if (!((0 until rects.size).all { n ->
+        if (!((0..<rects.size).all { n ->
             val rect = rects[n]
             rect.area.all { p ->
                 FlowerBedsGame.offset.all {

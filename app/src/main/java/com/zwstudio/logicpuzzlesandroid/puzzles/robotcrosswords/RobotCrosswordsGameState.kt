@@ -53,7 +53,7 @@ class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<Robot
             val nums2 = nums.toSet().toList().sorted()
             // 2. Each 'word' is formed by an uninterrupted sequence of numbers,
             // but in any order.
-            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size && (0 until nums2.size - 1).all {
+            val s = if (nums2[0] == 0) HintState.Normal else if (nums2.size == nums.size && (0..<nums2.size - 1).all {
                 nums2[it + 1] - nums2[it] == 1
             }) HintState.Complete else HintState.Error
             for (p in a)

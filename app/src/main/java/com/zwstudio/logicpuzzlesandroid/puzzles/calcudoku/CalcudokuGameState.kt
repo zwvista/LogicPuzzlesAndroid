@@ -69,11 +69,11 @@ class CalcudokuGameState(game: CalcudokuGame) : CellsGameState<CalcudokuGame, Ca
             return s
         }
         // 6. All the numbers appear just one time in each row.
-        for (r in 0 until rows)
-            row2state[r] = f((0 until cols).map { this[r, it] })
+        for (r in 0..<rows)
+            row2state[r] = f((0..<cols).map { this[r, it] })
         // 6. All the numbers appear just one time in each column.
-        for (c in 0 until cols)
-            col2state[c] = f((0 until rows).map { this[it, c] })
+        for (c in 0..<cols)
+            col2state[c] = f((0..<rows).map { this[it, c] })
         for ((p, h) in game.pos2hint) {
             val nums = game.areas[game.pos2area[p]!!].map { this[it] }
             fun g(): HintState {

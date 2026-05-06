@@ -59,7 +59,7 @@ abstract class GameDocument<GM>(val context: Context) : GameDocumentInterface {
                     "level" -> {
                         val id = parser.getAttributeValue(null, "id")
                         val settings = mutableMapOf<String, String>()
-                        for (i in 0 until parser.attributeCount)
+                        for (i in 0..<parser.attributeCount)
                             settings[parser.getAttributeName(i)] = parser.getAttributeValue(i)
                         var layout = parser.nextText().split("\n").map { it.replace("\r", "") }
                         layout = getCdata(layout).map { it.replace("`", "") }

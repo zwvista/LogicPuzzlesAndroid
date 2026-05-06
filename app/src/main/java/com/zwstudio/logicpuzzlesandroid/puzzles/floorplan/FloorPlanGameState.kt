@@ -58,8 +58,8 @@ class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, Fl
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2state[p] = HintState.Normal
                 if (this[p] == FloorPlanGame.PUZ_FORBIDDEN)
@@ -69,8 +69,8 @@ class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, Fl
         //    interconnected and can be reached by every other office.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n2 = this[p]
                 if (n2 <= 0) continue
@@ -99,7 +99,7 @@ class FloorPlanGameState(game: FloorPlanGame) : CellsGameState<FloorPlanGame, Fl
             }
         if (!isSolved) return
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val p2 = p + FloorPlanGame.offset[i]
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

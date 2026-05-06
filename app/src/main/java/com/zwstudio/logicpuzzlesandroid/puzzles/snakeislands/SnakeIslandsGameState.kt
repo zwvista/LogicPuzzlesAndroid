@@ -63,8 +63,8 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
         val rngEmpty = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)

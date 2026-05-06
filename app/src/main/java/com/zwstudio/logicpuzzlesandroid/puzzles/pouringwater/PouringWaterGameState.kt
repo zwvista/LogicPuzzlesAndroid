@@ -62,8 +62,8 @@ class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWate
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == PouringWaterObject.Forbidden)
                     this[p] = PouringWaterObject.Empty
@@ -73,8 +73,8 @@ class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWate
         //    and levels itself like in reality.
         // 3. Areas of the same level which are horizontally connected will have
         //    the same water level.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == PouringWaterObject.Water && !listOf(1, 2, 3).all { i ->
                     game.dots[p + PouringWaterGame.offset2[i], PouringWaterGame.dirs[i]] == GridLineObject.Line ||
@@ -83,27 +83,27 @@ class PouringWaterGameState(game: PouringWaterGame) : CellsGameState<PouringWate
             }
         // 4. The numbers on the border show you how many tiles of each row and
         //    column are filled.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val n2 = game.row2hint[r]
             if (n2 == PouringWaterGame.PUZ_UNKNOWN) continue
-            val n1 = (0 until cols).count { this[r, it] == PouringWaterObject.Water }
+            val n1 = (0..<cols).count { this[r, it] == PouringWaterObject.Water }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
             if (s != HintState.Normal && allowedObjectsOnly)
-                (0 until cols).filter { this[r, it] == PouringWaterObject.Empty }.forEach {
+                (0..<cols).filter { this[r, it] == PouringWaterObject.Empty }.forEach {
                     this[r, it] = PouringWaterObject.Forbidden
                 }
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val n2 = game.col2hint[c]
             if (n2 == PouringWaterGame.PUZ_UNKNOWN) continue
-            val n1 = (0 until rows).count { this[it, c] == PouringWaterObject.Water }
+            val n1 = (0..<rows).count { this[it, c] == PouringWaterObject.Water }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false
             if (s != HintState.Normal && allowedObjectsOnly)
-                (0 until rows).filter { this[it, c] == PouringWaterObject.Empty }.forEach {
+                (0..<rows).filter { this[it, c] == PouringWaterObject.Empty }.forEach {
                     this[it, c] = PouringWaterObject.Forbidden
                 }
         }

@@ -53,8 +53,8 @@ class MagnetsGameView(context: Context, val soundManager: SoundManager) : CellsG
                 MagnetsAreaType.Vertical -> canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 2).toFloat(), gridPaint)
             }
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 when (game.getObject(r, c)) {
                     MagnetsObject.Positive -> {
                         dPositive.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
@@ -74,7 +74,7 @@ class MagnetsGameView(context: Context, val soundManager: SoundManager) : CellsG
         dNegative.setBounds(cwc(cols + 1), chr(rows + 1), cwc(cols + 2), chr(rows + 2))
         dNegative.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(75, 0, 0, 0), BlendModeCompat.SRC_ATOP)
         dNegative.draw(canvas)
-        for (r in 0 until rows)
+        for (r in 0..<rows)
             for (c in 0..1) {
                 val id = r * 2 + c
                 val n = game.row2hint[id]
@@ -84,7 +84,7 @@ class MagnetsGameView(context: Context, val soundManager: SoundManager) : CellsG
                 val text = n.toString()
                 drawTextCentered(text, cwc(cols + c), chr(r), canvas, textPaint)
             }
-        for (c in 0 until cols)
+        for (c in 0..<cols)
             for (r in 0..1) {
                 val id = c * 2 + r
                 val n = game.col2hint[id]

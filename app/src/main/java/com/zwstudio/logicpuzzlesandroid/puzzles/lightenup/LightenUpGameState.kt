@@ -113,8 +113,8 @@ class LightenUpGameState(game: LightenUpGame) : CellsGameState<LightenUpGame, Li
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 when (o.objType) {

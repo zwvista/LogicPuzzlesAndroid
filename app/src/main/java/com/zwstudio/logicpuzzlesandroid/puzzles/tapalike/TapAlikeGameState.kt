@@ -92,7 +92,7 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
             }
         }
         for ((p, arr2) in game.pos2hint) {
-            val filled = (0 until 8).filter {
+            val filled = (0..<8).filter {
                 val p2 = p + TapAlikeGame.offset[it]
                 isValid(p2) && this[p2] == TapAlikeObject.Wall
             }
@@ -104,8 +104,8 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         if (!isSolved) return
         // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
         // Tiles with numbers can be considered 'empty'.
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (TapAlikeGame.offset2.all {
                     val o = this[p + it]
@@ -117,8 +117,8 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == TapAlikeObject.Wall) {
                     val node = Node(p.toString())
@@ -126,12 +126,11 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
                     pos2node[p] = node
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in TapaGame.offset3) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         // The goal == to fill some tiles forming a single orthogonally continuous
         // path. Just like Nurikabe.
         g.rootNode = pos2node.values.first()
@@ -141,8 +140,8 @@ class TapAlikeGameState(game: TapAlikeGame) : CellsGameState<TapAlikeGame, TapAl
         // pattern to the one formed by the empty tiles.
         // 3. It's basically like having the same figure rotated or reversed in the
         // opposite colour. The two figures will have the same exact shape.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val o1 = this[r, c]
                 val o2 = this[rows - 1 - r, cols - 1 - c]
                 if ((o1 == TapAlikeObject.Wall) == (o2 == TapAlikeObject.Wall)) {

@@ -61,13 +61,13 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == BotanicalParkObject.Forbidden)
                     this[r, c] = BotanicalParkObject.Empty
         // 3. Plants cannot touch, not even diagonally.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun touchPlant() = BotanicalParkGame.offset.any {
                     val p2 = p + it
@@ -87,10 +87,10 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
             }
         val n2 = game.plantsInEachArea
         // 2. There is exactly one plant in every row.
-        for (r in 0 until rows) {
-            val n1 = (0 until cols).count { this[r, it] == BotanicalParkObject.Plant }
+        for (r in 0..<rows) {
+            val n1 = (0..<cols).count { this[r, it] == BotanicalParkObject.Plant }
             if (n1 != n2) isSolved = false
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
                     BotanicalParkObject.Plant ->
@@ -103,10 +103,10 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
             }
         }
         // 2. There is exactly one plant in every column.
-        for (c in 0 until cols) {
-            val n1 = (0 until rows).count { this[it, c] == BotanicalParkObject.Plant }
+        for (c in 0..<cols) {
+            val n1 = (0..<rows).count { this[it, c] == BotanicalParkObject.Plant }
             if (n1 != n2) isSolved = false
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 when (this[p]) {
                     BotanicalParkObject.Plant ->
@@ -119,8 +119,8 @@ class BotanicalParkGameState(game: BotanicalParkGame) : CellsGameState<Botanical
             }
         }
         // 2. Each arrow points to at least one plant.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != BotanicalParkObject.Arrow) continue
                 // 2. Each Arrow points to at least one star.

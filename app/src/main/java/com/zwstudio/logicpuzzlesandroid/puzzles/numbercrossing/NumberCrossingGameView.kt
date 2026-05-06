@@ -37,12 +37,12 @@ class NumberCrossingGameView(context: Context, val soundManager: SoundManager) :
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1)
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = game.getObject(p)
                 if (n == NumberCrossingGame.PUZ_MARKER)

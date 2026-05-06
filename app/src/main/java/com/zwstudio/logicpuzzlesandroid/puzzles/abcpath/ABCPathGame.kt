@@ -10,7 +10,7 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
         val offset = Position.Directions8
     }
 
-    override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 1..<size.row - 1 && col in 1..<size.col - 1
 
     val objArray: CharArray
     val ch2pos = mutableMapOf<Char, Position>()
@@ -24,9 +24,9 @@ class ABCPathGame(layout: List<String>, gi: GameInterface<ABCPathGame, ABCPathGa
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols) { ' ' }
 
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = str[c]
                 this[p] = ch

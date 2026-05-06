@@ -38,9 +38,9 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
         objArray = CharArray(rows * cols) { ' ' }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch1 = str[c * 4]
                 val s = str.substring(c * 4 + 1, c * 4 + 3)
@@ -53,8 +53,8 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
                 pos2hint[p] = CalcudokuHint(ch2, if (s == "  ") 0 else s.trim(' ').toInt())
             }
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = this[p]
                 if (ch == ' ') continue
@@ -73,7 +73,7 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
             for (p in area) {
                 pos2area[p] = n
                 pos2node.remove(p)
-                for (i in 0 until 4) {
+                for (i in 0..<4) {
                     val p2 = p + offset[i]
                     val ch2 = if (!isValid(p2)) '.' else this[p2]
                     if (ch2 != ch)
@@ -82,13 +82,13 @@ class CalcudokuGame(layout: List<String>, gi: GameInterface<CalcudokuGame, Calcu
             }
             areas.add(area)
         }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             dots[r, 0, 2] = GridLineObject.Line
             dots[r + 1, 0, 0] = GridLineObject.Line
             dots[r, cols, 2] = GridLineObject.Line
             dots[r + 1, cols, 0] = GridLineObject.Line
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             dots[0, c, 1] = GridLineObject.Line
             dots[0, c + 1, 3] = GridLineObject.Line
             dots[rows, c, 1] = GridLineObject.Line

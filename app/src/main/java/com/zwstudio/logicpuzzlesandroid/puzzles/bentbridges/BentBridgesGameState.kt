@@ -89,7 +89,7 @@ class BentBridgesGameState(game: BentBridgesGame) : CellsGameState<BentBridgesGa
         if (!isSolved) return
         for ((p, info) in game.islandsInfo) {
             val o = this[p] as BentBridgesIslandObject
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val p2 = info.neighbors[i]
                 if (p2 == null || o.bridges[i] == 0) continue
                 g.connectNode(pos2node[p]!!, pos2node[p2]!!)

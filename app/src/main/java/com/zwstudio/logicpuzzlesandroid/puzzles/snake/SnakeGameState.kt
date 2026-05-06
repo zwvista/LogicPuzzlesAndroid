@@ -62,15 +62,15 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == SnakeObject.Forbidden)
                     this[r, c] = SnakeObject.Empty
         // 3. Numbers on the border tell you how many tiles the snake occupies in that row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c] == SnakeObject.Snake)
                     n1++
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2 || n2 == -1) HintState.Complete else HintState.Error
@@ -78,18 +78,18 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
             if (s != HintState.Complete) isSolved = false
         }
         // 3. Numbers on the border tell you how many tiles the snake occupies in that column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c] == SnakeObject.Snake)
                     n1++
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2 || n2 == -1) HintState.Complete else HintState.Error
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val o = this[r, c]
                 if ((o == SnakeObject.Empty || o == SnakeObject.Marker) && allowedObjectsOnly &&
                         (row2state[r] != HintState.Normal && game.row2hint[r] != -1 || col2state[c] != HintState.Normal && game.col2hint[c] != -1))
@@ -97,26 +97,25 @@ class SnakeGameState(game: SnakeGame) : CellsGameState<SnakeGame, SnakeGameMove,
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != SnakeObject.Snake) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in SnakeGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         val n1 = nodeList.size
         val n2 = pos2node.values.size
         if (n1 != n2) isSolved = false
-        for (p in pos2node.keys) {
+        for ((p, node) in pos2node) {
             val rngEmpty = mutableListOf<Position>()
             val rngSnake = mutableListOf<Position>()
             for (os in SnakeGame.offset) {

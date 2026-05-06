@@ -39,8 +39,8 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 when (game[r, c]) {
@@ -54,10 +54,10 @@ class MirrorsGameView(context: Context, val soundManager: SoundManager) : CellsG
                 }
             }
         if (isInEditMode) return
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                for (dir in 0 until 4) {
+                for (dir in 0..<4) {
                     val b = game.pos2dirs()[p]!!.contains(dir)
                     if (!b) continue
                     linePaint.color = if (game[p] == MirrorsObject.Empty) Color.GREEN else Color.WHITE

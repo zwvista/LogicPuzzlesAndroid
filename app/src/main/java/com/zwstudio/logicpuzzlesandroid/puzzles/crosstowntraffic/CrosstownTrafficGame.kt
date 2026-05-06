@@ -15,9 +15,9 @@ class CrosstownTrafficGame(layout: List<String>, gi: GameInterface<CrosstownTraf
 
     init {
         size = Position(layout.size, layout[0].length)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if ((r == 0 || r == rows - 1) != (c == 0 || c == cols - 1)) {
                     val ch = str[c]
                     pos2hint[Position(r, c)] = if (ch == ' ') PUZ_UNKNOWN else ch - '0'

@@ -53,8 +53,8 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -69,8 +69,8 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
             }
         if (isInEditMode) return
         val markerOffset = 20
-        for (r in 0 until rows + 1)
-            for (c in 0 until cols + 1) {
+        for (r in 0..<rows + 1)
+            for (c in 0..<cols + 1) {
                 val p = Position(r, c)
                 val dotObj = game.getObject(p)
                 when (dotObj[1]) {
@@ -91,7 +91,7 @@ class WarehouseGameView(context: Context, val soundManager: SoundManager) : Cell
                     }
                     else -> {}
                 }
-                if ((1 until rows).contains(r) && (1 until cols).contains(c)) {
+                if ((1..<rows).contains(r) && (1..<cols).contains(c)) {
                     val s = game.getDotState(p)
                     if (s == AllowedObjectState.Error)
                         canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)

@@ -65,10 +65,10 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c] == TentsObject.Tent)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that row.
@@ -76,10 +76,10 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c] == TentsObject.Tent)
                     n1++
             // 3. The numbers on the borders tell you how many Tents there are in that column.
@@ -87,13 +87,13 @@ class TentsGameState(game: TentsGame) : CellsGameState<TentsGame, TentsGameMove,
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == TentsObject.Forbidden)
                     this[r, c] = TentsObject.Empty
         var (nTree, nTent) = 0 to 0
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun hasTree(): Boolean =
                     TentsGame.offset.any {

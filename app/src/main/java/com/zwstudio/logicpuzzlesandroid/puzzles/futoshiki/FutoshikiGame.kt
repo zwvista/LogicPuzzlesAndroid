@@ -21,9 +21,9 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
     init {
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = str[c]
                 this[p] = ch

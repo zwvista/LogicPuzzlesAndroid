@@ -57,17 +57,17 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1) {
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1) {
                 pos2state[Position(r, c)] = HintState.Normal
                 if (this[r, c] == NumberCrossingGame.PUZ_FORBIDDEN)
                     this[r, c] = NumberCrossingGame.PUZ_UNKNOWN
             }
-        for (r in 1 until rows - 1) {
+        for (r in 1..<rows - 1) {
             val (p1, p2) = Position(r, 0) to Position(r, cols - 1)
             val (h1, h2) = this[p1] to this[p2]
             var (n1, n2) = 0 to 0
-            for (c in 1 until cols - 1) {
+            for (c in 1..<cols - 1) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o < 0) continue
@@ -95,15 +95,15 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             if (allowedObjectsOnly && (
                         h1 != NumberCrossingGame.PUZ_UNKNOWN && s1 != HintState.Normal ||
                         h2 != NumberCrossingGame.PUZ_UNKNOWN && s2 != HintState.Normal))
-                for (c in 1 until cols - 1)
+                for (c in 1..<cols - 1)
                     if (this[r, c] == NumberCrossingGame.PUZ_UNKNOWN)
                         this[r, c] = NumberCrossingGame.PUZ_FORBIDDEN
         }
-        for (c in 1 until cols - 1) {
+        for (c in 1..<cols - 1) {
             val (p1, p2) = Position(0, c) to Position(rows - 1, c)
             val (h1, h2) = this[p1] to this[p2]
             var (n1, n2) = 0 to 0
-            for (r in 1 until rows - 1) {
+            for (r in 1..<rows - 1) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o < 0) continue
@@ -131,7 +131,7 @@ class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberC
             if (allowedObjectsOnly && (
                         h1 != NumberCrossingGame.PUZ_UNKNOWN && s1 != HintState.Normal ||
                         h2 != NumberCrossingGame.PUZ_UNKNOWN && s2 != HintState.Normal))
-                for (r in 1 until rows - 1)
+                for (r in 1..<rows - 1)
                     if (this[r, c] == NumberCrossingGame.PUZ_UNKNOWN)
                         this[r, c] = NumberCrossingGame.PUZ_FORBIDDEN
         }

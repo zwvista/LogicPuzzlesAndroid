@@ -81,8 +81,8 @@ class SheepAndWolvesGameState(game: SheepAndWolvesGame) : CellsGameState<SheepAn
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it == GridLineObject.Line }.size
                 when (n) {
@@ -99,12 +99,12 @@ class SheepAndWolvesGameState(game: SheepAndWolvesGame) : CellsGameState<SheepAn
                     }
                 }
             }
-        for (p in pos2node.keys) {
+        for ((p, node) in pos2node) {
             val dotObj = this[p]
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p + SheepAndWolvesGame.offset[i]
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                g.connectNode(node, pos2node[p2]!!)
             }
         }
         // 2. Draw a single looping path with the aid of the numbered hints.
@@ -127,15 +127,15 @@ class SheepAndWolvesGameState(game: SheepAndWolvesGame) : CellsGameState<SheepAn
         //    all the wolves must be outside.
         val g2 = Graph()
         val pos2node2 = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g2.addNode(node)
                 pos2node2[p] = node
             }
         for ((p, node) in pos2node2)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (this[p + SheepAndWolvesGame.offset2[i]][SheepAndWolvesGame.dirs[i]] == GridLineObject.Line) continue
                 val p2 = p + SheepAndWolvesGame.offset[i]
                 val node2 = pos2node2[p2]

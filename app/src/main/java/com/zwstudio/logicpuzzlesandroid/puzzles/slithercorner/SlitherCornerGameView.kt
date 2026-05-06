@@ -39,8 +39,8 @@ class SlitherCornerGameView(context: Context, val soundManager: SoundManager) : 
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -54,8 +54,8 @@ class SlitherCornerGameView(context: Context, val soundManager: SoundManager) : 
             }
         if (isInEditMode) return
         val markerOffset = 20
-        for (r in 0 until rows + 1)
-            for (c in 0 until cols + 1) {
+        for (r in 0..<rows + 1)
+            for (c in 0..<cols + 1) {
                 val dotObj: Array<GridLineObject> = game.getObject(r, c)
                 when (dotObj[1]) {
                     GridLineObject.Line -> canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)

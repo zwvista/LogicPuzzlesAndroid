@@ -48,13 +48,13 @@ class DigitWormsGameState(game: DigitWormsGame) : CellsGameState<DigitWormsGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = HintState.Normal
         // 2. No number must be orthogonally or diagonally touching the same number
         //    from another area.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p]
                 if (n == DigitWormsGame.PUZ_EMPTY) { isSolved = false; continue }
@@ -70,7 +70,7 @@ class DigitWormsGameState(game: DigitWormsGame) : CellsGameState<DigitWormsGame,
                 if (n == DigitWormsGame.PUZ_EMPTY) continue@next
                 num2rng.getOrPut(n) { mutableListOf<Position>() }.add(p)
             }
-            val s = if (num2rng.size == area.size && (1 until area.size).all { i ->
+            val s = if (num2rng.size == area.size && (1..<area.size).all { i ->
                 DigitWormsGame.offset.contains((num2rng[i + 1]!![0] - num2rng[i]!![0]))
             }) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false

@@ -24,9 +24,9 @@ class ShopAndGasGame(layout: List<String>, gi: GameInterface<ShopAndGasGame, Sho
     init {
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c]
                 val p = Position(r, c)
                 this[p] = ch

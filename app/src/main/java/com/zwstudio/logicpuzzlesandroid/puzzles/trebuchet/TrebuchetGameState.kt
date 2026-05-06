@@ -63,14 +63,14 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == TrebuchetObject.Forbidden)
                     this[r, c] = TrebuchetObject.Empty
         // 3. Two target cells must not be orthogonally adjacent.
         val targets = mutableSetOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != TrebuchetObject.Target) continue
                 pos2stateAllowed[p] = AllowedObjectState.Normal
@@ -88,20 +88,19 @@ class TrebuchetGameState(game: TrebuchetGame) : CellsGameState<TrebuchetGame, Tr
         // 4. All of the non-targeted cells must be connected.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == TrebuchetObject.Target) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in GardenerGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false

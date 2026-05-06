@@ -22,9 +22,9 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
     init {
         size = Position(layout.size, layout[0].length)
         objArray = IntArray(rows * cols)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c]
                 this[r, c] = if (ch == '.') -1 else if (ch == ' ') 0 else ch - '0'
             }
@@ -38,8 +38,8 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             }
             area.clear()
         }
-        for (r in 0 until rows) {
-            for (c in 0 until cols) {
+        for (r in 0..<rows) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == -1)
                     f(true)
@@ -48,8 +48,8 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
             }
             f(true)
         }
-        for (c in 0 until cols) {
-            for (r in 0 until rows) {
+        for (c in 0..<cols) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 if (this[p] == -1)
                     f(false)

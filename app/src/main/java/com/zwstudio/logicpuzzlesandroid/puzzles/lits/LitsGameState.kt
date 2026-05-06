@@ -68,8 +68,8 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == LitsObject.Forbidden)
@@ -97,7 +97,7 @@ class LitsGameState(game: LitsGame) : CellsGameState<LitsGame, LitsGameMove, Lit
         }
         // 5. All the shaded cells should form a valid Nurikabe.
         if (blocks.size != 1) isSolved = false
-        val infos = (0 until game.areas.size).map { _ -> LitsAreaInfo() }
+        val infos = (0..<game.areas.size).map { _ -> LitsAreaInfo() }
         for (i in blocks.indices) {
             val block = blocks[i]
             for (p in block) {

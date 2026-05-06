@@ -59,13 +59,13 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
             if (this[r, c] == ParksObject.Forbidden)
                 this[r, c] = ParksObject.Empty
         // 3. A Tree can't touch another Tree, not even diagonally.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun hasNeighbor() = ParksGame.offset.any {
                     val p2 = p + it
@@ -79,13 +79,13 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
             }
         val n2 = game.treesInEachArea
         // 5. There must be exactly ONE Tree in each row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c] == ParksObject.Tree)
                     n1++
             if (n1 != n2) isSolved = false
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == ParksObject.Tree)
@@ -95,13 +95,13 @@ class ParksGameState(game: ParksGame) : CellsGameState<ParksGame, ParksGameMove,
             }
         }
         // 5. There must be exactly ONE Tree in each column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c] == ParksObject.Tree)
                     n1++
             if (n1 != n2) isSolved = false
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == ParksObject.Tree)

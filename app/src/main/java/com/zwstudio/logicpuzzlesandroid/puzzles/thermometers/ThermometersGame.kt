@@ -27,9 +27,9 @@ class ThermometersGame(layout: List<String>, gi: GameInterface<ThermometersGame,
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
         objArray = CharArray(rows * cols)
-        for (r in 0 until rows + 1) {
+        for (r in 0..<rows + 1) {
             var str = layout[r]
-            for (c in 0 until cols + 1) {
+            for (c in 0..<cols + 1) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch.isDigit()) {

@@ -50,10 +50,10 @@ class PathOnTheHillsGameState(game: PathOnTheHillsGame) : CellsGameState<PathOnT
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 pos2dirs[p] = dirs
                 if (!(dirs.size == 2 || dirs.isEmpty())) isSolved = false
             }

@@ -32,9 +32,9 @@ class FencingSheepGame(layout: List<String>, gi: GameInterface<FencingSheepGame,
     init {
         size = Position(layout.size / 2 + 1, layout[0].length / 2 + 1)
         objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var str = layout[r * 2]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c * 2]
                 if (ch == PUZ_POST)
                     posts.add(Position(r, c))
@@ -47,7 +47,7 @@ class FencingSheepGame(layout: List<String>, gi: GameInterface<FencingSheepGame,
             }
             if (r == rows - 1) break
             str = layout[r * 2 + 1]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c * 2]
                 if (ch == '|') {
                     this[r, c][2] = GridLineObject.Line

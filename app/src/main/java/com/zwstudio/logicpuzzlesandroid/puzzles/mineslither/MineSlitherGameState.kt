@@ -52,8 +52,8 @@ class MineSlitherGameState(game: MineSlitherGame) : CellsGameState<MineSlitherGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == MineSlitherObject.Forbidden)
                     this[p] = MineSlitherObject.Empty

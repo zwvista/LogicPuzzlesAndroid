@@ -42,10 +42,10 @@ class PathOnTheMountainsGameState(game: PathOnTheMountainsGame) : CellsGameState
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 if (dirs.size == 2) {
                     pos2dirs[p] = dirs
                     if (game[p] != ' ')
@@ -74,7 +74,7 @@ class PathOnTheMountainsGameState(game: PathOnTheMountainsGame) : CellsGameState
             p2 += PathOnTheMountainsGame.offset[n]
             if (game[p2] != ' ') {
                 // 3. Between spots, the path makes one more 90 degrees turn.
-                val turns = (0 until ns.size - 1).count { ns[it] != ns[it + 1] }
+                val turns = (0..<ns.size - 1).count { ns[it] != ns[it + 1] }
                 if (turns != 1) { isSolved = false; return }
                 ns.clear()
             }

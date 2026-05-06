@@ -72,8 +72,8 @@ class FlowerOMinoGameState(game: FlowerOMinoGame) : CellsGameState<FlowerOMinoGa
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 // 5. Green squares are blocks that can't be included in flower beds.
                 if (game[p] != FlowerOMinoObject.Hedge) {
@@ -83,11 +83,10 @@ class FlowerOMinoGameState(game: FlowerOMinoGame) : CellsGameState<FlowerOMinoGa
                 }
             }
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (this[p + FlowerOMinoGame.offset2[i], FlowerOMinoGame.dirs[i]] == GridLineObject.Line) continue
-                val node2 = pos2node[p + FlowerOMinoGame.offset[i]]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                val p2 = p + FlowerOMinoGame.offset[i]
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

@@ -61,17 +61,17 @@ class UnseenGameState(game: UnseenGame) : CellsGameState<UnseenGame, UnseenGameM
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
-                for (i in 0 until 4)
+                for (i in 0..<4)
                     if (this[p + UnseenGame.offset2[i]][UnseenGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + UnseenGame.offset[i]]!!)
             }

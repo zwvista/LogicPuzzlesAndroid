@@ -62,8 +62,8 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
     private fun updateIsSolved() {
         isSolved = true
         pos2state.clear()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == BranchesObject.Empty) // 3. There can't be blank tiles.
@@ -74,7 +74,7 @@ class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, Branc
                     // The tile with the number doesn't count.
                     val n2 = game.pos2hint[p]!!
                     var n1 = 0
-                    for (i in 0 until 4) {
+                    for (i in 0..<4) {
                         val os = BranchesGame.offset[i]
                         var p2 = p + os
                         // 3. Branches can't overlap,

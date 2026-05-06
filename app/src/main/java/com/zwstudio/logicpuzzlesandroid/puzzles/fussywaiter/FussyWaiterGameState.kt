@@ -57,8 +57,8 @@ class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGa
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2stateFood[p] = AllowedObjectState.Normal
                 pos2stateDrink[p] = AllowedObjectState.Normal
@@ -74,10 +74,10 @@ class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGa
                         pos2state[p] = AllowedObjectState.Error
             }
         }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val foods = mutableListOf<Pair<Position, Char>>()
             val drinks = mutableListOf<Pair<Position, Char>>()
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 foods.add(p to this[p].food)
                 drinks.add(p to this[p].drink)
@@ -85,10 +85,10 @@ class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGa
             f(foods, pos2stateFood)
             f(drinks, pos2stateDrink)
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val foods = mutableListOf<Pair<Position, Char>>()
             val drinks = mutableListOf<Pair<Position, Char>>()
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 foods.add(p to this[p].food)
                 drinks.add(p to this[p].drink)

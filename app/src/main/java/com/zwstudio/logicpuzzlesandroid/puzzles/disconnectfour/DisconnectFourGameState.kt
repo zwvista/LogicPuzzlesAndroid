@@ -47,8 +47,8 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2state[p] = AllowedObjectState.Normal
             }
@@ -62,9 +62,9 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
             }
             trees.clear()
         }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             oLast = DisconnectFourObject.Empty
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o != oLast) {
@@ -78,9 +78,9 @@ class DisconnectFourGameState(game: DisconnectFourGame) : CellsGameState<Disconn
             }
             checkTrees()
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             oLast = DisconnectFourObject.Empty
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o != oLast) {

@@ -44,12 +44,12 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
         isSolved = true
         val circles = mutableSetOf<Position>()
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = get(r, c)
                 val ch = game[r, c]
-                val dirs = (0 until 4).filter { o[it] }
+                val dirs = (0..<4).filter { o[it] }
                 // 2. The number on the circle tells you how many turns the connection
                 //    does between circles.
                 when (dirs.size) {

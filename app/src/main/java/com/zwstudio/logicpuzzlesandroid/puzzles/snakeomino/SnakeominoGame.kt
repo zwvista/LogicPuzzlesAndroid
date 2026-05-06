@@ -25,9 +25,9 @@ class SnakeominoGame(layout: List<String>, gi: GameInterface<SnakeominoGame, Sna
     init {
         size = Position(layout.size, layout[0].length / 2)
         objArray = IntArray(rows * cols)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
                 val n = if (ch1 == ' ') PUZ_EMPTY else ch1 - '0'

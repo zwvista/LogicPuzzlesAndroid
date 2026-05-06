@@ -61,10 +61,10 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 val n = dirs.size
                 val b = game.pos2hint[p] != null
                 val node = Node(p.toString())
@@ -81,8 +81,7 @@ class NumberLinkGameState(game: NumberLinkGame) : CellsGameState<NumberLinkGame,
             val dirs = pos2dirs[p] ?: continue
             for (i in dirs) {
                 val p2 = p + NumberLinkGame.offset[i]
-                val node2 = pos2node[p2]!!
-                g.connectNode(node, node2)
+                g.connectNode(node, pos2node[p2]!!)
             }
             if (dirs.size != 2) continue
             val i1 = dirs[0]

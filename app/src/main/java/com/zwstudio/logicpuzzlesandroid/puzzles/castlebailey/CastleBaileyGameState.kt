@@ -64,8 +64,8 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == CastleBaileyObject.Forbidden)
                     this[p] = CastleBaileyObject.Empty
@@ -97,8 +97,8 @@ class CastleBaileyGameState(game: CastleBaileyGame) : CellsGameState<CastleBaile
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != CastleBaileyObject.Wall) {
                     val node = Node(p.toString())

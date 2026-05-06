@@ -65,8 +65,8 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
         isSolved = true
         // 6. Finally, no 2*2 square can be occupied by water only (just like Nurikabe).
         invalid2x2Squares.clear()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (ArchipelagoGame.offset2.map { p + it }.all { this[it] == ArchipelagoObject.Water }) {
                     invalid2x2Squares.add(p + Position.SouthEast); isSolved = false
@@ -74,8 +74,8 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == ArchipelagoObject.Water) continue
@@ -83,12 +83,11 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in TierraDelFuegoGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {

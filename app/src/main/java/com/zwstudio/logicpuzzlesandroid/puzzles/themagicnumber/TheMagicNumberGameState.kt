@@ -59,8 +59,8 @@ class TheMagicNumberGameState(game: TheMagicNumberGame) : CellsGameState<TheMagi
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 2. On side-6 boards there will be 2 of each on any row or column.
         // 3. On side-9 boards there will be 3 of each on any row or column.
@@ -76,9 +76,9 @@ class TheMagicNumberGameState(game: TheMagicNumberGame) : CellsGameState<TheMagi
                 }
             }
         }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val symbol2range = mutableMapOf<TheMagicNumberObject, MutableList<Position>>()
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == TheMagicNumberObject.Empty)
@@ -88,9 +88,9 @@ class TheMagicNumberGameState(game: TheMagicNumberGame) : CellsGameState<TheMagi
             }
             checkSymbols(symbol2range)
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val symbol2range = mutableMapOf<TheMagicNumberObject, MutableList<Position>>()
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == TheMagicNumberObject.Empty)

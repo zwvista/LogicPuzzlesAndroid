@@ -64,9 +64,9 @@ class NumberCrosswordsGameState(game: NumberCrosswordsGame) : CellsGameState<Num
         // 1. Blacken some tiles, so that some of the numbers remain visible.
         // 2. Numbers outside the grid show the states of the numbers in the
         //    remaining tiles in that row or column.
-        for (r in 0 until rows - 1) {
+        for (r in 0..<rows - 1) {
             var sum = 0
-            for (c in 0 until cols - 1) {
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (this[p] == NumberCrosswordsObject.Darken) continue
                 sum += game[p]
@@ -79,9 +79,9 @@ class NumberCrosswordsGameState(game: NumberCrosswordsGame) : CellsGameState<Num
         // 1. Blacken some tiles, so that some of the numbers remain visible.
         // 2. Numbers outside the grid show the states of the numbers in the
         //    remaining tiles in that row or column.
-        for (c in 0 until cols - 1) {
+        for (c in 0..<cols - 1) {
             var sum = 0
-            for (r in 0 until rows - 1) {
+            for (r in 0..<rows - 1) {
                 val p = Position(r, c)
                 if (this[p] == NumberCrosswordsObject.Darken) continue
                 sum += game[p]

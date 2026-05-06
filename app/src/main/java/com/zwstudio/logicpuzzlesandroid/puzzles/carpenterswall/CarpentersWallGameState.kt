@@ -64,8 +64,8 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
     private fun updateIsSolved() {
         isSolved = true
         // The wall can't form 2*2 squares.
-        for (r in 0 until rows - 1)
-            rule2x2@ for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            rule2x2@ for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (CarpentersWallGame.offset2.all {
                     this[p + it] == CarpentersWallObject.Wall
@@ -75,8 +75,8 @@ class CarpentersWallGameState(game: CarpentersWallGame) : CellsGameState<Carpent
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
         val rngEmpty = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)

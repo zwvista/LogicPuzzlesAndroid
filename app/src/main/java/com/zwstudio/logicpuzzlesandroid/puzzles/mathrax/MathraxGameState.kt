@@ -61,11 +61,11 @@ class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxG
             return s
         }
         // 2. A number must appear once for every row.
-        for (r in 0 until rows)
-            row2state[r] = f((0 until cols).map { this[r, it] })
+        for (r in 0..<rows)
+            row2state[r] = f((0..<cols).map { this[r, it] })
         // 2. A number must appear once for every column.
-        for (c in 0 until cols)
-            col2state[c] = f((0 until rows).map { this[it, c] })
+        for (c in 0..<cols)
+            col2state[c] = f((0..<rows).map { this[it, c] })
         for ((p, h) in game.pos2hint) {
             fun g(n1: Int, n2: Int): HintState {
                 if (n1 == 0 || n2 == 0) return HintState.Normal

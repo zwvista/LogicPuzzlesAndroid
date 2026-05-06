@@ -59,11 +59,11 @@ class TheOddBrickGameState(game: TheOddBrickGame) : CellsGameState<TheOddBrickGa
             if (s != HintState.Complete) isSolved = false
             return s
         }
-        for (r in 0 until rows)
-            row2state[r] = f((0 until cols).map { this[r, it] })
-        for (c in 0 until cols)
-            col2state[c] = f((0 until rows).map { this[it, c] })
-        for (i in 0 until game.areas.size) {
+        for (r in 0..<rows)
+            row2state[r] = f((0..<cols).map { this[r, it] })
+        for (c in 0..<cols)
+            col2state[c] = f((0..<rows).map { this[it, c] })
+        for (i in 0..<game.areas.size) {
             val nums = game.areas[i].map { this[it] }
             // 2. Each 2*1 brick contains and odd and an even number, while 1*1 bricks
             // can contain any number.

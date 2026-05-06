@@ -21,9 +21,9 @@ class OnlyStraightsGame(layout: List<String>, gi: GameInterface<OnlyStraightsGam
     init {
         size = Position(layout.size, layout[0].length)
         objArray = MutableList(rows * cols) { OnlyStraightsTown.Empty }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 this[p] = when (str[c]) {
                     '1' ->  OnlyStraightsTown.Center

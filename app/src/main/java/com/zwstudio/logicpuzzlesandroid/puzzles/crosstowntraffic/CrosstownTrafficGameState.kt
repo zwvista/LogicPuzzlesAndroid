@@ -69,8 +69,8 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, MutableList<Int>>()
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1) {
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1) {
                 val p = Position(r, c)
                 pos2dirs[p] = when (this[p]) {
                     CrosstownTrafficObject.UpRight -> mutableListOf(0, 1)
@@ -84,8 +84,8 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
                 }
             }
         // 1. Draw a circuit (looping road)
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1) {
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1) {
                 val p = Position(r, c)
                 val dirs = pos2dirs[p]!!
                 if (!dirs.all {
@@ -96,11 +96,11 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
             }
         // 3. The numbers along the edge indicate the stretch of the nearest section
         //    of road from that point, in corresponding row or column.
-        for (r in 1 until rows - 1) {
+        for (r in 1..<rows - 1) {
             var n1 = 0
             var pHint = Position(r, 0)
             var n2 = game.pos2hint[pHint]!!
-            for (c in 1 until cols - 1) {
+            for (c in 1..<cols - 1) {
                 val dirs = pos2dirs[Position(r, c)] ?: listOf()
                 val (b1, b2) = dirs.contains(1) to dirs.contains(3)
                 if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)
@@ -132,11 +132,11 @@ class CrosstownTrafficGameState(game: CrosstownTrafficGame) : CellsGameState<Cro
             pos2state[pHint] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for (c in 1 until cols - 1) {
+        for (c in 1..<cols - 1) {
             var n1 = 0
             var pHint = Position(0, c)
             var n2 = game.pos2hint[pHint]!!
-            for (r in 1 until rows - 1) {
+            for (r in 1..<rows - 1) {
                 val dirs = pos2dirs[Position(r, c)] ?: listOf()
                 val (b1, b2) = dirs.contains(2) to dirs.contains(0)
                 if (b1 && !b2 && n1 == 0 || b1 && b2 && n1 > 0)

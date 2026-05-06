@@ -62,8 +62,8 @@ class RabbitsGameState(game: RabbitsGame) : CellsGameState<RabbitsGame, RabbitsG
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
                     RabbitsObject.Rabbit, RabbitsObject.Tree -> pos2stateAllowed[p] = AllowedObjectState.Normal
@@ -88,12 +88,12 @@ class RabbitsGameState(game: RabbitsGame) : CellsGameState<RabbitsGame, RabbitsG
                 for (p in rngEmpty) this[p] = RabbitsObject.Forbidden
             }
         }
-        for (r in 0 until rows) {
-            val rng = (0 until cols).map { Position(r, it) }
+        for (r in 0..<rows) {
+            val rng = (0..<cols).map { Position(r, it) }
             f(rng)
         }
-        for (c in 0 until cols) {
-            val rng = (0 until rows).map { Position(it, c) }
+        for (c in 0..<cols) {
+            val rng = (0..<rows).map { Position(it, c) }
             f(rng)
         }
         // 2. Each number tells you how many Rabbits can be seen from that tile,

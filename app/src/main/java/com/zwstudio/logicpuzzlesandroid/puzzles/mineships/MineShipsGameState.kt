@@ -61,8 +61,8 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == MineShipsObject.Forbidden)
                     this[r, c] = MineShipsObject.Empty
         // 3. A number tells you how many pieces of ship are around it.
@@ -87,8 +87,8 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o.isShipPiece) {
@@ -114,7 +114,7 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
                         this[area[0]] == MineShipsObject.BattleShipLeft && this[area.last()] == MineShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
                         this[area[0]] == MineShipsObject.BattleShipTop && this[area.last()] == MineShipsObject.BattleShipBottom) &&
-                    (1 until area.size - 1).all { this[area[it]] == MineShipsObject.BattleShipMiddle })) {
+                    (1..<area.size - 1).all { this[area[it]] == MineShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue
             }

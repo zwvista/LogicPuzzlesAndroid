@@ -86,7 +86,7 @@ abstract class GameGameActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
                 game.setObject(move)
             }
             val moveIndex = doc.levelProgress().moveIndex
-            if (moveIndex in 0 until game.moveCount)
+            if (moveIndex in 0..<game.moveCount)
                 while (moveIndex != game.moveIndex)
                     game.undo()
         } finally {

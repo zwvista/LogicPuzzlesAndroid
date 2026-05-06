@@ -47,10 +47,10 @@ class StraightAndTurnGameState(game: StraightAndTurnGame) : CellsGameState<Strai
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 if (dirs.size == 2)
                     // 1. Draw a path that crosses all gems
                     pos2dirs[p] = dirs
@@ -84,7 +84,7 @@ class StraightAndTurnGameState(game: StraightAndTurnGame) : CellsGameState<Strai
                 //    colour.
                 // 7. The line should make a single 90 degree turn in the space between
                 //    two gems of different colour.
-                val turns = (0 until ns.size - 1).count { ns[it] != ns[it + 1] }
+                val turns = (0..<ns.size - 1).count { ns[it] != ns[it + 1] }
                 if (!(ch == ch2 && turns == 0 || ch != ch2 && turns == 1)) {
                     isSolved = false; return
                 }

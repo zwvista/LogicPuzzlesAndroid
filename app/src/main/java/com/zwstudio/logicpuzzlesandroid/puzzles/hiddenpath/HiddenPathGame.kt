@@ -26,9 +26,9 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
         size = Position(layout.size, layout[0].length / 3)
         maxNum = rows * cols
         objArray = IntArray(maxNum)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val s = str.substring(c * 3, c * 3 + 2)
                 this[p] = if (s == "  ") 0 else s.trim(' ').toInt()

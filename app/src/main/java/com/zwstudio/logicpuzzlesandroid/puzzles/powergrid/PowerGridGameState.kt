@@ -65,8 +65,8 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == PowerGridObject.Forbidden)
@@ -74,9 +74,9 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
                 else if (o == PowerGridObject.Post)
                     pos2state[p] = AllowedObjectState.Normal
             }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val posts = mutableListOf<Position>()
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == PowerGridObject.Post)
                     posts.add(p)
@@ -93,13 +93,13 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
                 for (p in posts)
                     pos2state[p] = AllowedObjectState.Error
             if (allowedObjectsOnly && n1 > 0)
-                for (c in 0 until cols)
+                for (c in 0..<cols)
                     if (this[r, c] == PowerGridObject.Empty && (n1 > 1 || n2 != PowerGridGame.PUZ_UNKNOWN + 1 && n2 != abs(posts[0].col - c)))
                         this[r, c] = PowerGridObject.Forbidden
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val posts = mutableListOf<Position>()
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 if (this[p] == PowerGridObject.Post)
                     posts.add(p)
@@ -116,7 +116,7 @@ class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, Po
                 for (p in posts)
                     pos2state[p] = AllowedObjectState.Error
             if (allowedObjectsOnly && n1 > 0)
-                for (r in 0 until rows)
+                for (r in 0..<rows)
                     if (this[r, c] == PowerGridObject.Empty && (n1 > 1 || n2 != PowerGridGame.PUZ_UNKNOWN + 1 && n2 != abs(posts[0].row - r)))
                         this[r, c] = PowerGridObject.Forbidden
         }

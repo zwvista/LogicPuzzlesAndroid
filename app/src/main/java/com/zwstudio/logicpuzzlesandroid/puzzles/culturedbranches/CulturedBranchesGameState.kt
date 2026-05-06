@@ -69,8 +69,8 @@ class CulturedBranchesGameState(game: CulturedBranchesGame) : CellsGameState<Cul
         val ch2lens = mutableMapOf<Char, MutableSet<Int>>()
         val ch2nums = mutableMapOf<Char, MutableSet<Int>>()
         pos2state.clear()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == CulturedBranchesObject.Empty) // 3. There can't be blank tiles.
@@ -82,7 +82,7 @@ class CulturedBranchesGameState(game: CulturedBranchesGame) : CellsGameState<Cul
                     val ch = game.pos2hint[p]!!
                     var len = 0
                     var num = 0
-                    for (i in 0 until 4) {
+                    for (i in 0..<4) {
                         val os = CulturedBranchesGame.offset[i]
                         var p2 = p + os
                         var n = 0

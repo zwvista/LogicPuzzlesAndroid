@@ -10,7 +10,7 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
         val offset = Position.Directions4
     }
 
-    override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 1..<size.row - 1 && col in 1..<size.col - 1
 
     val objArray: CharArray
     var chMax = 'A'
@@ -24,9 +24,9 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols) { ' ' }
 
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c]
                 this[r, c] = ch
                 if (chMax < ch) chMax = ch

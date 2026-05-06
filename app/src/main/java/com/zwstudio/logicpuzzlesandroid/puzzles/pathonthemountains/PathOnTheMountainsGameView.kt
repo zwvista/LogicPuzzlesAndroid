@@ -43,8 +43,8 @@ class PathOnTheMountainsGameView(context: Context, val soundManager: SoundManage
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val ch = game[r, c]
@@ -53,8 +53,8 @@ class PathOnTheMountainsGameView(context: Context, val soundManager: SoundManage
                 dMountains.draw(canvas)
             }
         if (isInEditMode) return
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val dirs = intArrayOf(1, 2)
                 for (dir in dirs) {
                     val b = game.getObject(r, c)[dir]

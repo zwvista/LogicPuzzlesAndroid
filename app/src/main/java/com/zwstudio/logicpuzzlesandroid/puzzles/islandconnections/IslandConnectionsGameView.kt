@@ -41,8 +41,8 @@ class IslandConnectionsGameView(context: Context, val soundManager: SoundManager
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 dWater.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                 dWater.draw(canvas)
             }

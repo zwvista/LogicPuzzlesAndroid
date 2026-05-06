@@ -37,8 +37,8 @@ class BalancedTapasGameView(context: Context, val soundManager: SoundManager) : 
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -77,7 +77,7 @@ class BalancedTapasGameView(context: Context, val soundManager: SoundManager) : 
                     else -> {}
                 }
             }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val c = game.left
             val x = cwc(c) - if (c > game.right) cellWidth / 2 else 0
             canvas.drawLine(x.toFloat(), chr(r).toFloat(), x.toFloat(), chr(r + 1).toFloat(), linePaint)

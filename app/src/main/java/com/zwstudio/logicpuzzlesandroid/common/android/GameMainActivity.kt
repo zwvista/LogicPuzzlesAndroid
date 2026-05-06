@@ -28,7 +28,7 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
             resumeGame()
         }
         // http://stackoverflow.com/questions/25905086/multiple-buttons-onclicklistener-android
-        for (i in 0 until countPerPage) {
+        for (i in 0..<countPerPage) {
             val resID = resources.getIdentifier("btnLevel" + (i + 1), "id", APPLICATION_ID)
             val button = findViewById<Button>(resID)
             button.setOnClickListener(onClickListener)
@@ -67,7 +67,7 @@ abstract class GameMainActivity<G : Game<G, GM, GS>, GD : GameDocument<GM>, GM, 
     }
 
     private fun showCurrentPage() {
-        for (i in 0 until countPerPage) {
+        for (i in 0..<countPerPage) {
             val resID = resources.getIdentifier("btnLevel" + (i + 1), "id", APPLICATION_ID)
             val button = findViewById<Button>(resID)
             val index = currentPage * countPerPage + i

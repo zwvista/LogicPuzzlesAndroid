@@ -69,13 +69,13 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == LightBattleShipsObject.Forbidden)
                     this[r, c] = LightBattleShipsObject.Empty
         // 3. Ships cannot touch Lighthouses. Not even diagonally.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun touchHint(isHint: Boolean) =
                     LightBattleShipsGame.offset2.any {
@@ -123,8 +123,8 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o.isShipPiece) {
@@ -150,7 +150,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
                         this[area[0]] == LightBattleShipsObject.BattleShipLeft && this[area.last()] == LightBattleShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
                         this[area[0]] == LightBattleShipsObject.BattleShipTop && this[area.last()] == LightBattleShipsObject.BattleShipBottom) &&
-                    (1 until area.size - 1).all { this[area[it]] == LightBattleShipsObject.BattleShipMiddle })) {
+                    (1..<area.size - 1).all { this[area[it]] == LightBattleShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue
             }

@@ -59,8 +59,8 @@ class DigitalPathGameState(game: DigitalPathGame) : CellsGameState<DigitalPathGa
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2state[p] = HintState.Normal
                 if (this[p] == DigitalPathGame.PUZ_FORBIDDEN)
@@ -95,8 +95,8 @@ class DigitalPathGameState(game: DigitalPathGame) : CellsGameState<DigitalPathGa
             }
         }
         // 1. The numbers can' t cover a 2x2 area.
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (DigitalPathGame.offset3.all { this[p + it] > 0 }) {
                     isSolved = false
@@ -109,8 +109,8 @@ class DigitalPathGameState(game: DigitalPathGame) : CellsGameState<DigitalPathGa
         //    a path interconnected horizontally or vertically.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p]
                 if (n == 0) continue
@@ -119,7 +119,7 @@ class DigitalPathGameState(game: DigitalPathGame) : CellsGameState<DigitalPathGa
                 pos2node[p] = node
             }
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val p2 = p + DigitalPathGame.offset[i]
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

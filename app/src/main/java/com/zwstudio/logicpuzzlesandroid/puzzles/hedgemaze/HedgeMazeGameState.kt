@@ -60,8 +60,8 @@ class HedgeMazeGameState(game: HedgeMazeGame) : CellsGameState<HedgeMazeGame, He
         // 4. On the board there can't be a 2x2 area all made of hedges or all without hedges (empty).
         // 5. Tiles with any icon count as empty and cannot be filled with hedges.
         invalid2x2Squares.clear()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val hedgeAreas = mutableSetOf<Int>()
                 val iconAreas = mutableSetOf<Int>()
@@ -88,8 +88,8 @@ class HedgeMazeGameState(game: HedgeMazeGame) : CellsGameState<HedgeMazeGame, He
         if (!isSolved) return
         // 2. The maze should be one tile wide. It can branch itself, but not close in a loop.
         val rng = mutableSetOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != HedgeMazeObject.Hedge)
                     rng.add(p)
@@ -97,7 +97,7 @@ class HedgeMazeGameState(game: HedgeMazeGame) : CellsGameState<HedgeMazeGame, He
         val moves = mutableSetOf<Position>()
         fun dfs(p: Position, n: Int): Boolean {
             if (!moves.add(p)) return false
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (i == n) continue
                 val p2 = p + HedgeMazeGame.offset[i]
                 if (!rng.contains(p2)) continue
@@ -116,7 +116,7 @@ class HedgeMazeGameState(game: HedgeMazeGame) : CellsGameState<HedgeMazeGame, He
             if (o == HedgeMazeObject.Fountain) return false
             moves.add(p)
             if (p == gate2) return true
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (i == n) continue
                 val p2 = p + HedgeMazeGame.offset[i]
                 if (!rng.contains(p2)) continue

@@ -61,17 +61,17 @@ class WallHintsGameState(game: WallHintsGame) : CellsGameState<WallHintsGame, Wa
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
-                for (i in 0 until 4)
+                for (i in 0..<4)
                     if (this[p + WallHintsGame.offset2[i]][WallHintsGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + WallHintsGame.offset[i]]!!)
             }
@@ -92,7 +92,7 @@ class WallHintsGameState(game: WallHintsGame) : CellsGameState<WallHintsGame, Wa
             val p = rng[0]
             val n2 = game.pos2hint[p]
             var n1 = 0
-            for (i in 0 until 4)
+            for (i in 0..<4)
                 if (this[p + WallHintsGame.offset2[i]][WallHintsGame.dirs[i]] == GridLineObject.Line) n1++
             // 1. Just like Box It Up, you have to divide the Board in Boxes (Rectangles).
             // 2. The number represents the area of that Box.

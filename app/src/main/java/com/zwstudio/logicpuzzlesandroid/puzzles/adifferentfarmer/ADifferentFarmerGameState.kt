@@ -54,8 +54,8 @@ class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADi
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 2. He places exactly one of each of the three fruits or vegetables in each field
         //    (marked area).
@@ -76,8 +76,8 @@ class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADi
                 }
         }
         // 3. The same plant cannot be placed in adjacent tiles, not even diagonally.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == ADifferentFarmerObject.Empty) continue
@@ -94,8 +94,8 @@ class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADi
         // 4. All the plants must be connected horizontally or vertically.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == ADifferentFarmerObject.Empty) continue

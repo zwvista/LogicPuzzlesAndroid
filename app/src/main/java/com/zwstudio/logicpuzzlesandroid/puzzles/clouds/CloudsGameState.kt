@@ -60,16 +60,16 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == CloudsObject.Forbidden)
                     this[r, c] = CloudsObject.Empty
         // 2. The hints on the borders tell you how many tiles are covered by Clouds
         // in that row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c] == CloudsObject.Cloud)
                     n1++
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
@@ -77,17 +77,17 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         }
         // 2. The hints on the borders tell you how many tiles are covered by Clouds
         // in that column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c] == CloudsObject.Cloud)
                     n1++
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val o = this[r, c]
                 if ((o == CloudsObject.Empty || o == CloudsObject.Marker) && allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
                     this[r, c] = CloudsObject.Forbidden
@@ -95,19 +95,18 @@ class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameM
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != CloudsObject.Cloud) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in CloudsGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

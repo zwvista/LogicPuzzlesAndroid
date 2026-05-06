@@ -71,32 +71,32 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == BattleShipsObject.Forbidden)
                     this[r, c] = BattleShipsObject.Empty
         // 2. Each number tells you how many ship or ship pieces you're seeing in that row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c].isShipPiece)
                     n1++
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
         // 2. Each number tells you how many ship or ship pieces you're seeing in that column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c].isShipPiece)
                     n1++
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val o = this[r, c]
                 if ((o == BattleShipsObject.Empty || o == BattleShipsObject.Marker) &&
                     allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
@@ -104,8 +104,8 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p].isShipPiece) {
                     val node = Node(p.toString())
@@ -130,7 +130,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                         this[area[0]] == BattleShipsObject.BattleShipLeft && this[area.last()] == BattleShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
                         this[area[0]] == BattleShipsObject.BattleShipTop && this[area.last()] == BattleShipsObject.BattleShipBottom) &&
-                    (1 until area.size - 1).all { this[area[it]] == BattleShipsObject.BattleShipMiddle })) {
+                    (1..<area.size - 1).all { this[area[it]] == BattleShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue
             }

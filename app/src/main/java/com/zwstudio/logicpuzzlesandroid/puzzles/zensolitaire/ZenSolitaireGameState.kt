@@ -88,8 +88,8 @@ class ZenSolitaireGameState(game: ZenSolitaireGame) : CellsGameState<ZenSolitair
     private fun updateIsSolved() {
         isSolved = true
         // 6. The goal is to pick up every stone.
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == ZenSolitaireGame.PUZ_STONE) {
                     isSolved = false
                     return

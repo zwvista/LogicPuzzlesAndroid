@@ -40,7 +40,7 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dThermometerArray = (0 until 6)
+        dThermometerArray = (0..<6)
             .map {
                 val n = it / 2 + 1
                 val ch = if (it % 2 == 0) "A" else "B"
@@ -51,8 +51,8 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -80,14 +80,14 @@ class ThermometersGameView(context: Context, val soundManager: SoundManager) : C
                 }
             }
         if (isInEditMode) return
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val s = game.row2state(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.row2hint[r]
             val text = n.toString()
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val s = game.col2state(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.col2hint[c]

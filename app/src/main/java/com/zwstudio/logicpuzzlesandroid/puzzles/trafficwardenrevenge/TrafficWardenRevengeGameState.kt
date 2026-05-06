@@ -45,10 +45,10 @@ class TrafficWardenRevengeGameState(game: TrafficWardenRevengeGame) : CellsGameS
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 pos2dirs[p] = dirs
                 // 1. Draw a single non intersecting, continuous looping path
                 if (!(dirs.size == 2 || dirs.isEmpty() && game.pos2hint[p] == null)) isSolved = false
@@ -63,7 +63,7 @@ class TrafficWardenRevengeGameState(game: TrafficWardenRevengeGame) : CellsGameS
                 //    traffic light, be it green or red.
                 val n2 = hint.len
                 val ns = IntArray(2) { 1 }
-                for (i in 0 until 2) {
+                for (i in 0..<2) {
                     val d = dirs[i]
                     val os = TrafficWardenRevengeGame.offset[d]
                     var p2 = p + os

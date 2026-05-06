@@ -59,11 +59,11 @@ class ShopAndGasGameState(game: ShopAndGasGame) : CellsGameState<ShopAndGasGame,
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = game[p]
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 if (dirs.size == 2) {
                     pos2dirs[p] = dirs
                     if (ch == ShopAndGasGame.PUZ_GAS) {

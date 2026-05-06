@@ -67,11 +67,11 @@ class SlitherCornerGameState(game: SlitherCornerGame) : CellsGameState<SlitherCo
         //    degrees around it.
         for ((p, n2) in game.pos2hint) {
             val pDots = SlitherCornerGame.offset2.map { p + it }
-            val counts = pDots.map { p2 -> (0 until 4).count { this[p2][it] == GridLineObject.Line } }
+            val counts = pDots.map { p2 -> (0..<4).count { this[p2][it] == GridLineObject.Line } }
             if (!counts.all { it == 2 || it == 0 })
                 pos2state[p] = HintState.Normal
             else {
-                val dirs2D = pDots.map { p2 -> (0 until 4).filter { this[p2][it] == GridLineObject.Line } }.filter { it.size == 2 }
+                val dirs2D = pDots.map { p2 -> (0..<4).filter { this[p2][it] == GridLineObject.Line } }.filter { it.size == 2 }
                 val n1 = dirs2D.count { it[1] - it[0] != 2 }
                 pos2state[p] = if (n1 == n2) HintState.Complete else if (counts.all { it == 0 }) HintState.Normal else HintState.Error
             }
@@ -79,10 +79,10 @@ class SlitherCornerGameState(game: SlitherCornerGame) : CellsGameState<SlitherCo
         }
         if (!isSolved) return
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] == GridLineObject.Line }
+                val dirs = (0..<4).filter { this[p][it] == GridLineObject.Line }
                 if (dirs.size == 2)
                 // 1. Draw a single looping path
                     pos2dirs[p] = dirs

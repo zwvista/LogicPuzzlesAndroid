@@ -17,8 +17,8 @@ class ArrowsGame(layout: List<String>, gi: GameInterface<ArrowsGame, ArrowsGameM
     }
     fun isBorder(p: Position): Boolean {
         val (row, col) = p
-        return row in 1 until rows - 1 && (col == 0 || col == cols - 1) ||
-                col in 1 until cols - 1 && (row == 0 || row == rows - 1)
+        return row in 1..<rows - 1 && (col == 0 || col == cols - 1) ||
+                col in 1..<cols - 1 && (row == 0 || row == rows - 1)
     }
 
     val objArray: IntArray
@@ -32,9 +32,9 @@ class ArrowsGame(layout: List<String>, gi: GameInterface<ArrowsGame, ArrowsGameM
         size = Position(layout.size + 2, layout[0].length + 2)
         objArray = IntArray(rows * cols) { PUZ_UNKNOWN }
 
-        for (r in 1 until rows - 1) {
+        for (r in 1..<rows - 1) {
             val str = layout[r - 1]
-            for (c in 1 until cols - 1) {
+            for (c in 1..<cols - 1) {
                 val ch = str[c - 1]
                 this[r, c] = ch - '0'
             }

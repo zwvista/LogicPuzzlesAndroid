@@ -57,8 +57,8 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
     private fun updateIsSolved() {
         isSolved = true
         // The wall can't form 2*2 squares.
-        for (r in 0 until rows - 1)
-            rule2x2@ for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            rule2x2@ for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 for (os in PairakabeGame.offset2)
                     if (this[p + os] != PairakabeObject.Wall)
@@ -69,8 +69,8 @@ class PairakabeGameState(game: PairakabeGame) : CellsGameState<PairakabeGame, Pa
         val pos2node = mutableMapOf<Position, Node>()
         val rngWalls = mutableListOf<Position>()
         val rngEmpty = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)

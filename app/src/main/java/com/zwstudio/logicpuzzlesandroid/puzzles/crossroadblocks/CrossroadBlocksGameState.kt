@@ -49,10 +49,10 @@ class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<Cross
     private fun updateIsSolved() {
         isSolved = true
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 if (dirs.size == 2)
                     // 1. Draw a loop that runs through all tiles.
                     pos2dirs[p] = dirs

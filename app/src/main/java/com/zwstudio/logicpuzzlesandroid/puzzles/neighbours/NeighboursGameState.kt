@@ -70,17 +70,17 @@ class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame,
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
-                for (i in 0 until 4)
+                for (i in 0..<4)
                     if (this[p + NeighboursGame.offset2[i]][NeighboursGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + NeighboursGame.offset[i]]!!)
             }

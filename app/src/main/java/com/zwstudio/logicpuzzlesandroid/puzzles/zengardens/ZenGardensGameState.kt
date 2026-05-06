@@ -48,8 +48,8 @@ class ZenGardensGameState(game: ZenGardensGame) : CellsGameState<ZenGardensGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 1. Put a leaf on every Zen Garden (area).
         for (area in game.areas) {
@@ -62,14 +62,14 @@ class ZenGardensGameState(game: ZenGardensGame) : CellsGameState<ZenGardensGame,
         }
         // 3. Three Rocks in a row (horizontally, vertically or diagonally) can't
         //    have all the leaves or no leaves.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 for (i in 2 .. 4) {
                     val os = ZenGardensGame.offset3[i]
                     val tiles = mutableListOf(p)
                     var p2 = p + os
-                    for (j in 1 until 3) {
+                    for (j in 1..<3) {
                         if (!isValid(p2)) break
                         tiles.add(p2)
                         p2 += os

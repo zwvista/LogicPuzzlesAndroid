@@ -67,8 +67,8 @@ class SuspendedGravityGameState(game: SuspendedGravityGame) : CellsGameState<Sus
         // 3. Stones inside a region are all connected either vertically or horizontally.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
                     SuspendedGravityObject.Forbidden ->
@@ -84,11 +84,10 @@ class SuspendedGravityGameState(game: SuspendedGravityGame) : CellsGameState<Sus
                 if (game.pos2hint.contains(p))
                     pos2stateHint[p] = HintState.Normal
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in SuspendedGravityGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         val area2blocks = mutableMapOf<Int, MutableList<List<Position>>>()
         while (pos2node.isNotEmpty()) {
@@ -122,7 +121,7 @@ class SuspendedGravityGameState(game: SuspendedGravityGame) : CellsGameState<Sus
             }
             // 4. Stones in two adjacent regions cannot touch horizontally or vertically.
             if (allowedObjectsOnly) {
-                val rng = blocks.flatMap { it }
+                val rng = blocks.flatten()
                     .flatMap { p -> SuspendedGravityGame.offset.map { p + it } }
                     .filter { isValid(it) && this[it] == SuspendedGravityObject.Empty && game.pos2area[it] != nArea }
                 for (p in rng)

@@ -66,8 +66,8 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         isSolved = true
         var g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o ==  HolidayIslandObject.Forbidden)
@@ -78,12 +78,11 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
                     pos2node[p] = node
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in HolidayIslandGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         run {
             // 4. There is only one, continuous island.
             g.rootNode = pos2node.values.first()
@@ -92,8 +91,8 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
         }
         g = Graph()
         pos2node.clear()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = get(p)
                 if (!(o == HolidayIslandObject.Water || o == HolidayIslandObject.Hint)) {
@@ -103,13 +102,11 @@ class HolidayIslandGameState(game: HolidayIslandGame) : CellsGameState<HolidayIs
                     pos2node[p] = node
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in HolidayIslandGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2] ?: continue
-                g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {

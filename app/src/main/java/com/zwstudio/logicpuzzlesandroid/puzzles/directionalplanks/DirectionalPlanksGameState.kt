@@ -62,8 +62,8 @@ class DirectionalPlanksGameState(game: DirectionalPlanksGame) : CellsGameState<D
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
@@ -71,10 +71,10 @@ class DirectionalPlanksGameState(game: DirectionalPlanksGame) : CellsGameState<D
                 if (game.pos2hint.contains(p))
                     pos2state[p] = HintState.Normal
             }
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
-                for (i in 0 until 4)
+                for (i in 0..<4)
                     if (this[p + DirectionalPlanksGame.offset2[i]][DirectionalPlanksGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + DirectionalPlanksGame.offset[i]]!!)
             }
@@ -96,7 +96,7 @@ class DirectionalPlanksGameState(game: DirectionalPlanksGame) : CellsGameState<D
             }
         }
         fun isValidWood(p: Position): Boolean =
-            p.row in 0 until rows - 1 && p.col in 0 until cols - 1
+            p.row in 0..<rows - 1 && p.col in 0..<cols - 1
         // 2. Each plank contains one number and the number tells you how many
         //    directions the Plank can move, when the board is completed.
         for (plank in planks) {

@@ -36,12 +36,12 @@ class NumberCrosswordsGameView(context: Context, val soundManager: SoundManager)
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1)
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val o = game.getObject(r, c)
                 when (o) {
                     NumberCrosswordsObject.Darken ->
@@ -55,14 +55,14 @@ class NumberCrosswordsGameView(context: Context, val soundManager: SoundManager)
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows - 1) {
+        for (r in 0..<rows - 1) {
             val s = game.row2state(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game[r, cols - 1]
             val text = n.toString()
             drawTextCentered(text, cwc(cols - 1), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols - 1) {
+        for (c in 0..<cols - 1) {
             val s = game.col2state(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game[rows - 1, c]

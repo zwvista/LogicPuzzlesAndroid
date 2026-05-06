@@ -62,8 +62,8 @@ class VeniceGameState(game: VeniceGame) : CellsGameState<VeniceGame, VeniceGameM
     private fun updateIsSolved() {
         isSolved = true
         // 3. The Canal cannot contain a 2x2 area (like a Nurikabe).
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (NurikabeGame.offset2.map { p + it }.all { this[it] == VeniceObject.Water }) {
                     invalid2x2Squares.add(p + Position.SouthEast); isSolved = false
@@ -71,8 +71,8 @@ class VeniceGameState(game: VeniceGame) : CellsGameState<VeniceGame, VeniceGameM
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == VeniceObject.Water) {
                     val node = Node(p.toString())
@@ -85,7 +85,7 @@ class VeniceGameState(game: VeniceGame) : CellsGameState<VeniceGame, VeniceGameM
         //    horizontally and vertically in the four directions, up to the next empty cell.
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val os = VeniceGame.offset[i]
                 var p2 = p + os
                 while (isValid(p2)) {

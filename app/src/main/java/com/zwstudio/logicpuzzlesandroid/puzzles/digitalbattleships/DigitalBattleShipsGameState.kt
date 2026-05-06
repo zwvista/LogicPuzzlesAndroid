@@ -71,16 +71,16 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == DigitalBattleShipsObject.Forbidden)
                     this[r, c] = DigitalBattleShipsObject.Empty
         // 2. Each number on the outer board tells you the SUM of the ship or
         // ship pieces you're seeing in that row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c].isShipPiece)
                     // 3. A ship or ship piece is worth the number it occupies on the board.
                     n1 += game[r, c]
@@ -89,18 +89,18 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         }
         // 2. Each number on the outer board tells you the SUM of the ship or
         // ship pieces you're seeing in that column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c].isShipPiece)
                     // 3. A ship or ship piece is worth the number it occupies on the board.
                     n1 += game[r, c]
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val o = this[r, c]
                 if ((o == DigitalBattleShipsObject.Empty || o == DigitalBattleShipsObject.Marker) &&
                     allowedObjectsOnly && (row2state[r] != HintState.Normal || col2state[c] != HintState.Normal))
@@ -108,8 +108,8 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
         }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p].isShipPiece) {
                     val node = Node(p.toString())
@@ -117,12 +117,11 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
                     pos2node[p] = node
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in DigitalBattleShipsGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         val shipNumbers = mutableListOf(0, 0, 0, 0, 0)
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
@@ -135,7 +134,7 @@ class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState
                         this[area[0]] == DigitalBattleShipsObject.BattleShipLeft && this[area.last()] == DigitalBattleShipsObject.BattleShipRight ||
                     area.all { it.col == area[0].col } &&
                         this[area[0]] == DigitalBattleShipsObject.BattleShipTop && this[area.last()] == DigitalBattleShipsObject.BattleShipBottom) &&
-                    (1 until area.size - 1).all { this[area[it]] == DigitalBattleShipsObject.BattleShipMiddle })) {
+                    (1..<area.size - 1).all { this[area[it]] == DigitalBattleShipsObject.BattleShipMiddle })) {
                 isSolved = false
                 continue
             }

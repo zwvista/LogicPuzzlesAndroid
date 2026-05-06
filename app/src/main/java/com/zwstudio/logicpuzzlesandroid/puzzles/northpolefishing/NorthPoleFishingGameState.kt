@@ -66,8 +66,8 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (game[p] != NorthPoleFishingObject.Block) {
                     val node = Node(p.toString())
@@ -76,11 +76,10 @@ class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<Nor
                 }
             }
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (this[p + NorthPoleFishingGame.offset2[i], NorthPoleFishingGame.dirs[i]] == GridLineObject.Line) continue
-                val node2 = pos2node[p + NorthPoleFishingGame.offset[i]]
-                if (node2 != null)
-                    g.connectNode(node, node2)
+                val p2 = p + NorthPoleFishingGame.offset[i]
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

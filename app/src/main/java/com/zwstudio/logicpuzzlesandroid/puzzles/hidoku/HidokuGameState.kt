@@ -20,7 +20,7 @@ class HidokuGameState(game: HidokuGame) : CellsGameState<HidokuGame, HidokuGameM
 
     init {
         objArray = Array (game.maxNum) { HidokuObject() }
-        for (i in 0 until game.maxNum)
+        for (i in 0..<game.maxNum)
             objArray[i].obj = game.objArray[i]
         updateIsSolved()
         updateState()
@@ -69,8 +69,8 @@ class HidokuGameState(game: HidokuGame) : CellsGameState<HidokuGame, HidokuGameM
     private fun updateIsSolved() {
         isSolved = true
         num2pos.clear()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p].obj
                 if (n == -1) // forbidden
@@ -113,8 +113,8 @@ class HidokuGameState(game: HidokuGame) : CellsGameState<HidokuGame, HidokuGameM
             }
         }
         if (!allowedObjectsOnly) return
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p].obj != 0) continue
                 val b = game.pos2range[currentPos]!!.contains(p)

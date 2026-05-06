@@ -77,10 +77,10 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
                     canbeFilled = false
                 }
         }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c] == ThermometersObject.Filled)
                     n1++
             // 4. The numbers on the border tell you how many filled cells are present
@@ -88,14 +88,14 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
             row2state[r] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
             if (n1 == n2 && allowedObjectsOnly)
-                for (c in 0 until cols)
+                for (c in 0..<cols)
                     if (this[r, c] != ThermometersObject.Filled)
                         this[r, c] = ThermometersObject.Forbidden
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c] == ThermometersObject.Filled)
                     n1++
             // 4. The numbers on the border tell you how many filled cells are present
@@ -103,7 +103,7 @@ class ThermometersGameState(game: ThermometersGame) : CellsGameState<Thermometer
             col2state[c] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
             if (n1 == n2 && allowedObjectsOnly)
-                for (r in 0 until rows)
+                for (r in 0..<rows)
                     if (this[r, c] != ThermometersObject.Filled)
                         this[r, c] = ThermometersObject.Forbidden
         }

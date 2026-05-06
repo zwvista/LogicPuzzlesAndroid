@@ -61,12 +61,12 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
     private fun updateIsSolved() {
         isSolved = true
         val numss = mutableListOf<List<Int>>()
-        for (r in 1 until rows - 1) {
+        for (r in 1..<rows - 1) {
             val (h1, h2) = this[r, 0] to this[r, cols - 1]
             var (n1, n2) = 0 to 0
             var (n11, n21) = 0 to 0
             val nums = mutableListOf<Int>()
-            for (c in 1 until cols - 1) {
+            for (c in 1..<cols - 1) {
                 val (n12, n22) = this[r, c] to this[r, cols - 1 - c]
                 if (n11 < n12) { n11 = n12; n1 += n12 }
                 if (n21 < n22) { n21 = n22; n2 += n22 }
@@ -91,12 +91,12 @@ class SumscrapersGameState(game: SumscrapersGame) : CellsGameState<SumscrapersGa
                 numss.add(nums)
         }
         numss.clear()
-        for (c in 1 until cols - 1) {
+        for (c in 1..<cols - 1) {
             val (h1, h2) = this[0, c] to this[rows - 1, c]
             var (n1, n2) = 0 to 0
             var (n11, n21) = 0 to 0
             val nums = mutableListOf<Int>()
-            for (r in 1 until rows - 1) {
+            for (r in 1..<rows - 1) {
                 val (n12, n22) = this[r, c] to this[rows - 1 - r, c]
                 if (n11 < n12) { n11 = n12; n1 += n12 }
                 if (n21 < n22) { n21 = n22; n2 += n22 }

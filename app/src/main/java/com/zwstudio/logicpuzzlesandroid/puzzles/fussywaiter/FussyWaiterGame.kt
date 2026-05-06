@@ -20,9 +20,9 @@ class FussyWaiterGame(layout: List<String>, gi: GameInterface<FussyWaiterGame, F
     init {
         size = Position(layout.size, layout[0].length / 2)
         objArray = Array(rows * cols) { FussyWaiterObject() }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
                 this[r, c] = FussyWaiterObject(ch1, ch2)
             }

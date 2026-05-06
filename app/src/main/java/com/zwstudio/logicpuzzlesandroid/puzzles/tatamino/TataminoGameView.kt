@@ -38,8 +38,8 @@ class TataminoGameView(context: Context, val soundManager: SoundManager) : Cells
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -51,8 +51,8 @@ class TataminoGameView(context: Context, val soundManager: SoundManager) : Cells
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
-        for (r in 0 until rows + 1)
-            for (c in 0 until cols + 1) {
+        for (r in 0..<rows + 1)
+            for (c in 0..<cols + 1) {
                 val p = Position(r, c)
                 fun f(p2: Position) = if (!game.isValid(p2)) '.' else game[p2]
                 fun g(p2: Position): Boolean {

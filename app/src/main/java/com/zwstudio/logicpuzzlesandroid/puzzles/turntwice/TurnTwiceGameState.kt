@@ -65,8 +65,8 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val walls = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
                     TurnTwiceObject.Forbidden -> this[p] = TurnTwiceObject.Empty
@@ -83,12 +83,11 @@ class TurnTwiceGameState(game: TurnTwiceGame) : CellsGameState<TurnTwiceGame, Tu
                     pos2node[p] = node
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in TurnTwiceGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         // 5. All the signposts and empty spaces must form an orthogonally continuous
         // area.
         g.rootNode = pos2node.values.first()

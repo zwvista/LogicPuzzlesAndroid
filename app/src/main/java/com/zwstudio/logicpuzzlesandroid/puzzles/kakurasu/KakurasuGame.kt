@@ -13,15 +13,15 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
     val row2hint: IntArray
     val col2hint: IntArray
 
-    override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 1..<size.row - 1 && col in 1..<size.col - 1
 
     init {
         size = Position(layout.size, layout[0].length / 2)
         row2hint = IntArray(rows * 2)
         col2hint = IntArray(cols * 2)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue
                 val n = s.trim(' ').toInt()

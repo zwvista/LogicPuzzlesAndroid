@@ -58,8 +58,8 @@ class LandscaperGameState(game: LandscaperGame) : CellsGameState<LandscaperGame,
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         var oLast: LandscaperObject
         val tokens = mutableListOf<Position>()
@@ -73,11 +73,11 @@ class LandscaperGameState(game: LandscaperGame) : CellsGameState<LandscaperGame,
         }
         val rowDispos = mutableSetOf<String>()
         val rowCounts = mutableSetOf<List<Int>>()
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             oLast = LandscaperObject.Empty
             var dispo = ""
             var (nTree, nFlower) = 0 to 0
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 dispo += o.ordinal.toString()
@@ -97,11 +97,11 @@ class LandscaperGameState(game: LandscaperGame) : CellsGameState<LandscaperGame,
         }
         val colDispos = mutableSetOf<String>()
         val colCounts = mutableSetOf<List<Int>>()
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             oLast = LandscaperObject.Empty
             var dispo = ""
             var (nTree, nFlower) = 0 to 0
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 dispo += o.ordinal.toString()

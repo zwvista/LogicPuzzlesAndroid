@@ -63,8 +63,8 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == ProductSentinelsObject.Tower)
@@ -77,15 +77,14 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
                     pos2node[p] = node
                 }
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in ProductSentinelsGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         // 4. two Towers can't touch horizontally or vertically.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean =
                     ProductSentinelsGame.offset.any {
@@ -104,7 +103,7 @@ class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<Pro
         for ((p, n2) in game.pos2hint) {
             val nums = intArrayOf(0, 0, 0, 0)
             val rng = mutableListOf<Position>()
-            next@ for (i in 0 until 4) {
+            next@ for (i in 0..<4) {
                 val os = ProductSentinelsGame.offset[i]
                 var p2 = p + os
                 while (isValid(p2)) {

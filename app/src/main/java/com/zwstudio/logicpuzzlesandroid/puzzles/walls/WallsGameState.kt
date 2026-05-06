@@ -57,8 +57,8 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == WallsObject.Empty) // 1. In Walls you must fill the board with straight horizontal and
@@ -69,7 +69,7 @@ class WallsGameState(game: WallsGame) : CellsGameState<WallsGame, WallsGameMove,
                 else if (o == WallsObject.Hint) {
                     val n2 = game.pos2hint[p]!!
                     var n1 = 0
-                    for (i in 0 until 4) {
+                    for (i in 0..<4) {
                         val os = WallsGame.offset[i]
                         var p2 = p + os
                         while (isValid(p2)) {

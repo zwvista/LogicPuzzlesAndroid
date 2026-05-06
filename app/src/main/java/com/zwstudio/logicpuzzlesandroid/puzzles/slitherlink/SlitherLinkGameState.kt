@@ -71,16 +71,16 @@ class SlitherLinkGameState(game: SlitherLinkGame) : CellsGameState<SlitherLinkGa
         // 2. Each number in a tile tells you on how many of its four sides are touched
         // by the path.
         for ((p, n2) in game.pos2hint) {
-            val n1 = (0 until 4).count { i -> this[p + SlitherLinkGame.offset2[i]][SlitherLinkGame.dirs[i]] == GridLineObject.Line }
+            val n1 = (0..<4).count { i -> this[p + SlitherLinkGame.offset2[i]][SlitherLinkGame.dirs[i]] == GridLineObject.Line }
             pos2state[p] = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (n1 != n2) isSolved = false
         }
         if (!isSolved) return
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                val dirs = (0 until 4).filter { this[p][it] == GridLineObject.Line }
+                val dirs = (0..<4).filter { this[p][it] == GridLineObject.Line }
                 if (dirs.size == 2)
                     // 1. Draw a single looping path
                     pos2dirs[p] = dirs

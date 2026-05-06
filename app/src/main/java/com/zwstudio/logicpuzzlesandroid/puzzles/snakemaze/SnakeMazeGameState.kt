@@ -74,8 +74,8 @@ class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, Sn
         val pos2snake = mutableMapOf<Position, Int>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == SnakeMazeObject.Forbidden)
                     this[p] = SnakeMazeObject.Empty
@@ -85,11 +85,10 @@ class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, Sn
                     pos2node[p] = node
                 }
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in SnakeMazeGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
@@ -110,7 +109,7 @@ class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, Sn
             val snake = (1..5).map { n ->
                 area.first { this[it].value == n }
             }
-            if (!(0 until 4).all { i ->
+            if (!(0..<4).all { i ->
                 val os = snake[i] - snake[i + 1]
                 SnakeMazeGame.offset.contains(os)
             }) {

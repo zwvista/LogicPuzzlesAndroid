@@ -16,9 +16,9 @@ class YalooniqGame(layout: List<String>, gi: GameInterface<YalooniqGame, Yalooni
 
     init {
         size = Position(layout.size, layout[0].length / 2)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val s = str.substring(c * 2, c * 2 + 2).trim()
                 if (s.isEmpty()) continue
                 val num = s[0] - '0'

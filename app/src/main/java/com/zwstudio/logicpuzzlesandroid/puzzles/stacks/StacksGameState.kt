@@ -49,12 +49,12 @@ class StacksGameState(game: StacksGame) : CellsGameState<StacksGame, StacksGameM
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 2. Two orthogonally adjacent numbers must be different.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 for (i in listOf(1, 2)) {
                     val p2 = p + StacksGame.offset[i]

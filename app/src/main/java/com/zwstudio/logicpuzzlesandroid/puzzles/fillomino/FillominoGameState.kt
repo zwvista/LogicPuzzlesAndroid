@@ -70,8 +70,8 @@ class FillominoGameState(game: FillominoGame) : CellsGameState<FillominoGame, Fi
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == ' ')
                     isSolved = false

@@ -46,11 +46,11 @@ class OnlyBendsGameState(game: OnlyBendsGame) : CellsGameState<OnlyBendsGame, On
         isSolved = true
         val rng = mutableListOf<Position>()
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 rng.add(p)
-                val dirs = (0 until 4).filter { this[p][it] }
+                val dirs = (0..<4).filter { this[p][it] }
                 pos2dirs[p] = dirs
                 val cnt = dirs.size
                 if (game[p] == ' ') {
@@ -74,7 +74,7 @@ class OnlyBendsGameState(game: OnlyBendsGame) : CellsGameState<OnlyBendsGame, On
             pos2node[p] = node
         }
         for (p in rng)
-            for (i in 0 until 4)
+            for (i in 0..<4)
                 if (this[p][i]) {
                     val node2 = pos2node[p + OnlyBendsGame.offset[i]]
                     if (node2 == null) { isSolved = false; return }

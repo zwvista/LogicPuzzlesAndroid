@@ -64,10 +64,10 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
             val o = this[r, c]
             return o == GemsObject.Gem || o == GemsObject.Pebble
         }
-        for (r in 1 until rows - 1) {
+        for (r in 1..<rows - 1) {
             val (p1, p2) = Position(r, 0) to Position(r, cols - 1)
             val (h1, h2) = game.pos2hint[p1]!! to game.pos2hint[p2]!!
-            val gems = (1 until cols - 1).map { Position(r, it) }.filter { this[it] == GemsObject.Gem }
+            val gems = (1..<cols - 1).map { Position(r, it) }.filter { this[it] == GemsObject.Gem }
             if (gems.size == 1) {
                 // 1. The board contains one Sapphire (Blue Gem) on each row and column.
                 val p = gems.first()
@@ -77,7 +77,7 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
                 // 3. A number on the border tells you how many stones you can see from
                 //    there, up to and including the Sapphire.
                 // 4. The Sapphire (blue) hide the Pebbles (white) behind them.
-                val (n1, n2) = (1..c).count { f(r, it) } to (c until cols - 1).count { f(r, it) }
+                val (n1, n2) = (1..c).count { f(r, it) } to (c..<cols - 1).count { f(r, it) }
                 val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
                 val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
                 pos2stateHint[p1] = s1; pos2stateHint[p2] = s2
@@ -87,10 +87,10 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
                 gems.forEach { pos2stateAllowed[it] = AllowedObjectState.Normal }
             }
         }
-        for (c in 1 until cols - 1) {
+        for (c in 1..<cols - 1) {
             val (p1, p2) = Position(0, c) to Position(rows - 1, c)
             val (h1, h2) = game.pos2hint[p1]!! to game.pos2hint[p2]!!
-            val gems = (1 until rows - 1).map { Position(it, c) }.filter { this[it] == GemsObject.Gem }
+            val gems = (1..<rows - 1).map { Position(it, c) }.filter { this[it] == GemsObject.Gem }
             if (gems.size == 1) {
                 // 1. The board contains one Sapphire (Blue Gem) on each row and column.
                 val p = gems.first()
@@ -100,7 +100,7 @@ class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, Gem
                 // 3. A number on the border tells you how many stones you can see from
                 //    there, up to and including the Sapphire.
                 // 4. The Sapphire (blue) hide the Pebbles (white) behind them.
-                val (n1, n2) = (1..r).count { f(it, c) } to (r until rows - 1).count { f(it, c) }
+                val (n1, n2) = (1..r).count { f(it, c) } to (r..<rows - 1).count { f(it, c) }
                 val s1 = if (n1 < h1) HintState.Normal else if (n1 == h1) HintState.Complete else HintState.Error
                 val s2 = if (n2 < h2) HintState.Normal else if (n2 == h2) HintState.Complete else HintState.Error
                 pos2stateHint[p1] = s1; pos2stateHint[p2] = s2

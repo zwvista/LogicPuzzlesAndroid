@@ -84,8 +84,8 @@ class UnreliableHintsGameState(game: UnreliableHintsGame) : CellsGameState<Unrel
             if (s != HintState.Complete) isSolved = false
         }
         // 2. Shaded tiles must not be orthogonally connected.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (!this[p].isShaded) continue
                 val s = if (!YalooniqGame.offset.any {
@@ -100,8 +100,8 @@ class UnreliableHintsGameState(game: UnreliableHintsGame) : CellsGameState<Unrel
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         val rngDarken = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (!this[p].isShaded) {
                     val node = Node(p.toString())
@@ -109,11 +109,10 @@ class UnreliableHintsGameState(game: UnreliableHintsGame) : CellsGameState<Unrel
                     pos2node[p] = node
                 }
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in UnreliableHintsGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()

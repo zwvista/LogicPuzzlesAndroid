@@ -46,19 +46,19 @@ class AbstractPaintingGameView(context: Context, val soundManager: SoundManager)
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (r in 0 until rows + 1)
-            for (c in 0 until cols + 1) {
+        for (r in 0..<rows + 1)
+            for (c in 0..<cols + 1) {
                 if (game.dots[r, c, 1] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
                 if (game.dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 when (game.getObject(r, c)) {
                     AbstractPaintingObject.Painting ->
                         canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), wallPaint)
@@ -69,7 +69,7 @@ class AbstractPaintingGameView(context: Context, val soundManager: SoundManager)
                     else -> {}
                 }
         if (isInEditMode) return
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val s = game.row2state(r)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.row2hint[r]
@@ -77,7 +77,7 @@ class AbstractPaintingGameView(context: Context, val soundManager: SoundManager)
             val text = n.toString()
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val s = game.col2state(c)
             textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val n = game.col2hint[c]

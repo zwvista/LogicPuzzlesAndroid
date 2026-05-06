@@ -29,9 +29,9 @@ class YouTurnMeOnGame(layout: List<String>, gi: GameInterface<YouTurnMeOnGame, Y
     init {
         size = Position(layout.size / 2, layout[0].length / 2)
         dots = GridDots(rows + 1, cols + 1)
-        for (r in 0 until rows + 1) {
+        for (r in 0..<rows + 1) {
             var str = layout[r * 2]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
                     dots[r, c, 1] = GridLineObject.Line
@@ -40,7 +40,7 @@ class YouTurnMeOnGame(layout: List<String>, gi: GameInterface<YouTurnMeOnGame, Y
             }
             if (r == rows) break
             str = layout[r * 2 + 1]
-            for (c in 0 until cols + 1) {
+            for (c in 0..<cols + 1) {
                 val ch = str[c * 2]
                 if (ch == '|') {
                     dots[r, c, 2] = GridLineObject.Line
@@ -55,18 +55,18 @@ class YouTurnMeOnGame(layout: List<String>, gi: GameInterface<YouTurnMeOnGame, Y
         val rng = mutableSetOf<Position>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                for (i in 0 until 4)
+                for (i in 0..<4)
                     if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }

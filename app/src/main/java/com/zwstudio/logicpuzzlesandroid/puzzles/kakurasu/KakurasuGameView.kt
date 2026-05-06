@@ -40,8 +40,8 @@ class KakurasuGameView(context: Context, val soundManager: SoundManager) : Cells
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1) {
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val o = game.getObject(r, c)
@@ -56,7 +56,7 @@ class KakurasuGameView(context: Context, val soundManager: SoundManager) : Cells
                 }
             }
         if (isInEditMode) return
-        for (r in 1 until rows - 1)
+        for (r in 1..<rows - 1)
             for (i in 0..1) {
                 val c = if (i == 0) 0 else cols - 1
                 val s = game.row2state(r * 2 + i)
@@ -67,7 +67,7 @@ class KakurasuGameView(context: Context, val soundManager: SoundManager) : Cells
                 if (i == 1)
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
             }
-        for (c in 1 until cols - 1)
+        for (c in 1..<cols - 1)
             for (i in 0..1) {
                 val r = if (i == 0) 0 else rows - 1
                 val s = game.col2state(c * 2 + i)

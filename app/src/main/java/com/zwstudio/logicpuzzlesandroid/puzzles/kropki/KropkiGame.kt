@@ -31,9 +31,9 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
     init {
         size = Position(if (bordered) layout.size / 4 else layout.size / 2 + 1, layout[0].length)
         this.bordered = bordered
-        for (r in 0 until rows * 2 - 1) {
+        for (r in 0..<rows * 2 - 1) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r / 2, c)
                 val ch = str[c]
                 val kh = if (ch == 'W') KropkiHint.Consecutive else if (ch == 'B') KropkiHint.Twice else KropkiHint.None
@@ -42,9 +42,9 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
         }
         if (bordered) {
             dots = GridDots(rows + 1, cols + 1)
-            for (r in 0 until rows + 1) {
+            for (r in 0..<rows + 1) {
                 var str = layout[rows * 2 - 1 + 2 * r]
-                for (c in 0 until cols) {
+                for (c in 0..<cols) {
                     val ch = str[c * 2 + 1]
                     if (ch == '-') {
                         dots!![r, c, 1] = GridLineObject.Line
@@ -53,7 +53,7 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
                 }
                 if (r == rows) break
                 str = layout[rows * 2 - 1 + 2 * r + 1]
-                for (c in 0 until cols + 1) {
+                for (c in 0..<cols + 1) {
                     val ch = str[c * 2]
                     if (ch == '|') {
                         dots!![r, c, 2] = GridLineObject.Line
@@ -64,18 +64,18 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
             val rng = mutableSetOf<Position>()
             val g = Graph()
             val pos2node = mutableMapOf<Position, Node>()
-            for (r in 0 until rows)
-                for (c in 0 until cols) {
+            for (r in 0..<rows)
+                for (c in 0..<cols) {
                     val p = Position(r, c)
                     rng.add(+p)
                     val node = Node(p.toString())
                     g.addNode(node)
                     pos2node[p] = node
                 }
-            for (r in 0 until rows)
-                for (c in 0 until cols) {
+            for (r in 0..<rows)
+                for (c in 0..<cols) {
                     val p = Position(r, c)
-                    for (i in 0 until 4)
+                    for (i in 0..<4)
                         if (dots!![p + offset2[i], dirs[i]] != GridLineObject.Line)
                             g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
                 }

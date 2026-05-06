@@ -51,8 +51,8 @@ class FarmerGameState(game: FarmerGame) : CellsGameState<FarmerGame, FarmerGameM
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         for (area in game.areas) {
             val objSet = area.map { this[it] }.toSet()
@@ -65,8 +65,8 @@ class FarmerGameState(game: FarmerGame) : CellsGameState<FarmerGame, FarmerGameM
                     pos2state[p] = AllowedObjectState.Error
             }
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 val area1 = game.pos2area[p]!!

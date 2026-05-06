@@ -70,8 +70,8 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
         //    finds itself in the nook.
         // 2. a Nook is a dead end, one tile wide, with a number in it.
         // 5. No area in the maze can have the characteristics of a Nook without a number in it.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p].isHedge) continue
                 val rng = NooksGame.offset.map { p + it }.filter { isValid(it) && this[it].isEmpty }
@@ -93,8 +93,8 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
             }
         // 4. there are no 2x2 areas of the same type (hedge or path).
         invalid2x2Squares.clear()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val rng = NooksGame.offset2.map { p + it }
                 val isOfSameType = rng.all { this[it].isHedge } || rng.all { this[it].isEmpty }
@@ -104,8 +104,8 @@ class NooksGameState(game: NooksGame) : CellsGameState<NooksGame, NooksGameMove,
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p].isHedge) continue
                 val node = Node(p.toString())

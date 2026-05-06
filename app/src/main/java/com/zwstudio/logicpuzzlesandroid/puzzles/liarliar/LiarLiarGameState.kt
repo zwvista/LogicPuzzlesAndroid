@@ -65,8 +65,8 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == LiarLiarObject.Forbidden)
                     this[r, c] = LiarLiarObject.Empty
         // 3. A number in a cell indicates how many marked cells must be placed.
@@ -88,8 +88,8 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
             if (nError != 1) isSolved = false
         }
         // 5. Two marked cells must not be orthogonally adjacent.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != LiarLiarObject.Marked) continue
                 val rng = LiarLiarGame.offset.map { p + it }.filter { p ->
@@ -114,8 +114,8 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
         // 6. All of the non-marked cells must be connected.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == LiarLiarObject.Marked) continue
                 val node = Node(p.toString())
@@ -123,7 +123,7 @@ class LiarLiarGameState(game: LiarLiarGame) : CellsGameState<LiarLiarGame, LiarL
                 pos2node[p] = node
             }
         for ((p, node) in pos2node)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val p2 = p + LiarLiarGame.offset[i]
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

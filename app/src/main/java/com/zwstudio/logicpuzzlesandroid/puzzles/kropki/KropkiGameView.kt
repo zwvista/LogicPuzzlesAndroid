@@ -42,8 +42,8 @@ class KropkiGameView(context: Context, val soundManager: SoundManager) : CellsGa
 
     override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val n = game.getObject(r, c)
@@ -53,15 +53,15 @@ class KropkiGameView(context: Context, val soundManager: SoundManager) : CellsGa
             }
         if (isInEditMode) return
         if (game.bordered)
-            for (r in 0 until rows + 1)
-                for (c in 0 until cols + 1) {
+            for (r in 0..<rows + 1)
+                for (c in 0..<cols + 1) {
                     if (game.dots!![r, c, 1] == GridLineObject.Line)
                         canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
                     if (game.dots!![r, c, 2] == GridLineObject.Line)
                         canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
                 }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 for (i in 0..1) {
                     if (i == 0 && c == cols - 1 || i == 1 && r == rows - 1) continue

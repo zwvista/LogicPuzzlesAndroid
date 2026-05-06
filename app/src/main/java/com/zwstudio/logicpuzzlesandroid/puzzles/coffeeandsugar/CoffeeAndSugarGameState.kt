@@ -50,12 +50,12 @@ class CoffeeAndSugarGameState(game: CoffeeAndSugarGame) : CellsGameState<CoffeeA
         val sugarList = mutableListOf<Position>()
         val emptyList = mutableListOf<Position>()
         val pos2dirs = mutableMapOf<Position, List<Int>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 val ch = game[p]
-                val dirs = (0 until 4).filter { o[it] }
+                val dirs = (0..<4).filter { o[it] }
                 pos2dirs[p] = dirs
                 val cnt = dirs.size
                 when (ch) {

@@ -51,13 +51,13 @@ class TopArrowGameState(game: TopArrowGame) : CellsGameState<TopArrowGame, TopAr
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
         // 3. When two numbers are orthogonally adjacent across areas, the numbers
         //    must be different.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 for (i in listOf(1, 2)) {
                     val p2 = p + TopArrowGame.offset[i]

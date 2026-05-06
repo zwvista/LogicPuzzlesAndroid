@@ -19,13 +19,13 @@ class FenceSentinelsGame(layout: List<String>, gi: GameInterface<FenceSentinelsG
 
     val pos2hint = mutableMapOf<Position, Int>()
 
-    override fun isValid(row: Int, col: Int) = row in 0 until size.row - 1 && col in 0 until size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 0..<size.row - 1 && col in 0..<size.col - 1
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
-        for (r in 0 until rows - 1) {
+        for (r in 0..<rows - 1) {
             var str = layout[r]
-            for (c in 0 until cols - 1) {
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch in '0'..'9')

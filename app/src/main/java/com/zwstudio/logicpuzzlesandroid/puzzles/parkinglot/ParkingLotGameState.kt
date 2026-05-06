@@ -67,8 +67,8 @@ class ParkingLotGameState(game: ParkingLotGame) : CellsGameState<ParkingLotGame,
     private fun updateIsSolved() {
         isSolved = true
         val cars = mutableListOf<List<Position>>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = ParkingLotGame.car_offset.indices.firstOrNull { i ->
                     val offset = ParkingLotGame.car_offset[i]

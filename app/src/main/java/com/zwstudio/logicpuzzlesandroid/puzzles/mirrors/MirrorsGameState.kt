@@ -65,8 +65,8 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == MirrorsObject.Empty)
@@ -85,8 +85,8 @@ class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsG
         val pos2dirs = cloner.deepClone(pos2dirs)
         // 1. The goal is to draw a single, continuous, non-crossing path that fills
         //    the entire board.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val dirs = pos2dirs[p]!!
                 if (!dirs.all {

@@ -68,8 +68,8 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o: MiniLitsObject? = this[p]
                 if (o == MiniLitsObject.Forbidden)
@@ -98,7 +98,7 @@ class MiniLitsGameState(game: MiniLitsGame) : CellsGameState<MiniLitsGame, MiniL
         }
         // 4. All the shaded cells should form a valid Nurikabe.
         if (blocks.size != 1) isSolved = false
-        val infos = (0 until game.areas.size).map { _ -> MiniLitsAreaInfo() }
+        val infos = (0..<game.areas.size).map { _ -> MiniLitsAreaInfo() }
         for (i in blocks.indices) {
             val block = blocks[i]
             for (p in block) {

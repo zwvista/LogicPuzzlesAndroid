@@ -60,10 +60,10 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         var chars: String
         // 5. Board Rule: Each row of the board (disregarding the snail
         // path) must have exactly one 1, one 2 and one 3.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             chars = ""
             row2state[r] = HintState.Complete
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = this[r, c]
                 if (ch == ' ') continue
                 chars += if (chars.contains(ch)) break else ch
@@ -75,10 +75,10 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
         }
         // 5. Board Rule: Each column of the board (disregarding the snail
         // path) must have exactly one 1, one 2 and one 3.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             chars = ""
             col2state[c] = HintState.Complete
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val ch = this[r, c]
                 if (ch == ' ') continue
                 chars += if (chars.contains(ch)) break else ch
@@ -111,7 +111,7 @@ class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove,
             pos2state[rng[cnt - 1]] = HintState.Error
             isSolved = false
         }
-        for (i in 0 until cnt - 1) {
+        for (i in 0..<cnt - 1) {
             val ch1 = chars[i]
             val ch2 = chars[i + 1]
             if (!(ch1 == '1' && ch2 == '2' || ch1 == '2' && ch2 == '3' || ch1 == '3' && ch2 == '1')) {

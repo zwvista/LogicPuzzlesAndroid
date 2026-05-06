@@ -56,8 +56,8 @@ class MinesweeperGameState(game: MinesweeperGame) : CellsGameState<MinesweeperGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == MinesweeperObject.Forbidden)
                     this[r, c] = MinesweeperObject.Empty
         for ((p, n2) in game.pos2hint) {

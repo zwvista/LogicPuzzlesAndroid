@@ -37,17 +37,17 @@ class SnailGameView(context: Context, val soundManager: SoundManager) : CellsGam
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 1 until rows - 1)
-            for (c in 1 until cols - 1)
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-        for (i in 1 until game.snailPathLine.size) {
+        for (i in 1..<game.snailPathLine.size) {
             val p1 = game.snailPathLine[i - 1]
             val p2 = game.snailPathLine[i]
             canvas.drawLine(cwc(p1.col).toFloat(), chr(p1.row).toFloat(), cwc(p2.col).toFloat(), chr(p2.row).toFloat(), linePaint)
         }
         if (isInEditMode) return
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 if (game.getPositionState(r, c) == HintState.Complete)
                     canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, markerPaint)
                 val ch = game.getObject(r, c)
@@ -57,9 +57,9 @@ class SnailGameView(context: Context, val soundManager: SoundManager) : CellsGam
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
         textPaint.color = Color.RED
-        for (r in 0 until rows)
+        for (r in 0..<rows)
             if (game.row2state(r) == HintState.Error) drawTextCentered("123", cwc(cols), chr(r), canvas, textPaint)
-        for (c in 0 until cols)
+        for (c in 0..<cols)
             if (game.col2state(c) == HintState.Error) drawTextCentered("123", cwc(c), chr(rows), canvas, textPaint)
     }
 

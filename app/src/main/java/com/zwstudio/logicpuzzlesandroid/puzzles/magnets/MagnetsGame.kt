@@ -20,9 +20,9 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
         size = Position(layout.size - 2, layout[0].length - 2)
         row2hint = IntArray(rows * 2) { PUZ_UNKNOWN }
         col2hint = IntArray(cols * 2) { PUZ_UNKNOWN }
-        for (r in 0 until rows + 2) {
+        for (r in 0..<rows + 2) {
             val str = layout[r]
-            for (c in 0 until cols + 2) {
+            for (c in 0..<cols + 2) {
                 val p2 = Position(r, c)
                 when (val ch = str[c]) {
                     '.' -> {

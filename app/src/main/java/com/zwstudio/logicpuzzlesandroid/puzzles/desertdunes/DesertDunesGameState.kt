@@ -64,21 +64,21 @@ class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == DesertDunesObject.Forbidden)
                     this[r, c] = DesertDunesObject.Empty
         // 5. No area of desert of 2x2 should be empty of Dunes.
         invalid2x2Squares.clear()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val isEmptyOfDunes = DesertDunesGame.offset2.map { p + it }.all { this[it] != DesertDunesObject.Dune }
                 if (isEmptyOfDunes) { invalid2x2Squares.add(p + Position.SouthEast); isSolved = false }
             }
         // 4. Dunes cannot touch each other horizontally or vertically.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != DesertDunesObject.Dune) continue
                 for (os in DesertDunesGame.offset) {
@@ -96,20 +96,19 @@ class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGa
         //    horizontally or vertically.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == DesertDunesObject.Dune) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in GardenerGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         g.rootNode = pos2node.values.first()
         val nodeList = g.bfs()
         if (nodeList.size != pos2node.size) isSolved = false

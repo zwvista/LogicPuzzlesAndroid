@@ -1,5 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.abstractmirrorpainting
 
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -10,7 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class AbstractMirrorPaintingGameState(game: AbstractMirrorPaintingGame) : CellsGameState<AbstractMirrorPaintingGame, AbstractMirrorPaintingGameMove, AbstractMirrorPaintingGameState>(game) {
     var objArray = Array(rows * cols) { AbstractMirrorPaintingObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    var pos2stateHint = mutableMapOf<Position, HintState>()
+    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -23,19 +25,16 @@ class AbstractMirrorPaintingGameState(game: AbstractMirrorPaintingGame) : CellsG
 
     override fun setObject(move: AbstractMirrorPaintingGameMove): GameOperationType {
         val p = move.p
-        val o = move.obj
-        if (!isValid(p) || this[p] == o) return GameOperationType.Invalid
-        this[p] = o
-        for (p2 in game.areas[game.pos2area[p]!!])
-            this[p2] = o
+        if (!isValid(p) || this[p] == move.obj) return GameOperationType.Invalid
+        this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
 
     override fun switchObject(move: AbstractMirrorPaintingGameMove): GameOperationType {
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         val p = move.p
         if (!isValid(p)) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
             AbstractMirrorPaintingObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) AbstractMirrorPaintingObject.Marker else AbstractMirrorPaintingObject.Painted
             AbstractMirrorPaintingObject.Painted -> if (markerOption == MarkerOptions.MarkerLast) AbstractMirrorPaintingObject.Marker else AbstractMirrorPaintingObject.Empty
@@ -61,46 +60,30 @@ class AbstractMirrorPaintingGameState(game: AbstractMirrorPaintingGame) : CellsG
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
-                if (this[r, c] == AbstractMirrorPaintingObject.Forbidden)
-                    this[r, c] = AbstractMirrorPaintingObject.Empty
-        // 2. A number indicates how many painted tiles are adjacent to it.
-        for ((p, n2) in game.pos2hint) {
-            val rng = mutableListOf<Position>()
-            var n1 = 0
-            for (os in AbstractMirrorPaintingGame.offset) {
-                val p2 = p + os
-                if (!isValid(p2)) continue
-                val o = this[p2]
-                if (o == AbstractMirrorPaintingObject.Painted)
-                    n1++
-                else if (o == AbstractMirrorPaintingObject.Empty)
-                    rng.add(p2)
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
+                val p = Position(r, c)
+                pos2stateAllowed[p] = AllowedObjectState.Normal
+                if (this[p] == AbstractMirrorPaintingObject.Forbidden)
+                    this[p] = AbstractMirrorPaintingObject.Empty
             }
+        // 3. Numbers tell you how many tiles in that region are painted.
+        for ((p, n2) in game.pos2hint) {
+            val area = game.areas[game.pos2area[p]!!]
+            val n1 = area.count { this[it] == AbstractMirrorPaintingObject.Painted }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-            pos2state[p] = s
+            pos2stateHint[p] = s
             if (s != HintState.Complete)
                 isSolved = false
-            else if (allowedObjectsOnly)
-                for (p2 in rng)
+            if (allowedObjectsOnly && s != HintState.Normal)
+                for (p2 in area)
                     this[p2] = AbstractMirrorPaintingObject.Forbidden
         }
-        // 4. There can't be any 2*2 area of the same color(painted or empty).
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
-                val p = Position(r, c)
-                if (AbstractMirrorPaintingGame.offset3.all { this[p + it] == AbstractMirrorPaintingObject.Painted } ||
-                    AbstractMirrorPaintingGame.offset3.all { this[p + it] == AbstractMirrorPaintingObject.Empty }) {
-                    isSolved = false
-                    return
-                }
-            }
-        if (!isSolved) return
+        // 2. A number indicates how many painted tiles are adjacent to it.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == AbstractMirrorPaintingObject.Painted) {
                     val node = Node(p.toString())
@@ -108,16 +91,17 @@ class AbstractMirrorPaintingGameState(game: AbstractMirrorPaintingGame) : CellsG
                     pos2node[p] = node
                 }
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in AbstractMirrorPaintingGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        // 3. The painted tiles form an orthogonally continuous area, like a
-        // Nurikabe.
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
+        while (pos2node.isNotEmpty()) {
+            g.rootNode = pos2node.values.first()
+            val nodeList = g.bfs()
+            val painting = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
+            for (p in painting)
+                pos2node.remove(p)
+        }
     }
 }

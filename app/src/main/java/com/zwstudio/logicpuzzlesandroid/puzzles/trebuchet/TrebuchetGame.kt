@@ -15,9 +15,9 @@ class TrebuchetGame(layout: List<String>, gi: GameInterface<TrebuchetGame, Trebu
 
     init {
         size = Position(layout.size, layout[0].length)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch != ' ')
@@ -27,7 +27,7 @@ class TrebuchetGame(layout: List<String>, gi: GameInterface<TrebuchetGame, Trebu
         for ((p, hint) in pos2hint)
             pos2targets[p] = offset.map { os ->
                 var p2 = p
-                for (i in 0 until hint)
+                for (i in 0..<hint)
                     p2 += os
                 p2
             }.filter { isValid(it) }.toList()

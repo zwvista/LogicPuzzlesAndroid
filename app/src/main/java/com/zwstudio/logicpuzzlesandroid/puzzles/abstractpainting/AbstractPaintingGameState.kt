@@ -59,14 +59,14 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == AbstractPaintingObject.Forbidden)
                     this[r, c] = AbstractPaintingObject.Empty
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             val n2 = game.row2hint[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c] == AbstractPaintingObject.Painting)
                     n1++
             // 2. Outer numbers tell how many tiles form the painting on the row.
@@ -74,10 +74,10 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
             val n2 = game.col2hint[c]
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c] == AbstractPaintingObject.Painting)
                     n1++
             // 2. Outer numbers tell how many tiles form the painting on the column.
@@ -85,8 +85,8 @@ class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<Abs
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val o = this[r, c]
                 if ((o == AbstractPaintingObject.Empty || o == AbstractPaintingObject.Marker) &&
                         allowedObjectsOnly && (row2state[r] != HintState.Normal && game.row2hint[r] != -1 ||

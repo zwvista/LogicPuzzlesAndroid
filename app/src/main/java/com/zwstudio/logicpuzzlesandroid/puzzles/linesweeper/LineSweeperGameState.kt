@@ -68,8 +68,8 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            loop@ for (c in 0 until cols) {
+        for (r in 0..<rows)
+            loop@ for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it }.size
                 when (n) {
@@ -86,12 +86,12 @@ class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGa
                     }
                 }
             }
-        for (p in pos2node.keys) {
+        for ((p, node) in pos2node) {
             val o = get(p)
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (!o[i]) continue
                 val p2 = p + LineSweeperGame.offset[i * 2]
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                g.connectNode(node, pos2node[p2]!!)
             }
         }
         // 1. Draw a single closed looping path that never crosses itself or branches off.

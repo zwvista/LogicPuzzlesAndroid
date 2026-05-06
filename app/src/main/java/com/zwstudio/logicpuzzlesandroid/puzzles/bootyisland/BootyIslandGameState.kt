@@ -69,8 +69,8 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == BootyIslandObject.Forbidden)
@@ -79,8 +79,8 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
                     pos2stateAllowed[p] = AllowedObjectState.Normal
             }
         // 4. Pirates don't bury their Treasures touching each other, even diagonally.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 fun hasNeighbor(): Boolean =
                     BootyIslandGame.offset.any {
@@ -97,13 +97,13 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
             }
         val n2 = game.treasuresInEachArea
         // 2. In fact there's only one Treasure for each row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 if (this[r, c] == BootyIslandObject.Treasure)
                     n1++
             if (n1 != n2) isSolved = false
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == BootyIslandObject.Treasure)
@@ -113,13 +113,13 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
             }
         }
         // 2. In fact there's only one Treasure for each column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n1 = 0
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 if (this[r, c] == BootyIslandObject.Treasure)
                     n1++
             if (n1 != n2) isSolved = false
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == BootyIslandObject.Treasure)
@@ -134,7 +134,7 @@ class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGa
         for ((p, n2) in game.pos2hint) {
             fun f(): HintState {
                 var possible = false
-                next@ for (i in 0 until 4) {
+                next@ for (i in 0..<4) {
                     val os = BootyIslandGame.offset[i * 2]
                     var n1 = 1
                     var possible2 = false

@@ -25,9 +25,9 @@ class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBatt
         objArray = IntArray(rows * cols)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
-        for (r in 0 until rows + 1) {
+        for (r in 0..<rows + 1) {
             var str = layout[r]
-            for (c in 0 until cols + 1) {
+            for (c in 0..<cols + 1) {
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue
                 val n = s.trim(' ').toInt()

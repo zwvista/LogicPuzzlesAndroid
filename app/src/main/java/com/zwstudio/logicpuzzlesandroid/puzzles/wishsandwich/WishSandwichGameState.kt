@@ -59,8 +59,8 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
                     WishSandwichObject.Forbidden ->
@@ -70,10 +70,10 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
                     else -> {}
                 }
             }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val breads = mutableListOf<Position>()
             val hams = mutableListOf<Position>()
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
                     WishSandwichObject.Bread -> breads.add(p)
@@ -100,15 +100,15 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
                 row2state[r] = s
                 if (s != HintState.Complete) isSolved = false
                 if (allowedObjectsOnly && hams.size == rows - 3)
-                    (0 until cols).filter { this[r, it] == WishSandwichObject.Empty }.forEach {
+                    (0..<cols).filter { this[r, it] == WishSandwichObject.Empty }.forEach {
                         this[r, it] = WishSandwichObject.Forbidden
                     }
             }
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val breads = mutableListOf<Position>()
             val hams = mutableListOf<Position>()
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 when (this[p]) {
                     WishSandwichObject.Bread -> breads.add(p)
@@ -135,7 +135,7 @@ class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwic
                 col2state[c] = s
                 if (s != HintState.Complete) isSolved = false
                 if (allowedObjectsOnly && hams.size == rows - 3)
-                    (0 until rows).filter { this[it, c] == WishSandwichObject.Empty }.forEach {
+                    (0..<rows).filter { this[it, c] == WishSandwichObject.Empty }.forEach {
                         this[it, c] = WishSandwichObject.Forbidden
                     }
             }

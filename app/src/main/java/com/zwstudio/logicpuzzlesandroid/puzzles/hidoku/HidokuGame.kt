@@ -25,19 +25,19 @@ class HidokuGame(layout: List<String>, gi: GameInterface<HidokuGame, HidokuGameM
         size = Position(layout.size, layout[0].length / 3)
         maxNum = rows * cols
         objArray = IntArray(maxNum)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val s = str.substring(c * 3, c * 3 + 3)
                 this[p] = if (s == "   ") 0 else s.trim(' ').toInt()
             }
         }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val range = mutableListOf<Position>()
-                for (i in 0 until 8) {
+                for (i in 0..<8) {
                     val os = offset[i]
                     var p2 = p + os
                     while (isValid(p2)) {

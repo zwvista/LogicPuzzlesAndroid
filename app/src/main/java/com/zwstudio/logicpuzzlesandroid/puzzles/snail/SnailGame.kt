@@ -23,9 +23,9 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols)
         Arrays.fill(objArray, ' ')
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c]
                 if (ch in '0'..'9')
                     this[r, c] = ch
@@ -34,8 +34,8 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         fun snailPath(n: Int): List<Position> {
             val path = mutableListOf<Position>()
             val rng = mutableSetOf<Position>()
-            for (r in 0 until n)
-                for (c in 0 until n)
+            for (r in 0..<n)
+                for (c in 0..<n)
                     rng.add(Position(r, c))
             var p = Position(0, -1)
             var dir = 1

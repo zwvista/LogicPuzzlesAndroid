@@ -64,27 +64,26 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == HiddenCloudsObject.Forbidden)
                     this[r, c] = HiddenCloudsObject.Empty
         // 2. Clouds have a square form (even of one single tile) and can't touch
         //    each other horizontally or vertically.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != HiddenCloudsObject.Cloud) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (p in pos2node.keys)
+        for ((p, node) in pos2node)
             for (os in CloudsGame.offset) {
                 val p2 = p + os
-                if (pos2node.containsKey(p2))
-                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()

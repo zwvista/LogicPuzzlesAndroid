@@ -71,14 +71,14 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 if (this[r, c] == GardenerObject.Forbidden)
                     this[r, c] = GardenerObject.Empty
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 fun hasNeighbor(): Boolean {
@@ -148,8 +148,8 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             }
             spaces.clear()
         }
-        for (r in 0 until rows) {
-            for (c in 0 until cols) {
+        for (r in 0..<rows) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == GardenerObject.Flower)
@@ -159,8 +159,8 @@ class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, Garde
             }
             checkSpaces(true)
         }
-        for (c in 0 until cols) {
-            for (r in 0 until rows) {
+        for (c in 0..<cols) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == GardenerObject.Flower)

@@ -65,8 +65,8 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 fun f(isWall: Boolean, n2: Int) {
@@ -99,8 +99,8 @@ class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSenti
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == WallSentinelsObject.Wall || o == WallSentinelsObject.HintWall) {

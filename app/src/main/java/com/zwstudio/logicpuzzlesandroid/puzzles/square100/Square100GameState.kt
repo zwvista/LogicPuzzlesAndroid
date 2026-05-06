@@ -69,18 +69,18 @@ class Square100GameState(game: Square100Game) : CellsGameState<Square100Game, Sq
         }
         // 2. You have to add digits to some (or all) tiles, in order to produce
         // the sum of 100 for every row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n = 0
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 n += f(r, c)
             row2hint[r] = n
             if (n != 100) isSolved = false
         }
         // 2. You have to add digits to some (or all) tiles, in order to produce
         // the sum of 100 for every column.
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             var n = 0
-            for (r in 0 until rows)
+            for (r in 0..<rows)
                 n += f(r, c)
             col2hint[c] = n
             if (n != 100) isSolved = false

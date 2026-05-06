@@ -24,9 +24,9 @@ class TheGreyLabyrinthGame(layout: List<String>, gi: GameInterface<TheGreyLabyri
     init {
         size = Position(layout.size, layout[0].length)
         objArray = Array(rows * cols) { TheGreyLabyrinthObject.Empty }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (str[c] == 'S') {
                     this[p] = TheGreyLabyrinthObject.SignPost
@@ -36,12 +36,12 @@ class TheGreyLabyrinthGame(layout: List<String>, gi: GameInterface<TheGreyLabyri
         }
         val os0 = Position.Zero
         val sz = signposts.size
-        for (i in 0 until sz - 1) {
+        for (i in 0..<sz - 1) {
             val p1 = signposts[i]
-            for (j in i + 1 until sz) {
+            for (j in i + 1..<sz) {
                 val p2 = signposts[j]
                 val sz2 = if (p1.row == p2.row || p1.col == p2.col) 1 else 2
-                for (k in 0 until sz2) {
+                for (k in 0..<sz2) {
                     val path = mutableListOf<Position>()
                     if (run {
                         var p = p1

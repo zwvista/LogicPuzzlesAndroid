@@ -49,8 +49,8 @@ class TheCityRisesGameView(context: Context, val soundManager: SoundManager) : C
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
@@ -74,8 +74,8 @@ class TheCityRisesGameView(context: Context, val soundManager: SoundManager) : C
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
-        for (r in 0 until rows + 1)
-            for (c in 0 until cols + 1) {
+        for (r in 0..<rows + 1)
+            for (c in 0..<cols + 1) {
                 if (game.dots[r, c, 1] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r).toFloat(), linePaint)
                 if (game.dots[r, c, 2] == GridLineObject.Line)

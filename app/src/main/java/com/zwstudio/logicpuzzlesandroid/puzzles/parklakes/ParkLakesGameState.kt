@@ -67,8 +67,8 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         isSolved = true
         var g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == ParkLakesObject.Lake) {
@@ -79,12 +79,11 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
                 } else if (o == ParkLakesObject.Hint)
                     pos2stateHint[p] = HintState.Normal
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in TierraDelFuegoGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {
@@ -128,8 +127,8 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             if (s != HintState.Complete) isSolved = false
         }
         g = Graph()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] != ParkLakesObject.Lake) {
                     val node = Node(p.toString())
@@ -140,8 +139,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
         for ((p, node) in pos2node)
             for (os in TierraDelFuegoGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2] ?: continue
-                g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         // 5. All the land tiles are connected horizontally or vertically.
         g.rootNode = pos2node.values.first()

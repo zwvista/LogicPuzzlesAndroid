@@ -55,13 +55,13 @@ class InbetweenSumscrapersGameState(game: InbetweenSumscrapersGame) : CellsGameS
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = AllowedObjectState.Normal
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val skyscrapers = mutableListOf<Position>()
             val num2rng = mutableMapOf<Int, MutableList<Position>>()
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (val n = this[p]) {
                     InbetweenSumscrapersGame.PUZ_SKYSCRAPER -> skyscrapers.add(p)
@@ -87,15 +87,15 @@ class InbetweenSumscrapersGameState(game: InbetweenSumscrapersGame) : CellsGameS
             // 4. Numbers appear once in every row and column.
             // 5. Hints on the border give you the sums of the numbers between the skyscrapers.
             val s = if (n1 < 2) HintState.Normal else
-                if (n1 == 2 && n2 == (skyscrapers[0].col + 1 until skyscrapers[1].col).fold(0) {
+                if (n1 == 2 && n2 == (skyscrapers[0].col + 1..<skyscrapers[1].col).fold(0) {
                     acc, c -> acc + this[r, c] }) HintState.Complete else HintState.Error
             row2state[r] = s
             if (s != HintState.Complete) isSolved = false
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val skyscrapers = mutableListOf<Position>()
             val num2rng = mutableMapOf<Int, MutableList<Position>>()
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 when (val n = this[p]) {
                     InbetweenSumscrapersGame.PUZ_SKYSCRAPER -> skyscrapers.add(p)
@@ -121,7 +121,7 @@ class InbetweenSumscrapersGameState(game: InbetweenSumscrapersGame) : CellsGameS
             // 4. Numbers appear once in every row and column.
             // 5. Hints on the border give you the sums of the numbers between the skyscrapers.
             val s = if (n1 < 2) HintState.Normal else
-                if (n1 == 2 && n2 == (skyscrapers[0].row + 1 until skyscrapers[1].row).fold(0) {
+                if (n1 == 2 && n2 == (skyscrapers[0].row + 1..<skyscrapers[1].row).fold(0) {
                     acc, r -> acc + this[r, c] }) HintState.Complete else HintState.Error
             col2state[c] = s
             if (s != HintState.Complete) isSolved = false

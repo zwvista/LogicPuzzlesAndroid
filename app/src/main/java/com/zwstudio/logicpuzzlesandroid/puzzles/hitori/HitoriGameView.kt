@@ -35,8 +35,8 @@ class HitoriGameView(context: Context, val soundManager: SoundManager) : CellsGa
 
     override fun onDraw(canvas: Canvas) {
         //        canvas.drawColor(Color.BLACK);
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val o = game.getObject(r, c)
@@ -53,11 +53,11 @@ class HitoriGameView(context: Context, val soundManager: SoundManager) : CellsGa
             }
         if (isInEditMode) return
         textPaint.color = Color.RED
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val text = game.getRowHint(r)
             drawTextCentered(text, cwc(cols), chr(r), canvas, textPaint)
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             val text = game.getColHint(c)
             drawTextCentered(text, cwc(c), chr(rows), canvas, textPaint)
         }

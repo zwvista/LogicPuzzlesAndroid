@@ -48,8 +48,8 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
         val pos2node = mutableMapOf<Position, Node>()
         val pStart = Position(0, 0)
         val pEnd = Position(rows - 1, cols - 1)
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it }.size
                 if (p == pStart || p == pEnd) {
@@ -77,13 +77,13 @@ class NumberPathGameState(game: NumberPathGame) : CellsGameState<NumberPathGame,
                 }
             }
         val nums = mutableSetOf<Int>()
-        for (p in pos2node.keys) {
+        for ((p, node) in pos2node) {
             val o = this[p]
             nums.add(game[p])
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (!o[i]) continue
                 val p2 = p + NumberPathGame.offset[i]
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                g.connectNode(node, pos2node[p2]!!)
             }
         }
         // 1. Connect the top left corner (1) to the bottom right corner (N), including

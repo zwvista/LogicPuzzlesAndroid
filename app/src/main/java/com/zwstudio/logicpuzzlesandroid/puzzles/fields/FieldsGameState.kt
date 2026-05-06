@@ -52,8 +52,8 @@ class FieldsGameState(game: FieldsGame) : CellsGameState<FieldsGame, FieldsGameM
         isSolved = true
         val meadows = mutableListOf<Position>()
         val soils = mutableListOf<Position>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2state[p] = AllowedObjectState.Normal
                 when (this[p]) {
@@ -63,8 +63,8 @@ class FieldsGameState(game: FieldsGame) : CellsGameState<FieldsGame, FieldsGameM
                 }
             }
         // 3. The path can't form 2x2 squares.
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val square = FieldsGame.offset2.map { p + it }
                 val objSet = square.map { this[it] }.toSet()
@@ -86,11 +86,10 @@ class FieldsGameState(game: FieldsGame) : CellsGameState<FieldsGame, FieldsGameM
                 g.addNode(node)
                 pos2node[p] = node
             }
-            for (p in pos2node.keys)
+            for ((p, node) in pos2node)
                 for (os in FieldsGame.offset) {
                     val p2 = p + os
-                    if (pos2node.containsKey(p2))
-                        g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                    pos2node[p2]?.let { g.connectNode(node, it) }
                 }
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()

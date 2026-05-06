@@ -20,9 +20,9 @@ class DisconnectFourGame(layout: List<String>, gi: GameInterface<DisconnectFourG
     init {
         size = Position(layout.size, layout[0].length)
         objArray = Array(rows * cols) { DisconnectFourObject.Empty }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var str = layout[r]
-            for (c in 0 until cols)
+            for (c in 0..<cols)
                 when (str[c]) {
                     'Y' -> this[r, c] = DisconnectFourObject.Yellow
                     'R' -> this[r, c] = DisconnectFourObject.Red

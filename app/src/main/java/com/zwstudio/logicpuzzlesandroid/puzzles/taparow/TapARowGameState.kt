@@ -90,7 +90,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             }
         }
         for ((p, arr2) in game.pos2hint) {
-            val filled = (0 until 8).filter {
+            val filled = (0..<8).filter {
                 val p2 = p + TapARowGame.offset[it]
                 isValid(p2) && this[p2] == TapARowObject.Wall
             }
@@ -102,8 +102,8 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         if (!isSolved) return
         // Filled tiles can't cover an area of 2*2 or larger (just like Nurikabe).
         // Tiles with numbers can be considered 'empty'.
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (TapARowGame.offset2.all {
                     val o = this[p + it]
@@ -115,8 +115,8 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
             }
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (this[p] == TapARowObject.Wall) {
                     val node = Node(p.toString())
@@ -137,10 +137,10 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
         // 2. The number also tells you the filled cell count for that row.
         // 3. In other words, the sum of the digits in that row equals the number
         // of that row.
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             var n1 = 0
             var n2 = 0
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = this[p]
                 if (o == TapARowObject.Wall)

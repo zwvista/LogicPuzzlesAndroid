@@ -17,14 +17,14 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
-    override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
+    override fun isValid(row: Int, col: Int) = row in 1..<size.row - 1 && col in 1..<size.col - 1
 
     init {
         size = Position(layout.size, layout[0].length)
         objArray = IntArray(rows * cols)
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c]
                 val n = if (ch == ' ') 0 else ch - '0'
                 this[r, c] = n

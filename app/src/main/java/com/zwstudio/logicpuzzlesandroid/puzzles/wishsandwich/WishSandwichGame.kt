@@ -17,9 +17,9 @@ class WishSandwichGame(layout: List<String>, gi: GameInterface<WishSandwichGame,
         size = Position(layout.size - 1, layout[0].length - 1)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
-        for (r in 0 until rows + 1) {
+        for (r in 0..<rows + 1) {
             var str = layout[r]
-            for (c in 0 until cols + 1) {
+            for (c in 0..<cols + 1) {
                 val isHintRow = r == rows
                 val isHintCol = c == cols
                 if (isHintRow == isHintCol) continue

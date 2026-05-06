@@ -29,7 +29,7 @@ class Graph {
 
     private fun getUnvisitedChildNode(n: Node): Node? {
         val index = nodes.indexOf(n)
-        for (j in 0 until size)
+        for (j in 0..<size)
             if (adjMatrix!![index][j] == 1 && !nodes[j].visited)
                 return nodes[j]
         return null
@@ -83,7 +83,7 @@ class Graph {
 
     //Utility methods for clearing visited property of node
     private fun clearNodes() {
-        for (i in 0 until size)
+        for (i in 0..<size)
             nodes[i].visited = false
     }
 

@@ -58,8 +58,8 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
         isSolved = true
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = get(p)
                 if (!(o == PondCampingObject.Forest || o == PondCampingObject.Hint)) {
@@ -69,13 +69,11 @@ class PondCampingGameState(game: PondCampingGame) : CellsGameState<PondCampingGa
                     pos2node[p] = node
                 }
             }
-        for ((p, node) in pos2node) {
+        for ((p, node) in pos2node)
             for (os in PondCampingGame.offset) {
                 val p2 = p + os
-                val node2 = pos2node[p2] ?: continue
-                g.connectNode(node, node2)
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
-        }
         val areas = mutableListOf<List<Position>>()
         val pos2area = mutableMapOf<Position, Int>()
         while (pos2node.isNotEmpty()) {

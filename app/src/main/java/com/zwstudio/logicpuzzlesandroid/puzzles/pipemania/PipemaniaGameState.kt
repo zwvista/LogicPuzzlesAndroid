@@ -63,8 +63,8 @@ class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, Pi
         // 1. The former contractor for your present client left the work unfinished.
         //    In order not to waste what has bee done, you should complete the pipe
         //    loop, using the pieces available.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 pos2dirs[p] = when (this[p]) {
                     PipemaniaObject.UpRight -> mutableListOf(0, 1)
@@ -79,8 +79,8 @@ class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, Pi
             }
         if (!isSolved) return
         // 2. Complete the board using all the tiles and form a single closed loop.
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val dirs = pos2dirs[p]!!
                 if (!dirs.all {

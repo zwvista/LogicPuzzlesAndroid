@@ -21,9 +21,9 @@ class MirrorsGame(layout: List<String>, gi: GameInterface<MirrorsGame, MirrorsGa
     init {
         size = Position(layout.size, layout[0].length)
         objArray = Array(rows * cols) { MirrorsObject.Empty }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             val str = layout[r]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 this[p] = when (str[c]) {
                     'O' -> MirrorsObject.Block

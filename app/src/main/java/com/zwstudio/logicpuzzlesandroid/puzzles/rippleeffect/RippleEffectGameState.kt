@@ -49,14 +49,14 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
     */
     private fun updateIsSolved() {
         isSolved = true
-        for (r in 0 until rows)
-            for (c in 0 until cols)
+        for (r in 0..<rows)
+            for (c in 0..<cols)
                 pos2state[Position(r, c)] = HintState.Normal
         val num2rng = mutableMapOf<Int, MutableList<Position>>()
         fun f(sameRow: Boolean) {
             for ((n, rng) in num2rng) {
                 val indexes = mutableSetOf<Int>()
-                for (i in 0 until rng.size - 1)
+                for (i in 0..<rng.size - 1)
                     if (if (sameRow) rng[i + 1].col - rng[i].col <= n else rng[i + 1].row - rng[i].row <= n) {
                     indexes.add(n)
                     indexes.add(n + 1)
@@ -67,9 +67,9 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
                         pos2state[rng[i]] = HintState.Error
             }
         }
-        for (r in 0 until rows) {
+        for (r in 0..<rows) {
             num2rng.clear()
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = get(p)
                 if (n == 0) {
@@ -82,9 +82,9 @@ class RippleEffectGameState(game: RippleEffectGame) : CellsGameState<RippleEffec
             }
             f(true)
         }
-        for (c in 0 until cols) {
+        for (c in 0..<cols) {
             num2rng.clear()
-            for (r in 0 until rows) {
+            for (r in 0..<rows) {
                 val p = Position(r, c)
                 val n = get(p)
                 if (n == 0) {

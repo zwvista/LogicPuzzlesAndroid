@@ -34,9 +34,9 @@ class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<Join
         dots = GridDots(rows + 1, cols + 1)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
-        for (r in 0 until rows + 1) {
+        for (r in 0..<rows + 1) {
             var str = layout[r * 2]
-            for (c in 0 until cols) {
+            for (c in 0..<cols) {
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
                     dots[r, c, 1] = GridLineObject.Line
@@ -45,7 +45,7 @@ class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<Join
             }
             str = layout[r * 2 + 1]
             if (r < rows) {
-                for (c in 0 until cols + 1) {
+                for (c in 0..<cols + 1) {
                     val ch = str[c * 2]
                     if (ch == '|') {
                         dots[r, c, 2] = GridLineObject.Line
@@ -55,7 +55,7 @@ class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<Join
                 val s = str.substring(cols * 2 + 1, cols * 2 + 3).trim()
                 row2hint[r] = if (s.isEmpty()) PUZ_UNKNOWN else s.toInt()
             } else {
-                for (c in 0 until cols) {
+                for (c in 0..<cols) {
                     val s = str.substring(c * 2, c * 2 + 2).trim()
                     col2hint[c] = if (s.isEmpty()) PUZ_UNKNOWN else s.toInt()
                 }
@@ -64,18 +64,18 @@ class JoinMeGame(layout: List<String>, val stitches: Int, gi: GameInterface<Join
         val rng = mutableSetOf<Position>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
-                for (i in 0 until 4)
+                for (i in 0..<4)
                     if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }

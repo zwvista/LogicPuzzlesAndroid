@@ -63,8 +63,8 @@ class PondsAndFlowerbedsGameState(game: PondsAndFlowerbedsGame) : CellsGameState
         isSolved = true
         ponds.clear()
         // 4. Each 2x2 area must contain at least a Hedge or a Pond.
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 if (PondsAndFlowerbedsGame.offset3.map { p + it }.all { p2 ->
                     game.hedges.contains(p2) ||ponds.any { it.contains(p2) }
@@ -76,17 +76,17 @@ class PondsAndFlowerbedsGameState(game: PondsAndFlowerbedsGame) : CellsGameState
         val pos2pond = mutableMapOf<Position, Int>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0 until rows - 1)
-            for (c in 0 until cols - 1) {
+        for (r in 0..<rows - 1)
+            for (c in 0..<cols - 1) {
                 val p = Position(r, c)
-                for (i in 0 until 4)
+                for (i in 0..<4)
                     if (this[p + PondsAndFlowerbedsGame.offset2[i]][PondsAndFlowerbedsGame.dirs[i]] != GridLineObject.Line)
                         g.connectNode(pos2node[p]!!, pos2node[p + PondsAndFlowerbedsGame.offset[i]]!!)
             }

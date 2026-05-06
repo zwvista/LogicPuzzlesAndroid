@@ -72,7 +72,7 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
         // vertically from there, including the cell itself.
         for ((p, n2) in game.pos2hint) {
             var n1 = -3
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 val os = FenceSentinelsGame.offset[i]
                 var p2 = +p
                 while (isValid(p2)) {
@@ -87,8 +87,8 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
         if (!isSolved) return
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0 until rows)
-            for (c in 0 until cols) {
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
                 val p = Position(r, c)
                 val n = this[p].filter { it == GridLineObject.Line }.size
                 when (n) {
@@ -104,12 +104,12 @@ class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSe
                     }
                 }
             }
-        for (p in pos2node.keys) {
+        for ((p, node) in pos2node) {
             val dotObj = this[p]
-            for (i in 0 until 4) {
+            for (i in 0..<4) {
                 if (dotObj[i] != GridLineObject.Line) continue
                 val p2 = p + FenceSentinelsGame.offset[i]
-                g.connectNode(pos2node[p]!!, pos2node[p2]!!)
+                g.connectNode(node, pos2node[p2]!!)
             }
         }
         // 1. The goal is to draw a single, uninterrupted, closed loop.
