@@ -11,7 +11,7 @@ class OnlyStraightsGame(layout: List<String>, gi: GameInterface<OnlyStraightsGam
         const val PUZ_TOWN = 'O'
     }
 
-    var objArray: MutableList<OnlyStraightsTown>
+    val objArray: MutableList<OnlyStraightsTown>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -22,7 +22,7 @@ class OnlyStraightsGame(layout: List<String>, gi: GameInterface<OnlyStraightsGam
         size = Position(layout.size, layout[0].length)
         objArray = MutableList(rows * cols) { OnlyStraightsTown.Empty }
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 this[p] = when (str[c]) {

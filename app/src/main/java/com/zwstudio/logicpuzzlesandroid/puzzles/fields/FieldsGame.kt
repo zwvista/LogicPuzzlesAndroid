@@ -11,7 +11,7 @@ class FieldsGame(layout: List<String>, gi: GameInterface<FieldsGame, FieldsGameM
         val offset2 = Position.Square2x2Offset
     }
 
-    var objArray: Array<FieldsObject>
+    val objArray: Array<FieldsObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

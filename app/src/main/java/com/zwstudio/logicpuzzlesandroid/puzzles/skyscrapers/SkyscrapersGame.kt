@@ -10,7 +10,7 @@ class SkyscrapersGame(layout: List<String>, gi: GameInterface<SkyscrapersGame, S
         val offset = Position.Directions4
     }
 
-    var objArray: IntArray
+    val objArray: IntArray
     fun intMax() = rows - 2
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

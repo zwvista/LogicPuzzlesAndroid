@@ -16,8 +16,8 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
         )
     }
 
-    var objArray: Array<CarpentersWallObject>
-    var pos2hint = mutableMapOf<Position, Int>()
+    val objArray: Array<CarpentersWallObject>
+    val pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -28,7 +28,7 @@ class CarpentersWallGame(layout: List<String>, gi: GameInterface<CarpentersWallG
         size = Position(layout.size, layout[0].length)
         objArray = Array(rows * cols) { CarpentersWallObject.Empty }
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]

@@ -10,8 +10,8 @@ class KakurasuGame(layout: List<String>, gi: GameInterface<KakurasuGame, Kakuras
         val offset = Position.Directions4
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
+    val row2hint: IntArray
+    val col2hint: IntArray
 
     override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
 

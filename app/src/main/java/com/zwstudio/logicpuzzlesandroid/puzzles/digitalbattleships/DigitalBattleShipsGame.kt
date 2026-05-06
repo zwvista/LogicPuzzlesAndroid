@@ -11,9 +11,9 @@ class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBatt
         val offset2 = Position.Directions8
     }
 
-    var objArray: IntArray
-    var row2hint: IntArray
-    var col2hint: IntArray
+    val objArray: IntArray
+    val row2hint: IntArray
+    val col2hint: IntArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -26,7 +26,7 @@ class DigitalBattleShipsGame(layout: List<String>, gi: GameInterface<DigitalBatt
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
         for (r in 0 until rows + 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols + 1) {
                 val s = str.substring(c * 2, c * 2 + 2)
                 if (s == "  ") continue

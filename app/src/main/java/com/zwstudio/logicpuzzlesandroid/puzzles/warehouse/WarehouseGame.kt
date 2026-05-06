@@ -15,14 +15,14 @@ class WarehouseGame(layout: List<String>, gi: GameInterface<WarehouseGame, Wareh
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         const val PUZ_HORZ = 'H'
         const val PUZ_VERT = 'V'
         const val PUZ_CROSS = '+'
     }
 
-    var objArray: MutableList<MutableList<GridLineObject>>
-    var pos2symbol = mutableMapOf<Position, Char>()
+    val objArray: MutableList<MutableList<GridLineObject>>
+    val pos2symbol = mutableMapOf<Position, Char>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

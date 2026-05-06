@@ -10,7 +10,7 @@ class HitoriGame(layout: List<String>, gi: GameInterface<HitoriGame, HitoriGameM
         val offset = Position.Directions4
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

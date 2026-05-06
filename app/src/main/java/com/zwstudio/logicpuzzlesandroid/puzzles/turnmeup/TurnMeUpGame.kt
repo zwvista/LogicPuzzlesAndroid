@@ -11,7 +11,7 @@ class TurnMeUpGame(layout: List<String>, gi: GameInterface<TurnMeUpGame, TurnMeU
         const val PUZ_QM = '?'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

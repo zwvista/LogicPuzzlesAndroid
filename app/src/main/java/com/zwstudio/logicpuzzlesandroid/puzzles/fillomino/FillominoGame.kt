@@ -14,11 +14,11 @@ class FillominoGame(layout: List<String>, gi: GameInterface<FillominoGame, Fillo
             Position(1, 0),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 2, 1, 2)
+        val dirs = intArrayOf(1, 2, 1, 2)
     }
 
-    var chMax: Char
-    var objArray: CharArray
+    val chMax: Char
+    val objArray: CharArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

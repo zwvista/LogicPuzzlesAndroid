@@ -12,7 +12,7 @@ class YalooniqGame(layout: List<String>, gi: GameInterface<YalooniqGame, Yalooni
         const val PUZ_DIR_SQUARE = -1
     }
 
-    var pos2hint = mutableMapOf<Position, YalooniqHint>()
+    val pos2hint = mutableMapOf<Position, YalooniqHint>()
 
     init {
         size = Position(layout.size, layout[0].length / 2)

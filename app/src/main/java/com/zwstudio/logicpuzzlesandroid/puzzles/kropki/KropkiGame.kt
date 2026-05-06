@@ -18,15 +18,15 @@ class KropkiGame(layout: List<String>, bordered: Boolean, gi: GameInterface<Krop
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var pos2horzHint = mutableMapOf<Position, KropkiHint>()
-    var pos2vertHint = mutableMapOf<Position, KropkiHint>()
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
+    val pos2horzHint = mutableMapOf<Position, KropkiHint>()
+    val pos2vertHint = mutableMapOf<Position, KropkiHint>()
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
     var dots: GridDots? = null
-    var bordered: Boolean
+    val bordered: Boolean
 
     init {
         size = Position(if (bordered) layout.size / 4 else layout.size / 2 + 1, layout[0].length)

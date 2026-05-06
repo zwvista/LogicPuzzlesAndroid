@@ -14,7 +14,7 @@ class TennerGridGame(layout: List<String>, gi: GameInterface<TennerGridGame, Ten
         )
     }
 
-    var objArray: IntArray
+    val objArray: IntArray
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj }

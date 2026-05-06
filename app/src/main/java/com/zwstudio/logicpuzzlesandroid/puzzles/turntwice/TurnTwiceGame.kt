@@ -11,10 +11,10 @@ class TurnTwiceGame(layout: List<String>, gi: GameInterface<TurnTwiceGame, TurnT
         val offset = Position.Directions4
     }
 
-    var objArray: Array<TurnTwiceObject>
+    val objArray: Array<TurnTwiceObject>
     val signposts = mutableListOf<Position>()
     // two signposts and the shortest path between them
-    var paths = mutableListOf<Triple<Position, Position, List<Position>>>()
+    val paths = mutableListOf<Triple<Position, Position, List<Position>>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -42,7 +42,7 @@ class TurnTwiceGame(layout: List<String>, gi: GameInterface<TurnTwiceGame, TurnT
                 val p2 = signposts[j]
                 val sz2 = if (p1.row == p2.row || p1.col == p2.col) 1 else 2
                 for (k in 0 until sz2) {
-                    var path = mutableListOf<Position>()
+                    val path = mutableListOf<Position>()
                     if (run {
                         var p = p1
                         while (true) {

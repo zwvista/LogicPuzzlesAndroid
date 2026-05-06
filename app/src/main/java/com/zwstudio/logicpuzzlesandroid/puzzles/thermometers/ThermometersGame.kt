@@ -12,10 +12,10 @@ class ThermometersGame(layout: List<String>, gi: GameInterface<ThermometersGame,
         const val parts = "URDLurdl|-"
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
-    var objArray: CharArray
-    var thermometers = mutableListOf<MutableList<Position>>()
+    val row2hint: IntArray
+    val col2hint: IntArray
+    val objArray: CharArray
+    val thermometers = mutableListOf<MutableList<Position>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -28,7 +28,7 @@ class ThermometersGame(layout: List<String>, gi: GameInterface<ThermometersGame,
         col2hint = IntArray(cols)
         objArray = CharArray(rows * cols)
         for (r in 0 until rows + 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols + 1) {
                 val p = Position(r, c)
                 val ch = str[c]

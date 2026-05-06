@@ -11,7 +11,7 @@ class RunInALoopGame(layout: List<String>, gi: GameInterface<RunInALoopGame, Run
         const val PUZ_BLOCK = 'B'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

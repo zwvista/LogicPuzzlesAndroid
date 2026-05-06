@@ -11,7 +11,7 @@ class TraceNumbersGame(layout: List<String>, gi: GameInterface<TraceNumbersGame,
         const val PUZ_ONE = '1'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
     var chMax = PUZ_ONE
     var expectedChars = PUZ_ONE.toString()
 
@@ -24,7 +24,7 @@ class TraceNumbersGame(layout: List<String>, gi: GameInterface<TraceNumbersGame,
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols)
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val ch = str[c]
                 this[r, c] = ch

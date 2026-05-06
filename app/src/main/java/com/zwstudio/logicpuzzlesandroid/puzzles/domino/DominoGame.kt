@@ -15,10 +15,10 @@ class DominoGame(layout: List<String>, gi: GameInterface<DominoGame, DominoGameM
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var objArray: Array<Array<GridLineObject>>
+    val objArray: Array<Array<GridLineObject>>
     val pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

@@ -18,7 +18,7 @@ class CrossroadsXGame(layout: List<String>, val sum: Int, gi: GameInterface<Cros
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = arrayOf(
             Position(-1, -1),
             Position(-1, 0),
@@ -28,12 +28,12 @@ class CrossroadsXGame(layout: List<String>, val sum: Int, gi: GameInterface<Cros
         const val PUZ_EMPTY = -1
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
     val area2areas: Array<IntArray>
-    var objArray: IntArray
-    var crossroads = mutableListOf<Position>()
+    val objArray: IntArray
+    val crossroads = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -8,10 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class TheMagicNumberGame(layout: List<String>, gi: GameInterface<TheMagicNumberGame, TheMagicNumberGameMove, TheMagicNumberGameState>, gdi: GameDocumentInterface) : CellsGame<TheMagicNumberGame, TheMagicNumberGameMove, TheMagicNumberGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        var chars = " ABC"
+        val chars = " ABC"
     }
 
-    var objArray: Array<TheMagicNumberObject>
+    val objArray: Array<TheMagicNumberObject>
     val shaded = mutableListOf<Position>()
     val symbolCountPerRowCol: Int
 
@@ -25,7 +25,7 @@ class TheMagicNumberGame(layout: List<String>, gi: GameInterface<TheMagicNumberG
         objArray = Array(rows * cols) { TheMagicNumberObject.Empty }
         symbolCountPerRowCol = rows / 3
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]

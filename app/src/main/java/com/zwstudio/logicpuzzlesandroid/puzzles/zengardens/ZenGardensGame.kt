@@ -20,13 +20,13 @@ class ZenGardensGame(layout: List<String>, gi: GameInterface<ZenGardensGame, Zen
             Position(0, 0)
         )
         val offset3 = Position.Directions8
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var objArray: Array<ZenGardensObject>
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
+    val objArray: Array<ZenGardensObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

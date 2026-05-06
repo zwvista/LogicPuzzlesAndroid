@@ -15,11 +15,11 @@ class DirectionalPlanksGame(layout: List<String>, gi: GameInterface<DirectionalP
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var objArray: MutableList<MutableList<GridLineObject>>
-    var pos2hint = mutableMapOf<Position, Int>()
+    val objArray: MutableList<MutableList<GridLineObject>>
+    val pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -28,7 +28,7 @@ class DirectionalPlanksGame(layout: List<String>, gi: GameInterface<DirectionalP
         size = Position(layout.size + 1, layout[0].length + 1)
         objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
         for (r in 0 until rows - 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]

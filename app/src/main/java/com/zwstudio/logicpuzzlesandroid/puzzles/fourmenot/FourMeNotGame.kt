@@ -10,7 +10,7 @@ class FourMeNotGame(layout: List<String>, gi: GameInterface<FourMeNotGame, FourM
         val offset = Position.Directions4
     }
 
-    var objArray: Array<FourMeNotObject>
+    val objArray: Array<FourMeNotObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

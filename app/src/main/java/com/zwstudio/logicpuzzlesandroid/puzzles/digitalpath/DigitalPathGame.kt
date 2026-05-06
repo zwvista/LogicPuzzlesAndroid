@@ -18,17 +18,17 @@ class DigitalPathGame(layout: List<String>, gi: GameInterface<DigitalPathGame, D
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
         const val PUZ_EMPTY = 0
         const val PUZ_MARKER = -1
         const val PUZ_FORBIDDEN = -2
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var objArray: IntArray
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
+    val objArray: IntArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

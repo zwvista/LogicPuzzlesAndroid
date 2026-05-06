@@ -15,13 +15,13 @@ class PondsAndFlowerbedsGame(layout: List<String>, gi: GameInterface<PondsAndFlo
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
         const val PUZ_FLOWER = '*'
         const val PUZ_HEDGE = '.'
     }
 
-    var objArray: MutableList<MutableList<GridLineObject>>
+    val objArray: MutableList<MutableList<GridLineObject>>
     val flowers = mutableListOf<Position>()
     val hedges = mutableSetOf<Position>()
 
@@ -32,7 +32,7 @@ class PondsAndFlowerbedsGame(layout: List<String>, gi: GameInterface<PondsAndFlo
         size = Position(layout.size + 1, layout[0].length + 1)
         objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
         for (r in 0 until rows - 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]

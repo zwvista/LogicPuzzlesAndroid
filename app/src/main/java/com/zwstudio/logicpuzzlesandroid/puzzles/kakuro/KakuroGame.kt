@@ -10,9 +10,9 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
         val offset = Position.Directions4
     }
 
-    var pos2horzHint = mutableMapOf<Position, Int>()
-    var pos2vertHint = mutableMapOf<Position, Int>()
-    var pos2num = mutableMapOf<Position, Int>()
+    val pos2horzHint = mutableMapOf<Position, Int>()
+    val pos2vertHint = mutableMapOf<Position, Int>()
+    val pos2num = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length / 4)

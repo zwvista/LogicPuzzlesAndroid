@@ -13,7 +13,7 @@ class ShopAndGasGame(layout: List<String>, gi: GameInterface<ShopAndGasGame, Sho
         const val PUZ_GAS = 'G'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
     var home = Position.Zero
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

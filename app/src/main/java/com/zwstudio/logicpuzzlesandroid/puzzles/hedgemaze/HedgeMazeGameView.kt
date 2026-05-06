@@ -6,10 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
@@ -23,27 +20,28 @@ class HedgeMazeGameView(context: Context, val soundManager: SoundManager) : Cell
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
+    private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val linePaint = Paint()
-    private val fixedPaint = Paint()
-    private val dUp: Drawable
-    private val dRight: Drawable
-    private val dDown: Drawable
-    private val dLeft: Drawable
-    private val dHedgeMaze: Drawable
+    private val dGate: Drawable
+    private val dStep: Drawable
+    private val dFountain: Drawable
+    private val dHedge: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
+        markerPaint.color = Color.WHITE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         linePaint.color = Color.YELLOW
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        fixedPaint.color = Color.WHITE
-        fixedPaint.style = Paint.Style.STROKE
-        dUp = fromImageToDrawable("images/arrow_bw_up.png")
-        dRight = fromImageToDrawable("images/arrow_bw_right.png")
-        dDown = fromImageToDrawable("images/arrow_bw_down.png")
-        dLeft = fromImageToDrawable("images/arrow_bw_left.png")
-        dHedgeMaze = fromImageToDrawable("images/rome.png")
+        dGate = fromImageToDrawable("images/gates.png")
+        dStep = fromImageToDrawable("images/footstep.png")
+        dFountain = fromImageToDrawable("images/fountain.png")
+        dHedge = fromImageToDrawable("images/forest_lighter.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -53,21 +51,24 @@ class HedgeMazeGameView(context: Context, val soundManager: SoundManager) : Cell
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                if (o == HedgeMazeObject.Empty) continue
-                val dObject = when (o) {
-                    HedgeMazeObject.Up -> dUp
-                    HedgeMazeObject.Right -> dRight
-                    HedgeMazeObject.Down -> dDown
-                    HedgeMazeObject.Left -> dLeft
-                    else -> dHedgeMaze
+                when (val o = game.getObject(p)) {
+                    HedgeMazeObject.Empty -> {}
+                    HedgeMazeObject.Marker ->
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
+                    HedgeMazeObject.Forbidden ->
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
+                    else -> {
+                        val dObject = when (o) {
+                            HedgeMazeObject.Gate -> dGate
+                            HedgeMazeObject.Step -> dStep
+                            HedgeMazeObject.Fountain -> dFountain
+                            HedgeMazeObject.Hedge -> dHedge
+                            else -> continue
+                        }
+                        dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dObject.draw(canvas)
+                    }
                 }
-                dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0
-                dObject.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                dObject.draw(canvas)
-                if (game[p] != HedgeMazeObject.Empty)
-                    canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
             }
         for (r in 0 until rows + 1)
             for (c in 0 until cols + 1) {
@@ -76,6 +77,8 @@ class HedgeMazeGameView(context: Context, val soundManager: SoundManager) : Cell
                 if (game.dots[r, c, 2] == GridLineObject.Line)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c).toFloat(), chr(r + 1).toFloat(), linePaint)
             }
+        for ((r, c) in game.invalid2x2Squares())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

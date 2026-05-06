@@ -11,12 +11,12 @@ class LoopAndBlocksGame(layout: List<String>, gi: GameInterface<LoopAndBlocksGam
         const val PUZ_DIR_SQUARE = -1
     }
 
-    var pos2hint = mutableMapOf<Position, Int>()
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val ch = str[c]
                 if (ch != ' ')

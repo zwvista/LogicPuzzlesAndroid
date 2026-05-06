@@ -18,14 +18,16 @@ class HedgeMazeGame(layout: List<String>, gi: GameInterface<HedgeMazeGame, Hedge
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
-        var chars = " R^>v<"
+        val dirs = intArrayOf(1, 0, 3, 2)
+        val offset3 = Position.Square2x2Offset
+        val chars = " GSF"
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var objArray: Array<HedgeMazeObject>
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
+    val objArray: Array<HedgeMazeObject>
+    val iconlessAreas: List<Int>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -87,11 +89,12 @@ class HedgeMazeGame(layout: List<String>, gi: GameInterface<HedgeMazeGame, Hedge
             areas.add(area)
             rng.removeAll(area)
         }
+        iconlessAreas = areas.indices.filter { areas[it].all { this[it] == HedgeMazeObject.Empty } }
         val state = HedgeMazeGameState(this)
         levelInitialized(state)
     }
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun pos2state(p: Position) = currentState.pos2state[p]
+    fun invalid2x2Squares() = currentState.invalid2x2Squares
 }

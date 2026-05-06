@@ -15,11 +15,11 @@ class GalaxiesGame(layout: List<String>, gi: GameInterface<GalaxiesGame, Galaxie
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var objArray: Array<Array<GridLineObject>>
-    var galaxies = mutableSetOf<Position>()
+    val objArray: Array<Array<GridLineObject>>
+    val galaxies = mutableSetOf<Position>()
     
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

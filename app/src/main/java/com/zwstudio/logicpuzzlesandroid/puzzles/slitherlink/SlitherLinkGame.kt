@@ -14,7 +14,7 @@ class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, S
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
@@ -22,7 +22,7 @@ class SlitherLinkGame(layout: List<String>, gi: GameInterface<SlitherLinkGame, S
     init {
         size = Position(layout.size + 1, layout[0].length + 1)
         for (r in 0 until rows - 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 val ch = str[c]

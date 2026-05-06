@@ -11,8 +11,8 @@ class PowerGridGame(layout: List<String>, gi: GameInterface<PowerGridGame, Power
         const val PUZ_UNKNOWN = -1
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
+    val row2hint: IntArray
+    val col2hint: IntArray
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

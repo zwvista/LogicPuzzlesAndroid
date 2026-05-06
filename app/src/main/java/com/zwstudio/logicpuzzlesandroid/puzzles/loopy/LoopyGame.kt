@@ -11,7 +11,7 @@ class LoopyGame(layout: List<String>, gi: GameInterface<LoopyGame, LoopyGameMove
         val offset = Position.Directions4
     }
 
-    var objArray: Array<Array<GridLineObject>>
+    val objArray: Array<Array<GridLineObject>>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

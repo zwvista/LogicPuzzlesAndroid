@@ -10,8 +10,8 @@ class PointingGame(layout: List<String>, gi: GameInterface<PointingGame, Pointin
         val offset = Position.Directions8
     }
 
-    var objArray: IntArray
-    var arrow2rng = mutableMapOf<Position, List<Position>>()
+    val objArray: IntArray
+    val arrow2rng = mutableMapOf<Position, List<Position>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

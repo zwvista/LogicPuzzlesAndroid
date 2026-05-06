@@ -13,8 +13,8 @@ class SnakeominoGame(layout: List<String>, gi: GameInterface<SnakeominoGame, Sna
         const val PUZ_NOT_END = 'X'
     }
 
-    var objArray: IntArray
-    var pos2hint = mutableMapOf<Position, Char>()
+    val objArray: IntArray
+    val pos2hint = mutableMapOf<Position, Char>()
     var nMax = 2
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

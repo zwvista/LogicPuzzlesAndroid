@@ -10,7 +10,7 @@ class NumberCrosswordsGame(layout: List<String>, gi: GameInterface<NumberCrosswo
         val offset = Position.Directions4
     }
 
-    var objArray: IntArray
+    val objArray: IntArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -22,7 +22,7 @@ class NumberCrosswordsGame(layout: List<String>, gi: GameInterface<NumberCrosswo
         size = Position(layout.size, layout[0].length / 2)
         objArray = IntArray(rows * cols)
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val s = str.substring(c * 2, c * 2 + 2).trim(' ')
                 val n = if (s == "") 0 else s.toInt()

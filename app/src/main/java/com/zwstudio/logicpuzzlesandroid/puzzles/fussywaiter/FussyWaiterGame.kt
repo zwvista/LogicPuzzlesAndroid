@@ -10,7 +10,7 @@ class FussyWaiterGame(layout: List<String>, gi: GameInterface<FussyWaiterGame, F
         val offset = Position.Directions4
     }
 
-    var objArray: Array<FussyWaiterObject>
+    val objArray: Array<FussyWaiterObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -21,7 +21,7 @@ class FussyWaiterGame(layout: List<String>, gi: GameInterface<FussyWaiterGame, F
         size = Position(layout.size, layout[0].length / 2)
         objArray = Array(rows * cols) { FussyWaiterObject() }
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
                 this[r, c] = FussyWaiterObject(ch1, ch2)

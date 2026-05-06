@@ -10,7 +10,7 @@ class PipemaniaGame(layout: List<String>, gi: GameInterface<PipemaniaGame, Pipem
         val offset = Position.Directions4
     }
 
-    var objArray: Array<PipemaniaObject>
+    val objArray: Array<PipemaniaObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

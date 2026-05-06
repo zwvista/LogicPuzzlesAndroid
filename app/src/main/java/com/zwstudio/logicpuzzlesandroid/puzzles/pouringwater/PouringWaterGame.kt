@@ -18,15 +18,15 @@ class PouringWaterGame(layout: List<String>, gi: GameInterface<PouringWaterGame,
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         const val PUZ_UNKNOWN = -1
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var row2hint: IntArray
-    var col2hint: IntArray
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
+    val row2hint: IntArray
+    val col2hint: IntArray
 
     init {
         size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)

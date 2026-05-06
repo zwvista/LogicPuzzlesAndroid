@@ -12,7 +12,7 @@ class MasyuGame(layout: List<String>, gi: GameInterface<MasyuGame, MasyuGameMove
         const val PUZ_WHITE_PEARL = 'W'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

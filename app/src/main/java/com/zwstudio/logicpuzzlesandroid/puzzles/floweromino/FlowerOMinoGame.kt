@@ -16,12 +16,12 @@ class FlowerOMinoGame(layout: List<String>, gi: GameInterface<FlowerOMinoGame, F
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = arrayOf(1, 0, 3, 2)
+        val dirs = arrayOf(1, 0, 3, 2)
     }
 
-    var objArray: MutableList<FlowerOMinoObject>
-    var hedges = mutableListOf<Position>()
-    var dots: GridDots
+    val objArray: MutableList<FlowerOMinoObject>
+    val hedges = mutableListOf<Position>()
+    val dots: GridDots
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -33,7 +33,7 @@ class FlowerOMinoGame(layout: List<String>, gi: GameInterface<FlowerOMinoGame, F
         objArray = MutableList(rows * cols) { FlowerOMinoObject.Empty }
         dots = GridDots(rows, cols)
         for (r in 0 until rows - 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 this[p] = when (str[c]) {

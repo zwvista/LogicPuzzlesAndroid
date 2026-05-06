@@ -11,15 +11,15 @@ class IslandConnectionsGame(layout: List<String>, gi: GameInterface<IslandConnec
         const val PUZ_UNKNOWN = -1
     }
 
-    var islandsInfo = mutableMapOf<Position, IslandConnectionsIslandInfo>()
-    var shaded = mutableSetOf<Position>()
+    val islandsInfo = mutableMapOf<Position, IslandConnectionsIslandInfo>()
+    val shaded = mutableSetOf<Position>()
     fun isIsland(p: Position) = islandsInfo.containsKey(p)
     fun isShaded(p: Position) = shaded.contains(p)
 
     init {
         size = Position(layout.size * 2 - 1, layout[0].length * 2 - 1)
         for (r in 0 until rows step 2) {
-            val str = layout[r / 2]
+            var str = layout[r / 2]
             for (c in 0 until cols step 2) {
                 val p = Position(r, c)
                 when (val ch = str[c / 2]) {

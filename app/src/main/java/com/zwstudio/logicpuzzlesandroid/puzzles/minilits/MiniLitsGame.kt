@@ -21,13 +21,13 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
             Position(1, 1),
             Position(1, 1),
             Position(0, 0))
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = arrayOf(
             Position(0, 0),
             Position(0, 1),
             Position(1, 0),
             Position(1, 1))
-        var triominos = listOf(
+        val triominos = listOf(
             listOf(Position(0, 0), Position(0, 1), Position(1, 0)),
             listOf(Position(0, 0), Position(0, 1), Position(1, 1)),
             listOf(Position(0, 0), Position(1, 0), Position(1, 1)),
@@ -37,10 +37,10 @@ class MiniLitsGame(layout: List<String>, gi: GameInterface<MiniLitsGame, MiniLit
         )
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var treesInEachArea = 1
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
+    val treesInEachArea = 1
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)

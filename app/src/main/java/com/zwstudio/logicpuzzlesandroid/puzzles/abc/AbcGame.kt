@@ -12,7 +12,7 @@ class AbcGame(layout: List<String>, gi: GameInterface<AbcGame, AbcGameMove, AbcG
 
     override fun isValid(row: Int, col: Int) = row in 1 until size.row - 1 && col in 1 until size.col - 1
 
-    var objArray: CharArray
+    val objArray: CharArray
     var chMax = 'A'
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

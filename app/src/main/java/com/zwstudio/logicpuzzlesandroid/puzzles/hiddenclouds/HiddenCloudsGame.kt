@@ -22,7 +22,7 @@ class HiddenCloudsGame(layout: List<String>, gi: GameInterface<HiddenCloudsGame,
     init {
         size = Position(layout.size, layout[0].length)
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 val ch = str[c]

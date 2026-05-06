@@ -14,7 +14,7 @@ class CaffelatteGame(layout: List<String>, gi: GameInterface<CaffelatteGame, Caf
         const val PUZ_MILK = 'M'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
     var chMax = PUZ_ONE
     var expectedChars = PUZ_ONE.toString()
 

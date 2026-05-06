@@ -10,7 +10,7 @@ class BotanicalParkGame(layout: List<String>, val plantsInEachArea: Int, gi: Gam
         val offset = Position.Directions8
     }
 
-    var pos2arrow = mutableMapOf<Position, Int>()
+    val pos2arrow = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)

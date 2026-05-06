@@ -11,7 +11,7 @@ class NumberLinkGame(layout: List<String>, gi: GameInterface<NumberLinkGame, Num
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
-    var pos2rng = mutableMapOf<Int, MutableList<Position>>()
+    val pos2rng = mutableMapOf<Int, MutableList<Position>>()
 
     init {
         size = Position(layout.size, layout[0].length)

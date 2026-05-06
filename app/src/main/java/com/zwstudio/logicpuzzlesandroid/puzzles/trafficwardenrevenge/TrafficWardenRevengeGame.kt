@@ -20,7 +20,7 @@ class TrafficWardenRevengeGame(layout: List<String>, gi: GameInterface<TrafficWa
         size = Position(layout.size, layout[0].length / 2)
         for (r in 0 until rows) {
 
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
                 if (ch1 == ' ') continue

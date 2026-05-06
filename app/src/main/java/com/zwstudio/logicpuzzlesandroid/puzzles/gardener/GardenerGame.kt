@@ -18,12 +18,12 @@ class GardenerGame(layout: List<String>, gi: GameInterface<GardenerGame, Gardene
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
     val pos2hint = mutableMapOf<Position, Pair<Int, Int>>()
 
     init {

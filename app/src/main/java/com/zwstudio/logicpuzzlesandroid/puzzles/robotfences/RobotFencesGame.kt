@@ -18,18 +18,18 @@ class RobotFencesGame(layout: List<String>, gi: GameInterface<RobotFencesGame, R
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var objArray: IntArray
+    val objArray: IntArray
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Int) {objArray[row * cols + col] = obj}
     operator fun set(p: Position, obj: Int) {this[p.row, p.col] = obj}
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)

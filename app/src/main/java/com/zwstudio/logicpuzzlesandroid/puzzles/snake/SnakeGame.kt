@@ -10,9 +10,9 @@ class SnakeGame(layout: List<String>, gi: GameInterface<SnakeGame, SnakeGameMove
         val offset = Position.Directions4
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
-    var pos2snake = mutableListOf<Position>()
+    val row2hint: IntArray
+    val col2hint: IntArray
+    val pos2snake = mutableListOf<Position>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

@@ -12,12 +12,12 @@ class ZenSolitaireGame(layout: List<String>, gi: GameInterface<ZenSolitaireGame,
         const val PUZ_EMPTY = 0
     }
 
-    var stones = mutableListOf<Position>()
+    val stones = mutableListOf<Position>()
 
     init {
         size = Position(layout.size, layout[0].length)
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols)
                 if (str[c] != ' ')
                     stones.add(Position(r, c))

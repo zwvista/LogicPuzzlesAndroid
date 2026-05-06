@@ -10,7 +10,7 @@ class BentBridgesGame(layout: List<String>, gi: GameInterface<BentBridgesGame, B
         val offset = Position.Directions4
     }
 
-    var islandsInfo = mutableMapOf<Position, BentBridgesIslandInfo>()
+    val islandsInfo = mutableMapOf<Position, BentBridgesIslandInfo>()
     fun isIsland(p: Position) = islandsInfo.containsKey(p)
 
     init {

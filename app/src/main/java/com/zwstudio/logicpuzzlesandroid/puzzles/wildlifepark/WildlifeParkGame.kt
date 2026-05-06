@@ -15,11 +15,11 @@ class WildlifeParkGame(layout: List<String>, gi: GameInterface<WildlifeParkGame,
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         const val PUZ_POST = 'x'
     }
 
-    var objArray: MutableList<MutableList<GridLineObject>>
+    val objArray: MutableList<MutableList<GridLineObject>>
     val animals = mutableListOf<MutableList<Position>>()
     val posts = mutableListOf<Position>()
 

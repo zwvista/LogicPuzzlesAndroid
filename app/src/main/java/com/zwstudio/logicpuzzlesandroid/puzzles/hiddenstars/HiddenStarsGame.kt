@@ -11,16 +11,16 @@ class HiddenStarsGame(layout: List<String>, val onlyOneArrow: Boolean, gi: GameI
         val offset2 = Position.Directions8
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
-    var pos2arrow = mutableMapOf<Position, Int>()
+    val row2hint: IntArray
+    val col2hint: IntArray
+    val pos2arrow = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
         for (r in 0 until rows + 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols + 1) {
                 val p = Position(r, c)
                 val ch = str[c]

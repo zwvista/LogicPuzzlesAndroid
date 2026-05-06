@@ -12,9 +12,9 @@ class TentsGame(layout: List<String>, gi: GameInterface<TentsGame, TentsGameMove
         const val PUZ_UNKNOWN = -1
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
-    var trees = mutableListOf<Position>()
+    val row2hint: IntArray
+    val col2hint: IntArray
+    val trees = mutableListOf<Position>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

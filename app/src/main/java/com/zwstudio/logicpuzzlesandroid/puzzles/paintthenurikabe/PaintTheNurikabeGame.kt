@@ -18,14 +18,14 @@ class PaintTheNurikabeGame(layout: List<String>, gi: GameInterface<PaintTheNurik
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
 
     init {
         size = Position(layout.size / 2, layout[0].length / 2)

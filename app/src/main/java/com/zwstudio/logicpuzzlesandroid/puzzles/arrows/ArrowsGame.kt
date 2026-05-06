@@ -21,7 +21,7 @@ class ArrowsGame(layout: List<String>, gi: GameInterface<ArrowsGame, ArrowsGameM
                 col in 1 until cols - 1 && (row == 0 || row == rows - 1)
     }
 
-    var objArray: IntArray
+    val objArray: IntArray
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

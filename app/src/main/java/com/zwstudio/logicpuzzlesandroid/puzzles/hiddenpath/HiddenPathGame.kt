@@ -12,10 +12,10 @@ class HiddenPathGame(layout: List<String>, gi: GameInterface<HiddenPathGame, Hid
         const val PUZ_FORBIDDEN = -1
     }
 
-    var objArray: IntArray
+    val objArray: IntArray
     val pos2hint = mutableMapOf<Position, Int>()
-    var pos2range = mutableMapOf<Position, List<Position>>()
-    var maxNum: Int
+    val pos2range = mutableMapOf<Position, List<Position>>()
+    val maxNum: Int
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

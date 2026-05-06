@@ -15,13 +15,13 @@ class FencingSheepGame(layout: List<String>, gi: GameInterface<FencingSheepGame,
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         const val PUZ_POST = 'O'
         const val PUZ_SHEEP = 'S'
         const val PUZ_WOLF = 'W'
     }
 
-    var objArray: MutableList<MutableList<GridLineObject>>
+    val objArray: MutableList<MutableList<GridLineObject>>
     val wolves = mutableListOf<Position>()
     val sheep = mutableListOf<Position>()
     val posts = mutableListOf<Position>()

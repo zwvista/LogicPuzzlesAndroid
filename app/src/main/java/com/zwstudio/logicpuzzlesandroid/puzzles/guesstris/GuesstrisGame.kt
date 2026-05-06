@@ -15,13 +15,13 @@ class GuesstrisGame(layout: List<String>, gi: GameInterface<GuesstrisGame, Guess
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
         const val PUZ_SQUARE = 'S'
         const val PUZ_TRIANGLE = 'T'
         const val PUZ_CIRCLE = 'C'
         const val PUZ_DIAMOND = 'D'
-        var tetrominoes = listOf(
+        val tetrominoes = listOf(
             listOf(
                 listOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),
                 listOf(Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)),
@@ -54,7 +54,7 @@ class GuesstrisGame(layout: List<String>, gi: GameInterface<GuesstrisGame, Guess
         )
     }
 
-    var objArray: MutableList<MutableList<GridLineObject>>
+    val objArray: MutableList<MutableList<GridLineObject>>
     val pos2char = mutableMapOf<Position, Char>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

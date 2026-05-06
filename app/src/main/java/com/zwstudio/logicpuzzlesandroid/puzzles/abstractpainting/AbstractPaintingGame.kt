@@ -21,11 +21,11 @@ class AbstractPaintingGame(layout: List<String>, gi: GameInterface<AbstractPaint
         val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
+    val row2hint: IntArray
+    val col2hint: IntArray
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
 
     init {
         size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)

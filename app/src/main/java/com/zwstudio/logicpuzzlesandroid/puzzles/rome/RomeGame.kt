@@ -18,14 +18,14 @@ class RomeGame(layout: List<String>, gi: GameInterface<RomeGame, RomeGameMove, R
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
-        var chars = " R^>v<"
+        val dirs = intArrayOf(1, 0, 3, 2)
+        val chars = " R^>v<"
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var objArray: Array<RomeObject>
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
+    val objArray: Array<RomeObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

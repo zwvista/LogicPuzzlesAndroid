@@ -13,7 +13,7 @@ class CoffeeAndSugarGame(layout: List<String>, gi: GameInterface<CoffeeAndSugarG
         const val PUZ_SUGAR = 'S'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
     var chMax = PUZ_ONE
     var expectedChars = PUZ_ONE.toString()
 
@@ -26,7 +26,7 @@ class CoffeeAndSugarGame(layout: List<String>, gi: GameInterface<CoffeeAndSugarG
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols)
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val ch = str[c]
                 this[r, c] = ch

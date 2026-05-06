@@ -15,11 +15,11 @@ class FreePlanksGame(layout: List<String>, gi: GameInterface<FreePlanksGame, Fre
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
     }
 
-    var objArray: MutableList<MutableList<GridLineObject>>
-    var nails = mutableSetOf<Position>()
+    val objArray: MutableList<MutableList<GridLineObject>>
+    val nails = mutableSetOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -13,7 +13,7 @@ class FingerPointingGame(layout: List<String>, gi: GameInterface<FingerPointingG
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
-    var objArray: Array<FingerPointingObject>
+    val objArray: Array<FingerPointingObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

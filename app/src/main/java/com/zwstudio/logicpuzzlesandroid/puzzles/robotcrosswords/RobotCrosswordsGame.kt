@@ -10,8 +10,8 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
         val offset = Position.Directions4
     }
 
-    var objArray: IntArray
-    var areas = mutableListOf<List<Position>>()
+    val objArray: IntArray
+    val areas = mutableListOf<List<Position>>()
     var horzAreaCount = 0
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -23,7 +23,7 @@ class RobotCrosswordsGame(layout: List<String>, gi: GameInterface<RobotCrossword
         size = Position(layout.size, layout[0].length)
         objArray = IntArray(rows * cols)
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val ch = str[c]
                 this[r, c] = if (ch == '.') -1 else if (ch == ' ') 0 else ch - '0'

@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class PlanetsGame(layout: List<String>, gi: GameInterface<PlanetsGame, PlanetsGameMove, PlanetsGameState>, gdi: GameDocumentInterface) : CellsGame<PlanetsGame, PlanetsGameMove, PlanetsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        var chars = " 01392846C"
+        val chars = " 01392846C"
         val isLitMap: Map<List<Int>, PlanetsObject> = mapOf(
             listOf<Int>() to PlanetsObject.None,
             listOf(0) to PlanetsObject.North,
@@ -22,7 +22,7 @@ class PlanetsGame(layout: List<String>, gi: GameInterface<PlanetsGame, PlanetsGa
         )
     }
 
-    var objArray: Array<PlanetsObject>
+    val objArray: Array<PlanetsObject>
     val planets = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

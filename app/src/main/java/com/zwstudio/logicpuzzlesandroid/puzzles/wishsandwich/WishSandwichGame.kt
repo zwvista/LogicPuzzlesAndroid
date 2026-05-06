@@ -10,15 +10,15 @@ class WishSandwichGame(layout: List<String>, gi: GameInterface<WishSandwichGame,
         val offset = Position.Directions4
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
+    val row2hint: IntArray
+    val col2hint: IntArray
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
         for (r in 0 until rows + 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols + 1) {
                 val isHintRow = r == rows
                 val isHintCol = c == cols

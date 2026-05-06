@@ -12,9 +12,9 @@ class HidokuGame(layout: List<String>, gi: GameInterface<HidokuGame, HidokuGameM
         const val PUZ_FORBIDDEN = -1
     }
 
-    var objArray: IntArray
-    var pos2range = mutableMapOf<Position, List<Position>>()
-    var maxNum: Int
+    val objArray: IntArray
+    val pos2range = mutableMapOf<Position, List<Position>>()
+    val maxNum: Int
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

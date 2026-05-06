@@ -10,7 +10,7 @@ class Square100Game(layout: List<String>, gi: GameInterface<Square100Game, Squar
         val offset = Position.Directions4
     }
 
-    var objArray: Array<String>
+    val objArray: Array<String>
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: String) {objArray[row * cols + col] = obj}

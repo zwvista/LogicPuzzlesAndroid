@@ -11,7 +11,7 @@ class SnakeMazeGame(layout: List<String>, gi: GameInterface<SnakeMazeGame, Snake
         const val chars = "^>v<"
     }
 
-    var pos2hint = mutableMapOf<Position, SnakeMazeHint>()
+    val pos2hint = mutableMapOf<Position, SnakeMazeHint>()
 
     init {
         size = Position(layout.size, layout[0].length / 2)

@@ -11,10 +11,10 @@ class MagnetsGame(layout: List<String>, gi: GameInterface<MagnetsGame, MagnetsGa
         const val PUZ_UNKNOWN = -1
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
-    var areas = mutableListOf<MagnetsArea>()
-    var singles = mutableListOf<Position>()
+    val row2hint: IntArray
+    val col2hint: IntArray
+    val areas = mutableListOf<MagnetsArea>()
+    val singles = mutableListOf<Position>()
 
     init {
         size = Position(layout.size - 2, layout[0].length - 2)

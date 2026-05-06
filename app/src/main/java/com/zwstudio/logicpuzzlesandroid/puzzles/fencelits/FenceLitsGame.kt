@@ -15,8 +15,8 @@ class FenceLitsGame(layout: List<String>, gi: GameInterface<FenceLitsGame, Fence
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
-        var tetrominoes = listOf(
+        val dirs = intArrayOf(1, 0, 3, 2)
+        val tetrominoes = listOf(
             listOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),
             listOf(Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)),
             listOf(Position(0, 0), Position(0, 1), Position(0, 2), Position(1, 0)),
@@ -39,7 +39,7 @@ class FenceLitsGame(layout: List<String>, gi: GameInterface<FenceLitsGame, Fence
         )
     }
 
-    var objArray: Array<Array<GridLineObject>>
+    val objArray: Array<Array<GridLineObject>>
     val pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

@@ -10,9 +10,9 @@ class CloudsGame(layout: List<String>, gi: GameInterface<CloudsGame, CloudsGameM
         val offset = Position.Directions4
     }
 
-    var row2hint: IntArray
-    var col2hint: IntArray
-    var pos2cloud = mutableListOf<Position>()
+    val row2hint: IntArray
+    val col2hint: IntArray
+    val pos2cloud = mutableListOf<Position>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

@@ -10,7 +10,7 @@ class FutoshikiGame(layout: List<String>, gi: GameInterface<FutoshikiGame, Futos
         val offset = Position.Directions4
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
     val pos2hint = mutableMapOf<Position, Char>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

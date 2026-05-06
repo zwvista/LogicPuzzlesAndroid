@@ -16,7 +16,7 @@ class MathraxGame(layout: List<String>, gi: GameInterface<MathraxGame, MathraxGa
         )
     }
 
-    var objArray: IntArray
+    val objArray: IntArray
     val pos2hint = hashMapOf<Position, MathraxHint>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

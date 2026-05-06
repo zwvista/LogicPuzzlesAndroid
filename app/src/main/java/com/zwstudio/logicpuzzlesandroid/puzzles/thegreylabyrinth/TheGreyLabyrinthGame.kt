@@ -11,10 +11,10 @@ class TheGreyLabyrinthGame(layout: List<String>, gi: GameInterface<TheGreyLabyri
         val offset = Position.Directions4
     }
 
-    var objArray: Array<TheGreyLabyrinthObject>
+    val objArray: Array<TheGreyLabyrinthObject>
     val signposts = mutableListOf<Position>()
     // two signposts and the shortest path between them
-    var paths = mutableListOf<Triple<Position, Position, List<Position>>>()
+    val paths = mutableListOf<Triple<Position, Position, List<Position>>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -25,7 +25,7 @@ class TheGreyLabyrinthGame(layout: List<String>, gi: GameInterface<TheGreyLabyri
         size = Position(layout.size, layout[0].length)
         objArray = Array(rows * cols) { TheGreyLabyrinthObject.Empty }
         for (r in 0 until rows) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols) {
                 val p = Position(r, c)
                 if (str[c] == 'S') {
@@ -42,7 +42,7 @@ class TheGreyLabyrinthGame(layout: List<String>, gi: GameInterface<TheGreyLabyri
                 val p2 = signposts[j]
                 val sz2 = if (p1.row == p2.row || p1.col == p2.col) 1 else 2
                 for (k in 0 until sz2) {
-                    var path = mutableListOf<Position>()
+                    val path = mutableListOf<Position>()
                     if (run {
                         var p = p1
                         while (true) {

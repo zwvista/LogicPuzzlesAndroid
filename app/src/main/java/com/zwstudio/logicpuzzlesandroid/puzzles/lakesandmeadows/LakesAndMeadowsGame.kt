@@ -16,12 +16,12 @@ class LakesAndMeadowsGame(layout: List<String>, gi: GameInterface<LakesAndMeadow
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = arrayOf(1, 0, 3, 2)
+        val dirs = arrayOf(1, 0, 3, 2)
     }
 
-    var objArray: MutableList<LakesAndMeadowsObject>
-    var lakes = mutableListOf<Position>()
-    var dots: GridDots
+    val objArray: MutableList<LakesAndMeadowsObject>
+    val lakes = mutableListOf<Position>()
+    val dots: GridDots
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -33,7 +33,7 @@ class LakesAndMeadowsGame(layout: List<String>, gi: GameInterface<LakesAndMeadow
         objArray = MutableList(rows * cols) { LakesAndMeadowsObject.Empty }
         dots = GridDots(rows, cols)
         for (r in 0 until rows - 1) {
-            val str = layout[r]
+            var str = layout[r]
             for (c in 0 until cols - 1) {
                 val p = Position(r, c)
                 if (str[c] != 'L') continue

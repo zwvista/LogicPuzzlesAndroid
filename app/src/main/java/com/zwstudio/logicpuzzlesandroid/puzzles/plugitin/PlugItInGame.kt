@@ -13,7 +13,7 @@ class PlugItInGame(layout: List<String>, gi: GameInterface<PlugItInGame, PlugItI
         const val PUZ_BATTERY = 'B'
     }
 
-    var objArray: CharArray
+    val objArray: CharArray
     var chMax = PUZ_ONE
     var expectedChars = PUZ_ONE.toString()
 

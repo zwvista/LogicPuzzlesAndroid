@@ -10,7 +10,7 @@ class LandscaperGame(layout: List<String>, gi: GameInterface<LandscaperGame, Lan
         val offset = Position.Directions4
     }
 
-    var objArray: Array<LandscaperObject>
+    val objArray: Array<LandscaperObject>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -11,9 +11,9 @@ class SnailGame(layout: List<String>, gi: GameInterface<SnailGame, SnailGameMove
         val offset = Position.Directions4
     }
 
-    var objArray: CharArray
-    var snailPathGrid: List<Position>
-    var snailPathLine: List<Position>
+    val objArray: CharArray
+    val snailPathGrid: List<Position>
+    val snailPathLine: List<Position>
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
     operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}

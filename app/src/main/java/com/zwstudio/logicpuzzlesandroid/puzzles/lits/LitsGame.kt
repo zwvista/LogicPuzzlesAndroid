@@ -18,14 +18,14 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
             Position(1, 1),
             Position(0, 0)
         )
-        var dirs = intArrayOf(1, 0, 3, 2)
+        val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = arrayOf(
             Position(0, 0),
             Position(0, 1),
             Position(1, 0),
             Position(1, 1)
         )
-        var tetrominoes = listOf(
+        val tetrominoes = listOf(
             listOf(
                 listOf(Position(0, 0), Position(1, 0), Position(2, 0), Position(2, 1)),
                 listOf(Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)),
@@ -55,10 +55,10 @@ class LitsGame(layout: List<String>, gi: GameInterface<LitsGame, LitsGameMove, L
         )
     }
 
-    var areas = mutableListOf<List<Position>>()
-    var pos2area = mutableMapOf<Position, Int>()
-    var dots: GridDots
-    var treesInEachArea = 1
+    val areas = mutableListOf<List<Position>>()
+    val pos2area = mutableMapOf<Position, Int>()
+    val dots: GridDots
+    val treesInEachArea = 1
 
 
     init {
