@@ -77,7 +77,8 @@ class AbstractMirrorPaintingGameState(game: AbstractMirrorPaintingGame) : CellsG
                 isSolved = false
             if (allowedObjectsOnly && s != HintState.Normal)
                 for (p2 in area)
-                    this[p2] = AbstractMirrorPaintingObject.Forbidden
+                    if (this[p2] == AbstractMirrorPaintingObject.Empty || this[p2] == AbstractMirrorPaintingObject.Marker)
+                        this[p2] = AbstractMirrorPaintingObject.Forbidden
         }
         // 2. A number indicates how many painted tiles are adjacent to it.
         val g = Graph()
@@ -102,6 +103,26 @@ class AbstractMirrorPaintingGameState(game: AbstractMirrorPaintingGame) : CellsG
             val painting = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in painting)
                 pos2node.remove(p)
+            val areaSet = painting.map { game.pos2area[it]!! }.toSortedSet()
+            if (areaSet.size != 2)
+                for (p in painting)
+                    pos2stateAllowed[p] = AllowedObjectState.Error
+            else {
+                val (areaId1, areaId2) = areaSet.first() to areaSet.last()
+                val painting1 = painting.filter { game.pos2area[it] == areaId1 }
+                val painting2 = painting.filter { game.pos2area[it] == areaId2 }
+                val mirrors = game.mirrors.filter { it.areaId1 == areaId1 && it.areaId2 == areaId2 }
+                if (!mirrors.any {
+                    val (p1, p2) = it.p1 to it.p2
+                    painting1.all {
+                        painting2.contains(it - p1 + p2)
+                    }
+                }) {
+                    isSolved = false
+                    for (p in painting)
+                        pos2stateAllowed[p] = AllowedObjectState.Error
+                }
+            }
         }
     }
 }

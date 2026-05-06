@@ -24,6 +24,7 @@ class AbstractMirrorPaintingGameView(context: Context, val soundManager: SoundMa
     private val linePaint = Paint()
     private val filledPaint = Paint()
     private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
@@ -37,6 +38,9 @@ class AbstractMirrorPaintingGameView(context: Context, val soundManager: SoundMa
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
 
@@ -48,13 +52,8 @@ class AbstractMirrorPaintingGameView(context: Context, val soundManager: SoundMa
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 val o = game.getObject(p)
-                when (o) {
-                    AbstractMirrorPaintingObject.Painted ->
-                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
-                    AbstractMirrorPaintingObject.Marker ->
-                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
-                    else -> {}
-                }
+                if (o == AbstractMirrorPaintingObject.Painted)
+                    canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
                 val n = game.pos2hint[p]
                 if (n != null) {
                     val state = game.pos2stateHint(p)
@@ -62,6 +61,10 @@ class AbstractMirrorPaintingGameView(context: Context, val soundManager: SoundMa
                     val text = n.toString()
                     drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                 }
+                if (o == AbstractMirrorPaintingObject.Forbidden)
+                    canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
+                else if (o == AbstractMirrorPaintingObject.Marker)
+                    canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
             }
         for (r in 0..<rows + 1)
             for (c in 0..<cols + 1) {
