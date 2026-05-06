@@ -28,6 +28,8 @@ class HedgeMazeGame(layout: List<String>, gi: GameInterface<HedgeMazeGame, Hedge
     val dots: GridDots
     val objArray: Array<HedgeMazeObject>
     val iconlessAreas: List<Int>
+    val gates = mutableListOf<Position>()
+    val steps = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -58,7 +60,13 @@ class HedgeMazeGame(layout: List<String>, gi: GameInterface<HedgeMazeGame, Hedge
                 if (c == cols) break
                 val ch2 = str[c * 2 + 1]
                 val n = chars.indexOf(ch2)
-                set(Position(r, c), HedgeMazeObject.entries[n])
+                val o = HedgeMazeObject.entries[n]
+                val p = Position(r, c)
+                this[p] = o
+                if (o == HedgeMazeObject.Gate)
+                    gates.add(p)
+                else if (o == HedgeMazeObject.Step)
+                    steps.add(p)
             }
         }
         val rng = mutableSetOf<Position>()
