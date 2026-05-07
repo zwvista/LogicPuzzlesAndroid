@@ -24,7 +24,11 @@ class TheGreyLabyrinthGameView(context: Context, val soundManager: SoundManager)
     private val gridPaint = Paint()
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
-    private val dSignPost: Drawable
+    private val dUp: Drawable
+    private val dRight: Drawable
+    private val dDown: Drawable
+    private val dLeft: Drawable
+    private val dTreasure: Drawable
     private val dWall: Drawable
 
     init {
@@ -36,8 +40,12 @@ class TheGreyLabyrinthGameView(context: Context, val soundManager: SoundManager)
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        dSignPost = fromImageToDrawable("images/signpost.png")
-        dWall = fromImageToDrawable("images/tower_wall.png")
+        dUp = fromImageToDrawable("images/arrow8_bw.png")
+        dRight = fromImageToDrawable("images/arrow6_bw.png")
+        dDown = fromImageToDrawable("images/arrow2_bw.png")
+        dLeft = fromImageToDrawable("images/arrow4_bw.png")
+        dTreasure = fromImageToDrawable("images/chest_treasure.png")
+        dWall = fromImageToDrawable("images/tower_wall2.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -49,18 +57,11 @@ class TheGreyLabyrinthGameView(context: Context, val soundManager: SoundManager)
         for (r in 0..<rows)
             for (c in 0..<cols) {
                 val p = Position(r, c)
-                when (game.getObject(p)) {
+                when (val o = game.getObject(p)) {
                     TheGreyLabyrinthObject.Forbidden ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
                     TheGreyLabyrinthObject.Marker ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
-                    TheGreyLabyrinthObject.SignPost -> {
-                        dSignPost.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        val s = game.pos2state(p)
-                        val alpha = if (s == AllowedObjectState.Error) 50 else 0
-                        dSignPost.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-                        dSignPost.draw(canvas)
-                    }
                     TheGreyLabyrinthObject.Wall -> {
                         dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
                         val s = game.pos2state(p)
@@ -68,7 +69,18 @@ class TheGreyLabyrinthGameView(context: Context, val soundManager: SoundManager)
                         dWall.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                         dWall.draw(canvas)
                     }
-                    else -> {}
+                    else -> {
+                        val dObject = when (o) {
+                            TheGreyLabyrinthObject.Up -> dUp
+                            TheGreyLabyrinthObject.Right -> dRight
+                            TheGreyLabyrinthObject.Down -> dDown
+                            TheGreyLabyrinthObject.Left -> dLeft
+                            TheGreyLabyrinthObject.Treasure -> dTreasure
+                            else -> continue
+                        }
+                        dObject.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                        dObject.draw(canvas)
+                    }
                 }
             }
     }
