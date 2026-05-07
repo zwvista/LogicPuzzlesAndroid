@@ -2,10 +2,12 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.crossroadblocks
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<CrossroadBlocksGame, CrossroadBlocksGameMove, CrossroadBlocksGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -19,7 +21,7 @@ class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<Cross
     override fun setObject(move: CrossroadBlocksGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
         val (p2, dir2) = p + CrossroadBlocksGame.offset[dir] to (dir + 2) % 4
-        if (!isValid(p2) || game[p] == CrossroadBlocksGame.PUZ_BLOCK || game[p2] == CrossroadBlocksGame.PUZ_BLOCK)
+        if (!isValid(p2) || game.pos2hint.containsKey(p) || game.pos2hint.containsKey(p2))
             return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
@@ -56,11 +58,15 @@ class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<Cross
                 if (dirs.size == 2)
                     // 1. Draw a loop that runs through all tiles.
                     pos2dirs[p] = dirs
-                else if (!(dirs.isEmpty() && game[p] == CrossroadBlocksGame.PUZ_BLOCK)) {
+                else if (!(dirs.isEmpty() && game.pos2hint.containsKey(p))) {
                     // 2. The loop cannot cross itself.
-                    isSolved = false; return
+                    isSolved = false
                 }
             }
+        for ((p, hint) in game.pos2hint) {
+            pos2state[p] = HintState.Normal
+        }
+        if (!isSolved) return
         // Check the loop
         val p = pos2dirs.keys.first()
         var p2 = p

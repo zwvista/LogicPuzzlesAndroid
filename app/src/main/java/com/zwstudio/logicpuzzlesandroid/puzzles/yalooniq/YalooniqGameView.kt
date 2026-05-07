@@ -76,20 +76,20 @@ class YalooniqGameView(context: Context, val soundManager: SoundManager) : Cells
                 path.lineTo(cx - w/2, cy + side/2)
                 path.lineTo(cx + w/2, cy + side/2)
             }
-            1 -> { // Down
+            1 -> { // Right
+                path.moveTo(cx + w/2, cy)
+                path.lineTo(cx - w/2, cy - side/2)
+                path.lineTo(cx - w/2, cy + side/2)
+            }
+            2 -> { // Down
                 path.moveTo(cx, cy + side/2)
                 path.lineTo(cx - w/2, cy - side/2)
                 path.lineTo(cx + w/2, cy - side/2)
             }
-            2 -> { // Left
+            3 -> { // Left
                 path.moveTo(cx - w/2, cy)
                 path.lineTo(cx + w/2, cy - side/2)
                 path.lineTo(cx + w/2, cy + side/2)
-            }
-            3 -> { // Right
-                path.moveTo(cx + w/2, cy)
-                path.lineTo(cx - w/2, cy - side/2)
-                path.lineTo(cx - w/2, cy + side/2)
             }
         }
         path.close()

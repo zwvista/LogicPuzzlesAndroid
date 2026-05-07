@@ -4,12 +4,15 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import kotlin.math.abs
+import kotlin.math.min
 
 class CrossroadBlocksGameView(context: Context, val soundManager: SoundManager) : CellsGameView(context) {
     private val activity get() = context as CrossroadBlocksGameActivity
@@ -22,6 +25,7 @@ class CrossroadBlocksGameView(context: Context, val soundManager: SoundManager) 
     private val gridPaint = Paint()
     private val linePaint = Paint()
     private val blockPaint = Paint()
+    private val trianglePaint = Paint()
     private val textPaint = TextPaint()
     private var pLastDown: Position? = null
     private var pLastMove: Position? = null
@@ -32,10 +36,46 @@ class CrossroadBlocksGameView(context: Context, val soundManager: SoundManager) 
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
+        trianglePaint.color = Color.LTGRAY
+        trianglePaint.style = Paint.Style.FILL_AND_STROKE
         blockPaint.color = Color.LTGRAY
         blockPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
+    }
+
+    fun drawTriangle(canvas: Canvas, left: Float, top: Float, right: Float, bottom: Float, direction: Int, paint: Paint) {
+        val path = Path()
+        val cx = (left + right) / 2
+        val cy = (top + bottom) / 2
+        val w = right - left
+        val h = bottom - top
+        val side = min(w, h)
+
+        when (direction) {
+            0 -> { // Up
+                path.moveTo(cx, cy - side/2)
+                path.lineTo(cx - w/2, cy + side/2)
+                path.lineTo(cx + w/2, cy + side/2)
+            }
+            1 -> { // Right
+                path.moveTo(cx + w/2, cy)
+                path.lineTo(cx - w/2, cy - side/2)
+                path.lineTo(cx - w/2, cy + side/2)
+            }
+            2 -> { // Down
+                path.moveTo(cx, cy + side/2)
+                path.lineTo(cx - w/2, cy - side/2)
+                path.lineTo(cx + w/2, cy - side/2)
+            }
+            3 -> { // Left
+                path.moveTo(cx - w/2, cy)
+                path.lineTo(cx + w/2, cy - side/2)
+                path.lineTo(cx + w/2, cy + side/2)
+            }
+        }
+        path.close()
+        canvas.drawPath(path, paint)
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -44,9 +84,13 @@ class CrossroadBlocksGameView(context: Context, val soundManager: SoundManager) 
             for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
-                    canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                val p = Position(r, c)
+                val hint = game.pos2hint[p] ?: continue
+                val s = game.pos2State(p)
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
+                val text = hint.num.toString()
+                drawTextCentered(text, cwc(c), chr(r) + cellHeight / 4, cellWidth / 2, cellHeight / 2, canvas, textPaint)
+                drawTriangle(canvas, cwc2(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), hint.dir, trianglePaint)
             }
         if (isInEditMode) return
         for (r in 0..<rows)
