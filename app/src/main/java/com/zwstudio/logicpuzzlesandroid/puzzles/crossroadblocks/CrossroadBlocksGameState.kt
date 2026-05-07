@@ -59,10 +59,9 @@ class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<Cross
                 if (dirs.size == 2)
                     // 1. Draw a loop that runs through all tiles.
                     pos2dirs[p] = dirs
-                else if (dirs.isNotEmpty()) {
+                else if (dirs.isNotEmpty())
                     // 2. The loop cannot cross itself.
                     isSolved = false
-                }
             }
         for ((p, hint) in game.pos2hint) {
             val (isBlack, n2, dir) = hint

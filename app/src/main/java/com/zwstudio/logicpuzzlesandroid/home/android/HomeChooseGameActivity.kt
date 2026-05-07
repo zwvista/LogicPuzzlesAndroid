@@ -71,6 +71,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
             "FenceLits" to "FenceLits",
             "FlowerOMino" to "Flower-O-Mino",
             "FourMeNot" to "Four-Me-Not",
+            "GuessTheLabyrinth" to "Guess the Labyrinth",
             "JoinMe" to "Join Me!",
             "LakesAndMeadows" to "Lakes and Meadows",
             "LineSweeper" to "LineSweeper",
