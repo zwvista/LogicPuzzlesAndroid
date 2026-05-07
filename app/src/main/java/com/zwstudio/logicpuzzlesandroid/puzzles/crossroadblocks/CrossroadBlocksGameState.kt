@@ -4,6 +4,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import kotlin.math.min
 
 class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<CrossroadBlocksGame, CrossroadBlocksGameMove, CrossroadBlocksGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -58,13 +59,25 @@ class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<Cross
                 if (dirs.size == 2)
                     // 1. Draw a loop that runs through all tiles.
                     pos2dirs[p] = dirs
-                else if (!(dirs.isEmpty() && game.pos2hint.containsKey(p))) {
+                else if (dirs.isNotEmpty()) {
                     // 2. The loop cannot cross itself.
                     isSolved = false
                 }
             }
         for ((p, hint) in game.pos2hint) {
             val (isBlack, n2, dir) = hint
+            if (isBlack != run {
+                val os = CrossroadBlocksGame.offset[0]
+                var n1 = 0
+                var n3 = 0
+                var p2 = p + os
+                while (isValid(p2)) {
+                    if (this[p2][1]) n1++
+                    if (this[p2][3]) n3++
+                    p2 += os
+                }
+                min(n1, n3) % 2 == 1
+            }) isSolved = false
             if (n2 == CrossroadBlocksGame.PUZ_UNKNOWN) continue
             var n1 = 0
             val os = CrossroadBlocksGame.offset[dir]
