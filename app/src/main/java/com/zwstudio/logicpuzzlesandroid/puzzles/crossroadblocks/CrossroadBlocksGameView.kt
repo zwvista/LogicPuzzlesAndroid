@@ -36,10 +36,7 @@ class CrossroadBlocksGameView(context: Context, val soundManager: SoundManager) 
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        trianglePaint.color = Color.LTGRAY
-        trianglePaint.style = Paint.Style.FILL_AND_STROKE
-        blockPaint.color = Color.LTGRAY
-        blockPaint.style = Paint.Style.FILL_AND_STROKE
+        blockPaint.strokeWidth = 5f
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
@@ -86,11 +83,17 @@ class CrossroadBlocksGameView(context: Context, val soundManager: SoundManager) 
                 if (isInEditMode) continue
                 val p = Position(r, c)
                 val hint = game.pos2hint[p] ?: continue
+                val (isBlack, n, dir) = hint
+                blockPaint.color = if (isBlack) Color.LTGRAY else Color.WHITE
+                blockPaint.style = if (isBlack) Paint.Style.STROKE else Paint.Style.FILL_AND_STROKE
+                canvas.drawRect((cwc(c) + 4).toFloat(), (chr(r) + 4).toFloat(), (cwc(c + 1) - 4).toFloat(), (chr(r + 1) - 4).toFloat(), blockPaint)
+                if (n == CrossroadBlocksGame.PUZ_UNKNOWN) continue
                 val s = game.pos2State(p)
-                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (!game.isValid(r, c)) Color.GRAY else Color.WHITE
-                val text = hint.num.toString()
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else if (isBlack) Color.WHITE else Color.BLACK
+                val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r) + cellHeight / 4, cellWidth / 2, cellHeight / 2, canvas, textPaint)
-                drawTriangle(canvas, cwc2(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), hint.dir, trianglePaint)
+                trianglePaint.color = if (isBlack) Color.WHITE else Color.BLACK
+                drawTriangle(canvas, cwc2(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), dir, trianglePaint)
             }
         if (isInEditMode) return
         for (r in 0..<rows)

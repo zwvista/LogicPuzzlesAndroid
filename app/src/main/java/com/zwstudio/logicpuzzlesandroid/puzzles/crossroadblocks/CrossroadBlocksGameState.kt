@@ -64,7 +64,18 @@ class CrossroadBlocksGameState(game: CrossroadBlocksGame) : CellsGameState<Cross
                 }
             }
         for ((p, hint) in game.pos2hint) {
-            pos2state[p] = HintState.Normal
+            val (isBlack, n2, dir) = hint
+            if (n2 == CrossroadBlocksGame.PUZ_UNKNOWN) continue
+            var n1 = 0
+            val os = CrossroadBlocksGame.offset[dir]
+            var p2 = p + os
+            while (isValid(p2)) {
+                if (this[p2][dir]) n1++
+                p2 += os
+            }
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            pos2state[p] = s
         }
         if (!isSolved) return
         // Check the loop
