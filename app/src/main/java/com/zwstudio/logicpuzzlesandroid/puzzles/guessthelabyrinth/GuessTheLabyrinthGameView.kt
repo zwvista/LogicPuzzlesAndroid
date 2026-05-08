@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -24,8 +23,6 @@ class GuessTheLabyrinthGameView(context: Context, val soundManager: SoundManager
     private val line2Paint = Paint()
     private val markerPaint = Paint()
     private val postPaint = Paint()
-    private val dWolf: Drawable
-    private val dSheep: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -42,8 +39,6 @@ class GuessTheLabyrinthGameView(context: Context, val soundManager: SoundManager
         postPaint.color = Color.WHITE
         postPaint.style = Paint.Style.STROKE
         postPaint.strokeWidth = 5f
-        dWolf = fromImageToDrawable("images/wolf2.png")
-        dSheep = fromImageToDrawable("images/sheep2.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -52,14 +47,6 @@ class GuessTheLabyrinthGameView(context: Context, val soundManager: SoundManager
             for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val p = Position(r, c)
-                val dObj = when {
-                    game.sheep.contains(p) -> dSheep
-                    game.wolves.contains(p) -> dWolf
-                    else -> continue
-                }
-                dObj.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                dObj.draw(canvas)
             }
         if (isInEditMode) return
         val markerOffset = 20

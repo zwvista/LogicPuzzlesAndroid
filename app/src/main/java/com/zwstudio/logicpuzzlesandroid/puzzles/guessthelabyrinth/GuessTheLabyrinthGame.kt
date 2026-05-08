@@ -17,13 +17,9 @@ class GuessTheLabyrinthGame(layout: List<String>, gi: GameInterface<GuessTheLaby
         )
         val dirs = intArrayOf(1, 0, 3, 2)
         const val PUZ_POST = 'O'
-        const val PUZ_SHEEP = 'S'
-        const val PUZ_WOLF = 'W'
     }
 
     val objArray: MutableList<MutableList<GridLineObject>>
-    val wolves = mutableListOf<Position>()
-    val sheep = mutableListOf<Position>()
     val posts = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -52,12 +48,6 @@ class GuessTheLabyrinthGame(layout: List<String>, gi: GameInterface<GuessTheLaby
                 if (ch == '|') {
                     this[r, c][2] = GridLineObject.Line
                     this[r + 1, c][0] = GridLineObject.Line
-                }
-                if (c == cols - 1) break
-                val p = Position(r, c)
-                when(str[c * 2 + 1]) {
-                    PUZ_SHEEP -> sheep.add(p)
-                    PUZ_WOLF -> wolves.add(p)
                 }
             }
         }

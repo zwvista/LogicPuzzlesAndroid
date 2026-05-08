@@ -1,6 +1,6 @@
 #!/bin/bash
 # 自动生成的Android拷贝XML脚本
-# 生成时间: 2026-05-08 11:32:50
+# 生成时间: 2026-05-08 20:11:33
 
 echo "开始拷贝XML文件到Android项目..."
 
@@ -1669,6 +1669,15 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesG/Puzzles/Galaxies.xml"
 fi
 
+# 拷贝 GuessTheLabyrinth (来自: PuzzlesG/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesG/Puzzles/GuessTheLabyrinth.xml" ]; then
+    cp "../PSL/PuzzlesG/Puzzles/GuessTheLabyrinth.xml" "app/src/main/assets/xml/GuessTheLabyrinth.xml"
+    echo "✓ 已拷贝到Android: GuessTheLabyrinth"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesG/Puzzles/GuessTheLabyrinth.xml"
+fi
+
 # 拷贝 Gardener (来自: PuzzlesG/Puzzles)
 mkdir -p app/src/main/assets/xml
 if [ -f "../PSL/PuzzlesG/Puzzles/Gardener.xml" ]; then
@@ -1795,4 +1804,4 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesU/Puzzles/Underground.xml"
 fi
 
-echo "\nAndroid拷贝完成，共处理 199 个游戏"
+echo "\nAndroid拷贝完成，共处理 200 个游戏"
