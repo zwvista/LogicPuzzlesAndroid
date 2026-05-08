@@ -69,7 +69,7 @@ class TheGreyLabyrinthGameState(game: TheGreyLabyrinthGame) : CellsGameState<The
                     else -> {}
                 }
             }
-        // 4. Walls can't touch horizontally or vertically.
+        // 3. Walls can't touch each other orthogonally.
         for (p in walls)
             for (os in TheGreyLabyrinthGame.offset) {
                 val p2 = p + os
@@ -78,7 +78,6 @@ class TheGreyLabyrinthGameState(game: TheGreyLabyrinthGame) : CellsGameState<The
                     TheGreyLabyrinthObject.Wall -> {
                         isSolved = false
                         pos2state[p] = AllowedObjectState.Error
-                        pos2state[p2] = AllowedObjectState.Error
                     }
                     TheGreyLabyrinthObject.Empty -> {
                         if (allowedObjectsOnly)
@@ -87,5 +86,35 @@ class TheGreyLabyrinthGameState(game: TheGreyLabyrinthGame) : CellsGameState<The
                     else -> {}
                 }
             }
+        if (!isSolved) return
+        // 4. From any location, there must only be one route to the treasure.
+        val rng = mutableSetOf<Position>()
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
+                val p = Position(r, c)
+                if (this[p] != TheGreyLabyrinthObject.Wall)
+                    rng.add(p)
+            }
+        val moves = mutableSetOf<Position>()
+        fun dfs(p: Position, n: Int): Boolean {
+            if (!moves.add(p)) return false
+            // 5. You must follow the arrows, where present.
+            val n2 = when (this[p]) {
+                TheGreyLabyrinthObject.Up -> 0
+                TheGreyLabyrinthObject.Right -> 1
+                TheGreyLabyrinthObject.Down -> 2
+                TheGreyLabyrinthObject.Left -> 3
+                else -> -1
+            }
+            if (n2 != -1 && n2 != n) return false
+            for (i in 0..<4) {
+                if (i == n) continue
+                val p2 = p + TheGreyLabyrinthGame.offset[i]
+                if (!rng.contains(p2)) continue
+                if (!dfs(p2, (i + 2) % 4)) return false
+            }
+            return true
+        }
+        if (!(dfs(game.treasure, -1) && moves.size == rng.size)) isSolved = false
     }
 }
