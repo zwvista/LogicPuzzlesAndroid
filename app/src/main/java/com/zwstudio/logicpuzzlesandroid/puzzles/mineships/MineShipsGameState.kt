@@ -57,6 +57,10 @@ class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, Mi
         3. However this time the hints are given in the same form as 'Minesweeper',
            where a number tells you how many pieces of ship are around it.
         4. Usual Battle Ships rules apply!
+
+        Variant
+        5. Some puzzle can also have a:
+           1 Supertanker (5 squares)
     */
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
