@@ -1813,6 +1813,18 @@
         <activity android:name=".puzzles.skyscrapers.SkyscrapersOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.slantedmaze.SlantedMazeMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slantedmaze.SlantedMazeGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slantedmaze.SlantedMazeHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.slantedmaze.SlantedMazeOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.slithercorner.SlitherCornerMainActivity"
                   android:screenOrientation="portrait">
         </activity>
