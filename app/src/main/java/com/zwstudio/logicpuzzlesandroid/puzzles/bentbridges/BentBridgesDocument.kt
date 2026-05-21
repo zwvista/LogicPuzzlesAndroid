@@ -7,12 +7,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BentBridgesDocument(context: Context) : GameDocument<BentBridgesGameMove>(context) {
     override fun saveMove(move: BentBridgesGameMove, rec: MoveProgress) {
-        rec.row = move.pFrom.row
-        rec.col = move.pFrom.col
-        rec.row2 = move.pTo.row
-        rec.col2 = move.pTo.col
+        rec.row = move.p.row
+        rec.col = move.p.col
+        rec.intValue1 = move.dir
     }
 
     override fun loadMove(rec: MoveProgress) =
-        BentBridgesGameMove(Position(rec.row, rec.col), Position(rec.row2, rec.col2))
+        BentBridgesGameMove(Position(rec.row, rec.col), rec.intValue1)
 }
