@@ -8,12 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class SlantedMazeGame(layout: List<String>, gi: GameInterface<SlantedMazeGame, SlantedMazeGameMove, SlantedMazeGameState>, gdi: GameDocumentInterface) : CellsGame<SlantedMazeGame, SlantedMazeGameMove, SlantedMazeGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = arrayOf(
-            Position(-1, -1),
-            Position(-1, 0),
-            Position(0, 0),
-            Position(0, -1)
-        )
+        val offset2 = Position.Square2x2Offset
     }
 
     val pos2hint = mutableMapOf<Position, Int>();

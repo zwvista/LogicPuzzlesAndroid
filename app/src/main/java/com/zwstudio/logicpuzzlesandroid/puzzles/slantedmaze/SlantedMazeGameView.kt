@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -21,28 +20,21 @@ class SlantedMazeGameView(context: Context, val soundManager: SoundManager) : Ce
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val markerPaint = Paint()
-    private val forbiddenPaint = Paint()
+    private val linePaint = Paint()
     private val textPaint = TextPaint()
     private val mathPaint1 = Paint()
     private val mathPaint2 = Paint()
-    private val dWall: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.strokeWidth = 5f
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
+        linePaint.color = Color.GREEN
+        linePaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
         mathPaint1.style = Paint.Style.STROKE
         mathPaint1.color = Color.WHITE
         mathPaint2.style = Paint.Style.FILL
         mathPaint2.color = Color.BLACK
-        dWall = fromImageToDrawable("images/tower_wall2.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -52,16 +44,14 @@ class SlantedMazeGameView(context: Context, val soundManager: SoundManager) : Ce
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val o = game.getObject(p)
-                when (o) {
-                    SlantedMazeObject.Marker ->
-                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
-                    SlantedMazeObject.Wall -> {
-                        dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        dWall.draw(canvas)
-                    }
-                    SlantedMazeObject.Forbidden ->
-                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
+                fun addSlash(p1: Position, p2: Position) {
+                    val (r1, c1) = p1
+                    val (r2, c2) = p2
+                    canvas.drawLine(cwc(c1).toFloat(), chr(r1).toFloat(), cwc(c2).toFloat(), chr(r2).toFloat(), linePaint)
+                }
+                when (game.getObject(p)) {
+                    SlantedMazeObject.Forward -> addSlash(p, p + SlantedMazeGame.offset2[3])
+                    SlantedMazeObject.Backward -> addSlash(p + SlantedMazeGame.offset2[1], p + SlantedMazeGame.offset2[2])
                     else -> {}
                 }
             }

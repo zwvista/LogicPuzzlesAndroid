@@ -2,10 +2,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.slantedmaze
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
-import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
-import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
-import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SlantedMazeGameState(game: SlantedMazeGame) : CellsGameState<SlantedMazeGame, SlantedMazeGameMove, SlantedMazeGameState>(game) {
@@ -32,12 +29,10 @@ class SlantedMazeGameState(game: SlantedMazeGame) : CellsGameState<SlantedMazeGa
 
     override fun switchObject(move: SlantedMazeGameMove): GameOperationType {
         val p = move.p
-        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            SlantedMazeObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) SlantedMazeObject.Marker else SlantedMazeObject.Wall
-            SlantedMazeObject.Wall -> if (markerOption == MarkerOptions.MarkerLast) SlantedMazeObject.Marker else SlantedMazeObject.Empty
-            SlantedMazeObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) SlantedMazeObject.Wall else SlantedMazeObject.Empty
-            else -> o
+            SlantedMazeObject.Empty -> SlantedMazeObject.Forward
+            SlantedMazeObject.Forward -> SlantedMazeObject.Backward
+            SlantedMazeObject.Backward -> SlantedMazeObject.Empty
         }
         return setObject(move)
     }
@@ -60,59 +55,53 @@ class SlantedMazeGameState(game: SlantedMazeGame) : CellsGameState<SlantedMazeGa
            This also means very big loops, not just 2*2.
     */
     private fun updateIsSolved() {
-        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
+        val matrix = mutableMapOf<Position, MutableList<Position>>()
+        val rng = mutableSetOf<Position>()
+        // 1. Fill the board with diagonal lines (Slants), following the hints at
+        //    the intersections.
         for (r in 0..<rows)
             for (c in 0..<cols) {
                 val p = Position(r, c)
-                if (this[p] == SlantedMazeObject.Forbidden)
-                    this[p] = SlantedMazeObject.Empty
-            }
-        for ((p, n2) in game.pos2hint) {
-            var n1 = 0
-            val rng = mutableListOf<Position>()
-            for (os in SlantedMazeGame.offset2) {
-                val p2 = p + os
-                if (!isValid(p2)) continue
-                when (this[p2]) {
-                    SlantedMazeObject.Empty, SlantedMazeObject.Marker -> rng.add(p2)
-                    SlantedMazeObject.Wall -> n1++
-                    else -> {}
+                fun addSlash(p1: Position, p2: Position) {
+                    matrix.getOrPut(p1) { mutableListOf() }.add(p2)
+                    matrix.getOrPut(p2) { mutableListOf() }.add(p1)
+                    rng.add(p1)
+                    rng.add(p2)
+                }
+                when (this[p]) {
+                    SlantedMazeObject.Forward -> addSlash(p, p + SlantedMazeGame.offset2[3])
+                    SlantedMazeObject.Backward -> addSlash(p + SlantedMazeGame.offset2[1], p + SlantedMazeGame.offset2[2])
+                    else -> isSolved = false
                 }
             }
-            // 3. The number tells you how many pieces (squares) of wall it touches.
-            // 4. So the number can go from 0 (no walls around the tower) to 4 (tower
-            // entirely surrounded by walls).
-            // 5. Board borders don't count as walls, so there you'll have two walls
-            // at most (or one in corners).
+        // 2. Every number tells you how many Slants (diagonal lines) touch that
+        //    point. So, for example, a 4 designates an X pattern around it.
+        for ((p, n2) in game.pos2hint) {
+            val n1 = matrix.getOrPut(p) { mutableListOf() }.size
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             pos2state[p] = s
             if (s != HintState.Complete) isSolved = false
-            if (s != HintState.Normal && allowedObjectsOnly)
-                for (p2 in rng)
-                    this[p2] = SlantedMazeObject.Forbidden
         }
         if (!isSolved) return
-        val g = Graph()
-        val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0..<rows)
-            for (c in 0..<cols) {
-                val p = Position(r, c)
-                if (this[p] != SlantedMazeObject.Wall) {
-                    val node = Node(p.toString())
-                    g.addNode(node)
-                    pos2node[p] = node
+        // 3. The Mazes or paths the Slants will form will usually branch off many
+        //    times, but can also end abruptly. Also all the Slants don't need to
+        //    be all connected.
+        // 4. However, you must ensure that they don't form a closed loop anywhere.
+        //    This also means very big loops, not just 2*2.
+        while (rng.isNotEmpty()) {
+            val moves = mutableSetOf<Position>()
+            fun dfs(p: Position, pLast: Position): Boolean {
+                if (!moves.add(p)) return false
+                for (p2 in matrix[p]!!) {
+                    if (p2 == pLast) continue
+                    if (!dfs(p2, p)) return false
                 }
+                return true
             }
-        for ((p, node) in pos2node)
-            for (os in SlantedMazeGame.offset) {
-                val p2 = p + os
-                pos2node[p2]?.let { g.connectNode(node, it) }
-            }
-        // 6. To facilitate movement in the castle, the Bailey must have a single
-        // continuous area (Garden).
-        g.rootNode = pos2node.values.first()
-        val nodeList = g.bfs()
-        if (nodeList.size != pos2node.size) isSolved = false
+            if (!dfs(rng.first(), Position(-1, -1))) { isSolved = false; return }
+            for (p in moves)
+                rng.remove(p)
+        }
     }
 }
