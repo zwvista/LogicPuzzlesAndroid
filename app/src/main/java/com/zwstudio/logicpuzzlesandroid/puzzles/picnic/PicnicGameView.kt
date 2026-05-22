@@ -4,11 +4,9 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
-import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -22,10 +20,11 @@ class PicnicGameView(context: Context, val soundManager: SoundManager) : CellsGa
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()
+    private val filledPaint = Paint()
+    private var pLastDown: Position? = null
     private val textPaint = TextPaint()
-    private val forbiddenPaint = Paint()
-    private val dHedge: Drawable
-    private val dHide: Drawable
+//    private val dHedge: Drawable
+//    private val dHide: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -33,53 +32,62 @@ class PicnicGameView(context: Context, val soundManager: SoundManager) : CellsGa
         markerPaint.color = Color.WHITE
         markerPaint.style = Paint.Style.FILL_AND_STROKE
         markerPaint.strokeWidth = 5f
+        filledPaint.color = Color.GRAY
+        filledPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
-        forbiddenPaint.color = Color.RED
-        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
-        forbiddenPaint.strokeWidth = 5f
-        dHedge = fromImageToDrawable("images/forest_lighter.png")
-        dHide = fromImageToDrawable("images/hide.png")
+        textPaint.color = Color.WHITE
+//        dHedge = fromImageToDrawable("images/forest_lighter.png")
+//        dHide = fromImageToDrawable("images/hide.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
 //        canvas.drawColor(Color.BLACK);
         for (r in 0..<rows)
-            for (c in 0..<cols) {
+            for (c in 0..<cols)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
-                if (isInEditMode) continue
-                val p = Position(r, c)
-                when (val o = game.getObject(p)) {
-                    PicnicObject.Hedge -> {
-                        dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        dHedge.draw(canvas)
-                    }
-                    PicnicObject.Hint -> {
-                        dHide.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                        dHide.draw(canvas)
-                        val n = game.pos2hint[p]
-                        val text = if (n == PicnicGame.PUZ_UNKWOWN) "?" else n.toString()
-                        val s = game.pos2state(p)
-                        textPaint.color = if (s == HintState.Normal) Color.WHITE else if (s == HintState.Complete) Color.GREEN else Color.RED
-                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                    }
-                    PicnicObject.Marker ->
-                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
-                    else -> {}
-                }
-            }
         if (isInEditMode) return
-        for ((r, c) in game.invalid2x2Squares())
-            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
+        for ((p, n) in game.pos2hint) {
+            val p2 = game.hint2blanket(p)!!
+            val (r, c) = p2
+            if (p == p2) {
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+            } else {
+                canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
+            }
+//                    dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+//                    dHedge.draw(canvas)
+//                    canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && !game.isSolved) {
-            val col = (event.x / cellWidth).toInt()
-            val row = (event.y / cellHeight).toInt()
-            if (col >= cols || row >= rows) return true
-            val move = PicnicGameMove(Position(row, col))
-            if (game.switchObject(move))
-                soundManager.playSoundTap()
+        if (game.isSolved) return true
+        val col = (event.x / cellWidth).toInt()
+        val row = (event.y / cellHeight).toInt()
+        if (col >= cols || row >= rows) return true
+        val p = Position(row, col)
+        fun f() = soundManager.playSoundTap()
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                pLastDown = p
+                f()
+            }
+            MotionEvent.ACTION_MOVE -> if (p != pLastDown && pLastDown != null) {
+                val n = PicnicGame.offset.indexOfFirst { it == p - pLastDown!! }
+                if (n != -1) {
+                    val move = PicnicGameMove(pLastDown!!, n)
+                    if (game.setObject(move)) f()
+                }
+                pLastDown = null
+            }
+            MotionEvent.ACTION_UP -> {
+                if (p == pLastDown) {
+                    val move = PicnicGameMove(pLastDown!!, PicnicGame.PUZ_CANCEL_MOVE)
+                    if (game.setObject(move)) f()
+                }
+                pLastDown = null
+            }
         }
         return true
     }

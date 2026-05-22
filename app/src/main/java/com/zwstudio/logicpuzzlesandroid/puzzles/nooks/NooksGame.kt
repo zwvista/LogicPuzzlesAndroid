@@ -21,9 +21,8 @@ class NooksGame(layout: List<String>, gi: GameInterface<NooksGame, NooksGameMove
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch != ' ') {
+                if (ch != ' ')
                     pos2hint[p] = if (ch == '?') PUZ_UNKWOWN else ch - '0'
-                }
             }
         }
         val state = NooksGameState(this)

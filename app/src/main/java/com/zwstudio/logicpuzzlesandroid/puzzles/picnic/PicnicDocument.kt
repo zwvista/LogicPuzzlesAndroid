@@ -9,9 +9,9 @@ class PicnicDocument(context: Context) : GameDocument<PicnicGameMove>(context) {
     override fun saveMove(move: PicnicGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.intValue1 = move.obj.ordinal
+        rec.intValue1 = move.dir
     }
 
     override fun loadMove(rec: MoveProgress) =
-        PicnicGameMove(Position(rec.row, rec.col), PicnicObject.entries[rec.intValue1])
+        PicnicGameMove(Position(rec.row, rec.col), rec.intValue1)
 }

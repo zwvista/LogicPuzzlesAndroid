@@ -8,8 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class PicnicGame(layout: List<String>, gi: GameInterface<PicnicGame, PicnicGameMove, PicnicGameState>, gdi: GameDocumentInterface) : CellsGame<PicnicGame, PicnicGameMove, PicnicGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        val offset2 = Position.Square2x2Offset
-        const val PUZ_UNKWOWN = -1
+        const val PUZ_CANCEL_MOVE = -1
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
@@ -21,17 +20,14 @@ class PicnicGame(layout: List<String>, gi: GameInterface<PicnicGame, PicnicGameM
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch != ' ') {
-                    pos2hint[p] = if (ch == '?') PUZ_UNKWOWN else ch - '0'
-                }
+                if (ch != ' ')
+                    pos2hint[p] = ch - '0'
             }
         }
         val state = PicnicGameState(this)
         levelInitialized(state)
     }
 
-    fun getObject(p: Position) = currentState[p]
-    fun getObject(row: Int, col: Int) = currentState[row, col]
+    fun hint2blanket(p: Position) = currentState.hint2blanket[p]
     fun pos2state(p: Position) = currentState.pos2state[p]
-    fun invalid2x2Squares() = currentState.invalid2x2Squares
 }
