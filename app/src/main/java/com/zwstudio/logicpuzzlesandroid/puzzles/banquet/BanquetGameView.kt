@@ -46,8 +46,12 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
             for (c in 0..<cols)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
+        for (p in game.fixedTables) {
+            val (r, c) = p
+            canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
+        }
         for ((p, n) in game.pos2hint) {
-            val p2 = game.hint2blanket(p)!!
+            val p2 = game.hint2table(p)!!
             val (r, c) = p2
             if (p == p2) {
                 val text = n.toString()
