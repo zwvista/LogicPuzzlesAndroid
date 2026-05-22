@@ -133,6 +133,18 @@
         <activity android:name=".puzzles.balancedtapas.BalancedTapasOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.banquet.BanquetMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.banquet.BanquetGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.banquet.BanquetHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.banquet.BanquetOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.battleships.BattleShipsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
