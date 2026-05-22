@@ -5,7 +5,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
 
 class PlugItInGameState(game: PlugItInGame) : CellsGameState<PlugItInGame, PlugItInGameMove, PlugItInGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -21,7 +20,7 @@ class PlugItInGameState(game: PlugItInGame) : CellsGameState<PlugItInGame, PlugI
 
     override fun setObject(move: PlugItInGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
-        val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
+        val (p2, dir2) = p + PlugItInGame.offset[dir] to (dir + 2) % 4
         if (!isValid(p2)) return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]

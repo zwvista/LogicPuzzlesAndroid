@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.tracenumbers
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
 
 class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumbersGame, TraceNumbersGameMove, TraceNumbersGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -19,7 +18,7 @@ class TraceNumbersGameState(game: TraceNumbersGame) : CellsGameState<TraceNumber
 
     override fun setObject(move: TraceNumbersGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
-        val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
+        val (p2, dir2) = p + TraceNumbersGame.offset[dir] to (dir + 2) % 4
         if (!isValid(p2)) return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]

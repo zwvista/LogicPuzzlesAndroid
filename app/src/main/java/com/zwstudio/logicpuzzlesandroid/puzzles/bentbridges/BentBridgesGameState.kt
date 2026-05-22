@@ -6,8 +6,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
-import com.zwstudio.logicpuzzlesandroid.puzzles.turnmeup.TurnMeUpGame
 
 class BentBridgesGameState(game: BentBridgesGame) : CellsGameState<BentBridgesGame, BentBridgesGameMove, BentBridgesGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
@@ -24,7 +22,7 @@ class BentBridgesGameState(game: BentBridgesGame) : CellsGameState<BentBridgesGa
 
     override fun setObject(move: BentBridgesGameMove): GameOperationType {
         val (p, dir) = move.p to move.dir
-        val (p2, dir2) = p + MasyuGame.offset[dir] to (dir + 2) % 4
+        val (p2, dir2) = p + BentBridgesGame.offset[dir] to (dir + 2) % 4
         if (!isValid(p2)) return GameOperationType.Invalid
         this[p][dir] = !this[p][dir]
         this[p2][dir2] = !this[p2][dir2]
@@ -87,7 +85,7 @@ class BentBridgesGameState(game: BentBridgesGame) : CellsGameState<BentBridgesGa
             val dirs = pos2dirs[p]!!
             for (d in dirs) {
                 var i = d
-                var os = TurnMeUpGame.offset[i]
+                var os = BentBridgesGame.offset[i]
                 var p2 = p + os
                 var turns = 0
                 while (true) {
@@ -101,7 +99,7 @@ class BentBridgesGameState(game: BentBridgesGame) : CellsGameState<BentBridgesGa
                         turns++
                         i = k
                     }
-                    os = TurnMeUpGame.offset[i]
+                    os = BentBridgesGame.offset[i]
                     p2 += os
                 }
                 val n3 = game.pos2hint[p2]
