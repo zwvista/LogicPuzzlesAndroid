@@ -2,11 +2,13 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.turnmeup
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.masyu.MasyuGame
 
 class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnMeUpGameMove, TurnMeUpGameState>(game) {
     var objArray = Array(rows * cols) { Array(4) { false } }
+    var pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -48,29 +50,25 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 val o = get(r, c)
-                val ch = game[r, c]
                 val dirs = (0..<4).filter { o[it] }
+                val cnt = dirs.size
                 // 2. The number on the circle tells you how many turns the connection
                 //    does between circles.
-                when (dirs.size) {
-                    1 -> {
-                        if (ch == ' ') { isSolved = false; return }
+                if (game[p] == ' ') {
+                    if (cnt == 2)
+                        pos2dirs[p] = dirs
+                    else
+                        // 4. All tiles on the board must be used
+                        isSolved = false
+                } else {
+                    pos2state[p] = HintState.Normal
+                    if (cnt == 1) {
                         circles.add(p)
                         pos2dirs[p] = dirs
-                    }
-                    2 -> {
-                        if (ch != ' ') { isSolved = false; return }
-                        pos2dirs[p] = dirs
-                    }
-                    else -> {
-                        // 4. All tiles on the board must be used
-                        isSolved = false; return
-                    }
+                    } else
+                        isSolved = false
                 }
             }
-        // 2. You should draw as many lines into the grid as number sets:
-        //    a line starts with the number 1, goes through the numbers in
-        //    order up to the highest, where it ends.
         while (circles.isNotEmpty()) {
             val p = circles.first()
             val ch1 = game[p]
@@ -80,7 +78,7 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
             var turns = 0
             while (true) {
                 val j = (i + 2) % 4
-                var dirs = pos2dirs[p2]!!
+                var dirs = pos2dirs[p2] ?: break
                 dirs = dirs.filter { it != j }
                 if (dirs.isEmpty()) break
                 val k = dirs[0]
@@ -92,10 +90,14 @@ class TurnMeUpGameState(game: TurnMeUpGame) : CellsGameState<TurnMeUpGame, TurnM
                 p2 += os
             }
             val ch2 = game[p2]
-            if (ch1 == TurnMeUpGame.PUZ_QM || ch2 == TurnMeUpGame.PUZ_QM || ch1 == ch2 && ch1 - '0' == turns) {
-              circles.remove(p); circles.remove(p2)
-            } else {
-                isSolved = false; return
+            circles.remove(p)
+            if (ch2 == ' ')
+                isSolved = false
+            else {
+                val s = if (ch1 == TurnMeUpGame.PUZ_QM || ch2 == TurnMeUpGame.PUZ_QM || ch1 == ch2 && ch1 - '0' == turns) HintState.Complete else HintState.Error
+                pos2state[p] = s; pos2state[p2] = s
+                if (s != HintState.Complete) isSolved = false
+                circles.remove(p2)
             }
         }
     }

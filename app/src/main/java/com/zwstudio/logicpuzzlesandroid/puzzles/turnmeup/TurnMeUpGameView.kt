@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 import kotlin.math.abs
@@ -31,7 +32,6 @@ class TurnMeUpGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
-        textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
 
@@ -41,9 +41,12 @@ class TurnMeUpGameView(context: Context, val soundManager: SoundManager) : Cells
             for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val ch = game[r, c]
-                if (ch != ' ')
-                    drawTextCentered(ch.toString(), cwc(c), chr(r), canvas, textPaint)
+                val p = Position(r, c)
+                val ch = game[p]
+                if (ch == ' ') continue
+                val s = game.pos2state(p)
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                drawTextCentered(ch.toString(), cwc(c), chr(r), canvas, textPaint)
             }
         if (isInEditMode) return
         for (r in 0..<rows)
