@@ -1549,6 +1549,18 @@
         <activity android:name=".puzzles.pathonthemountains.PathOnTheMountainsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.picnic.PicnicMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.picnic.PicnicGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.picnic.PicnicHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.picnic.PicnicOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.pipemania.PipemaniaMainActivity"
                   android:screenOrientation="portrait">
         </activity>
@@ -1561,7 +1573,7 @@
         <activity android:name=".puzzles.pipemania.PipemaniaOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".puzzles.plFgueanets.PlanetsMainActivity"
+        <activity android:name=".puzzles.planets.PlanetsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".puzzles.planets.PlanetsGameActivity"
