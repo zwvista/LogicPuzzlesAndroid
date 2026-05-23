@@ -24,6 +24,7 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
 
     private val gridPaint = Paint()
     private val linePaint = Paint()
+    private val markerPaint = Paint()
     private var pLastDown: Position? = null
     private val textPaint = TextPaint()
 //    private val dHedge: Drawable
@@ -35,6 +36,8 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 10f
+        markerPaint.color = Color.GREEN
+        markerPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
         textPaint.color = Color.WHITE
 //        dHedge = fromImageToDrawable("images/forest_lighter.png")
@@ -67,6 +70,7 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
                 dTable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                 dTable.draw(canvas)
                 canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c2).toFloat(), chr2(r2).toFloat(), linePaint)
+                canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
             }
 //                    dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
 //                    dHedge.draw(canvas)

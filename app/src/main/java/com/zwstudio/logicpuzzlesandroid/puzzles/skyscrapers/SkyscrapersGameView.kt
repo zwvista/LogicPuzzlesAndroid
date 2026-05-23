@@ -20,14 +20,11 @@ class SkyscrapersGameView(context: Context, val soundManager: SoundManager) : Ce
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val markerPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
         gridPaint.color = Color.WHITE
         gridPaint.style = Paint.Style.STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
         textPaint.isAntiAlias = true
     }
 
