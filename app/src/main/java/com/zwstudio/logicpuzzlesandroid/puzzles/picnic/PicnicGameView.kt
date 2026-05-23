@@ -34,7 +34,7 @@ class PicnicGameView(context: Context, val soundManager: SoundManager) : CellsGa
         gridPaint.style = Paint.Style.STROKE
         linePaint.color = Color.GREEN
         linePaint.style = Paint.Style.STROKE
-        linePaint.strokeWidth = 20f
+        linePaint.strokeWidth = 10f
         textPaint.isAntiAlias = true
         textPaint.color = Color.WHITE
 //        dHedge = fromImageToDrawable("images/forest_lighter.png")
@@ -49,15 +49,17 @@ class PicnicGameView(context: Context, val soundManager: SoundManager) : CellsGa
         if (isInEditMode) return
         for ((p, n) in game.pos2hint) {
             val p2 = game.hint2blanket(p)!!
-            val (r, c) = p2
+            val (r, c) = p
+            val (r2, c2) = p2
             if (p == p2) {
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             } else {
-                dBlanket.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                dBlanket.setBounds(cwc(c2), chr(r2), cwc(c2 + 1), chr(r2 + 1))
                 val alpha = if (game.pos2state(p2) == AllowedObjectState.Error) 50 else 0
                 dBlanket.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
                 dBlanket.draw(canvas)
+                canvas.drawLine(cwc2(c).toFloat(), chr2(r).toFloat(), cwc2(c2).toFloat(), chr2(r2).toFloat(), linePaint)
             }
 //                    canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
         }
