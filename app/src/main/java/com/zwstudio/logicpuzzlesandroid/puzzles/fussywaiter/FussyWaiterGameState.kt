@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FussyWaiterGameState(game: FussyWaiterGame) : CellsGameState<FussyWaiterGame, FussyWaiterGameMove, FussyWaiterGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var pos2stateFood = mutableMapOf<Position, AllowedObjectState>()
-    var pos2stateDrink = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = game.objArray.copyOf()
+    val pos2stateFood = mutableMapOf<Position, AllowedObjectState>()
+    val pos2stateDrink = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

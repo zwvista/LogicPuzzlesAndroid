@@ -3,9 +3,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.productsentinels
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class ProductSentinelsGameState(game: ProductSentinelsGame) : CellsGameState<ProductSentinelsGame, ProductSentinelsGameMove, ProductSentinelsGameState>(game) {
-    var objArray = Array(rows * cols) { ProductSentinelsObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = Array(rows * cols) { ProductSentinelsObject.Empty }
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

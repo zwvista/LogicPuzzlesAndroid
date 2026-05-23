@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TetrominoPegsGameState(game: TetrominoPegsGame) : CellsGameState<TetrominoPegsGame, TetrominoPegsGameMove, TetrominoPegsGameState>(game) {
-    var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var tetros = mutableListOf<TetrominoPegsObject>()
+    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val tetros = mutableListOf<TetrominoPegsObject>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

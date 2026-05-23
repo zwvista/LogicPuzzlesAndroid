@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class InsaneTatamisGameState(game: InsaneTatamisGame) : CellsGameState<InsaneTatamisGame, InsaneTatamisGameMove, InsaneTatamisGameState>(game) {
-    var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val pos2state = mutableMapOf<Position, HintState>()
     val invalidDots = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

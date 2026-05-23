@@ -12,10 +12,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FlowerbedShrubsGameState(game: FlowerbedShrubsGame) : CellsGameState<FlowerbedShrubsGame, FlowerbedShrubsGameMove, FlowerbedShrubsGameState>(game) {
-    var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var shrubs = mutableSetOf<Position>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val shrubs = mutableSetOf<Position>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

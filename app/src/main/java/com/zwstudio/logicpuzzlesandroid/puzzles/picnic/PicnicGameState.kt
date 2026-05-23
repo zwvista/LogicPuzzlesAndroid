@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PicnicGameState(game: PicnicGame) : CellsGameState<PicnicGame, PicnicGameMove, PicnicGameState>(game) {
-    var hint2blanket = mutableMapOf<Position, Position>()
-    var blanket2hint = mutableMapOf<Position, Position>()
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val hint2blanket = mutableMapOf<Position, Position>()
+    val blanket2hint = mutableMapOf<Position, Position>()
+    val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         for (p in game.pos2hint.keys) {

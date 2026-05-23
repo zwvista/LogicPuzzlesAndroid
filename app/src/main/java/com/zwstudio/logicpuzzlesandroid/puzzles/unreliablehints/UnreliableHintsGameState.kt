@@ -12,8 +12,8 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.yalooniq.YalooniqGame
 
 class UnreliableHintsGameState(game: UnreliableHintsGame) : CellsGameState<UnreliableHintsGame, UnreliableHintsGameMove, UnreliableHintsGameState>(game) {
     private var objArray = Array(rows * cols) { UnreliableHintsObject.Normal }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         updateIsSolved()

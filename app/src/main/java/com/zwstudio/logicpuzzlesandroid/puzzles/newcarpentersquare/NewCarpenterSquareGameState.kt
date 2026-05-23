@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NewCarpenterSquareGameState(game: NewCarpenterSquareGame) : CellsGameState<NewCarpenterSquareGame, NewCarpenterSquareGameMove, NewCarpenterSquareGameState>(game) {
-    var objArray: Array<Array<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray: Array<Array<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

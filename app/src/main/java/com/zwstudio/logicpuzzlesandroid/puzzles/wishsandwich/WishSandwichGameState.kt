@@ -8,10 +8,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WishSandwichGameState(game: WishSandwichGame) : CellsGameState<WishSandwichGame, WishSandwichGameMove, WishSandwichGameState>(game) {
-    var objArray = Array(rows * cols) { WishSandwichObject.Empty }
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = Array(rows * cols) { WishSandwichObject.Empty }
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
+    val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

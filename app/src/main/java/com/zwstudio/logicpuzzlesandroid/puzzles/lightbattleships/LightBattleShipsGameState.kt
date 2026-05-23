@@ -4,8 +4,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.BattleShipsGame
 
 class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>(game) {
-    var objArray = Array(rows * cols) { LightBattleShipsObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array(rows * cols) { LightBattleShipsObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SheepAndWolvesGameState(game: SheepAndWolvesGame) : CellsGameState<SheepAndWolvesGame, SheepAndWolvesGameMove, SheepAndWolvesGameState>(game) {
-    var objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array(rows * cols) { Array(4) { GridLineObject.Empty } }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

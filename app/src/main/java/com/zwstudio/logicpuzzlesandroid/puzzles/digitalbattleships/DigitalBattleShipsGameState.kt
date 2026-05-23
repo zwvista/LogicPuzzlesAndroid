@@ -3,9 +3,9 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.digitalbattleships
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class DigitalBattleShipsGameState(game: DigitalBattleShipsGame) : CellsGameState<DigitalBattleShipsGame, DigitalBattleShipsGameMove, DigitalBattleShipsGameState>(game) {
-    var objArray = Array(rows * cols) { DigitalBattleShipsObject.Empty }
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
+    val objArray = Array(rows * cols) { DigitalBattleShipsObject.Empty }
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

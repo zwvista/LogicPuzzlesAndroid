@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BanquetGameState(game: BanquetGame) : CellsGameState<BanquetGame, BanquetGameMove, BanquetGameState>(game) {
-    var hint2table = mutableMapOf<Position, Position>()
-    var table2hint = mutableMapOf<Position, Position>()
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val hint2table = mutableMapOf<Position, Position>()
+    val table2hint = mutableMapOf<Position, Position>()
+    val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         for (p in game.pos2hint.keys) {

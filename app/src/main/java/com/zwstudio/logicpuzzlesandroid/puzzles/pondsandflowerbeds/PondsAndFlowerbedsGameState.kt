@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PondsAndFlowerbedsGameState(game: PondsAndFlowerbedsGame) : CellsGameState<PondsAndFlowerbedsGame, PondsAndFlowerbedsGameMove, PondsAndFlowerbedsGameState>(game) {
-    var objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
-    var ponds = mutableSetOf<List<Position>>()
+    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val ponds = mutableSetOf<List<Position>>()
     val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

@@ -11,7 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class WallSentinelsGameState(game: WallSentinelsGame) : CellsGameState<WallSentinelsGame, WallSentinelsGameMove, WallSentinelsGameState>(game) {
     // https://stackoverflow.com/questions/46846025/how-to-clone-or-copy-a-list-in-kotlin
     private var objArray = game.objArray.toMutableList()
-    var pos2state = mutableMapOf<Position, HintState>()
+    val pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

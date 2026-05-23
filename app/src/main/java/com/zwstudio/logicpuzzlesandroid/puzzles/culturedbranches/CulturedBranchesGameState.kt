@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CulturedBranchesGameState(game: CulturedBranchesGame) : CellsGameState<CulturedBranchesGame, CulturedBranchesGameMove, CulturedBranchesGameState>(game) {
-    var objArray = Array<CulturedBranchesObject>(rows * cols) { CulturedBranchesObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array<CulturedBranchesObject>(rows * cols) { CulturedBranchesObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

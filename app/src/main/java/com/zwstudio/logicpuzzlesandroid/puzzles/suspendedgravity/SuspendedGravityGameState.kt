@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SuspendedGravityGameState(game: SuspendedGravityGame) : CellsGameState<SuspendedGravityGame, SuspendedGravityGameMove, SuspendedGravityGameState>(game) {
     var objArray = Array(rows * cols) { SuspendedGravityObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

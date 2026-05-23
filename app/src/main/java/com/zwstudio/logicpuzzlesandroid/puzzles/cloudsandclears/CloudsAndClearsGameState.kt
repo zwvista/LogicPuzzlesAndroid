@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class CloudsAndClearsGameState(game: CloudsAndClearsGame) : CellsGameState<CloudsAndClearsGame, CloudsAndClearsGameMove, CloudsAndClearsGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-    var objArray = Array(rows * cols) { CloudsAndClearsObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array(rows * cols) { CloudsAndClearsObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class IslandConnectionsGameState(game: IslandConnectionsGame) : CellsGameState<IslandConnectionsGame, IslandConnectionsGameMove, IslandConnectionsGameState>(game) {
-    var objArray = Array<IslandConnectionsObject>(rows * cols) { IslandConnectionsEmptyObject }
+    val objArray = Array<IslandConnectionsObject>(rows * cols) { IslandConnectionsEmptyObject }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

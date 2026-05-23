@@ -6,7 +6,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HedgeMazeGameState(game: HedgeMazeGame) : CellsGameState<HedgeMazeGame, HedgeMazeGameMove, HedgeMazeGameState>(game) {
-    var objArray = game.objArray.copyOf()
+    val objArray = game.objArray.copyOf()
     val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

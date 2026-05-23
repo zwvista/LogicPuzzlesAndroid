@@ -7,10 +7,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NoughtsAndCrossesGameState(game: NoughtsAndCrossesGame) : CellsGameState<NoughtsAndCrossesGame, NoughtsAndCrossesGameMove, NoughtsAndCrossesGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = game.objArray.copyOf()
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

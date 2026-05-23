@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FenceSentinelsGameState(game: FenceSentinelsGame) : CellsGameState<FenceSentinelsGame, FenceSentinelsGameMove, FenceSentinelsGameState>(game) {
-    var objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = MutableList(rows * cols) { MutableList(4) { GridLineObject.Empty } }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

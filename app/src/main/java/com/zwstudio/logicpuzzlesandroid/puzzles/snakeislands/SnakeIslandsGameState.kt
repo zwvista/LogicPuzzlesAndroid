@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.NurikabeGame
 
 class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIslandsGame, SnakeIslandsGameMove, SnakeIslandsGameState>(game) {
-    var objArray = Array<SnakeIslandsObject>(rows * cols) { SnakeIslandsObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array<SnakeIslandsObject>(rows * cols) { SnakeIslandsObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

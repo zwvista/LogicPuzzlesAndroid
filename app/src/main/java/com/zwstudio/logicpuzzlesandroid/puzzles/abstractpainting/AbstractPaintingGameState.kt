@@ -7,9 +7,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class AbstractPaintingGameState(game: AbstractPaintingGame) : CellsGameState<AbstractPaintingGame, AbstractPaintingGameMove, AbstractPaintingGameState>(game) {
-    var objArray = Array(rows * cols) { AbstractPaintingObject.Empty }
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
+    val objArray = Array(rows * cols) { AbstractPaintingObject.Empty }
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
 
     init {
         updateIsSolved()

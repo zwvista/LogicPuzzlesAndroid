@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NumberCrosswordsGameState(game: NumberCrosswordsGame) : CellsGameState<NumberCrosswordsGame, NumberCrosswordsGameMove, NumberCrosswordsGameState>(game) {
     val objArray = Array(rows * cols) { NumberCrosswordsObject.Normal }
-    var row2state = Array(rows - 1) { HintState.Normal }
-    var col2state = Array(cols - 1) { HintState.Normal }
+    val row2state = Array(rows - 1) { HintState.Normal }
+    val col2state = Array(cols - 1) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
