@@ -1993,6 +1993,18 @@
         <activity android:name=".puzzles.straightandturn.StraightAndTurnOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.sukrokuro.SukrokuroMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sukrokuro.SukrokuroGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sukrokuro.SukrokuroHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.sukrokuro.SukrokuroOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.sumscrapers.SumscrapersMainActivity"
                   android:screenOrientation="portrait">
         </activity>
