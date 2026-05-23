@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class PicnicGame(layout: List<String>, gi: GameInterface<PicnicGame, PicnicGameMove, PicnicGameState>, gdi: GameDocumentInterface) : CellsGame<PicnicGame, PicnicGameMove, PicnicGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
-        const val PUZ_CANCEL_MOVE = -1
+        const val PUZ_TAP_MOVE = -1
     }
 
     val pos2hint = mutableMapOf<Position, Int>()

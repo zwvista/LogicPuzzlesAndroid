@@ -100,7 +100,7 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
             }
             MotionEvent.ACTION_UP -> {
                 if (p == pLastDown) {
-                    val move = BanquetGameMove(pLastDown!!, BanquetGame.PUZ_CANCEL_MOVE)
+                    val move = BanquetGameMove(pLastDown!!, BanquetGame.PUZ_TAP_MOVE)
                     if (game.setObject(move)) f()
                 }
                 pLastDown = null

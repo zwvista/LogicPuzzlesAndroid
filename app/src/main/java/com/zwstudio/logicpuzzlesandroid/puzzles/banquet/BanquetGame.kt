@@ -9,7 +9,7 @@ class BanquetGame(layout: List<String>, gi: GameInterface<BanquetGame, BanquetGa
     companion object {
         val offset = Position.Directions4
         const val PUZ_UNKNOWN = -1
-        const val PUZ_CANCEL_MOVE = -1
+        const val PUZ_TAP_MOVE = -1
     }
 
     val pos2hint = mutableMapOf<Position, Int>()

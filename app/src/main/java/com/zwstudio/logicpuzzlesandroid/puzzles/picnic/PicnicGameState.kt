@@ -13,21 +13,17 @@ class PicnicGameState(game: PicnicGame) : CellsGameState<PicnicGame, PicnicGameM
     val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     init {
-        for (p in game.pos2hint.keys) {
-            hint2blanket[p] = p
-            blanket2hint[p] = p
-        }
         updateIsSolved()
     }
 
     override fun setObject(move: PicnicGameMove): GameOperationType {
         val p = move.p
-        val pHint = blanket2hint[p] ?: return GameOperationType.Invalid
-        blanket2hint.remove(p)
-        if (p != pHint) {
-            hint2blanket[pHint] = pHint
-            blanket2hint[pHint] = pHint
-        } else {
+        val dir = move.dir
+        val pHint = blanket2hint[p]
+        if (pHint != null && dir == PicnicGame.PUZ_TAP_MOVE) {
+            blanket2hint.remove(p)
+            hint2blanket.remove(pHint)
+        } else if (game.pos2hint[p] != null && dir != PicnicGame.PUZ_TAP_MOVE) {
             // 6. The number on top of the basket shows you how many tiles the basket must
             //    be flung.
             val os = PicnicGame.offset[move.dir]
@@ -37,10 +33,11 @@ class PicnicGameState(game: PicnicGame) : CellsGameState<PicnicGame, PicnicGameM
                 pBlanket += os
                 if (!isValid(pBlanket)) return GameOperationType.Invalid
             }
-            if (blanket2hint[pBlanket] != null) return GameOperationType.Invalid
-            hint2blanket[pHint] = pBlanket
-            blanket2hint[pBlanket] = pHint
-        }
+            if (blanket2hint[pBlanket] != null || game.pos2hint[pBlanket] != null && hint2blanket[pBlanket] == null) return GameOperationType.Invalid
+            hint2blanket[p] = pBlanket
+            blanket2hint[pBlanket] = p
+        } else
+            return GameOperationType.Invalid
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
@@ -66,28 +63,25 @@ class PicnicGameState(game: PicnicGame) : CellsGameState<PicnicGame, PicnicGameM
     */
     private fun updateIsSolved() {
         isSolved = true
-        val blankets = mutableSetOf<Position>()
-        for ((pBlanket, pHint) in blanket2hint)
-            if (pBlanket == pHint)
-                isSolved = false
-            else
-                blankets.add(pBlanket)
+        if (blanket2hint.size != game.pos2hint.size) isSolved = false
         // 4. find a way to lay every picnic basket so that no blanket touches another
         //    one, horizontally or vertically.
-        for (p in blankets) {
+        for (p in blanket2hint.keys) {
             val s = if (PicnicGame.offset.all {
-                !blankets.contains(p + it)
+                blanket2hint[p + it] == null
             }) AllowedObjectState.Normal else AllowedObjectState.Error
             pos2state[p] = s
             if (s != AllowedObjectState.Normal) isSolved = false
         }
         if (!isSolved) return
+        // 5. Also the remaining park should be accessible to everyone, so empty grass
+        //    spaces should form a single continuous area.
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0..<rows)
             for (c in 0..<cols) {
                 val p = Position(r, c)
-                if (blankets.contains(p)) continue
+                if (blanket2hint[p] != null) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
