@@ -20,12 +20,11 @@ class KakuroGame(layout: List<String>, gi: GameInterface<KakuroGame, KakuroGameM
             val str = layout[r]
             for (c in 0..<cols) {
                 val p = Position(r, c)
-                val s = str.substring(c * 4, c * 4 + 4)
-                if (s == "    ")
+                val s1 = str.substring(c * 4, c * 4 + 2)
+                val s2 = str.substring(c * 4 + 2, c * 4 + 4)
+                if (s1[0] == ' ')
                     pos2num[p] = 0
                 else {
-                    val s1 = s.substring(0, 2)
-                    val s2 = s.substring(2, 4)
                     if (s1 != "00") pos2vertHint[p] = s1.toInt()
                     if (s2 != "00") pos2horzHint[p] = s2.toInt()
                 }

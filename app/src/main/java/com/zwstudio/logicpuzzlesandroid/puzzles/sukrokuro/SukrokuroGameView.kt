@@ -23,6 +23,7 @@ class SukrokuroGameView(context: Context, val soundManager: SoundManager) : Cell
     private val wallPaint = Paint()
     private val linePaint = Paint()
     private val hintPaint = TextPaint()
+    private val dotPaint = Paint()
     private val textPaint = TextPaint()
 
     init {
@@ -33,6 +34,9 @@ class SukrokuroGameView(context: Context, val soundManager: SoundManager) : Cell
         linePaint.color = Color.BLACK
         hintPaint.isAntiAlias = true
         hintPaint.style = Paint.Style.FILL
+        dotPaint.style = Paint.Style.FILL_AND_STROKE
+        dotPaint.strokeWidth = 5f
+        dotPaint.color = Color.WHITE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
@@ -43,13 +47,20 @@ class SukrokuroGameView(context: Context, val soundManager: SoundManager) : Cell
             for (c in 0..<cols) {
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
-                val n = game.getObject(Position(r, c))
+                val p = Position(r, c)
+                val n = game.getObject(p)
                 if (n == null) {
                     canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                     canvas.drawLine(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), linePaint)
-                } else if (n != 0) {
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                } else {
+                    if (n != 0) {
+                        val text = n.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
+                    if (game.dotsVert.contains(p))
+                        canvas.drawArc(cwc2(c) - 10.toFloat(), chr(r + 1) - 10.toFloat(), cwc2(c) + 10.toFloat(), chr(r + 1) + 10.toFloat(), 0f, 360f, true, dotPaint)
+                    if (game.dotsHorz.contains(p))
+                        canvas.drawArc(cwc(c + 1) - 10.toFloat(), chr2(r) - 10.toFloat(), cwc(c + 1) + 10.toFloat(), chr2(r) + 10.toFloat(), 0f, 360f, true, dotPaint)
                 }
             }
         if (isInEditMode) return
