@@ -10,23 +10,27 @@ class SnakeIslandsGame(layout: List<String>, gi: GameInterface<SnakeIslandsGame,
         val offset = Position.Directions4
     }
 
-    val pos2obj = mutableMapOf<Position, SnakeIslandsObject>()
+    val objArray: Array<SnakeIslandsObject>
     val pos2hint = mutableMapOf<Position, Int>()
 
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: SnakeIslandsObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: SnakeIslandsObject) {this[p.row, p.col] = obj}
+
     init {
-        size = Position(layout.size, layout[0].length / 2)
+        size = Position(layout.size, layout[0].length)
+        objArray = Array(rows * cols) { SnakeIslandsObject.Empty }
         for (r in 0..<rows) {
             var str = layout[r]
             for (c in 0..<cols) {
                 val p = Position(r, c)
-                val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
-                fun f(obj: SnakeIslandsObject) {
-                    pos2obj[p] = obj
-                    pos2hint[p] = if (ch1.isDigit()) ch1 - '0' else ch1 - 'A' + 10
-                }
-                when (ch2) {
-                    '.' -> f(SnakeIslandsObject.EmptyHint)
-                    'W' -> f(SnakeIslandsObject.WallHint)
+                val ch = str[c]
+                if (ch == 'S')
+                    this[p] = SnakeIslandsObject.Wall
+                else if (ch != ' ') {
+                    pos2hint[p] = if (ch.isDigit()) ch - '0' else ch - 'A' + 10
+                    this[p] = SnakeIslandsObject.Hint
                 }
             }
         }

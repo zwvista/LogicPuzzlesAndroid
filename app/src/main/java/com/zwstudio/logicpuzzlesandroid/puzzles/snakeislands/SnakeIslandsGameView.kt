@@ -58,11 +58,7 @@ class SnakeIslandsGameView(context: Context, val soundManager: SoundManager) : C
                 when (game.getObject(p)) {
                     SnakeIslandsObject.Wall ->
                         drawWall()
-                    SnakeIslandsObject.WallHint -> {
-                        drawWall()
-                        drawHint()
-                    }
-                    SnakeIslandsObject.EmptyHint ->
+                    SnakeIslandsObject.Hint ->
                         drawHint()
                     SnakeIslandsObject.Marker ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, wallPaint)
