@@ -41,4 +41,6 @@ class SukrokuroGame(layout: List<String>, gi: GameInterface<SukrokuroGame, Sukro
     fun getObject(p: Position) = currentState[p]
     fun getHorzState(p: Position) = currentState.pos2horzHint[p]
     fun getVertState(p: Position) = currentState.pos2vertHint[p]
+    fun dotsHorzState(p: Position) = currentState.dotsHorzState[p]
+    fun dotsVertState(p: Position) = currentState.dotsVertState[p]
 }

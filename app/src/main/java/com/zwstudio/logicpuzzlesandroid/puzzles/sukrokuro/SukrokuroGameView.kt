@@ -36,7 +36,6 @@ class SukrokuroGameView(context: Context, val soundManager: SoundManager) : Cell
         hintPaint.style = Paint.Style.FILL
         dotPaint.style = Paint.Style.FILL_AND_STROKE
         dotPaint.strokeWidth = 5f
-        dotPaint.color = Color.WHITE
         textPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
@@ -57,10 +56,16 @@ class SukrokuroGameView(context: Context, val soundManager: SoundManager) : Cell
                         val text = n.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    if (game.dotsVert.contains(p))
+                    if (game.dotsVert.contains(p)) {
+                        val s = game.dotsVertState(p)
+                        dotPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         canvas.drawArc(cwc2(c) - 10.toFloat(), chr(r + 1) - 10.toFloat(), cwc2(c) + 10.toFloat(), chr(r + 1) + 10.toFloat(), 0f, 360f, true, dotPaint)
-                    if (game.dotsHorz.contains(p))
+                    }
+                    if (game.dotsHorz.contains(p)) {
+                        val s = game.dotsHorzState(p)
+                        dotPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
                         canvas.drawArc(cwc(c + 1) - 10.toFloat(), chr2(r) - 10.toFloat(), cwc(c + 1) + 10.toFloat(), chr2(r) + 10.toFloat(), 0f, 360f, true, dotPaint)
+                    }
                 }
             }
         if (isInEditMode) return

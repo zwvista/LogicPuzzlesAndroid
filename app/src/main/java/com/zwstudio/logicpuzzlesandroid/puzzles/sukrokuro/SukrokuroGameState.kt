@@ -4,11 +4,14 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
+import kotlin.math.abs
 
 class SukrokuroGameState(game: SukrokuroGame) : CellsGameState<SukrokuroGame, SukrokuroGameMove, SukrokuroGameState>(game) {
     val pos2num = LinkedHashMap(game.pos2num)
     val pos2horzHint = mutableMapOf<Position, HintState>()
     val pos2vertHint = mutableMapOf<Position, HintState>()
+    val dotsVertState = mutableMapOf<Position, HintState>()
+    val dotsHorzState = mutableMapOf<Position, HintState>()
 
     operator fun get(p: Position) = pos2num[p]
     operator fun set(p: Position, obj: Int) {pos2num[p] = obj}
@@ -98,6 +101,18 @@ class SukrokuroGameState(game: SukrokuroGame) : CellsGameState<SukrokuroGame, Su
             // the sum of the numbers in that column.
             val s = if (n1 == 0) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             pos2vertHint[p] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+        for (p in game.dotsVert) {
+            val (n1, n2) = pos2num[p]!! to pos2num[p + Position.South]!!
+            val s = if (n1 == 0 || n2 == 0) HintState.Normal else if (abs(n1 - n2) == 1) HintState.Complete else HintState.Error
+            dotsVertState[p] = s
+            if (s != HintState.Complete) isSolved = false
+        }
+        for (p in game.dotsHorz) {
+            val (n1, n2) = pos2num[p]!! to pos2num[p + Position.East]!!
+            val s = if (n1 == 0 || n2 == 0) HintState.Normal else if (abs(n1 - n2) == 1) HintState.Complete else HintState.Error
+            dotsHorzState[p] = s
             if (s != HintState.Complete) isSolved = false
         }
     }
