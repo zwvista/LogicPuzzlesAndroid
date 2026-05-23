@@ -10,6 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class BanquetGameState(game: BanquetGame) : CellsGameState<BanquetGame, BanquetGameMove, BanquetGameState>(game) {
     val hint2table = mutableMapOf<Position, Position>()
     val table2hint = mutableMapOf<Position, Position>()
+    val tablePath = mutableSetOf<Position>()
     val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     init {
@@ -37,7 +38,13 @@ class BanquetGameState(game: BanquetGame) : CellsGameState<BanquetGame, BanquetG
                 pTable += os
                 // 3. Tables can't cross other tables, nor cross other tables paths after
                 //    they moved.
-                if (!(isValid(pTable) && table2hint[pTable] == null)) return GameOperationType.Invalid
+                if (!(isValid(pTable) && table2hint[pTable] == null && !tablePath.contains(pTable))) return GameOperationType.Invalid
+            }
+            pTable = p
+            for (i in 0..<n) {
+                pTable += os
+                if (i < n - 1)
+                    tablePath.add(p)
             }
             hint2table[pHint] = pTable
             table2hint[pTable] = pHint
@@ -101,10 +108,8 @@ class BanquetGameState(game: BanquetGame) : CellsGameState<BanquetGame, BanquetG
             for (p in banquet)
                 pos2node.remove(p)
             val n1 = banquet.size
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
+            var (r1, r2) = rows to 0
+            var (c1, c2) = cols to 0
             for (p in banquet) {
                 if (r2 < p.row) r2 = p.row
                 if (r1 > p.row) r1 = p.row

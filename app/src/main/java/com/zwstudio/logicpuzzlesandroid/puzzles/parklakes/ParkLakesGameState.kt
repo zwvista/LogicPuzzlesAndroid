@@ -90,10 +90,8 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
+            var (r1, r2) = rows to 0
+            var (c1, c2) = cols to 0
             val n = areas.size
             for (node in nodeList) {
                 val p = pos2node.filter { it.value == node }.keys.first()

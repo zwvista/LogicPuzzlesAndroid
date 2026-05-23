@@ -94,10 +94,8 @@ class LakesAndMeadowsGameState(game: LakesAndMeadowsGame) : CellsGameState<Lakes
             }
             val p2 = rng[0]
             val n1 = area.size
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
+            var (r1, r2) = rows to 0
+            var (c1, c2) = cols to 0
             for (p in area) {
                 if (r2 < p.row) r2 = p.row
                 if (r1 > p.row) r1 = p.row

@@ -95,10 +95,8 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
             val nodeList = g.bfs()
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             val n1 = nodeList.size
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
+            var (r1, r2) = rows to 0
+            var (c1, c2) = cols to 0
             val n = areas.size
             for (node in nodeList) {
                 val p = pos2node.filter { it.value == node }.keys.first()

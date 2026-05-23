@@ -95,10 +95,8 @@ class MondrianLoopGameState(game: MondrianLoopGame) : CellsGameState<MondrianLoo
             val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
             for (p in area)
                 pos2node.remove(p)
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
+            var (r1, r2) = rows to 0
+            var (c1, c2) = cols to 0
             for (p in area) {
                 if (r2 < p.row) r2 = p.row
                 if (r1 > p.row) r1 = p.row

@@ -88,10 +88,8 @@ class HiddenCloudsGameState(game: HiddenCloudsGame) : CellsGameState<HiddenCloud
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
-            var r2 = 0
-            var r1 = rows
-            var c2 = 0
-            var c1 = cols
+            var (r1, r2) = rows to 0
+            var (c1, c2) = cols to 0
             val cloud = mutableListOf<Position>()
             for (node in nodeList) {
                 val p = pos2node.filterValues { it == node }.keys.first()
