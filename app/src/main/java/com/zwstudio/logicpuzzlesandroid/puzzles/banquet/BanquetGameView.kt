@@ -4,9 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
+import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -19,25 +23,22 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
-    private val markerPaint = Paint()
-    private val filledPaint = Paint()
+    private val linePaint = Paint()
     private var pLastDown: Position? = null
     private val textPaint = TextPaint()
 //    private val dHedge: Drawable
-//    private val dHide: Drawable
+    private val dTable: Drawable
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        markerPaint.color = Color.WHITE
-        markerPaint.style = Paint.Style.FILL_AND_STROKE
-        markerPaint.strokeWidth = 5f
-        filledPaint.color = Color.GRAY
-        filledPaint.style = Paint.Style.FILL_AND_STROKE
+        linePaint.color = Color.GREEN
+        linePaint.style = Paint.Style.STROKE
+        linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
         textPaint.color = Color.WHITE
 //        dHedge = fromImageToDrawable("images/forest_lighter.png")
-//        dHide = fromImageToDrawable("images/hide.png")
+        dTable = fromImageToDrawable("images/wood vertical.png")
     }
 
     protected override fun onDraw(canvas: Canvas) {
@@ -48,7 +49,10 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
         if (isInEditMode) return
         for (p in game.fixedTables) {
             val (r, c) = p
-            canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
+            dTable.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+            val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0
+            dTable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+            dTable.draw(canvas)
         }
         for ((p, n) in game.pos2hint) {
             val p2 = game.hint2table(p)!!
@@ -57,7 +61,10 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             } else {
-                canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), filledPaint)
+                dTable.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                val alpha = if (game.pos2state(p2) == AllowedObjectState.Error) 50 else 0
+                dTable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
+                dTable.draw(canvas)
             }
 //                    dHedge.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
 //                    dHedge.draw(canvas)

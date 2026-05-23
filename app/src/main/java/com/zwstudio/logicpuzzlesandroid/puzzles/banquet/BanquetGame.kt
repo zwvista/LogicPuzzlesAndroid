@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class BanquetGame(layout: List<String>, gi: GameInterface<BanquetGame, BanquetGameMove, BanquetGameState>, gdi: GameDocumentInterface) : CellsGame<BanquetGame, BanquetGameMove, BanquetGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        const val PUZ_UNKNOWN = -1
         const val PUZ_CANCEL_MOVE = -1
     }
 
@@ -22,7 +23,7 @@ class BanquetGame(layout: List<String>, gi: GameInterface<BanquetGame, BanquetGa
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                val n = ch - '0'
+                val n = if (ch == '?') PUZ_UNKNOWN else ch - '0'
                 if (n == 0)
                     fixedTables.add(p)
                 else
