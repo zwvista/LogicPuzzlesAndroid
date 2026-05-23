@@ -4,9 +4,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.*
 import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.LightBattleShipsGame
 
 class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>(game) {
-    var objArray = Array(rows * cols) { BattleShipsObject.Empty }
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
+    val objArray = Array(rows * cols) { BattleShipsObject.Empty }
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
 
     init {
         for ((p, o) in game.pos2obj)

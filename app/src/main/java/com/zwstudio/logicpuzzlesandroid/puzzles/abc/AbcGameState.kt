@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class AbcGameState(game: AbcGame) : CellsGameState<AbcGame, AbcGameMove, AbcGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var row2state = Array(rows * 2) { HintState.Normal }
-    var col2state = Array(cols * 2) { HintState.Normal }
+    val row2state = Array(rows * 2) { HintState.Normal }
+    val col2state = Array(cols * 2) { HintState.Normal }
 
     init {
         updateIsSolved()

@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CrossroadsXGameState(game: CrossroadsXGame) : CellsGameState<CrossroadsXGame, CrossroadsXGameMove, CrossroadsXGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = game.objArray.copyOf()
+    val pos2state = mutableMapOf<Position, AllowedObjectState>()
     var invalidCrossroads = listOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

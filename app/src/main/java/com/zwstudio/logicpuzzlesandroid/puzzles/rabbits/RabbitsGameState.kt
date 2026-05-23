@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RabbitsGameState(game: RabbitsGame) : CellsGameState<RabbitsGame, RabbitsGameMove, RabbitsGameState>(game) {
-    var objArray = Array(rows * cols) { RabbitsObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = Array(rows * cols) { RabbitsObject.Empty }
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

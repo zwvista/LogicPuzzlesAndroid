@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RobotCrosswordsGameState(game: RobotCrosswordsGame) : CellsGameState<RobotCrosswordsGame, RobotCrosswordsGameMove, RobotCrosswordsGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var pos2horzState = mutableMapOf<Position, HintState>()
-    var pos2vertState = mutableMapOf<Position, HintState>()
+    val objArray = game.objArray.copyOf()
+    val pos2horzState = mutableMapOf<Position, HintState>()
+    val pos2vertState = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

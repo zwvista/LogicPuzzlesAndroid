@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BootyIslandGameState(game: BootyIslandGame) : CellsGameState<BootyIslandGame, BootyIslandGameMove, BootyIslandGameState>(game) {
-    var objArray = Array(rows * cols) { BootyIslandObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = Array(rows * cols) { BootyIslandObject.Empty }
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         for (p in game.pos2hint.keys)

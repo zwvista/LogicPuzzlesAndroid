@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.NurikabeGame
 
 class CastlePatrolGameState(game: CastlePatrolGame) : CellsGameState<CastlePatrolGame, CastlePatrolGameMove, CastlePatrolGameState>(game) {
-    var objArray = Array<CastlePatrolObject>(rows * cols) { CastlePatrolObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array<CastlePatrolObject>(rows * cols) { CastlePatrolObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

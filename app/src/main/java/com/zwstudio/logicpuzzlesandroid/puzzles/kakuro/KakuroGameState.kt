@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class KakuroGameState(game: KakuroGame) : CellsGameState<KakuroGame, KakuroGameMove, KakuroGameState>(game) {
-    var pos2num = LinkedHashMap(game.pos2num)
-    var pos2horzHint = mutableMapOf<Position, HintState>()
-    var pos2vertHint = mutableMapOf<Position, HintState>()
+    val pos2num = LinkedHashMap(game.pos2num)
+    val pos2horzHint = mutableMapOf<Position, HintState>()
+    val pos2vertHint = mutableMapOf<Position, HintState>()
 
     operator fun get(p: Position) = pos2num[p]
     operator fun set(p: Position, obj: Int) {pos2num[p] = obj}

@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame, FlowerBedsGameMove, FlowerBedsGameState>(game) {
-    var objArray = Cloner().deepClone(game.dots.objArray)
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Cloner().deepClone(game.dots.objArray)
+    val pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

@@ -3,8 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.bwtapa
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BWTapaGameState(game: BWTapaGame) : CellsGameState<BWTapaGame, BWTapaGameMove, BWTapaGameState>(game) {
-    var objArray = Array(rows * cols) { BWTapaObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array(rows * cols) { BWTapaObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

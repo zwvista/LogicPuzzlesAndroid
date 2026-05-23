@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LineSweeperGameState(game: LineSweeperGame) : CellsGameState<LineSweeperGame, LineSweeperGameMove, LineSweeperGameState>(game) {
-    var objArray = Array(rows * cols) { Array(4) { false } }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array(rows * cols) { Array(4) { false } }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

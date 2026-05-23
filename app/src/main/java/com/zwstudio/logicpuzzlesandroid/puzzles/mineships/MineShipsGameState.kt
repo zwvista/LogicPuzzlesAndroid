@@ -3,8 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mineships
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class MineShipsGameState(game: MineShipsGame) : CellsGameState<MineShipsGame, MineShipsGameMove, MineShipsGameState>(game) {
-    var objArray = Array<MineShipsObject>(rows * cols) { MineShipsObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array<MineShipsObject>(rows * cols) { MineShipsObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -7,9 +7,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MagnetsGameState(game: MagnetsGame) : CellsGameState<MagnetsGame, MagnetsGameMove, MagnetsGameState>(game) {
-    var objArray = Array(rows * cols) { MagnetsObject.Empty }
-    var row2state = Array(rows * 2) { HintState.Normal }
-    var col2state = Array(cols * 2) { HintState.Normal }
+    val objArray = Array(rows * cols) { MagnetsObject.Empty }
+    val row2state = Array(rows * 2) { HintState.Normal }
+    val col2state = Array(cols * 2) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

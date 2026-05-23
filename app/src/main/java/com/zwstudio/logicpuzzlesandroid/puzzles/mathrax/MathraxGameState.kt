@@ -6,10 +6,10 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MathraxGameState(game: MathraxGame) : CellsGameState<MathraxGame, MathraxGameMove, MathraxGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = game.objArray.copyOf()
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class BranchesGameState(game: BranchesGame) : CellsGameState<BranchesGame, BranchesGameMove, BranchesGameState>(game) {
-    var objArray = Array<BranchesObject>(rows * cols) { BranchesObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array<BranchesObject>(rows * cols) { BranchesObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

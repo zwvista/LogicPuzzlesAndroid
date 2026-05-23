@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.puzzles.hidoku.HidokuGameMove
 import java.util.TreeMap
 
 class HiddenPathGameState(game: HiddenPathGame) : CellsGameState<HiddenPathGame, HiddenPathGameMove, HiddenPathGameState>(game) {
-    var objArray = Array (game.maxNum) { HiddenPathObject() }
+    val objArray = Array (game.maxNum) { HiddenPathObject() }
     var nextNum = 0
     val num2pos = TreeMap<Int, Position>()
     var focusPos: Position? = null

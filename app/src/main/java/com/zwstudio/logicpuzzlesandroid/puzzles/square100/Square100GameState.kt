@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class Square100GameState(game: Square100Game) : CellsGameState<Square100Game, Square100GameMove, Square100GameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var row2hint = IntArray(rows)
-    var col2hint = IntArray(cols)
+    val objArray = game.objArray.copyOf()
+    val row2hint = IntArray(rows)
+    val col2hint = IntArray(cols)
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

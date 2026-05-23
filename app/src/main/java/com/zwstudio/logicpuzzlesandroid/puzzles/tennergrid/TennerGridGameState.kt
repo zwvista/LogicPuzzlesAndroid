@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class TennerGridGameState(game: TennerGridGame) : CellsGameState<TennerGridGame, TennerGridGameMove, TennerGridGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = game.objArray.copyOf()
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -11,9 +11,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SnakeMazeGameState(game: SnakeMazeGame) : CellsGameState<SnakeMazeGame, SnakeMazeGameMove, SnakeMazeGameState>(game) {
     private var objArray = Array(rows * cols) { SnakeMazeObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
-    var snakes = mutableListOf<List<Position>>()
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val snakes = mutableListOf<List<Position>>()
 
     init {
         for (p in game.pos2hint.keys)

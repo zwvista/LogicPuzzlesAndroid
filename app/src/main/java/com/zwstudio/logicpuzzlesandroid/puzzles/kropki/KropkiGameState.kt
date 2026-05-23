@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class KropkiGameState(game: KropkiGame) : CellsGameState<KropkiGame, KropkiGameMove, KropkiGameState>(game) {
-    var objArray = IntArray(rows * cols)
-    var pos2horzHint = mutableMapOf<Position, HintState>()
-    var pos2vertHint = mutableMapOf<Position, HintState>()
+    val objArray = IntArray(rows * cols)
+    val pos2horzHint = mutableMapOf<Position, HintState>()
+    val pos2vertHint = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

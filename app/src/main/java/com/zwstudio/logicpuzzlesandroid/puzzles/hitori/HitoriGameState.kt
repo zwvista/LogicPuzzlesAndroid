@@ -9,8 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class HitoriGameState(game: HitoriGame) : CellsGameState<HitoriGame, HitoriGameMove, HitoriGameState>(game) {
     private var objArray = Array(rows * cols) { HitoriObject.Normal }
-    var row2hint = Array(rows) { "" }
-    var col2hint = Array(cols) { "" }
+    val row2hint = Array(rows) { "" }
+    val col2hint = Array(cols) { "" }
 
     init {
         updateIsSolved()

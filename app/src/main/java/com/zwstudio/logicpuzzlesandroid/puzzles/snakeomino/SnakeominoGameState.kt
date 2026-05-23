@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SnakeominoGameState(game: SnakeominoGame) : CellsGameState<SnakeominoGame, SnakeominoGameMove, SnakeominoGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
-    var snakes = mutableListOf<List<Position>>()
+    val objArray = game.objArray.copyOf()
+    val pos2state = mutableMapOf<Position, HintState>()
+    val snakes = mutableListOf<List<Position>>()
 
     init {
         updateIsSolved()

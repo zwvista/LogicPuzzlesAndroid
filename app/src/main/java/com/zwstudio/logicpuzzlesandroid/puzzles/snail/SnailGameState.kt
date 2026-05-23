@@ -8,9 +8,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SnailGameState(game: SnailGame) : CellsGameState<SnailGame, SnailGameMove, SnailGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
+    val pos2state = mutableMapOf<Position, HintState>()
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

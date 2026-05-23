@@ -3,8 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.balancedtapas
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class BalancedTapasGameState(game: BalancedTapasGame) : CellsGameState<BalancedTapasGame, BalancedTapasGameMove, BalancedTapasGameState>(game) {
-    var objArray = Array(rows * cols) { BalancedTapasObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array(rows * cols) { BalancedTapasObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

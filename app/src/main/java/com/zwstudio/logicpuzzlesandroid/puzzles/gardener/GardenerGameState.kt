@@ -10,11 +10,11 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class GardenerGameState(game: GardenerGame) : CellsGameState<GardenerGame, GardenerGameMove, GardenerGameState>(game) {
-    var objArray = Array(rows * cols) { GardenerObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
-    var invalidSpacesHorz = mutableSetOf<Position>()
-    var invalidSpacesVert = mutableSetOf<Position>()
+    val objArray = Array(rows * cols) { GardenerObject.Empty }
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val invalidSpacesHorz = mutableSetOf<Position>()
+    val invalidSpacesVert = mutableSetOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ArrowsGameState(game: ArrowsGame) : CellsGameState<ArrowsGame, ArrowsGameMove, ArrowsGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var hint2state = mutableMapOf<Position, HintState>()
-    var arrow2state = mutableMapOf<Position, AllowedObjectState>()
+    val hint2state = mutableMapOf<Position, HintState>()
+    val arrow2state = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         updateIsSolved()

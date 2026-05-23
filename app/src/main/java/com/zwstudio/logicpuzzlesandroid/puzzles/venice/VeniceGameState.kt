@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.NurikabeGame
 
 class VeniceGameState(game: VeniceGame) : CellsGameState<VeniceGame, VeniceGameMove, VeniceGameState>(game) {
-    var objArray = Array<VeniceObject>(rows * cols) { VeniceObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array<VeniceObject>(rows * cols) { VeniceObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
     val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

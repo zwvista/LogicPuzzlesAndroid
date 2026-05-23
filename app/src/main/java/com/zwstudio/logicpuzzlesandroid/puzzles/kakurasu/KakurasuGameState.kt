@@ -7,9 +7,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class KakurasuGameState(game: KakurasuGame) : CellsGameState<KakurasuGame, KakurasuGameMove, KakurasuGameState>(game) {
-    var objArray = Array(rows * cols) { KakurasuObject.Empty }
-    var row2state = Array(rows * 2) { HintState.Normal }
-    var col2state = Array(cols * 2) { HintState.Normal }
+    val objArray = Array(rows * cols) { KakurasuObject.Empty }
+    val row2state = Array(rows * 2) { HintState.Normal }
+    val col2state = Array(cols * 2) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

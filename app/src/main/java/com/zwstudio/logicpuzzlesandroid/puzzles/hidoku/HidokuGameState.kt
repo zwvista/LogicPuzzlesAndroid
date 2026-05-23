@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import java.util.TreeMap
 
 class HidokuGameState(game: HidokuGame) : CellsGameState<HidokuGame, HidokuGameMove, HidokuGameState>(game) {
-    var objArray: Array<HidokuObject>
+    val objArray: Array<HidokuObject>
     var nextNum = 0
     val num2pos = TreeMap<Int, Position>()
     var focusPos: Position? = null

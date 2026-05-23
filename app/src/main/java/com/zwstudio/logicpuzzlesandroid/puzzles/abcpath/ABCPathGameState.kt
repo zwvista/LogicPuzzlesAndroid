@@ -7,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ABCPathGameState(game: ABCPathGame) : CellsGameState<ABCPathGame, ABCPathGameMove, ABCPathGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
+    val pos2state = mutableMapOf<Position, HintState>()
 
     init {
         updateIsSolved()

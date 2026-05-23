@@ -8,7 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NumberCrossingGameState(game: NumberCrossingGame) : CellsGameState<NumberCrossingGame, NumberCrossingGameMove, NumberCrossingGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, HintState>()
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

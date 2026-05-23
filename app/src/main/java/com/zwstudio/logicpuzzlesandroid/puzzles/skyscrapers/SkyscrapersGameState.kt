@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class SkyscrapersGameState(game: SkyscrapersGame) : CellsGameState<SkyscrapersGame, SkyscrapersGameMove, SkyscrapersGameState>(game) {
     val objArray = game.objArray.copyOf()
-    var row2state = Array(rows * 2) { HintState.Normal }
-    var col2state = Array(cols * 2) { HintState.Normal }
+    val row2state = Array(rows * 2) { HintState.Normal }
+    val col2state = Array(cols * 2) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

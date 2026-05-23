@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class RomeGameState(game: RomeGame) : CellsGameState<RomeGame, RomeGameMove, RomeGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = game.objArray.copyOf()
+    val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -8,8 +8,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ADifferentFarmerGameState(game: ADifferentFarmerGame) : CellsGameState<ADifferentFarmerGame, ADifferentFarmerGameMove, ADifferentFarmerGameState>(game) {
-    var objArray = game.objArray.copyOf()
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = game.objArray.copyOf()
+    val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CultureTripGameState(game: CultureTripGame) : CellsGameState<CultureTripGame, CultureTripGameMove, CultureTripGameState>(game) {
-    var objArray = Array(rows * cols) { Array(4) { false } }
+    val objArray = Array(rows * cols) { Array(4) { false } }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

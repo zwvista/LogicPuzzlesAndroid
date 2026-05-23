@@ -6,8 +6,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsGameMove, MirrorsGameState>(game) {
-    var cloner = Cloner()
-    var objArray = game.objArray.copyOf()
+    val cloner = Cloner()
+    val objArray = game.objArray.copyOf()
     val pos2dirs = mutableMapOf<Position, List<Int>>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

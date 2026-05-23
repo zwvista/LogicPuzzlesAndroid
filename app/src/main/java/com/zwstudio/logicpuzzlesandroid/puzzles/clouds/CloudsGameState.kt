@@ -9,9 +9,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CloudsGameState(game: CloudsGame) : CellsGameState<CloudsGame, CloudsGameMove, CloudsGameState>(game) {
-    var objArray = Array(rows * cols) { CloudsObject.Empty }
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
+    val objArray = Array(rows * cols) { CloudsObject.Empty }
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

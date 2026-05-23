@@ -5,7 +5,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PointingGameState(game: PointingGame) : CellsGameState<PointingGame, PointingGameMove, PointingGameState>(game) {
-    var markedArrows = mutableSetOf<Position>()
+    val markedArrows = mutableSetOf<Position>()
     var nonPointingArrows = setOf<Position>()
 
     init {

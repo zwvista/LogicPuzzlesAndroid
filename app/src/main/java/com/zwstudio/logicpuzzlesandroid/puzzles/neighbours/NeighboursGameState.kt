@@ -11,8 +11,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NeighboursGameState(game: NeighboursGame) : CellsGameState<NeighboursGame, NeighboursGameMove, NeighboursGameState>(game) {
-    var objArray = Cloner().deepClone(game.objArray)
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Cloner().deepClone(game.objArray)
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

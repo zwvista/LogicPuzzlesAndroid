@@ -10,8 +10,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGame, ArchipelagoGameMove, ArchipelagoGameState>(game) {
-    var objArray = Array<ArchipelagoObject>(rows * cols) { ArchipelagoObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array<ArchipelagoObject>(rows * cols) { ArchipelagoObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
     val invalid2x2Squares = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

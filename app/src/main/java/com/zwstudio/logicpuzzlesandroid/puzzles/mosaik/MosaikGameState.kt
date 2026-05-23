@@ -7,8 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MosaikGameState(game: MosaikGame) : CellsGameState<MosaikGame, MosaikGameMove, MosaikGameState>(game) {
-    var objArray = Array(rows * cols) { MosaikObject.Empty }
-    var pos2state = mutableMapOf<Position, HintState>()
+    val objArray = Array(rows * cols) { MosaikObject.Empty }
+    val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

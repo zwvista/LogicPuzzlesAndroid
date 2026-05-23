@@ -9,8 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class GemsGameState(game: GemsGame) : CellsGameState<GemsGame, GemsGameMove, GemsGameState>(game) {
     val objArray = Array(rows * cols) { GemsObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

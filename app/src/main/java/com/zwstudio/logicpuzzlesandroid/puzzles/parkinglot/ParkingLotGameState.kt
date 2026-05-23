@@ -9,9 +9,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ParkingLotGameState(game: ParkingLotGame) : CellsGameState<ParkingLotGame, ParkingLotGameMove, ParkingLotGameState>(game) {
     // https://stackoverflow.com/questions/43172947/kotlin-creating-a-mutable-list-with-repeating-elements
-    var objArray = Array(rows * cols) { ParkingLotObject.Empty }
-    var pos2stateHint = mutableMapOf<Position, HintState>()
-    var pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = Array(rows * cols) { ParkingLotObject.Empty }
+    val pos2stateHint = mutableMapOf<Position, HintState>()
+    val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 
     init {
         updateIsSolved()

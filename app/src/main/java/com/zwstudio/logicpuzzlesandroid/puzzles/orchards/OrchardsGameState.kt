@@ -9,8 +9,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class OrchardsGameState(game: OrchardsGame) : CellsGameState<OrchardsGame, OrchardsGameMove, OrchardsGameState>(game) {
-    var objArray = Array(rows * cols) { OrchardsObject.Empty }
-    var pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = Array(rows * cols) { OrchardsObject.Empty }
+    val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

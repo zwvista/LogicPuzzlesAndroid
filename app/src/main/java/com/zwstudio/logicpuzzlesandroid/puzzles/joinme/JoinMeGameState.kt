@@ -6,9 +6,9 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class JoinMeGameState(game: JoinMeGame) : CellsGameState<JoinMeGame, JoinMeGameMove, JoinMeGameState>(game) {
-    var objArray = Array(rows * cols) { Array(4) { false } }
-    var row2state = Array(rows) { HintState.Normal }
-    var col2state = Array(cols) { HintState.Normal }
+    val objArray = Array(rows * cols) { Array(4) { false } }
+    val row2state = Array(rows) { HintState.Normal }
+    val col2state = Array(cols) { HintState.Normal }
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
