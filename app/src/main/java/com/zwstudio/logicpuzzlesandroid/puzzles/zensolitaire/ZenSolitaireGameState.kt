@@ -8,7 +8,7 @@ import kotlin.math.sign
 
 class ZenSolitaireGameState(game: ZenSolitaireGame) : CellsGameState<ZenSolitaireGame, ZenSolitaireGameMove, ZenSolitaireGameState>(game) {
     val objArray = IntArray(rows * cols)
-    val lastMove: ZenSolitaireGameMove? = null
+    var lastMove: ZenSolitaireGameMove? = null
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
