@@ -50,21 +50,14 @@ class BanquetGameView(context: Context, val soundManager: SoundManager) : CellsG
             for (c in 0..<cols)
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
         if (isInEditMode) return
-        for (p in game.fixedTables) {
-            val (r, c) = p
-            dTable.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-            val alpha = if (game.pos2state(p) == AllowedObjectState.Error) 50 else 0
-            dTable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)
-            dTable.draw(canvas)
-        }
         for ((p, n) in game.pos2hint) {
-            val p2 = game.hint2table(p)!!
+            val p2 = game.hint2table(p)
             val (r, c) = p
-            val (r2, c2) = p2
-            if (p == p2) {
+            if (p2 == null) {
                 val text = n.toString()
                 drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             } else {
+                val (r2, c2) = p2
                 dTable.setBounds(cwc(c2), chr(r2), cwc(c2 + 1), chr(r2 + 1))
                 val alpha = if (game.pos2state(p2) == AllowedObjectState.Error) 50 else 0
                 dTable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(Color.argb(alpha, 255, 0, 0), BlendModeCompat.SRC_ATOP)

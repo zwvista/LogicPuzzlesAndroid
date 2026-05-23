@@ -14,41 +14,44 @@ class BanquetGameState(game: BanquetGame) : CellsGameState<BanquetGame, BanquetG
     val pos2state = mutableMapOf<Position, AllowedObjectState>()
 
     init {
-        for (p in game.pos2hint.keys) {
-            hint2table[p] = p
-            table2hint[p] = p
-        }
         updateIsSolved()
     }
 
     override fun setObject(move: BanquetGameMove): GameOperationType {
         val p = move.p
-        val pHint = table2hint[p] ?: return GameOperationType.Invalid
-        table2hint.remove(p)
-        if (p != pHint) {
-            hint2table[pHint] = pHint
-            table2hint[pHint] = pHint
-        } else {
+        val dir = move.dir
+        val pHint = table2hint[p]
+        if (pHint != null && dir == BanquetGame.PUZ_TAP_MOVE) {
+            table2hint.remove(p)
+            hint2table.remove(pHint)
+        } else if (game.pos2hint[p] != null) {
             // 2. The number on the table tells you how many tiles it must be moved.
             //    Tables without numbers must stay put.
-            val os = BanquetGame.offset[move.dir]
-            val n = game.pos2hint[p]!!
             var pTable = p
-            for (i in 0..<n) {
-                pTable += os
-                // 3. Tables can't cross other tables, nor cross other tables paths after
-                //    they moved.
-                if (!(isValid(pTable) && table2hint[pTable] == null && !tablePath.contains(pTable))) return GameOperationType.Invalid
+            val n = game.pos2hint[p]!!
+            if ((n == 0) != (dir == BanquetGame.PUZ_TAP_MOVE)) return GameOperationType.Invalid
+            if (n > 0) {
+                val os = BanquetGame.offset[dir]
+                for (i in 0..<n) {
+                    pTable += os
+                    // 3. Tables can't cross other tables, nor cross other tables paths after
+                    //    they moved.
+                    if (!isValid(pTable) || table2hint[pTable] != null ||
+                        game.pos2hint[pTable] != null && hint2table[pTable] == null ||
+                        tablePath.contains(pTable))
+                        return GameOperationType.Invalid
+                }
+                pTable = p
+                for (i in 0..<n) {
+                    pTable += os
+                    if (i < n - 1)
+                        tablePath.add(p)
+                }
             }
-            pTable = p
-            for (i in 0..<n) {
-                pTable += os
-                if (i < n - 1)
-                    tablePath.add(p)
-            }
-            hint2table[pHint] = pTable
-            table2hint[pTable] = pHint
-        }
+            hint2table[p] = pTable
+            table2hint[pTable] = p
+        } else
+            return GameOperationType.Invalid
         updateIsSolved()
         return GameOperationType.MoveComplete
     }
@@ -71,12 +74,7 @@ class BanquetGameState(game: BanquetGame) : CellsGameState<BanquetGame, BanquetG
     */
     private fun updateIsSolved() {
         isSolved = true
-        val tables = mutableSetOf<Position>()
-        for ((pTable, pHint) in table2hint)
-            if (pTable == pHint)
-                isSolved = false
-            else
-                tables.add(pTable)
+        if (table2hint.size != game.pos2hint.size) isSolved = false
         // 1. Join the tables in order to form "banquets" of at least two tables.
         // 4. Banquets cannot touch each other horizontally or vertically
         //    (they can touch diagonally).
@@ -86,16 +84,11 @@ class BanquetGameState(game: BanquetGame) : CellsGameState<BanquetGame, BanquetG
         for (r in 0..<rows)
             for (c in 0..<cols) {
                 val p = Position(r, c)
-                if (!tables.contains(p)) continue
+                if (table2hint[p] == null) continue
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (p in game.fixedTables) {
-            val node = Node(p.toString())
-            g.addNode(node)
-            pos2node[p] = node
-        }
         for ((p, node) in pos2node)
             for (os in BanquetGame.offset) {
                 val p2 = p + os

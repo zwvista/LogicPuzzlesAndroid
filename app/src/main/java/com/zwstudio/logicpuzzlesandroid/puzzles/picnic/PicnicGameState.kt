@@ -26,7 +26,7 @@ class PicnicGameState(game: PicnicGame) : CellsGameState<PicnicGame, PicnicGameM
         } else if (game.pos2hint[p] != null && dir != PicnicGame.PUZ_TAP_MOVE) {
             // 6. The number on top of the basket shows you how many tiles the basket must
             //    be flung.
-            val os = PicnicGame.offset[move.dir]
+            val os = PicnicGame.offset[dir]
             val n = game.pos2hint[p]!!
             var pBlanket = p
             for (i in 0..<n) {

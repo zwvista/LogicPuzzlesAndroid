@@ -13,7 +13,6 @@ class BanquetGame(layout: List<String>, gi: GameInterface<BanquetGame, BanquetGa
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
-    val fixedTables = mutableSetOf<Position>()
 
     init {
         size = Position(layout.size, layout[0].length)
@@ -23,11 +22,7 @@ class BanquetGame(layout: List<String>, gi: GameInterface<BanquetGame, BanquetGa
                 val p = Position(r, c)
                 val ch = str[c]
                 if (ch == ' ') continue
-                val n = if (ch == '?') PUZ_UNKNOWN else ch - '0'
-                if (n == 0)
-                    fixedTables.add(p)
-                else
-                    pos2hint[p] = n
+                pos2hint[p] = if (ch == '?') PUZ_UNKNOWN else ch - '0'
             }
         }
         val state = BanquetGameState(this)
