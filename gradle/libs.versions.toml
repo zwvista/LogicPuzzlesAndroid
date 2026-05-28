@@ -8,11 +8,13 @@ koinAndroid = "4.1.1"
 kotlinAllopen = "2.2.10"
 leakcanaryAndroid = "2.14"
 persistenceApi = "1.0.2"
+objenesis = "3.4"
 realmGradlePlugin = "10.19.0"
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 cloning = { module = "uk.com.robust-it:cloning", version.ref = "cloning" }
+objenesis = { module = "org.objenesis:objenesis", version.ref = "objenesis" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { module = "junit:junit", version.ref = "junit" }

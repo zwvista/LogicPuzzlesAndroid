@@ -1,14 +1,14 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("realm-android")
 }
 
 android {
     defaultConfig {
         applicationId = "com.zwstudio.logicpuzzlesandroid"
-        minSdk = 26
+        minSdk = 23
         compileSdk = 35
         multiDexEnabled = true
         versionCode = 1
@@ -40,6 +40,7 @@ dependencies {
     testImplementation(libs.junit)
     implementation(libs.persistence.api)
     implementation(libs.cloning)
+    implementation(libs.objenesis)
     implementation(libs.koin.android)
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation(libs.leakcanary.android)
