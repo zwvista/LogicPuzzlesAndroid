@@ -3,9 +3,8 @@ package com.zwstudio.logicpuzzlesandroid.home.android
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.zwstudio.logicpuzzlesandroid.BuildConfig.APPLICATION_ID
 import com.zwstudio.logicpuzzlesandroid.home.data.HomeDocument
@@ -23,12 +22,12 @@ import kotlin.reflect.KClass
 
 
 // https://stackoverflow.com/questions/3667022/checking-if-an-android-application-is-running-in-the-background/48767617#48767617
-class LogicPuzzlesApplication : Application(), LifecycleObserver {
+class LogicPuzzlesApplication : Application(), DefaultLifecycleObserver {
     val homeDocument: HomeDocument by inject()
     private val soundManager: SoundManager by inject()
 
     override fun onCreate() {
-        super.onCreate()
+        super<Application>.onCreate()
         val logicPuzzlesModule = module {
             single { SoundManager(androidContext() as LogicPuzzlesApplication) }
             single { HomeDocument() }
@@ -85,18 +84,15 @@ class LogicPuzzlesApplication : Application(), LifecycleObserver {
         return result
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
         soundManager.activityStarted()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(owner: LifecycleOwner) {
         soundManager.activityStopped()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
+    override fun onDestroy(owner: LifecycleOwner) {
         soundManager.doUnbindService()
     }
 }
