@@ -6,16 +6,19 @@ plugins {
 }
 
 android {
+    namespace = "com.zwstudio.logicpuzzlesandroid"
+    compileSdk = 37
+
     defaultConfig {
         applicationId = "com.zwstudio.logicpuzzlesandroid"
         minSdk = 23
-        compileSdk = 35
+        targetSdk = 37
         multiDexEnabled = true
         versionCode = 1
         versionName = "1.0"
     }
     buildTypes {
-        named("release") {
+        getByName("release") {
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
@@ -28,14 +31,13 @@ android {
         dataBinding = true
         buildConfig = true
     }
-    namespace = "com.zwstudio.logicpuzzlesandroid"
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    androidTestImplementation(libs.espresso.core, {
+    androidTestImplementation(libs.espresso.core) {
         exclude(group = "com.android.support", module = "support-annotations")
-    })
+    }
     implementation(libs.appcompat)
     testImplementation(libs.junit)
     implementation(libs.persistence.api)
