@@ -7,19 +7,11 @@ buildscript {
     }
     dependencies {
         classpath(libs.gradle)
-        classpath(libs.kotlin.gradle.plugin)
         classpath(libs.kotlin.allopen)
         classpath(libs.realm.gradle.plugin)
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 tasks.register<Delete>("clean").configure {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }

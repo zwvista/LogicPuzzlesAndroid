@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -5,7 +7,7 @@ plugins {
     id("realm-android")
 }
 
-android {
+configure<ApplicationExtension> {
     namespace = "com.zwstudio.logicpuzzlesandroid"
     compileSdk = 37
 
