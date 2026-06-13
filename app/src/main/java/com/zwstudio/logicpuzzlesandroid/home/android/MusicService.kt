@@ -38,10 +38,9 @@ class MusicService : Service(), MediaPlayer.OnErrorListener, OnCompletionListene
 
     private fun createMediaPlayer() {
         // https://stackoverflow.com/questions/6539715/android-how-do-can-i-get-a-list-of-all-files-in-a-folder
-        val fields = raw::class.java.fields
-        val indexes = fields.indices.filter { fields[it].name.startsWith("music") }
-        val n = Random.nextInt(indexes.size)
-        mPlayer = MediaPlayer.create(this, fields[indexes[n]].getInt(fields[indexes[n]]))
+        val fields = raw::class.java.fields.filter { it.name.startsWith("music") }
+        val n = Random.nextInt(fields.size)
+        mPlayer = MediaPlayer.create(this, fields[n].getInt(fields[n]))
         mPlayer!!.setVolume(100f, 100f)
         mPlayer!!.setOnErrorListener(this)
         mPlayer!!.setOnCompletionListener(this)
