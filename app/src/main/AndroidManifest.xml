@@ -1789,6 +1789,18 @@
         <activity android:name=".puzzles.runinaloop.RunInALoopOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.scissors.ScissorsMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.scissors.ScissorsGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.scissors.ScissorsHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.scissors.ScissorsOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.sentinels.SentinelsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
