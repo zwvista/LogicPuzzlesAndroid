@@ -1705,6 +1705,18 @@
         <activity android:name=".puzzles.productsentinels.ProductSentinelsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.proofofquilt.ProofOfQuiltMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.proofofquilt.ProofOfQuiltGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.proofofquilt.ProofOfQuiltHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.proofofquilt.ProofOfQuiltOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.rabbits.RabbitsMainActivity"
                   android:screenOrientation="portrait">
         </activity>
