@@ -31,10 +31,6 @@ class ScissorsGameView(context: Context, val soundManager: SoundManager) : Cells
         linePaint.color = Color.GREEN
         linePaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        mathPaint1.style = Paint.Style.STROKE
-        mathPaint1.color = Color.WHITE
-        mathPaint2.style = Paint.Style.FILL
-        mathPaint2.color = Color.BLACK
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -49,23 +45,18 @@ class ScissorsGameView(context: Context, val soundManager: SoundManager) : Cells
                     val (r2, c2) = p2
                     canvas.drawLine(cwc(c1).toFloat(), chr(r1).toFloat(), cwc(c2).toFloat(), chr(r2).toFloat(), linePaint)
                 }
-                when (game.getObject(p)) {
-                    ScissorsObject.Forward -> addSlash(p, p + ScissorsGame.offset2[3])
-                    ScissorsObject.Backward -> addSlash(p + ScissorsGame.offset2[1], p + ScissorsGame.offset2[2])
-                    else -> {}
+                when (val o = game.getObject(p)) {
+                    ScissorsGame.PUZ_BACK_SLASH -> addSlash(p, p + ScissorsGame.offset2[3])
+                    ScissorsGame.PUZ_FRONT_SLASH -> addSlash(p + ScissorsGame.offset2[1], p + ScissorsGame.offset2[2])
+                    ' ' -> {}
+                    else -> {
+                        val text = o.toString()
+                        val s = game.pos2state(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
                 }
             }
-        if (isInEditMode) return
-        for ((p, value) in game.pos2hint) {
-            val r = p.row
-            val c = p.col
-            canvas.drawArc((cwc(c) - cellWidth / 4).toFloat(), (chr(r) - cellHeight / 4).toFloat(), (cwc(c) + cellWidth / 4).toFloat(), (chr(r) + cellHeight / 4).toFloat(), 0f, 360f, true, mathPaint1)
-            canvas.drawArc((cwc(c) - cellWidth / 4).toFloat(), (chr(r) - cellHeight / 4).toFloat(), (cwc(c) + cellWidth / 4).toFloat(), (chr(r) + cellHeight / 4).toFloat(), 0f, 360f, true, mathPaint2)
-            val text = value.toString()
-            val s = game.pos2state(p)
-            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            drawTextCentered(text, cwc(c) - cellWidth / 4, chr(r) - cellHeight / 4, cellWidth / 2, cellHeight / 2, canvas, textPaint)
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

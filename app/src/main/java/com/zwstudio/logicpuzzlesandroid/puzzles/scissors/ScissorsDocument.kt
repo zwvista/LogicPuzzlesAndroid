@@ -9,9 +9,9 @@ class ScissorsDocument(context: Context) : GameDocument<ScissorsGameMove>(contex
     override fun saveMove(move: ScissorsGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.intValue1 = move.obj.ordinal
+        rec.strValue1 = move.obj.toString()
     }
 
     override fun loadMove(rec: MoveProgress) =
-        ScissorsGameMove(Position(rec.row, rec.col), ScissorsObject.entries[rec.intValue1])
+        ScissorsGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
 }
