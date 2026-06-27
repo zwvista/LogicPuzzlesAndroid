@@ -50,8 +50,8 @@ class SlantedMazeGameView(context: Context, val soundManager: SoundManager) : Ce
                     canvas.drawLine(cwc(c1).toFloat(), chr(r1).toFloat(), cwc(c2).toFloat(), chr(r2).toFloat(), linePaint)
                 }
                 when (game.getObject(p)) {
-                    SlantedMazeObject.Forward -> addSlash(p, p + SlantedMazeGame.offset2[3])
-                    SlantedMazeObject.Backward -> addSlash(p + SlantedMazeGame.offset2[1], p + SlantedMazeGame.offset2[2])
+                    SlantedMazeObject.Backward -> addSlash(p, p + SlantedMazeGame.offset2[3])
+                    SlantedMazeObject.Forward -> addSlash(p + SlantedMazeGame.offset2[1], p + SlantedMazeGame.offset2[2])
                     else -> {}
                 }
             }

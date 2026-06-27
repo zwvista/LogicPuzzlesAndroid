@@ -30,9 +30,9 @@ class SlantedMazeGameState(game: SlantedMazeGame) : CellsGameState<SlantedMazeGa
     override fun switchObject(move: SlantedMazeGameMove): GameOperationType {
         val p = move.p
         move.obj = when (val o = this[p]) {
-            SlantedMazeObject.Empty -> SlantedMazeObject.Forward
-            SlantedMazeObject.Forward -> SlantedMazeObject.Backward
-            SlantedMazeObject.Backward -> SlantedMazeObject.Empty
+            SlantedMazeObject.Empty -> SlantedMazeObject.Backward
+            SlantedMazeObject.Backward -> SlantedMazeObject.Forward
+            SlantedMazeObject.Forward -> SlantedMazeObject.Empty
         }
         return setObject(move)
     }
@@ -70,8 +70,8 @@ class SlantedMazeGameState(game: SlantedMazeGame) : CellsGameState<SlantedMazeGa
                     rng.add(p2)
                 }
                 when (this[p]) {
-                    SlantedMazeObject.Forward -> addSlash(p, p + SlantedMazeGame.offset2[3])
-                    SlantedMazeObject.Backward -> addSlash(p + SlantedMazeGame.offset2[1], p + SlantedMazeGame.offset2[2])
+                    SlantedMazeObject.Backward -> addSlash(p, p + SlantedMazeGame.offset2[3])
+                    SlantedMazeObject.Forward -> addSlash(p + SlantedMazeGame.offset2[1], p + SlantedMazeGame.offset2[2])
                     else -> isSolved = false
                 }
             }

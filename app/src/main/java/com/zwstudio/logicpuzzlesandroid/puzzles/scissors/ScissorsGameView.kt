@@ -28,7 +28,7 @@ class ScissorsGameView(context: Context, val soundManager: SoundManager) : Cells
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
-        linePaint.color = Color.GREEN
+        linePaint.color = Color.MAGENTA
         linePaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
     }
