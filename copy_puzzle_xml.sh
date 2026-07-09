@@ -1,6 +1,6 @@
 #!/bin/bash
 # 自动生成的Android拷贝XML脚本
-# 生成时间: 2026-06-27 10:32:31
+# 生成时间: 2026-07-09 13:21:28
 
 echo "开始拷贝XML文件到Android项目..."
 
@@ -29,6 +29,15 @@ if [ -f "../PSL/PuzzlesP/Puzzles/Planks.xml" ]; then
     echo "✓ 已拷贝到Android: Planks"
 else
     echo "❌ 源文件不存在: ../PSL/PuzzlesP/Puzzles/Planks.xml"
+fi
+
+# 拷贝 ProofOfQuilt (来自: PuzzlesP/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesP/Puzzles/ProofOfQuilt.xml" ]; then
+    cp "../PSL/PuzzlesP/Puzzles/ProofOfQuilt.xml" "app/src/main/assets/xml/ProofOfQuilt.xml"
+    echo "✓ 已拷贝到Android: ProofOfQuilt"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesP/Puzzles/ProofOfQuilt.xml"
 fi
 
 # 拷贝 PathOnTheHills (来自: PuzzlesP/Puzzles)
@@ -1849,4 +1858,4 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesU/Puzzles/Underground.xml"
 fi
 
-echo "\nAndroid拷贝完成，共处理 205 个游戏"
+echo "\nAndroid拷贝完成，共处理 206 个游戏"

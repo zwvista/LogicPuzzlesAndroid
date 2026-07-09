@@ -14,7 +14,6 @@ class ScissorsGame(layout: List<String>, gi: GameInterface<ScissorsGame, Scissor
     }
 
     val objArray: CharArray
-    var chMax = '1'
     val numbers: List<Char>
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -25,6 +24,7 @@ class ScissorsGame(layout: List<String>, gi: GameInterface<ScissorsGame, Scissor
     init {
         size = Position(layout.size, layout[0].length)
         objArray = CharArray(rows * cols) { ' ' }
+        var chMax = '1'
         for (r in 0..<rows) {
             var str = layout[r]
             for (c in 0..<cols) {
