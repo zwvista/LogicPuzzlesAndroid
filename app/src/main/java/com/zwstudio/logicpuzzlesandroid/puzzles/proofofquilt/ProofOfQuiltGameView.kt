@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -20,16 +21,24 @@ class ProofOfQuiltGameView(context: Context, val soundManager: SoundManager) : C
     override val colsInView get() = cols
 
     private val gridPaint = Paint()
+    private val markerPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val linePaint = Paint()
+    private val blockPaint = Paint()
     private val textPaint = TextPaint()
-    private val mathPaint1 = Paint()
-    private val mathPaint2 = Paint()
 
     init {
         gridPaint.color = Color.GRAY
         gridPaint.style = Paint.Style.STROKE
+        markerPaint.color = Color.WHITE
+        markerPaint.style = Paint.Style.FILL_AND_STROKE
+        markerPaint.strokeWidth = 5f
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         linePaint.color = Color.MAGENTA
         linePaint.strokeWidth = 5f
+        blockPaint.color = Color.WHITE
         textPaint.isAntiAlias = true
     }
 
@@ -40,22 +49,40 @@ class ProofOfQuiltGameView(context: Context, val soundManager: SoundManager) : C
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                fun addSlash(p1: Position, p2: Position) {
-                    val (r1, c1) = p1
-                    val (r2, c2) = p2
-                    canvas.drawLine(cwc(c1).toFloat(), chr(r1).toFloat(), cwc(c2).toFloat(), chr(r2).toFloat(), linePaint)
+                val left = (cwc(c) + 4).toFloat()
+                val top = (chr(r) + 4).toFloat()
+                val right = (cwc(c + 1) - 4).toFloat()
+                val bottom = (chr(r + 1) - 4).toFloat()
+                fun drawTriangle(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float) {
+                    val path = Path()
+                    path.moveTo(x1, y1)
+                    path.lineTo(x2, y2)
+                    path.lineTo(x3, y3)
+                    path.close()
+                    canvas.drawPath(path, blockPaint)
                 }
-                when (val o = game.getObject(p)) {
-                    ProofOfQuiltGame.PUZ_BACK_SLASH -> addSlash(p, p + ProofOfQuiltGame.offset2[3])
-                    ProofOfQuiltGame.PUZ_FRONT_SLASH -> addSlash(p + ProofOfQuiltGame.offset2[1], p + ProofOfQuiltGame.offset2[2])
-                    ' ' -> {}
-                    else -> {
-                        val text = o.toString()
-                        val s = game.pos2state(p)
-                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                    }
+                when (game.getObject(p)) {
+                    ProofOfQuiltObject.Marker ->
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, markerPaint)
+                    ProofOfQuiltObject.Forbidden ->
+                        canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, forbiddenPaint)
+                    ProofOfQuiltObject.TriangleA ->
+                        drawTriangle(left, top, right, top, left, bottom)
+                    ProofOfQuiltObject.TriangleB ->
+                        drawTriangle(left, top, right, top, right, bottom)
+                    ProofOfQuiltObject.TriangleC ->
+                        drawTriangle(left, top, left, bottom, right, bottom)
+                    ProofOfQuiltObject.TriangleD ->
+                        drawTriangle(right, top, left, bottom, right, bottom)
+                    ProofOfQuiltObject.Filled ->
+                        canvas.drawRect(left, top, right, bottom, blockPaint)
+                    else -> {}
                 }
+                val n = game.pos2hint[p] ?: continue
+                val text = n.toString()
+                val s = game.pos2state(p)
+                textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.GRAY
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
     }
 

@@ -11,7 +11,7 @@ class MineSlitherGame(layout: List<String>, gi: GameInterface<MineSlitherGame, M
         val offset2 = Position.Square2x2Offset
     }
 
-    val pos2hint = mutableMapOf<Position, Int>();
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size + 1, layout[0].length + 1)

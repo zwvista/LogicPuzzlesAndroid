@@ -1,13 +1,16 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.proofofquilt
 
+import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
+import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuiltGame, ProofOfQuiltGameMove, ProofOfQuiltGameState>(game) {
+    protected var cloner = Cloner()
     val objArray = game.objArray.copyOf()
     val pos2state = mutableMapOf<Position, HintState>()
 
@@ -17,12 +20,12 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
-    operator fun set(row: Int, col: Int, obj: Char) {objArray[row * cols + col] = obj}
-    operator fun set(p: Position, obj: Char) {this[p.row, p.col] = obj}
+    operator fun set(row: Int, col: Int, obj: ProofOfQuiltObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: ProofOfQuiltObject) {this[p.row, p.col] = obj}
 
     override fun setObject(move: ProofOfQuiltGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ' || this[p] == move.obj) return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != ProofOfQuiltObject.Empty || this[p] == move.obj) return GameOperationType.Invalid
         this[p] = move.obj
         updateIsSolved()
         return GameOperationType.MoveComplete
@@ -30,11 +33,15 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
 
     override fun switchObject(move: ProofOfQuiltGameMove): GameOperationType {
         val p = move.p
-        if (!isValid(p) || game[p] != ' ') return GameOperationType.Invalid
+        if (!isValid(p) || game[p] != ProofOfQuiltObject.Empty) return GameOperationType.Invalid
+        val markerOption = MarkerOptions.entries[game.gdi.markerOption]
         move.obj = when (val o = this[p]) {
-            ' ' -> ProofOfQuiltGame.PUZ_BACK_SLASH
-            ProofOfQuiltGame.PUZ_BACK_SLASH -> ProofOfQuiltGame.PUZ_FRONT_SLASH
-            ProofOfQuiltGame.PUZ_FRONT_SLASH -> ' '
+            ProofOfQuiltObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ProofOfQuiltObject.Marker else ProofOfQuiltObject.TriangleA
+            ProofOfQuiltObject.TriangleA -> ProofOfQuiltObject.TriangleB
+            ProofOfQuiltObject.TriangleB -> ProofOfQuiltObject.TriangleC
+            ProofOfQuiltObject.TriangleC -> ProofOfQuiltObject.TriangleD
+            ProofOfQuiltObject.TriangleD -> if (markerOption == MarkerOptions.MarkerLast) ProofOfQuiltObject.Marker else ProofOfQuiltObject.Empty
+            ProofOfQuiltObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ProofOfQuiltObject.TriangleA else ProofOfQuiltObject.Empty
             else -> o
         }
         return setObject(move)
@@ -61,52 +68,62 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
          8. Rectangles or squares can't touch orthogonally, but can touch diagonally
     */
     private fun updateIsSolved() {
+        val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val g = Graph()
-        var pos2node = mutableMapOf<ProofOfQuiltPosition, Node>()
-        fun f(sp: ProofOfQuiltPosition) {
-            val node = Node(sp.toString())
-            g.addNode(node)
-            pos2node[sp] = node
-        }
+        val triangles = mutableSetOf<Position>()
         for (r in 0..<rows)
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
-                    ProofOfQuiltGame.PUZ_BACK_SLASH -> {
-                        f(ProofOfQuiltPosition(p, 3)); f(ProofOfQuiltPosition(p, 12))
-                    }
-                    ProofOfQuiltGame.PUZ_FRONT_SLASH -> {
-                        f(ProofOfQuiltPosition(p, 6)); f(ProofOfQuiltPosition(p, 9))
-                    }
-                    else -> f(ProofOfQuiltPosition(p, 15))
+                    ProofOfQuiltObject.Forbidden -> this[p] = ProofOfQuiltObject.Empty
+                    ProofOfQuiltObject.TriangleA -> triangles.add(p)
+                    else -> {}
                 }
             }
-        for ((sp, node) in pos2node)
-            for (i in 0..<4) {
-                if (sp.n and (1 shl i) == 0) continue
-                val p2 = sp.p + ProofOfQuiltGame.offset[i]
-                val j = (i + 2) % 4
-                val sp2 = pos2node.keys.firstOrNull { it.p == p2 && it.n and (1 shl j) != 0 } ?: continue
-                g.connectNode(node, pos2node[sp2]!!)
+        for ((p, n2) in game.pos2hint) {
+            val area = ProofOfQuiltGame.offset.map { p + it }.filter { isValid(it) }
+            val n1 = area.count { this[it].isTriangle }
+            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
+            if (s != HintState.Complete) isSolved = false
+            if (allowedObjectsOnly && s != HintState.Normal)
+                for (p2 in area)
+                    if (this[p2] == ProofOfQuiltObject.Empty || this[p2] == ProofOfQuiltObject.Marker)
+                        this[p2] = ProofOfQuiltObject.Forbidden
+        }
+        if (!isSolved) return
+        val allPositions = cloner.deepClone(game.allPositions)
+        val g = Graph()
+        val pos2node = mutableMapOf<Position, Node>()
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
+                val p = Position(r, c)
+                if (!this[p].isBlank) continue
+                val node = Node(p.toString())
+                g.addNode(node)
+                pos2node[p] = node
+            }
+        for ((p, node) in pos2node)
+            for (os in ProofOfQuiltGame.offset) {
+                val p2 = p + os
+                pos2node[p2]?.let { g.connectNode(node, it) }
             }
         while (pos2node.isNotEmpty()) {
             g.rootNode = pos2node.values.first()
             val nodeList = g.bfs()
-            val area = pos2node.filter { nodeList.contains(it.value) }.map { it.key }.filter { it.n == 15 }.map { it.p }
-            pos2node = pos2node.filter { !nodeList.contains(it.value) }.toMutableMap()
-            val num2rng = mutableMapOf<Char, MutableList<Position>>()
-            for (p in area) {
-                val ch = this[p]
-                if (ch.isDigit())
-                    num2rng.getOrPut(ch) { mutableListOf() }.add(p)
+            val blanks = pos2node.filter { nodeList.contains(it.value) }.map { it.key }
+            var (r1, r2) = rows to 0
+            var (c1, c2) = cols to 0
+            for (p in blanks) {
+                if (r2 < p.row) r2 = p.row
+                if (r1 > p.row) r1 = p.row
+                if (c2 < p.col) c2 = p.col
+                if (c1 > p.col) c1 = p.col
+                pos2node.remove(p)
+                allPositions.remove(p)
             }
-            val n = num2rng.values.firstOrNull()?.size ?: 0
-            val hasNumbers = num2rng.keys.sorted() == game.numbers && num2rng.all { it.value.size == n }
-            val s = if (!hasNumbers) HintState.Error else if (n == 1) HintState.Complete else HintState.Normal
-            if (s != HintState.Complete) isSolved = false
-            for (p in area)
-                pos2state[p] = s
+            val rs = r2 - r1 + 1
+            val cs = c2 - c1 + 1
+            if (rs * cs != blanks.size) { isSolved = false; return }
         }
     }
 }

@@ -9,9 +9,9 @@ class ProofOfQuiltDocument(context: Context) : GameDocument<ProofOfQuiltGameMove
     override fun saveMove(move: ProofOfQuiltGameMove, rec: MoveProgress) {
         rec.row = move.p.row
         rec.col = move.p.col
-        rec.strValue1 = move.obj.toString()
+        rec.intValue1 = move.obj.ordinal
     }
 
     override fun loadMove(rec: MoveProgress) =
-        ProofOfQuiltGameMove(Position(rec.row, rec.col), rec.strValue1!![0])
+        ProofOfQuiltGameMove(Position(rec.row, rec.col), ProofOfQuiltObject.entries[rec.intValue1])
 }

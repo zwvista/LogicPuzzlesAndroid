@@ -16,7 +16,7 @@ class CastleBaileyGame(layout: List<String>, gi: GameInterface<CastleBaileyGame,
         )
     }
 
-    val pos2hint = mutableMapOf<Position, Int>();
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size - 1, layout[0].length - 1)

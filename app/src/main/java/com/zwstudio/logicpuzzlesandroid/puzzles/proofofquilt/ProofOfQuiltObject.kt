@@ -2,12 +2,15 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.proofofquilt
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
-data class ProofOfQuiltPosition(
-    val p: Position,
-    val n: Int
-) {
-    override fun hashCode() = p.hashCode() * 100 + n
-    override fun toString() = String.format("(%d,%d),%d", p.row, p.col, n)
+enum class ProofOfQuiltObject {
+    Empty, Filled, Forbidden, Marker,
+    TriangleA, TriangleB, TriangleC, TriangleD;
+
+    val isBlank get() =
+        listOf(Empty, Forbidden, Marker).contains(this)
+    val isTriangle get() =
+        listOf(TriangleA, TriangleB, TriangleC, TriangleD).contains(this)
+
 }
 
-class ProofOfQuiltGameMove(val p: Position, var obj: Char = ' ')
+class ProofOfQuiltGameMove(val p: Position, var obj: ProofOfQuiltObject = ProofOfQuiltObject.Empty)

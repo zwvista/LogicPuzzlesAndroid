@@ -30,7 +30,7 @@ class CloudsAndClearsGame(layout: List<String>, gi: GameInterface<CloudsAndClear
         )
     }
 
-    val pos2hint = mutableMapOf<Position, Int>();
+    val pos2hint = mutableMapOf<Position, Int>()
 
     init {
         size = Position(layout.size, layout[0].length)
