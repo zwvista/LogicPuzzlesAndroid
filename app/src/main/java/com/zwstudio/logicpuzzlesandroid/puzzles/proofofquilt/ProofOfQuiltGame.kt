@@ -13,7 +13,7 @@ class ProofOfQuiltGame(layout: List<String>, gi: GameInterface<ProofOfQuiltGame,
     }
 
     val pos2hint = mutableMapOf<Position, Int>()
-    val patterns = mutableListOf<MutableMap<Position, ProofOfQuiltObject>>()
+    val patterns = mutableListOf<ProofOfQuiltPattern>()
     val allPositions = mutableSetOf<Position>()
     val objArray: Array<ProofOfQuiltObject>
 
@@ -39,6 +39,30 @@ class ProofOfQuiltGame(layout: List<String>, gi: GameInterface<ProofOfQuiltGame,
                 }
             }
         }
+        //    (j,k) = 1,1
+        //    A B
+        //    C D
+        //
+        //    (j,k) = 1,2    (j,k) = 2,1
+        //    A B .          . A B
+        //    C . B          A . D
+        //    . C D          C D .
+        //
+        //    (j,k) = 1,3    (j,k) = 2,2   (j,k) = 3,1
+        //    A B . .        . A B .       . . A B
+        //    C . B .        A . . B       . A . D
+        //    . C . B        C . . D       A . D .
+        //    . . C D        . C D .       C D . .
+        //
+        //    (j,k) = 1,4    (j,k) = 2,3   (j,k) = 3,2    (j,k) = 4,1
+        //    A B . . .      . A B . .     . . A B .      . . . A B
+        //    C . B . .      A . . B .     . A . . B      . . A . D
+        //    . C . B .      C . . . B     A . . . D      . A . D .
+        //    . . C . B      . C . . D     C . . D .      A . D . .
+        //    . . . C D      . . C D .     . C D . .      C D . . .
+        //
+        // Find all tilted quilts
+        // A tilted quilt has a circumscribed square
         for (i in 2..rows)
             for (j in 1..<i) {
                 val k = i - j
@@ -79,7 +103,7 @@ class ProofOfQuiltGame(layout: List<String>, gi: GameInterface<ProofOfQuiltGame,
                             pattern[p] = o2
                     }
                 }
-                patterns.add(pattern)
+                patterns.add(ProofOfQuiltPattern(i, pattern))
             }
         val state = ProofOfQuiltGameState(this)
         levelInitialized(state)

@@ -70,13 +70,13 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val triangles = mutableSetOf<Position>()
+        val triangleAs = mutableSetOf<Position>()
         for (r in 0..<rows)
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 when (this[p]) {
                     ProofOfQuiltObject.Forbidden -> this[p] = ProofOfQuiltObject.Empty
-                    ProofOfQuiltObject.TriangleA -> triangles.add(p)
+                    ProofOfQuiltObject.TriangleA -> triangleAs.add(p)
                     else -> {}
                 }
             }
@@ -125,5 +125,19 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
             val cs = c2 - c1 + 1
             if (rs * cs != blanks.size) { isSolved = false; return }
         }
+        outer@ for (p in triangleAs) {
+            for (o in game.patterns)
+                if (p.row + o.len < rows && p.col + o.len < cols &&
+                o.pattern.all { (dp, o2) ->
+                    this[p + dp] == o2
+                }) {
+                    val area = o.pattern.map { p + it.key }
+                    for (p2 in area)
+                        allPositions.remove(p2)
+                    continue@outer
+                }
+            isSolved = false; return
+        }
+        if (allPositions.isNotEmpty()) isSolved = false
     }
 }

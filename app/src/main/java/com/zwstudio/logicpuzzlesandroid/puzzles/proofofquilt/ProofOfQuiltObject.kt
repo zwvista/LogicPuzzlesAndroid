@@ -13,4 +13,6 @@ enum class ProofOfQuiltObject {
 
 }
 
+data class ProofOfQuiltPattern(val len: Int, val pattern: MutableMap<Position, ProofOfQuiltObject>)
+
 class ProofOfQuiltGameMove(val p: Position, var obj: ProofOfQuiltObject = ProofOfQuiltObject.Empty)
