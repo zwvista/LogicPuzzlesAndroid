@@ -10,7 +10,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuiltGame, ProofOfQuiltGameMove, ProofOfQuiltGameState>(game) {
-    protected var cloner = Cloner()
     val objArray = game.objArray.copyOf()
     val pos2state = mutableMapOf<Position, HintState>()
 
@@ -91,7 +90,7 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
                         this[p2] = ProofOfQuiltObject.Forbidden
         }
         if (!isSolved) return
-        val allPositions = cloner.deepClone(game.allPositions)
+        val allPositions = Cloner().deepClone(game.allPositions)
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0..<rows)
@@ -127,7 +126,7 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
         }
         outer@ for (p in triangleAs) {
             for (o in game.patterns)
-                if (p.row + o.len < rows && p.col + o.len < cols &&
+                if (p.row + o.len <= rows && p.col + o.len <= cols &&
                 o.pattern.all { (dp, o2) ->
                     this[p + dp] == o2
                 }) {
