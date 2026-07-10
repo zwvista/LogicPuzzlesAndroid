@@ -61,8 +61,8 @@ class ProofOfQuiltGame(layout: List<String>, gi: GameInterface<ProofOfQuiltGame,
         //    . . C . B      . C . . D     C . . D .      A . D . .
         //    . . . C D      . . C D .     . C D . .      C D . . .
         //
-        // Find all tilted quilts
-        // A tilted quilt has a circumscribed square
+        // Find all patterns
+        // A pattern has a circumscribed square
         for (i in 2..rows)
             for (j in 1..<i) {
                 val k = i - j
@@ -103,7 +103,7 @@ class ProofOfQuiltGame(layout: List<String>, gi: GameInterface<ProofOfQuiltGame,
                             pattern[p] = o2
                     }
                 }
-                patterns.add(ProofOfQuiltPattern(i, pattern))
+                patterns.add(ProofOfQuiltPattern(j, k, pattern))
             }
         val state = ProofOfQuiltGameState(this)
         levelInitialized(state)

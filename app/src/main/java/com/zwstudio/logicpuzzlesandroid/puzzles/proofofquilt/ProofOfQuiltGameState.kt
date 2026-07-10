@@ -37,9 +37,9 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
         move.obj = when (val o = this[p]) {
             ProofOfQuiltObject.Empty -> if (markerOption == MarkerOptions.MarkerFirst) ProofOfQuiltObject.Marker else ProofOfQuiltObject.TriangleA
             ProofOfQuiltObject.TriangleA -> ProofOfQuiltObject.TriangleB
-            ProofOfQuiltObject.TriangleB -> ProofOfQuiltObject.TriangleC
-            ProofOfQuiltObject.TriangleC -> ProofOfQuiltObject.TriangleD
-            ProofOfQuiltObject.TriangleD -> if (markerOption == MarkerOptions.MarkerLast) ProofOfQuiltObject.Marker else ProofOfQuiltObject.Empty
+            ProofOfQuiltObject.TriangleB -> ProofOfQuiltObject.TriangleD
+            ProofOfQuiltObject.TriangleD -> ProofOfQuiltObject.TriangleC
+            ProofOfQuiltObject.TriangleC -> if (markerOption == MarkerOptions.MarkerLast) ProofOfQuiltObject.Marker else ProofOfQuiltObject.Empty
             ProofOfQuiltObject.Marker -> if (markerOption == MarkerOptions.MarkerFirst) ProofOfQuiltObject.TriangleA else ProofOfQuiltObject.Empty
             else -> o
         }
@@ -69,7 +69,7 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-        val triangleAs = mutableSetOf<Position>()
+        val triangleAs = mutableListOf<Position>()
         for (r in 0..<rows)
             for (c in 0..<cols) {
                 val p = Position(r, c)
@@ -84,6 +84,7 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
             val n1 = area.count { this[it].isTriangle }
             val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
             if (s != HintState.Complete) isSolved = false
+            pos2state[p] = s
             if (allowedObjectsOnly && s != HintState.Normal)
                 for (p2 in area)
                     if (this[p2] == ProofOfQuiltObject.Empty || this[p2] == ProofOfQuiltObject.Marker)
@@ -124,17 +125,22 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
             val cs = c2 - c1 + 1
             if (rs * cs != blanks.size) { isSolved = false; return }
         }
-        outer@ for (p in triangleAs) {
-            for (o in game.patterns)
-                if (p.row + o.len <= rows && p.col + o.len <= cols &&
-                o.pattern.all { (dp, o2) ->
-                    this[p + dp] == o2
+        outer@ while (triangleAs.isNotEmpty()) {
+            val (r, c) = triangleAs[0]
+            for (o in game.patterns) {
+                val p0 = Position(r, c - o.j + 1)
+                val p1 = Position(r + o.j + o.k - 1, c + o.k)
+                if (isValid(p0) && isValid(p1) && o.pattern.all { (dp, o2) ->
+                    this[p0 + dp] == o2
                 }) {
-                    val area = o.pattern.map { p + it.key }
-                    for (p2 in area)
+                    val area = o.pattern.map { p0 + it.key }
+                    for (p2 in area) {
                         allPositions.remove(p2)
+                        triangleAs.remove(p2)
+                    }
                     continue@outer
                 }
+            }
             isSolved = false; return
         }
         if (allPositions.isNotEmpty()) isSolved = false
