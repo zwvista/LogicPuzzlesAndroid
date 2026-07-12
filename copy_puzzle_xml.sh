@@ -1,6 +1,6 @@
 #!/bin/bash
 # 自动生成的Android拷贝XML脚本
-# 生成时间: 2026-07-12 07:16:57
+# 生成时间: 2026-07-12 13:35:51
 
 echo "开始拷贝XML文件到Android项目..."
 
@@ -614,6 +614,15 @@ if [ -f "../PSL/PuzzlesM/Puzzles/MakeTheDifference.xml" ]; then
     echo "✓ 已拷贝到Android: MakeTheDifference"
 else
     echo "❌ 源文件不存在: ../PSL/PuzzlesM/Puzzles/MakeTheDifference.xml"
+fi
+
+# 拷贝 MirrorsExtended (来自: PuzzlesM/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesM/Puzzles/MirrorsExtended.xml" ]; then
+    cp "../PSL/PuzzlesM/Puzzles/MirrorsExtended.xml" "app/src/main/assets/xml/MirrorsExtended.xml"
+    echo "✓ 已拷贝到Android: MirrorsExtended"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesM/Puzzles/MirrorsExtended.xml"
 fi
 
 # 拷贝 MixedTatamis (来自: PuzzlesM/Puzzles)
@@ -1858,4 +1867,4 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesU/Puzzles/Underground.xml"
 fi
 
-echo "\nAndroid拷贝完成，共处理 206 个游戏"
+echo "\nAndroid拷贝完成，共处理 207 个游戏"
