@@ -1261,6 +1261,18 @@
         <activity android:name=".puzzles.mirrors.MirrorsOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.mirrorsextended.MirrorsExtendedMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mirrorsextended.MirrorsExtendedGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mirrorsextended.MirrorsExtendedHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.mirrorsextended.MirrorsExtendedOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.mixedtatamis.MixedTatamisMainActivity"
                   android:screenOrientation="portrait">
         </activity>
