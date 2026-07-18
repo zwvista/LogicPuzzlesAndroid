@@ -3,7 +3,10 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.mirrorsextended
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 enum class MirrorsExtendedObject {
-    Empty, Forbidden, Marker, Backward, Forward
+    Empty, Forbidden, Marker, Boundary, Hint, Backward, Forward;
+
+    val isMirror get() =
+        listOf(Backward, Forward).contains(this)
 }
 
 data class MirrorsExtendedLaserDot(val p: Position, val dir: Int)

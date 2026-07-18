@@ -20,18 +20,30 @@ class MirrorsExtendedGame(layout: List<String>, gi: GameInterface<MirrorsExtende
         )
         val dirs = intArrayOf(1, 0, 3, 2)
         val offset3 = Position.Square2x2Offset
-        const val PUZ_UNKNOWN = -1
+        val mirrorDirs = arrayOf(
+            // front slash '/'
+            arrayOf(1, 0, 3, 2),
+            // back slash  '\'
+            arrayOf(3, 2, 1, 0),
+        )
     }
 
     override fun isValid(row: Int, col: Int) = row in 1..<size.row - 1 && col in 1..<size.col - 1
 
+    val objArray: Array<MirrorsExtendedObject>
     val areas = mutableListOf<List<Position>>()
     val pos2area = mutableMapOf<Position, Int>()
     val dots: GridDots
     val letter2laser = mutableMapOf<Char, MirrorsExtendedLaser>()
 
+    operator fun get(row: Int, col: Int) = objArray[row * cols + col]
+    operator fun get(p: Position) = this[p.row, p.col]
+    operator fun set(row: Int, col: Int, obj: MirrorsExtendedObject) {objArray[row * cols + col] = obj}
+    operator fun set(p: Position, obj: MirrorsExtendedObject) {this[p.row, p.col] = obj}
+
     init {
         size = Position(layout.size / 2 + 1, layout[0].length / 2)
+        objArray = Array(rows * cols) { MirrorsExtendedObject.Empty }
         dots = GridDots(rows + 1, cols + 1)
         for (r in 1..<rows) {
             var str = layout[r * 2 - 1]
@@ -85,9 +97,15 @@ class MirrorsExtendedGame(layout: List<String>, gi: GameInterface<MirrorsExtende
             val str = layout[2 * r]
             val c2 = 2 * c + (if (c == cols - 1) 1 else 0)
             val (ch1, ch2) = str[c2] to str[c2 + 1]
-            if (ch1 == ' ') return
-            val n = if (ch2.isDigit()) ch2 - '0' else ch2 - 'A' + 10
-            letter2laser.getOrPut(ch1) { MirrorsExtendedLaser(n) }.dots.add(MirrorsExtendedLaserDot(p, d))
+            if (ch1 == ' ')
+                this[p] = MirrorsExtendedObject.Boundary
+            else {
+                this[p] = MirrorsExtendedObject.Hint
+                val n = if (ch2.isDigit()) ch2 - '0' else ch2 - 'A' + 10
+                letter2laser.getOrPut(ch1) { MirrorsExtendedLaser(n) }.dots.add(
+                    MirrorsExtendedLaserDot(p, d)
+                )
+            }
         }
         for (i in 0..<rows) {
             f(0, i, 2)
@@ -102,7 +120,5 @@ class MirrorsExtendedGame(layout: List<String>, gi: GameInterface<MirrorsExtende
 
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
-    fun row2state(row: Int) = currentState.row2state[row]
-    fun col2state(col: Int) = currentState.col2state[col]
-    fun pos2state(p: Position) = currentState.pos2state[p]
+    fun letter2state(ch: Char) = currentState.letter2state[ch]
 }

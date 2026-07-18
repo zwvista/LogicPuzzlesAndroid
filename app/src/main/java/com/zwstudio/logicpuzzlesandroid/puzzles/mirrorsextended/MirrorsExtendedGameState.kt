@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mirrorsextended
 
-import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
@@ -8,10 +7,8 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MirrorsExtendedGameState(game: MirrorsExtendedGame) : CellsGameState<MirrorsExtendedGame, MirrorsExtendedGameMove, MirrorsExtendedGameState>(game) {
-    val objArray = Array(rows * cols) { MirrorsExtendedObject.Empty }
-    val row2state = Array(rows) { HintState.Normal }
-    val col2state = Array(cols) { HintState.Normal }
-    val pos2state = mutableMapOf<Position, AllowedObjectState>()
+    val objArray = game.objArray.copyOf()
+    val letter2state = HashMap<Char, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -62,50 +59,57 @@ class MirrorsExtendedGameState(game: MirrorsExtendedGame) : CellsGameState<Mirro
     private fun updateIsSolved() {
         val allowedObjectsOnly = game.gdi.isAllowedObjectsOnly
         isSolved = true
-//        for (r in 0..<rows)
-//            for (c in 0..<cols) {
-//                val p = Position(r, c)
-//                if (this[p] == MirrorsExtendedObject.Forbidden)
-//                    this[p] = MirrorsExtendedObject.Empty
-//                pos2state[p] = AllowedObjectState.Normal
-//            }
-//        // 2. You have to fill some water in it, considering that water pours down
-//        //    and levels itself like in reality.
-//        // 3. Areas of the same level which are horizontally connected will have
-//        //    the same water level.
-//        for (r in 0..<rows)
-//            for (c in 0..<cols) {
-//                val p = Position(r, c)
-//                if (this[p] == MirrorsExtendedObject.Water && !listOf(1, 2, 3).all { i ->
-//                    game.dots[p + MirrorsExtendedGame.offset2[i], MirrorsExtendedGame.dirs[i]] == GridLineObject.Line ||
-//                            this[p + MirrorsExtendedGame.offset[i]] == MirrorsExtendedObject.Water
-//                }) { pos2state[p] = AllowedObjectState.Error; isSolved = false }
-//            }
-//        // 4. The numbers on the border show you how many tiles of each row and
-//        //    column are filled.
-//        for (r in 0..<rows) {
-//            val n2 = game.row2hint[r]
-//            if (n2 == MirrorsExtendedGame.PUZ_UNKNOWN) continue
-//            val n1 = (0..<cols).count { this[r, it] == MirrorsExtendedObject.Water }
-//            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-//            row2state[r] = s
-//            if (s != HintState.Complete) isSolved = false
-//            if (s != HintState.Normal && allowedObjectsOnly)
-//                (0..<cols).filter { this[r, it] == MirrorsExtendedObject.Empty }.forEach {
-//                    this[r, it] = MirrorsExtendedObject.Forbidden
-//                }
-//        }
-//        for (c in 0..<cols) {
-//            val n2 = game.col2hint[c]
-//            if (n2 == MirrorsExtendedGame.PUZ_UNKNOWN) continue
-//            val n1 = (0..<rows).count { this[it, c] == MirrorsExtendedObject.Water }
-//            val s = if (n1 < n2) HintState.Normal else if (n1 == n2) HintState.Complete else HintState.Error
-//            col2state[c] = s
-//            if (s != HintState.Complete) isSolved = false
-//            if (s != HintState.Normal && allowedObjectsOnly)
-//                (0..<rows).filter { this[it, c] == MirrorsExtendedObject.Empty }.forEach {
-//                    this[it, c] = MirrorsExtendedObject.Forbidden
-//                }
-//        }
+        val dot2dot = HashMap<MirrorsExtendedLaserDot, MirrorsExtendedLaserDot>()
+        for (r in 0..<rows)
+            for (c in 0..<cols) {
+                val p = Position(r, c)
+                when (val o = this[p]) {
+                    MirrorsExtendedObject.Forbidden ->
+                        this[p] = MirrorsExtendedObject.Empty
+                    MirrorsExtendedObject.Backward, MirrorsExtendedObject.Forward -> {
+                        val md = MirrorsExtendedGame.mirrorDirs[if (o == MirrorsExtendedObject.Forward) 0 else 1]
+                        for (i in 0..<4) {
+                            val d = md[i]
+                            dot2dot[MirrorsExtendedLaserDot(p, i)] = MirrorsExtendedLaserDot(p + MirrorsExtendedGame.offset[d], d)
+                        }
+                    }
+                    else -> {}
+                }
+            }
+        for (area in game.areas) {
+            val rng = area.filter { this[it].isMirror }
+            if (rng.size != 1) isSolved = false
+            if (rng.isNotEmpty() && allowedObjectsOnly)
+                for (p in area)
+                    if (!this[p].isMirror)
+                        this[p] = MirrorsExtendedObject.Forbidden
+        }
+        for ((ch, o) in game.letter2laser) {
+            var dt = o.dots[0]
+            val p2 = o.dots[1].p
+            var n1 = 0
+            val n2 = o.number
+            while (true) {
+                val dt2 = dot2dot[dt]
+                if (dt2 != null) {
+                    dt = dt2
+                    n1 += 1
+                } else {
+                    dt = MirrorsExtendedLaserDot(dt.p + MirrorsExtendedGame.offset[dt.dir], dt.dir)
+                }
+                val p = dt.p
+                val o2 = this[p]
+                if (o2 == MirrorsExtendedObject.Boundary) {
+                    letter2state[ch] = HintState.Normal
+                    isSolved = false
+                    break
+                } else if (o2 == MirrorsExtendedObject.Hint) {
+                    val s = if (p == p2 && n1 == n2) HintState.Complete else HintState.Error
+                    letter2state[ch] = s
+                    if (s != HintState.Complete) isSolved = false
+                    break
+                }
+            }
+        }
     }
 }

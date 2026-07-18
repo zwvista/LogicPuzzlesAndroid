@@ -9,6 +9,7 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
+import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import com.zwstudio.logicpuzzlesandroid.home.android.SoundManager
 
@@ -24,6 +25,7 @@ class MirrorsExtendedGameView(context: Context, val soundManager: SoundManager) 
     private val markerPaint = Paint()
     private val forbiddenPaint = Paint()
     private val linePaint = Paint()
+    private val slashPaint = Paint()
     private val textPaint = TextPaint()
     private val dWater: Drawable
 
@@ -34,10 +36,14 @@ class MirrorsExtendedGameView(context: Context, val soundManager: SoundManager) 
         forbiddenPaint.color = Color.RED
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
-        linePaint.color = Color.YELLOW
+        linePaint.color = Color.WHITE
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = 20f
         textPaint.isAntiAlias = true
+        slashPaint.color = Color.MAGENTA
+        slashPaint.style = Paint.Style.STROKE
+        slashPaint.strokeWidth = 20f
+        slashPaint.isAntiAlias = true
         dWater = fromImageToDrawable("images/sea.png")
     }
 
@@ -51,7 +57,7 @@ class MirrorsExtendedGameView(context: Context, val soundManager: SoundManager) 
                 fun addSlash(p1: Position, p2: Position) {
                     val (r1, c1) = p1
                     val (r2, c2) = p2
-                    canvas.drawLine(cwc(c1).toFloat(), chr(r1).toFloat(), cwc(c2).toFloat(), chr(r2).toFloat(), linePaint)
+                    canvas.drawLine(cwc(c1).toFloat(), chr(r1).toFloat(), cwc(c2).toFloat(), chr(r2).toFloat(), slashPaint)
                 }
                 when (game.getObject(p)) {
                     MirrorsExtendedObject.Forbidden ->
@@ -72,9 +78,8 @@ class MirrorsExtendedGameView(context: Context, val soundManager: SoundManager) 
             }
         if (isInEditMode) return
         for ((ch, o) in game.letter2laser) {
-//            val s = game.row2state(r)
-//            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-            textPaint.color = Color.WHITE
+            val s = game.letter2state(ch)
+            textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
             val text = "${ch}${o.number}"
             for (o2 in o.dots) {
                 val (r, c) = o2.p
