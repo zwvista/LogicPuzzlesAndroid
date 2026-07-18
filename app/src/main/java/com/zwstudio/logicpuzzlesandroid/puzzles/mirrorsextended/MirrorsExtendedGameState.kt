@@ -91,11 +91,11 @@ class MirrorsExtendedGameState(game: MirrorsExtendedGame) : CellsGameState<Mirro
             val n2 = o.number
             while (true) {
                 val dt2 = dot2dot[dt]
-                if (dt2 != null) {
-                    dt = dt2
-                    n1 += 1
-                } else {
+                if (dt2 == null)
                     dt = MirrorsExtendedLaserDot(dt.p + MirrorsExtendedGame.offset[dt.dir], dt.dir)
+                else {
+                    dt = dt2
+                    n1++
                 }
                 val p = dt.p
                 val o2 = this[p]
