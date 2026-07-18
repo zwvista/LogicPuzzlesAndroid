@@ -169,6 +169,18 @@
         <activity android:name=".puzzles.bentbridges.BentBridgesOptionsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".puzzles.blackandwhitechocolate.BlackAndWhiteChocolateMainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.blackandwhitechocolate.BlackAndWhiteChocolateGameActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.blackandwhitechocolate.BlackAndWhiteChocolateHelpActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".puzzles.blackandwhitechocolate.BlackAndWhiteChocolateOptionsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".puzzles.bootyisland.BootyIslandMainActivity"
                   android:screenOrientation="portrait">
         </activity>

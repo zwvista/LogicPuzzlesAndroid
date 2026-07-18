@@ -64,6 +64,7 @@ class HomeChooseGameActivity : AppCompatActivity() {
         private var name2title = mapOf(
             "ABCPath" to "ABC Path",
             "ADifferentFarmer" to "A different Farmer",
+            "BlackAndWhiteChocolate" to "Black and White Chocolate",
             "BWTapa" to "B&W Tapa",
             "CarpentersSquare" to "Carpenter's Square",
             "CarpentersWall" to "Carpenter's Wall",
