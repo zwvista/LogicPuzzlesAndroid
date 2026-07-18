@@ -21,8 +21,8 @@ class MirrorsExtendedGameView(context: Context, val soundManager: SoundManager) 
     private val game get() = activity.game
     private val rows get() = if (isInEditMode) 5 else game.rows
     private val cols get() = if (isInEditMode) 5 else game.cols
-    override val rowsInView get() = rows + 1
-    override val colsInView get() = cols + 1
+    override val rowsInView get() = rows
+    override val colsInView get() = cols
 
     private val gridPaint = Paint()
     private val markerPaint = Paint()

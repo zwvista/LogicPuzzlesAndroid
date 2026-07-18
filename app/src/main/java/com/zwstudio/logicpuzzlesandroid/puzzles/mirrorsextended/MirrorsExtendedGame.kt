@@ -22,6 +22,8 @@ class MirrorsExtendedGame(layout: List<String>, gi: GameInterface<MirrorsExtende
         const val PUZ_UNKNOWN = -1
     }
 
+    override fun isValid(row: Int, col: Int) = row in 1..<size.row - 1 && col in 1..<size.col - 1
+
     val areas = mutableListOf<List<Position>>()
     val pos2area = mutableMapOf<Position, Int>()
     val dots: GridDots
@@ -29,50 +31,42 @@ class MirrorsExtendedGame(layout: List<String>, gi: GameInterface<MirrorsExtende
     val col2hint: IntArray
 
     init {
-        size = Position(layout.size / 2 - 1, layout[0].length / 2 - 1)
+        size = Position(layout.size / 2 + 1, layout[0].length / 2)
         dots = GridDots(rows + 1, cols + 1)
         row2hint = IntArray(rows)
         col2hint = IntArray(cols)
-        for (r in 0..<rows + 1) {
-            var str = layout[r * 2]
-            for (c in 0..<cols) {
+        for (r in 1..<rows) {
+            var str = layout[r * 2 - 1]
+            for (c in 1..<cols - 1) {
                 val ch = str[c * 2 + 1]
                 if (ch == '-') {
                     dots[r, c, 1] = GridLineObject.Line
                     dots[r, c + 1, 3] = GridLineObject.Line
                 }
             }
-            str = layout[r * 2 + 1]
-            if (r < rows) {
-                for (c in 0..<cols + 1) {
-                    val ch = str[c * 2]
-                    if (ch == '|') {
-                        dots[r, c, 2] = GridLineObject.Line
-                        dots[r + 1, c, 0] = GridLineObject.Line
-                    }
-                }
-                val ch2 = str[cols * 2 + 1]
-                row2hint[r] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
-            } else {
-                for (c in 0..<cols) {
-                    val ch2 = str[c * 2 + 1]
-                    col2hint[c] = if (ch2 == ' ') PUZ_UNKNOWN else ch2 - '0'
+            if (r == rows) break
+            str = layout[r * 2]
+            for (c in 1..<cols) {
+                val ch = str[c * 2]
+                if (ch == '|') {
+                    dots[r, c, 2] = GridLineObject.Line
+                    dots[r + 1, c, 0] = GridLineObject.Line
                 }
             }
         }
         val rng = mutableSetOf<Position>()
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
-        for (r in 0..<rows)
-            for (c in 0..<cols) {
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1) {
                 val p = Position(r, c)
                 rng.add(+p)
                 val node = Node(p.toString())
                 g.addNode(node)
                 pos2node[p] = node
             }
-        for (r in 0..<rows)
-            for (c in 0..<cols) {
+        for (r in 1..<rows - 1)
+            for (c in 1..<cols - 1) {
                 val p = Position(r, c)
                 for (i in 0..<4)
                     if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
