@@ -1,6 +1,6 @@
 #!/bin/bash
 # 自动生成的Android拷贝XML脚本
-# 生成时间: 2026-07-19 01:48:23
+# 生成时间: 2026-07-19 03:25:18
 
 echo "开始拷贝XML文件到Android项目..."
 
@@ -335,6 +335,15 @@ if [ -f "../PSL/PuzzlesB/Puzzles/BoxItUp.xml" ]; then
     echo "✓ 已拷贝到Android: BoxItUp"
 else
     echo "❌ 源文件不存在: ../PSL/PuzzlesB/Puzzles/BoxItUp.xml"
+fi
+
+# 拷贝 BlackAndWhiteChocolate (来自: PuzzlesB/Puzzles)
+mkdir -p app/src/main/assets/xml
+if [ -f "../PSL/PuzzlesB/Puzzles/BlackAndWhiteChocolate.xml" ]; then
+    cp "../PSL/PuzzlesB/Puzzles/BlackAndWhiteChocolate.xml" "app/src/main/assets/xml/BlackAndWhiteChocolate.xml"
+    echo "✓ 已拷贝到Android: BlackAndWhiteChocolate"
+else
+    echo "❌ 源文件不存在: ../PSL/PuzzlesB/Puzzles/BlackAndWhiteChocolate.xml"
 fi
 
 # 拷贝 BoxItAgain (来自: PuzzlesB/Puzzles)
@@ -1867,4 +1876,4 @@ else
     echo "❌ 源文件不存在: ../PSL/PuzzlesU/Puzzles/Underground.xml"
 fi
 
-echo "\nAndroid拷贝完成，共处理 207 个游戏"
+echo "\nAndroid拷贝完成，共处理 208 个游戏"
