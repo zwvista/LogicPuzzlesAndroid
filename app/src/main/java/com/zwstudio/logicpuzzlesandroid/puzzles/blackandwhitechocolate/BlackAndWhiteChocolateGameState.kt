@@ -107,14 +107,19 @@ class BlackAndWhiteChocolateGameState(game: BlackAndWhiteChocolateGame) : CellsG
                         (this[p + BlackAndWhiteChocolateGame.offset2[i]][BlackAndWhiteChocolateGame.dirs[i]] == GridLineObject.Line) != area.contains(p + BlackAndWhiteChocolateGame.offset[i])
                     }
                 }
-            if (area1.size != area2.size || hasLine()) { isSolved = false; continue }
-            val s = if (rng.all { game.pos2hint[it] == area1.size }) HintState.Complete else HintState.Error
+            val cnt = area1.size
+            if (area2.size != cnt || hasLine() || rng.isNotEmpty() && !rng.all {
+                game.pos2hint[it] == game.pos2hint[rng[0]]
+            }) {
+                isSolved = false; continue
+            }
+            val s = if (rng.all { game.pos2hint[it] == cnt }) HintState.Complete else HintState.Error
             for (p in rng) pos2state[p] = s
             if (s != HintState.Complete) { isSolved = false; continue }
             fun f(a: List<Position>): Pair<List<Position>, Position> {
                 var (r1, r2) = rows to 0
                 var (c1, c2) = cols to 0
-                for (p in area) {
+                for (p in a) {
                     if (r2 < p.row) r2 = p.row
                     if (r1 > p.row) r1 = p.row
                     if (c2 < p.col) c2 = p.col
