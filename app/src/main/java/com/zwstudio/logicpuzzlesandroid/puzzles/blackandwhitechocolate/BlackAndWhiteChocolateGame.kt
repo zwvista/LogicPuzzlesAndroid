@@ -16,9 +16,12 @@ class BlackAndWhiteChocolateGame(layout: List<String>, gi: GameInterface<BlackAn
             Position(0, 0)
         )
         val dirs = intArrayOf(1, 0, 3, 2)
+        const val PUZ_BLACK = 'B'
+        const val PUZ_WHITE = 'W'
     }
 
     val objArray: MutableList<MutableList<GridLineObject>>
+    val pos2color = mutableMapOf<Position, Char>()
     val pos2hint = mutableMapOf<Position, Int>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
@@ -31,9 +34,10 @@ class BlackAndWhiteChocolateGame(layout: List<String>, gi: GameInterface<BlackAn
             val str = layout[r]
             for (c in 0..<cols - 1) {
                 val p = Position(r, c)
-                val s = str.substring(c * 2, c * 2 + 2)
-                if (s == "  ") continue
-                val n = s.trim(' ').toInt()
+                val (ch1, ch2) = str[c * 2] to str[c * 2 + 1]
+                pos2color[p] = ch1
+                if (ch2 == ' ') continue
+                val n = ch2 - '0'
                 pos2hint[p] = n
             }
         }

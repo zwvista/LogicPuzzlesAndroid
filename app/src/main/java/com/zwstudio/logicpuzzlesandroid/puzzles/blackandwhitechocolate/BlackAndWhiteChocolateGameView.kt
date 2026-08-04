@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -25,6 +26,8 @@ class BlackAndWhiteChocolateGameView(context: Context, val soundManager: SoundMa
     private val line2Paint = Paint()
     private val markerPaint = Paint()
     private val textPaint = TextPaint()
+    private val dBlack: Drawable
+    private val dWhite: Drawable
 
     init {
         gridPaint.color = Color.GRAY
@@ -39,6 +42,8 @@ class BlackAndWhiteChocolateGameView(context: Context, val soundManager: SoundMa
         markerPaint.style = Paint.Style.STROKE
         markerPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
+        dBlack = fromImageToDrawable("images/chocolate_square.png")
+        dWhite = fromImageToDrawable("images/chocolate_square_white.png")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -48,13 +53,15 @@ class BlackAndWhiteChocolateGameView(context: Context, val soundManager: SoundMa
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                val n = game.pos2hint[p]
-                if (n != null) {
-                    val state = game.pos2state(p)
-                    textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                }
+                val ch = game.pos2color[p]!!
+                val d = if (ch == BlackAndWhiteChocolateGame.PUZ_BLACK) dBlack else dWhite
+                d.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
+                d.draw(canvas)
+                val n = game.pos2hint[p] ?: continue
+                val state = game.pos2state(p)
+                textPaint.color = if (state == HintState.Complete) Color.GREEN else if (state == HintState.Error) Color.RED else Color.WHITE
+                val text = n.toString()
+                drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
             }
             if (isInEditMode) return
             val markerOffset = 20
