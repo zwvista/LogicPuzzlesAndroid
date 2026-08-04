@@ -97,40 +97,55 @@ class BlackAndWhiteChocolateGameState(game: BlackAndWhiteChocolateGame) : CellsG
             for (p in area)
                 pos2node.remove(p)
             val rng = area.filter { game.pos2hint.containsKey(it) }
-            // 2. Each Box must contain one number.
-            if (rng.size != 1) {
-                for (p in rng)
-                    pos2state[p] = HintState.Normal
-                isSolved = false
-                continue
-            }
-            val p2 = rng[0]
-            val n1 = area.size
-            val n2 = game.pos2hint[p2]
-            var (r1, r2) = rows to 0
-            var (c1, c2) = cols to 0
-            for (p in area) {
-                if (r2 < p.row) r2 = p.row
-                if (r1 > p.row) r1 = p.row
-                if (c2 < p.col) c2 = p.col
-                if (c1 > p.col) c1 = p.col
-            }
-            val rs = r2 - r1 + 1
-            val cs = c2 - c1 + 1
-            fun hasLine(): Boolean {
-                for (r in r1..r2)
-                    for (c in c1..c2) {
-                        val dotObj = this[r + 1, c + 1]
-                        if (r < r2 && dotObj[3] == GridLineObject.Line || c < c2 && dotObj[0] == GridLineObject.Line)
-                            return true
+            for (p in rng)
+                pos2state[p] = HintState.Normal
+            val area1 = area.filter { game.pos2color[it] == BlackAndWhiteChocolateGame.PUZ_BLACK }
+            val area2 = area.filter { game.pos2color[it] == BlackAndWhiteChocolateGame.PUZ_WHITE }
+            fun hasLine(): Boolean =
+                !area.all { p ->
+                    (0..<4).all { i ->
+                        (this[p + BlackAndWhiteChocolateGame.offset2[i]][BlackAndWhiteChocolateGame.dirs[i]] == GridLineObject.Line) != area.contains(p + BlackAndWhiteChocolateGame.offset[i])
                     }
-                return false
+                }
+            if (area1.size != area2.size || hasLine()) { isSolved = false; continue }
+            val s = if (rng.all { game.pos2hint[it] == area1.size }) HintState.Complete else HintState.Error
+            for (p in rng) pos2state[p] = s
+            if (s != HintState.Complete) { isSolved = false; continue }
+            fun f(a: List<Position>): Pair<List<Position>, Position> {
+                var (r1, r2) = rows to 0
+                var (c1, c2) = cols to 0
+                for (p in area) {
+                    if (r2 < p.row) r2 = p.row
+                    if (r1 > p.row) r1 = p.row
+                    if (c2 < p.col) c2 = p.col
+                    if (c1 > p.col) c1 = p.col
+                }
+                val p1 = Position(r1, c1)
+                val rs = r2 - r1 + 1
+                val cs = c2 - c1 + 1
+                return a.map { it - p1 } to Position(rs, cs)
             }
-            // 1. A simple puzzle where you have to divide the Board in Boxes (Rectangles).
-            // 2. The number represents the sum of the width and the height of that Box.
-            val s = if (rs * cs == n1 && rs + cs == n2 && !hasLine()) HintState.Complete else HintState.Error
-            pos2state[p2] = s
-            if (s != HintState.Complete) isSolved = false
+            val (area3, size1) = f(area1)
+            val (area4, size2) = f(area2)
+            val (rs, cs) = size1
+            val size3 = Position(cs, rs)
+            if (!(0..<8).any { i ->
+                size2 == (if (i % 2 == 0) size1 else size3) &&
+                area3.all { p ->
+                    val (r3, c3) = p
+                    val p2 = when (i) {
+                    1 -> Position(c3, rs - 1 - r3)
+                    2 -> Position(rs - 1 - r3, cs - 1 - c3)
+                    3 -> Position(cs - 1 - c3, r3)
+                    4 -> Position(r3, cs - 1 - c3)
+                    5 -> Position(cs - 1 - c3, rs - 1 - r3)
+                    6 -> Position(rs - 1 - r3, c3)
+                    7 -> Position(c3, r3)
+                    else -> p
+                    }
+                    area4.contains(p2)
+                }
+            }) isSolved = false
         }
     }
 }
