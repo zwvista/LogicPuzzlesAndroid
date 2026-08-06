@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.tatami.TatamiGame
 
 class ZenGardensGame(layout: List<String>, gi: GameInterface<ZenGardensGame, ZenGardensGameMove, ZenGardensGameState>, gdi: GameDocumentInterface) : CellsGame<ZenGardensGame, ZenGardensGameMove, ZenGardensGameState>(gi, gdi) {
     companion object {
@@ -74,8 +73,8 @@ class ZenGardensGame(layout: List<String>, gi: GameInterface<ZenGardensGame, Zen
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 for (i in 0..<4)
-                    if (dots[p + TatamiGame.Companion.offset2[i], TatamiGame.Companion.dirs[i]] != GridLineObject.Line)
-                        g.connectNode(pos2node[p]!!, pos2node[p + TatamiGame.Companion.offset[i]]!!)
+                    if (dots[p + offset2[i], dirs[i]] != GridLineObject.Line)
+                        g.connectNode(pos2node[p]!!, pos2node[p + offset[i]]!!)
             }
         while (rng.isNotEmpty()) {
             g.rootNode = pos2node[rng.first()]!!

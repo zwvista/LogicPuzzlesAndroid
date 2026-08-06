@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.yalooniq.YalooniqGame
 
 class UnreliableHintsGameState(game: UnreliableHintsGame) : CellsGameState<UnreliableHintsGame, UnreliableHintsGameMove, UnreliableHintsGameState>(game) {
     private var objArray = Array(rows * cols) { UnreliableHintsObject.Normal }
@@ -88,7 +87,7 @@ class UnreliableHintsGameState(game: UnreliableHintsGame) : CellsGameState<Unrel
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 if (!this[p].isShaded) continue
-                val s = if (!YalooniqGame.offset.any {
+                val s = if (!UnreliableHintsGame.offset.any {
                     val p2 = p + it
                     isValid(p2) && this[p2].isShaded
                 }) AllowedObjectState.Normal else AllowedObjectState.Error

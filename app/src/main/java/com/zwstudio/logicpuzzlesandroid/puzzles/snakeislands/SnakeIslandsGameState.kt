@@ -87,13 +87,13 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
 //                }
 //            }
 //        for (p in rngWalls)
-//            for (os in NurikabeGame.offset) {
+//            for (os in SnakeIslandsGame.offset) {
 //                val p2 = p + os
 //                if (rngWalls.contains(p2))
 //                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)
 //            }
 //        for (p in rngEmpty)
-//            for (os in NurikabeGame.offset) {
+//            for (os in SnakeIslandsGame.offset) {
 //                val p2 = p + os
 //                if (rngEmpty.contains(p2))
 //                    g.connectNode(pos2node[p]!!, pos2node[p2]!!)

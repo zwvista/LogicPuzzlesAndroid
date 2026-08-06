@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.NurikabeGame
 
 class CastlePatrolGameState(game: CastlePatrolGame) : CellsGameState<CastlePatrolGame, CastlePatrolGameMove, CastlePatrolGameState>(game) {
     val objArray = Array<CastlePatrolObject>(rows * cols) { CastlePatrolObject.Empty }
@@ -78,13 +77,13 @@ class CastlePatrolGameState(game: CastlePatrolGame) : CellsGameState<CastlePatro
                 }
             }
         for (p in rngWalls)
-            for (os in NurikabeGame.offset) {
+            for (os in CastlePatrolGame.offset) {
                 val p2 = p + os
                 if (rngWalls.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
         for (p in rngEmpty)
-            for (os in NurikabeGame.offset) {
+            for (os in CastlePatrolGame.offset) {
                 val p2 = p + os
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)

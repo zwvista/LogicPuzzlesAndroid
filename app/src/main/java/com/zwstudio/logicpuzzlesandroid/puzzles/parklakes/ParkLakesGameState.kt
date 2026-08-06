@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, ParkLakesGameMove, ParkLakesGameState>(game) {
     val objArray = Array(rows * cols) { ParkLakesObject.Empty }
@@ -80,7 +79,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
                     pos2stateHint[p] = HintState.Normal
             }
         for ((p, node) in pos2node)
-            for (os in TierraDelFuegoGame.offset) {
+            for (os in ParkLakesGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
@@ -135,7 +134,7 @@ class ParkLakesGameState(game: ParkLakesGame) : CellsGameState<ParkLakesGame, Pa
                 }
             }
         for ((p, node) in pos2node)
-            for (os in TierraDelFuegoGame.offset) {
+            for (os in ParkLakesGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

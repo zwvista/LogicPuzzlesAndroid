@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.zensolitaire
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.zengardens.ZenGardensGame
 import kotlin.math.sign
 
 class ZenSolitaireGameState(game: ZenSolitaireGame) : CellsGameState<ZenSolitaireGame, ZenSolitaireGameMove, ZenSolitaireGameState>(game) {
@@ -48,7 +47,7 @@ class ZenSolitaireGameState(game: ZenSolitaireGame) : CellsGameState<ZenSolitair
                 if (this[p3] == ZenSolitaireGame.PUZ_STONE) return Pair(false, -1)
                 p3 += os
             }
-            val dir = ZenGardensGame.offset.indexOf(os)
+            val dir = ZenSolitaireGame.offset.indexOf(os)
             return Pair(true, dir)
         }
         // 2. You can start at any stone and pick it up (just to click on it and it will be numbered

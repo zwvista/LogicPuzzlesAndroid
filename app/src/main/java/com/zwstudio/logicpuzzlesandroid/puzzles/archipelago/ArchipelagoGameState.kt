@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.tierradelfuego.TierraDelFuegoGame
 
 class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGame, ArchipelagoGameMove, ArchipelagoGameState>(game) {
     val objArray = Array<ArchipelagoObject>(rows * cols) { ArchipelagoObject.Empty }
@@ -84,7 +83,7 @@ class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGa
                 pos2node[p] = node
             }
         for ((p, node) in pos2node)
-            for (os in TierraDelFuegoGame.offset) {
+            for (os in ArchipelagoGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

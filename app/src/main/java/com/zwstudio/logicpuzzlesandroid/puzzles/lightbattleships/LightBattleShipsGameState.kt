@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.puzzles.battleships.BattleShipsGame
 
 class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<LightBattleShipsGame, LightBattleShipsGameMove, LightBattleShipsGameState>(game) {
     val objArray = Array(rows * cols) { LightBattleShipsObject.Empty }
@@ -101,7 +100,7 @@ class LightBattleShipsGameState(game: LightBattleShipsGame) : CellsGameState<Lig
         for ((p, n2) in game.pos2hint) {
             var n1 = 0
             val rng = mutableListOf<Position>()
-            for (os in BattleShipsGame.offset) {
+            for (os in LightBattleShipsGame.offset) {
                 var p2 = p + os
                 while (isValid(p2)) {
                     val o = this[p2]

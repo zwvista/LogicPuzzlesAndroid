@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.nurikabe.NurikabeGame
 
 class VeniceGameState(game: VeniceGame) : CellsGameState<VeniceGame, VeniceGameMove, VeniceGameState>(game) {
     val objArray = Array<VeniceObject>(rows * cols) { VeniceObject.Empty }
@@ -65,7 +64,7 @@ class VeniceGameState(game: VeniceGame) : CellsGameState<VeniceGame, VeniceGameM
         for (r in 0..<rows - 1)
             for (c in 0..<cols - 1) {
                 val p = Position(r, c)
-                if (NurikabeGame.offset2.map { p + it }.all { this[it] == VeniceObject.Water }) {
+                if (VeniceGame.offset2.map { p + it }.all { this[it] == VeniceObject.Water }) {
                     invalid2x2Squares.add(p + Position.SouthEast); isSolved = false
                 }
             }

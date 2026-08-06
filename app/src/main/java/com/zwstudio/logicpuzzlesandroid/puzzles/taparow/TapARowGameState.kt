@@ -7,7 +7,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.tapa.TapaGame
 
 class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowGameMove, TapARowGameState>(game) {
     val objArray = Array(rows * cols) { TapARowObject.Empty }
@@ -125,7 +124,7 @@ class TapARowGameState(game: TapARowGame) : CellsGameState<TapARowGame, TapARowG
                 }
             }
         for ((p, node) in pos2node)
-            for (os in TapaGame.offset3) {
+            for (os in TapARowGame.offset3) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

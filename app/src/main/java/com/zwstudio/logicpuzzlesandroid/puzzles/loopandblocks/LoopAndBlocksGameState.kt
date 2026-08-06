@@ -5,7 +5,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.yalooniq.YalooniqGame
 
 class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBlocksGame, LoopAndBlocksGameMove, LoopAndBlocksGameState>(game) {
     val objArray = Array(rows * cols) { Array(4) { false } }
@@ -70,7 +69,7 @@ class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBl
         }
         // 4. Two shaded cells can't touch orthogonally.
         for (p in squares) {
-            val s = if (!YalooniqGame.offset.any {
+            val s = if (!LoopAndBlocksGame.offset.any {
                 squares.contains(p + it)
             }) AllowedObjectState.Normal else AllowedObjectState.Error
             pos2stateAllowed[p] = s
@@ -99,7 +98,7 @@ class LoopAndBlocksGameState(game: LoopAndBlocksGame) : CellsGameState<LoopAndBl
             if (dirs == null) { isSolved = false; return }
             pos2dirs.remove(p2)
             n = dirs.first { (it + 2) % 4 != n }
-            p2 += YalooniqGame.offset[n]
+            p2 += LoopAndBlocksGame.offset[n]
             if (p2 == p) break
         }
     }

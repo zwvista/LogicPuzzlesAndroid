@@ -3,7 +3,6 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.pipemania
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.crosstowntraffic.CrosstownTrafficGame
 
 class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, PipemaniaGameMove, PipemaniaGameState>(game) {
     val objArray = game.objArray.copyOf()
@@ -107,7 +106,7 @@ class PipemaniaGameState(game: PipemaniaGame) : CellsGameState<PipemaniaGame, Pi
                 dirs.remove(n)
                 dirs.remove((n + 2) % 4)
             }
-            p2 += CrosstownTrafficGame.offset[n]
+            p2 += PipemaniaGame.offset[n]
             if (p2 == p) break
         }
     }

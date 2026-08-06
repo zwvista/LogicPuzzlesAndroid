@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.gardener.GardenerGame
 
 class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGame, DesertDunesGameMove, DesertDunesGameState>(game) {
     val objArray = Array(rows * cols) { DesertDunesObject.Empty }
@@ -105,7 +104,7 @@ class DesertDunesGameState(game: DesertDunesGame) : CellsGameState<DesertDunesGa
                 pos2node[p] = node
             }
         for ((p, node) in pos2node)
-            for (os in GardenerGame.offset) {
+            for (os in DesertDunesGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

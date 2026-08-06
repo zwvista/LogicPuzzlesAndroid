@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.GridDots
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.thecityrises.TheCityRisesGame
 
 class LandscapesGame(layout: List<String>, val sum: Int, gi: GameInterface<LandscapesGame, LandscapesGameMove, LandscapesGameState>, gdi: GameDocumentInterface) : CellsGame<LandscapesGame, LandscapesGameMove, LandscapesGameState>(gi, gdi) {
     companion object {
@@ -98,7 +97,7 @@ class LandscapesGame(layout: List<String>, val sum: Int, gi: GameInterface<Lands
         for ((i, area) in areas.withIndex())
             area2areas[i] = area
                 .asSequence()
-                .flatMap { p -> TheCityRisesGame.Companion.offset.map { p + it } }
+                .flatMap { p -> offset.map { p + it } }
                 .filter { isValid(it) }
                 .map { pos2area[it]!! }
                 .filter { it != i }

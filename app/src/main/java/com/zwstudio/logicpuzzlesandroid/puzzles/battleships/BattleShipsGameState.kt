@@ -1,7 +1,6 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.battleships
 
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
-import com.zwstudio.logicpuzzlesandroid.puzzles.lightbattleships.LightBattleShipsGame
 
 class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGame, BattleShipsGameMove, BattleShipsGameState>(game) {
     val objArray = Array(rows * cols) { BattleShipsObject.Empty }
@@ -114,7 +113,7 @@ class BattleShipsGameState(game: BattleShipsGame) : CellsGameState<BattleShipsGa
                 }
             }
         for ((p, node) in pos2node)
-            for (os in LightBattleShipsGame.offset) {
+            for (os in BattleShipsGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }

@@ -8,7 +8,6 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.HintState
 import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
-import com.zwstudio.logicpuzzlesandroid.puzzles.clouds.CloudsGame
 
 class TheCityRisesGameState(game: TheCityRisesGame) : CellsGameState<TheCityRisesGame, TheCityRisesGameMove, TheCityRisesGameState>(game) {
     val objArray = Array(rows * cols) { TheCityRisesObject.Empty }
@@ -83,7 +82,7 @@ class TheCityRisesGameState(game: TheCityRisesGame) : CellsGameState<TheCityRise
                 pos2node[p] = node
             }
         for ((p, node) in pos2node)
-            for (os in CloudsGame.offset) {
+            for (os in TheCityRisesGame.offset) {
                 val p2 = p + os
                 pos2node[p2]?.let { g.connectNode(node, it) }
             }
