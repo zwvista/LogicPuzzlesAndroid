@@ -13,6 +13,7 @@ class SnakeIslandsGame(layout: List<String>, gi: GameInterface<SnakeIslandsGame,
 
     val objArray: Array<SnakeIslandsObject>
     val pos2hint = mutableMapOf<Position, Int>()
+    val snakeEnds = mutableListOf<Position>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]
@@ -27,9 +28,10 @@ class SnakeIslandsGame(layout: List<String>, gi: GameInterface<SnakeIslandsGame,
             for (c in 0..<cols) {
                 val p = Position(r, c)
                 val ch = str[c]
-                if (ch == 'S')
+                if (ch == 'S') {
                     this[p] = SnakeIslandsObject.Wall
-                else if (ch != ' ') {
+                    snakeEnds.add(p)
+                } else if (ch != ' ') {
                     pos2hint[p] = if (ch.isDigit()) ch - '0' else ch - 'A' + 10
                     this[p] = SnakeIslandsObject.Hint
                 }

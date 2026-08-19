@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.view.MotionEvent
 import com.zwstudio.logicpuzzlesandroid.common.android.CellsGameView
@@ -24,7 +23,7 @@ class SnakeIslandsGameView(context: Context, val soundManager: SoundManager) : C
     private val wallPaint = Paint()
     private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
-    private val dWall: Drawable
+    private val fixedPaint = Paint()
 
     init {
         gridPaint.color = Color.WHITE
@@ -35,7 +34,9 @@ class SnakeIslandsGameView(context: Context, val soundManager: SoundManager) : C
         forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
         forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
-        dWall = fromImageToDrawable("images/tower_wall2.png")
+        fixedPaint.color = Color.BLUE
+        fixedPaint.strokeWidth = 5f
+        fixedPaint.style = Paint.Style.STROKE
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -52,8 +53,11 @@ class SnakeIslandsGameView(context: Context, val soundManager: SoundManager) : C
                         val text = game.pos2hint[p]!!.toString()
                         drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
                     }
-                    SnakeIslandsObject.Wall ->
+                    SnakeIslandsObject.Wall -> {
                         canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
+                        if (game[p] == SnakeIslandsObject.Wall)
+                            canvas.drawArc(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), 0f, 360f, true, fixedPaint)
+                    }
                     SnakeIslandsObject.Marker ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, wallPaint)
                     else -> {}
