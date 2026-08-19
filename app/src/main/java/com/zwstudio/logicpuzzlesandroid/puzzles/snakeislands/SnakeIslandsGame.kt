@@ -8,6 +8,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 class SnakeIslandsGame(layout: List<String>, gi: GameInterface<SnakeIslandsGame, SnakeIslandsGameMove, SnakeIslandsGameState>, gdi: GameDocumentInterface) : CellsGame<SnakeIslandsGame, SnakeIslandsGameMove, SnakeIslandsGameState>(gi, gdi) {
     companion object {
         val offset = Position.Directions4
+        val offset2 = Position.Square2x2Offset
     }
 
     val objArray: Array<SnakeIslandsObject>
@@ -41,4 +42,5 @@ class SnakeIslandsGame(layout: List<String>, gi: GameInterface<SnakeIslandsGame,
     fun getObject(p: Position) = currentState[p]
     fun getObject(row: Int, col: Int) = currentState[row, col]
     fun pos2state(p: Position) = currentState.pos2state[p]
+    fun invalid2x2Squares() = currentState.invalid2x2Squares
 }

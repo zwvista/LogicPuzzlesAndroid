@@ -22,7 +22,7 @@ class SnakeIslandsGameView(context: Context, val soundManager: SoundManager) : C
 
     private val gridPaint = Paint()
     private val wallPaint = Paint()
-    private val lightPaint = Paint()
+    private val forbiddenPaint = Paint()
     private val textPaint = TextPaint()
     private val dWall: Drawable
 
@@ -31,8 +31,9 @@ class SnakeIslandsGameView(context: Context, val soundManager: SoundManager) : C
         gridPaint.style = Paint.Style.STROKE
         wallPaint.color = Color.WHITE
         wallPaint.style = Paint.Style.FILL_AND_STROKE
-        lightPaint.color = Color.YELLOW
-        lightPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.color = Color.RED
+        forbiddenPaint.style = Paint.Style.FILL_AND_STROKE
+        forbiddenPaint.strokeWidth = 5f
         textPaint.isAntiAlias = true
         dWall = fromImageToDrawable("images/tower_wall2.png")
     }
@@ -44,27 +45,22 @@ class SnakeIslandsGameView(context: Context, val soundManager: SoundManager) : C
                 canvas.drawRect(cwc(c).toFloat(), chr(r).toFloat(), cwc(c + 1).toFloat(), chr(r + 1).toFloat(), gridPaint)
                 if (isInEditMode) continue
                 val p = Position(r, c)
-                fun drawWall() {
-                    dWall.setBounds(cwc(c), chr(r), cwc(c + 1), chr(r + 1))
-                    dWall.draw(canvas)
-                }
-                fun drawHint() {
-                    val n = game.pos2hint[p]!!
-                    val s = game.pos2state(p)
-                    textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
-                    val text = n.toString()
-                    drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
-                }
                 when (game.getObject(p)) {
+                    SnakeIslandsObject.Hint -> {
+                        val s = game.pos2state(p)
+                        textPaint.color = if (s == HintState.Complete) Color.GREEN else if (s == HintState.Error) Color.RED else Color.WHITE
+                        val text = game.pos2hint[p]!!.toString()
+                        drawTextCentered(text, cwc(c), chr(r), canvas, textPaint)
+                    }
                     SnakeIslandsObject.Wall ->
-                        drawWall()
-                    SnakeIslandsObject.Hint ->
-                        drawHint()
+                        canvas.drawRect(cwc(c) + 4.toFloat(), chr(r) + 4.toFloat(), cwc(c + 1) - 4.toFloat(), chr(r + 1) - 4.toFloat(), wallPaint)
                     SnakeIslandsObject.Marker ->
                         canvas.drawArc((cwc2(c) - 10).toFloat(), (chr2(r) - 10).toFloat(), (cwc2(c) + 10).toFloat(), (chr2(r) + 10).toFloat(), 0f, 360f, true, wallPaint)
                     else -> {}
                 }
             }
+        for ((r, c) in game.invalid2x2Squares())
+            canvas.drawArc(cwc(c) - 20.toFloat(), chr(r) - 20.toFloat(), cwc(c) + 20.toFloat(), chr(r) + 20.toFloat(), 0f, 360f, true, forbiddenPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
