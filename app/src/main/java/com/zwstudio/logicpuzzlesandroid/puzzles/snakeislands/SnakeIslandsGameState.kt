@@ -46,33 +46,33 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
     }
 
     /*
-        iOS Game: 100 Logic Games 3/Puzzle Set 3/Snake Islands
+         iOS Game: 100 Logic Games 3/Puzzle Set 3/Snake Islands
 
-        Summary
-        Snakes and Nurikabes
+         Summary
+         Snakes and Nurikabes
 
-        Description
-        1. A mix between Nurikabe and Snake, with some rules from one game and
-           some from the other.
-        2. Nurikabe Rules: Each number on the grid indicates a garden, occupying
-           as many tiles as the number itself.
-        3. Gardens can have any form, extending horizontally and vertically but
-           can't extend diagonally.
-        4. The gardens are separated by a single, continuous wall. This means all
-           wall tiles on the board must be connected horizontally or vertically. There can't be isolated walls
-        5. Additionally, not all the gardens in the puzzle may be numbered at the
-           start. There could be some hidden gardens.
-        6. The wall can't form 2x2 squares.
-        7. Snake Rules: Two circles are the head and tail of the snake
-           (it is irrelevant which is which).
-        8. A snake can't touch its body orthogonally, but it CAN touch itself
-           diagonally. However a snake head can touch its tail.
-        9. Snakes cannot cross each other.
+         Description
+         1. A mix between Nurikabe and Snake, with some rules from one game and
+            some from the other.
+         2. Nurikabe Rules: Each number on the grid indicates a garden, occupying
+            as many tiles as the number itself.
+         3. Gardens can have any form, extending horizontally and vertically but
+            can't extend diagonally.
+         4. The gardens are separated by a single, continuous wall. This means all
+            wall tiles on the board must be connected horizontally or vertically.
+            There can't be isolated walls
+         5. Additionally, not all the gardens in the puzzle may be numbered at the
+            start. There could be some hidden gardens.
+         6. The wall can't form 2x2 squares.
+         7. Snake Rules: Two circles are the head and tail of the snake
+            (it is irrelevant which is which).
+         8. A snake can't touch its body orthogonally, but it CAN touch itself
+            diagonally. However a snake head can touch its tail.
     */
     private fun updateIsSolved() {
         isSolved = true
         invalid2x2Squares.clear()
-        // 7. The wall can't form 2*2 squares.
+        // 6. The wall can't form 2x2 squares.
         for (r in 0..<rows - 1)
             for (c in 0..<cols - 1) {
                 val p = Position(r, c)
