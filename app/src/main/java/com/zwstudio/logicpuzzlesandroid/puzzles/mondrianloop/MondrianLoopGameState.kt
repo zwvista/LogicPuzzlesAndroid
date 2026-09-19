@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mondrianloop
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
@@ -12,7 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MondrianLoopGameState(game: MondrianLoopGame) : CellsGameState<MondrianLoopGame, MondrianLoopGameMove, MondrianLoopGameState>(game) {
-    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val objArray: MutableList<MutableList<GridLineObject>> = cloner.deepClone(game.objArray)
     val rectangles = mutableListOf<List<Position>>()
     val pos2stateHint = mutableMapOf<Position, HintState>()
     val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()

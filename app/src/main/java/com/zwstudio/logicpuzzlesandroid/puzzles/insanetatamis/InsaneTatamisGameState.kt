@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.insanetatamis
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -11,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class InsaneTatamisGameState(game: InsaneTatamisGame) : CellsGameState<InsaneTatamisGame, InsaneTatamisGameMove, InsaneTatamisGameState>(game) {
-    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val objArray: MutableList<MutableList<GridLineObject>> = cloner.deepClone(game.objArray)
     val pos2state = mutableMapOf<Position, HintState>()
     val invalidDots = mutableListOf<Position>()
 

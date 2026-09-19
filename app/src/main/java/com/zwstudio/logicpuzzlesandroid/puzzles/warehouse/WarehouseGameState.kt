@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.warehouse
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.AllowedObjectState
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
@@ -11,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class WarehouseGameState(game: WarehouseGame) : CellsGameState<WarehouseGame, WarehouseGameMove, WarehouseGameState>(game) {
-    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val objArray: MutableList<MutableList<GridLineObject>> = cloner.deepClone(game.objArray)
     val pos2state = mutableMapOf<Position, AllowedObjectState>()
     val dot2state = mutableMapOf<Position, AllowedObjectState>()
 

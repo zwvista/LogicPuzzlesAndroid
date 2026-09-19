@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.proofofquilt
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -91,7 +90,7 @@ class ProofOfQuiltGameState(game: ProofOfQuiltGame) : CellsGameState<ProofOfQuil
                         this[p2] = ProofOfQuiltObject.Forbidden
         }
         if (!isSolved) return
-        val allPositions = Cloner().deepClone(game.allPositions)
+        val allPositions = cloner.deepClone(game.allPositions)
         val g = Graph()
         val pos2node = mutableMapOf<Position, Node>()
         for (r in 0..<rows)

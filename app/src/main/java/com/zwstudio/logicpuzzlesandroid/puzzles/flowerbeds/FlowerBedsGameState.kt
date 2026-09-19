@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.flowerbeds
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -11,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class FlowerBedsGameState(game: FlowerBedsGame) : CellsGameState<FlowerBedsGame, FlowerBedsGameMove, FlowerBedsGameState>(game) {
-    val objArray = Cloner().deepClone(game.dots.objArray)
+    val objArray = cloner.deepClone(game.dots.objArray)
     val pos2state = mutableMapOf<Position, HintState>()
 
     init {

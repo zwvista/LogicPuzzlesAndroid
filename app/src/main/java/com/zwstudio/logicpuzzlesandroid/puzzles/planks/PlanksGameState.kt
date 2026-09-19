@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.planks
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -10,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class PlanksGameState(game: PlanksGame) : CellsGameState<PlanksGame, PlanksGameMove, PlanksGameState>(game) {
-    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val objArray: MutableList<MutableList<GridLineObject>> = cloner.deepClone(game.objArray)
     val pos2orient = mutableMapOf<Position, Boolean>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

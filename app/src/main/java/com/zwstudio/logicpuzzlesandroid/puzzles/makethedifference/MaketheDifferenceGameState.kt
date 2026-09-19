@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.makethedifference
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -12,7 +11,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import kotlin.math.abs
 
 class MakeTheDifferenceGameState(game: MakeTheDifferenceGame) : CellsGameState<MakeTheDifferenceGame, MakeTheDifferenceGameMove, MakeTheDifferenceGameState>(game) {
-    val objArray: MutableList<MutableList<GridLineObject>> = Cloner().deepClone(game.objArray)
+    val objArray: MutableList<MutableList<GridLineObject>> = cloner.deepClone(game.objArray)
     val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

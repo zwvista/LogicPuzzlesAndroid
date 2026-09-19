@@ -1,12 +1,10 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.mirrors
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class MirrorsGameState(game: MirrorsGame) : CellsGameState<MirrorsGame, MirrorsGameMove, MirrorsGameState>(game) {
-    val cloner = Cloner()
     val objArray = game.objArray.copyOf()
     val pos2dirs = mutableMapOf<Position, List<Int>>()
 

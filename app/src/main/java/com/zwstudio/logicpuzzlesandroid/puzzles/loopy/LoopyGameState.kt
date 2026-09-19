@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.loopy
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.GridLineObject
@@ -8,7 +7,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.MarkerOptions
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class LoopyGameState(game: LoopyGame) : CellsGameState<LoopyGame, LoopyGameMove, LoopyGameState>(game) {
-    val objArray = Cloner().deepClone(game.objArray)
+    val objArray = game.objArray.copyOf()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
     operator fun get(p: Position) = this[p.row, p.col]

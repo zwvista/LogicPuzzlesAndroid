@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.northpolefishing
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -11,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class NorthPoleFishingGameState(game: NorthPoleFishingGame) : CellsGameState<NorthPoleFishingGame, NorthPoleFishingGameMove, NorthPoleFishingGameState>(game) {
-    val objArray = Cloner().deepClone(game.dots.objArray)
+    val objArray = cloner.deepClone(game.dots.objArray)
     val pos2state = mutableMapOf<Position, HintState>()
 
     init {

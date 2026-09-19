@@ -1,14 +1,14 @@
 [versions]
-appcompat = "1.7.1"
+appcompat = "1.8.0"
 cloning = "1.9.12"
 espressoCore = "3.7.0"
-gradle = "9.3.2"
+gradle = "9.4.1"
 junit = "4.13.2"
-koinAndroid = "4.2.1"
-kotlinAllopen = "2.2.10"
+koinAndroid = "4.2.2"
+kotlinAllopen = "2.4.20"
 leakcanaryAndroid = "2.14"
 persistenceApi = "1.0.2"
-objenesis = "3.5"
+objenesis = "3.6"
 realmGradlePlugin = "10.19.0"
 
 [libraries]

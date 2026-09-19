@@ -8,6 +8,7 @@ enum class GameOperationType {
 }
 
 open class GameState<GM> {
+    protected val cloner = Cloner()
     var isSolved = false
     open fun setObject(move: GM): GameOperationType = GameOperationType.Invalid
     open fun switchObject(move: GM): GameOperationType = GameOperationType.Invalid
@@ -23,7 +24,7 @@ interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState<GM>> {
 
 @Suppress("UNCHECKED_CAST")
 open class Game<G : Game<G, GM, GS>, GM, GS : GameState<GM>>(val gi: GameInterface<G, GM, GS>, val gdi: GameDocumentInterface) {
-    var cloner = Cloner()
+    protected val cloner = Cloner()
     protected var stateIndex = 0
     protected var states = mutableListOf<GS>()
     protected val currentState get() = states[stateIndex]

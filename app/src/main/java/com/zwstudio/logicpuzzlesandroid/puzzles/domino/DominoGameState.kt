@@ -1,6 +1,5 @@
 package com.zwstudio.logicpuzzlesandroid.puzzles.domino
 
-import com.rits.cloning.Cloner
 import com.zwstudio.logicpuzzlesandroid.common.domain.CellsGameState
 import com.zwstudio.logicpuzzlesandroid.common.domain.GameOperationType
 import com.zwstudio.logicpuzzlesandroid.common.domain.Graph
@@ -11,7 +10,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class DominoGameState(game: DominoGame) : CellsGameState<DominoGame, DominoGameMove, DominoGameState>(game) {
-    val objArray = Cloner().deepClone(game.objArray)
+    val objArray = game.objArray.copyOf()
     val pos2state = mutableMapOf<Position, HintState>()
     
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]
