@@ -171,10 +171,10 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
                         p = rng.first()
                     else
                         // find other snake ends
-                        return rng.any { dfs(cloner.deepClone(rngEnds), cloner.deepClone(rngWalls), it) }
+                        return rng.any { dfs(ArrayList(rngEnds), ArrayList(rngWalls), it) }
                 }
             }
         }
-        if (!dfs(cloner.deepClone(game.snakeEnds), cloner.deepClone(rngWalls), null)) isSolved = false
+        if (!dfs(ArrayList(game.snakeEnds), ArrayList(rngWalls), null)) isSolved = false
     }
 }
