@@ -23,7 +23,7 @@ interface GameInterface<G : Game<G, GM, GS>, GM, GS : GameState<GM>> {
 
 @Suppress("UNCHECKED_CAST")
 open class Game<G : Game<G, GM, GS>, GM, GS : GameState<GM>>(val gi: GameInterface<G, GM, GS>, val gdi: GameDocumentInterface) {
-    protected var cloner = Cloner()
+    var cloner = Cloner()
     protected var stateIndex = 0
     protected var states = mutableListOf<GS>()
     protected val currentState get() = states[stateIndex]

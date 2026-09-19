@@ -110,9 +110,9 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
         if (rngWalls.isEmpty())
             isSolved = false
         else {
-            // 3. The garden is separated by a single continuous wall. This means all
+            // 4. The gardens are separated by a single, continuous wall. This means all
             //    wall tiles on the board must be connected horizontally or vertically.
-            //    There can't be isolated walls.
+            //    There can't be isolated walls
             g.rootNode = pos2node[rngWalls[0]]!!
             val nodeList = g.bfs()
             if (rngWalls.size != nodeList.size) isSolved = false
@@ -128,19 +128,53 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
                 if (nodeList.contains(pos2node[p]))
                     rng.add(+p)
             if (rng.size == 1) {
-                // 1. Each number on the grid indicates a garden, occupying as many tiles
-                //    as the number itself.
+                // 2. Each number on the grid indicates a garden, occupying
+                //    as many tiles as the number itself.
                 val p = rng[0]
                 val n1 = game.pos2hint[p]!!
                 val s = if (n1 == n2) HintState.Complete else HintState.Error
                 pos2state[p] = s
                 if (s != HintState.Complete) isSolved = false
-            } else {
-                // 5. All the gardens in the puzzle are numbered at the start, there are no
-                //    hidden gardens.
+            } else if (rng.size > 1) {
+                // 5. Additionally, not all the gardens in the puzzle may be numbered at the
+                //    start. There could be some hidden gardens.
                 isSolved = false
                 for (p in rng) pos2state[p] = HintState.Normal
             }
         }
+        if (!isSolved) return
+        fun dfs(rngEnds: MutableList<Position>, rngWalls: MutableList<Position>, p: Position?): Boolean {
+            var p = p
+            while (true) {
+                val p2: Position
+                if (p == null) {
+                    if (rngEnds.isEmpty()) return rngWalls.isEmpty()
+                    // start with a new snake
+                    p2 = rngEnds.first()
+                    rngEnds.remove(p2)
+                } else {
+                    // continue with the current snake
+                    p2 = p
+                }
+                rngWalls.remove(p2)
+                if (p != null && rngEnds.contains(p2)) {
+                    // meet another snake end
+                    rngEnds.remove(p2)
+                    p = null
+                } else {
+                    val rng = SnakeIslandsGame.offset.map { p2 + it }.filter { rngWalls.contains(it) }
+                    if (rng.isEmpty())
+                        // cant meet a snake end
+                        return false
+                    else if (rng.size == 1)
+                        // continue with the current snake
+                        p = rng.first()
+                    else
+                        // find other snake ends
+                        return rng.any { dfs(game.cloner.deepClone(rngEnds), game.cloner.deepClone(rngWalls), it) }
+                }
+            }
+        }
+        if (!dfs(game.cloner.deepClone(game.snakeEnds), game.cloner.deepClone(rngWalls), null)) isSolved = false
     }
 }
