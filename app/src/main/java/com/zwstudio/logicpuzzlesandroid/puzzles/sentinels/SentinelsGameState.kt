@@ -3,7 +3,7 @@ package com.zwstudio.logicpuzzlesandroid.puzzles.sentinels
 import com.zwstudio.logicpuzzlesandroid.common.domain.*
 
 class SentinelsGameState(game: SentinelsGame) : CellsGameState<SentinelsGame, SentinelsGameMove, SentinelsGameState>(game) {
-    val objArray = Array<SentinelsObject>(rows * cols) { SentinelsObject.Empty }
+    val objArray = Array(rows * cols) { SentinelsObject.Empty }
     val pos2stateHint = mutableMapOf<Position, HintState>()
     val pos2stateAllowed = mutableMapOf<Position, AllowedObjectState>()
 

@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class ArchipelagoGameState(game: ArchipelagoGame) : CellsGameState<ArchipelagoGame, ArchipelagoGameMove, ArchipelagoGameState>(game) {
-    val objArray = Array<ArchipelagoObject>(rows * cols) { ArchipelagoObject.Empty }
+    val objArray = Array(rows * cols) { ArchipelagoObject.Empty }
     val pos2state = mutableMapOf<Position, HintState>()
     val invalid2x2Squares = mutableListOf<Position>()
 

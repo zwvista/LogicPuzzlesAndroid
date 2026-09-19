@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class VeniceGameState(game: VeniceGame) : CellsGameState<VeniceGame, VeniceGameMove, VeniceGameState>(game) {
-    val objArray = Array<VeniceObject>(rows * cols) { VeniceObject.Empty }
+    val objArray = Array(rows * cols) { VeniceObject.Empty }
     val pos2state = mutableMapOf<Position, HintState>()
     val invalid2x2Squares = mutableListOf<Position>()
 

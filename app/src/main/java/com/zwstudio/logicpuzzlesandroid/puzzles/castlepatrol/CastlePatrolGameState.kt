@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Node
 import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 
 class CastlePatrolGameState(game: CastlePatrolGame) : CellsGameState<CastlePatrolGame, CastlePatrolGameMove, CastlePatrolGameState>(game) {
-    val objArray = Array<CastlePatrolObject>(rows * cols) { CastlePatrolObject.Empty }
+    val objArray = Array(rows * cols) { CastlePatrolObject.Empty }
     val pos2state = mutableMapOf<Position, HintState>()
 
     operator fun get(row: Int, col: Int) = objArray[row * cols + col]

@@ -9,7 +9,7 @@ import com.zwstudio.logicpuzzlesandroid.common.domain.Position
 import kotlin.math.abs
 
 class PowerGridGameState(game: PowerGridGame) : CellsGameState<PowerGridGame, PowerGridGameMove, PowerGridGameState>(game) {
-    val objArray = Array<PowerGridObject>(rows * cols) { PowerGridObject.Empty }
+    val objArray = Array(rows * cols) { PowerGridObject.Empty }
     val row2state = Array(rows) { HintState.Normal }
     val col2state = Array(cols) { HintState.Normal }
     val pos2state = mutableMapOf<Position, AllowedObjectState>()
