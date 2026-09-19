@@ -107,27 +107,25 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
                 if (rngEmpty.contains(p2))
                     g.connectNode(pos2node[p]!!, pos2node[p2]!!)
             }
-        if (rngWalls.isEmpty())
-            isSolved = false
-        else {
-            // 4. The gardens are separated by a single, continuous wall. This means all
-            //    wall tiles on the board must be connected horizontally or vertically.
-            //    There can't be isolated walls
-            g.rootNode = pos2node[rngWalls[0]]!!
-            val nodeList = g.bfs()
-            if (rngWalls.size != nodeList.size) isSolved = false
-        }
+        // 4. The gardens are separated by a single, continuous wall. This means all
+        //    wall tiles on the board must be connected horizontally or vertically.
+        //    There can't be isolated walls
+        g.rootNode = pos2node[rngWalls[0]]!!
+        val nodeList = g.bfs()
+        if (rngWalls.size != nodeList.size) isSolved = false
+        // 3. Gardens can have any form, extending horizontally and vertically but
+        //    can't extend diagonally.
         while (rngEmpty.isNotEmpty()) {
             val node = pos2node[rngEmpty[0]]!!
             g.rootNode = node
             val nodeList = g.bfs()
             rngEmpty.removeAll { nodeList.contains(pos2node[it]) }
             val n2 = nodeList.size
-            val rng = mutableListOf<Position>()
-            for (p in game.pos2hint.keys)
-                if (nodeList.contains(pos2node[p]))
-                    rng.add(+p)
-            if (rng.size == 1) {
+            val rng = game.pos2hint.keys.filter { nodeList.contains(pos2node[it]) }
+            if (rng.isEmpty()) {
+                // 5. Additionally, not all the gardens in the puzzle may be numbered at the
+                //    start. There could be some hidden gardens.
+            } else if (rng.size == 1) {
                 // 2. Each number on the grid indicates a garden, occupying
                 //    as many tiles as the number itself.
                 val p = rng[0]
@@ -135,9 +133,7 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
                 val s = if (n1 == n2) HintState.Complete else HintState.Error
                 pos2state[p] = s
                 if (s != HintState.Complete) isSolved = false
-            } else if (rng.size > 1) {
-                // 5. Additionally, not all the gardens in the puzzle may be numbered at the
-                //    start. There could be some hidden gardens.
+            } else {
                 isSolved = false
                 for (p in rng) pos2state[p] = HintState.Normal
             }
@@ -149,7 +145,7 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
                 val p2: Position
                 if (p == null) {
                     if (rngEnds.isEmpty()) return rngWalls.isEmpty()
-                    // start with a new snake
+                    // start with a new snake end
                     p2 = rngEnds.first()
                     rngEnds.remove(p2)
                 } else {
@@ -158,13 +154,13 @@ class SnakeIslandsGameState(game: SnakeIslandsGame) : CellsGameState<SnakeIsland
                 }
                 rngWalls.remove(p2)
                 if (p != null && rngEnds.contains(p2)) {
-                    // meet another snake end
+                    // found another snake end
                     rngEnds.remove(p2)
                     p = null
                 } else {
                     val rng = SnakeIslandsGame.offset.map { p2 + it }.filter { rngWalls.contains(it) }
                     if (rng.isEmpty())
-                        // cant meet a snake end
+                        // cannot find another snake end
                         return false
                     else if (rng.size == 1)
                         // continue with the current snake
